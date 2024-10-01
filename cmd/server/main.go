@@ -12,6 +12,8 @@ import (
 
 func main() {
 	mux := http.NewServeMux()
+	config.LoadConfig()
+
 	SetupAssetsRoutes(mux)
 
 	mux.Handle("GET /", templ.Handler(components.HeaderShowcase()))
