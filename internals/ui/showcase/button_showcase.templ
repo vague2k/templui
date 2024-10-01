@@ -1,0 +1,65 @@
+package showcase
+
+import "github.com/axzilla/goilerplate/internals/ui/components"
+
+templ ButtonShowcase() {
+	<div class="space-y-8">
+		<div>
+			<h2 class="text-2xl font-bold mb-4">Button Variants</h2>
+			<div class="flex flex-wrap gap-2">
+				@components.Button(components.ButtonProps{Text: "Default", Variant: components.Default})
+				@components.Button(components.ButtonProps{Text: "Primary", Variant: components.Primary})
+				@components.Button(components.ButtonProps{Text: "Secondary", Variant: components.Secondary})
+				@components.Button(components.ButtonProps{Text: "Accent", Variant: components.Accent})
+				@components.Button(components.ButtonProps{Text: "Ghost", Variant: components.Ghost})
+				@components.Button(components.ButtonProps{Text: "Link", Variant: components.Link})
+			</div>
+		</div>
+		<div>
+			<h2 class="text-2xl font-bold mb-4">Button Sizes</h2>
+			<div class="flex flex-wrap items-center gap-2">
+				@components.Button(components.ButtonProps{Text: "Small", Size: components.Small, Variant: components.Primary})
+				@components.Button(components.ButtonProps{Text: "Medium", Size: components.Medium, Variant: components.Primary})
+				@components.Button(components.ButtonProps{Text: "Large", Size: components.Large, Variant: components.Primary})
+			</div>
+		</div>
+		<div>
+			<h2 class="text-2xl font-bold mb-4">Button States</h2>
+			<div class="flex flex-wrap gap-2">
+				@components.Button(components.ButtonProps{Text: "Disabled", Variant: components.Primary, Disabled: true})
+				@components.Button(components.ButtonProps{Text: "Full Width", Variant: components.Primary, FullWidth: true})
+			</div>
+		</div>
+		<div>
+			<h2 class="text-2xl font-bold mb-4">HTMX Integration</h2>
+			<div class="flex flex-wrap gap-2">
+				@components.Button(components.ButtonProps{
+					Text:      "Load Content",
+					Variant:   components.Primary,
+					HxGet:     templ.SafeURL("/api/content"),
+					HxTarget:  "#htmx-target",
+					HxTrigger: "click",
+				})
+				@components.Button(components.ButtonProps{
+					Text:      "Submit Form",
+					Variant:   components.Secondary,
+					HxPost:    templ.SafeURL("/api/submit"),
+					HxTarget:  "#htmx-result",
+					HxTrigger: "click",
+				})
+			</div>
+			<div id="htmx-target" class="mt-4 p-4 bg-gray-100 rounded"></div>
+			<div id="htmx-result" class="mt-4 p-4 bg-gray-100 rounded"></div>
+		</div>
+		<div>
+			<h2 class="text-2xl font-bold mb-4">Custom Styling</h2>
+			<div class="flex flex-wrap gap-2">
+				@components.Button(components.ButtonProps{
+					Text:    "Custom Button",
+					Variant: components.Primary,
+					Class:   "bg-gradient-to-r from-purple-500 to-pink-500 text-white",
+				})
+			</div>
+		</div>
+	</div>
+}

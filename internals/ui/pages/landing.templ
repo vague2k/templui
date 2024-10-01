@@ -1,0 +1,73 @@
+package components
+
+import (
+	"github.com/axzilla/goilerplate/internals/ui/layouts"
+	"github.com/axzilla/goilerplate/internals/ui/showcase"
+)
+
+type HeaderProps struct {
+	Title       string
+	Subtitle    string
+	Description string
+}
+
+templ Header(props HeaderProps) {
+	<header class="text-center py-16 bg-gradient-to-r from-blue-600 to-cyan-500">
+		<h1 class="text-5xl font-extrabold text-white mb-2">
+			{ props.Title }
+		</h1>
+		<p class="text-xl text-white font-light mb-4">
+			{ props.Subtitle }
+		</p>
+		<p class="text-md text-white/90 max-w-2xl mx-auto px-4">
+			{ props.Description }
+		</p>
+	</header>
+}
+
+templ GoilerplateHeader() {
+	@Header(HeaderProps{
+		Title:       "Goilerplate",
+		Subtitle:    "Modern UI Components for Go & Templ",
+		Description: "Build sleek, interactive web applications with Go and Templ. Seamlessly integrate Alpine.js and HTMX for enhanced client-side functionality. Goilerplate: Where server-side simplicity meets client-side dynamism.",
+	})
+}
+
+templ TechStack() {
+	<div class="bg-white py-8">
+		<div class="max-w-4xl mx-auto text-center">
+			<h2 class="text-2xl font-bold mb-4">Powered by</h2>
+			<div class="flex justify-center items-center space-x-8">
+				<div class="flex flex-col items-center">
+					<img src="assets/img/gopher.svg" alt="Go" class="h-16 w-16 mb-2"/>
+					<span class="font-medium">Go</span>
+				</div>
+				<div class="flex flex-col items-center">
+					<img src="https://templ.guide/img/logo.svg" alt="Templ" class="h-16 w-16 mb-2"/>
+					<span class="font-medium">Templ</span>
+				</div>
+				<div class="flex flex-col items-center opacity-70">
+					<img src="https://alpinejs.dev/alpine_long.svg" alt="Alpine.js" class="h-16 w-16 mb-2"/>
+					<span class="font-medium">Alpine.js (optional)</span>
+				</div>
+				<div class="flex flex-col items-center opacity-70">
+					<img src="https://svgmix.com/uploads/1370fe-htmx.svg" alt="HTMX" class="h-16 w-16 mb-2"/>
+					<span class="font-medium">HTMX (optional)</span>
+				</div>
+			</div>
+		</div>
+	</div>
+}
+
+templ HeaderShowcase() {
+	<div>
+		@layouts.BaseLayout() {
+			@GoilerplateHeader()
+			@TechStack()
+			<div class="max-w-3xl mx-auto py-8">
+				<h2 class="text-2xl font-bold mb-4">Button Showcase</h2>
+				@showcase.ButtonShowcase()
+			</div>
+		}
+	</div>
+}
