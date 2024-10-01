@@ -1,0 +1,127 @@
+# Ignore node_modules folder
+node_modules
+
+# Ignore logs
+logs
+*.log
+npm-debug.log*
+
+# Ignore dotenv environment variable files
+.env
+
+# Ignore local development configuration files
+config/local.yml
+
+# Ignore temporary files and directories
+tmp/
+temp/
+*.tmp
+
+# Ignore build and cache directories
+build/
+dist/
+.cache/
+
+# Ignore OS generated files
+.DS_Store
+Thumbs.db
+
+# Ignore version control directories and files
+.git
+.gitignore
+.gitmodules
+.hg
+.hgignore
+.hgsubstate
+.svn
+.cvsignore
+
+# Ignore Python files
+*.pyc
+*.pyo
+__pycache__/
+
+# Ignore compiled source files
+*.o
+*.obj
+*.dll
+*.exe
+*.out
+
+# Ignore images and other binary files
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.tiff
+*.ico
+
+# Ignore compressed files
+*.zip
+*.tar.gz
+*.rar
+*.7z
+*.bz2
+
+# Ignore various IDE project files
+.vscode/
+.idea/
+*.suo
+*.user
+*.userossc
+*.sln.docstates
+.project
+.classpath
+.settings/
+
+# Ignore documentation files
+*.md
+*.pdf
+
+# Ignore build output files
+*.war
+*.jar
+*.ear
+
+# Ignore Kubernetes and Docker Compose files
+k8s/
+docker-compose.yml
+docker-compose.override.yml
+
+# Ignore other sensitive files
+*.pem
+*.key
+*.crt
+*.kdb
+*.jks
+
+# Ignore IntelliJ IDEA files
+*.iml
+*.iws
+.idea/
+
+# Ignore JetBrains Rider files
+*.sln.iml
+.idea/
+
+# Ignore WebStorm files
+.idea/
+
+# Ignore Visual Studio Code files
+.vscode/
+
+# Ignore SASS cache files
+.sass-cache/
+
+# Ignore Bower files
+.bower/
+
+# Ignore Gulp files
+.gulp/
+
+# Ignore Grunt files
+.grunt/
+
+# Ignore Yeoman files
+.yeoman/
