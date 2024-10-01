@@ -3,16 +3,16 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"os"
 
 	"github.com/a-h/templ"
+	"github.com/axzilla/goilerplate/assets"
+	"github.com/axzilla/goilerplate/internals/config"
 	components "github.com/axzilla/goilerplate/internals/ui/pages"
 )
 
 func main() {
 	mux := http.NewServeMux()
-	isDevelopment := os.Getenv("GO_ENV") == "development"
-	SetupAssetsRoutes(mux, isDevelopment)
+	SetupAssetsRoutes(mux)
 
 	mux.Handle("GET /", templ.Handler(components.HeaderShowcase()))
 
@@ -20,7 +20,9 @@ func main() {
 	http.ListenAndServe(":8090", mux)
 }
 
-func SetupAssetsRoutes(mux *http.ServeMux, isDevelopment bool) {
+func SetupAssetsRoutes(mux *http.ServeMux) {
+	var isDevelopment = config.AppConfig.GoEnv == "development"
+
 	// We need this for Templ to work
 	disableCacheInDevMode := func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -36,12 +38,8 @@ func SetupAssetsRoutes(mux *http.ServeMux, isDevelopment bool) {
 	if isDevelopment {
 		fs = http.FileServer(http.Dir("./assets"))
 	} else {
-		// In production, use embed.FS (you'll need to set this up)
-		// fs = http.FileServer(http.FS(assets.Assets))
-		// For now, we'll use the same as development
-		fs = http.FileServer(http.Dir("./assets"))
+		fs = http.FileServer(http.FS(assets.Assets))
 	}
 
-	// Handle requests for assets
-	mux.Handle("GET /assets/", disableCacheInDevMode(http.StripPrefix("/assets/", fs)))
+	mux.Handle("GET /assets/*", disableCacheInDevMode(http.StripPrefix("/assets/", fs)))
 }
