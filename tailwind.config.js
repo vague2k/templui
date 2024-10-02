@@ -1,8 +1,10 @@
 import { fontFamily } from "tailwindcss/defaultTheme";
 
+/** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: ["class"],
   content: ["./**/*.html", "./**/*.templ", "./**/*.go"],
-  safelist: [],
+  safelist: ["dark"],
   theme: {
     container: {
       center: true,
@@ -53,7 +55,7 @@ module.exports = {
         sm: "calc(var(--radius) - 4px)",
       },
       fontFamily: {
-        sans: [...fontFamily.sans],
+        sans: ["Inter", ...fontFamily.sans],
       },
     },
   },
