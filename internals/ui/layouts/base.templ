@@ -9,6 +9,23 @@ templ BaseLayout() {
 			<title>Goilerplate - Modern UI Components for Go & Templ</title>
 			<meta charset="UTF-8"/>
 			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+			<style>
+                /* Hide the page initially */
+                .page-loader { display: none; }
+                html.pre-load .page-loader { display: block; }
+                html.pre-load body { display: none; }
+            </style>
+			<script>
+                // Immediately set theme and remove pre-load class
+                (function() {
+                    document.documentElement.classList.add('pre-load');
+                    var theme = localStorage.getItem('theme') || 'light';
+                    document.documentElement.classList.toggle('dark', theme === 'dark');
+                    document.addEventListener('DOMContentLoaded', function() {
+                        document.documentElement.classList.remove('pre-load');
+                    });
+                })();
+            </script>
 			<!-- Favicon -->
 			<link rel="icon" href="/assets/img/gopher.svg" type="image/x-icon"/>
 			<!-- Tailwind CSS (local) -->
@@ -31,20 +48,13 @@ templ BaseLayout() {
                 toggleTheme() {
                     this.theme = this.theme === 'dark' ? 'light' : 'dark';
                     localStorage.setItem('theme', this.theme);
-                    this.applyTheme();
-                },
-                applyTheme() {
-                    if (this.theme === 'dark') {
-                        document.documentElement.classList.add('dark');
-                    } else {
-                        document.documentElement.classList.remove('dark');
-                    }
+                    document.documentElement.classList.toggle('dark', this.theme === 'dark');
                 }
             }"
-			x-init="applyTheme()"
-			class="h-screen flex flex-col justify-between"
-			:class="{'bg-white text-black': theme === 'light', 'bg-black text-white': theme === 'dark'}"
+			class="h-screen flex flex-col justify-between transition-colors duration-200"
+			:class="{'bg-white text-black': theme === 'light', 'text-white': theme === 'dark'}"
 		>
+			<div class="page-loader">Loading...</div>
 			@components.Navigation()
 			<div class="min-h-[calc(100vh-64px)]">
 				{ children... }
