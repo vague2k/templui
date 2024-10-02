@@ -1,0 +1,28 @@
+package components
+
+templ Sidebar() {
+	<aside
+		x-show="sidebarOpen"
+		@click.away="sidebarOpen = false"
+		class="fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-800 shadow-lg transform transition-transform duration-300 lg:translate-x-0 lg:static lg:inset-0"
+		:class="{'translate-x-0': sidebarOpen, '-translate-x-full': !sidebarOpen}"
+	>
+		<div class="h-full overflow-y-auto">
+			<nav class="px-4 py-6">
+				<ul class="space-y-2">
+					<li>
+						<a href="#" class="block px-4 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+							Home
+						</a>
+					</li>
+					<li>
+						<a href="#" class="block px-4 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+							Components
+						</a>
+					</li>
+					<!-- Add more menu items as needed -->
+				</ul>
+			</nav>
+		</div>
+	</aside>
+}
