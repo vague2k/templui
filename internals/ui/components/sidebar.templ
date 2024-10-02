@@ -11,12 +11,12 @@ templ Sidebar() {
 			<nav class="px-4 py-6">
 				<ul class="space-y-2">
 					<li>
-						<a href="#" class="block px-4 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
-							Home
+						<a @click="sidebarOpen = false" href="/docs/introduction" class="block px-4 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+							Docs
 						</a>
 					</li>
 					<li>
-						<a href="#" class="block px-4 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+						<a @click="sidebarOpen = false" href="/docs/components/button" class="block px-4 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
 							Components
 						</a>
 					</li>
