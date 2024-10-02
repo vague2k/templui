@@ -45,20 +45,27 @@ templ BaseLayout() {
 		<body
 			x-data="{
                 theme: localStorage.getItem('theme') || 'light',
+                sidebarOpen: false,
                 toggleTheme() {
                     this.theme = this.theme === 'dark' ? 'light' : 'dark';
                     localStorage.setItem('theme', this.theme);
                     document.documentElement.classList.toggle('dark', this.theme === 'dark');
                 }
             }"
-			class="h-screen flex flex-col justify-between transition-colors duration-200"
+			class="min-h-screen flex flex-col transition-colors duration-200"
 			:class="{'bg-white text-black': theme === 'light', 'text-white': theme === 'dark'}"
 		>
 			<div class="page-loader">Loading...</div>
-			@components.Navigation()
-			<div class="min-h-[calc(100vh-64px)]">
-				{ children... }
+			@components.Navbar()
+			<div class="flex flex-1 overflow-hidden">
+				@components.Sidebar()
+				<main class="flex-1 overflow-x-hidden overflow-y-auto">
+					<div class="container mx-auto px-4 py-8">
+						{ children... }
+					</div>
+				</main>
 			</div>
+			@components.Footer()
 		</body>
 	</html>
 }
