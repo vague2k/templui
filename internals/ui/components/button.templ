@@ -29,7 +29,8 @@ type ButtonProps struct {
 	HxTrigger string
 	HxTarget  string
 
-	XData string
+	XData    string
+	XOnClick string
 
 	Class string
 }
@@ -64,7 +65,7 @@ func getSizeClasses(size ButtonSize) string {
 	}
 }
 
-templ Button(props ButtonProps) {
+templ Button(props ButtonProps, attrs ...templ.Attributes) {
 	<button
 		class={
 			"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors",
@@ -76,7 +77,6 @@ templ Button(props ButtonProps) {
 			props.Class,
 		}
 		disabled?={ props.Disabled }
-		onClick={ props.OnClick }
 		if props.HxGet != "" {
 			hx-get={ string(props.HxGet) }
 		}
@@ -89,7 +89,11 @@ templ Button(props ButtonProps) {
 		if props.HxTarget != "" {
 			hx-target={ props.HxTarget }
 		}
+		if props.XOnClick != "" {
+			@click={ props.XOnClick }
+		}
 	>
 		{ props.Text }
+		{ children... }
 	</button>
 }
