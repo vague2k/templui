@@ -7,7 +7,7 @@ import (
 	"github.com/a-h/templ"
 	"github.com/axzilla/goilerplate/assets"
 	"github.com/axzilla/goilerplate/internals/config"
-	components "github.com/axzilla/goilerplate/internals/ui/pages"
+	"github.com/axzilla/goilerplate/internals/ui/pages"
 )
 
 func main() {
@@ -16,8 +16,8 @@ func main() {
 
 	SetupAssetsRoutes(mux)
 
-	mux.Handle("GET /", templ.Handler(components.HeaderShowcase()))
-	mux.Handle("GET /docs/components/button", templ.Handler(components.Button()))
+	mux.Handle("GET /", templ.Handler(pages.HeaderShowcase()))
+	mux.Handle("GET /docs/components/button", templ.Handler(pages.Button()))
 
 	fmt.Println("Server is running on http://localhost:8090")
 	http.ListenAndServe(":8090", mux)
