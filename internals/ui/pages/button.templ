@@ -1,6 +1,38 @@
-package showcase
+package components
 
-import "github.com/axzilla/goilerplate/internals/ui/components"
+import (
+	"github.com/axzilla/goilerplate/internals/ui/layouts"
+	"os"
+	"github.com/axzilla/goilerplate/internals/ui/components"
+)
+
+templ Button() {
+	<div>
+		@layouts.BaseLayout() {
+			<div class="max-w-3xl mx-auto py-8">
+				<h2 class="text-2xl font-bold mb-4">Button Showcase</h2>
+				@ButtonShowcase()
+				@CodeSnippetFromFile("./internals/ui/components/button.templ", "go")
+			</div>
+		}
+	</div>
+}
+
+templ CodeSnippetFromFile(filename, language string) {
+	if content, err := os.ReadFile(filename); err != nil {
+		<div class="error">Fehler beim Lesen der Datei: { err.Error() }</div>
+	} else {
+		@CodeSnippet(string(content), language)
+	}
+}
+
+templ CodeSnippet(content, language string) {
+	<pre class="">
+		<code class={ "language-" + language }>
+			{ content }
+		</code>
+	</pre>
+}
 
 templ ButtonShowcase() {
 	<div class="space-y-8">

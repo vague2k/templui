@@ -17,6 +17,7 @@ func main() {
 	SetupAssetsRoutes(mux)
 
 	mux.Handle("GET /", templ.Handler(components.HeaderShowcase()))
+	mux.Handle("GET /docs/components/button", templ.Handler(components.Button()))
 
 	fmt.Println("Server is running on http://localhost:8090")
 	http.ListenAndServe(":8090", mux)
