@@ -16,13 +16,13 @@ const (
 )
 
 type ButtonProps struct {
+	Class string
+
 	Text      string
 	Variant   ButtonVariant
 	Size      ButtonSize
 	Disabled  bool
 	FullWidth bool
-
-	OnClick templ.ComponentScript
 
 	HxGet     templ.SafeURL
 	HxPost    templ.SafeURL
@@ -31,8 +31,6 @@ type ButtonProps struct {
 
 	XData    string
 	XOnClick string
-
-	Class string
 }
 
 func getVariantClasses(variant ButtonVariant) string {
