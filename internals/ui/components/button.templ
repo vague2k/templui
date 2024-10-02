@@ -23,6 +23,8 @@ type ButtonProps struct {
 	Size      ButtonSize
 	Disabled  bool
 	FullWidth bool
+	Href      string
+	Target    string
 
 	HxGet     templ.SafeURL
 	HxPost    templ.SafeURL
@@ -64,34 +66,71 @@ func getSizeClasses(size ButtonSize) string {
 }
 
 templ Button(props ButtonProps, attrs ...templ.Attributes) {
-	<button
-		class={
-			"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors",
-			"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-			"disabled:pointer-events-none disabled:opacity-50",
-			getVariantClasses(props.Variant),
-			getSizeClasses(props.Size),
-			templ.KV("w-full", props.FullWidth),
-			props.Class,
-		}
-		disabled?={ props.Disabled }
-		if props.HxGet != "" {
-			hx-get={ string(props.HxGet) }
-		}
-		if props.HxPost != "" {
-			hx-post={ string(props.HxPost) }
-		}
-		if props.HxTrigger != "" {
-			hx-trigger={ props.HxTrigger }
-		}
-		if props.HxTarget != "" {
-			hx-target={ props.HxTarget }
-		}
-		if props.XOnClick != "" {
-			@click={ props.XOnClick }
-		}
-	>
-		{ props.Text }
-		{ children... }
-	</button>
+	if props.Href != "" {
+		<a
+			href={ templ.SafeURL(props.Href) }
+			target={ props.Target }
+			class={
+				"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors",
+				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+				getVariantClasses(props.Variant),
+				getSizeClasses(props.Size),
+				templ.KV("w-full", props.FullWidth),
+				props.Class,
+			}
+			if props.Disabled {
+				aria-disabled="true"
+				tabindex="-1"
+			}
+			if props.HxGet != "" {
+				hx-get={ string(props.HxGet) }
+			}
+			if props.HxPost != "" {
+				hx-post={ string(props.HxPost) }
+			}
+			if props.HxTrigger != "" {
+				hx-trigger={ props.HxTrigger }
+			}
+			if props.HxTarget != "" {
+				hx-target={ props.HxTarget }
+			}
+			if props.XOnClick != "" {
+				@click={ props.XOnClick }
+			}
+		>
+			{ props.Text }
+			{ children... }
+		</a>
+	} else {
+		<button
+			class={
+				"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors",
+				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+				"disabled:pointer-events-none disabled:opacity-50",
+				getVariantClasses(props.Variant),
+				getSizeClasses(props.Size),
+				templ.KV("w-full", props.FullWidth),
+				props.Class,
+			}
+			disabled?={ props.Disabled }
+			if props.HxGet != "" {
+				hx-get={ string(props.HxGet) }
+			}
+			if props.HxPost != "" {
+				hx-post={ string(props.HxPost) }
+			}
+			if props.HxTrigger != "" {
+				hx-trigger={ props.HxTrigger }
+			}
+			if props.HxTarget != "" {
+				hx-target={ props.HxTarget }
+			}
+			if props.XOnClick != "" {
+				@click={ props.XOnClick }
+			}
+		>
+			{ props.Text }
+			{ children... }
+		</button>
+	}
 }
