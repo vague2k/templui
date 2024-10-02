@@ -42,8 +42,8 @@ templ BaseLayout() {
                 }
             }"
 			x-init="applyTheme()"
-			class="h-screen flex flex-col justify-between transition-colors duration-200"
-			:class="{'bg-white text-black': theme === 'light', 'bg-gray-900 text-white': theme === 'dark'}"
+			class="h-screen flex flex-col justify-between"
+			:class="{'bg-white text-black': theme === 'light', 'bg-black text-white': theme === 'dark'}"
 		>
 			@components.Navigation()
 			<div class="min-h-[calc(100vh-64px)]">
