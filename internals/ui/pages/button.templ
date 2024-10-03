@@ -3,7 +3,6 @@ package pages
 import (
 	"github.com/axzilla/goilerplate/internals/ui/components"
 	"github.com/axzilla/goilerplate/internals/ui/layouts"
-	"os"
 )
 
 templ Button() {
@@ -11,25 +10,9 @@ templ Button() {
 		<div class="max-w-3xl mx-auto py-8">
 			<h2 class="text-2xl font-bold mb-4">Button Showcase</h2>
 			@ButtonShowcase()
-			@CodeSnippetFromFile("./internals/ui/components/button.templ", "go")
+			@CodeSnippetFromEmbedded("button.templ", "go")
 		</div>
 	}
-}
-
-templ CodeSnippetFromFile(filename, language string) {
-	if content, err := os.ReadFile(filename); err != nil {
-		<div class="error">Fehler beim Lesen der Datei: { err.Error() }</div>
-	} else {
-		@CodeSnippet(string(content), language)
-	}
-}
-
-templ CodeSnippet(content, language string) {
-	<pre class="">
-		<code class={ "language-" + language }>
-			{ content }
-		</code>
-	</pre>
 }
 
 templ ButtonShowcase() {
@@ -86,4 +69,20 @@ templ ButtonShowcase() {
 			</div>
 		</div>
 	</div>
+}
+
+templ CodeSnippetFromEmbedded(filename, language string) {
+	if content, err := components.TemplFiles.ReadFile(filename); err != nil {
+		<div class="error">Error reading file: { filename }: { err.Error() }</div>
+	} else {
+		@CodeSnippet(string(content), language)
+	}
+}
+
+templ CodeSnippet(content, language string) {
+	<pre class="">
+		<code class={ "language-" + language }>
+			{ content }
+		</code>
+	</pre>
 }
