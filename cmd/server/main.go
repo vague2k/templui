@@ -18,7 +18,7 @@ func main() {
 
 	mux.Handle("GET /", templ.Handler(pages.HeaderShowcase()))
 	mux.Handle("GET /docs/components/button", templ.Handler(pages.Button()))
-	mux.Handle("GET /docs/components/sheet", templ.Handler(pages.SheetExample()))
+	mux.Handle("GET /docs/components/sheet", templ.Handler(pages.Sheet()))
 
 	fmt.Println("Server is running on http://localhost:8090")
 	http.ListenAndServe(":8090", mux)

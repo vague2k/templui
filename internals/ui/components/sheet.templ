@@ -1,5 +1,20 @@
 package components
 
+type SheetSide string
+
+const (
+	Top    SheetSide = "top"
+	Right  SheetSide = "right"
+	Bottom SheetSide = "bottom"
+	Left   SheetSide = "left"
+)
+
+type SheetProps struct {
+	Title       string
+	Description string
+	Side        SheetSide
+}
+
 templ SheetRoot() {
 	<div
 		x-data="{ 
@@ -17,21 +32,6 @@ templ SheetRoot() {
 	>
 		{ children... }
 	</div>
-}
-
-type SheetSide string
-
-const (
-	Top    SheetSide = "top"
-	Right  SheetSide = "right"
-	Bottom SheetSide = "bottom"
-	Left   SheetSide = "left"
-)
-
-type SheetProps struct {
-	Title       string
-	Description string
-	Side        SheetSide
 }
 
 templ Sheet(props SheetProps) {
@@ -83,7 +83,13 @@ templ Sheet(props SheetProps) {
 			x-transition:leave-end="opacity-0 transform translate-y-full"
 		}
 	>
-		<div class="h-full overflow-y-auto bg-background p-6 shadow-lg">
+		<div
+			class={ "h-full overflow-y-auto bg-background p-6 shadow-lg",
+        templ.KV("border-l", props.Side == Right),
+        templ.KV("border-r", props.Side == Left),
+        templ.KV("border-t", props.Side == Bottom),
+        templ.KV("border-b", props.Side == Top) }
+		>
 			<div class="flex flex-col space-y-2">
 				<h2 class="text-lg font-semibold">{ props.Title }</h2>
 				<p class="text-sm text-muted-foreground">{ props.Description }</p>
