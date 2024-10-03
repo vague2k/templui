@@ -1,0 +1,93 @@
+package components
+
+templ SheetRoot() {
+	<div
+		x-data="{ 
+            isOpen: false,
+            side: 'right',
+            open(newSide) { 
+                this.side = newSide; 
+                this.isOpen = true; 
+            },
+            close() { 
+                this.isOpen = false; 
+            }
+        }"
+		@keydown.escape.window="close()"
+	>
+		{ children... }
+	</div>
+}
+
+type SheetSide string
+
+const (
+	Top    SheetSide = "top"
+	Right  SheetSide = "right"
+	Bottom SheetSide = "bottom"
+	Left   SheetSide = "left"
+)
+
+type SheetProps struct {
+	Title       string
+	Description string
+}
+
+templ Sheet(props SheetProps) {
+	<!-- Backdrop -->
+	<div
+		x-show="isOpen"
+		class="fixed inset-0 bg-background/80 backdrop-blur-sm"
+		@click="close()"
+		x-transition:enter="transition ease-out duration-300"
+		x-transition:enter-start="opacity-0"
+		x-transition:enter-end="opacity-100"
+		x-transition:leave="transition ease-in duration-300"
+		x-transition:leave-start="opacity-100"
+		x-transition:leave-end="opacity-0"
+	></div>
+	<!-- Sheet -->
+	<div
+		x-show="isOpen"
+		:class="{
+            'fixed inset-y-0 right-0 w-full sm:w-3/4 md:w-1/2 lg:w-1/3': side === 'right',
+            'fixed inset-y-0 left-0 w-full sm:w-3/4 md:w-1/2 lg:w-1/3': side === 'left',
+            'fixed inset-x-0 top-0 h-auto sm:h-1/2': side === 'top',
+            'fixed inset-x-0 bottom-0 h-auto sm:h-1/2': side === 'bottom'
+        }"
+		x-transition:enter="transition ease-out duration-300"
+		x-transition:enter-start="opacity-0 transform translate-x-full"
+		x-transition:enter-end="opacity-100 transform translate-x-0"
+		x-transition:leave="transition ease-in duration-300"
+		x-transition:leave-start="opacity-100 transform translate-x-0"
+		x-transition:leave-end="opacity-0 transform translate-x-full"
+	>
+		<div class="h-full overflow-y-auto bg-background p-6 shadow-lg">
+			<div class="flex flex-col space-y-2">
+				<h2 class="text-lg font-semibold">{ props.Title }</h2>
+				<p class="text-sm text-muted-foreground">{ props.Description }</p>
+			</div>
+			<div class="mt-4">
+				{ children... }
+			</div>
+		</div>
+	</div>
+}
+
+templ SheetTrigger(text string, side SheetSide) {
+	<button
+		@click={ "open('" + string(side) + "')" }
+		class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2"
+	>
+		{ text }
+	</button>
+}
+
+templ SheetClose(text string) {
+	<button
+		@click="close()"
+		class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2"
+	>
+		{ text }
+	</button>
+}
