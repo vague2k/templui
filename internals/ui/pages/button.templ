@@ -9,6 +9,22 @@ templ Button() {
 	@layouts.BaseLayout() {
 		<div class="max-w-3xl mx-auto py-8">
 			<h2 class="text-2xl font-bold mb-4">Button Showcase</h2>
+			@components.Tabs(components.TabsProps{
+				Tabs: []components.Tab{
+					{
+						ID:      "preview",
+						Title:   "Preview",
+						Content: ButtonShowcase(),
+					},
+					{
+						ID:      "code",
+						Title:   "Code",
+						Content: CodeSnippetFromEmbedded("button.templ", "go"),
+					},
+				},
+				TabsContainerClass:    "w-full max-w-xs",
+				ContentContainerClass: "w-full",
+			})
 			@ButtonShowcase()
 			@CodeSnippetFromEmbedded("button.templ", "go")
 		</div>

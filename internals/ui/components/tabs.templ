@@ -7,7 +7,9 @@ type Tab struct {
 }
 
 type TabsProps struct {
-	Tabs []Tab
+	Tabs                  []Tab
+	TabsContainerClass    string
+	ContentContainerClass string
 }
 
 templ Tabs(props TabsProps) {
@@ -28,11 +30,11 @@ templ Tabs(props TabsProps) {
       return this.tabSelected === tabContent.id.replace(this.tabId + '-content-', '');
     }}"
 		x-init="$nextTick(() => tabRepositionMarker($refs.tabButtons.firstElementChild));"
-		class="relative w-full max-w-lg"
+		class="relative w-full"
 	>
 		<div
 			x-ref="tabButtons"
-			class="relative flex items-center justify-center w-full h-10 p-1 text-gray-500 bg-gray-100 rounded-lg select-none"
+			class={ "relative flex items-center justify-center h-10 p-1 text-gray-500 bg-gray-100 rounded-lg select-none", props.TabsContainerClass }
 		>
 			for _, tab := range props.Tabs {
 				<button
@@ -49,7 +51,7 @@ templ Tabs(props TabsProps) {
 				<div class="w-full h-full bg-white rounded-md shadow-sm"></div>
 			</div>
 		</div>
-		<div class="relative w-full mt-2 content">
+		<div class={ "relative mt-2 content", props.ContentContainerClass }>
 			for _, tab := range props.Tabs {
 				<div
 					:id="$id(tabId + '-content')"

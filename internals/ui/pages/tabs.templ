@@ -3,8 +3,8 @@
 package pages
 
 import (
-	"github.com/axzilla/goilerplate/internals/ui/layouts"
 	"github.com/axzilla/goilerplate/internals/ui/components"
+	"github.com/axzilla/goilerplate/internals/ui/layouts"
 )
 
 templ TabsShowcase() {
@@ -25,6 +25,8 @@ templ TabsShowcase() {
 							Content: PasswordTab(),
 						},
 					},
+					TabsContainerClass:    "w-full max-w-xs",
+					ContentContainerClass: "w-full",
 				})
 			</div>
 			<div class="mt-8">
