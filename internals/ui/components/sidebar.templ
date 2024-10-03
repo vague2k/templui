@@ -1,26 +1,73 @@
 package components
 
+type SideLink struct {
+	Text  string
+	Href  string
+	Icon  string
+	Click string
+}
+
+type Section struct {
+	Title string
+	Links []SideLink
+}
+
+var sections = []Section{
+	{
+		Title: "Getting Started",
+		Links: []SideLink{
+			{
+				Text: "Introduction",
+				Href: "/docs/introduction",
+			},
+			{
+				Text: "Installation",
+				Href: "/docs/installation",
+			},
+			{
+				Text: "Configuration",
+				Href: "/docs/configuration",
+			},
+		},
+	},
+	{
+		Title: "Components",
+		Links: []SideLink{
+			{
+				Text: "Button",
+				Href: "/docs/components/button",
+			},
+			{
+				Text: "Alert",
+				Href: "/docs/components/alert",
+			},
+			{
+				Text: "Modal",
+				Href: "/docs/components/modal",
+			},
+		},
+	},
+}
+
 templ Sidebar() {
-	<aside
-		x-show="sidebarOpen"
-		@click.away="sidebarOpen = false"
-		class="fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-gray-800 shadow-lg transform transition-transform duration-300 lg:translate-x-0 lg:static lg:inset-0"
-		:class="{'translate-x-0': sidebarOpen, '-translate-x-full': !sidebarOpen}"
-	>
+	<aside class="hidden md:flex">
 		<div class="h-full overflow-y-auto">
 			<nav class="px-4 py-6">
 				<ul class="space-y-2">
-					<li>
-						<a @click="sidebarOpen = false" href="/docs/introduction" class="block px-4 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
-							Docs
-						</a>
-					</li>
-					<li>
-						<a @click="sidebarOpen = false" href="/docs/components/button" class="block px-4 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
-							Components
-						</a>
-					</li>
-					<!-- Add more menu items as needed -->
+					for _, section := range sections {
+						<li class="pb-4">
+							<h3 class="px-4 text-sm font-bold text-gray-600 uppercase">{ section.Title }</h3>
+							<ul class="mt-2 space-y-1">
+								for _, link := range section.Links {
+									<li>
+										<a href={ templ.SafeURL(link.Href) } class="text-sm flex items-center px-4 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+											<span>{ link.Text }</span>
+										</a>
+									</li>
+								}
+							</ul>
+						</li>
+					}
 				</ul>
 			</nav>
 		</div>
