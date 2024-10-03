@@ -4,7 +4,7 @@ templ SheetRoot() {
 	<div
 		x-data="{ 
             isOpen: false,
-            side: 'right',
+            side: 'left',
             open(newSide) { 
                 this.side = newSide; 
                 this.isOpen = true; 
@@ -31,6 +31,7 @@ const (
 type SheetProps struct {
 	Title       string
 	Description string
+	Side        SheetSide
 }
 
 templ Sheet(props SheetProps) {
@@ -56,11 +57,31 @@ templ Sheet(props SheetProps) {
             'fixed inset-x-0 bottom-0 h-auto sm:h-1/2': side === 'bottom'
         }"
 		x-transition:enter="transition ease-out duration-300"
-		x-transition:enter-start="opacity-0 transform translate-x-full"
-		x-transition:enter-end="opacity-100 transform translate-x-0"
 		x-transition:leave="transition ease-in duration-300"
-		x-transition:leave-start="opacity-100 transform translate-x-0"
-		x-transition:leave-end="opacity-0 transform translate-x-full"
+		if props.Side == Left {
+			x-transition:enter-start="opacity-0 transform -translate-x-full"
+			x-transition:enter-end="opacity-100 transform translate-x-0"
+			x-transition:leave-start="opacity-100 transform translate-x-0"
+			x-transition:leave-end="opacity-0 transform -translate-x-full"
+		}
+		if props.Side == Right {
+			x-transition:enter-start="opacity-0 transform translate-x-full"
+			x-transition:enter-end="opacity-100 transform translate-x-0"
+			x-transition:leave-start="opacity-100 transform translate-x-0"
+			x-transition:leave-end="opacity-0 transform translate-x-full"
+		}
+		if props.Side == Top {
+			x-transition:enter-start="opacity-0 transform -translate-y-full"
+			x-transition:enter-end="opacity-100 transform translate-y-0"
+			x-transition:leave-start="opacity-100 transform translate-y-0"
+			x-transition:leave-end="opacity-0 transform -translate-y-full"
+		}
+		if props.Side == Bottom {
+			x-transition:enter-start="opacity-0 transform translate-y-full"
+			x-transition:enter-end="opacity-100 transform translate-y-0"
+			x-transition:leave-start="opacity-100 transform translate-y-0"
+			x-transition:leave-end="opacity-0 transform translate-y-full"
+		}
 	>
 		<div class="h-full overflow-y-auto bg-background p-6 shadow-lg">
 			<div class="flex flex-col space-y-2">
