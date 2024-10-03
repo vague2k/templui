@@ -25,6 +25,10 @@ Goilerplate is a comprehensive UI component library designed specifically for Go
 - [] License
 - [] Support
 
+## README APP
+
+- [] Add active classes for menu links
+
 ---
 
 Built with ❤️ by the Go community, for the Go community.
