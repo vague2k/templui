@@ -24,10 +24,6 @@ var Sections = []Section{
 				Text: "Installation",
 				Href: "/docs/installation",
 			},
-			{
-				Text: "Configuration",
-				Href: "/docs/configuration",
-			},
 		},
 	},
 	{
