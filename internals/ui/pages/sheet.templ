@@ -28,7 +28,9 @@ templ Sheet() {
 							@components.SheetClose("Close")
 						</div>
 					}
-					@components.SheetTrigger(string(side), side)
+					@components.SheetTrigger(string(side), side) {
+						@components.Button(components.ButtonProps{Text: string(side)})
+					}
 				}
 			}
 		</div>
