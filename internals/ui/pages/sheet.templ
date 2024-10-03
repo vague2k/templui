@@ -1,0 +1,31 @@
+package pages 
+
+import (
+	"github.com/axzilla/goilerplate/internals/ui/components"
+	"github.com/axzilla/goilerplate/internals/ui/layouts"
+)
+
+templ SheetExample() {
+	@layouts.BaseLayout() {
+		@components.SheetRoot() {
+			@components.Sheet(components.SheetProps{
+				Title:       "Sheet Title",
+				Description: "This is a description of the sheet content.",
+			}) {
+				<div class="py-4">
+					<h3 class="mb-2 text-lg font-medium">Sheet Content</h3>
+					<p>This is the main content of the sheet. You can put any components or text here.</p>
+				</div>
+				<div class="mt-4">
+					@components.SheetClose("Close")
+				</div>
+			}
+			<div class="p-4">
+				@components.SheetTrigger("Open Left", components.Left)
+				@components.SheetTrigger("Open Right", components.Right)
+				@components.SheetTrigger("Open Bottom", components.Bottom)
+				@components.SheetTrigger("Open Top", components.Top)
+			</div>
+		}
+	}
+}
