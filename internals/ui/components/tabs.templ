@@ -1,0 +1,65 @@
+package components
+
+type Tab struct {
+	ID      string
+	Title   string
+	Content templ.Component
+}
+
+type TabsProps struct {
+	Tabs []Tab
+}
+
+templ Tabs(props TabsProps) {
+	<div
+		x-data="{     
+      tabSelected: '1',
+      tabId: $id('tabs'),
+      tabButtonClicked(tabButton) {
+        this.tabSelected = tabButton.id.replace(this.tabId + '-', '');
+        this.tabRepositionMarker(tabButton);
+      },
+      tabRepositionMarker(tabButton) {
+        this.$refs.tabMarker.style.width = tabButton.offsetWidth + 'px';
+        this.$refs.tabMarker.style.height = tabButton.offsetHeight + 'px';
+        this.$refs.tabMarker.style.left = tabButton.offsetLeft + 'px';
+      },
+      tabContentActive(tabContent) {
+      return this.tabSelected === tabContent.id.replace(this.tabId + '-content-', '');
+    }}"
+		x-init="$nextTick(() => tabRepositionMarker($refs.tabButtons.firstElementChild));"
+		class="relative w-full max-w-lg"
+	>
+		<div
+			x-ref="tabButtons"
+			class="relative flex items-center justify-center w-full h-10 p-1 text-gray-500 bg-gray-100 rounded-lg select-none"
+		>
+			for _, tab := range props.Tabs {
+				<button
+					:id="$id(tabId)"
+					@click="tabButtonClicked($el);"
+					type="button"
+					class="relative z-20 flex-1 inline-flex items-center justify-center h-8 px-3 text-sm font-medium transition-all rounded-md cursor-pointer whitespace-nowrap"
+					:class="{'text-gray-900': tabSelected === '{tab.ID}'}"
+				>
+					{ tab.Title }
+				</button>
+			}
+			<div x-ref="tabMarker" class="absolute left-0 z-10 h-full duration-300 ease-out" x-cloak>
+				<div class="w-full h-full bg-white rounded-md shadow-sm"></div>
+			</div>
+		</div>
+		<div class="relative w-full mt-2 content">
+			for _, tab := range props.Tabs {
+				<div
+					:id="$id(tabId + '-content')"
+					x-show="tabContentActive($el)"
+					class="relative"
+					x-cloak
+				>
+					@tab.Content
+				</div>
+			}
+		</div>
+	</div>
+}
