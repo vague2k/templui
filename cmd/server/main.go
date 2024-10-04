@@ -26,7 +26,7 @@ func main() {
 }
 
 func SetupAssetsRoutes(mux *http.ServeMux) {
-	var isDevelopment = config.AppConfig.GoEnv == "development"
+	var isDevelopment = config.AppConfig.GoEnv != "production"
 
 	// We need this for Templ to work
 	disableCacheInDevMode := func(next http.Handler) http.Handler {
