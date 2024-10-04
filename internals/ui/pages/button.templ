@@ -45,9 +45,20 @@ templ CodeSnippetFromEmbedded(filename, language string, embed embed.FS) {
 }
 
 templ CodeSnippet(content, language string) {
-	<pre>
-		<code class={ "language-" + language, "!max-h-[500px] !overflow-y-auto rounded-md" }>
-			{ content }
-		</code>
-	</pre>
+	<div class="relative" x-data="{ copied: false }">
+		<pre class="!overflow-hidden">
+			<code x-ref="code" class={ "language-" + language, "!max-h-[501px] !overflow-y-auto rounded-md block" }>
+				{ content }
+			</code>
+		</pre>
+		<button
+			class="absolute top-1 right-2 bg-gray-700 hover:bg-gray-600 text-white font-bold py-1 px-2 rounded text-xs"
+			x-on:click="
+				navigator.clipboard.writeText($refs.code.textContent);
+				copied = true;
+				setTimeout(() => copied = false, 2001);
+			"
+			x-text="copied ? 'Copied!' : 'Copy'"
+		></button>
+	</div>
 }
