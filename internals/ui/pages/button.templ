@@ -9,8 +9,11 @@ import (
 
 templ Button() {
 	@layouts.BaseLayout() {
-		<div class="max-w-3xl mx-auto py-8">
-			<h2 class="text-2xl font-bold mb-4">Button Showcase</h2>
+		<div class="max-w-3xl p-4">
+			<div class="mb-16">
+				<h1 class="text-3xl font-bold mb-2">Button</h1>
+				<p class="mb-4 text-muted-foreground">Displays a button or a component that looks like a button.</p>
+			</div>
 			@components.Tabs(components.TabsProps{
 				Tabs: []components.Tab{
 					{
@@ -52,7 +55,7 @@ templ CodeSnippet(content, language string) {
 			</code>
 		</pre>
 		<button
-			class="absolute top-1 right-2 bg-gray-700 hover:bg-gray-600 text-white font-bold py-1 px-2 rounded text-xs"
+			class="absolute top-2 right-2 bg-gray-700 hover:bg-gray-600 text-white font-bold py-1 px-2 rounded text-xs"
 			x-on:click="
 				navigator.clipboard.writeText($refs.code.textContent);
 				copied = true;
