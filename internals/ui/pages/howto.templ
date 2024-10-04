@@ -1,0 +1,89 @@
+package pages
+
+import "github.com/axzilla/goilerplate/internals/ui/layouts"
+
+templ HowToUse() {
+	@layouts.BaseLayout() {
+		<div class="max-w-3xl mx-auto px-4 py-16">
+			<h1 class="text-4xl font-bold mb-6 text-primary">How to Use Goilerplate</h1>
+			<section class="mb-12">
+				<h2 class="text-2xl font-semibold mb-4 text-primary">Prerequisites</h2>
+				<ul class="list-disc pl-6 space-y-2">
+					<li><a href="https://golang.org/dl/" target="_blank" class="text-primary hover:underline">Go</a> (for Goilerplate)</li>
+					<li><a href="https://templ.guide" target="_blank" class="text-primary hover:underline">Templ</a> (for templating)</li>
+					// npm and node are required for Tailwind CSS
+					<li><a href="https://nodejs.org/en/download/" target="_blank" class="text-primary hover:underline">Node.js</a> (for Tailwind CSS)</li>
+				</ul>
+			</section>
+			<section class="mb-12">
+				<h2 class="text-2xl font-semibold mb-4 text-primary">Step 1: Set Up Your Project</h2>
+				<ol class="list-decimal pl-6 space-y-2">
+					<li>Create a new Go project: <code class="bg-muted text-muted-foreground px-2 py-1 rounded">mkdir my-goilerplate-project && cd my-goilerplate-project</code></li>
+					<li>Initialize Go module: <code class="bg-muted text-muted-foreground px-2 py-1 rounded">go mod init github.com/yourusername/my-goilerplate-project</code></li>
+					<li>Install Templ: <code class="bg-muted text-muted-foreground px-2 py-1 rounded">go install github.com/a-h/templ/cmd/templ@latest</code></li>
+				</ol>
+			</section>
+			<section class="mb-12">
+				<h2 class="text-2xl font-semibold mb-4 text-primary">Step 2: Project Structure</h2>
+				<p class="mb-4">Create the following directory structure:</p>
+				<pre class="bg-muted text-muted-foreground p-4 rounded">
+					<code>
+						my-goilerplate-project/
+						├── cmd/
+						│   └── server/
+						│       └── main.go
+						├── internals/
+						│   └── ui/
+						│       ├── components/
+						│       ├── layouts/
+						│       └── pages/
+						├── assets/
+						│   ├── css/
+						│   │   ├── input.css
+						│   │   └── output.css
+						│   └── js/
+						├── Makefile
+						└── tailwind.config.js
+					</code>
+				</pre>
+			</section>
+			<section class="mb-12">
+				<h2 class="text-2xl font-semibold mb-4 text-primary">Step 3: Configuration Files</h2>
+				<p class="mb-4">Add the following configuration files:</p>
+				<ul class="list-disc pl-6 space-y-2">
+					<li><a href="#" class="text-primary hover:underline">Makefile</a> (for build commands)</li>
+					<li><a href="#" class="text-primary hover:underline">tailwind.config.js</a> (for Tailwind CSS configuration)</li>
+					<li><a href="#" class="text-primary hover:underline">assets/css/input.css</a> (for custom Tailwind styles)</li>
+				</ul>
+			</section>
+			<section class="mb-12">
+				<h2 class="text-2xl font-semibold mb-4 text-primary">Step 4: Adding Components</h2>
+				<p class="mb-4">To use Goilerplate components:</p>
+				<ol class="list-decimal pl-6 space-y-2">
+					<li>Choose a component from our library.</li>
+					<li>Copy the component code into a new file in your <code class="bg-muted text-muted-foreground px-2 py-1 rounded">internals/ui/components/</code> directory.</li>
+					<li>Use the component in your layouts or pages.</li>
+				</ol>
+			</section>
+			<section class="mb-12">
+				<h2 class="text-2xl font-semibold mb-4 text-primary">Step 5: Development Workflow</h2>
+				<p class="mb-4">Use the following commands to start your development server:</p>
+				<pre class="bg-muted text-muted-foreground p-4 rounded">
+					<code>
+						# Start development server
+						make dev
+						# For debugging (if needed)
+						make debug
+					</code>
+				</pre>
+			</section>
+			<section>
+				<h2 class="text-2xl font-semibold mb-4 text-primary">Next Steps</h2>
+				<p class="mb-4">
+					Explore our <a href="#" class="text-primary hover:underline">component library</a> to start building your UI. 
+					Check out the <a href="#" class="text-primary hover:underline">styling guide</a> to learn more about customizing the look and feel of your components.
+				</p>
+			</section>
+		</div>
+	}
+}

@@ -17,6 +17,8 @@ func main() {
 	SetupAssetsRoutes(mux)
 
 	mux.Handle("GET /", templ.Handler(pages.HeaderShowcase()))
+	mux.Handle("GET /docs/introduction", templ.Handler(pages.Introduction()))
+	mux.Handle("GET /docs/how-to-use", templ.Handler(pages.HowToUse()))
 	mux.Handle("GET /docs/components/button", templ.Handler(pages.Button()))
 	mux.Handle("GET /docs/components/sheet", templ.Handler(pages.Sheet()))
 	mux.Handle("GET /docs/components/tabs", templ.Handler(pages.TabsShowcase()))

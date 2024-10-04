@@ -1,0 +1,51 @@
+package pages
+
+import "github.com/axzilla/goilerplate/internals/ui/layouts"
+
+templ Introduction() {
+	@layouts.BaseLayout() {
+		<div class="max-w-2xl mx-auto px-4 py-16">
+			<h1 class="text-4xl font-bold mb-6 text-primary">🎉 Goilerplate</h1>
+			<p class="text-xl mb-4 text-muted-foreground">Modern UI Components for Go & Templ</p>
+			<p class="text-lg mb-8 text-muted-foreground">
+				Build sleek, interactive web applications with Go and Templ. Seamlessly integrate Alpine.js and HTMX for enhanced client-side functionality. Where server-side simplicity meets client-side dynamism.
+			</p>
+			<section class="mb-12">
+				<h2 class="text-2xl font-semibold mb-4 text-primary">What's this madness?</h2>
+				<p class="mb-4">
+					Goilerplate is a wild experiment in bringing the joy of modern UI components to the Go ecosystem. It's like a box of LEGO, but for web dev. And yes, we might have had too much coffee while coding this.
+				</p>
+				<p class="mb-4">
+					We've taken Go, sprinkled some Templ magic, added a dash of Alpine.js, and voilà! You've got yourself a UI toolkit that'll make JavaScript developers question their life choices.
+				</p>
+				<p class="mb-4">
+					Warning: This project is so beta, it makes alpha look stable. Expect bugs, weird behavior, and possibly code that makes you question our sanity. But hey, that's half the fun, right?
+				</p>
+			</section>
+			<section class="mb-12">
+				<h2 class="text-2xl font-semibold mb-4 text-primary">Why Goilerplate?</h2>
+				<p class="mb-4">
+					Inspired by the brilliant <a href="https://ui.shadcn.com/" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">shadcn/ui</a>, Goilerplate brings the same philosophy of accessible, customizable components to the Go ecosystem. We've taken the best ideas and adapted them for Go, Templ, and Alpine.js enthusiasts.
+				</p>
+				<p class="mb-4">
+					Our components are designed with accessibility in mind, ensuring your web applications are usable by everyone. And just like our inspiration, every component is fully customizable - tweak them, break them, remake them. It's your playground!
+				</p>
+			</section>
+			<section>
+				<h2 class="text-2xl font-semibold mb-4 text-primary">Who's to Blame?</h2>
+				<p class="mb-4">
+					We stand on the shoulders of giants (and maybe a few clowns). Big thanks to:
+				</p>
+				<ul class="list-disc pl-6 space-y-2">
+					<li><a href="https://golang.org/" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Go</a> - For giving us a language that's not JavaScript</li>
+					<li><a href="https://templ.guide" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Templ</a> - Making templates great again</li>
+					<li><a href="https://alpinejs.dev/" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Alpine.js</a> - JavaScript's cool, minimalist cousin</li>
+					<li><a href="https://htmx.org/" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">HTMX</a> - Because sometimes, less is more</li>
+					<li><a href="https://tailwindcss.com/" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">Tailwind CSS</a> - For saving us from actually writing CSS</li>
+					<li><a href="https://devdojo.com/pines" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">PinesUI by DevDojo</a> - Inspiration and eye candy</li>
+					<li><a href="https://ui.shadcn.com/" target="_blank" rel="noopener noreferrer" class="text-primary hover:underline">shadcn/ui</a> - More inspiration, because we're magpies for good ideas</li>
+				</ul>
+			</section>
+		</div>
+	}
+}
