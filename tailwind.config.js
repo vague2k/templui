@@ -1,7 +1,7 @@
 import { fontFamily } from "tailwindcss/defaultTheme";
 
 /** @type {import('tailwindcss').Config} */
-module.exports = {
+const config = {
   darkMode: ["class"],
   content: ["./**/*.html", "./**/*.templ", "./**/*.go"],
   safelist: ["dark"],
@@ -60,3 +60,5 @@ module.exports = {
     },
   },
 };
+
+export default config;

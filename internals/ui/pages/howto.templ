@@ -4,84 +4,100 @@ import "github.com/axzilla/goilerplate/internals/ui/layouts"
 
 templ HowToUse() {
 	@layouts.BaseLayout() {
-		<div class="max-w-3xl mx-auto px-4 py-16">
-			<h1 class="text-4xl font-bold mb-6 text-primary">How to Use Goilerplate</h1>
+		<div class="text-muted-foreground">
+			<h1 class="text-4xl font-bold mb-6 text-primary">Getting Started with Goilerplate</h1>
+			<p class="mb-8 text-muted-foreground">
+				This is the recommended setup for using Goilerplate in your Go projects.
+			</p>
 			<section class="mb-12">
-				<h2 class="text-2xl font-semibold mb-4 text-primary">Prerequisites</h2>
-				<ul class="list-disc pl-6 space-y-2">
-					<li><a href="https://golang.org/dl/" target="_blank" class="text-primary hover:underline">Go</a> (for Goilerplate)</li>
-					<li><a href="https://templ.guide" target="_blank" class="text-primary hover:underline">Templ</a> (for templating)</li>
-					// npm and node are required for Tailwind CSS
-					<li><a href="https://nodejs.org/en/download/" target="_blank" class="text-primary hover:underline">Node.js</a> (for Tailwind CSS)</li>
-				</ul>
-			</section>
-			<section class="mb-12">
-				<h2 class="text-2xl font-semibold mb-4 text-primary">Step 1: Set Up Your Project</h2>
-				<ol class="list-decimal pl-6 space-y-2">
-					<li>Create a new Go project: <code class="bg-muted text-muted-foreground px-2 py-1 rounded">mkdir my-goilerplate-project && cd my-goilerplate-project</code></li>
-					<li>Initialize Go module: <code class="bg-muted text-muted-foreground px-2 py-1 rounded">go mod init github.com/yourusername/my-goilerplate-project</code></li>
-					<li>Install Templ: <code class="bg-muted text-muted-foreground px-2 py-1 rounded">go install github.com/a-h/templ/cmd/templ@latest</code></li>
+				<h2 class="text-2xl font-semibold mb-4 text-primary">Quick Start</h2>
+				<ol class="list-decimal pl-6 space-y-4">
+					<li>
+						<strong>Set up your Go project:</strong>
+						<p>Create a new Go project or use an existing one. Initialize it with go mod init.</p>
+					</li>
+					<li>
+						<strong>Install Templ:</strong>
+						<p>
+							Follow the 
+							<a href="https://templ.guide/quick-start/installation" class="text-primary underline underline-offset-4 hover:text-primary/80" target="_blank" rel="noopener noreferrer">
+								Templ installation guide
+							</a>
+							to set up Templ in your project.
+						</p>
+					</li>
+					<li>
+						<strong>Set up Templ, Air, and Tailwind:</strong>
+						<p>
+							Use the 
+							<a href="https://templ.guide/commands-and-tools/live-reload-with-other-tools" class="text-primary underline underline-offset-4 hover:text-primary/80" target="_blank" rel="noopener noreferrer">
+								Templ live reload guide
+							</a>
+							to create a Makefile and set up Air and Tailwind CSS.
+						</p>
+					</li>
+					<li>
+						<strong>Configure Tailwind:</strong>
+						<p>
+							Copy the provided 
+							<a href="https://github.com/axzilla/goilerplate/blob/main/tailwind.config.js" class="text-primary underline underline-offset-4 hover:text-primary/80" target="_blank" rel="noopener noreferrer">
+								tailwind.config.js
+							</a>
+							and place it in your project root.
+						</p>
+					</li>
+					<li>
+						<strong>Set up Tailwind CSS input:</strong>
+						<p>
+							Create an input.css file in your project's CSS directory and copy the content from our 
+							<a href="https://github.com/axzilla/goilerplate/blob/main/assets/css/input.css" class="text-primary underline underline-offset-4 hover:text-primary/80" target="_blank" rel="noopener noreferrer">
+								input.css
+							</a>.
+						</p>
+					</li>
+					<li>
+						<strong>Include Alpine.js:</strong>
+						<p>
+							Add the Alpine.js script to your HTML head section as described in the 
+							<a href="https://alpinejs.dev/start-here" class="text-primary underline underline-offset-4 hover:text-primary/80" target="_blank" rel="noopener noreferrer">
+								Alpine.js documentation
+							</a>.
+						</p>
+					</li>
+					<li>
+						<strong>Using Goilerplate components:</strong>
+						<p>
+							Create a components folder in your project. Copy Goilerplate component code from our 
+							<a href="/docs/components" class="text-primary underline underline-offset-4 hover:text-primary/80">
+								components documentation
+							</a>
+							into .templ files in this folder.
+						</p>
+					</li>
+					<li>
+						<strong>Start development:</strong>
+						<p>Run make dev to start your development environment.</p>
+					</li>
+					<li>
+						<strong>Change theme (optional):</strong>
+						<p>
+							If you want to change the theme, visit the 
+							<a href="https://www.shadcn-svelte.com/themes" class="text-primary underline underline-offset-4 hover:text-primary/80" target="_blank" rel="noopener noreferrer">
+								shadcn theme customizer
+							</a>,
+							adjust the theme to your liking, and copy the generated CSS into your input.css file.
+						</p>
+					</li>
 				</ol>
-			</section>
-			<section class="mb-12">
-				<h2 class="text-2xl font-semibold mb-4 text-primary">Step 2: Project Structure</h2>
-				<p class="mb-4">Create the following directory structure:</p>
-				<pre class="bg-muted text-muted-foreground p-4 rounded">
-					<code>
-						my-goilerplate-project/
-						├── cmd/
-						│   └── server/
-						│       └── main.go
-						├── internals/
-						│   └── ui/
-						│       ├── components/
-						│       ├── layouts/
-						│       └── pages/
-						├── assets/
-						│   ├── css/
-						│   │   ├── input.css
-						│   │   └── output.css
-						│   └── js/
-						├── Makefile
-						└── tailwind.config.js
-					</code>
-				</pre>
-			</section>
-			<section class="mb-12">
-				<h2 class="text-2xl font-semibold mb-4 text-primary">Step 3: Configuration Files</h2>
-				<p class="mb-4">Add the following configuration files:</p>
-				<ul class="list-disc pl-6 space-y-2">
-					<li><a href="#" class="text-primary hover:underline">Makefile</a> (for build commands)</li>
-					<li><a href="#" class="text-primary hover:underline">tailwind.config.js</a> (for Tailwind CSS configuration)</li>
-					<li><a href="#" class="text-primary hover:underline">assets/css/input.css</a> (for custom Tailwind styles)</li>
-				</ul>
-			</section>
-			<section class="mb-12">
-				<h2 class="text-2xl font-semibold mb-4 text-primary">Step 4: Adding Components</h2>
-				<p class="mb-4">To use Goilerplate components:</p>
-				<ol class="list-decimal pl-6 space-y-2">
-					<li>Choose a component from our library.</li>
-					<li>Copy the component code into a new file in your <code class="bg-muted text-muted-foreground px-2 py-1 rounded">internals/ui/components/</code> directory.</li>
-					<li>Use the component in your layouts or pages.</li>
-				</ol>
-			</section>
-			<section class="mb-12">
-				<h2 class="text-2xl font-semibold mb-4 text-primary">Step 5: Development Workflow</h2>
-				<p class="mb-4">Use the following commands to start your development server:</p>
-				<pre class="bg-muted text-muted-foreground p-4 rounded">
-					<code>
-						# Start development server
-						make dev
-						# For debugging (if needed)
-						make debug
-					</code>
-				</pre>
 			</section>
 			<section>
 				<h2 class="text-2xl font-semibold mb-4 text-primary">Next Steps</h2>
 				<p class="mb-4">
-					Explore our <a href="#" class="text-primary hover:underline">component library</a> to start building your UI. 
-					Check out the <a href="#" class="text-primary hover:underline">styling guide</a> to learn more about customizing the look and feel of your components.
+					Explore our 
+					<a href="/docs/components" class="text-primary underline underline-offset-4 hover:text-primary/80">
+						components documentation
+					</a>
+					for more examples. Copy and customize these to fit your needs!
 				</p>
 			</section>
 		</div>
