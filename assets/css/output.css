@@ -779,6 +779,22 @@ body {
   height: 100%;
 }
 
+.max-h-\[350px\] {
+  max-height: 350px;
+}
+
+.max-h-\[500px\] {
+  max-height: 500px;
+}
+
+.max-h-48 {
+  max-height: 12rem;
+}
+
+.\!max-h-\[500px\] {
+  max-height: 500px !important;
+}
+
 .min-h-screen {
   min-height: 100vh;
 }
@@ -825,14 +841,6 @@ body {
 
 .max-w-7xl {
   max-width: 80rem;
-}
-
-.max-w-xl {
-  max-width: 36rem;
-}
-
-.max-w-lg {
-  max-width: 32rem;
 }
 
 .max-w-xs {
@@ -967,6 +975,10 @@ body {
 
 .overflow-y-auto {
   overflow-y: auto;
+}
+
+.\!overflow-y-auto {
+  overflow-y: auto !important;
 }
 
 .overflow-x-hidden {
