@@ -17,6 +17,7 @@ func main() {
 	SetupAssetsRoutes(mux)
 
 	mux.Handle("GET /", templ.Handler(pages.HeaderShowcase()))
+	mux.Handle("GET /docs/components", http.RedirectHandler("/docs/components/button", http.StatusSeeOther))
 	mux.Handle("GET /docs/introduction", templ.Handler(pages.Introduction()))
 	mux.Handle("GET /docs/how-to-use", templ.Handler(pages.HowToUse()))
 	mux.Handle("GET /docs/components/button", templ.Handler(pages.Button()))
