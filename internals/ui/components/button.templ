@@ -21,7 +21,6 @@ type ButtonProps struct {
 	Text      string
 	Variant   ButtonVariant
 	Size      ButtonSize
-	Disabled  bool
 	FullWidth bool
 	Href      string
 	Target    string
@@ -65,9 +64,10 @@ func getSizeClasses(size ButtonSize) string {
 	}
 }
 
-templ Button(props ButtonProps, attrs ...templ.Attributes) {
+templ Button(props ButtonProps, attrs map[string]any) {
 	if props.Href != "" {
 		<a
+			{ attrs... }
 			href={ templ.SafeURL(props.Href) }
 			target={ props.Target }
 			class={
@@ -77,10 +77,6 @@ templ Button(props ButtonProps, attrs ...templ.Attributes) {
 				getSizeClasses(props.Size),
 				templ.KV("w-full", props.FullWidth),
 				props.Class,
-			}
-			if props.Disabled {
-				aria-disabled="true"
-				tabindex="-1"
 			}
 			if props.HxGet != "" {
 				hx-get={ string(props.HxGet) }
@@ -103,6 +99,7 @@ templ Button(props ButtonProps, attrs ...templ.Attributes) {
 		</a>
 	} else {
 		<button
+			{ attrs... }
 			class={
 				"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors",
 				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
@@ -112,7 +109,6 @@ templ Button(props ButtonProps, attrs ...templ.Attributes) {
 				templ.KV("w-full", props.FullWidth),
 				props.Class,
 			}
-			disabled?={ props.Disabled }
 			if props.HxGet != "" {
 				hx-get={ string(props.HxGet) }
 			}

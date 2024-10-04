@@ -6,19 +6,19 @@ templ ButtonShowcase() {
 	<div class="space-y-8 border rounded-md p-4">
 		<h2 class="font-semibold mb-4">Variants</h2>
 		<div class="flex flex-wrap gap-2">
-			@components.Button(components.ButtonProps{Text: "Button"})
-			@components.Button(components.ButtonProps{Text: "Secondary", Variant: components.Secondary})
-			@components.Button(components.ButtonProps{Text: "Destructive", Variant: components.Destructive})
-			@components.Button(components.ButtonProps{Text: "Outline", Variant: components.Outline})
-			@components.Button(components.ButtonProps{Text: "Ghost", Variant: components.Ghost})
-			@components.Button(components.ButtonProps{Text: "Link", Variant: components.Link})
+			@components.Button(components.ButtonProps{Text: "Default"}, nil)
+			@components.Button(components.ButtonProps{Text: "Secondary", Variant: components.Secondary}, nil)
+			@components.Button(components.ButtonProps{Text: "Destructive", Variant: components.Destructive}, nil)
+			@components.Button(components.ButtonProps{Text: "Outline", Variant: components.Outline}, nil)
+			@components.Button(components.ButtonProps{Text: "Ghost", Variant: components.Ghost}, nil)
+			@components.Button(components.ButtonProps{Text: "Link", Variant: components.Link}, nil)
 		</div>
 		<h2 class="font-semibold mb-4">Sizes</h2>
 		<div class="flex flex-wrap items-center gap-2">
-			@components.Button(components.ButtonProps{Text: "Button"})
-			@components.Button(components.ButtonProps{Text: "Small", Size: components.Sm})
-			@components.Button(components.ButtonProps{Text: "Large", Size: components.Lg})
-			@components.Button(components.ButtonProps{Size: components.Icon}) {
+			@components.Button(components.ButtonProps{Text: "Default"}, nil)
+			@components.Button(components.ButtonProps{Text: "Small", Size: components.Sm}, nil)
+			@components.Button(components.ButtonProps{Text: "Large", Size: components.Lg}, nil)
+			@components.Button(components.ButtonProps{Size: components.Icon}, nil) {
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					width="24"
@@ -37,12 +37,14 @@ templ ButtonShowcase() {
 		</div>
 		<h2 class="font-semibold mb-4">States</h2>
 		<div class="flex flex-wrap gap-2">
-			@components.Button(components.ButtonProps{Text: "Button"})
-			@components.Button(components.ButtonProps{Text: "Disabled", Disabled: true})
+			@components.Button(components.ButtonProps{Text: "Default"}, nil)
+			@components.Button(components.ButtonProps{Text: "With Click", XOnClick: "alert('Hey Dude!')"}, nil)
+			@components.Button(components.ButtonProps{Text: "Disabled"}, templ.Attributes{"disabled": "true"})
+			@components.Button(components.ButtonProps{Text: "Full Width", Class: "w-full"}, nil)
 		</div>
 		<h2 class="font-semibold mb-4">With Icon</h2>
 		<div class="flex flex-wrap gap-2">
-			@components.Button(components.ButtonProps{}) {
+			@components.Button(components.ButtonProps{}, nil) {
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					width="24"
@@ -57,9 +59,10 @@ templ ButtonShowcase() {
 				>
 					<path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3"></path>
 				</svg>
-				Default
+				Icon Left
 			}
-			@components.Button(components.ButtonProps{Variant: components.Secondary}) {
+			@components.Button(components.ButtonProps{}, nil) {
+				Icon Right
 				<svg
 					xmlns="http://www.w3.org/2000/svg"
 					width="24"
@@ -70,31 +73,10 @@ templ ButtonShowcase() {
 					stroke-width="2"
 					stroke-linecap="round"
 					stroke-linejoin="round"
-					class="mr-2 h-4 w-4"
+					class="ml-2 h-4 w-4"
 				>
-					<path d="m15 18-6-6 6-6"></path>
+					<path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3"></path>
 				</svg>
-				Secondary
-			}
-		</div>
-		<h2 class="font-semibold mb-4">Loading</h2>
-		<div class="flex flex-wrap gap-2">
-			@components.Button(components.ButtonProps{Text: "Please wait", Disabled: true}) {
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					width="24"
-					height="24"
-					viewBox="0 0 24 24"
-					fill="none"
-					stroke="currentColor"
-					stroke-width="2"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					class="mr-2 h-4 w-4 animate-spin"
-				>
-					<path d="M21 12a9 9 0 1 1-6.219-8.56"></path>
-				</svg>
-				Please wait
 			}
 		</div>
 	</div>

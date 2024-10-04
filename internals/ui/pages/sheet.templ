@@ -29,7 +29,7 @@ templ Sheet() {
 						</div>
 					}
 					@components.SheetTrigger(string(side), side) {
-						@components.Button(components.ButtonProps{Text: string(side)})
+						@components.Button(components.ButtonProps{Text: string(side)}, nil)
 					}
 				}
 			}
