@@ -13,7 +13,7 @@ var sides = []components.SheetSide{
 }
 
 templ Sheet() {
-	@layouts.BaseLayout() {
+	@layouts.DocsLayout() {
 		<div class="flex gap-2">
 			for _, side := range sides {
 				@components.SheetRoot() {
