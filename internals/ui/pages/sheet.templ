@@ -3,36 +3,37 @@ package pages
 import (
 	"github.com/axzilla/goilerplate/internals/ui/components"
 	"github.com/axzilla/goilerplate/internals/ui/layouts"
+	"github.com/axzilla/goilerplate/internals/ui/showcase"
 )
-
-var sides = []components.SheetSide{
-	components.Left,
-	components.Right,
-	components.Bottom,
-	components.Top,
-}
 
 templ Sheet() {
 	@layouts.DocsLayout() {
-		<div class="flex gap-2">
-			for _, side := range sides {
-				@components.SheetRoot() {
-					@components.Sheet(components.SheetProps{
-						Side: side,
-					}) {
-						<div class="py-4">
-							<h3 class="mb-2 text-lg font-medium">Sheet Content</h3>
-							<p>This is the main content of the sheet. You can put any components or text here.</p>
-						</div>
-						<div class="mt-4">
-							@components.SheetClose("Close")
-						</div>
-					}
-					@components.SheetTrigger(string(side), side) {
-						@components.Button(components.ButtonProps{Text: string(side)}, nil)
-					}
-				}
-			}
+		<div>
+			<div class="mb-16">
+				<h1 class="text-3xl font-bold mb-2">Sheet</h1>
+				<p class="mb-4 text-muted-foreground">Extends the Dialog component to display content that complements the main content of the screen.</p>
+			</div>
+			@components.Tabs(components.TabsProps{
+				Tabs: []components.Tab{
+					{
+						ID:      "preview",
+						Title:   "Preview",
+						Content: showcase.SheetShowcase(),
+					},
+					{
+						ID:      "code",
+						Title:   "Code",
+						Content: CodeSnippetFromEmbedded("sheet.templ", "go", showcase.TemplFiles),
+					},
+					{
+						ID:      "component",
+						Title:   "Component",
+						Content: CodeSnippetFromEmbedded("sheet.templ", "go", components.TemplFiles),
+					},
+				},
+				TabsContainerClass:    "md:w-1/2",
+				ContentContainerClass: "w-full",
+			})
 		</div>
 	}
 }
