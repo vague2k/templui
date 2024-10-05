@@ -27,7 +27,7 @@ Goilerplate is a growing library of modern UI components designed specifically f
 
 ## Getting Started
 
-Visit our website at [https://goilerplate.com](https://goilerplate.com) to get started with Goilerplate. You'll find documentation, examples, and guides to help you integrate Goilerplate into your Go projects.
+Visit our website at [https://goilerplate.com/docs/getting-started](https://goilerplate.com/docs/getting-started) to get started with Goilerplate. You'll find documentation, examples, and guides to help you integrate Goilerplate into your Go projects.
 
 ## Contributing
 
