@@ -1,7 +1,6 @@
 # Goilerplate
 
 Modern UI Components for Go & Templ
-
 <img src="./assets/img/gopher.svg" alt="Goilerplate Logo" width="200"/>
 
 ## About
@@ -29,6 +28,10 @@ Goilerplate is a growing library of modern UI components designed specifically f
 
 Visit our website at [https://goilerplate.com/docs/getting-started](https://goilerplate.com/docs/getting-started) to get started with Goilerplate. You'll find documentation, examples, and guides to help you integrate Goilerplate into your Go projects.
 
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for a detailed list of changes in each version.
+
 ## Contributing
 
 We welcome contributions from the community! Whether it's adding new components, improving existing ones, or enhancing documentation, your input is valuable. Please check our [Contributing Guidelines](CONTRIBUTING.md) for more information on how to get involved.
@@ -48,5 +51,4 @@ For support, questions, or discussions, please [open an issue](https://github.co
 ---
 
 Built with ❤️ by the Go community, for the Go community.
-
 [![Product Hunt](https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=494295&theme=light)](https://www.producthunt.com/posts/goilerplate-1?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-goilerplate-1)
