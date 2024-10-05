@@ -760,6 +760,10 @@ body {
   display: block;
 }
 
+.\!inline-block {
+  display: inline-block !important;
+}
+
 .flex {
   display: flex;
 }
@@ -850,6 +854,18 @@ body {
 
 .w-full {
   width: 100%;
+}
+
+.\!w-full {
+  width: 100% !important;
+}
+
+.w-2 {
+  width: 0.5rem;
+}
+
+.\!min-w-full {
+  min-width: 100% !important;
 }
 
 .max-w-2xl {
@@ -998,12 +1014,24 @@ body {
   overflow: hidden;
 }
 
+.\!overflow-x-auto {
+  overflow-x: auto !important;
+}
+
+.overflow-x-auto {
+  overflow-x: auto;
+}
+
 .\!overflow-y-auto {
   overflow-y: auto !important;
 }
 
 .overflow-y-auto {
   overflow-y: auto;
+}
+
+.\!overflow-x-scroll {
+  overflow-x: scroll !important;
 }
 
 .whitespace-nowrap {
@@ -1359,18 +1387,6 @@ body {
 
 .text-white\/90 {
   color: rgb(255 255 255 / 0.9);
-}
-
-.text-foreground\/90 {
-  color: hsl(var(--foreground) / 0.9);
-}
-
-.text-foreground\/60 {
-  color: hsl(var(--foreground) / 0.6);
-}
-
-.text-foreground\/80 {
-  color: hsl(var(--foreground) / 0.8);
 }
 
 .underline {

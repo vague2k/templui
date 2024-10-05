@@ -38,7 +38,10 @@ templ ButtonShowcase() {
 		<h2 class="font-semibold mb-4">States</h2>
 		<div class="flex flex-wrap gap-2">
 			@components.Button(components.ButtonProps{Text: "Default"}, nil)
-			@components.Button(components.ButtonProps{Text: "With Click", XOnClick: "alert('Hey Dude!')"}, nil)
+			// Alpine.js example
+			@components.Button(components.ButtonProps{Text: "With Click"}, templ.Attributes{"@click": "alert('Hey Dude!')"})
+			// Vanilla JS example
+			// @components.Button(components.ButtonProps{Text: "With Click"}, templ.Attributes{"onclick": "alert('Hey Dude!')"})
 			@components.Button(components.ButtonProps{Text: "Disabled"}, templ.Attributes{"disabled": "true"})
 			@components.Button(components.ButtonProps{Text: "Full Width", Class: "w-full"}, nil)
 		</div>
