@@ -28,12 +28,12 @@ templ GoilerplateHeader() {
 	@Header(HeaderProps{
 		Title:       "Goilerplate",
 		Subtitle:    "Modern UI Components for Go & Templ",
-		Description: "Build sleek, interactive web applications with Go and Templ. Seamlessly integrate Alpine.js and HTMX for enhanced client-side functionality. Goilerplate: Where server-side simplicity meets client-side dynamism.",
+		Description: "Build sleek, interactive web applications with Go and Templ. Seamlessly integrate Alpine.js for enhanced client-side functionality. Goilerplate: Where server-side simplicity meets client-side dynamism.",
 	})
 }
 
 templ TechStack() {
-	<div class="bg-white py-8">
+	<div class="py-8">
 		<div class="max-w-4xl mx-auto text-center">
 			<h2 class="text-2xl font-bold mb-4">Powered by</h2>
 			<div class="flex justify-center items-center space-x-8">
@@ -47,12 +47,11 @@ templ TechStack() {
 				</div>
 				<div class="flex flex-col items-center opacity-70">
 					<img src="https://alpinejs.dev/alpine_long.svg" alt="Alpine.js" class="h-16 w-16 mb-2"/>
-					<span class="font-medium">Alpine.js (optional)</span>
+					<span class="font-medium">Alpine.js</span>
 				</div>
-				<div class="flex flex-col items-center opacity-70">
-					<img src="https://svgmix.com/uploads/1370fe-htmx.svg" alt="HTMX" class="h-16 w-16 mb-2"/>
-					<span class="font-medium">HTMX (optional)</span>
-				</div>
+			</div>
+			<div class="flex flex-col items-center">
+				<a href="/docs/getting-started" class="bg-primary text-white font-semibold px-4 py-2 rounded-lg hover:bg-primary/90 transition-colors">Get Started</a>
 			</div>
 		</div>
 	</div>

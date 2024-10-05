@@ -13,8 +13,7 @@ Goilerplate is a comprehensive UI component library designed specifically for Go
 - **Go-native Implementation**: Optimized for Go developers and seamlessly integrates with Go backends.
 - **Templ-first Design**: Leverages the full power of Templ for type-safe, high-performance templating.
 - **Server-Side Rendering (SSR) Focus**: Excellent performance and SEO benefits out of the box.
-- **Optional HTMX Integration**: Easy integration for dynamic content without heavy JavaScript.
-- **Optional Alpine.js Support**: For enhanced client-side interactivity when needed.
+- Alpine.js Support: For enhanced client-side interactivity when needed.
 - **Tailwind CSS Styling**: Modern, utility-first styling that's highly customizable.
 - **Accessible Components**: Built with accessibility in mind, following WCAG guidelines.
 - **TypeSafe**: Utilizing Go's type system for robust, error-resistant development.

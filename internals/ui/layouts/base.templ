@@ -1,7 +1,5 @@
 package layouts
 
-import "github.com/axzilla/goilerplate/internals/ui/components"
-
 templ BaseLayout() {
 	<!DOCTYPE html>
 	<html lang="en">
@@ -58,21 +56,7 @@ templ BaseLayout() {
 			:class="{'bg-white text-black': theme === 'light', 'text-white': theme === 'dark'}"
 		>
 			<div class="page-loader">Loading...</div>
-			@components.Navbar()
-			<div class="flex flex-1 overflow-hidden">
-				<div class="hidden lg:block">
-					@components.Sidebar()
-				</div>
-				<main class="flex-1 overflow-auto">
-					<div class="container max-w-3xl mx-auto px-4 py-8">
-						{ children... }
-					</div>
-				</main>
-				<div class="hidden lg:block">
-					@components.SidebarRight()
-				</div>
-			</div>
-			@components.Footer()
+			{ children... }
 		</body>
 	</html>
 }
