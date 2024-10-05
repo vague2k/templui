@@ -59,14 +59,18 @@ templ BaseLayout() {
 		>
 			<div class="page-loader">Loading...</div>
 			@components.Navbar()
-			<div class="container flex flex-1 overflow-hidden border-b">
-				@components.Sidebar()
-				<main class="flex-1">
-					<div class="max-w-2xl mx-auto px-4 py-8">
+			<div class="flex flex-1 overflow-hidden">
+				<div class="hidden lg:block">
+					@components.Sidebar()
+				</div>
+				<main class="flex-1 overflow-auto">
+					<div class="container max-w-3xl mx-auto px-4 py-8">
 						{ children... }
 					</div>
 				</main>
-				@components.SidebarRight()
+				<div class="hidden lg:block">
+					@components.SidebarRight()
+				</div>
 			</div>
 			@components.Footer()
 		</body>
