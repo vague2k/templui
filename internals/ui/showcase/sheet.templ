@@ -1,0 +1,35 @@
+package showcase
+
+import "github.com/axzilla/goilerplate/internals/ui/components"
+
+var sides = []components.SheetSide{
+	components.Left,
+	components.Right,
+	components.Bottom,
+	components.Top,
+}
+
+templ SheetShowcase() {
+	<div class="space-y-8 border rounded-md p-4">
+		<div class="flex gap-2">
+			for _, side := range sides {
+				@components.SheetRoot() {
+					@components.Sheet(components.SheetProps{
+						Side: side,
+					}) {
+						<div class="py-4">
+							<h3 class="mb-2 text-lg font-medium">Sheet Content</h3>
+							<p>This is the main content of the sheet. You can put any components or text here.</p>
+						</div>
+						<div class="mt-4">
+							@components.SheetClose("Close")
+						</div>
+					}
+					@components.SheetTrigger(string(side), side) {
+						@components.Button(components.ButtonProps{Text: string(side)}, nil)
+					}
+				}
+			}
+		</div>
+	</div>
+}
