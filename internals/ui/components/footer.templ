@@ -4,11 +4,14 @@ import "time"
 import "fmt"
 
 templ Footer() {
-	<footer class="my-8 text-center text-md text-muted-foreground">
-		<p>
-			{ fmt.Sprintf("© %d goilerplate:", time.Now().Year()) }
-			Where Go meets UI, and sanity is optional.
-		</p>
-		<p>Use at your own risk. Stupid code not excluded.</p>
+	<footer class="py-4 text-center text-sm text-muted-foreground border-t">
+		<div class="container">
+			<p class="mb-2 font-semibold">
+				{ fmt.Sprintf("© %d goilerplate:", time.Now().Year()) }
+			</p>
+			<p>
+				Where Go meets UI, and sanity is optional. Use at your own risk. Stupid code not excluded.
+			</p>
+		</div>
 	</footer>
 }
