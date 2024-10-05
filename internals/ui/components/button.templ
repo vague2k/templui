@@ -16,22 +16,13 @@ const (
 )
 
 type ButtonProps struct {
-	Class string
-
+	Class     string
 	Text      string
 	Variant   ButtonVariant
 	Size      ButtonSize
 	FullWidth bool
 	Href      string
 	Target    string
-
-	HxGet     templ.SafeURL
-	HxPost    templ.SafeURL
-	HxTrigger string
-	HxTarget  string
-
-	XData    string
-	XOnClick string
 }
 
 func getVariantClasses(variant ButtonVariant) string {
@@ -78,21 +69,6 @@ templ Button(props ButtonProps, attrs map[string]any) {
 				templ.KV("w-full", props.FullWidth),
 				props.Class,
 			}
-			if props.HxGet != "" {
-				hx-get={ string(props.HxGet) }
-			}
-			if props.HxPost != "" {
-				hx-post={ string(props.HxPost) }
-			}
-			if props.HxTrigger != "" {
-				hx-trigger={ props.HxTrigger }
-			}
-			if props.HxTarget != "" {
-				hx-target={ props.HxTarget }
-			}
-			if props.XOnClick != "" {
-				@click={ props.XOnClick }
-			}
 		>
 			{ props.Text }
 			{ children... }
@@ -108,21 +84,6 @@ templ Button(props ButtonProps, attrs map[string]any) {
 				getSizeClasses(props.Size),
 				templ.KV("w-full", props.FullWidth),
 				props.Class,
-			}
-			if props.HxGet != "" {
-				hx-get={ string(props.HxGet) }
-			}
-			if props.HxPost != "" {
-				hx-post={ string(props.HxPost) }
-			}
-			if props.HxTrigger != "" {
-				hx-trigger={ props.HxTrigger }
-			}
-			if props.HxTarget != "" {
-				hx-target={ props.HxTarget }
-			}
-			if props.XOnClick != "" {
-				@click={ props.XOnClick }
 			}
 		>
 			{ props.Text }
