@@ -3,6 +3,7 @@
 ## 2024-10-06
 
 - Added: Product Hunt badge on landing page
+- Added: Card component
 - Changed: Theme switcher on landing page
 - Changed: Improve docs UI
 - Changed: Make Product Hunt Badge smaller on footer

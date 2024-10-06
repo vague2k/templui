@@ -34,6 +34,10 @@ var Sections = []Section{
 				Href: "/docs/components/button",
 			},
 			{
+				Text: "Card",
+				Href: "/docs/components/card",
+			},
+			{
 				Text: "Sheet",
 				Href: "/docs/components/sheet",
 			},
