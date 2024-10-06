@@ -1,5 +1,7 @@
 package layouts
 
+import "github.com/axzilla/goilerplate/internals/config"
+
 templ BaseLayout() {
 	<!DOCTYPE html>
 	<html lang="en">
@@ -24,8 +26,10 @@ templ BaseLayout() {
                     });
                 })();
             </script>
-			<!-- Plausible Analytics -->
-			<script defer data-domain="goilerplate.com" src="https://plausible.axeladrian.com/js/script.js"></script>
+			if config.AppConfig.GoEnv == "production" {
+				<!-- Plausible Analytics -->
+				<script defer data-domain="goilerplate.com" src="https://plausible.axeladrian.com/js/script.js"></script>
+			}
 			<!-- Favicon -->
 			<link rel="icon" href="/assets/img/gopher.svg" type="image/x-icon"/>
 			<!-- Tailwind CSS (local) -->
