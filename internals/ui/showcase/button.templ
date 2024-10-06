@@ -48,7 +48,8 @@ templ ButtonShowcase() {
 					@components.Button(components.ButtonProps{Text: "With Click", Attributes: templ.Attributes{"@click": "alert('Hey Dude!')"}})
 					// Vanilla JS example
 					// @components.Button(components.ButtonProps{Text: "With Click", Attributes: templ.Attributes{"onclick": "alert('Hey Dude!')"}})
-					@components.Button(components.ButtonProps{Text: "Disabled", Disabled: "true"})
+					@components.Button(components.ButtonProps{Text: "Disabled", Disabled: true})
+					// @components.Button(components.ButtonProps{Text: "Disabled", Disabled: "true"})
 					@components.Button(components.ButtonProps{Text: "Full Width", Class: "w-full"})
 				</div>
 			</div>
