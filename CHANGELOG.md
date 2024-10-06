@@ -10,6 +10,7 @@
 - Changed: Some UI changes on showcase section
 - Changed: button attributes now as a prop
 - Fixed: Width issue on tabs component
+- Fixed: Use Plausible only in production
 
 ## 2024-10-05
 
