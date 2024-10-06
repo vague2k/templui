@@ -1,6 +1,7 @@
 # Goilerplate
 
 Modern UI Components for Go & Templ
+
 <img src="./assets/img/gopher.svg" alt="Goilerplate Logo" width="200"/>
 
 ## About
@@ -51,4 +52,5 @@ For support, questions, or discussions, please [open an issue](https://github.co
 ---
 
 Built with ❤️ by the Go community, for the Go community.
+
 [![Product Hunt](https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=494295&theme=light)](https://www.producthunt.com/posts/goilerplate-1?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-goilerplate-1)
