@@ -8,21 +8,21 @@ templ ButtonShowcase() {
 			<div class="mb-8">
 				<h2 class="font-semibold mb-2">Variants</h2>
 				<div class="flex flex-wrap gap-2">
-					@components.Button(components.ButtonProps{Text: "Default"}, nil)
-					@components.Button(components.ButtonProps{Text: "Secondary", Variant: components.Secondary}, nil)
-					@components.Button(components.ButtonProps{Text: "Destructive", Variant: components.Destructive}, nil)
-					@components.Button(components.ButtonProps{Text: "Outline", Variant: components.Outline}, nil)
-					@components.Button(components.ButtonProps{Text: "Ghost", Variant: components.Ghost}, nil)
-					@components.Button(components.ButtonProps{Text: "Link", Variant: components.Link}, nil)
+					@components.Button(components.ButtonProps{Text: "Default"})
+					@components.Button(components.ButtonProps{Text: "Secondary", Variant: components.Secondary})
+					@components.Button(components.ButtonProps{Text: "Destructive", Variant: components.Destructive})
+					@components.Button(components.ButtonProps{Text: "Outline", Variant: components.Outline})
+					@components.Button(components.ButtonProps{Text: "Ghost", Variant: components.Ghost})
+					@components.Button(components.ButtonProps{Text: "Link", Variant: components.Link})
 				</div>
 			</div>
 			<div class="mb-8">
 				<h2 class="font-semibold mb-2">Sizes</h2>
 				<div class="flex flex-wrap items-center gap-2">
-					@components.Button(components.ButtonProps{Text: "Default"}, nil)
-					@components.Button(components.ButtonProps{Text: "Small", Size: components.Sm}, nil)
-					@components.Button(components.ButtonProps{Text: "Large", Size: components.Lg}, nil)
-					@components.Button(components.ButtonProps{Size: components.Icon}, nil) {
+					@components.Button(components.ButtonProps{Text: "Default"})
+					@components.Button(components.ButtonProps{Text: "Small", Size: components.Sm})
+					@components.Button(components.ButtonProps{Text: "Large", Size: components.Lg})
+					@components.Button(components.ButtonProps{Size: components.Icon}) {
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							width="24"
@@ -43,19 +43,19 @@ templ ButtonShowcase() {
 			<div class="mb-8">
 				<h2 class="font-semibold mb-22">States</h2>
 				<div class="flex flex-wrap gap-2">
-					@components.Button(components.ButtonProps{Text: "Default"}, nil)
+					@components.Button(components.ButtonProps{Text: "Default"})
 					// Alpine.js example
-					@components.Button(components.ButtonProps{Text: "With Click"}, templ.Attributes{"@click": "alert('Hey Dude!')"})
+					@components.Button(components.ButtonProps{Text: "With Click", Attributes: templ.Attributes{"@click": "alert('Hey Dude!')"}})
 					// Vanilla JS example
-					// @components.Button(components.ButtonProps{Text: "With Click"}, templ.Attributes{"onclick": "alert('Hey Dude!')"})
-					@components.Button(components.ButtonProps{Text: "Disabled"}, templ.Attributes{"disabled": "true"})
-					@components.Button(components.ButtonProps{Text: "Full Width", Class: "w-full"}, nil)
+					// @components.Button(components.ButtonProps{Text: "With Click", Attributes: templ.Attributes{"onclick": "alert('Hey Dude!')"}})
+					@components.Button(components.ButtonProps{Text: "Disabled", Disabled: "true"})
+					@components.Button(components.ButtonProps{Text: "Full Width", Class: "w-full"})
 				</div>
 			</div>
 			<div class="mb-8">
 				<h2 class="font-semibold mb-2">With Icon</h2>
 				<div class="flex flex-wrap gap-2">
-					@components.Button(components.ButtonProps{}, nil) {
+					@components.Button(components.ButtonProps{}) {
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							width="24"
@@ -72,7 +72,7 @@ templ ButtonShowcase() {
 						</svg>
 						Icon Left
 					}
-					@components.Button(components.ButtonProps{}, nil) {
+					@components.Button(components.ButtonProps{}) {
 						Icon Right
 						<svg
 							xmlns="http://www.w3.org/2000/svg"

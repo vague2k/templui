@@ -8,6 +8,7 @@
 - Changed: Improve docs UI
 - Changed: Make Product Hunt Badge smaller on footer
 - Changed: Some UI changes on showcase section
+- Changed: button attributes now as a prop
 - Fixed: Width issue on tabs component
 
 ## 2024-10-05
