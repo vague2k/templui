@@ -7,7 +7,8 @@
 - Changed: Theme switcher on landing page
 - Changed: Improve docs UI
 - Changed: Make Product Hunt Badge smaller on footer
-- Fixes: Width issue on tabs component
+- Changed: Some UI changes on showcase section
+- Fixed: Width issue on tabs component
 
 ## 2024-10-05
 

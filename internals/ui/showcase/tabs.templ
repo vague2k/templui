@@ -5,7 +5,7 @@ import (
 )
 
 templ TabsShowcase() {
-	<div class="space-y-8 border border-border rounded-md p-4">
+	<div class="flex justify-center items-center border rounded-md py-16 px-4">
 		@components.Tabs(components.TabsProps{
 			Tabs: []components.Tab{
 				{
@@ -20,7 +20,7 @@ templ TabsShowcase() {
 				},
 			},
 			TabsContainerClass:    "w-full max-w-xs",
-			ContentContainerClass: "w-full",
+			ContentContainerClass: "w-full max-w-xs",
 		})
 	</div>
 }

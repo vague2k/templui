@@ -4,13 +4,13 @@ import "github.com/axzilla/goilerplate/internals/ui/components"
 
 var sides = []components.SheetSide{
 	components.Left,
+	components.Top,
 	components.Right,
 	components.Bottom,
-	components.Top,
 }
 
 templ SheetShowcase() {
-	<div class="space-y-8 border rounded-md p-4">
+	<div class="flex justify-center items-center border rounded-md py-16 px-4">
 		<div class="flex gap-2">
 			for _, side := range sides {
 				@components.SheetRoot() {
