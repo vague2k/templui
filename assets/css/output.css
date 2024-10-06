@@ -860,6 +860,10 @@ body {
   width: 100%;
 }
 
+.w-\[350px\] {
+  width: 350px;
+}
+
 .max-w-3xl {
   max-width: 48rem;
 }
@@ -1240,6 +1244,11 @@ body {
 .py-8 {
   padding-top: 2rem;
   padding-bottom: 2rem;
+}
+
+.py-16 {
+  padding-top: 4rem;
+  padding-bottom: 4rem;
 }
 
 .pb-4 {

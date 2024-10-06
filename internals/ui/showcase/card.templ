@@ -1,0 +1,24 @@
+package showcase
+
+import "github.com/axzilla/goilerplate/internals/ui/components"
+
+templ CardShowcase() {
+	<div class="flex justify-center items-center border rounded-md py-16 px-4">
+		@components.Card(components.CardProps{Class: "w-[350px]"}) {
+			@components.CardHeader() {
+				@components.CardTitle() {
+					Card Title
+				}
+				@components.CardDescription() {
+					Card Description
+				}
+			}
+			@components.CardContent() {
+				<p>Card Content</p>
+			}
+			@components.CardFooter() {
+				@components.Button(components.ButtonProps{Text: "Action"}, nil)
+			}
+		}
+	</div>
+}
