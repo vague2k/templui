@@ -4,6 +4,7 @@
 
 - Added: Input component
 - Changed: Add button type prop
+- Changed: Use own input component on tabs example
 
 ## 2024-10-06
 
