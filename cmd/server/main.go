@@ -29,6 +29,7 @@ func main() {
 	mux.Handle("GET /docs/components/accordion", templ.Handler(pages.Accordion()))
 	mux.Handle("GET /docs/components/datepicker", templ.Handler(pages.Datepicker()))
 	mux.Handle("GET /docs/components/alert", templ.Handler(pages.Alert()))
+	mux.Handle("GET /docs/components/modal", templ.Handler(pages.Modal()))
 
 	fmt.Println("Server is running on http://localhost:8090")
 	http.ListenAndServe(":8090", mux)

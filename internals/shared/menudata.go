@@ -54,6 +54,10 @@ var Sections = []Section{
 				Href: "/docs/components/input",
 			},
 			{
+				Text: "Modal",
+				Href: "/docs/components/modal",
+			},
+			{
 				Text: "Sheet",
 				Href: "/docs/components/sheet",
 			},
