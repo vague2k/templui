@@ -3,6 +3,7 @@
 ## 2024-10-07
 
 - Added: Input component
+- Added: Accordion component
 - Changed: Add button type prop
 - Changed: Use own input component on tabs example
 - Changed: Update all current components with library comments

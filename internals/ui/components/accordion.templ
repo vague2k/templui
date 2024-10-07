@@ -1,0 +1,95 @@
+package components
+
+// AccordionItem represents a single item in the Accordion component.
+type AccordionItem struct {
+	// ID is the unique identifier for the accordion item.
+	// It is used to manage the open/closed state of the item.
+	ID string
+
+	// Trigger is the content of the accordion item's header/trigger.
+	// This is typically text, but can be any templ.Component.
+	Trigger templ.Component
+
+	// Content is the expandable content of the accordion item.
+	// This can be any templ.Component.
+	Content templ.Component
+}
+
+// AccordionProps defines the properties for the Accordion component.
+type AccordionProps struct {
+	// Items is a slice of AccordionItem structs representing each item in the accordion.
+	Items []AccordionItem
+
+	// Class specifies additional CSS classes to apply to the accordion container.
+	// Default: "" (empty string)
+	Class string
+
+	// Attributes allows passing additional HTML attributes to the accordion container element.
+	// Default: nil
+	Attributes templ.Attributes
+}
+
+// Accordion renders an accordion component based on the provided props.
+// It uses Alpine.js for interactivity and state management.
+//
+// Usage:
+//
+//	@components.Accordion(components.AccordionProps{
+//	  Items: []components.AccordionItem{
+//	    {
+//	      ID: "item-1",
+//	      Trigger: templ.Raw("Is it accessible?"),
+//	      Content: templ.Raw("Yes. It adheres to the WAI-ARIA design pattern."),
+//	    },
+//	    {
+//	      ID: "item-2",
+//	      Trigger: templ.Raw("Is it styled?"),
+//	      Content: templ.Raw("Yes. It comes with default styles that match the other components' aesthetic."),
+//	    },
+//	  },
+//	  Class: "w-full sm:max-w-[70%]",
+//	  Attributes: templ.Attributes{"data-testid": "my-accordion"},
+//	})
+//
+// Props:
+//   - Items: A slice of AccordionItem structs, each representing an item in the accordion.
+//   - Class: Additional CSS classes to apply to the accordion container. Default: "" (empty string)
+//   - Attributes: Additional HTML attributes to apply to the accordion container element. Default: nil
+templ Accordion(props AccordionProps) {
+	<div
+		x-data="{ 
+			activeItem: null,
+			toggleItem(itemId) {
+				this.activeItem = this.activeItem === itemId ? null : itemId;
+			}
+		}"
+		class={ "divide-y divide-border rounded-md border", props.Class }
+		{ props.Attributes... }
+	>
+		for _, item := range props.Items {
+			<div class="group">
+				<h3>
+					<button
+						type="button"
+						@click={ "toggleItem('" + item.ID + "')" }
+						class="flex w-full items-center justify-between py-4 px-5 text-left font-medium transition-all hover:underline [&[aria-expanded=true]>svg]:rotate-180"
+						:aria-expanded={ "activeItem === '" + item.ID + "'" }
+					>
+						@item.Trigger
+						<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4 shrink-0 transition-transform duration-200">
+							<polyline points="6 9 12 15 18 9"></polyline>
+						</svg>
+					</button>
+				</h3>
+				<div
+					x-show={ "activeItem === '" + item.ID + "'" }
+					x-collapse
+					x-cloak
+					class="px-5 pb-4 pt-0"
+				>
+					@item.Content
+				</div>
+			</div>
+		}
+	</div>
+}

@@ -30,6 +30,10 @@ var Sections = []Section{
 		Title: "Components",
 		Links: []SideLink{
 			{
+				Text: "Accordion",
+				Href: "/docs/components/accordion",
+			},
+			{
 				Text: "Button",
 				Href: "/docs/components/button",
 			},
