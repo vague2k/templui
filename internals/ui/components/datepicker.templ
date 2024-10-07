@@ -44,10 +44,11 @@ type DatepickerProps struct {
 //   - Attributes: Additional HTML attributes to apply to the datepicker input element. Default: nil
 templ Datepicker(props DatepickerProps) {
 	<div
+		data-date-format={ props.Format }
 		x-data="{
       datePickerOpen: false,
       datePickerValue: '',
-      datePickerFormat: '{ templ.EscapeString(props.Format) }',
+      datePickerFormat: $el.getAttribute('data-date-format'),
       datePickerMonth: '',
       datePickerYear: '',
       datePickerDay: '',
