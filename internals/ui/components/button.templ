@@ -56,6 +56,10 @@ type ButtonProps struct {
 	// If string, it's treated as a JavaScript expression for dynamic disabling.
 	Disabled any
 
+	// Type specifies the type of the button. Default: "button"
+	// Default: "" (empty string)
+	Type string
+
 	// Attributes allows passing additional HTML attributes to the button or anchor element.
 	// Default: nil
 	Attributes templ.Attributes
@@ -118,6 +122,7 @@ func getSizeClasses(size ButtonSize) string {
 //   - Href: If provided, renders the button as an anchor tag with this URL. Default: "" (empty string)
 //   - Target: The target attribute for the anchor tag (only used when Href is provided). Default: "" (empty string)
 //   - Disabled: Can be either a bool or a string. If bool (Go), it directly controls the disabled state. If string, it's treated as a JavaScript expression for dynamic disabling. Default: nil
+//   - Type: The type of the button. Default: "button"
 //   - Attributes: Additional HTML attributes to apply to the button or anchor element. Default: nil
 templ Button(props ButtonProps) {
 	if props.Href != "" {
@@ -155,6 +160,9 @@ templ Button(props ButtonProps) {
 				getSizeClasses(props.Size),
 				templ.KV("w-full", props.FullWidth),
 				props.Class,
+			}
+			if props.Type == "" {
+				type={ props.Type }
 			}
 			if props.Disabled != nil {
 				if disabledBool, ok := props.Disabled.(bool); ok {
