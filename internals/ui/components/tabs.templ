@@ -1,17 +1,49 @@
 package components
 
+// Tab represents a single tab in the Tabs component.
 type Tab struct {
-	ID      string
-	Title   string
+	// ID is the unique identifier for the tab.
+	ID string
+
+	// Title is the text displayed on the tab button.
+	Title string
+
+	// Content is the templ.Component to be rendered when the tab is active.
 	Content templ.Component
 }
 
+// TabsProps defines the properties for the Tabs component.
 type TabsProps struct {
-	Tabs                  []Tab
-	TabsContainerClass    string
+	// Tabs is an array of Tab structs representing each tab in the component.
+	Tabs []Tab
+
+	// TabsContainerClass specifies additional CSS classes for the tabs container.
+	// Default: "" (empty string)
+	TabsContainerClass string
+
+	// ContentContainerClass specifies additional CSS classes for the content container.
+	// Default: "" (empty string)
 	ContentContainerClass string
 }
 
+// Tabs renders a tabbed interface component based on the provided props.
+// It uses Alpine.js for interactivity and state management.
+//
+// Usage:
+//
+//	@components.Tabs(components.TabsProps{
+//	  Tabs: []components.Tab{
+//	    {ID: "1", Title: "Tab 1", Content: Tab1Content()},
+//	    {ID: "2", Title: "Tab 2", Content: Tab2Content()},
+//	  },
+//	  TabsContainerClass: "w-full max-w-md",
+//	  ContentContainerClass: "mt-4",
+//	})
+//
+// Props:
+//   - Tabs: An array of Tab structs, each representing a tab in the interface.
+//   - TabsContainerClass: Additional CSS classes for the tabs container. Default: "" (empty string)
+//   - ContentContainerClass: Additional CSS classes for the content container. Default: "" (empty string)
 templ Tabs(props TabsProps) {
 	<div
 		x-data="{     
@@ -33,12 +65,14 @@ templ Tabs(props TabsProps) {
 		x-init="$nextTick(() => tabRepositionMarker($refs.tabButtons.firstElementChild));"
 		class="relative"
 	>
+		<!-- Tabs buttons container -->
 		<div
 			x-ref="tabButtons"
 			class={ "relative flex items-center justify-center h-10 p-1 rounded-lg select-none",
 				"bg-muted text-muted-foreground",
 				props.TabsContainerClass }
 		>
+			<!-- Individual tab buttons -->
 			for _, tab := range props.Tabs {
 				<button
 					:id="$id(tabId)"
@@ -50,11 +84,14 @@ templ Tabs(props TabsProps) {
 					{ tab.Title }
 				</button>
 			}
+			<!-- Active tab marker -->
 			<div x-ref="tabMarker" class="absolute left-0 z-10 h-full duration-300 ease-out" x-cloak>
 				<div class="w-full h-full bg-background rounded-md shadow-sm"></div>
 			</div>
 		</div>
+		<!-- Tab content container -->
 		<div class={ "relative mt-2 content", props.ContentContainerClass }>
+			<!-- Individual tab content -->
 			for _, tab := range props.Tabs {
 				<div
 					:id="$id(tabId + '-content')"
