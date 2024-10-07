@@ -1,0 +1,78 @@
+package showcase
+
+import "github.com/axzilla/goilerplate/internals/ui/components"
+
+templ InputShowcase() {
+	<div class="flex justify-center items-center border rounded-md py-16 px-4">
+		<div>
+			<div class="mb-8">
+				<h2 class="font-semibold mb-2">Default</h2>
+				@components.Input(components.InputProps{
+					Type:        "email",
+					Placeholder: "Email",
+				})
+			</div>
+			<div class="mb-8">
+				<h2 class="font-semibold mb-2">File</h2>
+				<div class="grid w-full max-w-sm items-center gap-1.5">
+					@components.Input(components.InputProps{
+						Type: "file",
+					})
+				</div>
+			</div>
+			<div class="mb-8">
+				<h2 class="font-semibold mb-2">Disabled</h2>
+				@components.Input(components.InputProps{
+					Type:        "email",
+					Placeholder: "Email",
+					Disabled:    "true",
+				})
+			</div>
+			<div class="mb-8">
+				<h2 class="font-semibold mb-2">With Label</h2>
+				<div class="grid w-full max-w-sm items-center gap-1.5">
+					<label for="email" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+						Email
+					</label>
+					@components.Input(components.InputProps{
+						ID:          "email",
+						Type:        "email",
+						Placeholder: "Email",
+					})
+				</div>
+			</div>
+			<div class="mb-8">
+				<h2 class="font-semibold mb-2">With Button</h2>
+				<div class="flex w-full max-w-sm items-center space-x-2">
+					@components.Input(components.InputProps{
+						Type:        "email",
+						Placeholder: "Email",
+					})
+					@components.Button(components.ButtonProps{
+						Type: "submit",
+						Text: "Subscribe",
+					})
+				</div>
+			</div>
+			<div class="mb-8">
+				<h2 class="font-semibold mb-2">Form</h2>
+				<form class="w-full max-w-sm space-y-6">
+					<div class="space-y-2">
+						<label for="username" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+							Username
+						</label>
+						@components.Input(components.InputProps{
+							ID:   "username",
+							Type: "text",
+						})
+						<p class="text-sm text-muted-foreground m-0">This is your public display name.</p>
+					</div>
+					@components.Button(components.ButtonProps{
+						Type: "submit",
+						Text: "Submit",
+					})
+				</form>
+			</div>
+		</div>
+	</div>
+}

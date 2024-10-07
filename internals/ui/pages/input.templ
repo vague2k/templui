@@ -1,0 +1,36 @@
+package pages
+
+import (
+	"github.com/axzilla/goilerplate/internals/ui/components"
+	"github.com/axzilla/goilerplate/internals/ui/layouts"
+	"github.com/axzilla/goilerplate/internals/ui/showcase"
+)
+
+templ Input() {
+	@layouts.DocsLayout() {
+		<div class="mb-16">
+			<h1 class="text-3xl font-bold mb-2">Input</h1>
+			<p class="mb-4 text-muted-foreground">Displays a form input field or a component that looks like an input field.</p>
+		</div>
+		@components.Tabs(components.TabsProps{
+			Tabs: []components.Tab{
+				{
+					ID:      "preview",
+					Title:   "Preview",
+					Content: showcase.InputShowcase(),
+				},
+				{
+					ID:      "code",
+					Title:   "Code",
+					Content: CodeSnippetFromEmbedded("input.templ", "go", showcase.TemplFiles),
+				},
+				{
+					ID:      "component",
+					Title:   "Component",
+					Content: CodeSnippetFromEmbedded("input.templ", "go", components.TemplFiles),
+				},
+			},
+			TabsContainerClass: "md:w-1/2",
+		})
+	}
+}
