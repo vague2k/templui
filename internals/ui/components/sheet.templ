@@ -1,7 +1,9 @@
 package components
 
+// SheetSide represents the side from which the sheet will appear.
 type SheetSide string
 
+// Constants for sheet sides.
 const (
 	Top    SheetSide = "top"
 	Right  SheetSide = "right"
@@ -9,12 +11,28 @@ const (
 	Left   SheetSide = "left"
 )
 
+// SheetProps defines the properties for the Sheet component.
 type SheetProps struct {
-	Title       string
+	// Title is the heading text for the sheet.
+	// Default: "" (empty string)
+	Title string
+
+	// Description is the subheading or description text for the sheet.
+	// Default: "" (empty string)
 	Description string
-	Side        SheetSide
+
+	// Side determines from which side the sheet will appear.
+	// Default: Right
+	Side SheetSide
 }
 
+// SheetRoot renders the root component for the Sheet, setting up the Alpine.js data and event handlers.
+//
+// Usage:
+//
+//	@components.SheetRoot() {
+//	  // Sheet trigger and content go here
+//	}
 templ SheetRoot() {
 	<div
 		x-data="{ 
@@ -34,6 +52,22 @@ templ SheetRoot() {
 	</div>
 }
 
+// Sheet renders the main sheet component with backdrop and content.
+//
+// Usage:
+//
+//	@components.Sheet(components.SheetProps{
+//	  Title: "Sheet Title",
+//	  Description: "Sheet description goes here",
+//	  Side: components.Right,
+//	}) {
+//	  // Sheet content goes here
+//	}
+//
+// Props:
+//   - Title: The heading text for the sheet. Default: "" (empty string)
+//   - Description: The subheading or description text for the sheet. Default: "" (empty string)
+//   - Side: Determines from which side the sheet will appear. Default: Right
 templ Sheet(props SheetProps) {
 	<!-- Backdrop -->
 	<div
@@ -102,6 +136,17 @@ templ Sheet(props SheetProps) {
 	</div>
 }
 
+// SheetTrigger renders a trigger element that opens the sheet when clicked.
+//
+// Usage:
+//
+//	@components.SheetTrigger("Open Sheet", components.Right) {
+//	  <button>Open Sheet</button>
+//	}
+//
+// Props:
+//   - text: The text content of the trigger (unused in the current implementation)
+//   - side: The side from which the sheet should appear
 templ SheetTrigger(text string, side SheetSide) {
 	<span
 		@click={ "open('" + string(side) + "')" }
@@ -110,6 +155,14 @@ templ SheetTrigger(text string, side SheetSide) {
 	</span>
 }
 
+// SheetClose renders a button that closes the sheet when clicked.
+//
+// Usage:
+//
+//	@components.SheetClose("Close")
+//
+// Props:
+//   - text: The text content of the close button
 templ SheetClose(text string) {
 	<button
 		@click="close()"

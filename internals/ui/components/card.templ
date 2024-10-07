@@ -1,39 +1,97 @@
 package components
 
+// CardProps defines the properties for the Card component.
 type CardProps struct {
+	// Class specifies additional CSS classes to apply to the card.
+	// Default: "" (empty string)
 	Class string
+
+	// Attributes allows passing additional HTML attributes to the card element.
+	// Default: nil
+	Attributes templ.Attributes
 }
 
+// Card renders a card component based on the provided props.
+// It can be customized with additional classes and attributes.
+//
+// Usage:
+//
+//	@components.Card(components.CardProps{
+//	  Class: "custom-card",
+//	  Attributes: templ.Attributes{"data-testid": "my-card"},
+//	}) {
+//	  // Card content goes here
+//	}
+//
+// Props:
+//   - Class: Additional CSS classes to apply to the card. Default: "" (empty string)
+//   - Attributes: Additional HTML attributes to apply to the card element. Default: nil
 templ Card(props CardProps) {
-	<div class={ "rounded-lg border bg-card text-card-foreground shadow-sm", props.Class }>
+	<div class={ "rounded-lg border bg-card text-card-foreground shadow-sm", props.Class } { props.Attributes... }>
 		{ children... }
 	</div>
 }
 
+// CardHeader renders the header section of a card.
+//
+// Usage:
+//
+//	@components.CardHeader() {
+//	  @components.CardTitle() { Card Title }
+//	  @components.CardDescription() { Card description goes here }
+//	}
 templ CardHeader() {
 	<div class="flex flex-col space-y-1.5 p-6">
 		{ children... }
 	</div>
 }
 
+// CardTitle renders the title of a card.
+//
+// Usage:
+//
+//	@components.CardTitle() {
+//	  My Card Title
+//	}
 templ CardTitle() {
 	<h3 class="font-semibold leading-none tracking-tight">
 		{ children... }
 	</h3>
 }
 
+// CardDescription renders the description of a card.
+//
+// Usage:
+//
+//	@components.CardDescription() {
+//	  This is a detailed description of the card's content.
+//	}
 templ CardDescription() {
 	<p class="text-sm text-muted-foreground">
 		{ children... }
 	</p>
 }
 
+// CardContent renders the main content section of a card.
+//
+// Usage:
+//
+//	@components.CardContent() {
+//	  // Main card content goes here
+//	}
 templ CardContent() {
 	<div class="p-6 pt-0">
 		{ children... }
 	</div>
 }
 
+// CardFooter renders the footer section of a card.
+//
+// Usage:
+//
+//	@components.CardFooter() {
+//	  @components.Button(components.ButtonProps{Text: "Submit"})
+//	}
 templ CardFooter() {
 	<div class="flex items-center p-6 pt-0">
 		{ children... }
