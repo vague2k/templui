@@ -1,0 +1,31 @@
+
+package showcase
+
+import (
+	"github.com/axzilla/goilerplate/internals/ui/components"
+)
+
+templ AccordionShowcase() {
+	<div class="flex justify-center items-center border rounded-md py-16 px-4">
+		@components.Accordion(components.AccordionProps{
+			Items: []components.AccordionItem{
+				{
+					ID:      "item-1",
+					Trigger: templ.Raw("Is it accessible?"),
+					Content: templ.Raw("Yes. It adheres to the WAI-ARIA design pattern."),
+				},
+				{
+					ID:      "item-2",
+					Trigger: templ.Raw("Is it styled?"),
+					Content: templ.Raw("Yes. It comes with default styles that match the other components' aesthetic."),
+				},
+				{
+					ID:      "item-3",
+					Trigger: templ.Raw("Is it animated?"),
+					Content: templ.Raw("Yes. It's animated by default, but you can disable it if you prefer."),
+				},
+			},
+			Class: "w-full sm:max-w-[70%]",
+		})
+	</div>
+}
