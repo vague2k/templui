@@ -34,6 +34,10 @@ var Sections = []Section{
 				Href: "/docs/components/accordion",
 			},
 			{
+				Text: "Alert",
+				Href: "/docs/components/alert",
+			},
+			{
 				Text: "Button",
 				Href: "/docs/components/button",
 			},
