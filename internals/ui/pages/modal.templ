@@ -1,0 +1,39 @@
+package pages
+
+import (
+	"github.com/axzilla/goilerplate/internals/ui/components"
+	"github.com/axzilla/goilerplate/internals/ui/layouts"
+	"github.com/axzilla/goilerplate/internals/ui/showcase"
+)
+
+templ Modal() {
+	@layouts.DocsLayout() {
+		<div>
+			<div class="mb-16">
+				<h1 class="text-3xl font-bold mb-2">Modal</h1>
+				<p class="mb-4 text-muted-foreground">A modal dialog component for displaying content that requires user interaction.</p>
+			</div>
+			@components.Tabs(components.TabsProps{
+				Tabs: []components.Tab{
+					{
+						ID:      "preview",
+						Title:   "Preview",
+						Content: showcase.ModalShowcase(),
+					},
+					{
+						ID:      "code",
+						Title:   "Code",
+						Content: CodeSnippetFromEmbedded("modal.templ", "go", showcase.TemplFiles),
+					},
+					{
+						ID:      "component",
+						Title:   "Component",
+						Content: CodeSnippetFromEmbedded("modal.templ", "go", components.TemplFiles),
+					},
+				},
+				TabsContainerClass:    "md:w-1/2",
+				ContentContainerClass: "w-full",
+			})
+		</div>
+	}
+}
