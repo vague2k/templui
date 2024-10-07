@@ -1,12 +1,12 @@
 # Goilerplate
 
-Modern UI Components for Go & Templ
+Modern UI Components for Go, Templ, Alpine.js, and Tailwind CSS
 
 <img src="./assets/img/gopher.svg" alt="Goilerplate Logo" width="200"/>
 
 ## About
 
-Goilerplate is a growing library of modern UI components designed specifically for Go and Templ. It aims to bridge the gap between Go's server-side efficiency and modern, interactive front-end experiences. Whether you're building a small website or a large web application, Goilerplate provides the tools you need to create sleek, responsive interfaces with ease.
+Goilerplate is a growing library of modern UI components designed specifically for Go and Templ, with Alpine.js for interactivity and Tailwind CSS for styling. It aims to bridge the gap between Go's server-side efficiency and modern, interactive front-end experiences. Whether you're building a small website or a large web application, Goilerplate provides the tools you need to create sleek, responsive interfaces with ease.
 
 ## Features
 
@@ -18,8 +18,19 @@ Goilerplate is a growing library of modern UI components designed specifically f
 - **Accessible Components**: Built with accessibility in mind, following WCAG guidelines.
 - **TypeSafe**: Utilizing Go's type system for robust, error-resistant development.
 
+## Inspiration
+
+Goilerplate draws inspiration from several popular UI libraries and frameworks:
+
+- [shadcn/ui](https://ui.shadcn.com/)
+- [Pines UI](https://devdojo.com/pines)
+- [daisyUI](https://daisyui.com/)
+
+We're exploring whether to make Goilerplate a strict port of shadcn/ui or to create a unique blend of various inspirations. The project is still evolving, and community feedback will play a crucial role in shaping its direction.
+
 ## Current Status
 
+- **Heavy Development**: The project is under active development. Expect frequent breaking changes until we reach a stable version.
 - Actively growing component library
 - Regular updates and bug fixes
 - Continuous development based on community feedback
