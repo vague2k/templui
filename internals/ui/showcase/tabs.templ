@@ -26,45 +26,79 @@ templ TabsShowcase() {
 }
 
 templ AccountTab() {
-	<div class="border border-border rounded-lg shadow-sm bg-card text-card-foreground">
-		<div class="flex flex-col space-y-1.5 p-6">
-			<h3 class="text-lg font-semibold leading-none tracking-tight">Account</h3>
-			<p class="text-sm text-muted-foreground">Make changes to your account here. Click save when you're done.</p>
-		</div>
-		<div class="p-6 pt-0 space-y-2">
-			<div class="space-y-1">
-				<label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="name">Name</label>
-				<input type="text" placeholder="Name" id="name" value="John Doe" class="flex w-full h-10 px-3 py-2 text-sm bg-background border border-input rounded-md ring-offset-background placeholder:text-muted-foreground focus:border-ring focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"/>
+	@components.Card(components.CardProps{}) {
+		@components.CardHeader() {
+			@components.CardTitle() {
+				Account 
+			}
+			@components.CardDescription() {
+				Make changes to your account here. Click save when you're done.
+			}
+		}
+		@components.CardContent() {
+			<div class="space-y-2">
+				<div class="space-y-1">
+					<label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="name">Name</label>
+					@components.Input(components.InputProps{
+						Type:        components.Text,
+						Placeholder: "Name",
+						ID:          "name",
+						Value:       "John Doe",
+					})
+				</div>
+				<div class="space-y-1">
+					<label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="username">Username</label>
+					@components.Input(components.InputProps{
+						Type:        components.Text,
+						Placeholder: "Username",
+						ID:          "username",
+						Value:       "@johndoe",
+					})
+				</div>
 			</div>
-			<div class="space-y-1">
-				<label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="username">Username</label>
-				<input type="text" placeholder="Username" id="username" value="@johndoe" class="flex w-full h-10 px-3 py-2 text-sm bg-background border border-input rounded-md ring-offset-background placeholder:text-muted-foreground focus:border-ring focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"/>
-			</div>
-		</div>
-		<div class="flex items-center p-6 pt-0">
+		}
+		@components.CardFooter() {
 			@components.Button(components.ButtonProps{Text: "Save changes"})
-		</div>
-	</div>
+		}
+	}
 }
 
 templ PasswordTab() {
-	<div class="border border-border rounded-lg shadow-sm bg-card text-card-foreground">
-		<div class="flex flex-col space-y-1.5 p-6">
-			<h3 class="text-lg font-semibold leading-none tracking-tight">Password</h3>
-			<p class="text-sm text-muted-foreground">Change your password here. After saving, you'll be logged out.</p>
-		</div>
-		<div class="p-6 pt-0 space-y-2">
-			<div class="space-y-1">
-				<label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="current_password">Current Password</label>
-				<input type="password" placeholder="Current Password" id="current_password" class="flex w-full h-10 px-3 py-2 text-sm bg-background border border-input rounded-md ring-offset-background placeholder:text-muted-foreground focus:border-ring focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"/>
+	@components.Card(components.CardProps{}) {
+		@components.CardHeader() {
+			@components.CardTitle() {
+				Password 
+			}
+			@components.CardDescription() {
+				Change your password here. After saving, you'll be logged out.
+			}
+		}
+		@components.CardContent() {
+			<div class="space-y-2">
+				<div class="space-y-1">
+					<label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="current_password">
+						Current Password
+					</label>
+					@components.Input(components.InputProps{
+						Type:        components.Password,
+						Placeholder: "Current Password",
+						ID:          "current_password",
+					})
+				</div>
+				<div class="space-y-1">
+					<label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="new_password">
+						New Password
+					</label>
+					@components.Input(components.InputProps{
+						Type:        components.Password,
+						Placeholder: "New Password",
+						ID:          "new_password",
+					})
+				</div>
 			</div>
-			<div class="space-y-1">
-				<label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="new_password">New Password</label>
-				<input type="password" placeholder="New Password" id="new_password" class="flex w-full h-10 px-3 py-2 text-sm bg-background border border-input rounded-md ring-offset-background placeholder:text-muted-foreground focus:border-ring focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"/>
-			</div>
-		</div>
-		<div class="flex items-center p-6 pt-0">
+		}
+		@components.CardFooter() {
 			@components.Button(components.ButtonProps{Text: "Save password"})
-		</div>
-	</div>
+		}
+	}
 }
