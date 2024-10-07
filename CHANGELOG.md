@@ -7,6 +7,7 @@
 - Added: Alert component
 - Added: Accordion component
 - Added: Datepicker component
+- Changed: Improve documentation and introduction page
 - Changed: Add button type prop
 - Changed: Use own input component on tabs example
 - Changed: Update all current components with library comments
