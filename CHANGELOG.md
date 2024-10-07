@@ -1,5 +1,10 @@
 # Changelog
 
+## 2024-10-07
+
+- Added: Input component
+- Changed: Add button type prop
+
 ## 2024-10-06
 
 - Added: Product Hunt badge on landing page

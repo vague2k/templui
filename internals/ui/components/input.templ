@@ -1,30 +1,102 @@
 package components
 
+// InputType represents the type of the input field.
+type InputType string
+
+// Constants for input types.
+const (
+	Text     InputType = "text"
+	Password InputType = "password"
+	Email    InputType = "email"
+	Number   InputType = "number"
+	Tel      InputType = "tel"
+	URL      InputType = "url"
+	Search   InputType = "search"
+	Date     InputType = "date"
+	Time     InputType = "time"
+	File     InputType = "file"
+)
+
+// InputProps defines the properties for the Input component.
 type InputProps struct {
-	Type        string
+	// Type specifies the type of the input field.
+	// Default: Text
+	Type InputType
+
+	// Placeholder is the placeholder text for the input field.
+	// Default: "" (empty string)
 	Placeholder string
-	Value       string
-	Name        string
-	ID          string
-	Class       string
-	Disabled    any
-	ReadOnly    bool
-	Required    bool
-	FileAccept  string
-	Attributes  templ.Attributes
+
+	// Value is the current value of the input field.
+	// Default: "" (empty string)
+	Value string
+
+	// Name is the name attribute of the input field.
+	// Default: "" (empty string)
+	Name string
+
+	// ID is the unique identifier for the input field.
+	// Default: "" (empty string)
+	ID string
+
+	// Class specifies additional CSS classes to apply to the input field.
+	// Default: "" (empty string)
+	Class string
+
+	// Disabled can be either a bool or a string.
+	// If bool (Go), it directly controls the disabled state.
+	// If string, it's treated as a JavaScript expression for dynamic disabling.
+	// Default: nil
+	Disabled any
+
+	// FileAccept specifies which file types are accepted (only for file type).
+	// Default: "" (empty string)
+	FileAccept string
+
+	// Attributes allows passing additional HTML attributes to the input element.
+	// Default: nil
+	Attributes templ.Attributes
 }
 
+// Input renders an input component based on the provided props.
+// It can be customized with various types, sizes, and behaviors.
+//
+// Usage:
+//
+//	@components.Input(components.InputProps{
+//	  Type: components.Email,
+//	  Placeholder: "Enter your email",
+//	  ID: "email-input",
+//	  Class: "custom-input",
+//	  Attributes: templ.Attributes{
+//	    "aria-label": "Email input",
+//	    "data-testid": "email-input",
+//	  },
+//	})
+//
+// Props:
+//   - Type: The type of the input field (e.g., Text, Email, Password). Default: Text
+//   - Placeholder: The placeholder text for the input field. Default: "" (empty string)
+//   - Value: The current value of the input field. Default: "" (empty string)
+//   - Name: The name attribute of the input field. Default: "" (empty string)
+//   - ID: The unique identifier for the input field. Default: "" (empty string)
+//   - Class: Additional CSS classes to apply to the input field. Default: "" (empty string)
+//   - Disabled: Can be either a bool or a string. If bool (Go), it directly controls the disabled state. If string, it's treated as a JavaScript expression for dynamic disabling. Default: nil
+//   - FileAccept: Specifies which file types are accepted (only for file type). Default: "" (empty string)
+//   - Attributes: Additional HTML attributes to apply to the input element. Default: nil
 templ Input(props InputProps) {
 	<input
-		type={ props.Type }
+		type={ string(props.Type) }
 		placeholder={ props.Placeholder }
 		value={ props.Value }
 		name={ props.Name }
 		id={ props.ID }
 		class={ "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background",
-    "file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground",
-    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-    "disabled:cursor-not-allowed disabled:opacity-50", "file:text-foreground dark:file:text-foreground", props.Class }
+			"file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground",
+			"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+			"disabled:cursor-not-allowed disabled:opacity-50",
+			"file:text-foreground dark:file:text-foreground",
+			props.Class }
 		if props.Disabled != nil {
 			if disabledBool, ok := props.Disabled.(bool); ok && disabledBool {
 				disabled="true"
@@ -33,9 +105,7 @@ templ Input(props InputProps) {
 				:disabled={ disabledStr }
 			}
 		}
-		readonly?={ props.ReadOnly }
-		required?={ props.Required }
-		if props.Type == "file" {
+		if props.Type == File {
 			accept={ props.FileAccept }
 		}
 		{ props.Attributes... }
