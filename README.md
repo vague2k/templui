@@ -1,12 +1,12 @@
 # Goilerplate
 
-Modern UI Components for Go, Templ, Alpine.js, and Tailwind CSS
+Modern UI Components for Go & Templ
 
 <img src="./assets/img/gopher.svg" alt="Goilerplate Logo" width="200"/>
 
 ## About
 
-Goilerplate is a growing library of modern UI components designed specifically for Go and Templ, with Alpine.js for interactivity and Tailwind CSS for styling. It aims to bridge the gap between Go's server-side efficiency and modern, interactive front-end experiences. Whether you're building a small website or a large web application, Goilerplate provides the tools you need to create sleek, responsive interfaces with ease.
+Goilerplate is a growing library of modern UI components designed specifically for Go and Templ. It leverages Alpine.js for enhanced interactivity and Tailwind CSS for effortless styling. Whether you're building a small website or a large web application, Goilerplate provides the tools you need to create sleek, responsive interfaces with ease.
 
 ## Features
 
