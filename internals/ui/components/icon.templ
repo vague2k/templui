@@ -1,0 +1,99 @@
+package components
+
+import (
+	"fmt"
+	"strings"
+)
+
+// IconProps defines the properties for the Icon component.
+type IconProps struct {
+	Name   string // Name of the icon
+	Size   string // Size of the icon (default: "24")
+	Color  string // Color of the icon (default: "currentColor")
+	Fill   string // Fill color of the icon (default: "none")
+	Stroke string // Stroke color of the icon (overrides Color if set)
+	Class  string // Additional CSS classes
+}
+
+// getSize returns the size of the icon, defaulting to "24" if not specified.
+func getSize(size string) string {
+	if size == "" {
+		return "24"
+	}
+	return size
+}
+
+// getColor returns the color of the icon, defaulting to "currentColor" if not specified.
+func getColor(color string) string {
+	if color == "" {
+		return "currentColor"
+	}
+	return color
+}
+
+// getFill returns the fill color of the icon, defaulting to "none" if not specified.
+func getFill(fill string) string {
+	if fill == "" {
+		return "none"
+	}
+	return fill
+}
+
+// getStroke returns the stroke color, using the specified stroke or falling back to the color.
+func getStroke(stroke, color string) string {
+	if stroke != "" {
+		return stroke
+	}
+	return getColor(color)
+}
+
+// getClasses generates the class string for the icon.
+func getClasses(name, class string) string {
+	classes := []string{"lucide", "lucide-" + strings.ToLower(name)}
+	if class != "" {
+		classes = append(classes, class)
+	}
+	return strings.Join(classes, " ")
+}
+
+// Icon renders a Lucide icon as an SVG element.
+//
+// Usage:
+//
+//	@components.Icon(components.IconProps{
+//	  Name: "user",
+//	  Size: "24",
+//	  Color: "blue",
+//	  Fill: "none",
+//	  Stroke: "currentColor",
+//	  Class: "my-icon-class",
+//	})
+templ Icon(props IconProps) {
+	if content, ok := iconContents[props.Name]; ok && content != "" {
+		@templ.Raw(fmt.Sprintf(`<svg xmlns="http://www.w3.org/2000/svg" width="%s" height="%s" viewBox="0 0 24 24" fill="%s" stroke="%s" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="%s">%s</svg>`,
+			getSize(props.Size),
+			getSize(props.Size),
+			getFill(props.Fill),
+			getStroke(props.Stroke, props.Color),
+			getClasses(props.Name, props.Class),
+			content))
+	} else {
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			width={ getSize(props.Size) }
+			height={ getSize(props.Size) }
+			viewBox="0 0 24 24"
+			fill={ getFill(props.Fill) }
+			stroke={ getStroke(props.Stroke, props.Color) }
+			stroke-width="2"
+			stroke-linecap="round"
+			stroke-linejoin="round"
+			class={ getClasses(props.Name, props.Class) }
+		>
+			<!-- Fallback for missing icons -->
+			<rect x="0" y="0" width="24" height="24" fill="none" stroke="currentColor"></rect>
+			<line x1="0" y1="0" x2="24" y2="24" stroke="currentColor"></line>
+			<line x1="24" y1="0" x2="0" y2="24" stroke="currentColor"></line>
+		</svg>
+	}
+}

@@ -26,3 +26,7 @@ dev:
 # Start development server in debug mode - It's needed to start launch.json in VSCode
 debug:
 	make -j2 templ tailwind
+
+# Generate Lucid icons
+generate-icons:
+	go run cmd/icongen/main.go
