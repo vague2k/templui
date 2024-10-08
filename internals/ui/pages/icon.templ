@@ -1,0 +1,46 @@
+package pages
+
+import (
+	"github.com/axzilla/goilerplate/internals/ui/components"
+	"github.com/axzilla/goilerplate/internals/ui/layouts"
+	"github.com/axzilla/goilerplate/internals/ui/showcase"
+)
+
+templ Icon() {
+	@layouts.DocsLayout() {
+		<div>
+			<div class="mb-16">
+				<h1 class="text-3xl font-bold mb-2">Icon</h1>
+				<p class="mb-4 text-muted-foreground">
+					A wrapper for Lucide Icons with optional settings for size, color, fill, stroke, and custom classes. To use this component, you'll also need the code or component from the "Icon" tab!
+				</p>
+			</div>
+			@components.Tabs(components.TabsProps{
+				Tabs: []components.Tab{
+					{
+						ID:      "preview",
+						Title:   "Preview",
+						Content: showcase.IconShowcase(),
+					},
+					{
+						ID:      "code",
+						Title:   "Code",
+						Content: CodeSnippetFromEmbedded("icon.templ", "go", showcase.TemplFiles),
+					},
+					{
+						ID:      "component",
+						Title:   "Component",
+						Content: CodeSnippetFromEmbedded("icon.templ", "go", components.TemplFiles),
+					},
+					{
+						ID:      "icons",
+						Title:   "Icons",
+						Content: CodeSnippetFromEmbedded("icon_contents.go", "go", components.TemplFiles),
+					},
+				},
+				TabsContainerClass:    "md:w-1/2",
+				ContentContainerClass: "w-full",
+			})
+		</div>
+	}
+}

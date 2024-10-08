@@ -1,3 +1,6 @@
+# lucide icons
+cmd/icongen/icons
+
 .DS_Store
 bin
 *_templ.go

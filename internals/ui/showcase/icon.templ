@@ -1,0 +1,50 @@
+package showcase
+
+import "github.com/axzilla/goilerplate/internals/ui/components"
+
+templ IconShowcase() {
+	<div class="flex justify-center items-center border rounded-md py-16 px-4">
+		<div>
+			<div class="mb-8">
+				<h2 class="font-semibold mb-2">Basic Icons</h2>
+				<div class="flex flex-wrap gap-2">
+					@components.Icon(components.IconProps{Name: "user", Size: "24"})
+					@components.Icon(components.IconProps{Name: "house", Size: "24"})
+					@components.Icon(components.IconProps{Name: "settings", Size: "24"})
+				</div>
+			</div>
+			<div class="mb-8">
+				<h2 class="font-semibold mb-2">Colored Icons</h2>
+				<div class="flex flex-wrap gap-2">
+					@components.Icon(components.IconProps{Name: "heart", Size: "24", Color: "red"})
+					@components.Icon(components.IconProps{Name: "star", Size: "24", Color: "gold"})
+					@components.Icon(components.IconProps{Name: "check", Size: "24", Color: "green"})
+				</div>
+			</div>
+			<div class="mb-8">
+				<h2 class="font-semibold mb-2">Filled Icons</h2>
+				<div class="flex flex-wrap gap-2">
+					@components.Icon(components.IconProps{Name: "circle", Size: "24", Fill: "blue", Stroke: "blue"})
+					@components.Icon(components.IconProps{Name: "square", Size: "24", Fill: "purple", Stroke: "purple"})
+					@components.Icon(components.IconProps{Name: "triangle", Size: "24", Fill: "orange", Stroke: "orange"})
+				</div>
+			</div>
+			<div class="mb-8">
+				<h2 class="font-semibold mb-2">Different Sizes</h2>
+				<div class="flex flex-wrap gap-2">
+					@components.Icon(components.IconProps{Name: "house", Size: "16"})
+					@components.Icon(components.IconProps{Name: "house", Size: "24"})
+					@components.Icon(components.IconProps{Name: "house", Size: "32"})
+					@components.Icon(components.IconProps{Name: "house", Size: "48"})
+				</div>
+			</div>
+			<div class="mb-8">
+				<h2 class="font-semibold mb-2">Custom Classes</h2>
+				<div class="flex flex-wrap gap-2">
+					@components.Icon(components.IconProps{Name: "arrow-right", Size: "24", Class: "text-blue-500 hover:text-blue-700"})
+					@components.Icon(components.IconProps{Name: "arrow-left", Size: "24", Class: "text-green-500 hover:text-green-700"})
+				</div>
+			</div>
+		</div>
+	</div>
+}

@@ -15,10 +15,10 @@ const (
 	Ghost       ButtonVariant = "ghost"
 	Link        ButtonVariant = "link"
 
-	Md   ButtonSize = "md"
-	Sm   ButtonSize = "sm"
-	Lg   ButtonSize = "lg"
-	Icon ButtonSize = "icon"
+	Md         ButtonSize = "md"
+	Sm         ButtonSize = "sm"
+	Lg         ButtonSize = "lg"
+	ButtonIcon ButtonSize = "icon"
 )
 
 // ButtonProps defines the properties for the Button component.
@@ -90,7 +90,7 @@ func getSizeClasses(size ButtonSize) string {
 		return "h-9 px-3 rounded-md"
 	case Lg:
 		return "h-11 px-8 rounded-md"
-	case Icon:
+	case ButtonIcon:
 		return "h-10 w-10"
 	default:
 		return "h-10 px-4 py-2 rounded-md"
