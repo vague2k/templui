@@ -2,6 +2,10 @@
 
 ## 2024-10-07
 
+- Added: Avatar component
+
+## 2024-10-07
+
 - Added: Input component
 - Added: Modal component
 - Added: Alert component
