@@ -1,49 +1,60 @@
 package components
 
+type SidebarRightLItem struct {
+	ImageSrc string
+	Url      string
+	Text     string
+}
+
+var SidebarRightLinks = []SidebarRightLItem{
+	{
+		ImageSrc: "https://templ.guide/img/logo.svg",
+		Url:      "https://templ.guide",
+		Text:     "Elevate your Go projects with type-safe, efficient HTML templating.",
+	},
+	{
+		ImageSrc: "https://alpinejs.dev/alpine_long.svg",
+		Url:      "https://alpinejs.dev",
+		Text:     "Simplify your JavaScript with a lightweight, powerful framework.",
+	},
+	{
+		ImageSrc: "https://tailwindcss.com/_next/static/media/tailwindcss-logotype-white.944c5d0ef628083bb316f9b3d643385c86bcdb3d.svg",
+		Url:      "https://tailwindcss.com",
+		Text:     "Create beautiful, responsive designs with ease.",
+	},
+}
+
 templ SidebarRight() {
-	<aside class="border-l border-border hidden md:flex flex-col w-64 h-full p-6">
-		<h3 class="text-lg font-semibold text-foreground mb-6">Our Ecosystem</h3>
-		<div class="space-y-8">
-			<div class="bg-card rounded-lg p-4 shadow-sm transition-all hover:shadow-md">
-				<a href="https://templ.guide" target="_blank" class="group">
-					<img src="https://templ.guide/img/logo.svg" alt="Templ" class="h-8 mb-3"/>
-					<p class="text-sm text-card-foreground group-hover:text-primary transition-colors">
-						Elevate your Go projects with type-safe, efficient HTML templating.
-					</p>
-					<span class="inline-flex items-center text-xs font-medium text-primary mt-2 group-hover:underline">
-						Learn more
-						<svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-						</svg>
+	<aside class="border-l border-border flex flex-col w-64 h-full p-6">
+		<h3 class="text-sm font-bold text-muted-foreground">Our Friends</h3>
+		for i, link := range SidebarRightLinks {
+			<a href={ templ.SafeURL(link.Url) } target="_blank" class="relative opacity-80 hover:opacity-100 py-6 flex flex-col items-start justify-between overflow-hidden group">
+				<span class="flex items-center justify-between w-full mb-3">
+					<img src={ link.ImageSrc } alt={ link.Text } class="relative h-5 md:h-6"/>
+				</span>
+				<span class="relative text-xs text-muted-foreground group-hover:text-foreground md:text-sm">{ link.Text }</span>
+				<span class="flex justify-start w-full">
+					<span class="relative inline-block mt-2 overflow-hidden text-xs font-medium text-muted-foreground group-hover:text-foreground">
+						<span class="absolute bottom-0 block w-full transition duration-150 ease-out transform -translate-x-full border-b border-foreground opacity-0 group-hover:translate-x-0 group-hover:opacity-100"></span>
+						<span class="">View Website</span>
 					</span>
-				</a>
-			</div>
-			<div class="bg-card rounded-lg p-4 shadow-sm transition-all hover:shadow-md">
-				<a href="https://alpinejs.dev" target="_blank" class="group">
-					<img src="https://alpinejs.dev/alpine_long.svg" alt="Alpine.js" class="h-8 mb-3"/>
-					<p class="text-sm text-card-foreground group-hover:text-primary transition-colors">
-						Simplify your JavaScript with a lightweight, powerful framework.
-					</p>
-					<span class="inline-flex items-center text-xs font-medium text-primary mt-2 group-hover:underline">
-						Explore features
-						<svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-						</svg>
-					</span>
-				</a>
-			</div>
-			<div class="bg-muted rounded-lg p-4">
-				<h4 class="text-sm font-medium text-foreground mb-2">Grow With Us</h4>
-				<p class="text-xs text-muted-foreground mb-3">
-					Have a tool that complements our stack? Let's collaborate and reach developers together.
-				</p>
-				<a href="https://twitter.com/_axzilla" target="_blank" class="inline-flex items-center text-xs font-medium text-primary hover:underline">
-					Connect
-					<svg class="w-4 h-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-					</svg>
-				</a>
-			</div>
+				</span>
+			</a>
+			if i < len(SidebarRightLinks)-1 {
+				<hr class="border-t border-border"/>
+			}
+		}
+		<div class="border border-border rounded-lg p-4 bg-muted/50 hover:bg-muted transition-colors duration-300">
+			<h4 class="text-sm font-medium text-foreground mb-2">Your Logo Here</h4>
+			<p class="text-xs text-muted-foreground mb-3">
+				Join our showcase and connect with fellow developers.
+			</p>
+			<a href="https://twitter.com/_axzilla" target="_blank" class="inline-flex items-center text-xs font-medium text-primary hover:text-primary/80 transition-colors duration-300">
+				Add Your Logo
+				<svg class="w-4 h-4 ml-1 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+					<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+				</svg>
+			</a>
 		</div>
 	</aside>
 }
