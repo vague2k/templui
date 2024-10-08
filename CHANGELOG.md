@@ -3,6 +3,7 @@
 ## 2024-10-07
 
 - Added: Avatar component
+- Changed: Beautify docs layout
 
 ## 2024-10-07
 
