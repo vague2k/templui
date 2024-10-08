@@ -1,7 +1,7 @@
 // Lucide - New icons 0.451.0
-package components
+package icons
 
-var iconContents = map[string]string{
+var IconContent = map[string]string{
 	"a-arrow-down": `<path d="M3.5 13h6" />
   <path d="m2 16 4.5-9 4.5 9" />
   <path d="M18 7v9" />

@@ -1,9 +1,6 @@
 package components
 
-import (
-	"fmt"
-	"strings"
-)
+import "github.com/axzilla/goilerplate/pgk/icons"
 
 // IconProps defines the properties for the Icon component.
 type IconProps struct {
@@ -47,13 +44,15 @@ func getStroke(stroke, color string) string {
 	return getColor(color)
 }
 
-// getClasses generates the class string for the icon.
-func getClasses(name, class string) string {
-	classes := []string{"lucide", "lucide-" + strings.ToLower(name)}
-	if class != "" {
-		classes = append(classes, class)
-	}
-	return strings.Join(classes, " ")
+// GenerateSVG generates the SVG for the icon
+func (props IconProps) GenerateSVG() (string, bool) {
+	return icons.GenerateSVG(
+		props.Name,
+		getSize(props.Size),
+		getFill(props.Fill),
+		getStroke(props.Stroke, props.Color),
+		props.Class,
+	)
 }
 
 // Icon renders a Lucide icon as an SVG element.
@@ -69,14 +68,8 @@ func getClasses(name, class string) string {
 //	  Class: "my-icon-class",
 //	})
 templ Icon(props IconProps) {
-	if content, ok := iconContents[props.Name]; ok && content != "" {
-		@templ.Raw(fmt.Sprintf(`<svg xmlns="http://www.w3.org/2000/svg" width="%s" height="%s" viewBox="0 0 24 24" fill="%s" stroke="%s" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="%s">%s</svg>`,
-			getSize(props.Size),
-			getSize(props.Size),
-			getFill(props.Fill),
-			getStroke(props.Stroke, props.Color),
-			getClasses(props.Name, props.Class),
-			content))
+	if svg, ok := props.GenerateSVG(); ok {
+		@templ.Raw(svg)
 	} else {
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
@@ -88,7 +81,7 @@ templ Icon(props IconProps) {
 			stroke-width="2"
 			stroke-linecap="round"
 			stroke-linejoin="round"
-			class={ getClasses(props.Name, props.Class) }
+			class={ icons.GetClasses(props.Name, props.Class) }
 		>
 			<!-- Fallback for missing icons -->
 			<rect x="0" y="0" width="24" height="24" fill="none" stroke="currentColor"></rect>
