@@ -38,6 +38,10 @@ var Sections = []Section{
 				Href: "/docs/components/alert",
 			},
 			{
+				Text: "Avatar",
+				Href: "/docs/components/avatar",
+			},
+			{
 				Text: "Button",
 				Href: "/docs/components/button",
 			},
