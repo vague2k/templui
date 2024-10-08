@@ -1,10 +1,11 @@
 # lucide icons
 cmd/icongen/icons
 
+/internals/*_templ.go
+/internal/*_templ.txt
+
 .DS_Store
 bin
-*_templ.go
-*_templ.txt
 node_modules
 tmp
 .env
