@@ -1,4 +1,4 @@
-package helpers
+package utils
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 
 // CSS returns a link tag for the Goilerplate CSS
 // If no branch is specified, it defaults to 'main'
-func GoilerplateCSS(branch string) templ.Component {
+func CSS(branch string) templ.Component {
 	if branch == "" {
 		branch = "main"
 	}
@@ -18,7 +18,7 @@ func GoilerplateCSS(branch string) templ.Component {
 }
 
 // Alpine returns script tags for Alpine.js
-func AlpineJs() templ.Component {
+func AlpineJS() templ.Component {
 	return templ.Raw(`
         <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/focus@3.x.x/dist/cdn.min.js"></script>
         <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
