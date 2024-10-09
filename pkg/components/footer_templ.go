@@ -32,20 +32,20 @@ func Footer() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<footer class=\"py-4 text-center text-sm text-muted-foreground border-t\"><div class=\"container\"><p class=\"mb-4 font-semibold\">")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 1)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var2 string
 		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("© %d goilerplate.", time.Now().Year()))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pgk/components/footer.templ`, Line: 10, Col: 58}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/footer.templ`, Line: 10, Col: 58}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" Stupid code not excluded.</p><div class=\"flex justify-center\"><a href=\"https://www.producthunt.com/posts/goilerplate-1?utm_source=badge-featured&amp;utm_medium=badge&amp;utm_souce=badge-goilerplate-1\" target=\"_blank\"><img src=\"https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=494295&amp;theme=light\" alt=\"Goilerplate - Minimalist Go starter kit with CRUD templates | Product Hunt\" style=\"width: 200px; height: auto;\"></a></div></div></footer>")
+		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 2)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
