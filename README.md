@@ -42,7 +42,7 @@ Visit our website at [https://goilerplate.com/docs/getting-started](https://goil
 
 ## Changelog
 
-See [CHANGELOG.md](CHANGELOG.md) for a detailed list of changes in each version.
+See [Releases](https://github.com/axzilla/goilerplate/releases) for a detailed list of changes in each version.
 
 ## Contributing
 

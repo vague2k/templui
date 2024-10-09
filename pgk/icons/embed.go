@@ -2,5 +2,5 @@ package icons
 
 import "embed"
 
-//go:embed icon_contents.go
+//go:embed icons.go
 var TemplFiles embed.FS

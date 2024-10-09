@@ -13,7 +13,7 @@ templ Icon() {
 			<div class="mb-16">
 				<h1 class="text-3xl font-bold mb-2">Icon</h1>
 				<p class="mb-4 text-muted-foreground">
-					A wrapper for Lucide Icons with optional settings for size, color, fill, stroke, and custom classes. To use this component, you'll also need the code or component from the "Icon" tab!
+					A wrapper for Lucide Icons with optional settings for size, color, fill, stroke, and custom classes.
 				</p>
 			</div>
 			@components.Tabs(components.TabsProps{
@@ -36,7 +36,7 @@ templ Icon() {
 					{
 						ID:      "icons",
 						Title:   "Icons",
-						Content: CodeSnippetFromEmbedded("icon_contents.go", "go", icons.TemplFiles),
+						Content: CodeSnippetFromEmbedded("icons.go", "go", icons.TemplFiles),
 					},
 				},
 				TabsContainerClass:    "md:w-1/2",
