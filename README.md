@@ -6,7 +6,7 @@ Modern UI Components for Go & Templ
 
 ## About
 
-Goilerplate is a growing library of modern UI components designed specifically for Go and Templ. It leverages Alpine.js for enhanced interactivity and Tailwind CSS for effortless styling. Whether you are building a small website or a large web application, Goilerplate provides the tools you need to create sleek, responsive interfaces with ease.
+Goilerplate is a growing library of modern UI components designed specifically for Go and Templ. It leverages Alpine.js for enhanced interactivity and Tailwind CSS for effortless styling. Whether you're building a small website or a large web application, Goilerplate provides the tools you need to create sleek, responsive interfaces with ease.
 
 ## Features
 
@@ -17,6 +17,41 @@ Goilerplate is a growing library of modern UI components designed specifically f
 - **Tailwind CSS Styling**: Modern, utility-first styling that's highly customizable.
 - **Accessible Components**: Built with accessibility in mind, following WCAG guidelines.
 - **TypeSafe**: Utilizing Go's type system for robust, error-resistant development.
+
+## Getting Started
+
+There are two main ways to use Goilerplate in your projects:
+
+1. **Use as a Package Library**
+
+   Install Goilerplate as a Go package:
+
+   ```
+   go get github.com/axzilla/goilerplate
+   ```
+
+   Then import and use components in your Templ files:
+
+   ```go
+   import "github.com/axzilla/goilerplate/pkg/components"
+
+   // In your Templ files
+   @components.Button(components.ButtonProps{Text: "Click me"})
+   ```
+
+2. **Copy Components to Your Codebase**
+
+   Visit our [components documentation](https://goilerplate.com/docs/components) to find and copy the components you need directly into your project.
+
+You can also mix and match these approaches based on your project needs.
+
+For a quick start, check out our [Goilerplate Quickstart](https://github.com/axzilla/goilerplate-quickstart) template, which provides a pre-configured setup using Goilerplate as a package library.
+
+For detailed setup instructions and examples, visit our [Getting Started guide](https://goilerplate.com/docs/getting-started).
+
+## Components
+
+Explore our growing list of components in the [Components documentation](https://goilerplate.com/docs/components). Each component comes with usage examples and code snippets.
 
 ## Inspiration
 
@@ -30,15 +65,10 @@ We're exploring whether to make Goilerplate a strict port of shadcn/ui or to cre
 
 ## Current Status
 
-- **Heavy Development**: The project is under active development. Expect frequent breaking changes until we reach a stable version.
+- **Heavy Development**: The project is under active development. Expect frequent updates and potential breaking changes until we reach a stable version.
 - Actively growing component library
 - Regular updates and bug fixes
 - Continuous development based on community feedback
-- Check our [Components page](https://goilerplate.com/docs/components) for the latest list of available components
-
-## Getting Started
-
-Visit our website at [https://goilerplate.com/docs/getting-started](https://goilerplate.com/docs/getting-started) to get started with Goilerplate. You'll find documentation, examples, and guides to help you integrate Goilerplate into your Go projects.
 
 ## Changelog
 
@@ -50,7 +80,7 @@ We welcome contributions from the community! Whether it's adding new components,
 
 ## Feedback
 
-Your feedback is crucial in shaping the future of Goilerplate. If you have suggestions, feature requests, or encounter any issues, please open an issue on our GitHub repository or reach out to us through our website.
+Your feedback is crucial in shaping the future of Goilerplate. If you have suggestions, feature requests, or encounter any issues, please [open an issue](https://github.com/axzilla/goilerplate/issues) on our GitHub repository or reach out to us through our website.
 
 ## License
 

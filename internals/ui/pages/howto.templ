@@ -6,121 +6,103 @@ templ HowToUse() {
 	@layouts.DocsLayout() {
 		<div class="text-muted-foreground">
 			<h1 class="text-4xl font-bold mb-6 text-primary">Getting Started with Goilerplate</h1>
-			<p class="mb-8 text-muted-foreground">
-				This is the recommended setup for using Goilerplate in your Go projects.
-			</p>
 			<section class="mb-12">
-				<h2 class="text-2xl font-semibold mb-4 text-primary">Quick Start</h2>
-				<ol class="list-decimal pl-6 space-y-4">
-					<li>
-						<strong>Set up your Go project:</strong>
-						<p>Create a new Go project or use an existing one. Initialize it with go mod init.</p>
-					</li>
-					<li>
-						<strong>Install Templ:</strong>
-						<p>
-							Follow the 
-							<a href="https://templ.guide/quick-start/installation" class="text-primary underline underline-offset-4 hover:text-primary/80" target="_blank" rel="noopener noreferrer">
-								Templ installation guide
-							</a>
-							to set up Templ in your project.
-						</p>
-					</li>
-					<li>
-						<strong>Set up Templ, Air, and Tailwind:</strong>
-						<p>
-							Use the 
-							<a href="https://templ.guide/commands-and-tools/live-reload-with-other-tools" class="text-primary underline underline-offset-4 hover:text-primary/80" target="_blank" rel="noopener noreferrer">
-								Templ live reload guide
-							</a>
-							to create a Makefile and set up Air and Tailwind CSS.
-						</p>
-					</li>
-					<li>
-						<strong>Configure Tailwind:</strong>
-						<p>
-							Copy the provided 
-							<a href="https://github.com/axzilla/goilerplate/blob/main/tailwind.config.js" class="text-primary underline underline-offset-4 hover:text-primary/80" target="_blank" rel="noopener noreferrer">
-								tailwind.config.js
-							</a>
-							and place it in your project root.
-						</p>
-					</li>
-					<li>
-						<strong>Set up Tailwind CSS input:</strong>
-						<p>
-							Create an input.css file in your project's CSS directory and copy the content from our 
-							<a href="https://github.com/axzilla/goilerplate/blob/main/assets/css/input.css" class="text-primary underline underline-offset-4 hover:text-primary/80" target="_blank" rel="noopener noreferrer">
-								input.css
-							</a>.
-						</p>
-					</li>
-					<li>
-						<strong>Include Alpine.js:</strong>
-						<p>
-							Add the Alpine.js script to your HTML head section as described in the 
-							<a href="https://alpinejs.dev/start-here" class="text-primary underline underline-offset-4 hover:text-primary/80" target="_blank" rel="noopener noreferrer">
-								Alpine.js documentation
-							</a>.
-						</p>
-					</li>
-					<li>
-						<strong>Using Goilerplate components:</strong>
-						<p>You have two options for integrating Goilerplate components:</p>
-						<ol type="a" class="pl-4 mt-2 space-y-2">
-							<li>
-								<p class="mb-4"><strong>Option A: Install as a package (Quick and Easy)</strong></p>
-								<pre class="mb-4">
-									<code>go get github.com/axzilla/goilerplate</code>
-								</pre>
-								<p class="mb-4">Then import and use in your Templ files:</p>
-								<pre class="mb-4">
-									<code>
-										{ `import "github.com/axzilla/goilerplate/pkg/components"
+				<h2 class="text-2xl font-semibold mb-4 text-primary">Two Ways to Use Goilerplate</h2>
+				<p class="mb-4">
+					Goilerplate offers flexibility in how you can integrate it into your projects. There are two main approaches:
+				</p>
+				<div class="mb-8">
+					<h3 class="text-xl font-semibold mb-2">1. Use as a Package Library</h3>
+					<p class="mb-4">
+						Install Goilerplate as a Go package and import components as needed:
+					</p>
+					<pre>
+						<code>
+							{ `go get github.com/axzilla/goilerplate
+
+// In your Go files
+import "github.com/axzilla/goilerplate/pkg/components"
 
 // In your Templ files
-@components.Button(components.ButtonProps{...})
-@components.Icon(components.IconProps{...})` }
-									</code>
-								</pre>
-							</li>
-							<li>
-								<strong>Option B: Copy-Paste Method (For full customization)</strong>
-								<p>
-									Create a components folder in your project. Copy desired component code from our 
-									<a href="/docs/components" class="text-primary underline underline-offset-4 hover:text-primary/80">
-										components documentation
-									</a>
-									into .templ files in this folder. For icons, create a separate icons folder and copy the necessary icon files.
-								</p>
-							</li>
-						</ol>
-						<p class="mt-2">Choose the option that best fits your project needs and customization requirements.</p>
+@components.Button(components.ButtonProps{Text: "Click me"})` }
+						</code>
+					</pre>
+					<p class="mt-2">This method is quick to set up and easy to update, but offers less customization.</p>
+				</div>
+				<div class="mb-8">
+					<h3 class="text-xl font-semibold mb-2">2. Copy Components to Your Codebase</h3>
+					<p class="mb-4">
+						Copy the desired components directly into your project:
+					</p>
+					<ol class="list-decimal pl-6">
+						<li>Visit our <a href="/docs/components" class="text-primary underline">components documentation</a></li>
+						<li>Find the component you need</li>
+						<li>Copy the component code into your project's components folder</li>
+					</ol>
+					<p class="mt-2">This method allows for maximum customization but requires manual updates.</p>
+				</div>
+				<div class="mb-8">
+					<h3 class="text-xl font-semibold mb-2">Mix and Match</h3>
+					<p>
+						You can also combine both approaches. For example, use some components as a package and copy others for customization.
+						This flexibility allows you to balance between ease of use and customization needs.
+					</p>
+				</div>
+			</section>
+			<section class="mb-12">
+				<h2 class="text-2xl font-semibold mb-4 text-primary">Quickstart Template</h2>
+				<p class="mb-4">
+					For a ready-to-go setup, check out our <a href="https://github.com/axzilla/goilerplate-quickstart" class="text-primary underline">Goilerplate Quickstart</a> template.
+					This template uses Goilerplate as a package library but can be easily modified to use copied components or a mix of both approaches.
+				</p>
+				<pre>
+					<code>
+						{ `git clone https://github.com/axzilla/goilerplate-quickstart.git
+cd goilerplate-quickstart
+
+// Follow the README instructions` }
+					</code>
+				</pre>
+			</section>
+			<section class="mb-12">
+				<h2 class="text-2xl font-semibold mb-4 text-primary">Manual Setup Requirements</h2>
+				<p class="mb-4">
+					If you choose to set up Goilerplate manually or copy components, ensure you have the following set up in your project:
+				</p>
+				<ul class="list-disc pl-6 space-y-2">
+					<li>
+						<strong>Templ:</strong> Follow the 
+						<a href="https://templ.guide/quick-start/installation" class="text-primary underline underline-offset-4 hover:text-primary/80" target="_blank" rel="noopener noreferrer">
+							Templ installation guide
+						</a>
+						to set up Templ in your project.
 					</li>
 					<li>
-						<strong>Start development:</strong>
-						<p>Run make dev to start your development environment.</p>
+						<strong>Tailwind CSS:</strong> Set up Tailwind CSS using our 
+						<a href="https://github.com/axzilla/goilerplate/blob/main/tailwind.config.js" class="text-primary underline underline-offset-4 hover:text-primary/80" target="_blank" rel="noopener noreferrer">
+							tailwind.config.js
+						</a>
+						as a reference.
 					</li>
 					<li>
-						<strong>Change theme (optional):</strong>
-						<p>
-							If you want to change the theme, visit the 
-							<a href="https://www.shadcn-svelte.com/themes" class="text-primary underline underline-offset-4 hover:text-primary/80" target="_blank" rel="noopener noreferrer">
-								shadcn theme customizer
-							</a>,
-							adjust the theme to your liking, and copy the generated CSS into your input.css file.
-						</p>
+						<strong>Alpine.js:</strong> Include Alpine.js in your project as described in the 
+						<a href="https://alpinejs.dev/start-here" class="text-primary underline underline-offset-4 hover:text-primary/80" target="_blank" rel="noopener noreferrer">
+							Alpine.js documentation
+						</a>.
 					</li>
-				</ol>
+				</ul>
 			</section>
 			<section>
 				<h2 class="text-2xl font-semibold mb-4 text-primary">Next Steps</h2>
 				<p class="mb-4">
-					Explore our 
+					Whichever approach you choose, explore our 
 					<a href="/docs/components" class="text-primary underline underline-offset-4 hover:text-primary/80">
-						components documentation
+						components
 					</a>
-					for more examples. Copy and customize these to fit your needs!
+					to see code examples and usage details for each Goilerplate component. Feel free to experiment with different integration methods to find what works best for your project!
+				</p>
+				<p>
+					Remember, our components page provides code snippets and usage examples, but for comprehensive documentation on Templ, Tailwind CSS, or Alpine.js, refer to their respective official documentation.
 				</p>
 			</section>
 		</div>
