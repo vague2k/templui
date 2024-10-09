@@ -12,7 +12,8 @@ func CSS(branch string) templ.Component {
 	if branch == "" {
 		branch = "main"
 	}
-	cssURL := fmt.Sprintf("https://raw.githubusercontent.com/axzilla/goilerplate/%s/pkg/styles/goilerplate.css", branch)
+
+	cssURL := fmt.Sprintf("https://cdn.jsdelivr.net/gh/axzilla/goilerplate@%s/pkg/styles/goilerplate.css", branch)
 	return templ.Raw(fmt.Sprintf(`<link rel="stylesheet" href="%s">`, cssURL))
 }
 
