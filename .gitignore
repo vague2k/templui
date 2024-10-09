@@ -1,8 +1,8 @@
 # lucide icons
 cmd/icongen/icons
 
-/internals/*_templ.go
-/internal/*_templ.txt
+internals/*_templ.go
+internals/*_templ.txt
 
 .DS_Store
 bin
