@@ -30,3 +30,6 @@ debug:
 # Generate Lucid icons
 generate-icons:
 	go run cmd/icongen/main.go
+
+generate-lib:
+	templ generate ./pkg/...
