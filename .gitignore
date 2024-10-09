@@ -1,8 +1,12 @@
 # lucide icons
 cmd/icongen/icons
 
-internals/*_templ.go
-internals/*_templ.txt
+# exlude generated files but not for the pkg folder
+internals/**/*_templ.go
+internals/**/*_templ.txt
+
+# exclude txt files because they are not needed as a go package
+pgk/**/*_templ.txt
 
 .DS_Store
 bin
