@@ -1,17 +1,19 @@
 package helpers
 
 import (
+	"fmt"
+
 	"github.com/a-h/templ"
-	"github.com/axzilla/goilerplate/internals/config"
 )
 
 // CSS returns a link tag for the Goilerplate CSS
-func CSS() templ.Component {
-	if config.AppConfig.GoEnv == "production" {
-		return templ.Raw(`<link rel="stylesheet" href="https://github.com/axzilla/goilerplate/blob/main/pkg/styles/goilerplate.css">`)
+// If no branch is specified, it defaults to 'main'
+func CSS(branch string) templ.Component {
+	if branch == "" {
+		branch = "main"
 	}
-	return templ.Raw(`<link rel="stylesheet" href="https://github.com/axzilla/goilerplate/blob/dev/pkg/styles/goilerplate.css">`)
-
+	cssURL := fmt.Sprintf("https://raw.githubusercontent.com/axzilla/goilerplate/%s/pkg/styles/goilerplate.css", branch)
+	return templ.Raw(fmt.Sprintf(`<link rel="stylesheet" href="%s">`, cssURL))
 }
 
 // Alpine returns script tags for Alpine.js
