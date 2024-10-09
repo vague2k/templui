@@ -66,13 +66,36 @@ templ HowToUse() {
 					</li>
 					<li>
 						<strong>Using Goilerplate components:</strong>
-						<p>
-							Create a components folder in your project. Copy Goilerplate component code from our 
-							<a href="/docs/components" class="text-primary underline underline-offset-4 hover:text-primary/80">
-								components documentation
-							</a>
-							into .templ files in this folder.
-						</p>
+						<p>You have two options for integrating Goilerplate components:</p>
+						<ol type="a" class="pl-4 mt-2 space-y-2">
+							<li>
+								<p class="mb-4"><strong>Option A: Install as a package (Quick and Easy)</strong></p>
+								<pre class="mb-4">
+									<code>go get github.com/axzilla/goilerplate</code>
+								</pre>
+								<p class="mb-4">Then import and use in your Templ files:</p>
+								<pre class="mb-4">
+									<code>
+										{ `import "github.com/axzilla/goilerplate/pkg/components"
+
+// In your Templ files
+@components.Button(components.ButtonProps{...})
+@components.Icon(components.IconProps{...})` }
+									</code>
+								</pre>
+							</li>
+							<li>
+								<strong>Option B: Copy-Paste Method (For full customization)</strong>
+								<p>
+									Create a components folder in your project. Copy desired component code from our 
+									<a href="/docs/components" class="text-primary underline underline-offset-4 hover:text-primary/80">
+										components documentation
+									</a>
+									into .templ files in this folder. For icons, create a separate icons folder and copy the necessary icon files.
+								</p>
+							</li>
+						</ol>
+						<p class="mt-2">Choose the option that best fits your project needs and customization requirements.</p>
 					</li>
 					<li>
 						<strong>Start development:</strong>
