@@ -1252,6 +1252,11 @@ body {
   background-color: hsl(var(--destructive) / var(--tw-bg-opacity));
 }
 
+.bg-gray-100 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(243 244 246 / var(--tw-bg-opacity));
+}
+
 .bg-gray-700 {
   --tw-bg-opacity: 1;
   background-color: rgb(55 65 81 / var(--tw-bg-opacity));
@@ -1415,10 +1420,6 @@ body {
 
 .pb-4 {
   padding-bottom: 1rem;
-}
-
-.pl-4 {
-  padding-left: 1rem;
 }
 
 .pl-6 {
