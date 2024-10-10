@@ -32,6 +32,7 @@ type DatepickerProps struct {
 
 // Datepicker renders an enhanced datepicker component with an input field and a calendar view.
 // It uses Alpine.js for interactivity and provides various formatting options and improved navigation.
+// This version supports dark mode using Tailwind CSS variables.
 //
 // Usage:
 //
@@ -83,7 +84,7 @@ func Datepicker(props DatepickerProps) templ.Component {
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(props.Format)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/datepicker.templ`, Line: 47, Col: 33}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/datepicker.templ`, Line: 48, Col: 33}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
@@ -109,7 +110,7 @@ func Datepicker(props DatepickerProps) templ.Component {
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/datepicker.templ`, Line: 148, Col: 17}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/datepicker.templ`, Line: 149, Col: 17}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
@@ -122,7 +123,7 @@ func Datepicker(props DatepickerProps) templ.Component {
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(props.Name)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/datepicker.templ`, Line: 149, Col: 21}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/datepicker.templ`, Line: 150, Col: 21}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -135,13 +136,13 @@ func Datepicker(props DatepickerProps) templ.Component {
 		var templ_7745c5c3_Var7 string
 		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(props.Placeholder)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/datepicker.templ`, Line: 150, Col: 35}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/datepicker.templ`, Line: 151, Col: 35}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" x-model=\"datePickerValue\" @click=\"datePickerOpen = !datePickerOpen\" x-on:keydown.escape=\"datePickerOpen = false\" class=\"flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50\" readonly")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" x-model=\"datePickerValue\" @click=\"datePickerOpen = !datePickerOpen\" x-on:keydown.escape=\"datePickerOpen = false\" class=\"flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50\" readonly")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -149,7 +150,31 @@ func Datepicker(props DatepickerProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("><div @click=\"datePickerOpen = !datePickerOpen\" class=\"absolute top-0 right-0 px-3 py-2 cursor-pointer text-neutral-400 hover:text-neutral-500\"><svg class=\"w-6 h-6\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z\"></path></svg></div></div><div x-show=\"datePickerOpen\" x-transition @click.away=\"datePickerOpen = false\" class=\"absolute top-0 left-0 max-w-lg p-4 mt-12 antialiased bg-white border rounded-lg shadow w-[17rem] border-neutral-200/70\"><div class=\"flex items-center justify-between mb-2\"><div><span x-text=\"datePickerMonthNames[datePickerMonth]\" class=\"text-lg font-bold text-gray-800\"></span> <span x-text=\"datePickerYear\" class=\"ml-1 text-lg font-normal text-gray-600\"></span></div><div><button @click=\"datePickerPreviousMonth()\" type=\"button\" class=\"inline-flex p-1 transition duration-100 ease-in-out rounded-full cursor-pointer focus:outline-none focus:shadow-outline hover:bg-gray-100\"><svg class=\"inline-flex w-6 h-6 text-gray-400\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M15 19l-7-7 7-7\"></path></svg></button> <button @click=\"datePickerNextMonth()\" type=\"button\" class=\"inline-flex p-1 transition duration-100 ease-in-out rounded-full cursor-pointer focus:outline-none focus:shadow-outline hover:bg-gray-100\"><svg class=\"inline-flex w-6 h-6 text-gray-400\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M9 5l7 7-7 7\"></path></svg></button></div></div><div class=\"grid grid-cols-7 mb-3\"><template x-for=\"(day, index) in datePickerDays\" :key=\"index\"><div class=\"px-0.5\"><div x-text=\"day\" class=\"text-xs font-medium text-center text-gray-800\"></div></div></template></div><div class=\"grid grid-cols-7\"><template x-for=\"blankDay in datePickerBlankDaysInMonth\"><div class=\"p-1 text-sm text-center border border-transparent\"></div></template><template x-for=\"(day, dayIndex) in datePickerDaysInMonth\" :key=\"dayIndex\"><div class=\"px-0.5 mb-1 aspect-square\"><div x-text=\"day\" @click=\"datePickerDayClicked(day)\" :class=\"{\n                &#39;bg-neutral-200&#39;: datePickerIsToday(day) == true, \n                &#39;text-gray-600 hover:bg-neutral-200&#39;: datePickerIsToday(day) == false &amp;&amp; datePickerIsSelectedDate(day) == false,\n                &#39;bg-neutral-800 text-white hover:bg-opacity-75&#39;: datePickerIsSelectedDate(day) == true\n              }\" class=\"flex items-center justify-center text-sm leading-none text-center rounded-full cursor-pointer h-7 w-7\"></div></div></template></div></div></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("><div @click=\"datePickerOpen = !datePickerOpen\" class=\"absolute top-0 right-0 px-3 py-2 cursor-pointer text-muted-foreground hover:text-foreground\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = Icon(IconProps{Name: "calendar"}).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div><div x-show=\"datePickerOpen\" x-transition @click.away=\"datePickerOpen = false\" class=\"absolute top-0 left-0 max-w-lg p-4 mt-12 antialiased bg-popover text-popover-foreground border rounded-lg shadow w-[17rem] border-border\"><div class=\"flex items-center justify-between mb-2\"><div><span x-text=\"datePickerMonthNames[datePickerMonth]\" class=\"text-lg font-bold\"></span> <span x-text=\"datePickerYear\" class=\"ml-1 text-lg font-normal text-muted-foreground\"></span></div><div><button @click=\"datePickerPreviousMonth()\" type=\"button\" class=\"inline-flex p-1 transition duration-100 ease-in-out rounded-full cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 hover:bg-accent hover:text-accent-foreground\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = Icon(IconProps{Name: "chevron-left", Size: "16", Class: "text-muted-foreground"}).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</button> <button @click=\"datePickerNextMonth()\" type=\"button\" class=\"inline-flex p-1 transition duration-100 ease-in-out rounded-full cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 hover:bg-accent hover:text-accent-foreground\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = Icon(IconProps{Name: "chevron-right", Size: "16", Class: "text-muted-foreground"}).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</button></div></div><div class=\"grid grid-cols-7 mb-3\"><template x-for=\"(day, index) in datePickerDays\" :key=\"index\"><div class=\"px-0.5\"><div x-text=\"day\" class=\"text-xs font-medium text-center text-muted-foreground\"></div></div></template></div><div class=\"grid grid-cols-7\"><template x-for=\"blankDay in datePickerBlankDaysInMonth\"><div class=\"p-1 text-sm text-center border border-transparent\"></div></template><template x-for=\"(day, dayIndex) in datePickerDaysInMonth\" :key=\"dayIndex\"><div class=\"px-0.5 mb-1 aspect-square\"><div x-text=\"day\" @click=\"datePickerDayClicked(day)\" :class=\"{\n                &#39;bg-muted text-muted-foreground&#39;: datePickerIsToday(day) == true, \n                &#39;text-foreground hover:bg-accent hover:text-accent-foreground&#39;: datePickerIsToday(day) == false &amp;&amp; datePickerIsSelectedDate(day) == false,\n                &#39;bg-primary text-primary-foreground hover:bg-primary/90&#39;: datePickerIsSelectedDate(day) == true\n              }\" class=\"flex items-center justify-center text-sm leading-none text-center rounded-full cursor-pointer h-7 w-7\"></div></div></template></div></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

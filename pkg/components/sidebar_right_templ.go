@@ -117,7 +117,15 @@ func SidebarRight() templ.Component {
 				}
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"border border-border rounded-lg p-4 bg-muted/50 hover:bg-muted transition-colors duration-300\"><h4 class=\"text-sm font-medium text-foreground mb-2\">Your Logo Here</h4><p class=\"text-xs text-muted-foreground mb-3\">Join our showcase and connect with fellow developers.</p><a href=\"https://twitter.com/_axzilla\" target=\"_blank\" class=\"inline-flex items-center text-xs font-medium text-primary hover:text-primary/80 transition-colors duration-300\">Add Your Logo <svg class=\"w-4 h-4 ml-1 transition-transform duration-300 group-hover:translate-x-1\" fill=\"none\" viewBox=\"0 0 24 24\" stroke=\"currentColor\"><path stroke-linecap=\"round\" stroke-linejoin=\"round\" stroke-width=\"2\" d=\"M14 5l7 7m0 0l-7 7m7-7H3\"></path></svg></a></div></aside>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"border border-border rounded-lg p-4 bg-muted/50 hover:bg-muted transition-colors duration-300\"><h4 class=\"text-sm font-medium text-foreground mb-2\">Your Logo Here</h4><p class=\"text-xs text-muted-foreground mb-3\">Join our showcase and connect with fellow developers.</p><a href=\"https://twitter.com/_axzilla\" target=\"_blank\" class=\"inline-flex items-center text-xs font-medium text-primary hover:text-primary/80 transition-colors duration-300\">Add Your Logo")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = Icon(IconProps{Name: "chevron-right", Size: "16"}).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</a></div></aside>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
