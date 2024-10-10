@@ -23,20 +23,7 @@ templ ButtonShowcase() {
 					@components.Button(components.ButtonProps{Text: "Small", Size: components.Sm})
 					@components.Button(components.ButtonProps{Text: "Large", Size: components.Lg})
 					@components.Button(components.ButtonProps{Size: components.ButtonIcon}) {
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							width="24"
-							height="24"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							class="h-4 w-4"
-						>
-							<path d="M5 12h14"></path><path d="m12 5 7 7-7 7"></path>
-						</svg>
+						@components.Icon(components.IconProps{Name: "rocket", Size: "16"})
 					}
 				</div>
 			</div>
@@ -56,39 +43,13 @@ templ ButtonShowcase() {
 			<div class="mb-8">
 				<h2 class="font-semibold mb-2">With Icon</h2>
 				<div class="flex flex-wrap gap-2">
-					@components.Button(components.ButtonProps{}) {
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							width="24"
-							height="24"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							class="mr-2 h-4 w-4"
-						>
-							<path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3"></path>
-						</svg>
+					@components.Button(components.ButtonProps{Class: "flex gap-2"}) {
+						@components.Icon(components.IconProps{Name: "rocket", Size: "16"})
 						Icon Left
 					}
-					@components.Button(components.ButtonProps{}) {
+					@components.Button(components.ButtonProps{Class: "flex gap-2"}) {
 						Icon Right
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							width="24"
-							height="24"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke="currentColor"
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							class="ml-2 h-4 w-4"
-						>
-							<path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3"></path>
-						</svg>
+						@components.Icon(components.IconProps{Name: "rocket", Size: "16"})
 					}
 				</div>
 			</div>

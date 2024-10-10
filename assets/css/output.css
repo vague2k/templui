@@ -1291,6 +1291,15 @@ body {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
+.bg-popover {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--popover) / var(--tw-bg-opacity));
+}
+
+.bg-primary\/90 {
+  background-color: hsl(var(--primary) / 0.9);
+}
+
 .bg-opacity-50 {
   --tw-bg-opacity: 0.5;
 }
@@ -1601,6 +1610,16 @@ body {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.text-accent-foreground {
+  --tw-text-opacity: 1;
+  color: hsl(var(--accent-foreground) / var(--tw-text-opacity));
+}
+
+.text-popover-foreground {
+  --tw-text-opacity: 1;
+  color: hsl(var(--popover-foreground) / var(--tw-text-opacity));
 }
 
 .underline {
