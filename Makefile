@@ -28,8 +28,8 @@ generate-icons:
 generate-lib:
 	templ generate ./pkg/...
 
-generate-css:
-	npx tailwindcss -i ./assets/css/input.css -o ./assets/css/goilerplate.css
+generate-lib-css:
+	npx tailwindcss -c ./tailwind.config.lib.js -i ./assets/css/input.css -o ./pkg/styles/goilerplate.css
 
-update-package: generate-css generate-lib # generate-icons <- if needed
+update-package:  generate-lib-css generate-lib
 	@echo "Package updated successfully"
