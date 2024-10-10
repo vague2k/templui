@@ -63,6 +63,14 @@ type ButtonProps struct {
 	// Attributes allows passing additional HTML attributes to the button or anchor element.
 	// Default: nil
 	Attributes templ.Attributes
+
+	// IconLeft specifies an icon component to be displayed on the left side of the button text.
+	// Default: nil
+	IconLeft templ.Component
+
+	// IconRight specifies an icon component to be displayed on the right side of the button text.
+	// Default: nil
+	IconRight templ.Component
 }
 
 // getVariantClasses returns the CSS classes for the given button variant.
@@ -102,16 +110,18 @@ func getSizeClasses(size ButtonSize) string {
 //
 // Usage:
 //
-//  @components.Button(components.ButtonProps{
-//    Text: "Click me",
-//    Variant: components.Primary,
-//    Size: components.Md,
-//    FullWidth: false,
-//    Attributes: templ.Attributes{
-//      "aria-label": "Click this button",
-//      "data-testid": "main-button",
-//    },
-//  })
+//	@components.Button(components.ButtonProps{
+//	  Text: "Click me",
+//	  Variant: components.Primary,
+//	  Size: components.Md,
+//	  FullWidth: false,
+//	  IconLeft: components.Icon(components.IconProps{Name: "user"}),
+//	  IconRight: components.Icon(components.IconProps{Name: "arrow-right"}),
+//	  Attributes: templ.Attributes{
+//	    "aria-label": "Click this button",
+//	    "data-testid": "main-button",
+//	  },
+//	})
 //
 // Props:
 //   - Class: Additional CSS classes to apply to the button. Default: "" (empty string)
@@ -124,6 +134,8 @@ func getSizeClasses(size ButtonSize) string {
 //   - Disabled: Can be either a bool or a string. If bool (Go), it directly controls the disabled state. If string, it's treated as a JavaScript expression for dynamic disabling. Default: nil
 //   - Type: The type of the button. Default: "button"
 //   - Attributes: Additional HTML attributes to apply to the button or anchor element. Default: nil
+//   - IconLeft: An icon component to be displayed on the left side of the button text. Default: nil
+//   - IconRight: An icon component to be displayed on the right side of the button text. Default: nil
 templ Button(props ButtonProps) {
 	if props.Href != "" {
 		<a
@@ -147,21 +159,21 @@ templ Button(props ButtonProps) {
 			}
 			{ props.Attributes... }
 		>
-			{ props.Text }
 			{ children... }
+			@renderButtonContent(props)
 		</a>
 	} else {
 		<button
 			class={
 				"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors",
-				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+				"focus-visible:outline-none focus-visible:ring-2 focus-ring-ring focus-visible:ring-offset-2",
 				"disabled:pointer-events-none disabled:opacity-50",
 				getVariantClasses(props.Variant),
 				getSizeClasses(props.Size),
 				templ.KV("w-full", props.FullWidth),
 				props.Class,
 			}
-			if props.Type == "" {
+			if props.Type != "" {
 				type={ props.Type }
 			}
 			if props.Disabled != nil {
@@ -174,8 +186,21 @@ templ Button(props ButtonProps) {
 			}
 			{ props.Attributes... }
 		>
-			{ props.Text }
 			{ children... }
+			@renderButtonContent(props)
 		</button>
 	}
+}
+
+// renderButtonContent renders the content of the button, including icons and text
+templ renderButtonContent(props ButtonProps) {
+	<span class="flex gap-2 items-center">
+		if props.IconLeft != nil {
+			@props.IconLeft
+		}
+		{ props.Text }
+		if props.IconRight != nil {
+			@props.IconRight
+		}
+	</span>
 }

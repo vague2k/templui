@@ -2,17 +2,22 @@ package components
 
 templ ThemeSwitcher() {
 	@Button(ButtonProps{
-		Size:       "icon",
-		Variant:    "ghost",
-		Attributes: templ.Attributes{"@click": "toggleTheme()"},
-	}) {
-		<div x-show="theme === 'dark'">
-			@LightIcon()
-		</div>
-		<div x-show="theme === 'light'">
-			@DarkIcon()
-		</div>
-	}
+		Size:     ButtonIcon,
+		Variant:  Ghost,
+		IconLeft: templ.Component(DynamicThemeIcon()),
+		Attributes: templ.Attributes{
+			"@click": "toggleTheme()",
+		},
+	})
+}
+
+templ DynamicThemeIcon() {
+	<span x-show="theme === 'dark'" class="block">
+		@LightIcon()
+	</span>
+	<span x-show="theme === 'light'" class="block">
+		@DarkIcon()
+	</span>
 }
 
 templ DarkIcon() {
