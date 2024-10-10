@@ -54,6 +54,10 @@ var Sections = []Section{
 				Href: "/docs/components/datepicker",
 			},
 			{
+				Text: "Dropdown Menu",
+				Href: "/docs/components/dropdown-menu",
+			},
+			{
 				Text: "Icon",
 				Href: "/docs/components/icon",
 			},

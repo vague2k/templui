@@ -1,0 +1,39 @@
+package pages
+
+import (
+	"github.com/axzilla/goilerplate/pkg/components"
+	"github.com/axzilla/goilerplate/internals/ui/layouts"
+	"github.com/axzilla/goilerplate/internals/ui/showcase"
+)
+
+templ DropdownMenu() {
+	@layouts.DocsLayout() {
+		<div>
+			<div class="mb-16">
+				<h1 class="text-3xl font-bold mb-2">Dropdown Menu</h1>
+				<p class="mb-4 text-muted-foreground">The Dropdown Menu component provides a way to display a list of options in a compact form.</p>
+			</div>
+			@components.Tabs(components.TabsProps{
+				Tabs: []components.Tab{
+					{
+						ID:      "preview",
+						Title:   "Preview",
+						Content: showcase.DropdownMenuShowcase(),
+					},
+					{
+						ID:      "code",
+						Title:   "Code",
+						Content: CodeSnippetFromEmbedded("dropdown_menu.templ", "go", showcase.TemplFiles),
+					},
+					{
+						ID:      "component",
+						Title:   "Component",
+						Content: CodeSnippetFromEmbedded("dropdown_menu.templ", "go", components.TemplFiles),
+					},
+				},
+				TabsContainerClass:    "md:w-1/2",
+				ContentContainerClass: "w-full",
+			})
+		</div>
+	}
+}

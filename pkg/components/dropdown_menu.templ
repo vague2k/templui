@@ -1,0 +1,134 @@
+package components
+
+import (
+	"fmt"
+)
+
+// DropdownMenuItem represents an item in the dropdown menu
+type DropdownMenuItem struct {
+	Label  string
+	Value  string
+	Href   string
+	Target string
+}
+
+// DropdownMenuProps defines the properties for the DropdownMenu component
+type DropdownMenuProps struct {
+	Items    []DropdownMenuItem
+	Label    string
+	Class    string
+	Position string // "left" or "right", defaults to right if not specified
+}
+
+// DropdownMenu renders a dropdown menu component.
+//
+// It provides a button that, when clicked, displays a list of options.
+// The menu can be positioned to the left or right of the button.
+// It supports both button and link items, with optional target attribute for links.
+//
+// Props:
+//   - Items: Slice of DropdownMenuItem, defining the content of the dropdown
+//   - Label: Text to display on the dropdown button
+//   - Class: Additional CSS classes to apply to the root element
+//   - Position: "left" or "right", determines the horizontal position of the dropdown
+//
+// DropdownMenuItem fields:
+//   - Label: Text to display for the item
+//   - Value: Value associated with the item (for button items)
+//   - Href: URL for link items
+//   - Target: Target attribute for link items (e.g., "_blank" for new tab)
+//
+// Usage:
+//
+//	@components.DropdownMenu(components.DropdownMenuProps{
+//		Label: "Options",
+//		Position: "right",
+//		Items: []components.DropdownMenuItem{
+//			{Label: "Option 1", Value: "opt1"},
+//			{Label: "Option 2", Value: "opt2"},
+//			{Label: "External Link", Href: "https://example.com", Target: "_blank"},
+//		},
+//	})
+//
+// The component uses Alpine.js for interactivity and Tailwind CSS for styling.
+// It includes dark mode support and responsive positioning.
+templ DropdownMenu(props DropdownMenuProps) {
+	<div
+		class={ "relative inline-block text-left", props.Class }
+		x-data="{ 
+			open: false,
+			position: $el.dataset.position,
+			verticalPosition: 'bottom',
+			updatePosition() {
+				const menu = this.$refs.menu;
+				const rect = menu.getBoundingClientRect();
+				const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+				const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+				
+				if (this.position === 'left' && rect.left < 0) {
+					this.position = 'right';
+				} else if (this.position !== 'left' && rect.right > viewportWidth) {
+					this.position = 'left';
+				}
+
+				if (this.verticalPosition === 'bottom' && rect.bottom > viewportHeight) {
+					this.verticalPosition = 'top';
+				} else if (this.verticalPosition === 'top' && rect.top < 0) {
+					this.verticalPosition = 'bottom';
+				}
+			}
+		}"
+		@resize.window="if (open) updatePosition()"
+		data-position={ props.Position }
+	>
+		<button
+			type="button"
+			class="inline-flex justify-center w-full rounded-md border border-gray-300 dark:border-gray-600 shadow-sm px-4 py-2 bg-white dark:bg-gray-800 text-sm font-medium text-gray-700 dark:text-gray-200 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-indigo-400"
+			id="dropdown-menu-button"
+			@click="open = !open; if (open) $nextTick(() => updatePosition())"
+		>
+			{ props.Label }
+			<svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+				<path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+			</svg>
+		</button>
+		<div
+			x-ref="menu"
+			x-show="open"
+			@click.away="open = false"
+			x-transition:enter="transition ease-out duration-100"
+			x-transition:enter-start="transform opacity-0 scale-95"
+			x-transition:enter-end="transform opacity-100 scale-100"
+			x-transition:leave="transition ease-in duration-75"
+			x-transition:leave-start="transform opacity-100 scale-100"
+			x-transition:leave-end="transform opacity-0 scale-95"
+			:class="{
+				'right-0': position === 'left',
+				'left-0': position !== 'left',
+				'bottom-full mb-2': verticalPosition === 'top',
+				'top-full mt-2': verticalPosition === 'bottom'
+			}"
+			class="absolute w-56 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 dark:ring-gray-700 focus:outline-none z-10"
+		>
+			<div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="dropdown-menu-button">
+				for _, item := range props.Items {
+					if item.Href != "" {
+						<a
+							href={ templ.SafeURL(item.Href) }
+							target={ item.Target }
+							class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white"
+							role="menuitem"
+						>{ item.Label }</a>
+					} else {
+						<button
+							type="button"
+							class="block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white"
+							role="menuitem"
+							@click={ fmt.Sprintf("$dispatch('dropdown-selected', { value: '%s' }); open = false", item.Value) }
+						>{ item.Label }</button>
+					}
+				}
+			</div>
+		</div>
+	</div>
+}
