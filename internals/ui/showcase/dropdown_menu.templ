@@ -1,6 +1,9 @@
 package showcase
 
-import "github.com/axzilla/goilerplate/pkg/components"
+import (
+	"github.com/axzilla/goilerplate/pkg/components"
+	"github.com/axzilla/goilerplate/pkg/icons"
+)
 
 templ DropdownMenuShowcase() {
 	<div class="flex justify-center items-center border rounded-md py-16 px-4">
@@ -16,23 +19,23 @@ templ DropdownMenuShowcase() {
 				Trigger: components.Button(components.ButtonProps{
 					Text:     "User Menu",
 					Variant:  "outline",
-					IconLeft: components.Icon(components.IconProps{Name: "menu", Size: "16"}),
+					IconLeft: icons.Menu(icons.IconProps{Size: "16"}),
 				}),
 				Position: "right",
 				Items: []components.DropdownMenuItem{
 					{
 						Label:    "Profile",
-						IconLeft: components.Icon(components.IconProps{Name: "user", Size: "16"}),
+						IconLeft: icons.User(icons.IconProps{Size: "16"}),
 						Href:     "/docs/components/dropdown-menu",
 					},
 					{
 						Label:    "Settings",
-						IconLeft: components.Icon(components.IconProps{Name: "settings", Size: "16"}),
+						IconLeft: icons.Settings(icons.IconProps{Size: "16"}),
 						Href:     "/docs/components/dropdown-menu",
 					},
 					{
 						Label:    "Logout",
-						IconLeft: components.Icon(components.IconProps{Name: "log-out", Size: "16"}),
+						IconLeft: icons.LogOut(icons.IconProps{Size: "16"}),
 						Value:    "logout",
 					},
 				},
@@ -41,7 +44,7 @@ templ DropdownMenuShowcase() {
 				Trigger: components.Button(components.ButtonProps{
 					Text:     "Advanced Menu",
 					Variant:  "outline",
-					IconLeft: components.Icon(components.IconProps{Name: "menu", Size: "16"}),
+					IconLeft: icons.Menu(icons.IconProps{Size: "16"}),
 				}),
 				Position: "left",
 				Items: []components.DropdownMenuItem{

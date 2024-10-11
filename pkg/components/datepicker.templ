@@ -1,5 +1,7 @@
 package components
 
+import "github.com/axzilla/goilerplate/pkg/icons"
+
 // DatepickerProps defines the properties for the Datepicker component.
 type DatepickerProps struct {
 	// ID is the unique identifier for the datepicker input.
@@ -160,7 +162,7 @@ templ Datepicker(props DatepickerProps) {
 				@click="datePickerOpen = !datePickerOpen"
 				class="absolute top-0 right-0 px-3 py-2 cursor-pointer text-muted-foreground hover:text-foreground"
 			>
-				@Icon(IconProps{Name: "calendar"})
+				@icons.Calendar(icons.IconProps{})
 			</div>
 		</div>
 		<div
@@ -176,10 +178,10 @@ templ Datepicker(props DatepickerProps) {
 				</div>
 				<div>
 					<button @click="datePickerPreviousMonth()" type="button" class="inline-flex p-1 transition duration-100 ease-in-out rounded-full cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 hover:bg-accent hover:text-accent-foreground">
-						@Icon(IconProps{Name: "chevron-left", Size: "16", Class: "text-muted-foreground"})
+						@icons.ChevronLeft(icons.IconProps{Size: "16", Class: "text-muted-foreground"})
 					</button>
 					<button @click="datePickerNextMonth()" type="button" class="inline-flex p-1 transition duration-100 ease-in-out rounded-full cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 hover:bg-accent hover:text-accent-foreground">
-						@Icon(IconProps{Name: "chevron-right", Size: "16", Class: "text-muted-foreground"})
+						@icons.ChevronRight(icons.IconProps{Size: "16", Class: "text-muted-foreground"})
 					</button>
 				</div>
 			</div>

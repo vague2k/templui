@@ -1,5 +1,7 @@
 package components
 
+import "github.com/axzilla/goilerplate/pkg/icons"
+
 // AccordionItem represents a single item in the Accordion component.
 type AccordionItem struct {
 	// ID is the unique identifier for the accordion item.
@@ -76,7 +78,7 @@ templ Accordion(props AccordionProps) {
 						:aria-expanded={ "activeItem === '" + item.ID + "'" }
 					>
 						@item.Trigger
-						@Icon(IconProps{Name: "chevron-down", Size: "16"})
+						@icons.ChevronDown(icons.IconProps{Size: "16"})
 					</button>
 				</h3>
 				<div

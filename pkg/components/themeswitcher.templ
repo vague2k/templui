@@ -1,5 +1,7 @@
 package components
 
+import "github.com/axzilla/goilerplate/pkg/icons"
+
 templ ThemeSwitcher() {
 	@Button(ButtonProps{
 		Size:     ButtonIcon,
@@ -21,9 +23,9 @@ templ DynamicThemeIcon() {
 }
 
 templ DarkIcon() {
-	@Icon(IconProps{Name: "moon"})
+	@icons.Moon(icons.IconProps{})
 }
 
 templ LightIcon() {
-	@Icon(IconProps{Name: "sun-medium"})
+	@icons.SunMedium(icons.IconProps{})
 }
