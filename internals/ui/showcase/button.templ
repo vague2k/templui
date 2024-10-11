@@ -22,9 +22,7 @@ templ ButtonShowcase() {
 					@components.Button(components.ButtonProps{Text: "Default"})
 					@components.Button(components.ButtonProps{Text: "Small", Size: components.Sm})
 					@components.Button(components.ButtonProps{Text: "Large", Size: components.Lg})
-					@components.Button(components.ButtonProps{Size: components.ButtonIcon}) {
-						@components.Icon(components.IconProps{Name: "rocket", Size: "16"})
-					}
+					@components.Button(components.ButtonProps{Size: components.ButtonIcon, IconLeft: components.Icon(components.IconProps{Name: "rocket", Size: "16"})})
 				</div>
 			</div>
 			<div class="mb-8">
@@ -43,14 +41,14 @@ templ ButtonShowcase() {
 			<div class="mb-8">
 				<h2 class="font-semibold mb-2">With Icon</h2>
 				<div class="flex flex-wrap gap-2">
-					@components.Button(components.ButtonProps{Class: "flex gap-2"}) {
-						@components.Icon(components.IconProps{Name: "rocket", Size: "16"})
-						Icon Left
-					}
-					@components.Button(components.ButtonProps{Class: "flex gap-2"}) {
-						Icon Right
-						@components.Icon(components.IconProps{Name: "rocket", Size: "16"})
-					}
+					@components.Button(components.ButtonProps{
+						Text:     "Icon Left",
+						IconLeft: components.Icon(components.IconProps{Name: "rocket", Size: "16"}),
+					})
+					@components.Button(components.ButtonProps{
+						Text:      "Icon Left",
+						IconRight: components.Icon(components.IconProps{Name: "rocket", Size: "16"}),
+					})
 				</div>
 			</div>
 		</div>
