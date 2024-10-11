@@ -1,6 +1,9 @@
 package components
 
-import "fmt"
+import (
+	"fmt"
+	"github.com/axzilla/goilerplate/pkg/icons"
+)
 
 // DropdownMenuItem represents an item in the dropdown menu
 type DropdownMenuItem struct {
@@ -53,7 +56,7 @@ templ renderMenuItem(item DropdownMenuItem, index int, depth int) {
 				if item.IconRight != nil {
 					@item.IconRight
 				} else {
-					@Icon(IconProps{Name: "chevron-right", Size: "16"})
+					@icons.ChevronRight(icons.IconProps{Size: "16"})
 				}
 			</button>
 			if depth < 3 {
@@ -189,7 +192,7 @@ templ DropdownMenu(props DropdownMenuProps) {
 				@Button(ButtonProps{
 					Text:      "Options",
 					Variant:   "outline",
-					IconRight: Icon(IconProps{Name: "chevron-down", Size: "16"}),
+					IconRight: icons.ChevronDown(icons.IconProps{Size: "16"}),
 				})
 			}
 		</div>
