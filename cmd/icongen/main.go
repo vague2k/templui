@@ -7,69 +7,66 @@ import (
 	"strings"
 )
 
-type Icon struct {
-	Name    string `json:"name"`
-	Content string `json:"content"`
-}
+const (
+	iconDir        = "./lucide/icons" // Path to the Lucide SVG files
+	outputFile     = "./pkg/icons/icon_defs.go"
+	iconContentDir = "./pkg/icons/content" // Directory for individual icon contents
+)
 
 func main() {
-	svgDir := "./cmd/icongen/icons"
-	icons := []Icon{}
+	// Read all files from the icon directory
+	files, err := os.ReadDir(iconDir)
+	if err != nil {
+		panic(err)
+	}
 
-	err := filepath.Walk(svgDir, func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			return err
-		}
-		if filepath.Ext(path) == ".svg" {
-			content, err := os.ReadFile(path)
+	// Initialize slice for icon definitions
+	var iconDefs []string
+	iconDefs = append(iconDefs, "package icons\n")
+	iconDefs = append(iconDefs, "// This file is auto generated\n")
+
+	// Create the content directory if it doesn't exist
+	err = os.MkdirAll(iconContentDir, os.ModePerm)
+	if err != nil {
+		panic(err)
+	}
+
+	// Process each SVG file
+	for _, file := range files {
+		if filepath.Ext(file.Name()) == ".svg" {
+			name := strings.TrimSuffix(file.Name(), ".svg")
+			funcName := toPascalCase(name)
+
+			// Add icon definition
+			iconDefs = append(iconDefs, fmt.Sprintf("var %s = Icon(%q)\n", funcName, name))
+
+			// Save icon content to a separate file
+			content, err := os.ReadFile(filepath.Join(iconDir, file.Name()))
 			if err != nil {
-				return err
+				panic(err)
 			}
-			name := strings.TrimSuffix(filepath.Base(path), ".svg")
-			svgContent := extractSVGContent(string(content))
-			if svgContent != "" {
-				icons = append(icons, Icon{Name: name, Content: svgContent})
-			} else {
-				fmt.Printf("Warning: Empty content for icon %s\n", name)
+
+			err = os.WriteFile(filepath.Join(iconContentDir, name+".svg"), content, 0644)
+			if err != nil {
+				panic(err)
 			}
 		}
-		return nil
-	})
+	}
 
+	// Write all icon definitions to the output file
+	err = os.WriteFile(outputFile, []byte(strings.Join(iconDefs, "")), 0644)
 	if err != nil {
-		fmt.Printf("Error walking the path %v: %v\n", svgDir, err)
-		return
+		panic(err)
 	}
 
-	generateGoCode(icons)
-}
-func extractSVGContent(svgContent string) string {
-	start := strings.Index(svgContent, "<svg")
-	if start == -1 {
-		return ""
-	}
-	contentStart := strings.Index(svgContent[start:], ">") + start + 1
-	end := strings.LastIndex(svgContent, "</svg>")
-	if end == -1 || contentStart >= end {
-		return ""
-	}
-	return strings.TrimSpace(svgContent[contentStart:end])
+	fmt.Println("Icon definitions and contents generated successfully!")
 }
 
-func generateGoCode(icons []Icon) {
-	file, err := os.Create("./internals/ui/components/icon_contents.go")
-	if err != nil {
-		fmt.Println("Error creating file:", err)
-		return
+// toPascalCase converts a kebab-case string to PascalCase
+func toPascalCase(s string) string {
+	words := strings.Split(s, "-")
+	for i, word := range words {
+		words[i] = strings.Title(word)
 	}
-	defer file.Close()
-
-	fmt.Fprintln(file, "package components")
-	fmt.Fprintln(file, "\nvar iconContents = map[string]string{")
-	for _, icon := range icons {
-		if icon.Content != "" {
-			fmt.Fprintf(file, "\t\"%s\": `%s`,\n", icon.Name, icon.Content)
-		}
-	}
-	fmt.Fprintln(file, "}")
+	return strings.Join(words, "")
 }

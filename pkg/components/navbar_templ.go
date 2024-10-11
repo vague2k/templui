@@ -8,7 +8,10 @@ package components
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "github.com/axzilla/goilerplate/internals/shared"
+import (
+	"github.com/axzilla/goilerplate/internals/shared"
+	"github.com/axzilla/goilerplate/pkg/icons"
+)
 
 func Navbar() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
@@ -43,11 +46,11 @@ func Navbar() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = Button(ButtonProps{Size: ButtonIcon, IconLeft: Icon(IconProps{Name: "github"}), Variant: "ghost", Href: "https://github.com/axzilla/goilerplate", Target: "_blank"}).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Button(ButtonProps{Size: ButtonIcon, IconLeft: icons.Github(icons.IconProps{}), Variant: "ghost", Href: "https://github.com/axzilla/goilerplate", Target: "_blank"}).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = Button(ButtonProps{Size: ButtonIcon, IconLeft: Icon(IconProps{Name: "twitter"}), Variant: "ghost", Href: "https://x.com/_axzilla", Target: "_blank"}).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Button(ButtonProps{Size: ButtonIcon, IconLeft: icons.Twitter(icons.IconProps{}), Variant: "ghost", Href: "https://x.com/_axzilla", Target: "_blank"}).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -116,7 +119,7 @@ func NavbarMobileMenu() templ.Component {
 					var templ_7745c5c3_Var5 string
 					templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(section.Title)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/navbar.templ`, Line: 33, Col: 69}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/navbar.templ`, Line: 36, Col: 69}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 					if templ_7745c5c3_Err != nil {
@@ -166,7 +169,7 @@ func NavbarMobileMenu() templ.Component {
 						var templ_7745c5c3_Var9 string
 						templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(link.Text)
 						if templ_7745c5c3_Err != nil {
-							return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/navbar.templ`, Line: 42, Col: 26}
+							return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/navbar.templ`, Line: 45, Col: 26}
 						}
 						_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 						if templ_7745c5c3_Err != nil {
@@ -208,7 +211,7 @@ func NavbarMobileMenu() templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = Icon(IconProps{Name: "square-library"}).Render(ctx, templ_7745c5c3_Buffer)
+				templ_7745c5c3_Err = icons.SquareLibrary(icons.IconProps{}).Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
