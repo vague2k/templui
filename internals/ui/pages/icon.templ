@@ -4,7 +4,6 @@ import (
 	"github.com/axzilla/goilerplate/internals/ui/layouts"
 	"github.com/axzilla/goilerplate/internals/ui/showcase"
 	"github.com/axzilla/goilerplate/pkg/components"
-	"github.com/axzilla/goilerplate/pkg/icons"
 )
 
 templ Icon() {
@@ -13,7 +12,7 @@ templ Icon() {
 			<div class="mb-16">
 				<h1 class="text-3xl font-bold mb-2">Icon</h1>
 				<p class="mb-4 text-muted-foreground">
-					A wrapper for Lucide Icons with optional settings for size, color, fill, stroke, and custom classes.
+					A wrapper for <a href="https://lucide.dev" target="_blank" rel="noopener noreferrer" class="text-primary underline underline-offset-2 hover:opacity-80 transition-opacity">Lucide Icons</a> with optional settings for size, color, fill, stroke, and custom classes. Browse available icons in the Lucide library to see what you can use.
 				</p>
 			</div>
 			@components.Tabs(components.TabsProps{
@@ -27,16 +26,6 @@ templ Icon() {
 						ID:      "code",
 						Title:   "Code",
 						Content: CodeSnippetFromEmbedded("icon.templ", "go", showcase.TemplFiles),
-					},
-					{
-						ID:      "component",
-						Title:   "Component",
-						Content: CodeSnippetFromEmbedded("icon.templ", "go", components.TemplFiles),
-					},
-					{
-						ID:      "icons",
-						Title:   "Icons",
-						Content: CodeSnippetFromEmbedded("icons.go", "go", icons.TemplFiles),
 					},
 				},
 				TabsContainerClass:    "md:w-1/2",

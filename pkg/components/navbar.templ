@@ -1,6 +1,9 @@
 package components
 
-import "github.com/axzilla/goilerplate/internals/shared"
+import (
+	"github.com/axzilla/goilerplate/internals/shared"
+	"github.com/axzilla/goilerplate/pkg/icons"
+)
 
 templ Navbar() {
 	<nav class="border-b py-3">
@@ -17,8 +20,8 @@ templ Navbar() {
 				<a href="/docs/components" class="text-sm hover:underline">Components</a>
 			</div>
 			<div class="flex items-center space-x-2">
-				@Button(ButtonProps{Size: ButtonIcon, IconLeft: Icon(IconProps{Name: "github"}), Variant: "ghost", Href: "https://github.com/axzilla/goilerplate", Target: "_blank"})
-				@Button(ButtonProps{Size: ButtonIcon, IconLeft: Icon(IconProps{Name: "twitter"}), Variant: "ghost", Href: "https://x.com/_axzilla", Target: "_blank"})
+				@Button(ButtonProps{Size: ButtonIcon, IconLeft: icons.Github(icons.IconProps{}), Variant: "ghost", Href: "https://github.com/axzilla/goilerplate", Target: "_blank"})
+				@Button(ButtonProps{Size: ButtonIcon, IconLeft: icons.Twitter(icons.IconProps{}), Variant: "ghost", Href: "https://x.com/_axzilla", Target: "_blank"})
 				@ThemeSwitcher()
 			</div>
 		</div>
@@ -52,7 +55,8 @@ templ NavbarMobileMenu() {
 				@click="sidebarOpen = !sidebarOpen"
 				class="mr-2 lg:hidden p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
 			>
-				@Icon(IconProps{Name: "square-library"})
+				@icons.SquareLibrary(icons.IconProps{})
+				// @Icon(IconProps{Name: "square-library"})
 			</button>
 		}
 	}

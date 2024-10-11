@@ -803,6 +803,10 @@ body {
   display: grid;
 }
 
+.contents {
+  display: contents;
+}
+
 .hidden {
   display: none;
 }
@@ -1602,6 +1606,10 @@ body {
   text-decoration-line: underline;
 }
 
+.underline-offset-2 {
+  text-underline-offset: 2px;
+}
+
 .underline-offset-4 {
   text-underline-offset: 4px;
 }
@@ -1738,8 +1746,8 @@ body {
   transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
 }
 
-.\[contentStart\:end\] {
-  content-start: end;
+.\[start\:end\] {
+  start: end;
 }
 
 .file\:border-0::file-selector-button {
@@ -1841,6 +1849,10 @@ body {
 
 .hover\:opacity-100:hover {
   opacity: 1;
+}
+
+.hover\:opacity-80:hover {
+  opacity: 0.8;
 }
 
 .focus\:outline-none:focus {
