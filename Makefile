@@ -12,24 +12,17 @@ server:
 	--build.stop_on_error "false" \
 	--misc.clean_on_exit true
 
-tailwind:
+tailwind-app:
 	npx tailwindcss -i ./assets/css/input.css -o ./assets/css/output.css --watch
 
+tailwind-goilerplate:
+	npx tailwindcss -c ./tailwind.config.lib.js -i ./assets/css/input.css -o ./pkg/styles/goilerplate.css --watch
+
 dev:
-	make -j3 templ server tailwind
+	make -j4 templ server tailwind-app tailwind-goilerplate
 
 debug:
-	make -j2 templ tailwind
+	make -j3 templ tailwind-app tailwind-goilerplate
 
-# Package Tools
 generate-icons:
 	go run cmd/icongen/main.go
-
-generate-lib:
-	templ generate ./pkg/...
-
-generate-lib-css:
-	npx tailwindcss -c ./tailwind.config.lib.js -i ./assets/css/input.css -o ./pkg/styles/goilerplate.css
-
-update-package:  generate-lib-css generate-lib
-	@echo "Package updated successfully"
