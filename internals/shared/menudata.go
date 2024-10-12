@@ -50,6 +50,10 @@ var Sections = []Section{
 				Href: "/docs/components/card",
 			},
 			{
+				Text: "Checkbox",
+				Href: "/docs/components/checkbox",
+			},
+			{
 				Text: "Datepicker",
 				Href: "/docs/components/datepicker",
 			},
