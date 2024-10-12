@@ -1,0 +1,68 @@
+package showcase
+
+import "github.com/axzilla/goilerplate/pkg/components"
+
+templ CheckboxShowcase() {
+	<div class="flex justify-center items-center border rounded-md py-16 px-4">
+		<div>
+			<div class="mb-8">
+				<h2 class="font-semibold mb-2">Default Checkbox</h2>
+				@components.Checkbox(components.CheckboxProps{
+					ID:    "default-checkbox",
+					Name:  "default",
+					Value: "default",
+					Label: "Accept terms and conditions",
+				})
+			</div>
+			<div class="mb-8">
+				<h2 class="font-semibold mb-2">Checked Checkbox</h2>
+				@components.Checkbox(components.CheckboxProps{
+					ID:      "checked-checkbox",
+					Name:    "newsletter",
+					Value:   "subscribe",
+					Label:   "Receive newsletter",
+					Checked: true,
+				})
+			</div>
+			<div class="mb-8">
+				<h2 class="font-semibold mb-2">Disabled Checkbox</h2>
+				@components.Checkbox(components.CheckboxProps{
+					ID:       "disabled-checkbox",
+					Name:     "disabled",
+					Value:    "disabled",
+					Label:    "Disabled option",
+					Disabled: true,
+				})
+			</div>
+			<div class="mb-8">
+				<h2 class="font-semibold mb-2">Disabled Checked Checkbox</h2>
+				@components.Checkbox(components.CheckboxProps{
+					ID:       "disabled-checked-checkbox",
+					Name:     "disabled-checked",
+					Value:    "disabled-checked",
+					Label:    "Disabled checked option",
+					Checked:  true,
+					Disabled: true,
+				})
+			</div>
+			<div class="mb-8">
+				<h2 class="font-semibold mb-2">Checkbox with Dynamic Checked State</h2>
+				@components.Checkbox(components.CheckboxProps{
+					ID:      "dynamic-checkbox",
+					Name:    "dynamic",
+					Value:   "dynamic",
+					Label:   "Dynamic checkbox",
+					Checked: "dynamicState",
+				})
+			</div>
+			<div class="mb-8">
+				<h2 class="font-semibold mb-2">Checkbox without Label</h2>
+				@components.Checkbox(components.CheckboxProps{
+					ID:    "no-label-checkbox",
+					Name:  "no-label",
+					Value: "no-label",
+				})
+			</div>
+		</div>
+	</div>
+}

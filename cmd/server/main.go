@@ -27,6 +27,7 @@ func main() {
 	mux.Handle("GET /docs/components/avatar", templ.Handler(pages.Avatar()))
 	mux.Handle("GET /docs/components/button", templ.Handler(pages.Button()))
 	mux.Handle("GET /docs/components/card", templ.Handler(pages.Card()))
+	mux.Handle("GET /docs/components/checkbox", templ.Handler(pages.Checkbox()))
 	mux.Handle("GET /docs/components/datepicker", templ.Handler(pages.Datepicker()))
 	mux.Handle("GET /docs/components/dropdown-menu", templ.Handler(pages.DropdownMenu()))
 	mux.Handle("GET /docs/components/icon", templ.Handler(pages.Icon()))
