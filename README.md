@@ -45,13 +45,13 @@ There are two main ways to use Goilerplate in your projects:
 
 You can also mix and match these approaches based on your project needs.
 
-For a quick start, check out our [Goilerplate Quickstart](https://github.com/axzilla/goilerplate-quickstart) template, which provides a pre-configured setup using Goilerplate as a package library.
+For a quick start, check out our [Goilerplate quickstart](https://github.com/axzilla/goilerplate-quickstart) template, which provides a pre-configured setup using Goilerplate as a package library.
 
-For detailed setup instructions and examples, visit our [Getting Started guide](https://goilerplate.com/docs/getting-started).
+For detailed setup instructions and examples, visit our [how to use guide](https://goilerplate.com/docs/how-to-use).
 
 ## Components
 
-Explore our growing list of components in the [Components documentation](https://goilerplate.com/docs/components). Each component comes with usage examples and code snippets.
+Explore our growing list of components in the [components documentation](https://goilerplate.com/docs/components). Each component comes with usage examples and code snippets.
 
 ## Inspiration
 
@@ -72,11 +72,11 @@ We're exploring whether to make Goilerplate a strict port of shadcn/ui or to cre
 
 ## Changelog
 
-See [Releases](https://github.com/axzilla/goilerplate/releases) for a detailed list of changes in each version.
+See [releases](https://github.com/axzilla/goilerplate/releases) for a detailed list of changes in each version.
 
 ## Contributing
 
-We welcome contributions from the community! Whether it's adding new components, improving existing ones, or enhancing documentation, your input is valuable. Please check our [Contributing Guidelines](CONTRIBUTING.md) for more information on how to get involved.
+We welcome contributions from the community! Whether it's adding new components, improving existing ones, or enhancing documentation, your input is valuable. Please check our [contributing guidelines](CONTRIBUTING.md) for more information on how to get involved.
 
 ## Feedback
 
