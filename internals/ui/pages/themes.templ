@@ -53,28 +53,85 @@ templ Themes() {
 }
 
 templ ThemePreview() {
-	<div id="theme-preview" class="theme-preview p-4 border rounded-lg">
-		<div class="space-y-4">
-			@components.Button(components.ButtonProps{Text: "Primary Button"})
-			@components.Button(components.ButtonProps{Text: "Secondary Button", Variant: "secondary"})
-			@components.Input(components.InputProps{})
-			@components.Card(components.CardProps{}) {
-				@components.CardHeader() {
-					@components.CardTitle() {
-						Card Title
-					}
-					@components.CardDescription() {
-						Card Description
-					}
+	<div id="theme-preview" class="theme-preview p-6 border rounded-lg">
+		@components.Card(components.CardProps{}) {
+			@components.CardHeader() {
+				@components.CardTitle() {
+					User Registration 
 				}
-				@components.CardContent() {
-					<p>Card Content</p>
-				}
-				@components.CardFooter() {
-					@components.Button(components.ButtonProps{Text: "Action"})
+				@components.CardDescription() {
+					Please fill out the form below to create your account. 
 				}
 			}
-		</div>
+			@components.CardContent() {
+				<form class="space-y-4">
+					<div class="space-y-2">
+						<label for="username" class="text-sm font-medium">Username</label>
+						@components.Input(components.InputProps{
+							ID:          "username",
+							Name:        "username",
+							Type:        components.Text,
+							Placeholder: "Enter your username",
+						})
+					</div>
+					<div class="space-y-2">
+						<label for="email" class="text-sm font-medium">Email</label>
+						@components.Input(components.InputProps{
+							ID:          "email",
+							Name:        "email",
+							Type:        components.Email,
+							Placeholder: "Enter your email",
+						})
+					</div>
+					<div class="space-y-2">
+						<label for="password" class="text-sm font-medium">Password</label>
+						@components.Input(components.InputProps{
+							ID:          "password",
+							Name:        "password",
+							Type:        components.Password,
+							Placeholder: "Enter your password",
+						})
+					</div>
+					<div class="space-y-2">
+						<label for="birthdate" class="text-sm font-medium">Date of Birth</label>
+						@components.Datepicker(components.DatepickerProps{
+							ID:          "birthdate",
+							Name:        "birthdate",
+							Placeholder: "Select your birth date",
+							Format:      "YYYY-MM-DD",
+						})
+					</div>
+					<div class="space-y-2">
+						@components.Checkbox(components.CheckboxProps{
+							ID:    "terms",
+							Name:  "terms",
+							Value: "accepted",
+							Label: "I agree to the Terms and Conditions",
+						})
+					</div>
+					<div class="space-y-2">
+						@components.Checkbox(components.CheckboxProps{
+							ID:    "newsletter",
+							Name:  "newsletter",
+							Value: "subscribed",
+							Label: "Subscribe to our newsletter",
+						})
+					</div>
+				</form>
+			}
+			@components.CardFooter() {
+				<div class="flex justify-between w-full">
+					@components.Button(components.ButtonProps{
+						Text:    "Cancel",
+						Variant: "secondary",
+					})
+					@components.Button(components.ButtonProps{
+						Text:    "Register",
+						Variant: "primary",
+					})
+				</div>
+			}
+		}
 	</div>
 }
 
