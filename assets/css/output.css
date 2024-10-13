@@ -666,10 +666,6 @@ body {
   bottom: 1rem;
 }
 
-.bottom-auto {
-  bottom: auto;
-}
-
 .bottom-full {
   bottom: 100%;
 }
@@ -939,10 +935,6 @@ body {
   width: 2rem;
 }
 
-.w-\[17rem\] {
-  width: 17rem;
-}
-
 .w-\[350px\] {
   width: 350px;
 }
@@ -957,10 +949,6 @@ body {
 
 .max-w-7xl {
   max-width: 80rem;
-}
-
-.max-w-lg {
-  max-width: 32rem;
 }
 
 .max-w-md {
