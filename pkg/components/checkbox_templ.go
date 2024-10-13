@@ -8,9 +8,7 @@ package components
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import (
-	"github.com/axzilla/goilerplate/pkg/icons"
-)
+import "github.com/axzilla/goilerplate/pkg/icons"
 
 // CheckboxProps defines the properties for the Checkbox component.
 type CheckboxProps struct {
@@ -94,7 +92,7 @@ func Checkbox(props CheckboxProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div x-data=\"{ checked: false }\" class=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -114,7 +112,7 @@ func Checkbox(props CheckboxProps) templ.Component {
 		var templ_7745c5c3_Var4 string
 		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/checkbox.templ`, Line: 68, Col: 17}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/checkbox.templ`, Line: 66, Col: 17}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
@@ -127,7 +125,7 @@ func Checkbox(props CheckboxProps) templ.Component {
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(props.Name)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/checkbox.templ`, Line: 69, Col: 21}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/checkbox.templ`, Line: 67, Col: 21}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
@@ -140,13 +138,13 @@ func Checkbox(props CheckboxProps) templ.Component {
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(props.Value)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/checkbox.templ`, Line: 70, Col: 23}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/checkbox.templ`, Line: 68, Col: 23}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" x-model=\"checked\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -167,7 +165,7 @@ func Checkbox(props CheckboxProps) templ.Component {
 				var templ_7745c5c3_Var7 string
 				templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(disabledStr)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/checkbox.templ`, Line: 76, Col: 29}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/checkbox.templ`, Line: 75, Col: 29}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 				if templ_7745c5c3_Err != nil {
@@ -196,7 +194,7 @@ func Checkbox(props CheckboxProps) templ.Component {
 				var templ_7745c5c3_Var8 string
 				templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(checkedStr)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/checkbox.templ`, Line: 84, Col: 27}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/checkbox.templ`, Line: 83, Col: 27}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 				if templ_7745c5c3_Err != nil {
@@ -216,7 +214,7 @@ func Checkbox(props CheckboxProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("><div class=\"h-4 w-4 rounded-sm border border-primary ring-offset-background \n                       peer-focus-visible:ring-2 peer-focus-visible:ring-ring peer-focus-visible:ring-offset-2 \n                       peer-disabled:cursor-not-allowed peer-disabled:opacity-50\n                       flex items-center justify-center\n                       bg-background peer-checked:bg-primary transition-colors\"><div class=\"text-primary-foreground\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("><div class=\"h-4 w-4 rounded-sm border border-primary ring-offset-background \n                       peer-focus-visible:ring-2 peer-focus-visible:ring-ring peer-focus-visible:ring-offset-2 \n                       peer-disabled:cursor-not-allowed peer-disabled:opacity-50\n                       flex items-center justify-center\n                       bg-background peer-checked:bg-primary transition-colors\"><div x-show=\"checked\" class=\"text-primary-foreground\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -236,7 +234,7 @@ func Checkbox(props CheckboxProps) templ.Component {
 			var templ_7745c5c3_Var9 string
 			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/checkbox.templ`, Line: 104, Col: 18}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/checkbox.templ`, Line: 103, Col: 18}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 			if templ_7745c5c3_Err != nil {
@@ -249,7 +247,7 @@ func Checkbox(props CheckboxProps) templ.Component {
 			var templ_7745c5c3_Var10 string
 			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(props.Label)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/checkbox.templ`, Line: 107, Col: 17}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/checkbox.templ`, Line: 106, Col: 17}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {

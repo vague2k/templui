@@ -1,8 +1,6 @@
 package components
 
-import (
-	"github.com/axzilla/goilerplate/pkg/icons"
-)
+import "github.com/axzilla/goilerplate/pkg/icons"
 
 // CheckboxProps defines the properties for the Checkbox component.
 type CheckboxProps struct {
@@ -61,13 +59,14 @@ type CheckboxProps struct {
 //   - Class: Additional CSS classes to apply to the checkbox container. Optional.
 //   - Attributes: Additional HTML attributes to apply to the checkbox input element. Optional.
 templ Checkbox(props CheckboxProps) {
-	<div class={ "flex items-center space-x-2", props.Class }>
+	<div x-data="{ checked: false }" class={ "flex items-center space-x-2", props.Class }>
 		<div class="relative">
 			<input
 				type="checkbox"
 				id={ props.ID }
 				name={ props.Name }
 				value={ props.Value }
+				x-model="checked"
 				if props.Disabled != nil {
 					if disabledBool, ok := props.Disabled.(bool); ok {
 						disabled?={ disabledBool }
@@ -94,7 +93,7 @@ templ Checkbox(props CheckboxProps) {
                        flex items-center justify-center
                        bg-background peer-checked:bg-primary transition-colors"
 			>
-				<div class="text-primary-foreground">
+				<div x-show="checked" class="text-primary-foreground">
 					@icons.Check(icons.IconProps{Size: "12"})
 				</div>
 			</div>

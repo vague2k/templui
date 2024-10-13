@@ -59,6 +59,26 @@ templ Datepicker(props DatepickerProps) {
       datePickerBlankDaysInMonth: [],
       datePickerMonthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
       datePickerDays: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+      position: 'bottom',
+      toggleDatePicker() {
+          this.datePickerOpen = !this.datePickerOpen;
+          if (this.datePickerOpen) {
+              this.$nextTick(() => this.updatePosition());
+          }
+      },
+      updatePosition() {
+          const trigger = this.$refs.datePickerInput;
+          const popup = this.$refs.datePickerPopup;
+          const rect = trigger.getBoundingClientRect();
+          const popupRect = popup.getBoundingClientRect();
+          const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+          
+          if (rect.bottom + popupRect.height > viewportHeight && rect.top > popupRect.height) {
+              this.position = 'top';
+          } else {
+              this.position = 'bottom';
+          }
+      },
       datePickerDayClicked(day) {
         let selectedDate = new Date(this.datePickerYear, this.datePickerMonth, day);
         this.datePickerDay = day;
@@ -143,7 +163,7 @@ templ Datepicker(props DatepickerProps) {
         datePickerCalculateDays();
     "
 		class={ "relative", props.Class }
-		x-cloak
+		@resize.window="if (datePickerOpen) updatePosition()"
 	>
 		<div class="relative">
 			<input
@@ -152,14 +172,15 @@ templ Datepicker(props DatepickerProps) {
 				name={ props.Name }
 				placeholder={ props.Placeholder }
 				x-model="datePickerValue"
-				@click="datePickerOpen = !datePickerOpen"
+				@click="toggleDatePicker()"
 				x-on:keydown.escape="datePickerOpen = false"
+				x-ref="datePickerInput"
 				class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
 				readonly
 				{ props.Attributes... }
 			/>
 			<div
-				@click="datePickerOpen = !datePickerOpen"
+				@click="toggleDatePicker()"
 				class="absolute top-0 right-0 px-3 py-2 cursor-pointer text-muted-foreground hover:text-foreground"
 			>
 				@icons.Calendar(icons.IconProps{})
@@ -167,9 +188,19 @@ templ Datepicker(props DatepickerProps) {
 		</div>
 		<div
 			x-show="datePickerOpen"
-			x-transition
+			x-transition:enter="transition ease-out duration-100"
+			x-transition:enter-start="transform opacity-0 scale-95"
+			x-transition:enter-end="transform opacity-100 scale-100"
+			x-transition:leave="transition ease-in duration-75"
+			x-transition:leave-start="transform opacity-100 scale-100"
+			x-transition:leave-end="transform opacity-0 scale-95"
 			@click.away="datePickerOpen = false"
-			class="absolute top-0 left-0 max-w-lg p-4 mt-12 antialiased bg-popover text-popover-foreground border rounded-lg shadow w-[17rem] border-border"
+			x-ref="datePickerPopup"
+			:class="{
+                'top-full mt-1': position === 'bottom',
+                'bottom-full mb-1': position === 'top'
+            }"
+			class="absolute left-0 z-50 w-64 p-4 mt-1 antialiased bg-popover text-popover-foreground border rounded-lg shadow border-border"
 		>
 			<div class="flex items-center justify-between mb-2">
 				<div>
