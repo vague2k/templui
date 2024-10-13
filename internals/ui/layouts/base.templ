@@ -19,8 +19,8 @@ templ BaseLayout() {
                 // Immediately set theme and remove pre-load class
                 (function() {
                     document.documentElement.classList.add('pre-load');
-                    var theme = localStorage.getItem('theme') || 'light';
-                    document.documentElement.classList.toggle('dark', theme === 'dark');
+                    var appTheme = localStorage.getItem('appTheme') || 'light';
+                    document.documentElement.classList.toggle('dark', appTheme === 'dark');
                     document.addEventListener('DOMContentLoaded', function() {
                         document.documentElement.classList.remove('pre-load');
                     });
@@ -37,6 +37,10 @@ templ BaseLayout() {
 			<!-- Alpine.js -->
 			<script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/focus@3.x.x/dist/cdn.min.js"></script>
 			<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+			// Theme Customizer 
+			<script src="/assets/js/theme-customizer.js"></script>
+			<!-- Themes CSS -->
+			<link href="/assets/css/themes.css" rel="stylesheet"/>
 			<!-- Highlight.js -->
 			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/base16/woodland.min.css"/>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
@@ -45,16 +49,16 @@ templ BaseLayout() {
 		</head>
 		<body
 			x-data="{
-                theme: localStorage.getItem('theme') || 'light',
+                appTheme: localStorage.getItem('appTheme') || 'light',
                 sidebarOpen: false,
                 toggleTheme() {
-                    this.theme = this.theme === 'dark' ? 'light' : 'dark';
-                    localStorage.setItem('theme', this.theme);
-                    document.documentElement.classList.toggle('dark', this.theme === 'dark');
+                    this.appTheme = this.appTheme === 'dark' ? 'light' : 'dark';
+                    localStorage.setItem('appTheme', this.appTheme);
+                    document.documentElement.classList.toggle('dark', this.appTheme === 'dark');
                 }
             }"
 			class="h-full flex flex-col transition-colors duration-200"
-			:class="{'bg-white text-black': theme === 'light', 'text-white': theme === 'dark'}"
+			:class="{'bg-white text-black': appTheme === 'light', 'text-white': appTheme === 'dark'}"
 		>
 			<div class="page-loader">Loading...</div>
 			<div class="flex flex-col min-h-screen">
