@@ -21,6 +21,7 @@ func main() {
 	mux.Handle("GET /docs/getting-started", http.RedirectHandler("/docs/introduction", http.StatusSeeOther))
 	mux.Handle("GET /docs/introduction", templ.Handler(pages.Introduction()))
 	mux.Handle("GET /docs/how-to-use", templ.Handler(pages.HowToUse()))
+	mux.Handle("GET /docs/themes", templ.Handler(pages.Themes()))
 	// Components
 	mux.Handle("GET /docs/components/accordion", templ.Handler(pages.Accordion()))
 	mux.Handle("GET /docs/components/alert", templ.Handler(pages.Alert()))

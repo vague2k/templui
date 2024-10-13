@@ -1,0 +1,369 @@
+// internals/ui/pages/theme_customizer.templ
+
+package pages
+
+import (
+	"github.com/axzilla/goilerplate/internals/ui/layouts"
+	"github.com/axzilla/goilerplate/pkg/components"
+	"github.com/axzilla/goilerplate/pkg/icons"
+)
+
+templ Themes() {
+	@layouts.DocsLayout() {
+		<div
+			x-data="themeCustomizer"
+			x-init="init"
+		>
+			<div class="mb-16">
+				<h1 class="text-3xl font-bold mb-2">Themes</h1>
+				<p class="mb-4 text-muted-foreground">Customize the theme of the UI components.</p>
+			</div>
+			<div class="flex flex-col md:flex-row gap-8">
+				<div class="w-full md:w-1/2">
+					<div class="flex items-start justify-between mb-4">
+						<div>
+							<div class="font-semibold">Customize</div>
+							<div class="text-xs text-muted-foreground">Pick a style and color for your components.</div>
+						</div>
+						@components.Button(components.ButtonProps{
+							Size:     "icon",
+							Variant:  "ghost",
+							IconLeft: icons.RotateCcw(icons.IconProps{Size: "14"}),
+							Attributes: templ.Attributes{
+								"@click": "resetTheme",
+							},
+						})
+					</div>
+					@ThemeCustomizer(ThemeCustomizerProps{
+						CurrentTheme:  "orange",
+						CurrentRadius: "0.5",
+						CurrentMode:   "light",
+					})
+				</div>
+				<div class="w-full md:w-1/2">
+					<div class="mb-4">
+						<div class="font-semibold">Preview</div>
+						<div class="text-xs text-muted-foreground">This is how your theme will look like.</div>
+					</div>
+					@ThemePreview()
+				</div>
+			</div>
+		</div>
+	}
+}
+
+templ ThemePreview() {
+	<div id="theme-preview" class="theme-preview p-4 border rounded-lg">
+		<div class="space-y-4">
+			@components.Button(components.ButtonProps{Text: "Primary Button"})
+			@components.Button(components.ButtonProps{Text: "Secondary Button", Variant: "secondary"})
+			@components.Input(components.InputProps{})
+			@components.Card(components.CardProps{}) {
+				@components.CardHeader() {
+					@components.CardTitle() {
+						Card Title
+					}
+					@components.CardDescription() {
+						Card Description
+					}
+				}
+				@components.CardContent() {
+					<p>Card Content</p>
+				}
+				@components.CardFooter() {
+					@components.Button(components.ButtonProps{Text: "Action"})
+				}
+			}
+		</div>
+	</div>
+}
+
+type ThemeCustomizerProps struct {
+	CurrentTheme  string
+	CurrentRadius string
+	CurrentMode   string
+}
+
+templ ThemeCustomizer(props ThemeCustomizerProps) {
+	<div
+		class="theme-customizer w-full flex flex-col gap-2"
+	>
+		<div class="flex flex-1 flex-col space-y-4 md:space-y-6">
+			@ThemeSelector()
+			@RadiusSelector()
+			@ModeSelector()
+		</div>
+		@components.Button(components.ButtonProps{
+			Text:    "Generate and Copy CSS",
+			Variant: "primary",
+			Attributes: templ.Attributes{
+				"@click": "openCodePopup",
+			},
+		})
+		<div x-show="showCodePopup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center" style="display: none;">
+			@components.Card(components.CardProps{Attributes: templ.Attributes{}}) {
+				@components.CardHeader() {
+					@components.CardTitle() {
+						Generated CSS Code
+					}
+				}
+				@components.CardContent() {
+					<pre x-text="generatedCSS" class="text-primary p-4 rounded overflow-x-auto max-h-96"></pre>
+				}
+				@components.CardFooter() {
+					<div class="flex gap-2">
+						@components.Button(components.ButtonProps{
+							Text:       "Copy to Clipboard",
+							Variant:    "primary",
+							Attributes: templ.Attributes{"@click": "copyToClipboard"},
+						})
+						@components.Button(components.ButtonProps{
+							Text:       "Close",
+							Variant:    "secondary",
+							Attributes: templ.Attributes{"@click": "closeCodePopup"},
+						})
+					</div>
+				}
+			}
+		</div>
+	</div>
+}
+
+templ ThemeSelector() {
+	<div class="space-y-1.5">
+		<label class="text-xs font-medium">Theme</label>
+		<div class="grid grid-cols-3 gap-2">
+			<button
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				:class="{ 'border-primary': theme === 'zinc' }"
+				style="--theme-primary: hsl(240 5.9% 10%);"
+				@click="setTheme('zinc')"
+			>
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]">
+					<span x-show="theme === 'zinc'">
+						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
+					</span>
+				</span>
+				Zinc
+			</button>
+			<button
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				:class="{ 'border-primary': theme === 'slate' }"
+				style="--theme-primary: hsl(215.4 16.3% 46.9%);"
+				@click="setTheme('slate')"
+			>
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]">
+					<span x-show="theme === 'slate'">
+						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
+					</span>
+				</span>
+				Slate
+			</button>
+			<button
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				:class="{ 'border-primary': theme === 'stone' }"
+				style="--theme-primary: hsl(25 5.3% 44.7%);"
+				@click="setTheme('stone')"
+			>
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]">
+					<span x-show="theme === 'stone'">
+						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
+					</span>
+				</span>
+				Stone
+			</button>
+			<button
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				:class="{ 'border-primary': theme === 'gray' }"
+				style="--theme-primary: hsl(220 8.9% 46.1%);"
+				@click="setTheme('gray')"
+			>
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]">
+					<span x-show="theme === 'gray'">
+						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
+					</span>
+				</span>
+				Gray
+			</button>
+			<button
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				:class="{ 'border-primary': theme === 'neutral' }"
+				style="--theme-primary: hsl(0 0% 45.1%);"
+				@click="setTheme('neutral')"
+			>
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]">
+					<span x-show="theme === 'neutral'">
+						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
+					</span>
+				</span>
+				Neutral
+			</button>
+			<button
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				:class="{ 'border-primary': theme === 'red' }"
+				style="--theme-primary: hsl(0 72.2% 50.6%);"
+				@click="setTheme('red')"
+			>
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]">
+					<span x-show="theme === 'red'">
+						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
+					</span>
+				</span>
+				Red
+			</button>
+			<button
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				:class="{ 'border-primary': theme === 'rose' }"
+				style="--theme-primary: hsl(346.8 77.2% 49.8%);"
+				@click="setTheme('rose')"
+			>
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]">
+					<span x-show="theme === 'rose'">
+						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
+					</span>
+				</span>
+				Rose
+			</button>
+			<button
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				:class="{ 'border-primary': theme === 'orange' }"
+				style="--theme-primary: hsl(24.6 95% 53.1%);"
+				@click="setTheme('orange')"
+			>
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]">
+					<span x-show="theme === 'orange'">
+						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
+					</span>
+				</span>
+				Orange
+			</button>
+			<button
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				:class="{ 'border-primary': theme === 'green' }"
+				style="--theme-primary: hsl(142.1 76.2% 36.3%);"
+				@click="setTheme('green')"
+			>
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]">
+					<span x-show="theme === 'green'">
+						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
+					</span>
+				</span>
+				Green
+			</button>
+			<button
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				:class="{ 'border-primary': theme === 'blue' }"
+				style="--theme-primary: hsl(221.2 83.2% 53.3%);"
+				@click="setTheme('blue')"
+			>
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]">
+					<span x-show="theme === 'blue'">
+						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
+					</span>
+				</span>
+				Blue
+			</button>
+			<button
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				:class="{ 'border-primary': theme === 'yellow' }"
+				style="--theme-primary: hsl(47.9 95.8% 53.1%);"
+				@click="setTheme('yellow')"
+			>
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]">
+					<span x-show="theme === 'yellow'">
+						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
+					</span>
+				</span>
+				Yellow
+			</button>
+			<button
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				:class="{ 'border-primary': theme === 'violet' }"
+				style="--theme-primary: hsl(262.1 83.3% 57.8%);"
+				@click="setTheme('violet')"
+			>
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]">
+					<span x-show="theme === 'violet'">
+						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
+					</span>
+				</span>
+				Violet
+			</button>
+		</div>
+	</div>
+}
+
+templ RadiusSelector() {
+	<div class="space-y-1.5">
+		<label class="text-xs font-medium">Radius</label>
+		<div class="grid grid-cols-5 gap-2">
+			<button
+				class="px-3 py-1 rounded border"
+				:class="{ 'border-2 border-primary': radius === '0' }"
+				@click="setRadius('0')"
+			>
+				0
+			</button>
+			<button
+				class="px-3 py-1 rounded border"
+				:class="{ 'border-2 border-primary': radius === '0.3' }"
+				@click="setRadius('0.3')"
+			>
+				0.3
+			</button>
+			<button
+				class="px-3 py-1 rounded border"
+				:class="{ 'border-2 border-primary': radius === '0.5' }"
+				@click="setRadius('0.5')"
+			>
+				0.5
+			</button>
+			<button
+				class="px-3 py-1 rounded border"
+				:class="{ 'border-2 border-primary': radius === '0.75' }"
+				@click="setRadius('0.75')"
+			>
+				0.75
+			</button>
+			<button
+				class="px-3 py-1 rounded border"
+				:class="{ 'border-2 border-primary': radius === '1.0' }"
+				@click="setRadius('1.0')"
+			>
+				1.0
+			</button>
+		</div>
+	</div>
+}
+
+templ ModeSelector() {
+	<div class="space-y-1.5">
+		<label class="text-xs font-medium">Mode</label>
+		<div class="grid grid-cols-2 gap-2">
+			<button
+				class="px-3 py-1 rounded border flex items-center justify-center"
+				:class="{ 'border-2 border-primary': appTheme === 'light' }"
+				@click="
+					appTheme = 'light'
+					localStorage.setItem('appTheme', appTheme)
+					document.documentElement.classList.toggle('dark', appTheme === 'dark')
+				"
+			>
+				@icons.Sun(icons.IconProps{Size: "15", Class: "mr-2"})
+				Light
+			</button>
+			<button
+				class="px-3 py-1 rounded border flex items-center justify-center"
+				:class="{ 'border-2 border-primary': appTheme === 'dark' }"
+				@click="
+					appTheme = 'dark'
+					localStorage.setItem('appTheme', appTheme)
+					document.documentElement.classList.toggle('dark', appTheme === 'dark')
+				"
+			>
+				@icons.Moon(icons.IconProps{Size: "15", Class: "mr-2"})
+				Dark
+			</button>
+		</div>
+	</div>
+}

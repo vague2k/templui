@@ -14,10 +14,10 @@ templ ThemeSwitcher() {
 }
 
 templ DynamicThemeIcon() {
-	<span x-show="theme === 'dark'" class="block">
+	<span x-show="appTheme === 'dark'" class="block">
 		@LightIcon()
 	</span>
-	<span x-show="theme === 'light'" class="block">
+	<span x-show="appTheme === 'light'" class="block">
 		@DarkIcon()
 	</span>
 }
