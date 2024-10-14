@@ -150,39 +150,34 @@ templ ThemeCustomizer(props ThemeCustomizerProps) {
 			@RadiusSelector()
 			@ModeSelector()
 		</div>
-		@components.Button(components.ButtonProps{
-			Text:    "Generate and Copy CSS",
-			Variant: "primary",
-			Attributes: templ.Attributes{
-				"@click": "openCodePopup",
-			},
-		})
-		<div x-show="showCodePopup" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center" style="display: none;">
-			@components.Card(components.CardProps{Attributes: templ.Attributes{}}) {
-				@components.CardHeader() {
-					@components.CardTitle() {
-						Generated CSS Code
-					}
-				}
-				@components.CardContent() {
-					<pre x-text="generatedCSS" class="text-primary p-4 rounded overflow-x-auto max-h-96"></pre>
-				}
-				@components.CardFooter() {
-					<div class="flex gap-2">
-						@components.Button(components.ButtonProps{
-							Text:       "Copy to Clipboard",
-							Variant:    "primary",
-							Attributes: templ.Attributes{"@click": "copyToClipboard"},
-						})
-						@components.Button(components.ButtonProps{
-							Text:       "Close",
-							Variant:    "secondary",
-							Attributes: templ.Attributes{"@click": "closeCodePopup"},
-						})
-					</div>
-				}
+		@components.ModalTrigger("css-modal") {
+			@components.Button(components.ButtonProps{Text: "Generate and Copy CSS", FullWidth: true, Attributes: templ.Attributes{
+				"@click": "getGeneratedCSS",
+			}})
+		}
+		@components.Modal(components.ModalProps{ID: "css-modal", Class: "max-w-xl"}) {
+			@components.ModalHeader() {
+				Generated CSS Code
 			}
-		</div>
+			@components.ModalBody() {
+				<pre x-text="generatedCSS" class="text-primary p-4 rounded overflow-x-auto max-h-96"></pre>
+			}
+			@components.ModalFooter() {
+				<div class="flex gap-2">
+					@components.Button(components.ButtonProps{
+						Text:       "Copy to Clipboard",
+						Variant:    "primary",
+						Attributes: templ.Attributes{"@click": "copyToClipboard"},
+					})
+					@components.ModalClose("css-modal") {
+						@components.Button(components.ButtonProps{
+							Text:    "Close",
+							Variant: "secondary",
+						})
+					}
+				</div>
+			}
+		}
 	</div>
 }
 
