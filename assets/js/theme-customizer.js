@@ -536,7 +536,6 @@ function themeCustomizer() {
     theme: "zinc",
     radius: "0.5",
     mode: "light",
-    showCodePopup: false,
     generatedCSS: "",
 
     init() {
@@ -573,13 +572,8 @@ function themeCustomizer() {
       preview.style.setProperty("--radius", `${this.radius}rem`);
     },
 
-    openCodePopup() {
+    getGeneratedCSS() {
       this.generatedCSS = this.generateCSS();
-      this.showCodePopup = true;
-    },
-
-    closeCodePopup() {
-      this.showCodePopup = false;
     },
 
     generateCSS() {

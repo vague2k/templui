@@ -1401,12 +1401,12 @@ body {
   opacity: 1;
 }
 
-.opacity-80 {
-  opacity: 0.8;
-}
-
 .opacity-50 {
   opacity: 0.5;
+}
+
+.opacity-80 {
+  opacity: 0.8;
 }
 
 .shadow {
@@ -1710,10 +1710,6 @@ body {
 
 .peer:disabled ~ .peer-disabled\:opacity-50 {
   opacity: 0.5;
-}
-
-.peer:disabled ~ .peer-disabled\:opacity-70 {
-  opacity: 0.7;
 }
 
 .dark\:text-gray-200:is(.dark *) {
