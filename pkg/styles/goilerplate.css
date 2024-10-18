@@ -905,6 +905,11 @@ body {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
+.translate-y-px {
+  --tw-translate-y: 1px;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
 .scale-100 {
   --tw-scale-x: 1;
   --tw-scale-y: 1;
@@ -933,6 +938,12 @@ body {
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
+}
+
+.appearance-none {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
 }
 
 .columns-2 {
@@ -1558,6 +1569,16 @@ body {
 .placeholder\:text-muted-foreground::placeholder {
   --tw-text-opacity: 1;
   color: hsl(var(--muted-foreground) / var(--tw-text-opacity));
+}
+
+.checked\:border-primary:checked {
+  --tw-border-opacity: 1;
+  border-color: hsl(var(--primary) / var(--tw-border-opacity));
+}
+
+.checked\:bg-primary:checked {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--primary) / var(--tw-bg-opacity));
 }
 
 .hover\:bg-accent:hover {

@@ -1,0 +1,39 @@
+package pages
+
+import (
+	"github.com/axzilla/goilerplate/internals/ui/layouts"
+	"github.com/axzilla/goilerplate/internals/ui/showcase"
+	"github.com/axzilla/goilerplate/pkg/components"
+)
+
+templ RadioGroup() {
+	@layouts.DocsLayout() {
+		<div>
+			<div class="mb-16">
+				<h1 class="text-3xl font-bold mb-2">Radio Group</h1>
+				<p class="mb-4 text-muted-foreground">A set of radio buttons for selecting a single option from a list.</p>
+			</div>
+			@components.Tabs(components.TabsProps{
+				Tabs: []components.Tab{
+					{
+						ID:      "preview",
+						Title:   "Preview",
+						Content: showcase.RadioGroupShowcase(),
+					},
+					{
+						ID:      "code",
+						Title:   "Code",
+						Content: CodeSnippetFromEmbedded("radio_group.templ", "go", showcase.TemplFiles),
+					},
+					{
+						ID:      "component",
+						Title:   "Component",
+						Content: CodeSnippetFromEmbedded("radio_group.templ", "go", components.TemplFiles),
+					},
+				},
+				TabsContainerClass:    "md:w-1/2",
+				ContentContainerClass: "w-full",
+			})
+		</div>
+	}
+}
