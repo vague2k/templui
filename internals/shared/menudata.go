@@ -78,6 +78,10 @@ var Sections = []Section{
 				Href: "/docs/components/modal",
 			},
 			{
+				Text: "Radio Group",
+				Href: "/docs/components/radio-group",
+			},
+			{
 				Text: "Sheet",
 				Href: "/docs/components/sheet",
 			},
