@@ -90,7 +90,7 @@ templ Toggle(props ToggleProps) {
 			}
 			x-model="checked"
 		/>
-		if props.LabelRight != "" {
+		if props.LabelLeft != "" {
 			<label
 				@click="$refs.switchButton.click(); $refs.switchButton.focus()"
 				:id="$id('switch')"
@@ -98,7 +98,7 @@ templ Toggle(props ToggleProps) {
 				class="text-sm select-none"
 				x-cloak
 			>
-				{ props.LabelRight }
+				{ props.LabelLeft }
 			</label>
 		}
 		// FIX: Browser console bug: Alpine Expression Error: Unexpected token '}' -> on :disabled attribute -> But it works
@@ -116,7 +116,7 @@ templ Toggle(props ToggleProps) {
 				class="w-5 h-5 duration-200 ease-in-out rounded-full shadow-md"
 			></span>
 		</button>
-		if props.LabelLeft != "" {
+		if props.LabelRight != "" {
 			<label
 				@click="$refs.switchButton.click(); $refs.switchButton.focus()"
 				:id="$id('switch')"
@@ -124,7 +124,7 @@ templ Toggle(props ToggleProps) {
 				class="text-sm select-none"
 				x-cloak
 			>
-				{ props.LabelLeft }
+				{ props.LabelRight }
 			</label>
 		}
 	</div>

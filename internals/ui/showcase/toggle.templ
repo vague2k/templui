@@ -16,14 +16,14 @@ templ ToggleShowcase() {
 				<h2 class="font-semibold mb-2">Label Placements</h2>
 				<div class="flex flex-col gap-2">
 					@components.Toggle(components.ToggleProps{
-						ID:        "toggle-left",
-						Name:      "toggle-left",
-						LabelLeft: "Label Left",
-					})
-					@components.Toggle(components.ToggleProps{
 						ID:         "toggle-right",
 						Name:       "toggle-right",
 						LabelRight: "Label Right",
+					})
+					@components.Toggle(components.ToggleProps{
+						ID:        "toggle-left",
+						Name:      "toggle-left",
+						LabelLeft: "Label Left",
 					})
 				</div>
 			</div>
@@ -31,23 +31,23 @@ templ ToggleShowcase() {
 				<h2 class="font-semibold mb-4">States</h2>
 				<div class="flex flex-col gap-2">
 					@components.Toggle(components.ToggleProps{
-						ID:        "toggle-checked",
-						Name:      "toggle-checked",
-						LabelLeft: "Checked Toggle",
-						Checked:   "1+1==2",
+						ID:         "toggle-checked",
+						Name:       "toggle-checked",
+						LabelRight: "Checked Toggle",
+						Checked:    "1+1==2",
 					})
 					@components.Toggle(components.ToggleProps{
-						ID:        "toggle-disabled",
-						Name:      "toggle-disabled",
-						LabelLeft: "Disabled Toggle",
-						Disabled:  "true",
+						ID:         "toggle-disabled",
+						Name:       "toggle-disabled",
+						LabelRight: "Disabled Toggle",
+						Disabled:   "true",
 					})
 					@components.Toggle(components.ToggleProps{
-						ID:        "toggle-disabled-checked",
-						Name:      "toggle-disabled-checked",
-						LabelLeft: "Disabled Checked Toggle",
-						Disabled:  "true",
-						Checked:   "true",
+						ID:         "toggle-disabled-checked",
+						Name:       "toggle-disabled-checked",
+						LabelRight: "Disabled Checked Toggle",
+						Disabled:   "true",
+						Checked:    "true",
 					})
 				</div>
 			</div>
