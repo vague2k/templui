@@ -1,0 +1,131 @@
+package components
+
+// ToggleSize represents the size of the toggle
+type ToggleSize string
+
+// ToggleLabelPlacement represents where the label should be placed
+type ToggleLabelPlacement string
+
+// ToggleProps defines the properties for the Toggle component
+type ToggleProps struct {
+	// ID is the unique identifier for the toggle input
+	ID string
+
+	// Name is the name attribute for the toggle input
+	Name string
+
+	// Label is the text label for the toggle
+	LabelLeft string
+
+	// Label is the text label for the toggle
+	LabelRight string
+
+	// It's treated as an Alpine.js expression for dynamic checking.
+	// Example bool: Checked: "true"
+	// Example string: Checked: "darkMode"
+	Checked string
+
+	// It's treated as an Alpine.js expression for dynamic checking.
+	// Example bool: Disabled: "true"
+	// Example string: Disabled: "isLoading"
+	Disabled string
+
+	// Class specifies additional CSS classes
+	Class string
+
+	// Attributes allows passing additional HTML attributes
+	Attributes templ.Attributes
+}
+
+// Toggle renders a toggle switch component based on the provided props.
+// It can be customized with different label placements, and supports
+// both static and dynamic states through Alpine.js integration.
+//
+// Usage:
+//
+//   // Basic toggle with label
+//   @components.Toggle(components.ToggleProps{
+//       ID: "dark-mode",
+//       Name: "darkMode",
+//       LabelLeft: "Dark Mode",
+//   })
+//
+//   // Toggle with Alpine.js binding
+//   @components.Toggle(components.ToggleProps{
+//       ID: "notifications",
+//       Name: "notifications",
+//       LabelLeft: "Enable Notifications",
+//       Checked: "notificationsEnabled",
+//       Disabled: "isLoading",
+//   })
+//
+//   // Toggle with custom size and label placement
+//   @components.Toggle(components.ToggleProps{
+//       ID: "alerts",
+//       Name: "alerts",
+//       LabelLeft: "Alerts",
+//   })
+//
+// Props:
+//   - ID: The unique identifier for the toggle input. Required.
+//   - Name: The name attribute for the toggle input. Required.
+//   - LabelLeft: The text label for the toggle. Optional.
+//   - LabelRight: The text label for the toggle. Optional.
+//   - Checked: Controls the checked state. Can be bool or string for Alpine.js binding. Optional.
+//   - Disabled: Controls the disabled state. Can be bool or string for Alpine.js binding. Optional.
+//   - Class: Additional CSS classes. Optional.
+//   - Attributes: Additional HTML attributes. Optional.
+templ Toggle(props ToggleProps) {
+	<div x-data="{ checked: false }" class="flex items-center gap-2">
+		<input
+			id={ props.ID }
+			type="checkbox"
+			name={ props.Name }
+			class="hidden"
+			if props.Checked != "" {
+				x-init={ "checked = " + props.Checked }
+			}
+			if props.Disabled != "" {
+				:disabled={ props.Disabled }
+			}
+			x-model="checked"
+		/>
+		if props.LabelRight != "" {
+			<label
+				@click="$refs.switchButton.click(); $refs.switchButton.focus()"
+				:id="$id('switch')"
+				:class="{ 'text-foreground': checked, 'text-muted-foreground': !checked }"
+				class="text-sm select-none"
+				x-cloak
+			>
+				{ props.LabelRight }
+			</label>
+		}
+		// FIX: Browser console bug: Alpine Expression Error: Unexpected token '}' -> on :disabled attribute -> But it works
+		<button
+			x-ref="switchButton"
+			type="button"
+			@click="checked = !checked"
+			class={ "relative inline-flex h-6 py-0.5 focus:outline-none rounded-full w-10" }
+			:class="checked ? 'bg-primary' : 'bg-neutral-200'"
+			:disabled={ props.Disabled }
+			x-cloak
+		>
+			<span
+				:class="checked ? 'translate-x-[18px] bg-secondary' : 'translate-x-0.5 bg-muted-foreground'"
+				class="w-5 h-5 duration-200 ease-in-out rounded-full shadow-md"
+			></span>
+		</button>
+		if props.LabelLeft != "" {
+			<label
+				@click="$refs.switchButton.click(); $refs.switchButton.focus()"
+				:id="$id('switch')"
+				:class="{ 'text-foreground': checked, 'text-muted-foreground': !checked }"
+				class="text-sm select-none"
+				x-cloak
+			>
+				{ props.LabelLeft }
+			</label>
+		}
+	</div>
+}

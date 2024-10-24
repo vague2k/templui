@@ -1,0 +1,56 @@
+package showcase
+
+import "github.com/axzilla/goilerplate/pkg/components"
+
+templ ToggleShowcase() {
+	<div class="flex justify-center items-center border rounded-md py-16 px-4">
+		<div>
+			<div class="mb-8">
+				<h2 class="font-semibold mb-2">Without Label</h2>
+				@components.Toggle(components.ToggleProps{
+					ID:   "toggle",
+					Name: "toggle",
+				})
+			</div>
+			<div class="mb-8">
+				<h2 class="font-semibold mb-2">Label Placements</h2>
+				<div class="flex flex-col gap-2">
+					@components.Toggle(components.ToggleProps{
+						ID:        "toggle-left",
+						Name:      "toggle-left",
+						LabelLeft: "Label Left",
+					})
+					@components.Toggle(components.ToggleProps{
+						ID:         "toggle-right",
+						Name:       "toggle-right",
+						LabelRight: "Label Right",
+					})
+				</div>
+			</div>
+			<div>
+				<h2 class="font-semibold mb-4">States</h2>
+				<div class="flex flex-col gap-2">
+					@components.Toggle(components.ToggleProps{
+						ID:        "toggle-checked",
+						Name:      "toggle-checked",
+						LabelLeft: "Checked Toggle",
+						Checked:   "1+1==2",
+					})
+					@components.Toggle(components.ToggleProps{
+						ID:        "toggle-disabled",
+						Name:      "toggle-disabled",
+						LabelLeft: "Disabled Toggle",
+						Disabled:  "true",
+					})
+					@components.Toggle(components.ToggleProps{
+						ID:        "toggle-disabled-checked",
+						Name:      "toggle-disabled-checked",
+						LabelLeft: "Disabled Checked Toggle",
+						Disabled:  "true",
+						Checked:   "true",
+					})
+				</div>
+			</div>
+		</div>
+	</div>
+}

@@ -89,6 +89,10 @@ var Sections = []Section{
 				Text: "Tabs",
 				Href: "/docs/components/tabs",
 			},
+			{
+				Text: "Toggle",
+				Href: "/docs/components/toggle",
+			},
 		},
 	},
 }
