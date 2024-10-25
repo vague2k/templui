@@ -127,6 +127,32 @@ templ ThemePreview() {
 							</div>
 						}
 					</div>
+					<div class="space-y-4">
+						<label class="text-sm font-medium">Preferences</label>
+						<div class="space-y-2">
+							@components.Toggle(components.ToggleProps{
+								ID:         "marketing",
+								Name:       "marketing",
+								LabelRight: "Receive marketing emails",
+							})
+						</div>
+						<div class="space-y-2">
+							@components.Toggle(components.ToggleProps{
+								ID:         "notifications",
+								Name:       "notifications",
+								LabelRight: "Enable notifications",
+								Checked:    "true",
+							})
+						</div>
+						<div class="space-y-2">
+							@components.Toggle(components.ToggleProps{
+								ID:         "beta",
+								Name:       "beta",
+								LabelRight: "Join beta program",
+								Disabled:   "true",
+							})
+						</div>
+					</div>
 					<div class="space-y-2">
 						@components.Checkbox(components.CheckboxProps{
 							ID:    "terms",
