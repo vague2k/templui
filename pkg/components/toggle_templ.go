@@ -177,7 +177,7 @@ func Toggle(props ToggleProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		if props.LabelLeft != "" {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<label @click=\"$refs.switchButton.click(); $refs.switchButton.focus()\" :id=\"$id(&#39;switch&#39;)\" :class=\"{ &#39;text-foreground&#39;: checked, &#39;text-muted-foreground&#39;: !checked }\" class=\"text-sm select-none\" x-cloak>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<label @click=\"$refs.switchButton.click(); $refs.switchButton.focus()\" :id=\"$id(&#39;switch&#39;)\" :class=\"{ &#39;text-foreground&#39;: checked, &#39;text-muted-foreground&#39;: !checked, &#39;opacity-50 cursor-not-allowed&#39;: disabled }\" class=\"text-sm select-none\" x-cloak>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -190,12 +190,15 @@ func Toggle(props ToggleProps) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</label>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</label> ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		var templ_7745c5c3_Var7 = []any{"relative inline-flex h-6 py-0.5 focus:outline-none rounded-full w-10"}
+		var templ_7745c5c3_Var7 = []any{
+			"relative inline-flex h-6 py-0.5 focus:outline-none rounded-full w-10",
+			"disabled:opacity-50 disabled:cursor-not-allowed",
+		}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var7...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -220,7 +223,7 @@ func Toggle(props ToggleProps) templ.Component {
 		var templ_7745c5c3_Var9 string
 		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(props.Disabled)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/toggle.templ`, Line: 111, Col: 29}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/toggle.templ`, Line: 113, Col: 29}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {
@@ -231,14 +234,14 @@ func Toggle(props ToggleProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		if props.LabelRight != "" {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<label @click=\"$refs.switchButton.click(); $refs.switchButton.focus()\" :id=\"$id(&#39;switch&#39;)\" :class=\"{ &#39;text-foreground&#39;: checked, &#39;text-muted-foreground&#39;: !checked }\" class=\"text-sm select-none\" x-cloak>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<label @click=\"$refs.switchButton.click(); $refs.switchButton.focus()\" :id=\"$id(&#39;switch&#39;)\" :class=\"{ &#39;text-foreground&#39;: checked, &#39;text-muted-foreground&#39;: !checked, &#39;opacity-50 cursor-not-allowed&#39;: disabled }\" class=\"text-sm select-none\" x-cloak>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var10 string
 			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(props.LabelRight)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/toggle.templ`, Line: 127, Col: 22}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/toggle.templ`, Line: 129, Col: 22}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {

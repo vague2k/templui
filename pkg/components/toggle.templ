@@ -94,7 +94,7 @@ templ Toggle(props ToggleProps) {
 			<label
 				@click="$refs.switchButton.click(); $refs.switchButton.focus()"
 				:id="$id('switch')"
-				:class="{ 'text-foreground': checked, 'text-muted-foreground': !checked }"
+				:class="{ 'text-foreground': checked, 'text-muted-foreground': !checked, 'opacity-50 cursor-not-allowed': disabled }"
 				class="text-sm select-none"
 				x-cloak
 			>
@@ -106,7 +106,10 @@ templ Toggle(props ToggleProps) {
 			x-ref="switchButton"
 			type="button"
 			@click="checked = !checked"
-			class={ "relative inline-flex h-6 py-0.5 focus:outline-none rounded-full w-10" }
+			class={
+				"relative inline-flex h-6 py-0.5 focus:outline-none rounded-full w-10",
+				"disabled:opacity-50 disabled:cursor-not-allowed",
+			}
 			:class="checked ? 'bg-primary' : 'bg-neutral-200'"
 			:disabled={ props.Disabled }
 			x-cloak
@@ -120,7 +123,7 @@ templ Toggle(props ToggleProps) {
 			<label
 				@click="$refs.switchButton.click(); $refs.switchButton.focus()"
 				:id="$id('switch')"
-				:class="{ 'text-foreground': checked, 'text-muted-foreground': !checked }"
+				:class="{ 'text-foreground': checked, 'text-muted-foreground': !checked, 'opacity-50 cursor-not-allowed': disabled }"
 				class="text-sm select-none"
 				x-cloak
 			>
