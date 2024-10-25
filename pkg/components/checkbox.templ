@@ -17,20 +17,18 @@ type CheckboxProps struct {
 	// If empty, no label will be rendered.
 	Label string
 
-	// Checked can be either a bool or a string.
-	// If bool, it directly controls the checked state.
-	// If string, it's treated as a JavaScript expression for dynamic checking.
-	Checked any
+	// Checked is a JavaScript expression for the checked state
+	// Example: "true", "isSubscribed", "5+5===10"
+	Checked string
 
-	// Disabled can be either a bool or a string.
-	// If bool, it directly controls the disabled state.
-	// If string, it's treated as a JavaScript expression for dynamic disabling.
-	Disabled any
+	// Disabled is a JavaScript expression for the disabled state
+	// Example: "true", "isLoading", "!isEnabled"
+	Disabled string
 
-	// Class specifies additional CSS classes to apply to the checkbox container.
+	// Class specifies additional CSS classes for the container
 	Class string
 
-	// Attributes allows passing additional HTML attributes to the checkbox input element.
+	// Attributes allows passing additional HTML attributes
 	Attributes templ.Attributes
 }
 
@@ -43,7 +41,7 @@ type CheckboxProps struct {
 //	  Name:    "accept_terms",
 //	  Value:   "accepted",
 //	  Label:   "I accept the terms and conditions",
-//	  Checked: true,
+//	  Checked: "true",
 //	  Disabled: "isSubmitting",
 //	  Class:   "mt-4",
 //	  Attributes: templ.Attributes{"data-testid": "terms-checkbox"},
@@ -59,17 +57,7 @@ type CheckboxProps struct {
 //   - Class: Additional CSS classes to apply to the checkbox container. Optional.
 //   - Attributes: Additional HTML attributes to apply to the checkbox input element. Optional.
 templ Checkbox(props CheckboxProps) {
-	<div
-		x-data="{ 
-            checked: false,
-            disabled: false,
-            init() {
-                this.checked = Boolean(this.$refs.checkbox.checked);
-                this.disabled = Boolean(this.$refs.checkbox.disabled);
-            }
-        }"
-		class={ "flex items-center space-x-2", props.Class }
-	>
+	<div x-data="{ checked: false }" class={ "flex items-center space-x-2", props.Class }>
 		<div class="relative">
 			<input
 				type="checkbox"
@@ -78,22 +66,11 @@ templ Checkbox(props CheckboxProps) {
 				value={ props.Value }
 				x-ref="checkbox"
 				x-model="checked"
-				@change="disabled = $refs.checkbox.disabled"
-				if props.Disabled != nil {
-					if disabledBool, ok := props.Disabled.(bool); ok {
-						disabled?={ disabledBool }
-					}
-					if disabledStr, ok := props.Disabled.(string); ok {
-						:disabled={ disabledStr }
-					}
+				if props.Checked != "" {
+					x-init={ "checked = " + props.Checked }
 				}
-				if props.Checked != nil {
-					if checkedBool, ok := props.Checked.(bool); ok {
-						checked?={ checkedBool }
-					}
-					if checkedStr, ok := props.Checked.(string); ok {
-						:checked={ checkedStr }
-					}
+				if props.Disabled != "" {
+					:disabled={ props.Disabled }
 				}
 				class="absolute w-full h-full opacity-0 z-10 cursor-pointer peer"
 				{ props.Attributes... }
@@ -113,8 +90,8 @@ templ Checkbox(props CheckboxProps) {
 		if props.Label != "" {
 			<label
 				for={ props.ID }
-				class="text-sm font-medium leading-none cursor-pointer transition-opacity duration-200 ease-in-out"
-				:class="{ 'opacity-50 cursor-not-allowed': disabled }"
+				class="text-sm font-medium leading-none cursor-pointer select-none"
+				:class="{ 'text-muted-foreground': !checked, 'text-foreground': checked }"
 			>
 				{ props.Label }
 			</label>
