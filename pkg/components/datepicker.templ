@@ -1,6 +1,9 @@
 package components
 
-import "github.com/axzilla/goilerplate/pkg/icons"
+import (
+	"github.com/axzilla/goilerplate/pkg/icons"
+	"github.com/axzilla/goilerplate/pkg/utils"
+)
 
 // DatepickerProps defines the properties for the Datepicker component.
 type DatepickerProps struct {
@@ -162,7 +165,7 @@ templ Datepicker(props DatepickerProps) {
         datePickerValue = datePickerFormatDate(currentDate);
         datePickerCalculateDays();
     "
-		class={ "relative", props.Class }
+		class={ utils.TwMerge("relative", props.Class) }
 		@resize.window="if (datePickerOpen) updatePosition()"
 	>
 		<div class="relative">

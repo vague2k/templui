@@ -8,6 +8,8 @@ package components
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
+import "github.com/axzilla/goilerplate/pkg/utils"
+
 // CardProps defines the properties for the Card component.
 type CardProps struct {
 	// Class specifies additional CSS classes to apply to the card.
@@ -55,7 +57,7 @@ func Card(props CardProps) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		var templ_7745c5c3_Var2 = []any{"rounded-lg border bg-card text-card-foreground shadow-sm", props.Class}
+		var templ_7745c5c3_Var2 = []any{utils.TwMerge("rounded-lg border bg-card text-card-foreground shadow-sm", props.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err

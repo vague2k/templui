@@ -11,6 +11,8 @@ import templruntime "github.com/a-h/templ/runtime"
 import (
 	"fmt"
 	"github.com/axzilla/goilerplate/pkg/icons"
+	"github.com/axzilla/goilerplate/pkg/utils"
+	"strings"
 )
 
 // DropdownMenuItem represents an item in the dropdown menu
@@ -34,6 +36,16 @@ type DropdownMenuProps struct {
 	Trigger  templ.Component    // An optional custom trigger component (default is a button if not provided)
 	Class    string             // Additional CSS classes to apply to the root element
 	Position string             // The preferred position of the dropdown ("left", "right", "top", or "bottom")
+}
+
+func (d DropdownMenuItem) ModifierClasses() string {
+	classes := []string{}
+	if d.Disabled {
+		classes = append(classes, "text-muted-foreground cursor-not-allowed")
+	} else {
+		classes = append(classes, "text-foreground hover:bg-accent hover:text-accent-foreground")
+	}
+	return strings.Join(classes, " ")
 }
 
 // renderMenuItem is a helper function to render a single menu item
@@ -65,9 +77,10 @@ func renderMenuItem(item DropdownMenuItem, index int, depth int) templ.Component
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var2 = []any{
-				"w-full text-left flex items-center justify-between px-4 py-2 text-sm",
-				templ.KV("text-foreground hover:bg-accent hover:text-accent-foreground", !item.Disabled),
-				templ.KV("text-muted-foreground cursor-not-allowed", item.Disabled),
+				utils.TwMerge(
+					"w-full text-left flex items-center justify-between px-4 py-2 text-sm",
+					item.ModifierClasses(),
+				),
 			}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 			if templ_7745c5c3_Err != nil {
@@ -93,7 +106,7 @@ func renderMenuItem(item DropdownMenuItem, index int, depth int) templ.Component
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("menu-item-%d", index))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/dropdown_menu.templ`, Line: 44, Col: 43}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/dropdown_menu.templ`, Line: 57, Col: 43}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
@@ -126,7 +139,7 @@ func renderMenuItem(item DropdownMenuItem, index int, depth int) templ.Component
 			var templ_7745c5c3_Var5 string
 			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(item.Label)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/dropdown_menu.templ`, Line: 54, Col: 17}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/dropdown_menu.templ`, Line: 67, Col: 17}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
@@ -197,7 +210,7 @@ func renderMenuItem(item DropdownMenuItem, index int, depth int) templ.Component
 			var templ_7745c5c3_Var8 string
 			templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(item.Target)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/dropdown_menu.templ`, Line: 75, Col: 23}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/dropdown_menu.templ`, Line: 88, Col: 23}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 			if templ_7745c5c3_Err != nil {
@@ -223,7 +236,7 @@ func renderMenuItem(item DropdownMenuItem, index int, depth int) templ.Component
 			var templ_7745c5c3_Var10 string
 			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("menu-item-%d", index))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/dropdown_menu.templ`, Line: 83, Col: 42}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/dropdown_menu.templ`, Line: 96, Col: 42}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {
@@ -250,7 +263,7 @@ func renderMenuItem(item DropdownMenuItem, index int, depth int) templ.Component
 			var templ_7745c5c3_Var11 string
 			templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(item.Label)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/dropdown_menu.templ`, Line: 90, Col: 16}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/dropdown_menu.templ`, Line: 103, Col: 16}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 			if templ_7745c5c3_Err != nil {
@@ -308,7 +321,7 @@ func renderMenuItem(item DropdownMenuItem, index int, depth int) templ.Component
 			var templ_7745c5c3_Var14 string
 			templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("menu-item-%d", index))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/dropdown_menu.templ`, Line: 107, Col: 42}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/dropdown_menu.templ`, Line: 120, Col: 42}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 			if templ_7745c5c3_Err != nil {
@@ -341,7 +354,7 @@ func renderMenuItem(item DropdownMenuItem, index int, depth int) templ.Component
 			var templ_7745c5c3_Var15 string
 			templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs(item.Label)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/dropdown_menu.templ`, Line: 115, Col: 16}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/dropdown_menu.templ`, Line: 128, Col: 16}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var15))
 			if templ_7745c5c3_Err != nil {
@@ -422,7 +435,7 @@ func DropdownMenu(props DropdownMenuProps) templ.Component {
 			templ_7745c5c3_Var16 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		var templ_7745c5c3_Var17 = []any{"relative inline-block text-left", props.Class}
+		var templ_7745c5c3_Var17 = []any{utils.TwMerge("relative inline-block text-left", props.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var17...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -447,7 +460,7 @@ func DropdownMenu(props DropdownMenuProps) templ.Component {
 		var templ_7745c5c3_Var19 string
 		templ_7745c5c3_Var19, templ_7745c5c3_Err = templ.JoinStringErrs(props.Position)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/dropdown_menu.templ`, Line: 186, Col: 32}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/dropdown_menu.templ`, Line: 199, Col: 32}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var19))
 		if templ_7745c5c3_Err != nil {

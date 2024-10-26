@@ -1,5 +1,7 @@
 package components
 
+import "github.com/axzilla/goilerplate/pkg/utils"
+
 // ModalProps defines the properties for the Modal component.
 type ModalProps struct {
 	// ID is a unique identifier for the modal.
@@ -66,8 +68,9 @@ templ Modal(props ModalProps) {
 		<div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity" aria-hidden="true"></div>
 		<div
 			class={
-				"relative bg-background rounded-lg border text-left overflow-hidden shadow-xl transform transition-all sm:my-8 w-full",
-				props.Class,
+				utils.TwMerge(
+					"relative bg-background rounded-lg border text-left overflow-hidden shadow-xl transform transition-all sm:my-8 w-full",
+					props.Class),
 			}
 			@click.away="open = false"
 		>

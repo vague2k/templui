@@ -8,6 +8,8 @@ package components
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
+import "github.com/axzilla/goilerplate/pkg/utils"
+
 // InputType represents the type of the input field.
 type InputType string
 
@@ -113,12 +115,14 @@ func Input(props InputProps) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		var templ_7745c5c3_Var2 = []any{"flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background",
-			"file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground",
-			"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-			"disabled:cursor-not-allowed disabled:opacity-50",
-			"file:text-foreground dark:file:text-foreground",
-			props.Class}
+		var templ_7745c5c3_Var2 = []any{
+			utils.TwMerge("flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background",
+				"file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground",
+				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+				"disabled:cursor-not-allowed disabled:opacity-50",
+				"file:text-foreground dark:file:text-foreground",
+				props.Class),
+		}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -130,7 +134,7 @@ func Input(props InputProps) templ.Component {
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(string(props.Type))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/input.templ`, Line: 89, Col: 27}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/input.templ`, Line: 91, Col: 27}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
@@ -143,7 +147,7 @@ func Input(props InputProps) templ.Component {
 		var templ_7745c5c3_Var4 string
 		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(props.Placeholder)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/input.templ`, Line: 90, Col: 33}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/input.templ`, Line: 92, Col: 33}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
@@ -156,7 +160,7 @@ func Input(props InputProps) templ.Component {
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(props.Value)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/input.templ`, Line: 91, Col: 21}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/input.templ`, Line: 93, Col: 21}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
@@ -169,7 +173,7 @@ func Input(props InputProps) templ.Component {
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(props.Name)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/input.templ`, Line: 92, Col: 19}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/input.templ`, Line: 94, Col: 19}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -182,7 +186,7 @@ func Input(props InputProps) templ.Component {
 		var templ_7745c5c3_Var7 string
 		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/input.templ`, Line: 93, Col: 15}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/input.templ`, Line: 95, Col: 15}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
@@ -220,7 +224,7 @@ func Input(props InputProps) templ.Component {
 				var templ_7745c5c3_Var9 string
 				templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(disabledStr)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/input.templ`, Line: 105, Col: 27}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/input.templ`, Line: 109, Col: 27}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 				if templ_7745c5c3_Err != nil {
@@ -240,7 +244,7 @@ func Input(props InputProps) templ.Component {
 			var templ_7745c5c3_Var10 string
 			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(props.FileAccept)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/input.templ`, Line: 109, Col: 28}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/input.templ`, Line: 113, Col: 28}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {

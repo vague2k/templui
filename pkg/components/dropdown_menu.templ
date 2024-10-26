@@ -3,6 +3,8 @@ package components
 import (
 	"fmt"
 	"github.com/axzilla/goilerplate/pkg/icons"
+	"github.com/axzilla/goilerplate/pkg/utils"
+	"strings"
 )
 
 // DropdownMenuItem represents an item in the dropdown menu
@@ -28,6 +30,16 @@ type DropdownMenuProps struct {
 	Position string             // The preferred position of the dropdown ("left", "right", "top", or "bottom")
 }
 
+func (d DropdownMenuItem) ModifierClasses() string {
+	classes := []string{}
+	if d.Disabled {
+		classes = append(classes, "text-muted-foreground cursor-not-allowed")
+	} else {
+		classes = append(classes, "text-foreground hover:bg-accent hover:text-accent-foreground")
+	}
+	return strings.Join(classes, " ")
+}
+
 // renderMenuItem is a helper function to render a single menu item
 // It handles rendering of regular items, links, and submenus recursively
 templ renderMenuItem(item DropdownMenuItem, index int, depth int) {
@@ -35,9 +47,10 @@ templ renderMenuItem(item DropdownMenuItem, index int, depth int) {
 		<div class="relative group">
 			<button
 				class={
-					"w-full text-left flex items-center justify-between px-4 py-2 text-sm",
-					templ.KV("text-foreground hover:bg-accent hover:text-accent-foreground", !item.Disabled),
-					templ.KV("text-muted-foreground cursor-not-allowed", item.Disabled),
+					utils.TwMerge(
+						"w-full text-left flex items-center justify-between px-4 py-2 text-sm",
+						item.ModifierClasses(),
+					),
 				}
 				role="menuitem"
 				tabindex="-1"
@@ -182,7 +195,7 @@ templ DropdownMenu(props DropdownMenuProps) {
 			}
 		}"
 		@resize.window="if (open) updatePosition()"
-		class={ "relative inline-block text-left", props.Class }
+		class={ utils.TwMerge("relative inline-block text-left", props.Class) }
 		data-position={ props.Position }
 	>
 		<div @click="open = !open; if(open) $nextTick(() => updatePosition())">

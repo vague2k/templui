@@ -8,6 +8,11 @@ package components
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
+import (
+	"github.com/axzilla/goilerplate/pkg/utils"
+	"strings"
+)
+
 // ButtonVariant represents the visual style of the button.
 type ButtonVariant string
 
@@ -29,7 +34,7 @@ const (
 	ButtonIcon ButtonSize = "icon"
 )
 
-// ButtonProps defines the properties for the Button component.
+// Button defines the properties for the Button component.
 type ButtonProps struct {
 	// Class specifies additional CSS classes to apply to the button.
 	// Default: "" (empty string)
@@ -81,9 +86,9 @@ type ButtonProps struct {
 	IconRight templ.Component
 }
 
-// getVariantClasses returns the CSS classes for the given button variant.
-func getVariantClasses(variant ButtonVariant) string {
-	switch variant {
+// Variant als Methode
+func (b ButtonProps) variantClasses() string {
+	switch b.Variant {
 	case Destructive:
 		return "bg-destructive text-destructive-foreground hover:bg-destructive/90"
 	case Outline:
@@ -99,9 +104,9 @@ func getVariantClasses(variant ButtonVariant) string {
 	}
 }
 
-// getSizeClasses returns the CSS classes for the given button size.
-func getSizeClasses(size ButtonSize) string {
-	switch size {
+// Size als Methode
+func (b ButtonProps) sizeClasses() string {
+	switch b.Size {
 	case Sm:
 		return "h-9 px-3 rounded-md"
 	case Lg:
@@ -111,6 +116,14 @@ func getSizeClasses(size ButtonSize) string {
 	default:
 		return "h-10 px-4 py-2 rounded-md"
 	}
+}
+
+func (b ButtonProps) modifierClasses() string {
+	classes := []string{}
+	if b.FullWidth {
+		classes = append(classes, "w-full")
+	}
+	return strings.Join(classes, " ")
 }
 
 // Button renders a button or anchor component based on the provided props.
@@ -167,12 +180,14 @@ func Button(props ButtonProps) templ.Component {
 		ctx = templ.ClearChildren(ctx)
 		if props.Href != "" {
 			var templ_7745c5c3_Var2 = []any{
-				"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors",
-				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-				getVariantClasses(props.Variant),
-				getSizeClasses(props.Size),
-				templ.KV("w-full", props.FullWidth),
-				props.Class,
+				utils.TwMerge(
+					"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors",
+					"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+					props.variantClasses(),
+					props.sizeClasses(),
+					props.modifierClasses(),
+					props.Class,
+				),
 			}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 			if templ_7745c5c3_Err != nil {
@@ -194,7 +209,7 @@ func Button(props ButtonProps) templ.Component {
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(props.Target)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/button.templ`, Line: 143, Col: 24}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/button.templ`, Line: 156, Col: 24}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
@@ -232,7 +247,7 @@ func Button(props ButtonProps) templ.Component {
 					var templ_7745c5c3_Var6 string
 					templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(disabledStr)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/button.templ`, Line: 157, Col: 33}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/button.templ`, Line: 172, Col: 33}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 					if templ_7745c5c3_Err != nil {
@@ -266,13 +281,15 @@ func Button(props ButtonProps) templ.Component {
 			}
 		} else {
 			var templ_7745c5c3_Var7 = []any{
-				"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors",
-				"focus-visible:outline-none focus-visible:ring-2 focus-ring-ring focus-visible:ring-offset-2",
-				"disabled:pointer-events-none disabled:opacity-50",
-				getVariantClasses(props.Variant),
-				getSizeClasses(props.Size),
-				templ.KV("w-full", props.FullWidth),
-				props.Class,
+				utils.TwMerge(
+					"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors",
+					"focus-visible:outline-none focus-visible:ring-2 focus-ring-ring focus-visible:ring-offset-2",
+					"disabled:pointer-events-none disabled:opacity-50",
+					props.variantClasses(),
+					props.sizeClasses(),
+					props.modifierClasses(),
+					props.Class,
+				),
 			}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var7...)
 			if templ_7745c5c3_Err != nil {
@@ -303,7 +320,7 @@ func Button(props ButtonProps) templ.Component {
 				var templ_7745c5c3_Var9 string
 				templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(props.Type)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/button.templ`, Line: 177, Col: 21}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/button.templ`, Line: 194, Col: 21}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 				if templ_7745c5c3_Err != nil {
@@ -331,7 +348,7 @@ func Button(props ButtonProps) templ.Component {
 					var templ_7745c5c3_Var10 string
 					templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(disabledStr)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/button.templ`, Line: 184, Col: 28}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/button.templ`, Line: 201, Col: 28}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 					if templ_7745c5c3_Err != nil {
@@ -403,7 +420,7 @@ func renderButtonContent(props ButtonProps) templ.Component {
 		var templ_7745c5c3_Var12 string
 		templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs(props.Text)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/button.templ`, Line: 201, Col: 14}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/button.templ`, Line: 218, Col: 14}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
 		if templ_7745c5c3_Err != nil {
