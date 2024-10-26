@@ -2,8 +2,11 @@
 
 package components
 
-import "github.com/axzilla/goilerplate/pkg/icons"
-import "fmt"
+import (
+	"fmt"
+	"github.com/axzilla/goilerplate/pkg/icons"
+	"github.com/axzilla/goilerplate/pkg/utils"
+)
 
 // SelectProps defines the properties for the Select component.
 type SelectProps struct {
@@ -92,7 +95,7 @@ templ Select(props SelectProps) {
                 this.open = false;
             }
         }"
-		class={ "relative w-full", props.Class }
+		class={ utils.TwMerge("relative w-full", props.Class) }
 		@keydown.escape="open = false"
 		@click.away="open = false"
 	>

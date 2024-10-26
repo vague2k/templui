@@ -1,5 +1,7 @@
 package components
 
+import "github.com/axzilla/goilerplate/pkg/utils"
+
 // AlertVariant represents the visual style of the alert.
 type AlertVariant string
 
@@ -46,9 +48,13 @@ func getAlertVariantClasses(variant AlertVariant) string {
 //   - Class: Additional CSS classes to apply to the alert. Default: "" (empty string)
 templ Alert(props AlertProps) {
 	<div
-		class={ "relative w-full rounded-lg border p-4 [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg+div]:translate-y-[-3px] [&:has(svg)]:pl-11",
-			getAlertVariantClasses(props.Variant),
-			props.Class }
+		class={
+			utils.TwMerge(
+				"relative w-full rounded-lg border p-4 [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg+div]:translate-y-[-3px] [&:has(svg)]:pl-11",
+				getAlertVariantClasses(props.Variant),
+				props.Class,
+			),
+		}
 		role="alert"
 	>
 		{ children... }

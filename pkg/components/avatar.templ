@@ -2,6 +2,7 @@ package components
 
 import (
 	"fmt"
+	"github.com/axzilla/goilerplate/pkg/utils"
 	"strings"
 )
 
@@ -82,9 +83,11 @@ func AvatarSizeClasses(size AvatarSize) string {
 templ Avatar(props AvatarProps) {
 	<div
 		class={
-			"inline-flex items-center justify-center rounded-full bg-muted",
-			AvatarSizeClasses(props.Size),
-			props.Class,
+			utils.TwMerge(
+				"inline-flex items-center justify-center rounded-full bg-muted",
+				AvatarSizeClasses(props.Size),
+				props.Class,
+			),
 		}
 		{ props.Attributes... }
 	>

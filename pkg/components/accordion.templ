@@ -1,6 +1,9 @@
 package components
 
-import "github.com/axzilla/goilerplate/pkg/icons"
+import (
+	"github.com/axzilla/goilerplate/pkg/icons"
+	"github.com/axzilla/goilerplate/pkg/utils"
+)
 
 // AccordionItem represents a single item in the Accordion component.
 type AccordionItem struct {
@@ -65,7 +68,7 @@ templ Accordion(props AccordionProps) {
 				this.activeItem = this.activeItem === itemId ? null : itemId;
 			}
 		}"
-		class={ "divide-y divide-border rounded-md border", props.Class }
+		class={ utils.TwMerge("divide-y divide-border rounded-md border", props.Class) }
 		{ props.Attributes... }
 	>
 		for _, item := range props.Items {
