@@ -628,6 +628,10 @@ body {
   }
 }
 
+.pointer-events-none {
+  pointer-events: none;
+}
+
 .static {
   position: static;
 }
@@ -672,6 +676,10 @@ body {
 
 .left-0 {
   left: 0px;
+}
+
+.left-2 {
+  left: 0.5rem;
 }
 
 .left-full {
@@ -759,6 +767,10 @@ body {
   margin-left: 0.25rem;
 }
 
+.ml-2 {
+  margin-left: 0.5rem;
+}
+
 .ml-auto {
   margin-left: auto;
 }
@@ -843,6 +855,10 @@ body {
   height: 6rem;
 }
 
+.h-3\.5 {
+  height: 0.875rem;
+}
+
 .h-4 {
   height: 1rem;
 }
@@ -887,6 +903,14 @@ body {
   max-height: 24rem;
 }
 
+.max-h-\[15rem\] {
+  max-height: 15rem;
+}
+
+.max-h-\[50vh\] {
+  max-height: 50vh;
+}
+
 .min-h-screen {
   min-height: 100vh;
 }
@@ -909,6 +933,10 @@ body {
 
 .w-24 {
   width: 6rem;
+}
+
+.w-3\.5 {
+  width: 0.875rem;
 }
 
 .w-3\/4 {
@@ -1202,6 +1230,12 @@ body {
   margin-bottom: calc(1.5rem * var(--tw-space-y-reverse));
 }
 
+.space-y-8 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(2rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(2rem * var(--tw-space-y-reverse));
+}
+
 .divide-y > :not([hidden]) ~ :not([hidden]) {
   --tw-divide-y-reverse: 0;
   border-top-width: calc(1px * calc(1 - var(--tw-divide-y-reverse)));
@@ -1211,6 +1245,10 @@ body {
 .divide-border > :not([hidden]) ~ :not([hidden]) {
   --tw-divide-opacity: 1;
   border-color: hsl(var(--border) / var(--tw-divide-opacity));
+}
+
+.overflow-auto {
+  overflow: auto;
 }
 
 .\!overflow-hidden {
@@ -1231,6 +1269,12 @@ body {
 
 .overflow-y-auto {
   overflow-y: auto;
+}
+
+.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .whitespace-nowrap {
@@ -1319,6 +1363,11 @@ body {
   background-color: var(--theme-primary);
 }
 
+.bg-accent {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--accent) / var(--tw-bg-opacity));
+}
+
 .bg-background {
   --tw-bg-opacity: 1;
   background-color: hsl(var(--background) / var(--tw-bg-opacity));
@@ -1341,6 +1390,10 @@ body {
 .bg-destructive {
   --tw-bg-opacity: 1;
   background-color: hsl(var(--destructive) / var(--tw-bg-opacity));
+}
+
+.bg-destructive\/10 {
+  background-color: hsl(var(--destructive) / 0.1);
 }
 
 .bg-gray-700 {
@@ -1475,6 +1528,11 @@ body {
   padding-bottom: 0.25rem;
 }
 
+.py-1\.5 {
+  padding-top: 0.375rem;
+  padding-bottom: 0.375rem;
+}
+
 .py-12 {
   padding-top: 3rem;
   padding-bottom: 3rem;
@@ -1518,8 +1576,20 @@ body {
   padding-left: 1.5rem;
 }
 
+.pl-8 {
+  padding-left: 2rem;
+}
+
+.pr-2 {
+  padding-right: 0.5rem;
+}
+
 .pt-0 {
   padding-top: 0px;
+}
+
+.pt-4 {
+  padding-top: 1rem;
 }
 
 .pt-5 {
@@ -1900,6 +1970,26 @@ body {
   background-color: hsl(var(--primary) / var(--tw-bg-opacity));
 }
 
+.checked\:outline-none:checked {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.checked\:ring-2:checked {
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+}
+
+.checked\:ring-ring:checked {
+  --tw-ring-opacity: 1;
+  --tw-ring-color: hsl(var(--ring) / var(--tw-ring-opacity));
+}
+
+.checked\:ring-offset-2:checked {
+  --tw-ring-offset-width: 2px;
+}
+
 .hover\:bg-accent:hover {
   --tw-bg-opacity: 1;
   background-color: hsl(var(--accent) / var(--tw-bg-opacity));
@@ -1973,6 +2063,16 @@ body {
   opacity: 0.8;
 }
 
+.focus\:bg-accent:focus {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--accent) / var(--tw-bg-opacity));
+}
+
+.focus\:text-accent-foreground:focus {
+  --tw-text-opacity: 1;
+  color: hsl(var(--accent-foreground) / var(--tw-text-opacity));
+}
+
 .focus\:outline-none:focus {
   outline: 2px solid transparent;
   outline-offset: 2px;
@@ -1991,6 +2091,15 @@ body {
 .focus\:ring-indigo-500:focus {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(99 102 241 / var(--tw-ring-opacity));
+}
+
+.focus\:ring-ring:focus {
+  --tw-ring-opacity: 1;
+  --tw-ring-color: hsl(var(--ring) / var(--tw-ring-opacity));
+}
+
+.focus\:ring-offset-2:focus {
+  --tw-ring-offset-width: 2px;
 }
 
 .focus-visible\:outline-none:focus-visible {

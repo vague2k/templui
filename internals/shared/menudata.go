@@ -66,6 +66,11 @@ var Sections = []Section{
 				Href: "/docs/components/dropdown-menu",
 			},
 			{
+				Text: "Form",
+				Href: "/docs/components/form",
+			},
+
+			{
 				Text: "Icon",
 				Href: "/docs/components/icon",
 			},
@@ -80,6 +85,10 @@ var Sections = []Section{
 			{
 				Text: "Radio Group",
 				Href: "/docs/components/radio-group",
+			},
+			{
+				Text: "Select",
+				Href: "/docs/components/select",
 			},
 			{
 				Text: "Sheet",

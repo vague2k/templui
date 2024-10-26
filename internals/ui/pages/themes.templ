@@ -103,7 +103,7 @@ templ ThemePreview() {
 					</div>
 					<div class="space-y-2">
 						<label class="text-sm font-medium">Preferred Contact Method</label>
-						@components.RadioGroup(components.RadioGroupProps{DefaultValue: "email", Name: "contact-method"}) {
+						@components.RadioGroup(components.RadioGroupProps{Value: "email", Name: "contact-method"}) {
 							<div class="space-y-2">
 								@components.RadioGroupItem(components.RadioGroupItemProps{
 									Value: "email",

@@ -1,0 +1,166 @@
+package showcase
+
+import (
+	"encoding/json"
+	"github.com/axzilla/goilerplate/pkg/components"
+)
+
+type SignupFormData struct {
+	Email             string   `json:"email"`
+	Role              string   `json:"role"`
+	NotificationTypes []string `json:"notificationTypes"`
+	Newsletter        bool     `json:"newsletter"`
+	Terms             bool     `json:"terms"`
+}
+
+func (d SignupFormData) ToJSON() string {
+	json, _ := json.Marshal(d)
+	return string(json)
+}
+
+templ FormShowcase() {
+	@components.Form(components.FormProps[SignupFormData]{
+		ID:     "signup-form",
+		Name:   "signup",
+		Action: "/api/signup",
+		InitialData: SignupFormData{
+			Email:             "",
+			Role:              "",
+			NotificationTypes: []string{},
+			Newsletter:        true,
+			Terms:             true,
+		},
+		Debug: true,
+	}) {
+		<h2 class="text-2xl font-bold">Account Settings</h2>
+		// Email Input
+		<div class="space-y-2">
+			<label class="text-sm font-medium">Email</label>
+			@components.Input(components.InputProps{
+				Type:        "email",
+				Name:        "email",
+				Placeholder: "Enter your email",
+				Attributes:  templ.Attributes{"x-model": "formData.email"},
+			})
+		</div>
+		// Role Select
+		<div class="space-y-2">
+			<label class="text-sm font-medium">Role</label>
+			@components.Select(components.SelectProps{
+				ID:          "role",
+				Name:        "role",
+				Placeholder: "Select role",
+				Value:       "formData.role",
+				Options: []components.SelectOption{
+					{Label: "User", Value: "user"},
+					{Label: "Admin", Value: "admin"},
+					{Label: "Editor", Value: "editor", Disabled: "true"},
+				},
+			})
+		</div>
+		// Notification Types (Multiple Checkboxes)
+		<div class="space-y-2">
+			<label class="text-sm font-medium">Notification Types</label>
+			<div class="space-y-2">
+				@components.Checkbox(components.CheckboxProps{
+					ID:    "notify-email",
+					Name:  "notificationTypes",
+					Value: "email",
+					Label: "Email Notifications",
+					Attributes: templ.Attributes{
+						":checked": "formData.notificationTypes.includes('email')",
+						"@click": `() => {
+							const i = formData.notificationTypes.indexOf('email');
+							const n = formData.notificationTypes;
+							i > -1 ? n.splice(i, 1) : n.push('email');
+						}`,
+					},
+				})
+				@components.Checkbox(components.CheckboxProps{
+					ID:    "notify-sms",
+					Name:  "notificationTypes",
+					Value: "sms",
+					Label: "SMS Notifications",
+					Attributes: templ.Attributes{
+						":checked": "formData.notificationTypes.includes('sms')",
+						"@click": `() => {
+							const index = formData.notificationTypes.indexOf('sms');
+							if (index > -1) {
+								formData.notificationTypes.splice(index, 1);
+							} else {
+								formData.notificationTypes.push('sms');
+							}
+						}`,
+					},
+				})
+			</div>
+		</div>
+		// Marketing Consent (Radio)
+		<div class="space-y-2">
+			<label class="text-sm font-medium">Marketing Preferences</label>
+			@components.RadioGroup(components.RadioGroupProps{
+				Name:  "marketing",
+				Value: "formData.marketingConsent",
+			}) {
+				<div class="space-y-2">
+					@components.RadioGroupItem(components.RadioGroupItemProps{
+						Value:      "all",
+						ID:         "marketing-all",
+						Label:      templ.Raw("All marketing emails"),
+						Attributes: templ.Attributes{"x-model": "formData.marketingConsent"},
+					})
+					@components.RadioGroupItem(components.RadioGroupItemProps{
+						Value:      "selected",
+						ID:         "marketing-selected",
+						Label:      templ.Raw("Only selected emails"),
+						Attributes: templ.Attributes{"x-model": "formData.marketingConsent"},
+					})
+					@components.RadioGroupItem(components.RadioGroupItemProps{
+						Value:      "none",
+						ID:         "marketing-none",
+						Label:      templ.Raw("No marketing emails"),
+						Attributes: templ.Attributes{"x-model": "formData.marketingConsent"},
+					})
+				</div>
+			}
+		</div>
+		// Newsletter Toggle
+		<div class="space-y-2">
+			@components.Toggle(components.ToggleProps{
+				ID:         "newsletter",
+				Name:       "newsletter",
+				LabelRight: "Subscribe to newsletter",
+				Checked:    "formData.newsletter",
+				Attributes: templ.Attributes{
+					"x-model": "formData.newsletter",
+				},
+			})
+			<input
+				x-ref="newsletterz"
+				type="checkbox"
+			/>
+			<div x-text="$refs.newsletterz.checked"></div>
+		</div>
+		// Terms Checkbox
+		<div class="space-y-2">
+			@components.Checkbox(components.CheckboxProps{
+				ID:      "terms",
+				Name:    "terms",
+				Label:   "I accept the terms and conditions",
+				Checked: "formData.terms",
+				// Attributes: templ.Attributes{
+				// 	"x-model": "formData.terms",
+				// },
+			})
+		</div>
+		// Submit Button
+		<div class="pt-4">
+			@components.Button(components.ButtonProps{
+				Text: "Save Changes",
+				Attributes: templ.Attributes{
+					"@click": "submit",
+				},
+			})
+		</div>
+	}
+}

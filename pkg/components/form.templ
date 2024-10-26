@@ -1,0 +1,89 @@
+package components
+
+import "fmt"
+
+// Basis Interface für Form Daten
+type FormDataProvider interface {
+	// Muss JSON-serialisierbar sein
+	ToJSON() string
+}
+
+// FormProps definiert die Basis-Konfiguration der Form
+type FormProps[T FormDataProvider] struct {
+	// Core configuration
+	ID    string
+	Name  string
+	Class string
+
+	// Form handling
+	Action string
+	Method string
+
+	// Initial form data
+	InitialData T
+
+	// Debug mode
+	Debug bool
+
+	// Additional attributes
+	Attributes templ.Attributes
+}
+
+// Form Component
+templ Form[T FormDataProvider](props FormProps[T]) {
+	<form
+		id={ props.ID }
+		name={ props.Name }
+		class={ "space-y-6", props.Class }
+		x-data={ fmt.Sprintf(`{
+            formData: %s,
+            errors: {},
+            isSubmitting: false,
+            submitted: false
+        }`, props.InitialData.ToJSON()) }
+		@submit.prevent="submit"
+		{ props.Attributes... }
+	>
+		<div
+			x-show="errors._form"
+			class="p-4 rounded-md bg-destructive/10 text-destructive"
+			x-text="errors._form"
+		></div>
+		{ children... }
+		if props.Debug {
+			@FormDebug()
+		}
+	</form>
+}
+
+// Form Debug Component
+templ FormDebug() {
+	<div
+		class="z-50 fixed bottom-4 right-4 p-4 bg-muted rounded-lg shadow-lg max-w-sm overflow-auto max-h-[50vh]"
+		x-data="{ expanded: false }"
+	>
+		<div class="flex justify-between items-center mb-2">
+			<h3 class="font-semibold">Form Debug</h3>
+			<button @click="expanded = !expanded" class="text-sm">
+				<span x-text="expanded ? 'Collapse' : 'Expand'"></span>
+			</button>
+		</div>
+		<div x-show="expanded" class="space-y-4">
+			<div>
+				<h4 class="text-sm font-medium mb-1">Form Data:</h4>
+				<pre class="text-xs" x-text="JSON.stringify(formData, null, 2)"></pre>
+			</div>
+			<div x-show="Object.keys(errors).length > 0">
+				<h4 class="text-sm font-medium mb-1">Errors:</h4>
+				<pre class="text-xs text-destructive" x-text="JSON.stringify(errors, null, 2)"></pre>
+			</div>
+			<div>
+				<h4 class="text-sm font-medium mb-1">State:</h4>
+				<div class="text-xs space-y-1">
+					<div>Submitting: <span x-text="isSubmitting"></span></div>
+					<div>Submitted: <span x-text="submitted"></span></div>
+				</div>
+			</div>
+		</div>
+	</div>
+}

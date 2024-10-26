@@ -1,0 +1,39 @@
+package pages
+
+import (
+	"github.com/axzilla/goilerplate/internals/ui/layouts"
+	"github.com/axzilla/goilerplate/internals/ui/showcase"
+	"github.com/axzilla/goilerplate/pkg/components"
+)
+
+templ Form() {
+	@layouts.DocsLayout() {
+		<div>
+			<div class="mb-16">
+				<h1 class="text-3xl font-bold mb-2">Form</h1>
+				<p class="mb-4 text-muted-foreground">Building forms with Go, Templ & Alpine.js.</p>
+			</div>
+			@components.Tabs(components.TabsProps{
+				Tabs: []components.Tab{
+					{
+						ID:      "preview",
+						Title:   "Preview",
+						Content: showcase.FormShowcase(),
+					},
+					{
+						ID:      "code",
+						Title:   "Code",
+						Content: CodeSnippetFromEmbedded("form.templ", "go", showcase.TemplFiles),
+					},
+					{
+						ID:      "component",
+						Title:   "Component",
+						Content: CodeSnippetFromEmbedded("form.templ", "go", components.TemplFiles),
+					},
+				},
+				TabsContainerClass:    "md:w-1/2",
+				ContentContainerClass: "w-full",
+			})
+		</div>
+	}
+}
