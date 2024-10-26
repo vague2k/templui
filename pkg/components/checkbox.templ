@@ -1,6 +1,9 @@
 package components
 
-import "github.com/axzilla/goilerplate/pkg/icons"
+import (
+	"github.com/axzilla/goilerplate/pkg/icons"
+	"github.com/axzilla/goilerplate/pkg/utils"
+)
 
 // CheckboxProps defines the properties for the Checkbox component.
 type CheckboxProps struct {
@@ -57,7 +60,7 @@ type CheckboxProps struct {
 //   - Class: Additional CSS classes to apply to the checkbox container. Optional.
 //   - Attributes: Additional HTML attributes to apply to the checkbox input element. Optional.
 templ Checkbox(props CheckboxProps) {
-	<div x-data="{ checked: false }" class={ "flex items-center space-x-2", props.Class }>
+	<div x-data="{ checked: false }" class={ utils.TwMerge("flex items-center space-x-2", props.Class) }>
 		<div class="relative">
 			<input
 				type="checkbox"

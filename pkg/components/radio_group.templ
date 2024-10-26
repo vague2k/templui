@@ -2,6 +2,7 @@ package components
 
 import (
 	"fmt"
+	"github.com/axzilla/goilerplate/pkg/utils"
 )
 
 // RadioGroupProps defines the properties for the RadioGroup component.
@@ -71,7 +72,7 @@ templ RadioGroup(props RadioGroupProps) {
 		role="radiogroup"
 		aria-required={ fmt.Sprintf("%t", props.Required) }
 		x-data={ fmt.Sprintf(`{ selectedValue: '%s' }`, props.DefaultValue) }
-		class={ "space-y-2", props.Class }
+		class={ utils.TwMerge("space-y-2", props.Class) }
 		{ props.Attributes... }
 	>
 		{ children... }
@@ -113,7 +114,7 @@ templ RadioGroupItem(props RadioGroupItemProps) {
 		}
 	</style>
 	<div
-		class={ "flex items-center space-x-2", props.Class }
+		class={ utils.TwMerge("flex items-center space-x-2", props.Class) }
 		x-data={ fmt.Sprintf(`{ isDisabled: %s }`, props.Disabled) }
 	>
 		<input

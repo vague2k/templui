@@ -1,5 +1,7 @@
 package components
 
+import "github.com/axzilla/goilerplate/pkg/utils"
+
 // CardProps defines the properties for the Card component.
 type CardProps struct {
 	// Class specifies additional CSS classes to apply to the card.
@@ -27,7 +29,10 @@ type CardProps struct {
 //   - Class: Additional CSS classes to apply to the card. Default: "" (empty string)
 //   - Attributes: Additional HTML attributes to apply to the card element. Default: nil
 templ Card(props CardProps) {
-	<div class={ "rounded-lg border bg-card text-card-foreground shadow-sm", props.Class } { props.Attributes... }>
+	<div
+		class={ utils.TwMerge("rounded-lg border bg-card text-card-foreground shadow-sm", props.Class) }
+		{ props.Attributes... }
+	>
 		{ children... }
 	</div>
 }

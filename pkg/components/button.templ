@@ -1,5 +1,10 @@
 package components
 
+import (
+	"github.com/axzilla/goilerplate/pkg/utils"
+	"strings"
+)
+
 // ButtonVariant represents the visual style of the button.
 type ButtonVariant string
 
@@ -21,7 +26,7 @@ const (
 	ButtonIcon ButtonSize = "icon"
 )
 
-// ButtonProps defines the properties for the Button component.
+// Button defines the properties for the Button component.
 type ButtonProps struct {
 	// Class specifies additional CSS classes to apply to the button.
 	// Default: "" (empty string)
@@ -73,9 +78,9 @@ type ButtonProps struct {
 	IconRight templ.Component
 }
 
-// getVariantClasses returns the CSS classes for the given button variant.
-func getVariantClasses(variant ButtonVariant) string {
-	switch variant {
+// Variant als Methode
+func (b ButtonProps) variantClasses() string {
+	switch b.Variant {
 	case Destructive:
 		return "bg-destructive text-destructive-foreground hover:bg-destructive/90"
 	case Outline:
@@ -91,9 +96,9 @@ func getVariantClasses(variant ButtonVariant) string {
 	}
 }
 
-// getSizeClasses returns the CSS classes for the given button size.
-func getSizeClasses(size ButtonSize) string {
-	switch size {
+// Size als Methode
+func (b ButtonProps) sizeClasses() string {
+	switch b.Size {
 	case Sm:
 		return "h-9 px-3 rounded-md"
 	case Lg:
@@ -103,6 +108,14 @@ func getSizeClasses(size ButtonSize) string {
 	default:
 		return "h-10 px-4 py-2 rounded-md"
 	}
+}
+
+func (b ButtonProps) modifierClasses() string {
+	classes := []string{}
+	if b.FullWidth {
+		classes = append(classes, "w-full")
+	}
+	return strings.Join(classes, " ")
 }
 
 // Button renders a button or anchor component based on the provided props.
@@ -142,12 +155,14 @@ templ Button(props ButtonProps) {
 			href={ templ.SafeURL(props.Href) }
 			target={ props.Target }
 			class={
-				"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors",
-				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-				getVariantClasses(props.Variant),
-				getSizeClasses(props.Size),
-				templ.KV("w-full", props.FullWidth),
-				props.Class,
+				utils.TwMerge(
+					"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors",
+					"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+					props.variantClasses(),
+					props.sizeClasses(),
+					props.modifierClasses(),
+					props.Class,
+				),
 			}
 			if props.Disabled != nil {
 				if disabledBool, ok := props.Disabled.(bool); ok && disabledBool {
@@ -165,13 +180,15 @@ templ Button(props ButtonProps) {
 	} else {
 		<button
 			class={
-				"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors",
-				"focus-visible:outline-none focus-visible:ring-2 focus-ring-ring focus-visible:ring-offset-2",
-				"disabled:pointer-events-none disabled:opacity-50",
-				getVariantClasses(props.Variant),
-				getSizeClasses(props.Size),
-				templ.KV("w-full", props.FullWidth),
-				props.Class,
+				utils.TwMerge(
+					"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors",
+					"focus-visible:outline-none focus-visible:ring-2 focus-ring-ring focus-visible:ring-offset-2",
+					"disabled:pointer-events-none disabled:opacity-50",
+					props.variantClasses(),
+					props.sizeClasses(),
+					props.modifierClasses(),
+					props.Class,
+				),
 			}
 			if props.Type != "" {
 				type={ props.Type }

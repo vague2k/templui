@@ -1,5 +1,7 @@
 package components
 
+import "github.com/axzilla/goilerplate/pkg/utils"
+
 // InputType represents the type of the input field.
 type InputType string
 
@@ -91,12 +93,14 @@ templ Input(props InputProps) {
 		value={ props.Value }
 		name={ props.Name }
 		id={ props.ID }
-		class={ "flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background",
-			"file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground",
-			"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-			"disabled:cursor-not-allowed disabled:opacity-50",
-			"file:text-foreground dark:file:text-foreground",
-			props.Class }
+		class={
+			utils.TwMerge("flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background",
+				"file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground",
+				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+				"disabled:cursor-not-allowed disabled:opacity-50",
+				"file:text-foreground dark:file:text-foreground",
+				props.Class),
+		}
 		if props.Disabled != nil {
 			if disabledBool, ok := props.Disabled.(bool); ok && disabledBool {
 				disabled="true"
