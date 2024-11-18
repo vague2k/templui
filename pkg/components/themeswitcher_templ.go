@@ -67,7 +67,7 @@ func DynamicThemeIcon() templ.Component {
 			templ_7745c5c3_Var2 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<span x-show=\"appTheme === &#39;dark&#39;\" class=\"block\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<span x-show=\"isDark\" class=\"block\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -75,7 +75,7 @@ func DynamicThemeIcon() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> <span x-show=\"appTheme === &#39;light&#39;\" class=\"block\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> <span x-show=\"!isDark\" class=\"block\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

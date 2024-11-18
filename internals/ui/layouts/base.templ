@@ -10,22 +10,12 @@ templ BaseLayout() {
 			<meta charset="UTF-8"/>
 			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 			<style>
-                /* Hide the page initially */
-                .page-loader { display: none; }
-                html.pre-load .page-loader { display: block; }
-                html.pre-load body { display: none; }
-            </style>
+        [x-cloak] { display: none !important; }
+      </style>
 			<script>
-                // Immediately set theme and remove pre-load class
-                (function() {
-                    document.documentElement.classList.add('pre-load');
-                    var appTheme = localStorage.getItem('appTheme') || 'light';
-                    document.documentElement.classList.toggle('dark', appTheme === 'dark');
-                    document.addEventListener('DOMContentLoaded', function() {
-                        document.documentElement.classList.remove('pre-load');
-                    });
-                })();
-            </script>
+        // Minimal initial theme setup to prevent flash
+        document.documentElement.classList.toggle('dark', localStorage.getItem('appTheme') === 'dark');
+      </script>
 			if config.AppConfig.GoEnv == "production" {
 				<!-- Plausible Analytics -->
 				<script defer data-domain="goilerplate.com" src="https://plausible.axeladrian.com/js/script.js"></script>
@@ -49,16 +39,17 @@ templ BaseLayout() {
 		</head>
 		<body
 			x-data="{
-                appTheme: localStorage.getItem('appTheme') || 'light',
+                isDark: localStorage.getItem('appTheme') === 'dark',
                 sidebarOpen: false,
                 toggleTheme() {
-                    this.appTheme = this.appTheme === 'dark' ? 'light' : 'dark';
-                    localStorage.setItem('appTheme', this.appTheme);
-                    document.documentElement.classList.toggle('dark', this.appTheme === 'dark');
+                    this.isDark = !this.isDark;
+                    localStorage.setItem('appTheme', this.isDark ? 'dark' : 'light');
+                    document.documentElement.classList.toggle('dark', this.isDark);
                 }
             }"
+			x-cloak
 			class="h-full flex flex-col transition-colors duration-200"
-			:class="{'bg-white text-black': appTheme === 'light', 'text-white': appTheme === 'dark'}"
+			:class="{ 'bg-white text-black': !isDark, 'text-white': isDark }"
 		>
 			<div class="page-loader">Loading...</div>
 			<div class="flex flex-col min-h-screen">
