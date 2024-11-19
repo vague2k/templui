@@ -17,32 +17,31 @@ templ CheckboxShowcase() {
 			<div class="mb-8">
 				<h2 class="font-semibold mb-2">Checked Checkbox</h2>
 				@components.Checkbox(components.CheckboxProps{
-					ID:      "checked-checkbox",
-					Name:    "newsletter",
-					Value:   "subscribe",
-					Label:   "Receive newsletter",
-					Checked: "true",
+					ID:         "checked-checkbox",
+					Name:       "newsletter",
+					Value:      "subscribe",
+					Label:      "Receive newsletter",
+					Attributes: templ.Attributes{"checked": "true"},
 				})
 			</div>
 			<div class="mb-8">
 				<h2 class="font-semibold mb-2">Disabled Checkbox</h2>
 				@components.Checkbox(components.CheckboxProps{
-					ID:       "disabled-checkbox",
-					Name:     "disabled",
-					Value:    "disabled",
-					Label:    "Disabled option",
-					Disabled: "true",
+					ID:         "disabled-checkbox",
+					Name:       "disabled",
+					Value:      "disabled",
+					Label:      "Disabled option",
+					Attributes: templ.Attributes{"disabled": "true"},
 				})
 			</div>
 			<div class="mb-8">
 				<h2 class="font-semibold mb-2">Disabled Checked Checkbox</h2>
 				@components.Checkbox(components.CheckboxProps{
-					ID:       "disabled-checked-checkbox",
-					Name:     "disabled-checked",
-					Value:    "disabled-checked",
-					Label:    "Disabled checked option",
-					Checked:  "true",
-					Disabled: "true",
+					ID:         "disabled-checked-checkbox",
+					Name:       "disabled-checked",
+					Value:      "disabled-checked",
+					Label:      "Disabled checked option",
+					Attributes: templ.Attributes{"checked": "true", "disabled": "true"},
 				})
 			</div>
 			<div class="mb-8">

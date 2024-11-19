@@ -645,6 +645,10 @@ body {
   pointer-events: none;
 }
 
+.invisible {
+  visibility: hidden;
+}
+
 .static {
   position: static;
 }
@@ -691,6 +695,10 @@ body {
   left: 0px;
 }
 
+.left-1\/2 {
+  left: 50%;
+}
+
 .left-2 {
   left: 0.5rem;
 }
@@ -713,6 +721,10 @@ body {
 
 .top-0 {
   top: 0px;
+}
+
+.top-1\/2 {
+  top: 50%;
 }
 
 .top-2 {
@@ -842,6 +854,16 @@ body {
 
 .aspect-square {
   aspect-ratio: 1 / 1;
+}
+
+.size-3 {
+  width: 0.75rem;
+  height: 0.75rem;
+}
+
+.size-4 {
+  width: 1rem;
+  height: 1rem;
 }
 
 .h-1\/2 {
@@ -1033,6 +1055,11 @@ body {
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
+.-translate-x-1\/2 {
+  --tw-translate-x: -50%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
 .-translate-x-1\/4 {
   --tw-translate-x: -25%;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
@@ -1040,6 +1067,11 @@ body {
 
 .-translate-x-full {
   --tw-translate-x: -100%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.-translate-y-1\/2 {
+  --tw-translate-y: -50%;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
@@ -1963,6 +1995,16 @@ body {
   color: hsl(var(--muted-foreground) / var(--tw-text-opacity));
 }
 
+.before\:absolute::before {
+  content: var(--tw-content);
+  position: absolute;
+}
+
+.before\:inset-0::before {
+  content: var(--tw-content);
+  inset: 0px;
+}
+
 .after\:absolute::after {
   content: var(--tw-content);
   position: absolute;
@@ -2039,6 +2081,12 @@ body {
 
 .checked\:ring-offset-2:checked {
   --tw-ring-offset-width: 2px;
+}
+
+.checked\:before\:bg-primary:checked::before {
+  content: var(--tw-content);
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--primary) / var(--tw-bg-opacity));
 }
 
 .hover\:bg-accent:hover {
@@ -2134,6 +2182,22 @@ body {
   outline-offset: 2px;
 }
 
+.focus\:outline:focus {
+  outline-style: solid;
+}
+
+.focus\:outline-2:focus {
+  outline-width: 2px;
+}
+
+.focus\:outline-offset-2:focus {
+  outline-offset: 2px;
+}
+
+.focus\:outline-ring:focus {
+  outline-color: hsl(var(--ring) / 1);
+}
+
 .focus\:ring-2:focus {
   --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
   --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
@@ -2156,6 +2220,10 @@ body {
 
 .focus\:ring-offset-2:focus {
   --tw-ring-offset-width: 2px;
+}
+
+.checked\:focus\:outline-primary:focus:checked {
+  outline-color: hsl(var(--primary) / 1);
 }
 
 .focus-visible\:outline-none:focus-visible {
@@ -2182,6 +2250,10 @@ body {
 
 .focus-visible\:ring-offset-2:focus-visible {
   --tw-ring-offset-width: 2px;
+}
+
+.active\:outline-offset-0:active {
+  outline-offset: 0px;
 }
 
 .disabled\:pointer-events-none:disabled {
@@ -2214,6 +2286,10 @@ body {
   opacity: 1;
 }
 
+.peer:checked ~ .peer-checked\:visible {
+  visibility: visible;
+}
+
 .peer:checked ~ .peer-checked\:bg-primary {
   --tw-bg-opacity: 1;
   background-color: hsl(var(--primary) / var(--tw-bg-opacity));
@@ -2234,21 +2310,6 @@ body {
   content: var(--tw-content);
   --tw-bg-opacity: 1;
   background-color: hsl(var(--secondary) / var(--tw-bg-opacity));
-}
-
-.peer:focus-visible ~ .peer-focus-visible\:ring-2 {
-  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
-  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);
-  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
-}
-
-.peer:focus-visible ~ .peer-focus-visible\:ring-ring {
-  --tw-ring-opacity: 1;
-  --tw-ring-color: hsl(var(--ring) / var(--tw-ring-opacity));
-}
-
-.peer:focus-visible ~ .peer-focus-visible\:ring-offset-2 {
-  --tw-ring-offset-width: 2px;
 }
 
 .peer:disabled ~ .peer-disabled\:cursor-not-allowed {
@@ -2438,6 +2499,19 @@ body {
     font-size: 3.75rem;
     line-height: 1;
   }
+}
+
+.\[\&\:has\(input\:checked\)\]\:text-foreground:has(input:checked) {
+  --tw-text-opacity: 1;
+  color: hsl(var(--foreground) / var(--tw-text-opacity));
+}
+
+.\[\&\:has\(input\:disabled\)\]\:cursor-not-allowed:has(input:disabled) {
+  cursor: not-allowed;
+}
+
+.\[\&\:has\(input\:disabled\)\]\:opacity-50:has(input:disabled) {
+  opacity: 0.5;
 }
 
 .\[\&\:has\(svg\)\]\:pl-11:has(svg) {
