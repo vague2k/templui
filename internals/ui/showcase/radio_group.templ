@@ -4,33 +4,27 @@ import "github.com/axzilla/goilerplate/pkg/components"
 
 templ RadioGroupShowcase() {
 	<div class="flex justify-center items-center border rounded-md py-16 px-4">
-		<div x-data="{checked: ''}">
-			@components.RadioGroup(components.RadioGroupProps{Value: "'default'", Name: "view-mode"}) {
-				<div class="space-y-2">
-					@components.RadioGroupItem(components.RadioGroupItemProps{
-						Value:      "default",
-						ID:         "r1",
-						Name:       "view-mode",
-						Label:      templ.Raw("Default"),
-						Attributes: templ.Attributes{"x-model": "checked"},
-					})
-					@components.RadioGroupItem(components.RadioGroupItemProps{
-						Value:      "comfortable",
-						ID:         "r2",
-						Name:       "view-mode",
-						Disabled:   "true",
-						Label:      templ.Raw("Comfortable"),
-						Attributes: templ.Attributes{"x-model": "checked"},
-					})
-					@components.RadioGroupItem(components.RadioGroupItemProps{
-						Value:      "compact",
-						ID:         "r3",
-						Name:       "view-mode",
-						Label:      templ.Raw("Compact"),
-						Attributes: templ.Attributes{"x-model": "checked"},
-					})
-				</div>
-			}
-		</div>
+		@components.RadioGroup(components.RadioGroupProps{}) {
+			@components.RadioGroupItem(components.RadioGroupItemProps{
+				Value:      "default",
+				ID:         "r1",
+				Name:       "view-mode",
+				Label:      templ.Raw("Default"),
+				Attributes: templ.Attributes{"checked": true},
+			})
+			@components.RadioGroupItem(components.RadioGroupItemProps{
+				Value:      "comfortable",
+				ID:         "r2",
+				Name:       "view-mode",
+				Label:      templ.Raw("Disabled"),
+				Attributes: templ.Attributes{"disabled": true},
+			})
+			@components.RadioGroupItem(components.RadioGroupItemProps{
+				Value: "compact",
+				ID:    "r3",
+				Name:  "view-mode",
+				Label: templ.Raw("Compact"),
+			})
+		}
 	</div>
 }
