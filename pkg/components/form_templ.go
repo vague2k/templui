@@ -64,7 +64,7 @@ func Form[T FormDataProvider](props FormProps[T]) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 1)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form id=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -77,7 +77,7 @@ func Form[T FormDataProvider](props FormProps[T]) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 2)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" name=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -90,7 +90,7 @@ func Form[T FormDataProvider](props FormProps[T]) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 3)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -103,7 +103,7 @@ func Form[T FormDataProvider](props FormProps[T]) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 4)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" x-data=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -121,7 +121,7 @@ func Form[T FormDataProvider](props FormProps[T]) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 5)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" @submit.prevent=\"submit\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -129,7 +129,7 @@ func Form[T FormDataProvider](props FormProps[T]) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 6)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("><div x-show=\"errors._form\" class=\"p-4 rounded-md bg-destructive/10 text-destructive\" x-text=\"errors._form\"></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -143,7 +143,7 @@ func Form[T FormDataProvider](props FormProps[T]) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 7)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</form>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -173,7 +173,7 @@ func FormDebug() templ.Component {
 			templ_7745c5c3_Var7 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templ.WriteWatchModeString(templ_7745c5c3_Buffer, 8)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"z-50 fixed bottom-4 right-4 p-4 bg-muted rounded-lg shadow-lg max-w-sm overflow-auto max-h-[50vh]\" x-data=\"{ expanded: false }\"><div class=\"flex justify-between items-center mb-2\"><h3 class=\"font-semibold\">Form Debug</h3><button @click=\"expanded = !expanded\" class=\"text-sm\"><span x-text=\"expanded ? &#39;Collapse&#39; : &#39;Expand&#39;\"></span></button></div><div x-show=\"expanded\" class=\"space-y-4\"><div><h4 class=\"text-sm font-medium mb-1\">Form Data:</h4><pre class=\"text-xs\" x-text=\"JSON.stringify(formData, null, 2)\"></pre></div><div x-show=\"Object.keys(errors).length &gt; 0\"><h4 class=\"text-sm font-medium mb-1\">Errors:</h4><pre class=\"text-xs text-destructive\" x-text=\"JSON.stringify(errors, null, 2)\"></pre></div><div><h4 class=\"text-sm font-medium mb-1\">State:</h4><div class=\"text-xs space-y-1\"><div>Submitting: <span x-text=\"isSubmitting\"></span></div><div>Submitted: <span x-text=\"submitted\"></span></div></div></div></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
