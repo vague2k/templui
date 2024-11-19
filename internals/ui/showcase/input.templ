@@ -25,7 +25,7 @@ templ InputShowcase() {
 				@components.Input(components.InputProps{
 					Type:        "email",
 					Placeholder: "Email",
-					Disabled:    "true",
+					Attributes:  templ.Attributes{"disabled": "true"},
 				})
 			</div>
 			<div class="mb-8">

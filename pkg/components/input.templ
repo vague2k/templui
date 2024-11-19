@@ -7,16 +7,16 @@ type InputType string
 
 // Constants for input types.
 const (
-	Text     InputType = "text"
-	Password InputType = "password"
-	Email    InputType = "email"
-	Number   InputType = "number"
-	Tel      InputType = "tel"
-	URL      InputType = "url"
-	Search   InputType = "search"
-	Date     InputType = "date"
-	Time     InputType = "time"
-	File     InputType = "file"
+	InputTypeText     InputType = "text"
+	InputTypePassword InputType = "password"
+	InputTypeEmail    InputType = "email"
+	InputTypeNumber   InputType = "number"
+	InputTypeTel      InputType = "tel"
+	InputTypeURL      InputType = "url"
+	InputTypeSearch   InputType = "search"
+	InputTypeDate     InputType = "date"
+	InputTypeTime     InputType = "time"
+	InputTypeFile     InputType = "file"
 )
 
 // InputProps defines the properties for the Input component.
@@ -44,12 +44,6 @@ type InputProps struct {
 	// Class specifies additional CSS classes to apply to the input field.
 	// Default: "" (empty string)
 	Class string
-
-	// Disabled can be either a bool or a string.
-	// If bool (Go), it directly controls the disabled state.
-	// If string, it's treated as a JavaScript expression for dynamic disabling.
-	// Default: nil
-	Disabled any
 
 	// FileAccept specifies which file types are accepted (only for file type).
 	// Default: "" (empty string)
@@ -100,15 +94,7 @@ templ Input(props InputProps) {
 				"file:text-foreground dark:file:text-foreground",
 				props.Class),
 		}
-		if props.Disabled != nil {
-			if disabledBool, ok := props.Disabled.(bool); ok && disabledBool {
-				disabled="true"
-			}
-			if disabledStr, ok := props.Disabled.(string); ok {
-				:disabled={ disabledStr }
-			}
-		}
-		if props.Type == File {
+		if props.Type == InputTypeFile {
 			accept={ props.FileAccept }
 		}
 		{ props.Attributes... }
