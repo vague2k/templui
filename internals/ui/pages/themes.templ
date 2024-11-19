@@ -141,7 +141,7 @@ templ ThemePreview() {
 								ID:         "notifications",
 								Name:       "notifications",
 								LabelRight: "Enable notifications",
-								Checked:    "true",
+								Attributes: templ.Attributes{"checked": "true"},
 							})
 						</div>
 						<div class="space-y-2">
@@ -149,7 +149,7 @@ templ ThemePreview() {
 								ID:         "beta",
 								Name:       "beta",
 								LabelRight: "Join beta program",
-								Disabled:   "true",
+								Attributes: templ.Attributes{"disabled": "true"},
 							})
 						</div>
 					</div>
