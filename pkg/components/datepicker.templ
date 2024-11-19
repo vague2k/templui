@@ -174,7 +174,7 @@ templ Datepicker(props DatepickerProps) {
 				id={ props.ID }
 				name={ props.Name }
 				placeholder={ props.Placeholder }
-				x-model="datePickerValue"
+				x-modelable="datePickerValue"
 				@click="toggleDatePicker()"
 				x-on:keydown.escape="datePickerOpen = false"
 				x-ref="datePickerInput"
