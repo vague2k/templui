@@ -3,9 +3,7 @@
 package components
 
 import (
-	"fmt"
 	"github.com/axzilla/goilerplate/pkg/icons"
-	"github.com/axzilla/goilerplate/pkg/utils"
 )
 
 // SelectProps defines the properties for the Select component.
@@ -22,14 +20,6 @@ type SelectProps struct {
 	// Options is the array of available options
 	Options []SelectOption
 
-	// Value can be a string containing a JS expression for the selected value
-	// Example: "selectedValue" or "'banana'" or "user.preference"
-	Value string
-
-	// Disabled can be a string containing a JS expression
-	// Example: "isLoading" or "true"
-	Disabled string
-
 	// Class specifies additional CSS classes
 	Class string
 
@@ -45,9 +35,8 @@ type SelectOption struct {
 	// Value is the actual value of the option
 	Value string
 
-	// Disabled is a JavaScript expression for the disabled state
-	// Example: "true" or "isOutOfStock"
-	Disabled string
+	// Attributes allows passing additional HTML attributes
+	Attributes templ.Attributes
 }
 
 // Select renders a custom select component with a button trigger and dropdown menu.
@@ -76,126 +65,30 @@ type SelectOption struct {
 //   - Class: Additional CSS classes. Optional.
 //   - Attributes: Additional HTML attributes. Optional.
 templ Select(props SelectProps) {
-	<div
-		x-data="{ 
-            open: false,
-            selectedValue: '',
-            selectedLabel: '',
-            init() {
-                // Initial value setup
-                this.selectedValue = this.$refs.select.value;
-                this.$nextTick(() => {
-                    this.selectedLabel = this.$refs.select.options[this.$refs.select.selectedIndex]?.text || '';
-                });
-            },
-            select(value, label, disabled) {
-                if (disabled) return;
-                this.selectedValue = value;
-                this.selectedLabel = label;
-                this.open = false;
-            }
-        }"
-		class={ utils.TwMerge("relative w-full", props.Class) }
-		@keydown.escape="open = false"
-		@click.away="open = false"
-	>
-		// Hidden native select for form submission
+	<div class="relative">
 		<select
 			id={ props.ID }
 			name={ props.Name }
-			x-ref="select"
-			x-model="selectedValue"
-			class="hidden"
-			if props.Value != "" {
-				x-init={ "selectedValue = " + "'" + props.Value + "'" }
-			}
-			if props.Disabled != "" {
-				:disabled={ props.Disabled }
-			}
+			class="peer h-10 w-full appearance-none rounded-md border border-input bg-background px-3 py-2 text-sm 
+                   ring-offset-background placeholder:text-muted-foreground
+                   focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2
+                   disabled:cursor-not-allowed disabled:opacity-50"
 			{ props.Attributes... }
 		>
 			if props.Placeholder != "" {
-				<option value="">{ props.Placeholder }</option>
+				<option value="" disabled selected hidden>{ props.Placeholder }</option>
 			}
 			for _, option := range props.Options {
 				<option
 					value={ option.Value }
-					if option.Disabled != "" {
-						:disabled={ option.Disabled }
-					}
+					{ option.Attributes... }
 				>
 					{ option.Label }
 				</option>
 			}
 		</select>
-		// Custom select button
-		<button
-			type="button"
-			class={
-				// Base styles
-				"relative w-full rounded-md border border-input bg-background px-3 py-2 text-sm",
-				"ring-offset-background placeholder:text-muted-foreground",
-			
-				// Focus styles
-				"focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
-			
-				// Disabled styles
-				"disabled:cursor-not-allowed disabled:opacity-50",
-			
-				// Layout
-				"flex items-center justify-between",
-			}
-			@click="open = !open"
-			aria-haspopup="listbox"
-			:aria-expanded="open"
-			if props.Disabled != "" {
-				:disabled={ props.Disabled }
-			}
-		>
-			<span
-				x-text="selectedLabel || '{ props.Placeholder }'"
-				class="block truncate"
-			></span>
-			<span class="pointer-events-none">
-				@icons.ChevronDown(icons.IconProps{Size: "16", Class: "ml-2 h-4 w-4 opacity-50"})
-			</span>
-		</button>
-		// Dropdown menu
-		<div
-			x-show="open"
-			x-transition:enter="transition ease-out duration-100"
-			x-transition:enter-start="transform opacity-0 scale-95"
-			x-transition:enter-end="transform opacity-100 scale-100"
-			x-transition:leave="transition ease-in duration-75"
-			x-transition:leave-start="transform opacity-100 scale-100"
-			x-transition:leave-end="transform opacity-0 scale-95"
-			class="absolute z-50 mt-1 w-full rounded-md border bg-popover p-1 shadow-md"
-			role="listbox"
-		>
-			// Dropdown items
-			<ul class="max-h-[15rem] overflow-auto py-1">
-				for _, option := range props.Options {
-					<li
-						class={
-							"relative cursor-pointer select-none py-1.5 pl-8 pr-2 text-sm rounded-sm",
-							"hover:bg-accent hover:text-accent-foreground",
-							"focus:bg-accent focus:text-accent-foreground",
-							templ.KV("opacity-50 cursor-not-allowed", option.Disabled),
-						}
-						:class="{ 'bg-accent text-accent-foreground': selectedValue === '{ option.Value }' }"
-						role="option"
-						@click={ "select('" + option.Value + "', '" + option.Label + "', " + fmt.Sprint(option.Disabled) + ")" }
-					>
-						{ option.Label }
-						<span
-							x-show={ "selectedValue === '" + option.Value + "'" }
-							class="absolute left-2 top-2 flex h-3.5 w-3.5 items-center justify-center"
-						>
-							@icons.Check(icons.IconProps{Size: "14"})
-						</span>
-					</li>
-				}
-			</ul>
+		<div class="absolute right-3 top-3 pointer-events-none peer-disabled:opacity-50">
+			@icons.ChevronDown(icons.IconProps{Size: "16", Class: "text-muted-foreground"})
 		</div>
 	</div>
 }

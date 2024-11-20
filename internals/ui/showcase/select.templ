@@ -10,6 +10,19 @@ templ SelectShowcase() {
 			<div>
 				<h2 class="font-semibold mb-4">Default Select</h2>
 				@components.Select(components.SelectProps{
+					ID:   "fruit",
+					Name: "fruit",
+					Options: []components.SelectOption{
+						{Label: "Apple", Value: "apple"},
+						{Label: "Banana", Value: "banana"},
+						{Label: "Orange", Value: "orange"},
+						{Label: "Mango", Value: "mango"},
+					},
+				})
+			</div>
+			<div>
+				<h2 class="font-semibold mb-4">With Placeholder</h2>
+				@components.Select(components.SelectProps{
 					ID:          "fruit",
 					Name:        "fruit",
 					Placeholder: "Select a fruit",
@@ -24,13 +37,14 @@ templ SelectShowcase() {
 			<div>
 				<h2 class="font-semibold mb-4">Selected Value</h2>
 				@components.Select(components.SelectProps{
-					ID:    "selected",
-					Name:  "selected",
-					Value: "banana",
+					ID:          "selected",
+					Name:        "selected",
+					Placeholder: "Select a fruit",
 					Options: []components.SelectOption{
 						{Label: "Apple", Value: "apple"},
 						{Label: "Banana", Value: "banana"},
-						{Label: "Orange", Value: "orange"},
+						{Label: "Orange", Value: "orange", Attributes: templ.Attributes{"selected": true}},
+						{Label: "Mango", Value: "mango"},
 					},
 				})
 			</div>
@@ -40,43 +54,12 @@ templ SelectShowcase() {
 					ID:          "disabled",
 					Name:        "disabled",
 					Placeholder: "Select is disabled",
-					Disabled:    "true",
+					Attributes:  templ.Attributes{":disabled": "true"},
 					Options: []components.SelectOption{
 						{Label: "Option 1", Value: "1"},
 						{Label: "Option 2", Value: "2"},
 					},
 				})
-			</div>
-			<div>
-				<h2 class="font-semibold mb-4">With Disabled Options</h2>
-				@components.Select(components.SelectProps{
-					ID:          "disabled-options",
-					Name:        "disabled-options",
-					Placeholder: "Select an option",
-					Options: []components.SelectOption{
-						{Label: "Available", Value: "available"},
-						{Label: "Out of Stock", Value: "out-of-stock", Disabled: "true"},
-						{Label: "In Stock", Value: "in-stock"},
-						{Label: "Discontinued", Value: "discontinued", Disabled: "true"},
-					},
-				})
-			</div>
-			<div>
-				<h2 class="font-semibold mb-4">Dynamic Example</h2>
-				<div x-data="{ userType: '' }" class="space-y-2">
-					@components.Select(components.SelectProps{
-						ID:          "user-type",
-						Name:        "user-type",
-						Placeholder: "Select user type",
-						Value:       "userType",
-						Options: []components.SelectOption{
-							{Label: "Admin", Value: "admin"},
-							{Label: "User", Value: "user"},
-							{Label: "Guest", Value: "guest"},
-						},
-					})
-					<p class="text-sm text-muted-foreground" x-text="userType ? 'Selected: ' + userType : 'Nothing selected'"></p>
-				</div>
 			</div>
 		</div>
 	</div>
