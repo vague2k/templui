@@ -8,8 +8,14 @@ templ InputShowcase() {
 			<div class="mb-8">
 				<h2 class="font-semibold mb-2">Default</h2>
 				@components.Input(components.InputProps{
+					Type: "email",
+				})
+			</div>
+			<div class="mb-8">
+				<h2 class="font-semibold mb-2">With Placeholder</h2>
+				@components.Input(components.InputProps{
 					Type:        "email",
-					Placeholder: "Email",
+					Placeholder: "e.g. john@doe.com",
 				})
 			</div>
 			<div class="mb-8">
@@ -23,54 +29,45 @@ templ InputShowcase() {
 			<div class="mb-8">
 				<h2 class="font-semibold mb-2">Disabled</h2>
 				@components.Input(components.InputProps{
-					Type:        "email",
-					Placeholder: "Email",
-					Attributes:  templ.Attributes{"disabled": "true"},
+					Type:       "email",
+					Attributes: templ.Attributes{"disabled": "true"},
 				})
 			</div>
 			<div class="mb-8">
 				<h2 class="font-semibold mb-2">With Label</h2>
 				<div class="grid w-full max-w-sm items-center gap-1.5">
-					<label for="email" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-						Email
-					</label>
 					@components.Input(components.InputProps{
-						ID:          "email",
-						Type:        "email",
-						Placeholder: "Email",
+						ID:    "email",
+						Type:  "email",
+						Label: "Email",
 					})
 				</div>
 			</div>
 			<div class="mb-8">
-				<h2 class="font-semibold mb-2">With Button</h2>
-				<div class="flex w-full max-w-sm items-center space-x-2">
-					@components.Input(components.InputProps{
-						Type:        "email",
-						Placeholder: "Email",
-					})
-					@components.Button(components.ButtonProps{
-						Type: "submit",
-						Text: "Subscribe",
-					})
-				</div>
+				<h2 class="font-semibold mb-2">With Description</h2>
+				@components.Input(components.InputProps{
+					ID:          "email",
+					Type:        "email",
+					Description: "This is your accounts email address.",
+				})
 			</div>
 			<div class="mb-8">
-				<h2 class="font-semibold mb-2">Form</h2>
-				<form class="w-full max-w-sm space-y-6">
-					<div class="space-y-2">
-						<label for="username" class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-							Username
-						</label>
-						@components.Input(components.InputProps{
-							ID: "username",
-						})
-						<p class="text-sm text-muted-foreground m-0">This is your public display name.</p>
-					</div>
-					@components.Button(components.ButtonProps{
-						Type: "submit",
-						Text: "Submit",
-					})
-				</form>
+				<h2 class="font-semibold mb-2">With Error</h2>
+				@components.Input(components.InputProps{
+					ID:    "username",
+					Error: "Username must be more then 2 characters",
+				})
+			</div>
+			<div class="mb-8">
+				<h2 class="font-semibold mb-2">Advanced</h2>
+				@components.Input(components.InputProps{
+					ID:          "username",
+					Label:       "Username",
+					Placeholder: "e.g. john123",
+					Description: "This is your public display name.",
+					Value:       "",
+					Error:       "Username must be more then 2 characters",
+				})
 			</div>
 		</div>
 	</div>

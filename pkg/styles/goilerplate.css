@@ -743,6 +743,10 @@ body {
   z-index: 50;
 }
 
+.m-0 {
+  margin: 0px;
+}
+
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -1998,6 +2002,10 @@ body {
 
 .peer:disabled ~ .peer-disabled\:opacity-50 {
   opacity: 0.5;
+}
+
+.peer:disabled ~ .peer-disabled\:opacity-70 {
+  opacity: 0.7;
 }
 
 .dark\:text-gray-200:is(.dark *) {

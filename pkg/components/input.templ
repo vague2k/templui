@@ -41,6 +41,15 @@ type InputProps struct {
 	// Default: "" (empty string)
 	ID string
 
+	// Label
+	Label string
+
+	// Description
+	Description string
+
+	// Error
+	Error string
+
 	// Class specifies additional CSS classes to apply to the input field.
 	// Default: "" (empty string)
 	Class string
@@ -81,22 +90,40 @@ type InputProps struct {
 //   - FileAccept: Specifies which file types are accepted (only for file type). Default: "" (empty string)
 //   - Attributes: Additional HTML attributes to apply to the input element. Default: nil
 templ Input(props InputProps) {
-	<input
-		type={ string(props.Type) }
-		placeholder={ props.Placeholder }
-		name={ props.Name }
-		id={ props.ID }
-		class={
-			utils.TwMerge("flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background",
-				"file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground",
-				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-				"disabled:cursor-not-allowed disabled:opacity-50",
-				"file:text-foreground dark:file:text-foreground",
-				props.Class),
+	<span class="space-y-2">
+		if props.Label != "" {
+			<label
+				for={ props.ID }
+				class={ "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",   
+      templ.KV("text-destructive", len(props.Error)>0) }
+			>
+				{ props.Label }
+			</label>
 		}
-		if props.Type == InputTypeFile {
-			accept={ props.FileAccept }
+		<input
+			type={ string(props.Type) }
+			placeholder={ props.Placeholder }
+			name={ props.Name }
+			value={ props.Value }
+			id={ props.ID }
+			class={
+				utils.TwMerge("flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background",
+					"file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground",
+					"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+					"disabled:cursor-not-allowed disabled:opacity-50",
+					"file:text-foreground dark:file:text-foreground",
+					props.Class),
+			}
+			if props.Type == InputTypeFile {
+				accept={ props.FileAccept }
+			}
+			{ props.Attributes... }
+		/>
+		if props.Description != "" {
+			<p class="text-sm text-muted-foreground m-0">{ props.Description }</p>
 		}
-		{ props.Attributes... }
-	/>
+		if props.Error != "" {
+			<p class="text-sm font-medium text-destructive">{ props.Error }</p>
+		}
+	</span>
 }
