@@ -1,0 +1,73 @@
+// internals/ui/showcase/textarea.templ
+
+package showcase
+
+import "github.com/axzilla/goilerplate/pkg/components"
+
+templ TextareaShowcase() {
+	<div class="flex justify-center items-center border rounded-md py-16 px-4">
+		<div class="space-y-8 w-full max-w-lg">
+			<div>
+				<h2 class="font-semibold mb-4">Default Textarea (3 rows)</h2>
+				@components.Textarea(components.TextareaProps{
+					ID:          "default",
+					Name:        "default",
+					Placeholder: "Type your message here.",
+				})
+			</div>
+			<div>
+				<h2 class="font-semibold mb-4">Tall Textarea (6 rows)</h2>
+				@components.Textarea(components.TextareaProps{
+					ID:          "tall",
+					Name:        "tall",
+					Placeholder: "Type your message here.",
+					Rows:        6,
+				})
+			</div>
+			<div>
+				<h2 class="font-semibold mb-4">With Label & Description</h2>
+				@components.Textarea(components.TextareaProps{
+					ID:          "with-label",
+					Name:        "with-label",
+					Label:       "Your Message",
+					Description: "Write a detailed description of your request.",
+					Placeholder: "Type your message here.",
+					Rows:        4,
+				})
+			</div>
+			<div>
+				<h2 class="font-semibold mb-4">With Error</h2>
+				@components.Textarea(components.TextareaProps{
+					ID:          "with-error",
+					Name:        "with-error",
+					Label:       "Your Message",
+					Error:       "Message is required",
+					Placeholder: "Type your message here.",
+				})
+			</div>
+			<div>
+				<h2 class="font-semibold mb-4">Auto-resize</h2>
+				@components.Textarea(components.TextareaProps{
+					ID:          "auto-resize",
+					Name:        "auto-resize",
+					Label:       "Auto-resizing Textarea",
+					Description: "This textarea will grow as you type.",
+					Placeholder: "Start typing to see the magic...",
+					Rows:        3,
+					AutoResize:  true,
+				})
+			</div>
+			<div>
+				<h2 class="font-semibold mb-4">Disabled</h2>
+				@components.Textarea(components.TextareaProps{
+					ID:         "disabled",
+					Name:       "disabled",
+					Label:      "Disabled Textarea",
+					Value:      "This textarea is disabled",
+					Rows:       3,
+					Attributes: templ.Attributes{"disabled": "true"},
+				})
+			</div>
+		</div>
+	</div>
+}

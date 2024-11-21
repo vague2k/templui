@@ -1,0 +1,84 @@
+package components
+
+import "github.com/axzilla/goilerplate/pkg/utils"
+import "strconv"
+
+// TextareaProps defines the properties for the Textarea component
+type TextareaProps struct {
+	// ID is the unique identifier for the textarea
+	ID string
+
+	// Name is the name attribute for the textarea
+	Name string
+
+	// Value is the initial content of the textarea
+	Value string
+
+	// Placeholder is shown when the textarea is empty
+	Placeholder string
+
+	// Label displays a label above the textarea
+	Label string
+
+	// Description shows helper text below the textarea
+	Description string
+
+	// Error displays error message below the textarea
+	Error string
+
+	// Rows sets the initial number of visible text lines
+	// Default: 3
+	Rows int
+
+	// Class allows adding custom CSS classes
+	Class string
+
+	// AutoResize enables/disables automatic height adjustment
+	AutoResize bool
+
+	// Attributes allows passing additional HTML attributes
+	Attributes templ.Attributes
+}
+
+// Textarea renders a textarea component with optional label, description and error message
+templ Textarea(props TextareaProps) {
+	<div class="space-y-2">
+		if props.Label != "" {
+			<label
+				for={ props.ID }
+				class={ "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
+                    templ.KV("text-destructive", len(props.Error) > 0) }
+			>
+				{ props.Label }
+			</label>
+		}
+		<textarea
+			id={ props.ID }
+			name={ props.Name }
+			value={ props.Value }
+			placeholder={ props.Placeholder }
+			if props.Rows != 0 {
+				rows={ strconv.Itoa(props.Rows) }
+			}
+			class={ utils.TwMerge(
+                "flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background",
+                "min-h-[80px] placeholder:text-muted-foreground",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+                "disabled:cursor-not-allowed disabled:opacity-50",
+                props.Class,
+            ) }
+			if props.AutoResize {
+				x-data="{ resize() { $el.style.height = '80px'; $el.style.height = $el.scrollHeight + 'px' } }"
+				x-init="resize()"
+				@input="resize()"
+			}
+			{ props.Attributes... }
+		></textarea>
+		if props.Description != "" {
+			<p class="text-sm text-muted-foreground">{ props.Description }</p>
+		}
+		if props.Error != "" {
+			<p class="text-sm font-medium text-destructive">{ props.Error }</p>
+		}
+	</div>
+}

@@ -99,6 +99,10 @@ var Sections = []Section{
 				Href: "/docs/components/tabs",
 			},
 			{
+				Text: "Textarea",
+				Href: "/docs/components/textarea",
+			},
+			{
 				Text: "Toggle",
 				Href: "/docs/components/toggle",
 			},

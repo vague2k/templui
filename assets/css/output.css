@@ -645,6 +645,10 @@ body {
   pointer-events: none;
 }
 
+.visible {
+  visibility: visible;
+}
+
 .invisible {
   visibility: hidden;
 }
@@ -938,6 +942,10 @@ body {
   max-height: 50vh;
 }
 
+.min-h-\[80px\] {
+  min-height: 80px;
+}
+
 .min-h-screen {
   min-height: 100vh;
 }
@@ -1006,6 +1014,10 @@ body {
   max-width: 80rem;
 }
 
+.max-w-lg {
+  max-width: 32rem;
+}
+
 .max-w-md {
   max-width: 28rem;
 }
@@ -1036,6 +1048,10 @@ body {
 
 .shrink-0 {
   flex-shrink: 0;
+}
+
+.grow {
+  flex-grow: 1;
 }
 
 .-translate-x-1 {
@@ -1121,6 +1137,10 @@ body {
   -webkit-user-select: none;
      -moz-user-select: none;
           user-select: none;
+}
+
+.resize {
+  resize: both;
 }
 
 .list-decimal {
