@@ -38,6 +38,7 @@ func main() {
 	mux.Handle("GET /docs/components/radio-group", templ.Handler(pages.RadioGroup()))
 	mux.Handle("GET /docs/components/select", templ.Handler(pages.Select()))
 	mux.Handle("GET /docs/components/sheet", templ.Handler(pages.Sheet()))
+	mux.Handle("GET /docs/components/slider", templ.Handler(pages.Slider()))
 	mux.Handle("GET /docs/components/tabs", templ.Handler(pages.Tabs()))
 	mux.Handle("GET /docs/components/textarea", templ.Handler(pages.Textarea()))
 	mux.Handle("GET /docs/components/toggle", templ.Handler(pages.Toggle()))

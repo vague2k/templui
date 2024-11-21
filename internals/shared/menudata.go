@@ -95,6 +95,10 @@ var Sections = []Section{
 				Href: "/docs/components/sheet",
 			},
 			{
+				Text: "Slider",
+				Href: "/docs/components/slider",
+			},
+			{
 				Text: "Tabs",
 				Href: "/docs/components/tabs",
 			},

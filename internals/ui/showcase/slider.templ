@@ -1,0 +1,79 @@
+// internals/ui/showcase/slider.templ
+
+package showcase
+
+import "github.com/axzilla/goilerplate/pkg/components"
+
+templ SliderShowcase() {
+	<div class="flex justify-center items-center border rounded-md py-16 px-4">
+		<div class="space-y-8 w-full max-w-lg">
+			<div>
+				<h2 class="font-semibold mb-4">Default Slider</h2>
+				@components.Slider(components.SliderProps{
+					ID:         "default",
+					Name:       "default",
+					Label:      "Volume",
+					Value:      50,
+					Min:        0,
+					Max:        100,
+					Step:       1,
+					ShowValue:  true,
+					Attributes: templ.Attributes{"x-ref": "text"},
+				})
+			</div>
+			<div>
+				<h2 class="font-semibold mb-4">With Label</h2>
+				@components.Slider(components.SliderProps{
+					ID:          "with-label",
+					Name:        "with-label",
+					Label:       "Volume",
+					Value:       75,
+					Min:         0,
+					Max:         100,
+					Step:        1,
+					ShowValue:   true,
+					ValueFormat: "%d%",
+				})
+			</div>
+			<div>
+				<h2 class="font-semibold mb-4">Temperature Range</h2>
+				@components.Slider(components.SliderProps{
+					ID:          "temperature",
+					Name:        "temperature",
+					Label:       "Temperature",
+					Value:       23,
+					Min:         -20,
+					Max:         40,
+					Step:        1,
+					ShowValue:   true,
+					ValueFormat: "%d°C",
+				})
+			</div>
+			<div>
+				<h2 class="font-semibold mb-4">Steps</h2>
+				@components.Slider(components.SliderProps{
+					ID:          "steps",
+					Name:        "steps",
+					Label:       "Zoom Level",
+					Value:       100,
+					Min:         0,
+					Max:         200,
+					Step:        25,
+					ShowValue:   true,
+					ValueFormat: "%d%",
+				})
+			</div>
+			<div>
+				<h2 class="font-semibold mb-4">Disabled</h2>
+				@components.Slider(components.SliderProps{
+					ID:        "disabled",
+					Name:      "disabled",
+					Label:     "Disabled Slider",
+					Value:     30,
+					ShowValue: true,
+					Disabled:  true,
+				})
+			</div>
+		</div>
+	</div>
+}

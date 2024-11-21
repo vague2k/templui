@@ -1,0 +1,94 @@
+// pkg/components/slider.templ
+
+package components
+
+import (
+	"fmt"
+	"github.com/axzilla/goilerplate/pkg/utils"
+)
+
+type SliderProps struct {
+	// ID is the unique identifier for the slider
+	ID string
+
+	// Name is the name attribute for the slider
+	Name string
+
+	// Min is the minimum value of the slider
+	Min int
+
+	// Max is the maximum value of the slider
+	Max int
+
+	// Step is the increment between values
+	Step int
+
+	// Value is the initial value of the slider
+	Value int
+
+	// Label displays a label above the slider
+	Label string
+
+	// ShowValue determines if the current value should be displayed
+	ShowValue bool
+
+	// ValueFormat is an optional format string for the displayed value (e.g. "%d°C")
+	ValueFormat string
+
+	// Class allows adding custom CSS classes
+	Class string
+
+	// Disabled determines if the slider is interactive
+	Disabled bool
+
+	// Attributes allows passing additional HTML attributes
+	Attributes templ.Attributes
+}
+
+templ Slider(props SliderProps) {
+	<div
+		class="space-y-2"
+		x-data={ fmt.Sprintf(`{
+			value: %d,
+			formatValue(val) {
+				return '%s'.replace('%%d', val) || val;
+			}
+		}`, props.Value, props.ValueFormat) }
+	>
+		if props.Label != "" || props.ShowValue {
+			<div class="flex justify-between items-center">
+				if props.Label != "" {
+					<label for={ props.ID } class="text-sm font-medium">
+						{ props.Label }
+					</label>
+				}
+				if props.ShowValue {
+					<span x-text="formatValue(value)" class="text-sm text-muted-foreground"></span>
+				}
+			</div>
+		}
+		<input
+			type="range"
+			id={ props.ID }
+			name={ props.Name }
+			min={ fmt.Sprintf("%d", props.Min) }
+			max={ fmt.Sprintf("%d", props.Max) }
+			step={ fmt.Sprintf("%d", props.Step) }
+			x-model="value"
+			class={ utils.TwMerge(
+				"w-full h-2 rounded-full bg-secondary appearance-none cursor-pointer",
+				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+				"[&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4",
+				"[&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-primary",
+				"[&::-webkit-slider-thumb]:hover:bg-primary/90",
+				"[&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:border-0",
+				"[&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-primary",
+				"[&::-moz-range-thumb]:hover:bg-primary/90",
+				"disabled:opacity-50 disabled:cursor-not-allowed",
+				props.Class,
+			) }
+			disabled?={ props.Disabled }
+			{ props.Attributes... }
+		/>
+	</div>
+}

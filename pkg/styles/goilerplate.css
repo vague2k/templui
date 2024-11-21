@@ -858,6 +858,10 @@ body {
   height: 4rem;
 }
 
+.h-2 {
+  height: 0.5rem;
+}
+
 .h-4 {
   height: 1rem;
 }
@@ -1295,6 +1299,11 @@ body {
 .bg-secondary {
   --tw-bg-opacity: 1;
   background-color: hsl(var(--secondary) / var(--tw-bg-opacity));
+}
+
+.bg-gray-200 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(229 231 235 / var(--tw-bg-opacity));
 }
 
 .bg-opacity-50 {
@@ -2098,6 +2107,79 @@ body {
   .lg\:w-1\/3 {
     width: 33.333333%;
   }
+}
+
+.\[\&\:\:-moz-range-thumb\]\:h-4::-moz-range-thumb {
+  height: 1rem;
+}
+
+.\[\&\:\:-moz-range-thumb\]\:w-4::-moz-range-thumb {
+  width: 1rem;
+}
+
+.\[\&\:\:-moz-range-thumb\]\:cursor-pointer::-moz-range-thumb {
+  cursor: pointer;
+}
+
+.\[\&\:\:-moz-range-thumb\]\:rounded-full::-moz-range-thumb {
+  border-radius: 9999px;
+}
+
+.\[\&\:\:-moz-range-thumb\]\:border-0::-moz-range-thumb {
+  border-width: 0px;
+}
+
+.\[\&\:\:-moz-range-thumb\]\:bg-primary::-moz-range-thumb {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--primary) / var(--tw-bg-opacity));
+}
+
+.\[\&\:\:-moz-range-thumb\]\:transition-colors::-moz-range-thumb {
+  -moz-transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.\[\&\:\:-moz-range-thumb\]\:hover\:bg-primary\/90:hover::-moz-range-thumb {
+  background-color: hsl(var(--primary) / 0.9);
+}
+
+.\[\&\:\:-webkit-slider-thumb\]\:h-4::-webkit-slider-thumb {
+  height: 1rem;
+}
+
+.\[\&\:\:-webkit-slider-thumb\]\:w-4::-webkit-slider-thumb {
+  width: 1rem;
+}
+
+.\[\&\:\:-webkit-slider-thumb\]\:cursor-pointer::-webkit-slider-thumb {
+  cursor: pointer;
+}
+
+.\[\&\:\:-webkit-slider-thumb\]\:appearance-none::-webkit-slider-thumb {
+  -webkit-appearance: none;
+          appearance: none;
+}
+
+.\[\&\:\:-webkit-slider-thumb\]\:rounded-full::-webkit-slider-thumb {
+  border-radius: 9999px;
+}
+
+.\[\&\:\:-webkit-slider-thumb\]\:bg-primary::-webkit-slider-thumb {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--primary) / var(--tw-bg-opacity));
+}
+
+.\[\&\:\:-webkit-slider-thumb\]\:transition-colors::-webkit-slider-thumb {
+  -webkit-transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.\[\&\:\:-webkit-slider-thumb\]\:hover\:bg-primary\/90:hover::-webkit-slider-thumb {
+  background-color: hsl(var(--primary) / 0.9);
 }
 
 .\[\&\:has\(\:disabled\)\]\:cursor-not-allowed:has(:disabled) {
