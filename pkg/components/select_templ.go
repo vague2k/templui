@@ -10,68 +10,55 @@ package components
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import (
-	"github.com/axzilla/goilerplate/pkg/icons"
-)
+import "github.com/axzilla/goilerplate/pkg/icons"
 
-// SelectProps defines the properties for the Select component.
 type SelectProps struct {
-	// ID is the unique identifier for the select input
+	// ID uniquely identifies the select input
 	ID string
 
-	// Name is the name attribute for the select input
+	// Name sets the form field name
 	Name string
 
-	// Placeholder text when no option is selected
+	// Placeholder shows text when no option selected
 	Placeholder string
 
-	// Options is the array of available options
+	// Options defines available choices
 	Options []SelectOption
 
-	// Class specifies additional CSS classes
+	// Class adds custom CSS classes
 	Class string
 
-	// Attributes allows passing additional HTML attributes
+	// Attributes for additional HTML attributes and Alpine.js bindings
 	Attributes templ.Attributes
 }
 
-// SelectOption represents an option in the select menu
 type SelectOption struct {
-	// Label is the text shown to the user
+	// Label displays text in dropdown
 	Label string
 
-	// Value is the actual value of the option
+	// Value sets the option's form value
 	Value string
 
-	// Attributes allows passing additional HTML attributes
+	// Attributes for disabled state or other HTML attributes
 	Attributes templ.Attributes
 }
 
-// Select renders a custom select component with a button trigger and dropdown menu.
-// It supports keyboard navigation, disabled states, and custom styling.
-//
-// Usage:
-//
-//	@components.Select(components.SelectProps{
-//	    ID: "fruit",
-//	    Name: "fruit",
-//	    Placeholder: "Select a fruit",
-//	    Value: "'apple'",
-//	    Options: []components.SelectOption{
-//	        {Label: "Apple", Value: "apple"},
-//	        {Label: "Banana", Value: "banana", Disabled: true},
-//	    },
-//	})
+// Select renders a dropdown menu component with keyboard navigation.
+// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/select
 //
 // Props:
-//   - ID: The unique identifier for the select input. Required.
-//   - Name: The name attribute for the select input. Required.
-//   - Placeholder: Text shown when no option is selected. Optional.
-//   - Options: Array of SelectOption defining the available choices. Required.
-//   - Value: The selected value. Can be a string or JS expression. Optional.
-//   - Disabled: Controls the disabled state. Can be a string or JS expression. Optional.
-//   - Class: Additional CSS classes. Optional.
-//   - Attributes: Additional HTML attributes. Optional.
+// - ID: Unique identifier
+// - Name: Form field name
+// - Placeholder: Default text
+// - Options: Available choices
+// - Class: Additional CSS classes
+// - Attributes: Additional HTML attributes
+//
+// Features:
+// - Keyboard navigation
+// - Disabled state support
+// - Alpine.js integration
+// - Custom styling via Tailwind
 func Select(props SelectProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -100,7 +87,7 @@ func Select(props SelectProps) templ.Component {
 		var templ_7745c5c3_Var2 string
 		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/select.templ`, Line: 70, Col: 16}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/select.templ`, Line: 57, Col: 16}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {
@@ -113,7 +100,7 @@ func Select(props SelectProps) templ.Component {
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(props.Name)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/select.templ`, Line: 71, Col: 20}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/select.templ`, Line: 58, Col: 20}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
@@ -139,7 +126,7 @@ func Select(props SelectProps) templ.Component {
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(props.Placeholder)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/select.templ`, Line: 79, Col: 65}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/select.templ`, Line: 66, Col: 65}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
@@ -158,7 +145,7 @@ func Select(props SelectProps) templ.Component {
 			var templ_7745c5c3_Var5 string
 			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(option.Value)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/select.templ`, Line: 83, Col: 25}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/select.templ`, Line: 70, Col: 25}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
@@ -179,7 +166,7 @@ func Select(props SelectProps) templ.Component {
 			var templ_7745c5c3_Var6 string
 			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(option.Label)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/select.templ`, Line: 86, Col: 19}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/select.templ`, Line: 73, Col: 19}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 			if templ_7745c5c3_Err != nil {

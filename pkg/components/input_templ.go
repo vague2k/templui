@@ -10,11 +10,11 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import "github.com/axzilla/goilerplate/pkg/utils"
 
-// InputType represents the type of the input field.
+// InputType defines the available input field types
 type InputType string
 
-// Constants for input types.
 const (
+	// Standard text inputs
 	InputTypeText     InputType = "text"
 	InputTypePassword InputType = "password"
 	InputTypeEmail    InputType = "email"
@@ -22,81 +22,66 @@ const (
 	InputTypeTel      InputType = "tel"
 	InputTypeURL      InputType = "url"
 	InputTypeSearch   InputType = "search"
-	InputTypeDate     InputType = "date"
-	InputTypeTime     InputType = "time"
-	InputTypeFile     InputType = "file"
+
+	// Date and time inputs
+	InputTypeDate InputType = "date"
+	InputTypeTime InputType = "time"
+
+	// File upload input
+	InputTypeFile InputType = "file"
 )
 
-// InputProps defines the properties for the Input component.
 type InputProps struct {
-	// Type specifies the type of the input field.
-	// Default: Text
+	// Type sets the input field behavior
 	Type InputType
 
-	// Placeholder is the placeholder text for the input field.
-	// Default: "" (empty string)
+	// Placeholder shows helper text when empty
 	Placeholder string
 
-	// Value is the current value of the input field.
-	// Default: "" (empty string)
+	// Value sets the current input content
 	Value string
 
-	// Name is the name attribute of the input field.
-	// Default: "" (empty string)
+	// Name sets the form field name
 	Name string
 
-	// ID is the unique identifier for the input field.
-	// Default: "" (empty string)
+	// ID uniquely identifies the input
 	ID string
 
-	// Label
+	// Label displays text above input
 	Label string
 
-	// Description
+	// Description shows helper text below input
 	Description string
 
-	// Error
+	// Error displays validation message
 	Error string
 
-	// Class specifies additional CSS classes to apply to the input field.
-	// Default: "" (empty string)
+	// Class adds custom CSS classes
 	Class string
 
-	// FileAccept specifies which file types are accepted (only for file type).
-	// Default: "" (empty string)
+	// FileAccept limits allowed file types
+	// Only used when Type is InputTypeFile
 	FileAccept string
 
-	// Attributes allows passing additional HTML attributes to the input element.
-	// Default: nil
+	// Attributes for additional HTML attributes and Alpine.js bindings
 	Attributes templ.Attributes
 }
 
-// Input renders an input component based on the provided props.
-// It can be customized with various types, sizes, and behaviors.
-//
-// Usage:
-//
-//	@components.Input(components.InputProps{
-//	  Type: components.Email,
-//	  Placeholder: "Enter your email",
-//	  ID: "email-input",
-//	  Class: "custom-input",
-//	  Attributes: templ.Attributes{
-//	    "aria-label": "Email input",
-//	    "data-testid": "email-input",
-//	  },
-//	})
+// Input renders a form input field with optional label and validation.
+// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/input
 //
 // Props:
-//   - Type: The type of the input field (e.g., Text, Email, Password). Default: Text
-//   - Placeholder: The placeholder text for the input field. Default: "" (empty string)
-//   - Value: The current value of the input field. Default: "" (empty string)
-//   - Name: The name attribute of the input field. Default: "" (empty string)
-//   - ID: The unique identifier for the input field. Default: "" (empty string)
-//   - Class: Additional CSS classes to apply to the input field. Default: "" (empty string)
-//   - Disabled: Can be either a bool or a string. If bool (Go), it directly controls the disabled state. If string, it's treated as a JavaScript expression for dynamic disabling. Default: nil
-//   - FileAccept: Specifies which file types are accepted (only for file type). Default: "" (empty string)
-//   - Attributes: Additional HTML attributes to apply to the input element. Default: nil
+// - Type: Input field behavior type
+// - Placeholder: Helper text when empty
+// - Value: Current input value
+// - Name: Form field name
+// - ID: Unique identifier
+// - Label: Text label
+// - Description: Helper text
+// - Error: Validation message
+// - Class: Additional CSS classes
+// - FileAccept: Allowed file types
+// - Attributes: Additional HTML attributes
 func Input(props InputProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -136,7 +121,7 @@ func Input(props InputProps) templ.Component {
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/input.templ`, Line: 96, Col: 18}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/input.templ`, Line: 81, Col: 18}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -162,7 +147,7 @@ func Input(props InputProps) templ.Component {
 			var templ_7745c5c3_Var5 string
 			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(props.Label)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/input.templ`, Line: 100, Col: 17}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/input.templ`, Line: 85, Col: 17}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
@@ -192,7 +177,7 @@ func Input(props InputProps) templ.Component {
 		var templ_7745c5c3_Var7 string
 		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(string(props.Type))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/input.templ`, Line: 104, Col: 28}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/input.templ`, Line: 89, Col: 28}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
@@ -205,7 +190,7 @@ func Input(props InputProps) templ.Component {
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(props.Placeholder)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/input.templ`, Line: 105, Col: 34}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/input.templ`, Line: 90, Col: 34}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
@@ -218,7 +203,7 @@ func Input(props InputProps) templ.Component {
 		var templ_7745c5c3_Var9 string
 		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(props.Name)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/input.templ`, Line: 106, Col: 20}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/input.templ`, Line: 91, Col: 20}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {
@@ -231,7 +216,7 @@ func Input(props InputProps) templ.Component {
 		var templ_7745c5c3_Var10 string
 		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(props.Value)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/input.templ`, Line: 107, Col: 22}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/input.templ`, Line: 92, Col: 22}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 		if templ_7745c5c3_Err != nil {
@@ -244,7 +229,7 @@ func Input(props InputProps) templ.Component {
 		var templ_7745c5c3_Var11 string
 		templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/input.templ`, Line: 108, Col: 16}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/input.templ`, Line: 93, Col: 16}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 		if templ_7745c5c3_Err != nil {
@@ -275,7 +260,7 @@ func Input(props InputProps) templ.Component {
 			var templ_7745c5c3_Var13 string
 			templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(props.FileAccept)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/input.templ`, Line: 118, Col: 29}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/input.templ`, Line: 103, Col: 29}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 			if templ_7745c5c3_Err != nil {
@@ -302,7 +287,7 @@ func Input(props InputProps) templ.Component {
 			var templ_7745c5c3_Var14 string
 			templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(props.Description)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/input.templ`, Line: 123, Col: 67}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/input.templ`, Line: 108, Col: 67}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 			if templ_7745c5c3_Err != nil {
@@ -321,7 +306,7 @@ func Input(props InputProps) templ.Component {
 			var templ_7745c5c3_Var15 string
 			templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs(props.Error)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/input.templ`, Line: 126, Col: 64}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/input.templ`, Line: 111, Col: 64}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var15))
 			if templ_7745c5c3_Err != nil {

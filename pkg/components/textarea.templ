@@ -1,46 +1,61 @@
 package components
 
-import "github.com/axzilla/goilerplate/pkg/utils"
-import "strconv"
+import (
+	"github.com/axzilla/goilerplate/pkg/utils"
+	"strconv"
+)
 
-// TextareaProps defines the properties for the Textarea component
 type TextareaProps struct {
-	// ID is the unique identifier for the textarea
+	// ID uniquely identifies the textarea
 	ID string
 
-	// Name is the name attribute for the textarea
+	// Name sets the form field name
 	Name string
 
-	// Value is the initial content of the textarea
+	// Value sets initial content
 	Value string
 
-	// Placeholder is shown when the textarea is empty
+	// Placeholder shows when empty
 	Placeholder string
 
-	// Label displays a label above the textarea
+	// Label displays text above textarea
 	Label string
 
-	// Description shows helper text below the textarea
+	// Description shows helper text below
 	Description string
 
-	// Error displays error message below the textarea
+	// Error displays validation message
 	Error string
 
-	// Rows sets the initial number of visible text lines
-	// Default: 3
+	// Rows sets visible text lines height
 	Rows int
 
-	// Class allows adding custom CSS classes
+	// Class adds custom CSS classes
 	Class string
 
-	// AutoResize enables/disables automatic height adjustment
+	// AutoResize enables dynamic height adjustment
 	AutoResize bool
 
-	// Attributes allows passing additional HTML attributes
+	// Attributes for additional HTML attributes and Alpine.js bindings
 	Attributes templ.Attributes
 }
 
-// Textarea renders a textarea component with optional label, description and error message
+// Textarea renders a multi-line text input with optional validation.
+// Uses Alpine.js for autoresize functionality when enabled.
+// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/textarea
+//
+// Props:
+// - ID: Unique identifier
+// - Name: Form field name
+// - Value: Initial content
+// - Placeholder: Helper text when empty
+// - Label: Text label
+// - Description: Helper text
+// - Error: Validation message
+// - Rows: Initial height in lines
+// - Class: Additional CSS classes
+// - AutoResize: Enable dynamic sizing
+// - Attributes: Additional HTML attributes
 templ Textarea(props TextareaProps) {
 	<div class="space-y-2">
 		if props.Label != "" {

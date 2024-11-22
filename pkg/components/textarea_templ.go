@@ -8,47 +8,62 @@ package components
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "github.com/axzilla/goilerplate/pkg/utils"
-import "strconv"
+import (
+	"github.com/axzilla/goilerplate/pkg/utils"
+	"strconv"
+)
 
-// TextareaProps defines the properties for the Textarea component
 type TextareaProps struct {
-	// ID is the unique identifier for the textarea
+	// ID uniquely identifies the textarea
 	ID string
 
-	// Name is the name attribute for the textarea
+	// Name sets the form field name
 	Name string
 
-	// Value is the initial content of the textarea
+	// Value sets initial content
 	Value string
 
-	// Placeholder is shown when the textarea is empty
+	// Placeholder shows when empty
 	Placeholder string
 
-	// Label displays a label above the textarea
+	// Label displays text above textarea
 	Label string
 
-	// Description shows helper text below the textarea
+	// Description shows helper text below
 	Description string
 
-	// Error displays error message below the textarea
+	// Error displays validation message
 	Error string
 
-	// Rows sets the initial number of visible text lines
-	// Default: 3
+	// Rows sets visible text lines height
 	Rows int
 
-	// Class allows adding custom CSS classes
+	// Class adds custom CSS classes
 	Class string
 
-	// AutoResize enables/disables automatic height adjustment
+	// AutoResize enables dynamic height adjustment
 	AutoResize bool
 
-	// Attributes allows passing additional HTML attributes
+	// Attributes for additional HTML attributes and Alpine.js bindings
 	Attributes templ.Attributes
 }
 
-// Textarea renders a textarea component with optional label, description and error message
+// Textarea renders a multi-line text input with optional validation.
+// Uses Alpine.js for autoresize functionality when enabled.
+// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/textarea
+//
+// Props:
+// - ID: Unique identifier
+// - Name: Form field name
+// - Value: Initial content
+// - Placeholder: Helper text when empty
+// - Label: Text label
+// - Description: Helper text
+// - Error: Validation message
+// - Rows: Initial height in lines
+// - Class: Additional CSS classes
+// - AutoResize: Enable dynamic sizing
+// - Attributes: Additional HTML attributes
 func Textarea(props TextareaProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -88,7 +103,7 @@ func Textarea(props TextareaProps) templ.Component {
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/textarea.templ`, Line: 48, Col: 18}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/textarea.templ`, Line: 63, Col: 18}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -114,7 +129,7 @@ func Textarea(props TextareaProps) templ.Component {
 			var templ_7745c5c3_Var5 string
 			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(props.Label)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/textarea.templ`, Line: 52, Col: 17}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/textarea.templ`, Line: 67, Col: 17}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
@@ -143,7 +158,7 @@ func Textarea(props TextareaProps) templ.Component {
 		var templ_7745c5c3_Var7 string
 		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/textarea.templ`, Line: 56, Col: 16}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/textarea.templ`, Line: 71, Col: 16}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
@@ -156,7 +171,7 @@ func Textarea(props TextareaProps) templ.Component {
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(props.Name)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/textarea.templ`, Line: 57, Col: 20}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/textarea.templ`, Line: 72, Col: 20}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
@@ -169,7 +184,7 @@ func Textarea(props TextareaProps) templ.Component {
 		var templ_7745c5c3_Var9 string
 		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(props.Value)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/textarea.templ`, Line: 58, Col: 22}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/textarea.templ`, Line: 73, Col: 22}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {
@@ -182,7 +197,7 @@ func Textarea(props TextareaProps) templ.Component {
 		var templ_7745c5c3_Var10 string
 		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(props.Placeholder)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/textarea.templ`, Line: 59, Col: 34}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/textarea.templ`, Line: 74, Col: 34}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 		if templ_7745c5c3_Err != nil {
@@ -200,7 +215,7 @@ func Textarea(props TextareaProps) templ.Component {
 			var templ_7745c5c3_Var11 string
 			templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(props.Rows))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/textarea.templ`, Line: 61, Col: 35}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/textarea.templ`, Line: 76, Col: 35}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 			if templ_7745c5c3_Err != nil {
@@ -250,7 +265,7 @@ func Textarea(props TextareaProps) templ.Component {
 			var templ_7745c5c3_Var13 string
 			templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(props.Description)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/textarea.templ`, Line: 78, Col: 63}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/textarea.templ`, Line: 93, Col: 63}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 			if templ_7745c5c3_Err != nil {
@@ -269,7 +284,7 @@ func Textarea(props TextareaProps) templ.Component {
 			var templ_7745c5c3_Var14 string
 			templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(props.Error)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/textarea.templ`, Line: 81, Col: 64}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/textarea.templ`, Line: 96, Col: 64}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 			if templ_7745c5c3_Err != nil {

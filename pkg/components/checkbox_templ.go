@@ -8,42 +8,42 @@ package components
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "github.com/axzilla/goilerplate/pkg/utils"
-import "github.com/axzilla/goilerplate/pkg/icons"
+import (
+	"github.com/axzilla/goilerplate/pkg/icons"
+	"github.com/axzilla/goilerplate/pkg/utils"
+)
 
-// CheckboxProps defines the properties for the Checkbox component.
 type CheckboxProps struct {
-	// ID is the unique identifier for the checkbox input.
+	// ID uniquely identifies the checkbox input
 	ID string
 
-	// Name is the name attribute for the checkbox input.
+	// Name sets the form field name
 	Name string
 
-	// Value is the value attribute for the checkbox input.
+	// Value sets the checkbox value
 	Value string
 
-	// Label is the text label associated with the checkbox.
-	// If empty, no label will be rendered.
+	// Label displays text next to checkbox
+	// Empty string hides the label
 	Label string
 
-	// Class specifies additional CSS classes for the container
+	// Class adds custom CSS classes
 	Class string
 
-	// Attributes allows passing additional HTML attributes
+	// Attributes for additional HTML attributes and Alpine.js bindings
 	Attributes templ.Attributes
 }
 
-// Checkbox renders a customizable checkbox component with an associated label.
+// Checkbox renders a styled checkbox input with optional label.
+// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/checkbox
 //
 // Props:
-//   - ID: The unique identifier for the checkbox input. Required.
-//   - Name: The name attribute for the checkbox input. Required.
-//   - Value: The value attribute for the checkbox input. Required.
-//   - Label: The text label associated with the checkbox. Optional.
-//   - Class: Additional CSS classes to apply to the checkbox container. Optional.
-//   - Attributes: Additional HTML attributes to apply to the checkbox input element. Optional.
-//
-// CheckboxProps bleibt gleich, nur die Template-Implementierung ändert sich
+// - ID: Unique identifier for the input
+// - Name: Form field name
+// - Value: Checkbox value
+// - Label: Optional text label
+// - Class: Additional CSS classes
+// - Attributes: Additional HTML attributes
 func Checkbox(props CheckboxProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -82,7 +82,7 @@ func Checkbox(props CheckboxProps) templ.Component {
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/checkbox.templ`, Line: 40, Col: 16}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/checkbox.templ`, Line: 41, Col: 16}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
@@ -108,7 +108,7 @@ func Checkbox(props CheckboxProps) templ.Component {
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/checkbox.templ`, Line: 50, Col: 17}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/checkbox.templ`, Line: 51, Col: 17}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
@@ -121,7 +121,7 @@ func Checkbox(props CheckboxProps) templ.Component {
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(props.Name)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/checkbox.templ`, Line: 51, Col: 21}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/checkbox.templ`, Line: 52, Col: 21}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -134,7 +134,7 @@ func Checkbox(props CheckboxProps) templ.Component {
 		var templ_7745c5c3_Var7 string
 		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(props.Value)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/checkbox.templ`, Line: 52, Col: 23}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/checkbox.templ`, Line: 53, Col: 23}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
@@ -168,7 +168,7 @@ func Checkbox(props CheckboxProps) templ.Component {
 			var templ_7745c5c3_Var8 string
 			templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(props.Label)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/checkbox.templ`, Line: 74, Col: 22}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/checkbox.templ`, Line: 75, Col: 22}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 			if templ_7745c5c3_Err != nil {

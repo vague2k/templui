@@ -5,49 +5,43 @@ import (
 	"github.com/axzilla/goilerplate/pkg/utils"
 )
 
-// DatepickerProps defines the properties for the Datepicker component.
 type DatepickerProps struct {
-	// ID is the unique identifier for the datepicker input.
+	// ID uniquely identifies the datepicker input
 	ID string
 
-	// Name is the name attribute for the datepicker input.
+	// Name sets the form field name
 	Name string
 
-	// Placeholder is the placeholder text for the datepicker input.
+	// Placeholder shows helper text when empty
 	Placeholder string
 
-	// Format specifies the date format to use. Options: "M d, Y", "MM-DD-YYYY", "DD-MM-YYYY", "YYYY-MM-DD", "D d M, Y"
-	// Default: "M d, Y"
+	// Format controls date string presentation
+	// Supported formats:
+	// - "M d, Y" (Jan 1, 2024)
+	// - "MM-DD-YYYY" (01-01-2024)
+	// - "DD-MM-YYYY" (01-01-2024)
+	// - "YYYY-MM-DD" (2024-01-01)
+	// - "D d M, Y" (Mon 1 Jan, 2024)
 	Format string
 
-	// Class specifies additional CSS classes to apply to the datepicker container.
+	// Class adds custom CSS classes
 	Class string
 
-	// Attributes allows passing additional HTML attributes to the datepicker input element.
+	// Attributes for additional HTML attributes and Alpine.js bindings
 	Attributes templ.Attributes
 }
 
-// Datepicker renders an enhanced datepicker component with an input field and a calendar view.
-// It uses Alpine.js for interactivity and provides various formatting options and improved navigation.
-// This version supports dark mode using Tailwind CSS variables.
-//
-// Usage:
-//
-//	@components.Datepicker(components.DatepickerProps{
-//	  ID:          "my-datepicker",
-//	  Name:        "selected-date",
-//	  Placeholder: "Select a date",
-//	  Format:      "YYYY-MM-DD",
-//	  Class:       "w-full",
-//	})
+// Datepicker renders a calendar input component with popup date selection.
+// Uses Alpine.js for interactions and supports dark mode via Tailwind.
+// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/datepicker
 //
 // Props:
-//   - ID: The unique identifier for the datepicker input. Default: "" (empty string)
-//   - Name: The name attribute for the datepicker input. Default: "" (empty string)
-//   - Placeholder: The placeholder text for the datepicker input. Default: "" (empty string)
-//   - Format: The date format to use. Default: "M d, Y"
-//   - Class: Additional CSS classes to apply to the datepicker container. Default: "" (empty string)
-//   - Attributes: Additional HTML attributes to apply to the datepicker input element. Default: nil
+// - ID: Unique identifier for the input
+// - Name: Form field name
+// - Placeholder: Helper text when empty
+// - Format: Date display format
+// - Class: Additional CSS classes
+// - Attributes: Additional HTML attributes
 templ Datepicker(props DatepickerProps) {
 	<div
 		data-date-format={ props.Format }

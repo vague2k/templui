@@ -8,44 +8,49 @@ package components
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-// ToggleSize represents the size of the toggle
+// / ToggleSize defines the available toggle dimensions
 type ToggleSize string
 
-// ToggleLabelPlacement represents where the label should be placed
+// ToggleLabelPlacement defines label position options
 type ToggleLabelPlacement string
 
-// ToggleProps defines the properties for the Toggle component
 type ToggleProps struct {
-	// ID is the unique identifier for the toggle input
+	// ID uniquely identifies the toggle
 	ID string
 
-	// Name is the name attribute for the toggle input
+	// Name sets the form field name
 	Name string
 
-	// Label is the text label for the toggle
+	// LabelLeft displays text before toggle
 	LabelLeft string
 
-	// Label is the text label for the toggle
+	// LabelRight displays text after toggle
 	LabelRight string
 
-	// Class specifies additional CSS classes
+	// Class adds custom CSS classes
 	Class string
 
-	// Attributes allows passing additional HTML attributes
+	// Attributes for additional HTML attributes and Alpine.js bindings
 	Attributes templ.Attributes
 }
 
-// Toggle renders a toggle switch component based on the provided props.
-// It can be customized with different label placements, and supports
-// both static and dynamic states through Alpine.js integration.
+// Toggle renders a switch control for boolean values.
+// Uses Alpine.js for state management and animations.
+// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/toggle
 //
 // Props:
-//   - ID: The unique identifier for the toggle input. Required.
-//   - Name: The name attribute for the toggle input. Required.
-//   - LabelLeft: The text label for the toggle. Optional.
-//   - LabelRight: The text label for the toggle. Optional.
-//   - Class: Additional CSS classes. Optional.
-//   - Attributes: Additional HTML attributes. Optional.
+// - ID: Unique identifier
+// - Name: Form field name
+// - LabelLeft: Text before toggle
+// - LabelRight: Text after toggle
+// - Class: Additional CSS classes
+// - Attributes: Additional HTML attributes
+//
+// Features:
+// - Animated switching
+// - Keyboard navigation
+// - Label placement options
+// - ARIA support
 func Toggle(props ToggleProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -74,7 +79,7 @@ func Toggle(props ToggleProps) templ.Component {
 		var templ_7745c5c3_Var2 string
 		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/toggle.templ`, Line: 42, Col: 22}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/toggle.templ`, Line: 47, Col: 22}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {
@@ -87,7 +92,7 @@ func Toggle(props ToggleProps) templ.Component {
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/toggle.templ`, Line: 44, Col: 16}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/toggle.templ`, Line: 49, Col: 16}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
@@ -100,7 +105,7 @@ func Toggle(props ToggleProps) templ.Component {
 		var templ_7745c5c3_Var4 string
 		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(props.Name)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/toggle.templ`, Line: 46, Col: 20}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/toggle.templ`, Line: 51, Col: 20}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
@@ -126,7 +131,7 @@ func Toggle(props ToggleProps) templ.Component {
 			var templ_7745c5c3_Var5 string
 			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(props.LabelLeft)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/toggle.templ`, Line: 53, Col: 21}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/toggle.templ`, Line: 58, Col: 21}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
@@ -149,7 +154,7 @@ func Toggle(props ToggleProps) templ.Component {
 			var templ_7745c5c3_Var6 string
 			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(props.LabelRight)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/toggle.templ`, Line: 62, Col: 22}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/toggle.templ`, Line: 67, Col: 22}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 			if templ_7745c5c3_Err != nil {

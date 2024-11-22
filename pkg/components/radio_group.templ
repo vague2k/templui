@@ -2,46 +2,44 @@ package components
 
 import "github.com/axzilla/goilerplate/pkg/utils"
 
-// RadioGroupProps defines the properties for the RadioGroup component.
 type RadioGroupProps struct {
-	// Name is the name attribute for the radio group
+	// Name groups related radio buttons
 	Name string
-	// Class specifies additional CSS classes
+
+	// Class adds custom CSS classes
 	Class string
-	// Attributes allows passing additional HTML attributes
+
+	// Attributes for additional HTML attributes
 	Attributes templ.Attributes
 }
 
-// RadioGroupItemProps defines the properties for a single radio button item.
 type RadioGroupItemProps struct {
-	// Value is the value attribute for the radio button
+	// Value sets the radio button value
 	Value string
-	// Name is the name attribute, should match the RadioGroup's name
+
+	// Name matches parent RadioGroup name
 	Name string
-	// ID is the unique identifier for the radio button
+
+	// ID uniquely identifies the radio button
 	ID string
-	// Label is the text label displayed next to the radio button
+
+	// Label displays text next to radio button
 	Label templ.Component
-	// Class specifies additional CSS classes
+
+	// Class adds custom CSS classes
 	Class string
-	// Attributes allows passing additional HTML attributes
+
+	// Attributes for additional HTML attributes and Alpine.js bindings
 	Attributes templ.Attributes
 }
 
-// RadioGroup renders a group of radio buttons with shared name attribute.
+// RadioGroup renders a set of mutually exclusive radio button options.
+// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/radio-group
 //
-// Usage:
-//
-//  @components.RadioGroup(components.RadioGroupProps{
-//      Name: "marketing",
-//  }) {
-//      @components.RadioGroupItem(components.RadioGroupItemProps{
-//          Value: "email",
-//          Name: "marketing",
-//          ID: "marketing-email",
-//          Label: templ.Raw("Email Marketing"),
-//      })
-//  }
+// Props:
+// - Name: Groups related radio buttons
+// - Class: Additional CSS classes
+// - Attributes: Additional HTML attributes
 templ RadioGroup(props RadioGroupProps) {
 	<div
 		role="radiogroup"
@@ -52,17 +50,16 @@ templ RadioGroup(props RadioGroupProps) {
 	</div>
 }
 
-// RadioGroupItem renders a single radio button with an integrated label.
+// RadioGroupItem renders an individual radio button with label.
+// Must be used within a RadioGroup component.
 //
-// Usage:
-//
-//  @components.RadioGroupItem(components.RadioGroupItemProps{
-//      Value: "email",
-//      Name: "marketing",
-//      ID: "marketing-email",
-//      Label: templ.Raw("Email Marketing"),
-//      Attributes: templ.Attributes{"checked": selectedOption == "email"},
-//  })
+// Props:
+// - Value: Radio button value
+// - Name: Matches parent group name
+// - ID: Unique identifier
+// - Label: Button label
+// - Class: Additional CSS classes
+// - Attributes: Additional HTML attributes
 templ RadioGroupItem(props RadioGroupItemProps) {
 	<label
 		for={ props.ID }

@@ -1,43 +1,48 @@
 package components
 
-// ToggleSize represents the size of the toggle
+// / ToggleSize defines the available toggle dimensions
 type ToggleSize string
 
-// ToggleLabelPlacement represents where the label should be placed
+// ToggleLabelPlacement defines label position options
 type ToggleLabelPlacement string
 
-// ToggleProps defines the properties for the Toggle component
 type ToggleProps struct {
-	// ID is the unique identifier for the toggle input
+	// ID uniquely identifies the toggle
 	ID string
 
-	// Name is the name attribute for the toggle input
+	// Name sets the form field name
 	Name string
 
-	// Label is the text label for the toggle
+	// LabelLeft displays text before toggle
 	LabelLeft string
 
-	// Label is the text label for the toggle
+	// LabelRight displays text after toggle
 	LabelRight string
 
-	// Class specifies additional CSS classes
+	// Class adds custom CSS classes
 	Class string
 
-	// Attributes allows passing additional HTML attributes
+	// Attributes for additional HTML attributes and Alpine.js bindings
 	Attributes templ.Attributes
 }
 
-// Toggle renders a toggle switch component based on the provided props.
-// It can be customized with different label placements, and supports
-// both static and dynamic states through Alpine.js integration.
+// Toggle renders a switch control for boolean values.
+// Uses Alpine.js for state management and animations.
+// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/toggle
 //
 // Props:
-//   - ID: The unique identifier for the toggle input. Required.
-//   - Name: The name attribute for the toggle input. Required.
-//   - LabelLeft: The text label for the toggle. Optional.
-//   - LabelRight: The text label for the toggle. Optional.
-//   - Class: Additional CSS classes. Optional.
-//   - Attributes: Additional HTML attributes. Optional.
+// - ID: Unique identifier
+// - Name: Form field name
+// - LabelLeft: Text before toggle
+// - LabelRight: Text after toggle
+// - Class: Additional CSS classes
+// - Attributes: Additional HTML attributes
+//
+// Features:
+// - Animated switching
+// - Keyboard navigation
+// - Label placement options
+// - ARIA support
 templ Toggle(props ToggleProps) {
 	<label for={ props.ID } class="inline-flex cursor-pointer items-center gap-2">
 		<input

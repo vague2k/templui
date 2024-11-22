@@ -1,40 +1,41 @@
 package components
 
-import "github.com/axzilla/goilerplate/pkg/utils"
-import "github.com/axzilla/goilerplate/pkg/icons"
+import (
+	"github.com/axzilla/goilerplate/pkg/icons"
+	"github.com/axzilla/goilerplate/pkg/utils"
+)
 
-// CheckboxProps defines the properties for the Checkbox component.
 type CheckboxProps struct {
-	// ID is the unique identifier for the checkbox input.
+	// ID uniquely identifies the checkbox input
 	ID string
 
-	// Name is the name attribute for the checkbox input.
+	// Name sets the form field name
 	Name string
 
-	// Value is the value attribute for the checkbox input.
+	// Value sets the checkbox value
 	Value string
 
-	// Label is the text label associated with the checkbox.
-	// If empty, no label will be rendered.
+	// Label displays text next to checkbox
+	// Empty string hides the label
 	Label string
 
-	// Class specifies additional CSS classes for the container
+	// Class adds custom CSS classes
 	Class string
 
-	// Attributes allows passing additional HTML attributes
+	// Attributes for additional HTML attributes and Alpine.js bindings
 	Attributes templ.Attributes
 }
 
-// Checkbox renders a customizable checkbox component with an associated label.
+// Checkbox renders a styled checkbox input with optional label.
+// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/checkbox
 //
 // Props:
-//   - ID: The unique identifier for the checkbox input. Required.
-//   - Name: The name attribute for the checkbox input. Required.
-//   - Value: The value attribute for the checkbox input. Required.
-//   - Label: The text label associated with the checkbox. Optional.
-//   - Class: Additional CSS classes to apply to the checkbox container. Optional.
-//   - Attributes: Additional HTML attributes to apply to the checkbox input element. Optional.
-// CheckboxProps bleibt gleich, nur die Template-Implementierung ändert sich
+// - ID: Unique identifier for the input
+// - Name: Form field name
+// - Value: Checkbox value
+// - Label: Optional text label
+// - Class: Additional CSS classes
+// - Attributes: Additional HTML attributes
 templ Checkbox(props CheckboxProps) {
 	<label
 		for={ props.ID }

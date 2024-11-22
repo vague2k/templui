@@ -2,11 +2,11 @@ package components
 
 import "github.com/axzilla/goilerplate/pkg/utils"
 
-// InputType represents the type of the input field.
+// InputType defines the available input field types
 type InputType string
 
-// Constants for input types.
 const (
+	// Standard text inputs
 	InputTypeText     InputType = "text"
 	InputTypePassword InputType = "password"
 	InputTypeEmail    InputType = "email"
@@ -14,81 +14,66 @@ const (
 	InputTypeTel      InputType = "tel"
 	InputTypeURL      InputType = "url"
 	InputTypeSearch   InputType = "search"
-	InputTypeDate     InputType = "date"
-	InputTypeTime     InputType = "time"
-	InputTypeFile     InputType = "file"
+
+	// Date and time inputs
+	InputTypeDate InputType = "date"
+	InputTypeTime InputType = "time"
+
+	// File upload input
+	InputTypeFile InputType = "file"
 )
 
-// InputProps defines the properties for the Input component.
 type InputProps struct {
-	// Type specifies the type of the input field.
-	// Default: Text
+	// Type sets the input field behavior
 	Type InputType
 
-	// Placeholder is the placeholder text for the input field.
-	// Default: "" (empty string)
+	// Placeholder shows helper text when empty
 	Placeholder string
 
-	// Value is the current value of the input field.
-	// Default: "" (empty string)
+	// Value sets the current input content
 	Value string
 
-	// Name is the name attribute of the input field.
-	// Default: "" (empty string)
+	// Name sets the form field name
 	Name string
 
-	// ID is the unique identifier for the input field.
-	// Default: "" (empty string)
+	// ID uniquely identifies the input
 	ID string
 
-	// Label
+	// Label displays text above input
 	Label string
 
-	// Description
+	// Description shows helper text below input
 	Description string
 
-	// Error
+	// Error displays validation message
 	Error string
 
-	// Class specifies additional CSS classes to apply to the input field.
-	// Default: "" (empty string)
+	// Class adds custom CSS classes
 	Class string
 
-	// FileAccept specifies which file types are accepted (only for file type).
-	// Default: "" (empty string)
+	// FileAccept limits allowed file types
+	// Only used when Type is InputTypeFile
 	FileAccept string
 
-	// Attributes allows passing additional HTML attributes to the input element.
-	// Default: nil
+	// Attributes for additional HTML attributes and Alpine.js bindings
 	Attributes templ.Attributes
 }
 
-// Input renders an input component based on the provided props.
-// It can be customized with various types, sizes, and behaviors.
-//
-// Usage:
-//
-//	@components.Input(components.InputProps{
-//	  Type: components.Email,
-//	  Placeholder: "Enter your email",
-//	  ID: "email-input",
-//	  Class: "custom-input",
-//	  Attributes: templ.Attributes{
-//	    "aria-label": "Email input",
-//	    "data-testid": "email-input",
-//	  },
-//	})
+// Input renders a form input field with optional label and validation.
+// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/input
 //
 // Props:
-//   - Type: The type of the input field (e.g., Text, Email, Password). Default: Text
-//   - Placeholder: The placeholder text for the input field. Default: "" (empty string)
-//   - Value: The current value of the input field. Default: "" (empty string)
-//   - Name: The name attribute of the input field. Default: "" (empty string)
-//   - ID: The unique identifier for the input field. Default: "" (empty string)
-//   - Class: Additional CSS classes to apply to the input field. Default: "" (empty string)
-//   - Disabled: Can be either a bool or a string. If bool (Go), it directly controls the disabled state. If string, it's treated as a JavaScript expression for dynamic disabling. Default: nil
-//   - FileAccept: Specifies which file types are accepted (only for file type). Default: "" (empty string)
-//   - Attributes: Additional HTML attributes to apply to the input element. Default: nil
+// - Type: Input field behavior type
+// - Placeholder: Helper text when empty
+// - Value: Current input value
+// - Name: Form field name
+// - ID: Unique identifier
+// - Label: Text label
+// - Description: Helper text
+// - Error: Validation message
+// - Class: Additional CSS classes
+// - FileAccept: Allowed file types
+// - Attributes: Additional HTML attributes
 templ Input(props InputProps) {
 	<span class="space-y-2">
 		if props.Label != "" {
