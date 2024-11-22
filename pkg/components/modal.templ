@@ -2,51 +2,21 @@ package components
 
 import "github.com/axzilla/goilerplate/pkg/utils"
 
-// ModalProps defines the properties for the Modal component.
 type ModalProps struct {
-	// ID is a unique identifier for the modal.
-	// It's used to control opening and closing.
-	// This should be unique across your application.
+	// ID uniquely identifies the modal for open/close control
 	ID string
 
-	// Class specifies additional CSS classes to apply to the modal container.
+	// Class adds custom CSS classes
 	Class string
 }
 
-// Modal renders a modal dialog component.
-// It uses Alpine.js for state management and animations.
+// Modal renders a popup dialog window with customizable content.
+// Uses Alpine.js for interactions and animations.
+// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/modal
 //
-// Usage:
-//
-// @components.ModalTrigger("default-modal") {
-// 	@components.Button(components.ButtonProps{Text: "Open Modal"})
-// }
-//
-// @components.Modal(components.ModalProps{ID: "default-modal", Class: "max-w-md"}) {
-// 	@components.ModalHeader() {
-// 		Are you absolutely sure?
-// 	}
-// 	@components.ModalBody() {
-// 		This action cannot be undone. This will permanently delete your account and remove your data from our servers.
-// 	}
-// 	@components.ModalFooter() {
-// 		<div class="flex gap-2">
-// 			@components.ModalClose("default-modal") {
-// 				@components.Button(components.ButtonProps{
-// 					Text: "Cancel",
-// 				})
-// 			}
-// 			@components.ModalClose("default-modal") {
-// 				@components.Button(components.ButtonProps{
-// 					Text:    "Continue",
-// 					Variant: components.Secondary,
-// 				})
-// 			}
-// 		</div>
-// 	}
-// }
-//
-// The Modal component should be used in conjunction with ModalTrigger to open it.
+// Props:
+// - ID: Unique identifier for control
+// - Class: Additional CSS classes
 templ Modal(props ModalProps) {
 	<div
 		x-data="{ open: false }"
@@ -79,15 +49,8 @@ templ Modal(props ModalProps) {
 	</div>
 }
 
-// ModalTrigger renders an element that opens the modal when clicked.
-//
-// Usage:
-//
-//	@components.ModalTrigger("example-modal") {
-//	  @components.Button(components.ButtonProps{Text: "Open Modal"})
-//	}
-//
-// The 'id' parameter should match the ID of the Modal you want to open.
+// ModalTrigger creates clickable elements that open a modal
+// ID parameter must match the target modal's ID
 templ ModalTrigger(id string) {
 	<span
 		data-modal-id={ id }
@@ -97,18 +60,8 @@ templ ModalTrigger(id string) {
 	</span>
 }
 
-// ModalClose renders an element that closes the modal when clicked.
-//
-// Usage:
-//
-//	@components.ModalClose("example-modal") {
-//	  @components.Button(components.ButtonProps{
-//	    Text: "Close",
-//	    Variant: components.Secondary,
-//	  })
-//	}
-//
-// The 'id' parameter should match the ID of the Modal you want to close.
+// ModalClose creates clickable elements that close a modal
+// ID parameter must match the target modal's ID
 templ ModalClose(id string) {
 	<span
 		data-modal-id={ id }
@@ -118,14 +71,7 @@ templ ModalClose(id string) {
 	</span>
 }
 
-// ModalHeader renders the header section of the modal.
-//
-// Usage:
-//
-//	@components.ModalHeader() {
-//	  Modal Title
-//	  @components.ModalClose("example-modal")
-//	}
+// ModalHeader renders the modal title section
 templ ModalHeader() {
 	<div class="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
 		<h3 class="text-lg leading-6 font-medium text-foreground" id="modal-title">
@@ -134,31 +80,14 @@ templ ModalHeader() {
 	</div>
 }
 
-// ModalBody renders the main content area of the modal.
-//
-// Usage:
-//
-//	@components.ModalBody() {
-//	  <p>This is the modal content.</p>
-//	}
+/// ModalBody renders the main modal content area
 templ ModalBody() {
 	<div class="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
 		{ children... }
 	</div>
 }
 
-// ModalFooter renders the footer section of the modal, typically containing action buttons.
-//
-// Usage:
-//
-//	@components.ModalFooter() {
-//	  @components.ModalClose("example-modal") {
-//	    @components.Button(components.ButtonProps{
-//	      Text: "Close",
-//	      Variant: components.Secondary,
-//	    })
-//	  }
-//	}
+// ModalFooter renders the modal action buttons section
 templ ModalFooter() {
 	<div class="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
 		{ children... }

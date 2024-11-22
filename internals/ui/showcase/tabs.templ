@@ -38,7 +38,7 @@ templ AccountTab() {
 				<div class="space-y-1">
 					<label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="name">Name</label>
 					@components.Input(components.InputProps{
-						Type:        components.Text,
+						Type:        components.InputTypeText,
 						Placeholder: "Name",
 						ID:          "name",
 						Value:       "John Doe",
@@ -47,7 +47,7 @@ templ AccountTab() {
 				<div class="space-y-1">
 					<label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="username">Username</label>
 					@components.Input(components.InputProps{
-						Type:        components.Text,
+						Type:        components.InputTypeText,
 						Placeholder: "Username",
 						ID:          "username",
 						Value:       "@johndoe",
@@ -78,7 +78,7 @@ templ PasswordTab() {
 						Current Password
 					</label>
 					@components.Input(components.InputProps{
-						Type:        components.Password,
+						Type:        components.InputTypePassword,
 						Placeholder: "Current Password",
 						ID:          "current_password",
 					})
@@ -88,7 +88,7 @@ templ PasswordTab() {
 						New Password
 					</label>
 					@components.Input(components.InputProps{
-						Type:        components.Password,
+						Type:        components.InputTypePassword,
 						Placeholder: "New Password",
 						ID:          "new_password",
 					})

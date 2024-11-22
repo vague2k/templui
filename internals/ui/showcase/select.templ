@@ -1,0 +1,66 @@
+package showcase
+
+import "github.com/axzilla/goilerplate/pkg/components"
+
+var xxx = "banana"
+
+templ SelectShowcase() {
+	<div class="flex justify-center items-center border rounded-md py-16 px-4">
+		<div class="w-full max-w-xs space-y-8">
+			<div>
+				<h2 class="font-semibold mb-4">Default Select</h2>
+				@components.Select(components.SelectProps{
+					ID:   "fruit",
+					Name: "fruit",
+					Options: []components.SelectOption{
+						{Label: "Apple", Value: "apple"},
+						{Label: "Banana", Value: "banana"},
+						{Label: "Orange", Value: "orange"},
+						{Label: "Mango", Value: "mango"},
+					},
+				})
+			</div>
+			<div>
+				<h2 class="font-semibold mb-4">With Placeholder</h2>
+				@components.Select(components.SelectProps{
+					ID:          "fruit",
+					Name:        "fruit",
+					Placeholder: "Select a fruit",
+					Options: []components.SelectOption{
+						{Label: "Apple", Value: "apple"},
+						{Label: "Banana", Value: "banana"},
+						{Label: "Orange", Value: "orange"},
+						{Label: "Mango", Value: "mango"},
+					},
+				})
+			</div>
+			<div>
+				<h2 class="font-semibold mb-4">Selected Value</h2>
+				@components.Select(components.SelectProps{
+					ID:          "selected",
+					Name:        "selected",
+					Placeholder: "Select a fruit",
+					Options: []components.SelectOption{
+						{Label: "Apple", Value: "apple"},
+						{Label: "Banana", Value: "banana"},
+						{Label: "Orange", Value: "orange", Attributes: templ.Attributes{"selected": true}},
+						{Label: "Mango", Value: "mango"},
+					},
+				})
+			</div>
+			<div>
+				<h2 class="font-semibold mb-4">Disabled Select</h2>
+				@components.Select(components.SelectProps{
+					ID:          "disabled",
+					Name:        "disabled",
+					Placeholder: "Select is disabled",
+					Attributes:  templ.Attributes{":disabled": "true"},
+					Options: []components.SelectOption{
+						{Label: "Option 1", Value: "1"},
+						{Label: "Option 2", Value: "2"},
+					},
+				})
+			</div>
+		</div>
+	</div>
+}

@@ -13,61 +13,37 @@ import (
 	"github.com/axzilla/goilerplate/pkg/utils"
 )
 
-// AccordionItem represents a single item in the Accordion component.
 type AccordionItem struct {
-	// ID is the unique identifier for the accordion item.
-	// It is used to manage the open/closed state of the item.
+	// ID is the unique identifier for managing accordion item state
 	ID string
 
-	// Trigger is the content of the accordion item's header/trigger.
-	// This is typically text, but can be any templ.Component.
+	// Trigger is the content shown in the header/trigger area
+	// Can be any templ.Component (typically text)
 	Trigger templ.Component
 
-	// Content is the expandable content of the accordion item.
-	// This can be any templ.Component.
+	// Content is the expandable content section
+	// Can be any templ.Component
 	Content templ.Component
 }
 
-// AccordionProps defines the properties for the Accordion component.
 type AccordionProps struct {
-	// Items is a slice of AccordionItem structs representing each item in the accordion.
+	// Items contains the accordion sections
 	Items []AccordionItem
 
-	// Class specifies additional CSS classes to apply to the accordion container.
-	// Default: "" (empty string)
+	// Class adds custom CSS classes
 	Class string
 
-	// Attributes allows passing additional HTML attributes to the accordion container element.
-	// Default: nil
+	// Attributes for additional HTML attributes and Alpine.js bindings
 	Attributes templ.Attributes
 }
 
-// Accordion renders an accordion component based on the provided props.
-// It uses Alpine.js for interactivity and state management.
-//
-// Usage:
-//
-//	@components.Accordion(components.AccordionProps{
-//	  Items: []components.AccordionItem{
-//	    {
-//	      ID: "item-1",
-//	      Trigger: templ.Raw("Is it accessible?"),
-//	      Content: templ.Raw("Yes. It adheres to the WAI-ARIA design pattern."),
-//	    },
-//	    {
-//	      ID: "item-2",
-//	      Trigger: templ.Raw("Is it styled?"),
-//	      Content: templ.Raw("Yes. It comes with default styles that match the other components' aesthetic."),
-//	    },
-//	  },
-//	  Class: "w-full sm:max-w-[70%]",
-//	  Attributes: templ.Attributes{"data-testid": "my-accordion"},
-//	})
+// Accordion renders a collapsible content section component with expand/collapse functionality.
+// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/accordion
 //
 // Props:
-//   - Items: A slice of AccordionItem structs, each representing an item in the accordion.
-//   - Class: Additional CSS classes to apply to the accordion container. Default: "" (empty string)
-//   - Attributes: Additional HTML attributes to apply to the accordion container element. Default: nil
+// - Items: Array of accordion sections with ID, trigger and content
+// - Class: Additional CSS classes
+// - Attributes: Additional HTML attributes (e.g. data-testid)
 func Accordion(props AccordionProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -127,7 +103,7 @@ func Accordion(props AccordionProps) templ.Component {
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs("toggleItem('" + item.ID + "')")
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/accordion.templ`, Line: 79, Col: 46}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/accordion.templ`, Line: 55, Col: 46}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
@@ -140,7 +116,7 @@ func Accordion(props AccordionProps) templ.Component {
 			var templ_7745c5c3_Var5 string
 			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs("activeItem === '" + item.ID + "'")
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/accordion.templ`, Line: 81, Col: 57}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/accordion.templ`, Line: 57, Col: 57}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
@@ -165,7 +141,7 @@ func Accordion(props AccordionProps) templ.Component {
 			var templ_7745c5c3_Var6 string
 			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs("activeItem === '" + item.ID + "'")
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/accordion.templ`, Line: 88, Col: 48}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/accordion.templ`, Line: 64, Col: 48}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 			if templ_7745c5c3_Err != nil {

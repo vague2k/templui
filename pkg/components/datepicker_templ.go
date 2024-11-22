@@ -13,49 +13,43 @@ import (
 	"github.com/axzilla/goilerplate/pkg/utils"
 )
 
-// DatepickerProps defines the properties for the Datepicker component.
 type DatepickerProps struct {
-	// ID is the unique identifier for the datepicker input.
+	// ID uniquely identifies the datepicker input
 	ID string
 
-	// Name is the name attribute for the datepicker input.
+	// Name sets the form field name
 	Name string
 
-	// Placeholder is the placeholder text for the datepicker input.
+	// Placeholder shows helper text when empty
 	Placeholder string
 
-	// Format specifies the date format to use. Options: "M d, Y", "MM-DD-YYYY", "DD-MM-YYYY", "YYYY-MM-DD", "D d M, Y"
-	// Default: "M d, Y"
+	// Format controls date string presentation
+	// Supported formats:
+	// - "M d, Y" (Jan 1, 2024)
+	// - "MM-DD-YYYY" (01-01-2024)
+	// - "DD-MM-YYYY" (01-01-2024)
+	// - "YYYY-MM-DD" (2024-01-01)
+	// - "D d M, Y" (Mon 1 Jan, 2024)
 	Format string
 
-	// Class specifies additional CSS classes to apply to the datepicker container.
+	// Class adds custom CSS classes
 	Class string
 
-	// Attributes allows passing additional HTML attributes to the datepicker input element.
+	// Attributes for additional HTML attributes and Alpine.js bindings
 	Attributes templ.Attributes
 }
 
-// Datepicker renders an enhanced datepicker component with an input field and a calendar view.
-// It uses Alpine.js for interactivity and provides various formatting options and improved navigation.
-// This version supports dark mode using Tailwind CSS variables.
-//
-// Usage:
-//
-//	@components.Datepicker(components.DatepickerProps{
-//	  ID:          "my-datepicker",
-//	  Name:        "selected-date",
-//	  Placeholder: "Select a date",
-//	  Format:      "YYYY-MM-DD",
-//	  Class:       "w-full",
-//	})
+// Datepicker renders a calendar input component with popup date selection.
+// Uses Alpine.js for interactions and supports dark mode via Tailwind.
+// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/datepicker
 //
 // Props:
-//   - ID: The unique identifier for the datepicker input. Default: "" (empty string)
-//   - Name: The name attribute for the datepicker input. Default: "" (empty string)
-//   - Placeholder: The placeholder text for the datepicker input. Default: "" (empty string)
-//   - Format: The date format to use. Default: "M d, Y"
-//   - Class: Additional CSS classes to apply to the datepicker container. Default: "" (empty string)
-//   - Attributes: Additional HTML attributes to apply to the datepicker input element. Default: nil
+// - ID: Unique identifier for the input
+// - Name: Form field name
+// - Placeholder: Helper text when empty
+// - Format: Date display format
+// - Class: Additional CSS classes
+// - Attributes: Additional HTML attributes
 func Datepicker(props DatepickerProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -89,7 +83,7 @@ func Datepicker(props DatepickerProps) templ.Component {
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(props.Format)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/datepicker.templ`, Line: 53, Col: 33}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/datepicker.templ`, Line: 47, Col: 33}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
@@ -115,7 +109,7 @@ func Datepicker(props DatepickerProps) templ.Component {
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/datepicker.templ`, Line: 174, Col: 17}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/datepicker.templ`, Line: 168, Col: 17}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
@@ -128,7 +122,7 @@ func Datepicker(props DatepickerProps) templ.Component {
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(props.Name)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/datepicker.templ`, Line: 175, Col: 21}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/datepicker.templ`, Line: 169, Col: 21}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -141,13 +135,13 @@ func Datepicker(props DatepickerProps) templ.Component {
 		var templ_7745c5c3_Var7 string
 		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(props.Placeholder)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/datepicker.templ`, Line: 176, Col: 35}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/datepicker.templ`, Line: 170, Col: 35}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" x-model=\"datePickerValue\" @click=\"toggleDatePicker()\" x-on:keydown.escape=\"datePickerOpen = false\" x-ref=\"datePickerInput\" class=\"flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50\" readonly")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" x-modelable=\"datePickerValue\" @click=\"toggleDatePicker()\" x-on:keydown.escape=\"datePickerOpen = false\" x-ref=\"datePickerInput\" class=\"flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50\" readonly")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

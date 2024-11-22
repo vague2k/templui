@@ -13,80 +13,67 @@ import (
 	"strings"
 )
 
-// ButtonVariant represents the visual style of the button.
+// ButtonVariant defines the available button styles
 type ButtonVariant string
 
-// ButtonSize represents the size of the button.
+// ButtonSize defines the available button dimensions
 type ButtonSize string
 
-// Constants for button variants and sizes.
 const (
-	Default     ButtonVariant = "default"
-	Destructive ButtonVariant = "destructive"
-	Outline     ButtonVariant = "outline"
-	Secondary   ButtonVariant = "secondary"
-	Ghost       ButtonVariant = "ghost"
-	Link        ButtonVariant = "link"
+	// Button style variants
+	Default     ButtonVariant = "default"     // Primary action button
+	Destructive ButtonVariant = "destructive" // Dangerous/warning action
+	Outline     ButtonVariant = "outline"     // Bordered button
+	Secondary   ButtonVariant = "secondary"   // Less prominent action
+	Ghost       ButtonVariant = "ghost"       // Minimal styling
+	Link        ButtonVariant = "link"        // Appears as a text link
 
-	Md         ButtonSize = "md"
-	Sm         ButtonSize = "sm"
-	Lg         ButtonSize = "lg"
-	ButtonIcon ButtonSize = "icon"
+	// Button sizes
+	Md         ButtonSize = "md"   // Standard size
+	Sm         ButtonSize = "sm"   // Compact size
+	Lg         ButtonSize = "lg"   // Large size
+	ButtonIcon ButtonSize = "icon" // Square icon button
 )
 
-// Button defines the properties for the Button component.
 type ButtonProps struct {
-	// Class specifies additional CSS classes to apply to the button.
-	// Default: "" (empty string)
+	// Class adds custom CSS classes
 	Class string
 
-	// Text is the content of the button.
-	// Default: "" (empty string)
+	// Text contains the button label
 	Text string
 
-	// Variant determines the visual style of the button.
-	// Default: Default
+	// Variant controls the button styling
 	Variant ButtonVariant
 
-	// Size sets the size of the button.
-	// Default: Md
+	// Size controls button dimensions
 	Size ButtonSize
 
-	// FullWidth determines whether the button should take up the full width of its container.
-	// Default: false
+	// FullWidth makes button expand to container width
 	FullWidth bool
 
-	// Href, if provided, renders the button as an anchor tag with this URL.
-	// Default: "" (empty string)
+	// Href turns the button into a link
 	Href string
 
-	// Target specifies the target attribute for the anchor tag (only used when Href is provided).
-	// Default: "" (empty string)
+	// Target controls link opening behavior
 	Target string
 
-	// Disabled can be either a bool or a string.
-	// If bool (Go), it directly controls the disabled state.
-	// If string, it's treated as a JavaScript expression for dynamic disabling.
+	// Disabled controls interactive state (bool or JS expression)
 	Disabled any
 
-	// Type specifies the type of the button. Default: "button"
-	// Default: "" (empty string)
+	// Type sets the button type attribute
 	Type string
 
-	// Attributes allows passing additional HTML attributes to the button or anchor element.
-	// Default: nil
+	// Attributes for additional HTML attributes
 	Attributes templ.Attributes
 
-	// IconLeft specifies an icon component to be displayed on the left side of the button text.
-	// Default: nil
+	// IconLeft displays an icon before text
 	IconLeft templ.Component
 
-	// IconRight specifies an icon component to be displayed on the right side of the button text.
-	// Default: nil
+	// IconRight displays an icon after text
 	IconRight templ.Component
 }
 
-// Variant als Methode
+// variantClasses maps variants to their CSS classes
 func (b ButtonProps) variantClasses() string {
 	switch b.Variant {
 	case Destructive:
@@ -104,7 +91,7 @@ func (b ButtonProps) variantClasses() string {
 	}
 }
 
-// Size als Methode
+// sizeClasses maps sizes to their CSS classes
 func (b ButtonProps) sizeClasses() string {
 	switch b.Size {
 	case Sm:
@@ -118,6 +105,7 @@ func (b ButtonProps) sizeClasses() string {
 	}
 }
 
+// modifierClasses generates additional utility classes
 func (b ButtonProps) modifierClasses() string {
 	classes := []string{}
 	if b.FullWidth {
@@ -126,37 +114,22 @@ func (b ButtonProps) modifierClasses() string {
 	return strings.Join(classes, " ")
 }
 
-// Button renders a button or anchor component based on the provided props.
-// It can be customized with various visual styles, sizes, and behaviors.
-//
-// Usage:
-//
-//	@components.Button(components.ButtonProps{
-//	  Text: "Click me",
-//	  Variant: components.Primary,
-//	  Size: components.Md,
-//	  FullWidth: false,
-//	  IconLeft: components.Icon(components.IconProps{Name: "user"}),
-//	  IconRight: components.Icon(components.IconProps{Name: "arrow-right"}),
-//	  Attributes: templ.Attributes{
-//	    "aria-label": "Click this button",
-//	    "data-testid": "main-button",
-//	  },
-//	})
+// Button renders an interactive button or link component with consistent styling.
+// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/button
 //
 // Props:
-//   - Class: Additional CSS classes to apply to the button. Default: "" (empty string)
-//   - Text: The text content of the button. Default: "" (empty string)
-//   - Variant: The visual style of the button (e.g., Default, Destructive, Outline). Default: Default
-//   - Size: The size of the button (Md, Sm, Lg, Icon). Default: Md
-//   - FullWidth: Whether the button should take up the full width of its container. Default: false
-//   - Href: If provided, renders the button as an anchor tag with this URL. Default: "" (empty string)
-//   - Target: The target attribute for the anchor tag (only used when Href is provided). Default: "" (empty string)
-//   - Disabled: Can be either a bool or a string. If bool (Go), it directly controls the disabled state. If string, it's treated as a JavaScript expression for dynamic disabling. Default: nil
-//   - Type: The type of the button. Default: "button"
-//   - Attributes: Additional HTML attributes to apply to the button or anchor element. Default: nil
-//   - IconLeft: An icon component to be displayed on the left side of the button text. Default: nil
-//   - IconRight: An icon component to be displayed on the right side of the button text. Default: nil
+// - Class: Additional CSS classes
+// - Text: Button label text
+// - Variant: Visual style (default, destructive, outline, etc)
+// - Size: Button dimensions (sm, md, lg, icon)
+// - FullWidth: Expand to fill container
+// - Href: Optional URL for link buttons
+// - Target: Link target attribute
+// - Disabled: Interactivity state
+// - Type: Button type attribute
+// - Attributes: Additional HTML attributes
+// - IconLeft: Icon component before text
+// - IconRight: Icon component after text
 func Button(props ButtonProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -209,7 +182,7 @@ func Button(props ButtonProps) templ.Component {
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(props.Target)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/button.templ`, Line: 156, Col: 24}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/button.templ`, Line: 129, Col: 24}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
@@ -247,7 +220,7 @@ func Button(props ButtonProps) templ.Component {
 					var templ_7745c5c3_Var6 string
 					templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(disabledStr)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/button.templ`, Line: 172, Col: 33}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/button.templ`, Line: 145, Col: 33}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 					if templ_7745c5c3_Err != nil {
@@ -320,7 +293,7 @@ func Button(props ButtonProps) templ.Component {
 				var templ_7745c5c3_Var9 string
 				templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(props.Type)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/button.templ`, Line: 194, Col: 21}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/button.templ`, Line: 167, Col: 21}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 				if templ_7745c5c3_Err != nil {
@@ -348,7 +321,7 @@ func Button(props ButtonProps) templ.Component {
 					var templ_7745c5c3_Var10 string
 					templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(disabledStr)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/button.templ`, Line: 201, Col: 28}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/button.templ`, Line: 174, Col: 28}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 					if templ_7745c5c3_Err != nil {
@@ -385,7 +358,7 @@ func Button(props ButtonProps) templ.Component {
 	})
 }
 
-// renderButtonContent renders the content of the button, including icons and text
+// renderButtonContent arranges button text and icons
 func renderButtonContent(props ButtonProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -420,7 +393,7 @@ func renderButtonContent(props ButtonProps) templ.Component {
 		var templ_7745c5c3_Var12 string
 		templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs(props.Text)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/button.templ`, Line: 218, Col: 14}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/button.templ`, Line: 191, Col: 14}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
 		if templ_7745c5c3_Err != nil {

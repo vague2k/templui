@@ -5,99 +5,74 @@ import (
 	"github.com/axzilla/goilerplate/pkg/utils"
 )
 
-// CheckboxProps defines the properties for the Checkbox component.
 type CheckboxProps struct {
-	// ID is the unique identifier for the checkbox input.
+	// ID uniquely identifies the checkbox input
 	ID string
 
-	// Name is the name attribute for the checkbox input.
+	// Name sets the form field name
 	Name string
 
-	// Value is the value attribute for the checkbox input.
+	// Value sets the checkbox value
 	Value string
 
-	// Label is the text label associated with the checkbox.
-	// If empty, no label will be rendered.
+	// Label displays text next to checkbox
+	// Empty string hides the label
 	Label string
 
-	// Checked is a JavaScript expression for the checked state
-	// Example: "true", "isSubscribed", "5+5===10"
-	Checked string
-
-	// Disabled is a JavaScript expression for the disabled state
-	// Example: "true", "isLoading", "!isEnabled"
-	Disabled string
-
-	// Class specifies additional CSS classes for the container
+	// Class adds custom CSS classes
 	Class string
 
-	// Attributes allows passing additional HTML attributes
+	// Attributes for additional HTML attributes and Alpine.js bindings
 	Attributes templ.Attributes
 }
 
-// Checkbox renders a customizable checkbox component with an associated label.
-//
-// Usage:
-//
-//	@components.Checkbox(components.CheckboxProps{
-//	  ID:      "terms",
-//	  Name:    "accept_terms",
-//	  Value:   "accepted",
-//	  Label:   "I accept the terms and conditions",
-//	  Checked: "true",
-//	  Disabled: "isSubmitting",
-//	  Class:   "mt-4",
-//	  Attributes: templ.Attributes{"data-testid": "terms-checkbox"},
-//	})
+// Checkbox renders a styled checkbox input with optional label.
+// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/checkbox
 //
 // Props:
-//   - ID: The unique identifier for the checkbox input. Required.
-//   - Name: The name attribute for the checkbox input. Required.
-//   - Value: The value attribute for the checkbox input. Required.
-//   - Label: The text label associated with the checkbox. Optional.
-//   - Checked: Determines the checked state. Can be a bool or a string for dynamic binding. Optional.
-//   - Disabled: Determines the disabled state. Can be a bool or a string for dynamic binding. Optional.
-//   - Class: Additional CSS classes to apply to the checkbox container. Optional.
-//   - Attributes: Additional HTML attributes to apply to the checkbox input element. Optional.
+// - ID: Unique identifier for the input
+// - Name: Form field name
+// - Value: Checkbox value
+// - Label: Optional text label
+// - Class: Additional CSS classes
+// - Attributes: Additional HTML attributes
 templ Checkbox(props CheckboxProps) {
-	<div x-data="{ checked: false }" class={ utils.TwMerge("flex items-center space-x-2", props.Class) }>
-		<div class="relative">
+	<label
+		for={ props.ID }
+		class={ utils.TwMerge(
+            "flex cursor-pointer items-center gap-2 text-sm font-medium",
+            "text-muted-foreground [&:has(input:checked)]:text-foreground",
+            "[&:has(input:disabled)]:opacity-50 [&:has(input:disabled)]:cursor-not-allowed",
+            props.Class,
+        ) }
+	>
+		<div class="relative flex items-center">
 			<input
-				type="checkbox"
 				id={ props.ID }
 				name={ props.Name }
 				value={ props.Value }
-				x-ref="checkbox"
-				x-model="checked"
-				if props.Checked != "" {
-					x-init={ "checked = " + props.Checked }
-				}
-				if props.Disabled != "" {
-					:disabled={ props.Disabled }
-				}
-				class="absolute w-full h-full opacity-0 z-10 cursor-pointer peer"
+				type="checkbox"
+				class="before:content[''] peer relative size-4 cursor-pointer appearance-none overflow-hidden 
+                       rounded-sm border border-2 border-primary
+                       bg-background before:absolute before:inset-0 
+                       checked:before:bg-primary
+                       focus:outline focus:outline-2 focus:outline-offset-2 
+                       focus:outline-ring checked:focus:outline-primary 
+                       active:outline-offset-0 
+                       disabled:cursor-not-allowed
+                       transition-colors"
 				{ props.Attributes... }
 			/>
 			<div
-				class="h-4 w-4 rounded-sm border border-primary ring-offset-background 
-                       peer-focus-visible:ring-2 peer-focus-visible:ring-ring peer-focus-visible:ring-offset-2 
-                       peer-disabled:cursor-not-allowed peer-disabled:opacity-50
-                       flex items-center justify-center
-                       bg-background peer-checked:bg-primary transition-colors"
+				class="pointer-events-none invisible absolute left-1/2 top-1/2 size-3 
+                        -translate-x-1/2 -translate-y-1/2 text-primary-foreground 
+                        peer-checked:visible"
 			>
-				<div x-show="checked" class="text-primary-foreground">
-					@icons.Check(icons.IconProps{Size: "12"})
-				</div>
+				@icons.Check(icons.IconProps{Size: "12"})
 			</div>
 		</div>
 		if props.Label != "" {
-			<label
-				for={ props.ID }
-				class="text-sm font-medium leading-none cursor-pointer select-none"
-				:class="{ 'text-muted-foreground': !checked, 'text-foreground': checked }"
-			>
-				{ props.Label }
-			</label>
+			<span>{ props.Label }</span>
 		}
-	</div>
+	</label>
 }

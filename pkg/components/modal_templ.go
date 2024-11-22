@@ -10,51 +10,21 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import "github.com/axzilla/goilerplate/pkg/utils"
 
-// ModalProps defines the properties for the Modal component.
 type ModalProps struct {
-	// ID is a unique identifier for the modal.
-	// It's used to control opening and closing.
-	// This should be unique across your application.
+	// ID uniquely identifies the modal for open/close control
 	ID string
 
-	// Class specifies additional CSS classes to apply to the modal container.
+	// Class adds custom CSS classes
 	Class string
 }
 
-// Modal renders a modal dialog component.
-// It uses Alpine.js for state management and animations.
+// Modal renders a popup dialog window with customizable content.
+// Uses Alpine.js for interactions and animations.
+// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/modal
 //
-// Usage:
-//
-//	@components.ModalTrigger("default-modal") {
-//		@components.Button(components.ButtonProps{Text: "Open Modal"})
-//	}
-//
-//	@components.Modal(components.ModalProps{ID: "default-modal", Class: "max-w-md"}) {
-//		@components.ModalHeader() {
-//			Are you absolutely sure?
-//		}
-//		@components.ModalBody() {
-//			This action cannot be undone. This will permanently delete your account and remove your data from our servers.
-//		}
-//		@components.ModalFooter() {
-//			<div class="flex gap-2">
-//				@components.ModalClose("default-modal") {
-//					@components.Button(components.ButtonProps{
-//						Text: "Cancel",
-//					})
-//				}
-//				@components.ModalClose("default-modal") {
-//					@components.Button(components.ButtonProps{
-//						Text:    "Continue",
-//						Variant: components.Secondary,
-//					})
-//				}
-//			</div>
-//		}
-//	}
-//
-// The Modal component should be used in conjunction with ModalTrigger to open it.
+// Props:
+// - ID: Unique identifier for control
+// - Class: Additional CSS classes
 func Modal(props ModalProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -83,7 +53,7 @@ func Modal(props ModalProps) templ.Component {
 		var templ_7745c5c3_Var2 string
 		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/modal.templ`, Line: 55, Col: 26}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/modal.templ`, Line: 25, Col: 26}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {
@@ -131,15 +101,8 @@ func Modal(props ModalProps) templ.Component {
 	})
 }
 
-// ModalTrigger renders an element that opens the modal when clicked.
-//
-// Usage:
-//
-//	@components.ModalTrigger("example-modal") {
-//	  @components.Button(components.ButtonProps{Text: "Open Modal"})
-//	}
-//
-// The 'id' parameter should match the ID of the Modal you want to open.
+// ModalTrigger creates clickable elements that open a modal
+// ID parameter must match the target modal's ID
 func ModalTrigger(id string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -168,7 +131,7 @@ func ModalTrigger(id string) templ.Component {
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(id)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/modal.templ`, Line: 93, Col: 20}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/modal.templ`, Line: 56, Col: 20}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -190,18 +153,8 @@ func ModalTrigger(id string) templ.Component {
 	})
 }
 
-// ModalClose renders an element that closes the modal when clicked.
-//
-// Usage:
-//
-//	@components.ModalClose("example-modal") {
-//	  @components.Button(components.ButtonProps{
-//	    Text: "Close",
-//	    Variant: components.Secondary,
-//	  })
-//	}
-//
-// The 'id' parameter should match the ID of the Modal you want to close.
+// ModalClose creates clickable elements that close a modal
+// ID parameter must match the target modal's ID
 func ModalClose(id string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -230,7 +183,7 @@ func ModalClose(id string) templ.Component {
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(id)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/modal.templ`, Line: 114, Col: 20}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/modal.templ`, Line: 67, Col: 20}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
@@ -252,14 +205,7 @@ func ModalClose(id string) templ.Component {
 	})
 }
 
-// ModalHeader renders the header section of the modal.
-//
-// Usage:
-//
-//	@components.ModalHeader() {
-//	  Modal Title
-//	  @components.ModalClose("example-modal")
-//	}
+// ModalHeader renders the modal title section
 func ModalHeader() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -297,13 +243,7 @@ func ModalHeader() templ.Component {
 	})
 }
 
-// ModalBody renders the main content area of the modal.
-//
-// Usage:
-//
-//	@components.ModalBody() {
-//	  <p>This is the modal content.</p>
-//	}
+// / ModalBody renders the main modal content area
 func ModalBody() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -341,18 +281,7 @@ func ModalBody() templ.Component {
 	})
 }
 
-// ModalFooter renders the footer section of the modal, typically containing action buttons.
-//
-// Usage:
-//
-//	@components.ModalFooter() {
-//	  @components.ModalClose("example-modal") {
-//	    @components.Button(components.ButtonProps{
-//	      Text: "Close",
-//	      Variant: components.Secondary,
-//	    })
-//	  }
-//	}
+// ModalFooter renders the modal action buttons section
 func ModalFooter() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context

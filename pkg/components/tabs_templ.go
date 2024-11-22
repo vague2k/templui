@@ -8,50 +8,42 @@ package components
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-// Tab represents a single tab in the Tabs component.
 type Tab struct {
-	// ID is the unique identifier for the tab.
+	// ID uniquely identifies the tab
 	ID string
 
-	// Title is the text displayed on the tab button.
+	// Title displays in tab button
 	Title string
 
-	// Content is the templ.Component to be rendered when the tab is active.
+	// Content renders when tab is active
 	Content templ.Component
 }
 
-// TabsProps defines the properties for the Tabs component.
 type TabsProps struct {
-	// Tabs is an array of Tab structs representing each tab in the component.
+	// Tabs defines the tabs structure and content
 	Tabs []Tab
 
-	// TabsContainerClass specifies additional CSS classes for the tabs container.
-	// Default: "" (empty string)
+	// TabsContainerClass adds classes to tabs header
 	TabsContainerClass string
 
-	// ContentContainerClass specifies additional CSS classes for the content container.
-	// Default: "" (empty string)
+	// ContentContainerClass adds classes to content area
 	ContentContainerClass string
 }
 
-// Tabs renders a tabbed interface component based on the provided props.
-// It uses Alpine.js for interactivity and state management.
-//
-// Usage:
-//
-//	@components.Tabs(components.TabsProps{
-//	  Tabs: []components.Tab{
-//	    {ID: "1", Title: "Tab 1", Content: Tab1Content()},
-//	    {ID: "2", Title: "Tab 2", Content: Tab2Content()},
-//	  },
-//	  TabsContainerClass: "w-full max-w-md",
-//	  ContentContainerClass: "mt-4",
-//	})
+// Tabs renders a tabbed interface with animated transitions.
+// Uses Alpine.js for state management and interactions.
+// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/tabs
 //
 // Props:
-//   - Tabs: An array of Tab structs, each representing a tab in the interface.
-//   - TabsContainerClass: Additional CSS classes for the tabs container. Default: "" (empty string)
-//   - ContentContainerClass: Additional CSS classes for the content container. Default: "" (empty string)
+// - Tabs: Tab definitions and content
+// - TabsContainerClass: Additional classes for header
+// - ContentContainerClass: Additional classes for content
+//
+// Features:
+// - Animated tab switching
+// - Keyboard navigation
+// - Responsive layout
+// - ARIA support
 func Tabs(props TabsProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -109,7 +101,7 @@ func Tabs(props TabsProps) templ.Component {
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(tab.Title)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/tabs.templ`, Line: 84, Col: 16}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/tabs.templ`, Line: 76, Col: 16}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {

@@ -1,0 +1,109 @@
+package components
+
+import (
+	"fmt"
+	"github.com/axzilla/goilerplate/pkg/utils"
+)
+
+type SliderProps struct {
+	// ID is the unique identifier for the slider
+	ID string
+
+	// Name is the name attribute for the slider
+	Name string
+
+	// Min sets the minimum value (default: 0)
+	Min int
+
+	// Max sets the maximum value (default: 100)
+	Max int
+
+	// Step defines the increment between values (default: 1)
+	Step int
+
+	// Value sets the initial value
+	Value int
+
+	// Label displays a label above the slider
+	Label string
+
+	// ShowValue toggles the value display
+	ShowValue bool
+
+	// ValueFormat adds a suffix to the value (e.g. "%", "°C")
+	ValueFormat string
+
+	// Class adds custom CSS classes
+	Class string
+
+	// Disabled makes the slider non-interactive
+	Disabled bool
+
+	// Attributes for additional HTML attributes and Alpine.js bindings
+	Attributes templ.Attributes
+}
+
+// Slider renders a range input component with support for labels, value display and external binding.
+// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/slider
+//
+// Props:
+//   - ID: Unique identifier for the slider
+//   - Name: Input name attribute
+//   - Min: Minimum value (default: 0)
+//   - Max: Maximum value (default: 100)
+//   - Step: Value increment (default: 1)
+//   - Value: Initial value
+//   - Label: Optional label text
+//   - ShowValue: Show current value
+//   - ValueFormat: Optional format suffix (e.g. "%", "°C")
+//   - Class: Additional CSS classes
+//   - Disabled: Disables the slider
+//   - Attributes: Additional HTML attributes (e.g. x-model for binding)
+templ Slider(props SliderProps) {
+	<div
+		class="space-y-2"
+		x-data={ fmt.Sprintf("{ value: %d }", props.Value) }
+	>
+		if props.Label != "" || props.ShowValue {
+			<div class="flex justify-between items-center">
+				if props.Label != "" {
+					<label for={ props.ID } class="text-sm font-medium">
+						{ props.Label }
+					</label>
+				}
+				if props.ShowValue {
+					<p class="text-sm text-muted-foreground">
+						<span x-text="value"></span>
+						if props.ValueFormat != "" {
+							{ " " + props.ValueFormat }
+						}
+					</p>
+				}
+			</div>
+		}
+		<input
+			@input="value = $event.target.value"
+			type="range"
+			id={ props.ID }
+			name={ props.Name }
+			value={ fmt.Sprintf("%d", props.Value) }
+			min={ fmt.Sprintf("%d", props.Min) }
+			max={ fmt.Sprintf("%d", props.Max) }
+			step={ fmt.Sprintf("%d", props.Step) }
+			class={ utils.TwMerge(
+				"w-full h-2 rounded-full bg-secondary appearance-none cursor-pointer",
+				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+				"[&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4",
+				"[&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-primary",
+				"[&::-webkit-slider-thumb]:hover:bg-primary/90",
+				"[&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:border-0",
+				"[&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-primary",
+				"[&::-moz-range-thumb]:hover:bg-primary/90",
+				"disabled:opacity-50 disabled:cursor-not-allowed",
+				props.Class,
+			) }
+			disabled?={ props.Disabled }
+			{ props.Attributes... }
+		/>
+	</div>
+}

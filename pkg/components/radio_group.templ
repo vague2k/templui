@@ -1,77 +1,48 @@
 package components
 
-import (
-	"fmt"
-	"github.com/axzilla/goilerplate/pkg/utils"
-)
+import "github.com/axzilla/goilerplate/pkg/utils"
 
-// RadioGroupProps defines the properties for the RadioGroup component.
 type RadioGroupProps struct {
-	// DefaultValue is the initial selected value for the radio group.
-	DefaultValue string
-
-	// Name is the name attribute for the radio group, used to group radio buttons.
+	// Name groups related radio buttons
 	Name string
 
-	// Required indicates whether the radio group is a required field.
-	Required bool
-
-	// Class specifies additional CSS classes to apply to the radio group container.
+	// Class adds custom CSS classes
 	Class string
 
-	// Attributes allows passing additional HTML attributes to the radio group container.
+	// Attributes for additional HTML attributes
 	Attributes templ.Attributes
 }
 
-// RadioGroupItemProps defines the properties for the RadioGroupItem component.
 type RadioGroupItemProps struct {
-	// Value is the value attribute for the radio button.
+	// Value sets the radio button value
 	Value string
 
-	// Name is the name attribute for the radio button, should match the RadioGroup's name.
+	// Name matches parent RadioGroup name
 	Name string
 
-	// ID is the unique identifier for the radio button, used for labeling.
+	// ID uniquely identifies the radio button
 	ID string
 
-	// Disabled is a string representing an Alpine.js expression for the disabled state.
-	// It can be a boolean value ("true" or "false") or a more complex condition.
-	// Examples:
-	//   - "true" for always disabled
-	//   - "false" for never disabled
-	//   - "someVariable" to bind to an Alpine.js data property
-	//   - "someCondition === true" for a dynamic condition
-	Disabled string
+	// Label displays text next to radio button
+	Label templ.Component
 
-	// Class specifies additional CSS classes to apply to the radio button container.
+	// Class adds custom CSS classes
 	Class string
 
-	// Attributes allows passing additional HTML attributes to the radio button.
+	// Attributes for additional HTML attributes and Alpine.js bindings
 	Attributes templ.Attributes
-
-	// Label is a templ.Component that represents the label for the radio button.
-	// If not provided, the Value will be used as the label text.
-	Label templ.Component
 }
 
-// RadioGroup renders a group of radio buttons.
-// It uses Alpine.js for managing the selected state.
+// RadioGroup renders a set of mutually exclusive radio button options.
+// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/radio-group
 //
-// Usage:
-//
-//	@components.RadioGroup(components.RadioGroupProps{
-//	    DefaultValue: "option1",
-//	    Name: "myRadioGroup",
-//	    Required: true,
-//	    Class: "my-custom-class",
-//	}) {
-//	    // RadioGroupItem components go here
-//	}
+// Props:
+// - Name: Groups related radio buttons
+// - Class: Additional CSS classes
+// - Attributes: Additional HTML attributes
 templ RadioGroup(props RadioGroupProps) {
 	<div
 		role="radiogroup"
-		aria-required={ fmt.Sprintf("%t", props.Required) }
-		x-data={ fmt.Sprintf(`{ selectedValue: '%s' }`, props.DefaultValue) }
 		class={ utils.TwMerge("space-y-2", props.Class) }
 		{ props.Attributes... }
 	>
@@ -79,71 +50,47 @@ templ RadioGroup(props RadioGroupProps) {
 	</div>
 }
 
-// RadioGroupItem renders a single radio button with an integrated label.
-// It uses Alpine.js for managing the disabled state and selected value.
+// RadioGroupItem renders an individual radio button with label.
+// Must be used within a RadioGroup component.
 //
-// Usage:
-//
-//	@components.RadioGroupItem(components.RadioGroupItemProps{
-//	    Value: "option1",
-//	    Name: "myRadioGroup",
-//	    ID: "option1",
-//	    Disabled: "someCondition === true",  // Alpine.js expression
-//	    Label: templ.Raw("Option 1"),
-//	})
+// Props:
+// - Value: Radio button value
+// - Name: Matches parent group name
+// - ID: Unique identifier
+// - Label: Button label
+// - Class: Additional CSS classes
+// - Attributes: Additional HTML attributes
 templ RadioGroupItem(props RadioGroupItemProps) {
-	<style>
-		/* Custom styles for radio buttons */
-		input[type="radio"] {
-			position: relative;
-		}
-		input[type="radio"]:checked::before {
-			content: '';
-			position: absolute;
-			top: 50%;
-			left: 50%;
-			transform: translate(-50%, -50%);
-			width: 8px;
-			height: 8px;
-			border-radius: 50%;
-			background-color: hsl(var(--background));
-		}
-		input[type="radio"]:focus {
-			outline: none;
-			box-shadow: 0 0 0 2px hsl(var(--ring) / 50%);
-		}
-	</style>
-	<div
-		class={ utils.TwMerge("flex items-center space-x-2", props.Class) }
-		x-data={ fmt.Sprintf(`{ isDisabled: %s }`, props.Disabled) }
+	<label
+		for={ props.ID }
+		class={ utils.TwMerge(
+            "flex items-center gap-2 cursor-pointer text-sm font-medium",
+            "text-muted-foreground [&:has(input:checked)]:text-foreground",
+            "[&:has(input:disabled)]:cursor-not-allowed [&:has(input:disabled)]:opacity-50",
+            props.Class,
+        ) }
 	>
 		<input
 			type="radio"
 			id={ props.ID }
 			name={ props.Name }
 			value={ props.Value }
-			:disabled="isDisabled"
-			x-model="selectedValue"
-			class={
-				"h-4 w-4 translate-y-px appearance-none rounded-full border bg-background checked:border-primary checked:bg-primary",
-				"disabled:opacity-50 disabled:cursor-not-allowed",
-			}
-			style="
-				border-color: hsl(var(--input));
-				transition: all 0.2s ease-in-out;
-			"
+			class="before:content[''] relative h-4 w-4 appearance-none rounded-full 
+                   border border-2 border-primary 
+                   checked:border-primary checked:bg-primary
+                   before:absolute before:left-1/2 before:top-1/2 
+                   before:h-1.5 before:w-1.5 before:-translate-x-1/2 before:-translate-y-1/2 
+                   before:rounded-full before:bg-background
+                   checked:before:visible
+                   focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring 
+                   focus-visible:ring-offset-2 focus-visible:ring-offset-background
+                   disabled:cursor-not-allowed"
 			{ props.Attributes... }
 		/>
-		<label
-			for={ props.ID }
-			class={ "text-sm font-medium leading-none text-foreground" }
-			:class="{ 'opacity-50 cursor-not-allowed': isDisabled }"
-		>
-			if props.Label != nil {
-				@props.Label
-			} else {
-				{ props.Value }
-			}
-		</label>
-	</div>
+		if props.Label != nil {
+			@props.Label
+		} else {
+			<span>{ props.Value }</span>
+		}
+	</label>
 }
