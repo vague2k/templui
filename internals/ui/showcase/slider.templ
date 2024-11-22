@@ -10,15 +10,14 @@ templ SliderShowcase() {
 			<div>
 				<h2 class="font-semibold mb-4">Default Slider</h2>
 				@components.Slider(components.SliderProps{
-					ID:         "default",
-					Name:       "default",
-					Label:      "Volume",
-					Value:      50,
-					Min:        0,
-					Max:        100,
-					Step:       1,
-					ShowValue:  true,
-					Attributes: templ.Attributes{"x-ref": "text"},
+					ID:        "default",
+					Name:      "default",
+					Label:     "Volume",
+					Value:     50,
+					Min:       0,
+					Max:       100,
+					Step:      1,
+					ShowValue: true,
 				})
 			</div>
 			<div>
@@ -32,7 +31,7 @@ templ SliderShowcase() {
 					Max:         100,
 					Step:        1,
 					ShowValue:   true,
-					ValueFormat: "%d%",
+					ValueFormat: "%",
 				})
 			</div>
 			<div>
@@ -46,7 +45,7 @@ templ SliderShowcase() {
 					Max:         40,
 					Step:        1,
 					ShowValue:   true,
-					ValueFormat: "%d°C",
+					ValueFormat: "°C",
 				})
 			</div>
 			<div>
@@ -60,7 +59,7 @@ templ SliderShowcase() {
 					Max:         200,
 					Step:        25,
 					ShowValue:   true,
-					ValueFormat: "%d%",
+					ValueFormat: "%",
 				})
 			</div>
 			<div>
@@ -69,9 +68,12 @@ templ SliderShowcase() {
 					ID:        "disabled",
 					Name:      "disabled",
 					Label:     "Disabled Slider",
-					Value:     30,
-					ShowValue: true,
+					Value:     20,
+					Min:       -20,
+					Max:       200,
+					Step:      20,
 					Disabled:  true,
+					ShowValue: true,
 				})
 			</div>
 		</div>

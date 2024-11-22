@@ -1,5 +1,3 @@
-// pkg/components/slider.templ
-
 package components
 
 import (
@@ -14,46 +12,57 @@ type SliderProps struct {
 	// Name is the name attribute for the slider
 	Name string
 
-	// Min is the minimum value of the slider
+	// Min sets the minimum value (default: 0)
 	Min int
 
-	// Max is the maximum value of the slider
+	// Max sets the maximum value (default: 100)
 	Max int
 
-	// Step is the increment between values
+	// Step defines the increment between values (default: 1)
 	Step int
 
-	// Value is the initial value of the slider
+	// Value sets the initial value
 	Value int
 
 	// Label displays a label above the slider
 	Label string
 
-	// ShowValue determines if the current value should be displayed
+	// ShowValue toggles the value display
 	ShowValue bool
 
-	// ValueFormat is an optional format string for the displayed value (e.g. "%d°C")
+	// ValueFormat adds a suffix to the value (e.g. "%", "°C")
 	ValueFormat string
 
-	// Class allows adding custom CSS classes
+	// Class adds custom CSS classes
 	Class string
 
-	// Disabled determines if the slider is interactive
+	// Disabled makes the slider non-interactive
 	Disabled bool
 
-	// Attributes allows passing additional HTML attributes
+	// Attributes for additional HTML attributes and Alpine.js bindings
 	Attributes templ.Attributes
 }
 
+// Slider renders a range input component with support for labels, value display and external binding.
+// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/slider
+//
+// Props:
+//   - ID: Unique identifier for the slider
+//   - Name: Input name attribute
+//   - Min: Minimum value (default: 0)
+//   - Max: Maximum value (default: 100)
+//   - Step: Value increment (default: 1)
+//   - Value: Initial value
+//   - Label: Optional label text
+//   - ShowValue: Show current value
+//   - ValueFormat: Optional format suffix (e.g. "%", "°C")
+//   - Class: Additional CSS classes
+//   - Disabled: Disables the slider
+//   - Attributes: Additional HTML attributes (e.g. x-model for binding)
 templ Slider(props SliderProps) {
 	<div
 		class="space-y-2"
-		x-data={ fmt.Sprintf(`{
-			value: %d,
-			formatValue(val) {
-				return '%s'.replace('%%d', val) || val;
-			}
-		}`, props.Value, props.ValueFormat) }
+		x-data={ fmt.Sprintf("{ value: %d }", props.Value) }
 	>
 		if props.Label != "" || props.ShowValue {
 			<div class="flex justify-between items-center">
@@ -63,18 +72,24 @@ templ Slider(props SliderProps) {
 					</label>
 				}
 				if props.ShowValue {
-					<span x-text="formatValue(value)" class="text-sm text-muted-foreground"></span>
+					<p class="text-sm text-muted-foreground">
+						<span x-text="value"></span>
+						if props.ValueFormat != "" {
+							{ " " + props.ValueFormat }
+						}
+					</p>
 				}
 			</div>
 		}
 		<input
+			@input="value = $event.target.value"
 			type="range"
 			id={ props.ID }
 			name={ props.Name }
+			value={ fmt.Sprintf("%d", props.Value) }
 			min={ fmt.Sprintf("%d", props.Min) }
 			max={ fmt.Sprintf("%d", props.Max) }
 			step={ fmt.Sprintf("%d", props.Step) }
-			x-model="value"
 			class={ utils.TwMerge(
 				"w-full h-2 rounded-full bg-secondary appearance-none cursor-pointer",
 				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
