@@ -15,29 +15,50 @@ import (
 	"strings"
 )
 
-// DropdownMenuItem represents an item in the dropdown menu
 type DropdownMenuItem struct {
-	Label     string             // The text to display for the menu item
-	Value     string             // The value associated with the menu item (for non-link items)
-	Href      string             // The URL to navigate to if the item is a link
-	Target    string             // The target attribute for link items (e.g., "_blank" for new tab)
-	IconLeft  templ.Component    // An optional icon component to display on the left side of the item
-	IconRight templ.Component    // An optional icon component to display on the right side of the item
-	SubItems  []DropdownMenuItem // A slice of DropdownMenuItems for nested submenus
-	Disabled  bool               // Whether the item is disabled or not
-	// Attributes allows passing additional HTML attributes to the accordion container element.
-	// Default: nil
+	// Label displays text for the menu item
+	Label string
+
+	// Value for non-link menu items
+	Value string
+
+	// Href makes item a navigation link
+	Href string
+
+	// Target controls link opening behavior
+	Target string
+
+	// IconLeft displays icon before label
+	IconLeft templ.Component
+
+	// IconRight displays icon after label
+	IconRight templ.Component
+
+	// SubItems creates nested submenu
+	SubItems []DropdownMenuItem
+
+	// Disabled controls interactive state
+	Disabled bool
+
+	// Attributes for additional HTML attributes
 	Attributes templ.Attributes
 }
 
-// DropdownMenuProps defines the properties for the DropdownMenu component
 type DropdownMenuProps struct {
-	Items    []DropdownMenuItem // The list of items to display in the dropdown menu
-	Trigger  templ.Component    // An optional custom trigger component (default is a button if not provided)
-	Class    string             // Additional CSS classes to apply to the root element
-	Position string             // The preferred position of the dropdown ("left", "right", "top", or "bottom")
+	// Items defines the menu structure
+	Items []DropdownMenuItem
+
+	// Trigger overrides default button trigger
+	Trigger templ.Component
+
+	// Class adds custom CSS classes
+	Class string
+
+	// Position sets preferred menu placement (left, right, top, bottom)
+	Position string
 }
 
+// ModifierClasses generates state-based CSS classes
 func (d DropdownMenuItem) ModifierClasses() string {
 	classes := []string{}
 	if d.Disabled {
@@ -48,8 +69,8 @@ func (d DropdownMenuItem) ModifierClasses() string {
 	return strings.Join(classes, " ")
 }
 
-// renderMenuItem is a helper function to render a single menu item
-// It handles rendering of regular items, links, and submenus recursively
+// renderMenuItem handles recursive menu item rendering
+// Supports regular items, links, and nested submenus up to 3 levels
 func renderMenuItem(item DropdownMenuItem, index int, depth int) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -106,7 +127,7 @@ func renderMenuItem(item DropdownMenuItem, index int, depth int) templ.Component
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("menu-item-%d", index))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/dropdown_menu.templ`, Line: 57, Col: 43}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/dropdown_menu.templ`, Line: 78, Col: 43}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
@@ -139,7 +160,7 @@ func renderMenuItem(item DropdownMenuItem, index int, depth int) templ.Component
 			var templ_7745c5c3_Var5 string
 			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(item.Label)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/dropdown_menu.templ`, Line: 67, Col: 17}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/dropdown_menu.templ`, Line: 88, Col: 17}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
@@ -210,7 +231,7 @@ func renderMenuItem(item DropdownMenuItem, index int, depth int) templ.Component
 			var templ_7745c5c3_Var8 string
 			templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(item.Target)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/dropdown_menu.templ`, Line: 88, Col: 23}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/dropdown_menu.templ`, Line: 109, Col: 23}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 			if templ_7745c5c3_Err != nil {
@@ -236,7 +257,7 @@ func renderMenuItem(item DropdownMenuItem, index int, depth int) templ.Component
 			var templ_7745c5c3_Var10 string
 			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("menu-item-%d", index))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/dropdown_menu.templ`, Line: 96, Col: 42}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/dropdown_menu.templ`, Line: 117, Col: 42}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {
@@ -263,7 +284,7 @@ func renderMenuItem(item DropdownMenuItem, index int, depth int) templ.Component
 			var templ_7745c5c3_Var11 string
 			templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(item.Label)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/dropdown_menu.templ`, Line: 103, Col: 16}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/dropdown_menu.templ`, Line: 124, Col: 16}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 			if templ_7745c5c3_Err != nil {
@@ -321,7 +342,7 @@ func renderMenuItem(item DropdownMenuItem, index int, depth int) templ.Component
 			var templ_7745c5c3_Var14 string
 			templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("menu-item-%d", index))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/dropdown_menu.templ`, Line: 120, Col: 42}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/dropdown_menu.templ`, Line: 141, Col: 42}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 			if templ_7745c5c3_Err != nil {
@@ -354,7 +375,7 @@ func renderMenuItem(item DropdownMenuItem, index int, depth int) templ.Component
 			var templ_7745c5c3_Var15 string
 			templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs(item.Label)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/dropdown_menu.templ`, Line: 128, Col: 16}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/dropdown_menu.templ`, Line: 149, Col: 16}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var15))
 			if templ_7745c5c3_Err != nil {
@@ -379,41 +400,21 @@ func renderMenuItem(item DropdownMenuItem, index int, depth int) templ.Component
 	})
 }
 
-// DropdownMenu renders an enhanced dropdown menu component
-// It can be customized with various styles, positions, and behaviors.
-//
-// Usage:
-//
-//	@components.DropdownMenu(components.DropdownMenuProps{
-//	  Trigger: components.Button(components.ButtonProps{
-//	    Text: "Open Menu",
-//	    IconRight: components.Icon(components.IconProps{Name: "chevron-down"}),
-//	  }),
-//	  Position: "bottom",
-//	  Items: []components.DropdownMenuItem{
-//	    {Label: "Option 1", Value: "opt1"},
-//	    {Label: "Option 2", Value: "opt2", IconLeft: components.Icon(components.IconProps{Name: "settings"})},
-//	    {Label: "Submenu", SubItems: []components.DropdownMenuItem{
-//	      {Label: "Sub Option 1", Value: "sub1"},
-//	      {Label: "Sub Option 2", Value: "sub2"},
-//	    }},
-//	  },
-//	})
+// DropdownMenu renders a customizable popup menu with positioning and nesting support.
+// Uses Alpine.js for interactions and supports keyboard navigation.
+// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/dropdown-menu
 //
 // Props:
-//   - Items: Slice of DropdownMenuItem, defining the content of the dropdown
-//   - Trigger: Custom component to trigger the dropdown (optional, default is a basic button)
-//   - Class: Additional CSS classes to apply to the root element
-//   - Position: Preferred position of the dropdown ("left", "right", "top", or "bottom")
-//   - Attributes: Additional HTML attributes to apply to the accordion container element. Default: nil
+// - Items: Menu structure and content
+// - Trigger: Custom trigger element (optional)
+// - Class: Additional CSS classes
+// - Position: Preferred placement
 //
 // Features:
-//   - Supports nested submenus up to 3 levels deep
-//   - Automatically adjusts position based on available space
-//   - Supports custom icons for menu items
-//   - Handles disabled states for menu items
-//   - Uses Tailwind CSS for styling, including dark mode support
-//   - Implements keyboard navigation and ARIA attributes for accessibility
+// - Nested submenus (up to 3 levels)
+// - Automatic position adjustment
+// - Keyboard navigation
+// - ARIA support
 func DropdownMenu(props DropdownMenuProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -460,7 +461,7 @@ func DropdownMenu(props DropdownMenuProps) templ.Component {
 		var templ_7745c5c3_Var19 string
 		templ_7745c5c3_Var19, templ_7745c5c3_Err = templ.JoinStringErrs(props.Position)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/dropdown_menu.templ`, Line: 199, Col: 32}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/dropdown_menu.templ`, Line: 200, Col: 32}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var19))
 		if templ_7745c5c3_Err != nil {

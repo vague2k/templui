@@ -82,12 +82,24 @@ var Sections = []Section{
 				Href: "/docs/components/radio-group",
 			},
 			{
+				Text: "Select",
+				Href: "/docs/components/select",
+			},
+			{
 				Text: "Sheet",
 				Href: "/docs/components/sheet",
 			},
 			{
+				Text: "Slider",
+				Href: "/docs/components/slider",
+			},
+			{
 				Text: "Tabs",
 				Href: "/docs/components/tabs",
+			},
+			{
+				Text: "Textarea",
+				Href: "/docs/components/textarea",
 			},
 			{
 				Text: "Toggle",

@@ -10,32 +10,20 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import "github.com/axzilla/goilerplate/pkg/utils"
 
-// CardProps defines the properties for the Card component.
 type CardProps struct {
-	// Class specifies additional CSS classes to apply to the card.
-	// Default: "" (empty string)
+	// Class adds custom CSS classes
 	Class string
 
-	// Attributes allows passing additional HTML attributes to the card element.
-	// Default: nil
+	// Attributes for additional HTML attributes
 	Attributes templ.Attributes
 }
 
-// Card renders a card component based on the provided props.
-// It can be customized with additional classes and attributes.
-//
-// Usage:
-//
-//	@components.Card(components.CardProps{
-//	  Class: "custom-card",
-//	  Attributes: templ.Attributes{"data-testid": "my-card"},
-//	}) {
-//	  // Card content goes here
-//	}
+// Card renders a container component with consistent styling and structure.
+// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/card
 //
 // Props:
-//   - Class: Additional CSS classes to apply to the card. Default: "" (empty string)
-//   - Attributes: Additional HTML attributes to apply to the card element. Default: nil
+// - Class: Additional CSS classes
+// - Attributes: Additional HTML attributes
 func Card(props CardProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -99,14 +87,8 @@ func Card(props CardProps) templ.Component {
 	})
 }
 
-// CardHeader renders the header section of a card.
-//
-// Usage:
-//
-//	@components.CardHeader() {
-//	  @components.CardTitle() { Card Title }
-//	  @components.CardDescription() { Card description goes here }
-//	}
+// CardHeader renders the top section of the card
+// Typically contains title and description
 func CardHeader() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -144,13 +126,8 @@ func CardHeader() templ.Component {
 	})
 }
 
-// CardTitle renders the title of a card.
-//
-// Usage:
-//
-//	@components.CardTitle() {
-//	  My Card Title
-//	}
+// CardTitle renders the card's main heading
+// Uses h3 with consistent styling
 func CardTitle() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -188,13 +165,8 @@ func CardTitle() templ.Component {
 	})
 }
 
-// CardDescription renders the description of a card.
-//
-// Usage:
-//
-//	@components.CardDescription() {
-//	  This is a detailed description of the card's content.
-//	}
+// CardDescription renders secondary text below the title
+// Uses muted styling for visual hierarchy
 func CardDescription() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -232,13 +204,8 @@ func CardDescription() templ.Component {
 	})
 }
 
-// CardContent renders the main content section of a card.
-//
-// Usage:
-//
-//	@components.CardContent() {
-//	  // Main card content goes here
-//	}
+// CardContent renders the main card body section
+// Contains the primary content area
 func CardContent() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -276,13 +243,8 @@ func CardContent() templ.Component {
 	})
 }
 
-// CardFooter renders the footer section of a card.
-//
-// Usage:
-//
-//	@components.CardFooter() {
-//	  @components.Button(components.ButtonProps{Text: "Submit"})
-//	}
+// CardFooter renders the bottom section of the card
+// Typically contains actions or summary information
 func CardFooter() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context

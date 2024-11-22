@@ -6,36 +6,39 @@ import (
 	"strings"
 )
 
-// AvatarSize represents the size of the avatar.
+// AvatarSize defines the available avatar dimensions
 type AvatarSize string
 
 const (
-	AvatarSizeSmall  AvatarSize = "small"
+	// AvatarSizeSmall renders a small avatar (32x32px)
+	AvatarSizeSmall AvatarSize = "small"
+
+	// AvatarSizeMedium renders a medium avatar (48x48px)
 	AvatarSizeMedium AvatarSize = "medium"
-	AvatarSizeLarge  AvatarSize = "large"
+
+	// AvatarSizeLarge renders a large avatar (64x64px)
+	AvatarSizeLarge AvatarSize = "large"
 )
 
-// AvatarProps defines the properties for the Avatar component.
 type AvatarProps struct {
-	// ImageSrc is the URL of the avatar image.
-	// If empty, initials will be used.
+	// ImageSrc is the URL for the avatar image
+	// If empty, initials will be shown instead
 	ImageSrc string
 
-	// Name is used to generate initials if ImageSrc is empty.
+	// Name is used to generate initials when no image is provided
 	Name string
 
-	// Size determines the size of the avatar.
-	// Default: AvatarSizeMedium
+	// Size controls the avatar dimensions (small, medium, large)
 	Size AvatarSize
 
-	// Class specifies additional CSS classes to apply to the avatar.
+	// Class adds custom CSS classes
 	Class string
 
-	// Attributes allows passing additional HTML attributes to the avatar element.
+	// Attributes for additional HTML attributes
 	Attributes templ.Attributes
 }
 
-// getInitials generates initials from the given name.
+// AvatarInitials generates a 1-2 character initial from the given name
 func AvatarInitials(name string) string {
 	parts := strings.Fields(name)
 	initials := ""
@@ -50,7 +53,7 @@ func AvatarInitials(name string) string {
 	return strings.ToUpper(initials)
 }
 
-// getSizeClasses returns the CSS classes for the given avatar size.
+// AvatarSizeClasses maps sizes to their corresponding CSS classes
 func AvatarSizeClasses(size AvatarSize) string {
 	switch size {
 	case AvatarSizeSmall:
@@ -62,24 +65,15 @@ func AvatarSizeClasses(size AvatarSize) string {
 	}
 }
 
-// Avatar renders an avatar component based on the provided props.
-// It displays an image if ImageSrc is provided, otherwise it shows initials.
-//
-// Usage:
-//
-//	@components.Avatar(components.AvatarProps{
-//	  ImageSrc: "https://example.com/avatar.jpg",
-//	  Name: "John Doe",
-//	  Size: components.AvatarSizeMedium,
-//	  Class: "border-2 border-blue-500",
-//	})
+// Avatar renders a circular image or initials for user representation.
+// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/avatar
 //
 // Props:
-//   - ImageSrc: The URL of the avatar image. Default: "" (empty string)
-//   - Name: The name used to generate initials if ImageSrc is empty. Default: "" (empty string)
-//   - Size: The size of the avatar (AvatarSizeSmall, AvatarSizeMedium, AvatarSizeLarge). Default: AvatarSizeMedium
-//   - Class: Additional CSS classes to apply to the avatar. Default: "" (empty string)
-//   - Attributes: Additional HTML attributes to apply to the avatar element. Default: nil
+// - ImageSrc: URL for the avatar image
+// - Name: Text to generate initials from when no image is provided
+// - Size: Avatar dimensions (small, medium, large)
+// - Class: Additional CSS classes
+// - Attributes: Additional HTML attributes
 templ Avatar(props AvatarProps) {
 	<div
 		class={

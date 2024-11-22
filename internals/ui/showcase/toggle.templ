@@ -29,25 +29,24 @@ templ ToggleShowcase() {
 			</div>
 			<div>
 				<h2 class="font-semibold mb-4">States</h2>
-				<div class="flex flex-col gap-2">
+				<div class="flex flex-col gap-2" x-data="{'xxx': ''}">
 					@components.Toggle(components.ToggleProps{
 						ID:         "toggle-checked",
 						Name:       "toggle-checked",
 						LabelRight: "Checked Toggle",
-						Checked:    "1+1==2",
+						Attributes: templ.Attributes{"x-bind:checked": "true"},
 					})
 					@components.Toggle(components.ToggleProps{
 						ID:         "toggle-disabled",
 						Name:       "toggle-disabled",
 						LabelRight: "Disabled Toggle",
-						Disabled:   "true",
+						Attributes: templ.Attributes{"disabled": "true"},
 					})
 					@components.Toggle(components.ToggleProps{
 						ID:         "toggle-disabled-checked",
 						Name:       "toggle-disabled-checked",
 						LabelRight: "Disabled Checked Toggle",
-						Disabled:   "true",
-						Checked:    "true",
+						Attributes: templ.Attributes{"checked": "true", "disabled": true},
 					})
 				</div>
 			</div>

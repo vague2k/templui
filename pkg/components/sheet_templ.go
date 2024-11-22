@@ -8,39 +8,30 @@ package components
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-// SheetSide represents the side from which the sheet will appear.
+// SheetSide defines the slide-in direction
 type SheetSide string
 
-// Constants for sheet sides.
 const (
-	Top    SheetSide = "top"
-	Right  SheetSide = "right"
-	Bottom SheetSide = "bottom"
-	Left   SheetSide = "left"
+	// Sheet appearance directions
+	Top    SheetSide = "top"    // Slides down from top
+	Right  SheetSide = "right"  // Slides in from right
+	Bottom SheetSide = "bottom" // Slides up from bottom
+	Left   SheetSide = "left"   // Slides in from left
 )
 
-// SheetProps defines the properties for the Sheet component.
 type SheetProps struct {
-	// Title is the heading text for the sheet.
-	// Default: "" (empty string)
+	// Title displays in sheet header
 	Title string
 
-	// Description is the subheading or description text for the sheet.
-	// Default: "" (empty string)
+	// Description shows below title
 	Description string
 
-	// Side determines from which side the sheet will appear.
-	// Default: Right
+	// Side controls slide-in direction
 	Side SheetSide
 }
 
-// SheetRoot renders the root component for the Sheet, setting up the Alpine.js data and event handlers.
-//
-// Usage:
-//
-//	@components.SheetRoot() {
-//	  // Sheet trigger and content go here
-//	}
+// SheetRoot initializes Alpine.js state and event handlers
+// Must wrap Sheet components and triggers
 func SheetRoot() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -78,22 +69,20 @@ func SheetRoot() templ.Component {
 	})
 }
 
-// Sheet renders the main sheet component with backdrop and content.
-//
-// Usage:
-//
-//	@components.Sheet(components.SheetProps{
-//	  Title: "Sheet Title",
-//	  Description: "Sheet description goes here",
-//	  Side: components.Right,
-//	}) {
-//	  // Sheet content goes here
-//	}
+// Sheet renders a slide-in panel with backdrop.
+// Uses Alpine.js for animations and state management.
+// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/sheet
 //
 // Props:
-//   - Title: The heading text for the sheet. Default: "" (empty string)
-//   - Description: The subheading or description text for the sheet. Default: "" (empty string)
-//   - Side: Determines from which side the sheet will appear. Default: Right
+// - Title: Header text
+// - Description: Subheading text
+// - Side: Slide-in direction
+//
+// Features:
+// - Responsive sizing
+// - Animated transitions
+// - Backdrop blur
+// - ESC key closing
 func Sheet(props SheetProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -176,7 +165,7 @@ func Sheet(props SheetProps) templ.Component {
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(props.Title)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/sheet.templ`, Line: 129, Col: 51}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/sheet.templ`, Line: 118, Col: 51}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
@@ -189,7 +178,7 @@ func Sheet(props SheetProps) templ.Component {
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(props.Description)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/sheet.templ`, Line: 130, Col: 64}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/sheet.templ`, Line: 119, Col: 64}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -211,17 +200,8 @@ func Sheet(props SheetProps) templ.Component {
 	})
 }
 
-// SheetTrigger renders a trigger element that opens the sheet when clicked.
-//
-// Usage:
-//
-//	@components.SheetTrigger("Open Sheet", components.Right) {
-//	  <button>Open Sheet</button>
-//	}
-//
-// Props:
-//   - text: The text content of the trigger (unused in the current implementation)
-//   - side: The side from which the sheet should appear
+// SheetTrigger creates elements that open the sheet
+// Must be used within SheetRoot
 func SheetTrigger(text string, side SheetSide) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -250,7 +230,7 @@ func SheetTrigger(text string, side SheetSide) templ.Component {
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs("open('" + string(side) + "')")
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/sheet.templ`, Line: 152, Col: 41}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/sheet.templ`, Line: 132, Col: 41}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
@@ -272,14 +252,8 @@ func SheetTrigger(text string, side SheetSide) templ.Component {
 	})
 }
 
-// SheetClose renders a button that closes the sheet when clicked.
-//
-// Usage:
-//
-//	@components.SheetClose("Close")
-//
-// Props:
-//   - text: The text content of the close button
+// SheetClose creates a button that closes the sheet
+// Must be used within Sheet
 func SheetClose(text string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -329,7 +303,7 @@ func SheetClose(text string) templ.Component {
 		var templ_7745c5c3_Var12 string
 		templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs(text)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/sheet.templ`, Line: 174, Col: 8}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/sheet.templ`, Line: 148, Col: 8}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
 		if templ_7745c5c3_Err != nil {

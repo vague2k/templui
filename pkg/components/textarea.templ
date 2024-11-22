@@ -1,0 +1,99 @@
+package components
+
+import (
+	"github.com/axzilla/goilerplate/pkg/utils"
+	"strconv"
+)
+
+type TextareaProps struct {
+	// ID uniquely identifies the textarea
+	ID string
+
+	// Name sets the form field name
+	Name string
+
+	// Value sets initial content
+	Value string
+
+	// Placeholder shows when empty
+	Placeholder string
+
+	// Label displays text above textarea
+	Label string
+
+	// Description shows helper text below
+	Description string
+
+	// Error displays validation message
+	Error string
+
+	// Rows sets visible text lines height
+	Rows int
+
+	// Class adds custom CSS classes
+	Class string
+
+	// AutoResize enables dynamic height adjustment
+	AutoResize bool
+
+	// Attributes for additional HTML attributes and Alpine.js bindings
+	Attributes templ.Attributes
+}
+
+// Textarea renders a multi-line text input with optional validation.
+// Uses Alpine.js for autoresize functionality when enabled.
+// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/textarea
+//
+// Props:
+// - ID: Unique identifier
+// - Name: Form field name
+// - Value: Initial content
+// - Placeholder: Helper text when empty
+// - Label: Text label
+// - Description: Helper text
+// - Error: Validation message
+// - Rows: Initial height in lines
+// - Class: Additional CSS classes
+// - AutoResize: Enable dynamic sizing
+// - Attributes: Additional HTML attributes
+templ Textarea(props TextareaProps) {
+	<div class="space-y-2">
+		if props.Label != "" {
+			<label
+				for={ props.ID }
+				class={ "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
+                    templ.KV("text-destructive", len(props.Error) > 0) }
+			>
+				{ props.Label }
+			</label>
+		}
+		<textarea
+			id={ props.ID }
+			name={ props.Name }
+			value={ props.Value }
+			placeholder={ props.Placeholder }
+			if props.Rows != 0 {
+				rows={ strconv.Itoa(props.Rows) }
+			}
+			class={ utils.TwMerge(
+                "flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background",
+                "min-h-[80px] placeholder:text-muted-foreground",
+                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+                "disabled:cursor-not-allowed disabled:opacity-50",
+                props.Class,
+            ) }
+			if props.AutoResize {
+				x-data="{ resize() { $el.style.height = '80px'; $el.style.height = $el.scrollHeight + 'px' } }"
+				x-init="resize()"
+				@input="resize()"
+			}
+			{ props.Attributes... }
+		></textarea>
+		if props.Description != "" {
+			<p class="text-sm text-muted-foreground">{ props.Description }</p>
+		}
+		if props.Error != "" {
+			<p class="text-sm font-medium text-destructive">{ props.Error }</p>
+		}
+	</div>
+}

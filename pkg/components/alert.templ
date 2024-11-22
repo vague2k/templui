@@ -2,26 +2,26 @@ package components
 
 import "github.com/axzilla/goilerplate/pkg/utils"
 
-// AlertVariant represents the visual style of the alert.
+// AlertVariant defines the available alert styles
 type AlertVariant string
 
-// Constants for alert variants.
 const (
-	DefaultAlert     AlertVariant = "default"
+	// DefaultAlert shows standard informational styling
+	DefaultAlert AlertVariant = "default"
+
+	// DestructiveAlert shows error/warning styling
 	DestructiveAlert AlertVariant = "destructive"
 )
 
-// AlertProps defines the properties for the Alert component.
 type AlertProps struct {
-	// Variant determines the visual style of the alert.
-	// Default: DefaultAlert
+	// Variant controls the alert styling (default or destructive)
 	Variant AlertVariant
-	// Class specifies additional CSS classes to apply to the alert.
-	// Default: "" (empty string)
+
+	// Class adds custom CSS classes
 	Class string
 }
 
-// getAlertVariantClasses returns the CSS classes for the given alert variant.
+// getAlertVariantClasses maps variants to their CSS classes
 func getAlertVariantClasses(variant AlertVariant) string {
 	switch variant {
 	case DestructiveAlert:
@@ -31,21 +31,12 @@ func getAlertVariantClasses(variant AlertVariant) string {
 	}
 }
 
-// Alert renders an alert component based on the provided props and children.
-// It can be customized with two visual styles: Default and Destructive.
-// All content, including icons, should be passed in as children.
-//
-// Usage:
-//
-//	@components.Alert(components.AlertProps{Variant: components.DestructiveAlert}) {
-//	  @components.ExclamationTriangleIcon()
-//	  @components.AlertTitle{"Error"}
-//	  @components.AlertDescription{"Your session has expired. Please log in again."}
-//	}
+// Alert renders a notification box component for messages, warnings and errors.
+// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/alert
 //
 // Props:
-//   - Variant: The visual style of the alert (DefaultAlert or DestructiveAlert). Default: DefaultAlert
-//   - Class: Additional CSS classes to apply to the alert. Default: "" (empty string)
+// - Variant: Visual style (DefaultAlert or DestructiveAlert)
+// - Class: Additional CSS classes
 templ Alert(props AlertProps) {
 	<div
 		class={

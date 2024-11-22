@@ -2,116 +2,113 @@ package components
 
 import "github.com/axzilla/goilerplate/pkg/utils"
 
-// InputType represents the type of the input field.
+// InputType defines the available input field types
 type InputType string
 
-// Constants for input types.
 const (
-	Text     InputType = "text"
-	Password InputType = "password"
-	Email    InputType = "email"
-	Number   InputType = "number"
-	Tel      InputType = "tel"
-	URL      InputType = "url"
-	Search   InputType = "search"
-	Date     InputType = "date"
-	Time     InputType = "time"
-	File     InputType = "file"
+	// Standard text inputs
+	InputTypeText     InputType = "text"
+	InputTypePassword InputType = "password"
+	InputTypeEmail    InputType = "email"
+	InputTypeNumber   InputType = "number"
+	InputTypeTel      InputType = "tel"
+	InputTypeURL      InputType = "url"
+	InputTypeSearch   InputType = "search"
+
+	// Date and time inputs
+	InputTypeDate InputType = "date"
+	InputTypeTime InputType = "time"
+
+	// File upload input
+	InputTypeFile InputType = "file"
 )
 
-// InputProps defines the properties for the Input component.
 type InputProps struct {
-	// Type specifies the type of the input field.
-	// Default: Text
+	// Type sets the input field behavior
 	Type InputType
 
-	// Placeholder is the placeholder text for the input field.
-	// Default: "" (empty string)
+	// Placeholder shows helper text when empty
 	Placeholder string
 
-	// Value is the current value of the input field.
-	// Default: "" (empty string)
+	// Value sets the current input content
 	Value string
 
-	// Name is the name attribute of the input field.
-	// Default: "" (empty string)
+	// Name sets the form field name
 	Name string
 
-	// ID is the unique identifier for the input field.
-	// Default: "" (empty string)
+	// ID uniquely identifies the input
 	ID string
 
-	// Class specifies additional CSS classes to apply to the input field.
-	// Default: "" (empty string)
+	// Label displays text above input
+	Label string
+
+	// Description shows helper text below input
+	Description string
+
+	// Error displays validation message
+	Error string
+
+	// Class adds custom CSS classes
 	Class string
 
-	// Disabled can be either a bool or a string.
-	// If bool (Go), it directly controls the disabled state.
-	// If string, it's treated as a JavaScript expression for dynamic disabling.
-	// Default: nil
-	Disabled any
-
-	// FileAccept specifies which file types are accepted (only for file type).
-	// Default: "" (empty string)
+	// FileAccept limits allowed file types
+	// Only used when Type is InputTypeFile
 	FileAccept string
 
-	// Attributes allows passing additional HTML attributes to the input element.
-	// Default: nil
+	// Attributes for additional HTML attributes and Alpine.js bindings
 	Attributes templ.Attributes
 }
 
-// Input renders an input component based on the provided props.
-// It can be customized with various types, sizes, and behaviors.
-//
-// Usage:
-//
-//	@components.Input(components.InputProps{
-//	  Type: components.Email,
-//	  Placeholder: "Enter your email",
-//	  ID: "email-input",
-//	  Class: "custom-input",
-//	  Attributes: templ.Attributes{
-//	    "aria-label": "Email input",
-//	    "data-testid": "email-input",
-//	  },
-//	})
+// Input renders a form input field with optional label and validation.
+// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/input
 //
 // Props:
-//   - Type: The type of the input field (e.g., Text, Email, Password). Default: Text
-//   - Placeholder: The placeholder text for the input field. Default: "" (empty string)
-//   - Value: The current value of the input field. Default: "" (empty string)
-//   - Name: The name attribute of the input field. Default: "" (empty string)
-//   - ID: The unique identifier for the input field. Default: "" (empty string)
-//   - Class: Additional CSS classes to apply to the input field. Default: "" (empty string)
-//   - Disabled: Can be either a bool or a string. If bool (Go), it directly controls the disabled state. If string, it's treated as a JavaScript expression for dynamic disabling. Default: nil
-//   - FileAccept: Specifies which file types are accepted (only for file type). Default: "" (empty string)
-//   - Attributes: Additional HTML attributes to apply to the input element. Default: nil
+// - Type: Input field behavior type
+// - Placeholder: Helper text when empty
+// - Value: Current input value
+// - Name: Form field name
+// - ID: Unique identifier
+// - Label: Text label
+// - Description: Helper text
+// - Error: Validation message
+// - Class: Additional CSS classes
+// - FileAccept: Allowed file types
+// - Attributes: Additional HTML attributes
 templ Input(props InputProps) {
-	<input
-		type={ string(props.Type) }
-		placeholder={ props.Placeholder }
-		value={ props.Value }
-		name={ props.Name }
-		id={ props.ID }
-		class={
-			utils.TwMerge("flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background",
-				"file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground",
-				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-				"disabled:cursor-not-allowed disabled:opacity-50",
-				"file:text-foreground dark:file:text-foreground",
-				props.Class),
+	<span class="space-y-2">
+		if props.Label != "" {
+			<label
+				for={ props.ID }
+				class={ "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",   
+      templ.KV("text-destructive", len(props.Error)>0) }
+			>
+				{ props.Label }
+			</label>
 		}
-		if props.Disabled != nil {
-			if disabledBool, ok := props.Disabled.(bool); ok && disabledBool {
-				disabled="true"
+		<input
+			type={ string(props.Type) }
+			placeholder={ props.Placeholder }
+			name={ props.Name }
+			value={ props.Value }
+			id={ props.ID }
+			class={
+				utils.TwMerge("flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background",
+					"file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground",
+					"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+					"disabled:cursor-not-allowed disabled:opacity-50",
+					"file:text-foreground dark:file:text-foreground",
+					props.Class),
 			}
-			if disabledStr, ok := props.Disabled.(string); ok {
-				:disabled={ disabledStr }
+			if props.Type == InputTypeFile {
+				accept={ props.FileAccept }
 			}
+			{ props.Attributes... }
+		/>
+		if props.Description != "" {
+			<p class="text-sm text-muted-foreground m-0">{ props.Description }</p>
 		}
-		if props.Type == File {
-			accept={ props.FileAccept }
+		if props.Error != "" {
+			<p class="text-sm font-medium text-destructive">{ props.Error }</p>
 		}
-		{ props.Attributes... }
-	/>
+	</span>
 }
