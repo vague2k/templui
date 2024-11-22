@@ -1718,29 +1718,9 @@ body {
   top: 50%;
 }
 
-.before\:h-2::before {
-  content: var(--tw-content);
-  height: 0.5rem;
-}
-
-.before\:h-1::before {
-  content: var(--tw-content);
-  height: 0.25rem;
-}
-
 .before\:h-1\.5::before {
   content: var(--tw-content);
   height: 0.375rem;
-}
-
-.before\:w-2::before {
-  content: var(--tw-content);
-  width: 0.5rem;
-}
-
-.before\:w-1::before {
-  content: var(--tw-content);
-  width: 0.25rem;
 }
 
 .before\:w-1\.5::before {
@@ -2173,14 +2153,6 @@ body {
 
 .\[\&\:\:-webkit-slider-thumb\]\:hover\:bg-primary\/90:hover::-webkit-slider-thumb {
   background-color: hsl(var(--primary) / 0.9);
-}
-
-.\[\&\:has\(\:disabled\)\]\:cursor-not-allowed:has(:disabled) {
-  cursor: not-allowed;
-}
-
-.\[\&\:has\(\:disabled\)\]\:opacity-50:has(:disabled) {
-  opacity: 0.5;
 }
 
 .\[\&\:has\(input\:checked\)\]\:text-foreground:has(input:checked) {
