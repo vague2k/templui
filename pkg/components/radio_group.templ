@@ -67,8 +67,9 @@ templ RadioGroupItem(props RadioGroupItemProps) {
 	<label
 		for={ props.ID }
 		class={ utils.TwMerge(
-            "flex items-center gap-2",
-            "[&:has(:disabled)]:cursor-not-allowed [&:has(:disabled)]:opacity-50",
+            "flex items-center gap-2 cursor-pointer text-sm font-medium",
+            "text-muted-foreground [&:has(input:checked)]:text-foreground",
+            "[&:has(input:disabled)]:cursor-not-allowed [&:has(input:disabled)]:opacity-50",
             props.Class,
         ) }
 	>
@@ -81,7 +82,7 @@ templ RadioGroupItem(props RadioGroupItemProps) {
                    border border-2 border-primary 
                    checked:border-primary checked:bg-primary
                    before:absolute before:left-1/2 before:top-1/2 
-                   before:h-2 before:w-2 before:-translate-x-1/2 before:-translate-y-1/2 
+                   before:h-1.5 before:w-1.5 before:-translate-x-1/2 before:-translate-y-1/2 
                    before:rounded-full before:bg-background
                    checked:before:visible
                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring 
