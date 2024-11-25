@@ -8,22 +8,27 @@ templ SliderShowcase() {
 			<div>
 				<h2 class="font-semibold mb-4">Default Slider</h2>
 				@components.Slider(components.SliderProps{
-					ID:        "default",
-					Name:      "default",
-					Label:     "Volume",
-					Value:     50,
-					Min:       0,
-					Max:       100,
-					Step:      1,
-					ShowValue: true,
+					ID:   "default",
+					Name: "default",
 				})
 			</div>
 			<div>
 				<h2 class="font-semibold mb-4">With Label</h2>
 				@components.Slider(components.SliderProps{
+					ID:    "with-label",
+					Name:  "with-label",
+					Label: "Volume",
+					Value: 65,
+					Min:   0,
+					Max:   100,
+					Step:  1,
+				})
+			</div>
+			<div>
+				<h2 class="font-semibold mb-4">With Value</h2>
+				@components.Slider(components.SliderProps{
 					ID:          "with-label",
 					Name:        "with-label",
-					Label:       "Volume",
 					Value:       75,
 					Min:         0,
 					Max:         100,
@@ -33,7 +38,7 @@ templ SliderShowcase() {
 				})
 			</div>
 			<div>
-				<h2 class="font-semibold mb-4">Temperature Range</h2>
+				<h2 class="font-semibold mb-4">With Label and Value</h2>
 				@components.Slider(components.SliderProps{
 					ID:          "temperature",
 					Name:        "temperature",

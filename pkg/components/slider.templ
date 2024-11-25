@@ -75,7 +75,7 @@ templ Slider(props SliderProps) {
 					<p class="text-sm text-muted-foreground">
 						<span x-text="value"></span>
 						if props.ValueFormat != "" {
-							{ " " + props.ValueFormat }
+							{ props.ValueFormat }
 						}
 					</p>
 				}
@@ -86,10 +86,18 @@ templ Slider(props SliderProps) {
 			type="range"
 			id={ props.ID }
 			name={ props.Name }
-			value={ fmt.Sprintf("%d", props.Value) }
-			min={ fmt.Sprintf("%d", props.Min) }
-			max={ fmt.Sprintf("%d", props.Max) }
-			step={ fmt.Sprintf("%d", props.Step) }
+			if props.Value != 0 {
+				value={ fmt.Sprintf("%d", props.Value) }
+			}
+			if props.Min != 0 {
+				min={ fmt.Sprintf("%d", props.Min) }
+			}
+			if props.Max != 0 {
+				max={ fmt.Sprintf("%d", props.Max) }
+			}
+			if props.Step != 0 {
+				step={ fmt.Sprintf("%d", props.Step) }
+			}
 			class={ utils.TwMerge(
 				"w-full h-2 rounded-full bg-secondary appearance-none cursor-pointer",
 				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
