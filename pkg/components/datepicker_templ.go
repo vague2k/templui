@@ -35,6 +35,8 @@ type DatepickerProps struct {
 	// Class adds custom CSS classes
 	Class string
 
+	Value string
+
 	// Attributes for additional HTML attributes and Alpine.js bindings
 	Attributes templ.Attributes
 }
@@ -83,22 +85,35 @@ func Datepicker(props DatepickerProps) templ.Component {
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(props.Format)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/datepicker.templ`, Line: 47, Col: 33}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/datepicker.templ`, Line: 49, Col: 33}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" x-data=\"{\n      datePickerOpen: false,\n      datePickerValue: &#39;&#39;,\n      datePickerFormat: $el.getAttribute(&#39;data-date-format&#39;),\n      datePickerMonth: &#39;&#39;,\n      datePickerYear: &#39;&#39;,\n      datePickerDay: &#39;&#39;,\n      datePickerDaysInMonth: [],\n      datePickerBlankDaysInMonth: [],\n      datePickerMonthNames: [&#39;January&#39;, &#39;February&#39;, &#39;March&#39;, &#39;April&#39;, &#39;May&#39;, &#39;June&#39;, &#39;July&#39;, &#39;August&#39;, &#39;September&#39;, &#39;October&#39;, &#39;November&#39;, &#39;December&#39;],\n      datePickerDays: [&#39;Sun&#39;, &#39;Mon&#39;, &#39;Tue&#39;, &#39;Wed&#39;, &#39;Thu&#39;, &#39;Fri&#39;, &#39;Sat&#39;],\n      position: &#39;bottom&#39;,\n      toggleDatePicker() {\n          this.datePickerOpen = !this.datePickerOpen;\n          if (this.datePickerOpen) {\n              this.$nextTick(() =&gt; this.updatePosition());\n          }\n      },\n      updatePosition() {\n          const trigger = this.$refs.datePickerInput;\n          const popup = this.$refs.datePickerPopup;\n          const rect = trigger.getBoundingClientRect();\n          const popupRect = popup.getBoundingClientRect();\n          const viewportHeight = window.innerHeight || document.documentElement.clientHeight;\n          \n          if (rect.bottom + popupRect.height &gt; viewportHeight &amp;&amp; rect.top &gt; popupRect.height) {\n              this.position = &#39;top&#39;;\n          } else {\n              this.position = &#39;bottom&#39;;\n          }\n      },\n      datePickerDayClicked(day) {\n        let selectedDate = new Date(this.datePickerYear, this.datePickerMonth, day);\n        this.datePickerDay = day;\n        this.datePickerValue = this.datePickerFormatDate(selectedDate);\n        this.datePickerIsSelectedDate(day);\n        this.datePickerOpen = false;\n      },\n      datePickerPreviousMonth(){\n        if (this.datePickerMonth == 0) { \n            this.datePickerYear--; \n            this.datePickerMonth = 11; \n        } else {\n            this.datePickerMonth--;\n        }\n        this.datePickerCalculateDays();\n      },\n      datePickerNextMonth(){\n        if (this.datePickerMonth == 11) { \n            this.datePickerMonth = 0; \n            this.datePickerYear++; \n        } else { \n            this.datePickerMonth++; \n        }\n        this.datePickerCalculateDays();\n      },\n      datePickerIsSelectedDate(day) {\n        const d = new Date(this.datePickerYear, this.datePickerMonth, day);\n        return this.datePickerValue === this.datePickerFormatDate(d) ? true : false;\n      },\n      datePickerIsToday(day) {\n        const today = new Date();\n        const d = new Date(this.datePickerYear, this.datePickerMonth, day);\n        return today.toDateString() === d.toDateString() ? true : false;\n      },\n      datePickerCalculateDays() {\n        let daysInMonth = new Date(this.datePickerYear, this.datePickerMonth + 1, 0).getDate();\n        let dayOfWeek = new Date(this.datePickerYear, this.datePickerMonth).getDay();\n        let blankdaysArray = [];\n        for (var i = 1; i &lt;= dayOfWeek; i++) {\n            blankdaysArray.push(i);\n        }\n        let daysArray = [];\n        for (var i = 1; i &lt;= daysInMonth; i++) {\n            daysArray.push(i);\n        }\n        this.datePickerBlankDaysInMonth = blankdaysArray;\n        this.datePickerDaysInMonth = daysArray;\n      },\n      datePickerFormatDate(date) {\n        let formattedDay = this.datePickerDays[date.getDay()];\n        let formattedDate = (&#39;0&#39; + date.getDate()).slice(-2);\n        let formattedMonth = this.datePickerMonthNames[date.getMonth()];\n        let formattedMonthShortName = this.datePickerMonthNames[date.getMonth()].substring(0, 3);\n        let formattedMonthInNumber = (&#39;0&#39; + (parseInt(date.getMonth()) + 1)).slice(-2);\n        let formattedYear = date.getFullYear();\n\n        if (this.datePickerFormat === &#39;M d, Y&#39;) {\n          return `${formattedMonthShortName} ${formattedDate}, ${formattedYear}`;\n        }\n        if (this.datePickerFormat === &#39;MM-DD-YYYY&#39;) {\n          return `${formattedMonthInNumber}-${formattedDate}-${formattedYear}`;\n        }\n        if (this.datePickerFormat === &#39;DD-MM-YYYY&#39;) {\n          return `${formattedDate}-${formattedMonthInNumber}-${formattedYear}`;\n        }\n        if (this.datePickerFormat === &#39;YYYY-MM-DD&#39;) {\n          return `${formattedYear}-${formattedMonthInNumber}-${formattedDate}`;\n        }\n        if (this.datePickerFormat === &#39;D d M, Y&#39;) {\n          return `${formattedDay} ${formattedDate} ${formattedMonthShortName} ${formattedYear}`;\n        }\n        \n        return `${formattedMonth} ${formattedDate}, ${formattedYear}`;\n      },\n    }\" x-init=\"\n        currentDate = new Date();\n        datePickerMonth = currentDate.getMonth();\n        datePickerYear = currentDate.getFullYear();\n        datePickerDay = currentDate.getDate();\n        datePickerValue = datePickerFormatDate(currentDate);\n        datePickerCalculateDays();\n    \" class=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" data-date-value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var4 string
-		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var2).String())
+		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(props.Value)
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/datepicker.templ`, Line: 50, Col: 31}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" x-data=\"{\n      datePickerOpen: false,\n      datePickerValue: $el.getAttribute(&#39;data-date-value&#39;),\n      datePickerFormat: $el.getAttribute(&#39;data-date-format&#39;),\n      datePickerMonth: &#39;&#39;,\n      datePickerYear: &#39;&#39;,\n      datePickerDay: &#39;&#39;,\n      datePickerDaysInMonth: [],\n      datePickerBlankDaysInMonth: [],\n      datePickerMonthNames: [&#39;January&#39;, &#39;February&#39;, &#39;March&#39;, &#39;April&#39;, &#39;May&#39;, &#39;June&#39;, &#39;July&#39;, &#39;August&#39;, &#39;September&#39;, &#39;October&#39;, &#39;November&#39;, &#39;December&#39;],\n      datePickerDays: [&#39;Sun&#39;, &#39;Mon&#39;, &#39;Tue&#39;, &#39;Wed&#39;, &#39;Thu&#39;, &#39;Fri&#39;, &#39;Sat&#39;],\n      position: &#39;bottom&#39;,\n      toggleDatePicker() {\n          this.datePickerOpen = !this.datePickerOpen;\n          if (this.datePickerOpen) {\n              this.$nextTick(() =&gt; this.updatePosition());\n          }\n      },\n      updatePosition() {\n          const trigger = this.$refs.datePickerInput;\n          const popup = this.$refs.datePickerPopup;\n          const rect = trigger.getBoundingClientRect();\n          const popupRect = popup.getBoundingClientRect();\n          const viewportHeight = window.innerHeight || document.documentElement.clientHeight;\n          \n          if (rect.bottom + popupRect.height &gt; viewportHeight &amp;&amp; rect.top &gt; popupRect.height) {\n              this.position = &#39;top&#39;;\n          } else {\n              this.position = &#39;bottom&#39;;\n          }\n      },\n      datePickerDayClicked(day) {\n        let selectedDate = new Date(this.datePickerYear, this.datePickerMonth, day);\n        this.datePickerDay = day;\n        this.datePickerValue = this.datePickerFormatDate(selectedDate);\n        this.datePickerIsSelectedDate(day);\n        this.datePickerOpen = false;\n      },\n      datePickerPreviousMonth(){\n        if (this.datePickerMonth == 0) { \n            this.datePickerYear--; \n            this.datePickerMonth = 11; \n        } else {\n            this.datePickerMonth--;\n        }\n        this.datePickerCalculateDays();\n      },\n      datePickerNextMonth(){\n        if (this.datePickerMonth == 11) { \n            this.datePickerMonth = 0; \n            this.datePickerYear++; \n        } else { \n            this.datePickerMonth++; \n        }\n        this.datePickerCalculateDays();\n      },\n      datePickerIsSelectedDate(day) {\n        const d = new Date(this.datePickerYear, this.datePickerMonth, day);\n        return this.datePickerValue === this.datePickerFormatDate(d) ? true : false;\n      },\n      datePickerIsToday(day) {\n        const today = new Date();\n        const d = new Date(this.datePickerYear, this.datePickerMonth, day);\n        return today.toDateString() === d.toDateString() ? true : false;\n      },\n      datePickerCalculateDays() {\n        let daysInMonth = new Date(this.datePickerYear, this.datePickerMonth + 1, 0).getDate();\n        let dayOfWeek = new Date(this.datePickerYear, this.datePickerMonth).getDay();\n        let blankdaysArray = [];\n        for (var i = 1; i &lt;= dayOfWeek; i++) {\n            blankdaysArray.push(i);\n        }\n        let daysArray = [];\n        for (var i = 1; i &lt;= daysInMonth; i++) {\n            daysArray.push(i);\n        }\n        this.datePickerBlankDaysInMonth = blankdaysArray;\n        this.datePickerDaysInMonth = daysArray;\n      },\n      datePickerFormatDate(date) {\n        let formattedDay = this.datePickerDays[date.getDay()];\n        let formattedDate = (&#39;0&#39; + date.getDate()).slice(-2);\n        let formattedMonth = this.datePickerMonthNames[date.getMonth()];\n        let formattedMonthShortName = this.datePickerMonthNames[date.getMonth()].substring(0, 3);\n        let formattedMonthInNumber = (&#39;0&#39; + (parseInt(date.getMonth()) + 1)).slice(-2);\n        let formattedYear = date.getFullYear();\n\n        if (this.datePickerFormat === &#39;M d, Y&#39;) {\n          return `${formattedMonthShortName} ${formattedDate}, ${formattedYear}`;\n        }\n        if (this.datePickerFormat === &#39;MM-DD-YYYY&#39;) {\n          return `${formattedMonthInNumber}-${formattedDate}-${formattedYear}`;\n        }\n        if (this.datePickerFormat === &#39;DD-MM-YYYY&#39;) {\n          return `${formattedDate}-${formattedMonthInNumber}-${formattedYear}`;\n        }\n        if (this.datePickerFormat === &#39;YYYY-MM-DD&#39;) {\n          return `${formattedYear}-${formattedMonthInNumber}-${formattedDate}`;\n        }\n        if (this.datePickerFormat === &#39;D d M, Y&#39;) {\n          return `${formattedDay} ${formattedDate} ${formattedMonthShortName} ${formattedYear}`;\n        }\n        \n        return `${formattedMonth} ${formattedDate}, ${formattedYear}`;\n      },\n    }\" x-init=\"\n        currentDate = new Date();\n        if (datePickerValue) {\n            currentDate = new Date(Date.parse(datePickerValue));\n        }\n        datePickerMonth = currentDate.getMonth();\n        datePickerYear = currentDate.getFullYear();\n        datePickerDay = currentDate.getDate();\n        datePickerValue = datePickerFormatDate(currentDate);\n        datePickerCalculateDays();\n    \" class=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var5 string
+		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var2).String())
 		if templ_7745c5c3_Err != nil {
 			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/datepicker.templ`, Line: 1, Col: 0}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -106,12 +121,12 @@ func Datepicker(props DatepickerProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var5 string
-		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
+		var templ_7745c5c3_Var6 string
+		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/datepicker.templ`, Line: 168, Col: 17}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/datepicker.templ`, Line: 174, Col: 17}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -119,12 +134,12 @@ func Datepicker(props DatepickerProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var6 string
-		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(props.Name)
+		var templ_7745c5c3_Var7 string
+		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(props.Name)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/datepicker.templ`, Line: 169, Col: 21}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/datepicker.templ`, Line: 175, Col: 21}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -132,16 +147,16 @@ func Datepicker(props DatepickerProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var7 string
-		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(props.Placeholder)
+		var templ_7745c5c3_Var8 string
+		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(props.Placeholder)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/datepicker.templ`, Line: 170, Col: 35}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/datepicker.templ`, Line: 176, Col: 35}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" x-modelable=\"datePickerValue\" @click=\"toggleDatePicker()\" x-on:keydown.escape=\"datePickerOpen = false\" x-ref=\"datePickerInput\" class=\"flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50\" readonly")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" :value=\"datePickerValue\" x-modelable=\"datePickerValue\" @click=\"toggleDatePicker()\" x-on:keydown.escape=\"datePickerOpen = false\" x-ref=\"datePickerInput\" class=\"flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50\" readonly")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
