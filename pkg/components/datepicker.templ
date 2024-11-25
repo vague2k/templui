@@ -27,6 +27,8 @@ type DatepickerProps struct {
 	// Class adds custom CSS classes
 	Class string
 
+	Value string
+
 	// Attributes for additional HTML attributes and Alpine.js bindings
 	Attributes templ.Attributes
 }
@@ -45,9 +47,10 @@ type DatepickerProps struct {
 templ Datepicker(props DatepickerProps) {
 	<div
 		data-date-format={ props.Format }
+		data-date-value={ props.Value }
 		x-data="{
       datePickerOpen: false,
-      datePickerValue: '',
+      datePickerValue: $el.getAttribute('data-date-value'),
       datePickerFormat: $el.getAttribute('data-date-format'),
       datePickerMonth: '',
       datePickerYear: '',
@@ -153,6 +156,9 @@ templ Datepicker(props DatepickerProps) {
     }"
 		x-init="
         currentDate = new Date();
+        if (datePickerValue) {
+            currentDate = new Date(Date.parse(datePickerValue));
+        }
         datePickerMonth = currentDate.getMonth();
         datePickerYear = currentDate.getFullYear();
         datePickerDay = currentDate.getDate();
@@ -168,6 +174,7 @@ templ Datepicker(props DatepickerProps) {
 				id={ props.ID }
 				name={ props.Name }
 				placeholder={ props.Placeholder }
+				:value="datePickerValue"
 				x-modelable="datePickerValue"
 				@click="toggleDatePicker()"
 				x-on:keydown.escape="datePickerOpen = false"
