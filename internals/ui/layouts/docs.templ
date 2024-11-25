@@ -1,16 +1,16 @@
 package layouts
 
-import "github.com/axzilla/goilerplate/pkg/components"
+import "github.com/axzilla/goilerplate/internals/ui/modules"
 
 templ DocsLayout() {
 	@BaseLayout() {
 		<div class="flex flex-col h-screen">
 			<div class="flex-shrink-0">
-				@components.Navbar()
+				@modules.Navbar()
 			</div>
 			<div class="flex flex-1 overflow-hidden">
 				<div class="hidden lg:block border-r overflow-y-auto h-full">
-					@components.Sidebar()
+					@modules.Sidebar()
 				</div>
 				<main class="flex-1 overflow-y-auto h-full">
 					<div class="container max-w-3xl mx-auto px-4 py-8">
@@ -18,10 +18,10 @@ templ DocsLayout() {
 					</div>
 				</main>
 				<div class="hidden lg:block border-l overflow-y-auto h-full">
-					@components.SidebarRight()
+					@modules.SidebarRight()
 				</div>
 			</div>
 		</div>
-		@components.Footer()
+		@modules.Footer()
 	}
 }
