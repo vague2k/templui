@@ -1,0 +1,14 @@
+package showcase
+
+import "github.com/axzilla/goilerplate/pkg/components"
+
+templ ButtonVariants() {
+	<div class="flex flex-wrap gap-2">
+		@components.Button(components.ButtonProps{Text: "Default"})
+		@components.Button(components.ButtonProps{Text: "Secondary", Variant: components.Secondary})
+		@components.Button(components.ButtonProps{Text: "Destructive", Variant: components.Destructive})
+		@components.Button(components.ButtonProps{Text: "Outline", Variant: components.Outline})
+		@components.Button(components.ButtonProps{Text: "Ghost", Variant: components.Ghost})
+		@components.Button(components.ButtonProps{Text: "Link", Variant: components.Link})
+	</div>
+}

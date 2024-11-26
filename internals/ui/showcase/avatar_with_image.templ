@@ -1,0 +1,11 @@
+package showcase
+
+import "github.com/axzilla/goilerplate/pkg/components"
+
+templ AvatarWithImage() {
+	@components.Avatar(components.AvatarProps{
+		ImageSrc: "https://avatars.githubusercontent.com/u/26936893?v=4",
+		Name:     "John Doe",
+		Class:    "border-2 border-border",
+	})
+}

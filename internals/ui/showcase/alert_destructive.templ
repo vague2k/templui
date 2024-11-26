@@ -1,0 +1,20 @@
+package showcase
+
+import (
+	"github.com/axzilla/goilerplate/pkg/components"
+	"github.com/axzilla/goilerplate/pkg/icons"
+)
+
+templ AlertDestructive() {
+	<div class="w-full max-w-xl">
+		@components.Alert(components.AlertProps{Variant: components.DestructiveAlert}) {
+			@icons.TriangleAlert(icons.IconProps{Size: "16"})
+			@components.AlertTitle() {
+				Error
+			}
+			@components.AlertDescription() {
+				Your session has expired. Please log in again.
+			}
+		}
+	</div>
+}

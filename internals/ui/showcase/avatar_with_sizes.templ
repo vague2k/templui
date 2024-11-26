@@ -1,0 +1,25 @@
+package showcase
+
+import "github.com/axzilla/goilerplate/pkg/components"
+
+templ AvatarWithSizes() {
+	<div class="flex flex-wrap gap-2">
+		@components.Avatar(components.AvatarProps{
+			ImageSrc: "https://avatars.githubusercontent.com/u/26936893?v=4",
+			Name:     "John Doe",
+			Size:     components.AvatarSizeSmall,
+			Class:    "border-2 border-border",
+		})
+		@components.Avatar(components.AvatarProps{
+			ImageSrc: "https://avatars.githubusercontent.com/u/26936893?v=4",
+			Name:     "John Doe",
+			Class:    "border-2 border-border",
+		})
+		@components.Avatar(components.AvatarProps{
+			ImageSrc: "https://avatars.githubusercontent.com/u/26936893?v=4",
+			Name:     "John Doe",
+			Size:     components.AvatarSizeLarge,
+			Class:    "border-2 border-border",
+		})
+	</div>
+}

@@ -4,37 +4,38 @@ import (
 	"github.com/axzilla/goilerplate/internals/ui/layouts"
 	"github.com/axzilla/goilerplate/internals/ui/modules"
 	"github.com/axzilla/goilerplate/internals/ui/showcase"
-	"github.com/axzilla/goilerplate/pkg/components"
 )
 
 templ Button() {
 	@layouts.DocsLayout() {
-		<div>
-			<div class="mb-16">
-				<h1 class="text-3xl font-bold mb-2">Button</h1>
-				<p class="mb-4 text-muted-foreground">Displays a button or a component that looks like a button.</p>
-			</div>
-			@components.Tabs(components.TabsProps{
-				Tabs: []components.Tab{
-					{
-						ID:      "preview",
-						Title:   "Preview",
-						Content: showcase.ButtonShowcase(),
-					},
-					{
-						ID:      "code",
-						Title:   "Code",
-						Content: modules.CodeSnippetFromEmbedded("button.templ", "go", showcase.TemplFiles),
-					},
-					{
-						ID:      "component",
-						Title:   "Component",
-						Content: modules.CodeSnippetFromEmbedded("button.templ", "go", components.TemplFiles),
-					},
-				},
-				TabsContainerClass:    "md:w-1/2",
-				ContentContainerClass: "w-full",
+		@modules.PageWrapper(modules.PageWrapperProps{
+			Name:        "Button",
+			Description: "Displays a button or a component that looks like a button.",
+		}) {
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "Variants",
+				ShowcaseFile:      showcase.ButtonVariants(),
+				PreviewCodeFile:   "button_variants.templ",
+				ComponentCodeFile: "button.templ",
 			})
-		</div>
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "Sizes",
+				ShowcaseFile:      showcase.ButtonSizes(),
+				PreviewCodeFile:   "button_sizes.templ",
+				ComponentCodeFile: "button.templ",
+			})
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "States",
+				ShowcaseFile:      showcase.ButtonStates(),
+				PreviewCodeFile:   "button_states.templ",
+				ComponentCodeFile: "button.templ",
+			})
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "Icons",
+				ShowcaseFile:      showcase.ButtonIcons(),
+				PreviewCodeFile:   "button_icons.templ",
+				ComponentCodeFile: "button.templ",
+			})
+		}
 	}
 }

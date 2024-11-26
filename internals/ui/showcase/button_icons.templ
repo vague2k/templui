@@ -1,0 +1,19 @@
+package showcase
+
+import (
+	"github.com/axzilla/goilerplate/pkg/components"
+	"github.com/axzilla/goilerplate/pkg/icons"
+)
+
+templ ButtonIcons() {
+	<div class="flex flex-wrap gap-2">
+		@components.Button(components.ButtonProps{
+			Text:     "Icon Left",
+			IconLeft: icons.Rocket(icons.IconProps{Size: "16"}),
+		})
+		@components.Button(components.ButtonProps{
+			Text:      "Icon Right",
+			IconRight: icons.Rocket(icons.IconProps{Size: "16"}),
+		})
+	</div>
+}

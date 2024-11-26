@@ -1,0 +1,50 @@
+package modules
+
+import (
+	"github.com/axzilla/goilerplate/internals/ui/showcase"
+	"github.com/axzilla/goilerplate/pkg/components"
+)
+
+type showcaseWrapperProps struct {
+	Content templ.Component
+}
+
+templ showcaseWrapper(p showcaseWrapperProps) {
+	<div class="flex justify-center items-center border rounded-md py-16 px-4">
+		@p.Content
+	</div>
+}
+
+type ExampleWrapperProps struct {
+	SectionName       string
+	ShowcaseFile      templ.Component
+	PreviewCodeFile   string
+	ComponentCodeFile string
+}
+
+templ ExampleWrapper(p ExampleWrapperProps) {
+	<div>
+		<p class="mb-2 font-bold text-muted-foreground">{ p.SectionName }</p>
+		@components.Tabs(components.TabsProps{
+			Tabs: []components.Tab{
+				{
+					ID:      "preview",
+					Title:   "Preview",
+					Content: showcaseWrapper(showcaseWrapperProps{Content: p.ShowcaseFile}),
+				},
+				{
+					ID:      "code",
+					Title:   "Code",
+					Content: CodeSnippetFromEmbedded(p.PreviewCodeFile, "go", showcase.TemplFiles),
+				},
+				{
+					ID:      "component",
+					Title:   "Component",
+					Content: CodeSnippetFromEmbedded(p.ComponentCodeFile, "go", components.TemplFiles),
+				},
+			},
+			TabsContainerClass:    "md:w-1/2",
+			ContentContainerClass: "w-full",
+		})
+	</div>
+}
