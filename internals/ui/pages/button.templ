@@ -1,8 +1,8 @@
 package pages
 
 import (
-	"embed"
 	"github.com/axzilla/goilerplate/internals/ui/layouts"
+	"github.com/axzilla/goilerplate/internals/ui/modules"
 	"github.com/axzilla/goilerplate/internals/ui/showcase"
 	"github.com/axzilla/goilerplate/pkg/components"
 )
@@ -24,12 +24,12 @@ templ Button() {
 					{
 						ID:      "code",
 						Title:   "Code",
-						Content: CodeSnippetFromEmbedded("button.templ", "go", showcase.TemplFiles),
+						Content: modules.CodeSnippetFromEmbedded("button.templ", "go", showcase.TemplFiles),
 					},
 					{
 						ID:      "component",
 						Title:   "Component",
-						Content: CodeSnippetFromEmbedded("button.templ", "go", components.TemplFiles),
+						Content: modules.CodeSnippetFromEmbedded("button.templ", "go", components.TemplFiles),
 					},
 				},
 				TabsContainerClass:    "md:w-1/2",
@@ -37,31 +37,4 @@ templ Button() {
 			})
 		</div>
 	}
-}
-
-templ CodeSnippetFromEmbedded(filename, language string, embed embed.FS) {
-	if content, err := embed.ReadFile(filename); err != nil {
-		<div class="error">Error reading file: { filename }: { err.Error() }</div>
-	} else {
-		@CodeSnippet(string(content), language)
-	}
-}
-
-templ CodeSnippet(content, language string) {
-	<div class="relative" x-data="{ copied: false }">
-		<pre class="!overflow-hidden">
-			<code x-ref="code" class={ "language-" + language, "!max-h-[501px] !overflow-y-auto rounded-md block" }>
-				{ content }
-			</code>
-		</pre>
-		<button
-			class="absolute top-2 right-2 bg-gray-700 hover:bg-gray-600 text-white font-bold py-1 px-2 rounded text-xs"
-			x-on:click="
-				navigator.clipboard.writeText($refs.code.textContent);
-				copied = true;
-				setTimeout(() => copied = false, 2001);
-			"
-			x-text="copied ? 'Copied!' : 'Copy'"
-		></button>
-	</div>
 }

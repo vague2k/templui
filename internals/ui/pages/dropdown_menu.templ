@@ -1,9 +1,10 @@
 package pages
 
 import (
-	"github.com/axzilla/goilerplate/pkg/components"
 	"github.com/axzilla/goilerplate/internals/ui/layouts"
+	"github.com/axzilla/goilerplate/internals/ui/modules"
 	"github.com/axzilla/goilerplate/internals/ui/showcase"
+	"github.com/axzilla/goilerplate/pkg/components"
 )
 
 templ DropdownMenu() {
@@ -23,12 +24,12 @@ templ DropdownMenu() {
 					{
 						ID:      "code",
 						Title:   "Code",
-						Content: CodeSnippetFromEmbedded("dropdown_menu.templ", "go", showcase.TemplFiles),
+						Content: modules.CodeSnippetFromEmbedded("dropdown_menu.templ", "go", showcase.TemplFiles),
 					},
 					{
 						ID:      "component",
 						Title:   "Component",
-						Content: CodeSnippetFromEmbedded("dropdown_menu.templ", "go", components.TemplFiles),
+						Content: modules.CodeSnippetFromEmbedded("dropdown_menu.templ", "go", components.TemplFiles),
 					},
 				},
 				TabsContainerClass:    "md:w-1/2",

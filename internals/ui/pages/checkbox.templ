@@ -2,6 +2,7 @@ package pages
 
 import (
 	"github.com/axzilla/goilerplate/internals/ui/layouts"
+	"github.com/axzilla/goilerplate/internals/ui/modules"
 	"github.com/axzilla/goilerplate/internals/ui/showcase"
 	"github.com/axzilla/goilerplate/pkg/components"
 )
@@ -23,12 +24,12 @@ templ Checkbox() {
 					{
 						ID:      "code",
 						Title:   "Code",
-						Content: CodeSnippetFromEmbedded("checkbox.templ", "go", showcase.TemplFiles),
+						Content: modules.CodeSnippetFromEmbedded("checkbox.templ", "go", showcase.TemplFiles),
 					},
 					{
 						ID:      "component",
 						Title:   "Component",
-						Content: CodeSnippetFromEmbedded("checkbox.templ", "go", components.TemplFiles),
+						Content: modules.CodeSnippetFromEmbedded("checkbox.templ", "go", components.TemplFiles),
 					},
 				},
 				TabsContainerClass:    "md:w-1/2",

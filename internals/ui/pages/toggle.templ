@@ -2,6 +2,7 @@ package pages
 
 import (
 	"github.com/axzilla/goilerplate/internals/ui/layouts"
+	"github.com/axzilla/goilerplate/internals/ui/modules"
 	"github.com/axzilla/goilerplate/internals/ui/showcase"
 	"github.com/axzilla/goilerplate/pkg/components"
 )
@@ -25,12 +26,12 @@ templ Toggle() {
 					{
 						ID:      "code",
 						Title:   "Code",
-						Content: CodeSnippetFromEmbedded("toggle.templ", "go", showcase.TemplFiles),
+						Content: modules.CodeSnippetFromEmbedded("toggle.templ", "go", showcase.TemplFiles),
 					},
 					{
 						ID:      "component",
 						Title:   "Component",
-						Content: CodeSnippetFromEmbedded("toggle.templ", "go", components.TemplFiles),
+						Content: modules.CodeSnippetFromEmbedded("toggle.templ", "go", components.TemplFiles),
 					},
 				},
 				TabsContainerClass:    "md:w-1/2",

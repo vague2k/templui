@@ -2,6 +2,7 @@ package pages
 
 import (
 	"github.com/axzilla/goilerplate/internals/ui/layouts"
+	"github.com/axzilla/goilerplate/internals/ui/modules"
 	"github.com/axzilla/goilerplate/internals/ui/showcase"
 	"github.com/axzilla/goilerplate/pkg/components"
 )
@@ -23,12 +24,12 @@ templ Slider() {
 					{
 						ID:      "code",
 						Title:   "Code",
-						Content: CodeSnippetFromEmbedded("slider.templ", "go", showcase.TemplFiles),
+						Content: modules.CodeSnippetFromEmbedded("slider.templ", "go", showcase.TemplFiles),
 					},
 					{
 						ID:      "component",
 						Title:   "Component",
-						Content: CodeSnippetFromEmbedded("slider.templ", "go", components.TemplFiles),
+						Content: modules.CodeSnippetFromEmbedded("slider.templ", "go", components.TemplFiles),
 					},
 				},
 				TabsContainerClass:    "md:w-1/2",
