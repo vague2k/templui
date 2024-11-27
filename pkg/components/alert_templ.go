@@ -15,10 +15,10 @@ type AlertVariant string
 
 const (
 	// DefaultAlert shows standard informational styling
-	DefaultAlert AlertVariant = "default"
+	AlertVariantDefault AlertVariant = "default"
 
 	// DestructiveAlert shows error/warning styling
-	DestructiveAlert AlertVariant = "destructive"
+	AlertVariantDestructive AlertVariant = "destructive"
 )
 
 type AlertProps struct {
@@ -32,7 +32,7 @@ type AlertProps struct {
 // getAlertVariantClasses maps variants to their CSS classes
 func getAlertVariantClasses(variant AlertVariant) string {
 	switch variant {
-	case DestructiveAlert:
+	case AlertVariantDestructive:
 		return "border-destructive text-destructive"
 	default:
 		return "border-border text-foreground"

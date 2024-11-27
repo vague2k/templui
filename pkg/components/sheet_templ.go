@@ -13,10 +13,10 @@ type SheetSide string
 
 const (
 	// Sheet appearance directions
-	Top    SheetSide = "top"    // Slides down from top
-	Right  SheetSide = "right"  // Slides in from right
-	Bottom SheetSide = "bottom" // Slides up from bottom
-	Left   SheetSide = "left"   // Slides in from left
+	SheetSideTop    SheetSide = "top"    // Slides down from top
+	SheetSideRight  SheetSide = "right"  // Slides in from right
+	SheetSideBottom SheetSide = "bottom" // Slides up from bottom
+	SheetSideLeft   SheetSide = "left"   // Slides in from left
 )
 
 type SheetProps struct {
@@ -108,25 +108,25 @@ func Sheet(props SheetProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		if props.Side == Left {
+		if props.Side == SheetSideLeft {
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" x-transition:enter-start=\"opacity-0 transform -translate-x-full\" x-transition:enter-end=\"opacity-100 transform translate-x-0\" x-transition:leave-start=\"opacity-100 transform translate-x-0\" x-transition:leave-end=\"opacity-0 transform -translate-x-full\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		if props.Side == Right {
+		if props.Side == SheetSideRight {
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" x-transition:enter-start=\"opacity-0 transform translate-x-full\" x-transition:enter-end=\"opacity-100 transform translate-x-0\" x-transition:leave-start=\"opacity-100 transform translate-x-0\" x-transition:leave-end=\"opacity-0 transform translate-x-full\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		if props.Side == Top {
+		if props.Side == SheetSideTop {
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" x-transition:enter-start=\"opacity-0 transform -translate-y-full\" x-transition:enter-end=\"opacity-100 transform translate-y-0\" x-transition:leave-start=\"opacity-100 transform translate-y-0\" x-transition:leave-end=\"opacity-0 transform -translate-y-full\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		if props.Side == Bottom {
+		if props.Side == SheetSideBottom {
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" x-transition:enter-start=\"opacity-0 transform translate-y-full\" x-transition:enter-end=\"opacity-100 transform translate-y-0\" x-transition:leave-start=\"opacity-100 transform translate-y-0\" x-transition:leave-end=\"opacity-0 transform translate-y-full\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -137,10 +137,10 @@ func Sheet(props SheetProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var3 = []any{"h-full overflow-y-auto bg-background p-6 shadow-lg",
-			templ.KV("border-l", props.Side == Right),
-			templ.KV("border-r", props.Side == Left),
-			templ.KV("border-t", props.Side == Bottom),
-			templ.KV("border-b", props.Side == Top)}
+			templ.KV("border-l", props.Side == SheetSideRight),
+			templ.KV("border-r", props.Side == SheetSideLeft),
+			templ.KV("border-t", props.Side == SheetSideBottom),
+			templ.KV("border-b", props.Side == SheetSideTop)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var3...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err

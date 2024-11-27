@@ -13,18 +13,18 @@ type ButtonSize string
 
 const (
 	// Button style variants
-	Default     ButtonVariant = "default"     // Primary action button
-	Destructive ButtonVariant = "destructive" // Dangerous/warning action
-	Outline     ButtonVariant = "outline"     // Bordered button
-	Secondary   ButtonVariant = "secondary"   // Less prominent action
-	Ghost       ButtonVariant = "ghost"       // Minimal styling
-	Link        ButtonVariant = "link"        // Appears as a text link
+	ButtonVariantDefault     ButtonVariant = "default"     // Primary action button
+	ButtonVariantDestructive ButtonVariant = "destructive" // Dangerous/warning action
+	ButtonVariantOutline     ButtonVariant = "outline"     // Bordered button
+	ButtonVariantSecondary   ButtonVariant = "secondary"   // Less prominent action
+	ButtonVariantGhost       ButtonVariant = "ghost"       // Minimal styling
+	ButtonVariantLink        ButtonVariant = "link"        // Appears as a text link
 
 	// Button sizes
-	Md         ButtonSize = "md"   // Standard size
-	Sm         ButtonSize = "sm"   // Compact size
-	Lg         ButtonSize = "lg"   // Large size
-	ButtonIcon ButtonSize = "icon" // Square icon button
+	ButtonSizeMd   ButtonSize = "md"   // Standard size
+	ButtonSizeSm   ButtonSize = "sm"   // Compact size
+	ButtonSizeLg   ButtonSize = "lg"   // Large size
+	ButtonSizeIcon ButtonSize = "icon" // Square icon button
 )
 
 type ButtonProps struct {
@@ -68,15 +68,15 @@ type ButtonProps struct {
 // variantClasses maps variants to their CSS classes
 func (b ButtonProps) variantClasses() string {
 	switch b.Variant {
-	case Destructive:
+	case ButtonVariantDestructive:
 		return "bg-destructive text-destructive-foreground hover:bg-destructive/90"
-	case Outline:
+	case ButtonVariantOutline:
 		return "border border-input bg-background hover:bg-accent hover:text-accent-foreground"
-	case Secondary:
+	case ButtonVariantSecondary:
 		return "bg-secondary text-secondary-foreground hover:bg-secondary/80"
-	case Ghost:
+	case ButtonVariantGhost:
 		return "hover:bg-accent hover:text-accent-foreground"
-	case Link:
+	case ButtonVariantLink:
 		return "text-primary underline-offset-4 hover:underline"
 	default:
 		return "bg-primary text-primary-foreground hover:bg-primary/90"
@@ -86,11 +86,11 @@ func (b ButtonProps) variantClasses() string {
 // sizeClasses maps sizes to their CSS classes
 func (b ButtonProps) sizeClasses() string {
 	switch b.Size {
-	case Sm:
+	case ButtonSizeSm:
 		return "h-9 px-3 rounded-md"
-	case Lg:
+	case ButtonSizeLg:
 		return "h-11 px-8 rounded-md"
-	case ButtonIcon:
+	case ButtonSizeIcon:
 		return "h-10 w-10"
 	default:
 		return "h-10 px-4 py-2 rounded-md"

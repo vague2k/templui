@@ -5,10 +5,10 @@ type SheetSide string
 
 const (
 	// Sheet appearance directions
-	Top    SheetSide = "top"    // Slides down from top
-	Right  SheetSide = "right"  // Slides in from right
-	Bottom SheetSide = "bottom" // Slides up from bottom
-	Left   SheetSide = "left"   // Slides in from left
+	SheetSideTop    SheetSide = "top"    // Slides down from top
+	SheetSideRight  SheetSide = "right"  // Slides in from right
+	SheetSideBottom SheetSide = "bottom" // Slides up from bottom
+	SheetSideLeft   SheetSide = "left"   // Slides in from left
 )
 
 type SheetProps struct {
@@ -82,25 +82,25 @@ templ Sheet(props SheetProps) {
         }"
 		x-transition:enter="transition ease-out duration-300"
 		x-transition:leave="transition ease-in duration-300"
-		if props.Side == Left {
+		if props.Side == SheetSideLeft {
 			x-transition:enter-start="opacity-0 transform -translate-x-full"
 			x-transition:enter-end="opacity-100 transform translate-x-0"
 			x-transition:leave-start="opacity-100 transform translate-x-0"
 			x-transition:leave-end="opacity-0 transform -translate-x-full"
 		}
-		if props.Side == Right {
+		if props.Side == SheetSideRight {
 			x-transition:enter-start="opacity-0 transform translate-x-full"
 			x-transition:enter-end="opacity-100 transform translate-x-0"
 			x-transition:leave-start="opacity-100 transform translate-x-0"
 			x-transition:leave-end="opacity-0 transform translate-x-full"
 		}
-		if props.Side == Top {
+		if props.Side == SheetSideTop {
 			x-transition:enter-start="opacity-0 transform -translate-y-full"
 			x-transition:enter-end="opacity-100 transform translate-y-0"
 			x-transition:leave-start="opacity-100 transform translate-y-0"
 			x-transition:leave-end="opacity-0 transform -translate-y-full"
 		}
-		if props.Side == Bottom {
+		if props.Side == SheetSideBottom {
 			x-transition:enter-start="opacity-0 transform translate-y-full"
 			x-transition:enter-end="opacity-100 transform translate-y-0"
 			x-transition:leave-start="opacity-100 transform translate-y-0"
@@ -109,10 +109,10 @@ templ Sheet(props SheetProps) {
 	>
 		<div
 			class={ "h-full overflow-y-auto bg-background p-6 shadow-lg",
-        templ.KV("border-l", props.Side == Right),
-        templ.KV("border-r", props.Side == Left),
-        templ.KV("border-t", props.Side == Bottom),
-        templ.KV("border-b", props.Side == Top) }
+        templ.KV("border-l", props.Side == SheetSideRight),
+        templ.KV("border-r", props.Side == SheetSideLeft),
+        templ.KV("border-t", props.Side == SheetSideBottom),
+        templ.KV("border-b", props.Side == SheetSideTop) }
 		>
 			<div class="flex flex-col space-y-2">
 				<h2 class="text-lg font-semibold">{ props.Title }</h2>

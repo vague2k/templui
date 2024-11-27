@@ -5,10 +5,10 @@ import "github.com/axzilla/goilerplate/pkg/components"
 templ ButtonVariants() {
 	<div class="flex flex-wrap gap-2">
 		@components.Button(components.ButtonProps{Text: "Default"})
-		@components.Button(components.ButtonProps{Text: "Secondary", Variant: components.Secondary})
-		@components.Button(components.ButtonProps{Text: "Destructive", Variant: components.Destructive})
-		@components.Button(components.ButtonProps{Text: "Outline", Variant: components.Outline})
-		@components.Button(components.ButtonProps{Text: "Ghost", Variant: components.Ghost})
-		@components.Button(components.ButtonProps{Text: "Link", Variant: components.Link})
+		@components.Button(components.ButtonProps{Text: "Secondary", Variant: components.ButtonVariantSecondary})
+		@components.Button(components.ButtonProps{Text: "Destructive", Variant: components.ButtonVariantDestructive})
+		@components.Button(components.ButtonProps{Text: "Outline", Variant: components.ButtonVariantOutline})
+		@components.Button(components.ButtonProps{Text: "Ghost", Variant: components.ButtonVariantGhost})
+		@components.Button(components.ButtonProps{Text: "Link", Variant: components.ButtonVariantLink})
 	</div>
 }

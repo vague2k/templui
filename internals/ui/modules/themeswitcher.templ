@@ -7,8 +7,8 @@ import (
 
 templ ThemeSwitcher() {
 	@components.Button(components.ButtonProps{
-		Size:     components.ButtonIcon,
-		Variant:  components.Ghost,
+		Size:     components.ButtonSizeIcon,
+		Variant:  components.ButtonVariantGhost,
 		IconLeft: templ.Component(DynamicThemeIcon()),
 		Attributes: templ.Attributes{
 			"@click": "toggleTheme()",
