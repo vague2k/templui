@@ -4,37 +4,44 @@ import (
 	"github.com/axzilla/goilerplate/internals/ui/layouts"
 	"github.com/axzilla/goilerplate/internals/ui/modules"
 	"github.com/axzilla/goilerplate/internals/ui/showcase"
-	"github.com/axzilla/goilerplate/pkg/components"
 )
 
 templ Card() {
 	@layouts.DocsLayout() {
-		<div>
-			<div class="mb-16">
-				<h1 class="text-3xl font-bold mb-2">Card</h1>
-				<p class="mb-4 text-muted-foreground">Displays a card with header, content, and footer.</p>
-			</div>
-			@components.Tabs(components.TabsProps{
-				Tabs: []components.Tab{
-					{
-						ID:      "preview",
-						Title:   "Preview",
-						Content: showcase.CardShowcase(),
-					},
-					{
-						ID:      "code",
-						Title:   "Code",
-						Content: modules.CodeSnippetFromEmbedded("card.templ", "go", showcase.TemplFiles),
-					},
-					{
-						ID:      "component",
-						Title:   "Component",
-						Content: modules.CodeSnippetFromEmbedded("card.templ", "go", components.TemplFiles),
-					},
-				},
-				TabsContainerClass:    "md:w-1/2",
-				ContentContainerClass: "w-full",
+		@modules.PageWrapper(modules.PageWrapperProps{
+			Name:        "Card",
+			Description: "Displays a card with header, content, and footer.",
+		}) {
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "Default",
+				ShowcaseFile:      showcase.CardDefault(),
+				PreviewCodeFile:   "button_default.templ",
+				ComponentCodeFile: "button.templ",
 			})
-		</div>
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "With Image Left",
+				ShowcaseFile:      showcase.CardWithImageLeft(),
+				PreviewCodeFile:   "card_with_image_left.templ",
+				ComponentCodeFile: "card.templ",
+			})
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "With Image Right",
+				ShowcaseFile:      showcase.CardWithImageRight(),
+				PreviewCodeFile:   "card_with_image_right.templ",
+				ComponentCodeFile: "card.templ",
+			})
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "With Image Top",
+				ShowcaseFile:      showcase.CardWithImageTop(),
+				PreviewCodeFile:   "card_with_image_top.templ",
+				ComponentCodeFile: "card.templ",
+			})
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "With Image Bottom",
+				ShowcaseFile:      showcase.CardWithImageBottom(),
+				PreviewCodeFile:   "card_with_image_bottom.templ",
+				ComponentCodeFile: "card.templ",
+			})
+		}
 	}
 }

@@ -1,0 +1,22 @@
+package showcase
+
+import "github.com/axzilla/goilerplate/pkg/components"
+
+templ CardDefault() {
+	@components.Card(components.CardProps{Class: "w-2/3"}) {
+		@components.CardHeader() {
+			@components.CardTitle() {
+				Card Title
+			}
+			@components.CardDescription() {
+				Card Description
+			}
+		}
+		@components.CardContent() {
+			<p>Card Content</p>
+		}
+		@components.CardFooter() {
+			@components.Button(components.ButtonProps{Text: "Action"})
+		}
+	}
+}

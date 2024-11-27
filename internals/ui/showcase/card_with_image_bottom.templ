@@ -1,0 +1,28 @@
+package showcase
+
+import "github.com/axzilla/goilerplate/pkg/components"
+
+templ CardWithImageBottom() {
+	@components.Card(components.CardProps{Class: "w-2/3"}) {
+		@components.CardHeader() {
+			@components.CardTitle() {
+				Featured Card
+			}
+			@components.CardDescription() {
+				With top image
+			}
+		}
+		@components.CardContent() {
+			<p>This card shows top image usage.</p>
+		}
+		@components.CardFooter() {
+			@components.Button(components.ButtonProps{Text: "Learn More"})
+		}
+		@components.CardImage(components.CardImageProps{
+			Src:         "/assets/img/card_placeholder.jpeg",
+			Alt:         "Card image",
+			Position:    components.CardImageBottom,
+			AspectRatio: "16/9",
+		})
+	}
+}

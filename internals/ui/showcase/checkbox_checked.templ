@@ -1,0 +1,13 @@
+package showcase
+
+import "github.com/axzilla/goilerplate/pkg/components"
+
+templ CheckboxChecked() {
+	@components.Checkbox(components.CheckboxProps{
+		ID:         "checked-checkbox",
+		Name:       "newsletter",
+		Value:      "subscribe",
+		Label:      "Receive newsletter",
+		Attributes: templ.Attributes{"checked": "true"},
+	})
+}
