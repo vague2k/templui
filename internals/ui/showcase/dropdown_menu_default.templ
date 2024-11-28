@@ -1,0 +1,13 @@
+package showcase
+
+import "github.com/axzilla/goilerplate/pkg/components"
+
+templ DropdownMenuDefault() {
+	@components.DropdownMenu(components.DropdownMenuProps{
+		Items: []components.DropdownMenuItem{
+			{Label: "Profile", Value: "profile"},
+			{Label: "Settings", Value: "settings"},
+			{Label: "Logout", Value: "logout"},
+		},
+	})
+}

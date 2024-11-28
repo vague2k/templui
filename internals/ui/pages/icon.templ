@@ -4,34 +4,44 @@ import (
 	"github.com/axzilla/goilerplate/internals/ui/layouts"
 	"github.com/axzilla/goilerplate/internals/ui/modules"
 	"github.com/axzilla/goilerplate/internals/ui/showcase"
-	"github.com/axzilla/goilerplate/pkg/components"
 )
 
 templ Icon() {
 	@layouts.DocsLayout() {
-		<div>
-			<div class="mb-16">
-				<h1 class="text-3xl font-bold mb-2">Icon</h1>
-				<p class="mb-4 text-muted-foreground">
-					A wrapper for <a href="https://lucide.dev" target="_blank" rel="noopener noreferrer" class="text-primary underline underline-offset-2 hover:opacity-80 transition-opacity">Lucide Icons</a> with optional settings for size, color, fill, stroke, and custom classes. Browse available icons in the Lucide library to see what you can use.
-				</p>
-			</div>
-			@components.Tabs(components.TabsProps{
-				Tabs: []components.Tab{
-					{
-						ID:      "preview",
-						Title:   "Preview",
-						Content: showcase.IconShowcase(),
-					},
-					{
-						ID:      "code",
-						Title:   "Code",
-						Content: modules.CodeSnippetFromEmbedded("icon.templ", "go", showcase.TemplFiles),
-					},
-				},
-				TabsContainerClass:    "md:w-1/2",
-				ContentContainerClass: "w-full",
+		@modules.PageWrapper(modules.PageWrapperProps{
+			Name:        "Icon",
+			Description: `A wrapper for <a href="https://lucide.dev" target="_blank" rel="noopener noreferrer" class="text-primary underline underline-offset-2 hover:opacity-80 transition-opacity">Lucide Icons</a> with optional settings for size, color, fill, stroke, and custom classes. Browse available icons in the Lucide library to see what you can use.`,
+		}) {
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "Default",
+				ShowcaseFile:      showcase.IconDefault(),
+				PreviewCodeFile:   "icon_default.templ",
+				ComponentCodeFile: "icon.templ",
 			})
-		</div>
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "Colored",
+				ShowcaseFile:      showcase.IconColored(),
+				PreviewCodeFile:   "icon_colored.templ",
+				ComponentCodeFile: "icon.templ",
+			})
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "Filled",
+				ShowcaseFile:      showcase.IconFilled(),
+				PreviewCodeFile:   "icon_filled.templ",
+				ComponentCodeFile: "icon.templ",
+			})
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "Sizes",
+				ShowcaseFile:      showcase.IconSizes(),
+				PreviewCodeFile:   "icon_sizes.templ",
+				ComponentCodeFile: "icon.templ",
+			})
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "Custom Classes",
+				ShowcaseFile:      showcase.IconCustomClasses(),
+				PreviewCodeFile:   "icon_custom_classes.templ",
+				ComponentCodeFile: "icon.templ",
+			})
+		}
 	}
 }

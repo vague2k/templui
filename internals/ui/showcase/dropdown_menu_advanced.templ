@@ -1,0 +1,31 @@
+package showcase
+
+import (
+	"github.com/axzilla/goilerplate/pkg/components"
+	"github.com/axzilla/goilerplate/pkg/icons"
+)
+
+templ DropdownMenuAdvanced() {
+	@components.DropdownMenu(components.DropdownMenuProps{
+		Trigger: components.Button(components.ButtonProps{
+			Text:     "Advanced Menu",
+			Variant:  "outline",
+			IconLeft: icons.Menu(icons.IconProps{Size: "16"}),
+		}),
+		Position: "left",
+		Items: []components.DropdownMenuItem{
+			{Label: "File", SubItems: []components.DropdownMenuItem{
+				{Label: "New", Value: "new", Attributes: templ.Attributes{"@click": "alert('New')"}},
+				{Label: "Open", Value: "open", Attributes: templ.Attributes{"@click": "alert('Open')"}},
+				{Label: "Save", Value: "save", Attributes: templ.Attributes{"@click": "alert('Save')"}},
+			}},
+			{Label: "Edit", SubItems: []components.DropdownMenuItem{
+				{Label: "Cut", Value: "cut", Attributes: templ.Attributes{"@click": "alert('Cut')"}},
+				{Label: "Copy", Value: "copy", Attributes: templ.Attributes{"@click": "alert('Copy')"}},
+				{Label: "Paste", Value: "paste", Attributes: templ.Attributes{"@click": "alert('Paste')"}},
+			}},
+			{Label: "View", Disabled: true},
+			{Label: "Help", Href: "https://github.com/axzilla/goilerplate", Target: "_blank"},
+		},
+	})
+}

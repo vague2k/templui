@@ -1,0 +1,11 @@
+package showcase
+
+import "github.com/axzilla/goilerplate/pkg/icons"
+
+templ IconColored() {
+	<div class="flex flex-wrap gap-2">
+		@icons.Heart(icons.IconProps{Size: "24", Color: "red"})
+		@icons.Star(icons.IconProps{Size: "24", Color: "gold"})
+		@icons.Check(icons.IconProps{Size: "24", Color: "green"})
+	</div>
+}

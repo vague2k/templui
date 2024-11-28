@@ -1,0 +1,11 @@
+package showcase
+
+import "github.com/axzilla/goilerplate/pkg/icons"
+
+templ IconFilled() {
+	<div class="flex flex-wrap gap-2">
+		@icons.Circle(icons.IconProps{Size: "24", Fill: "blue", Stroke: "blue"})
+		@icons.Square(icons.IconProps{Size: "24", Fill: "purple", Stroke: "purple"})
+		@icons.Triangle(icons.IconProps{Size: "24", Fill: "orange", Stroke: "orange"})
+	</div>
+}

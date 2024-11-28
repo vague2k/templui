@@ -4,37 +4,19 @@ import (
 	"github.com/axzilla/goilerplate/internals/ui/layouts"
 	"github.com/axzilla/goilerplate/internals/ui/modules"
 	"github.com/axzilla/goilerplate/internals/ui/showcase"
-	"github.com/axzilla/goilerplate/pkg/components"
 )
 
 templ Datepicker() {
 	@layouts.DocsLayout() {
-		<div>
-			<div class="mb-16">
-				<h1 class="text-3xl font-bold mb-2">Datepicker</h1>
-				<p class="mb-4 text-muted-foreground">A date picker component.</p>
-			</div>
-			@components.Tabs(components.TabsProps{
-				Tabs: []components.Tab{
-					{
-						ID:      "preview",
-						Title:   "Preview",
-						Content: showcase.DatepickerShowcase(),
-					},
-					{
-						ID:      "code",
-						Title:   "Code",
-						Content: modules.CodeSnippetFromEmbedded("datepicker.templ", "go", showcase.TemplFiles),
-					},
-					{
-						ID:      "component",
-						Title:   "Component",
-						Content: modules.CodeSnippetFromEmbedded("datepicker.templ", "go", components.TemplFiles),
-					},
-				},
-				TabsContainerClass:    "md:w-1/2",
-				ContentContainerClass: "w-full",
+		@modules.PageWrapper(modules.PageWrapperProps{
+			Name:        "Datepicker",
+			Description: "A date picker component.",
+		}) {
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				ShowcaseFile:      showcase.Datepicker(),
+				PreviewCodeFile:   "datepicker.templ",
+				ComponentCodeFile: "datepicker.templ",
 			})
-		</div>
+		}
 	}
 }

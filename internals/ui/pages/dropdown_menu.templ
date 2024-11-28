@@ -4,37 +4,32 @@ import (
 	"github.com/axzilla/goilerplate/internals/ui/layouts"
 	"github.com/axzilla/goilerplate/internals/ui/modules"
 	"github.com/axzilla/goilerplate/internals/ui/showcase"
-	"github.com/axzilla/goilerplate/pkg/components"
 )
 
 templ DropdownMenu() {
 	@layouts.DocsLayout() {
-		<div>
-			<div class="mb-16">
-				<h1 class="text-3xl font-bold mb-2">Dropdown Menu</h1>
-				<p class="mb-4 text-muted-foreground">The Dropdown Menu component provides a way to display a list of options in a compact form.</p>
-			</div>
-			@components.Tabs(components.TabsProps{
-				Tabs: []components.Tab{
-					{
-						ID:      "preview",
-						Title:   "Preview",
-						Content: showcase.DropdownMenuShowcase(),
-					},
-					{
-						ID:      "code",
-						Title:   "Code",
-						Content: modules.CodeSnippetFromEmbedded("dropdown_menu.templ", "go", showcase.TemplFiles),
-					},
-					{
-						ID:      "component",
-						Title:   "Component",
-						Content: modules.CodeSnippetFromEmbedded("dropdown_menu.templ", "go", components.TemplFiles),
-					},
-				},
-				TabsContainerClass:    "md:w-1/2",
-				ContentContainerClass: "w-full",
+		@modules.PageWrapper(modules.PageWrapperProps{
+			Name:        "Dropdown Menu",
+			Description: "The Dropdown Menu component provides a way to display a list of options in a compact form.",
+		}) {
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "Default",
+				ShowcaseFile:      showcase.DropdownMenuDefault(),
+				PreviewCodeFile:   "dropdownmenu.templ",
+				ComponentCodeFile: "dropdownmenu.templ",
 			})
-		</div>
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "With Icons",
+				ShowcaseFile:      showcase.DropdownMenuWithIcons(),
+				PreviewCodeFile:   "dropdownmenu_with_icons.templ",
+				ComponentCodeFile: "dropdownmenu.templ",
+			})
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "Advanced",
+				ShowcaseFile:      showcase.DropdownMenuAdvanced(),
+				PreviewCodeFile:   "dropdownmenu_advanced.templ",
+				ComponentCodeFile: "dropdownmenu.templ",
+			})
+		}
 	}
 }
