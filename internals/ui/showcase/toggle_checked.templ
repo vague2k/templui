@@ -1,0 +1,12 @@
+package showcase
+
+import "github.com/axzilla/goilerplate/pkg/components"
+
+templ ToggleChecked() {
+	@components.Toggle(components.ToggleProps{
+		ID:         "toggle-checked",
+		Name:       "toggle-checked",
+		LabelRight: "Checked Toggle",
+		Attributes: templ.Attributes{"x-bind:checked": "true"},
+	})
+}

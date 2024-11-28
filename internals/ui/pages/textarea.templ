@@ -4,37 +4,68 @@ import (
 	"github.com/axzilla/goilerplate/internals/ui/layouts"
 	"github.com/axzilla/goilerplate/internals/ui/modules"
 	"github.com/axzilla/goilerplate/internals/ui/showcase"
-	"github.com/axzilla/goilerplate/pkg/components"
 )
 
 templ Textarea() {
 	@layouts.DocsLayout() {
-		<div>
-			<div class="mb-16">
-				<h1 class="text-3xl font-bold mb-2">Textarea</h1>
-				<p class="mb-4 text-muted-foreground">A multi-line text input field that allows users to enter longer text content.</p>
-			</div>
-			@components.Tabs(components.TabsProps{
-				Tabs: []components.Tab{
-					{
-						ID:      "preview",
-						Title:   "Preview",
-						Content: showcase.TextareaShowcase(),
-					},
-					{
-						ID:      "code",
-						Title:   "Code",
-						Content: modules.CodeSnippetFromEmbedded("textarea.templ", "go", showcase.TemplFiles),
-					},
-					{
-						ID:      "component",
-						Title:   "Component",
-						Content: modules.CodeSnippetFromEmbedded("textarea.templ", "go", components.TemplFiles),
-					},
-				},
-				TabsContainerClass:    "md:w-1/2",
-				ContentContainerClass: "w-full",
+		@modules.PageWrapper(modules.PageWrapperProps{
+			Name:        "Textarea",
+			Description: templ.Raw("A multi-line text input field that allows users to enter longer text content."),
+		}) {
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "Default",
+				ShowcaseFile:      showcase.TextareaDefault(),
+				ShowcaseClass:     "w-96",
+				PreviewCodeFile:   "textarea_default.templ",
+				ComponentCodeFile: "textarea.templ",
 			})
-		</div>
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:   "With Rows",
+				ShowcaseFile:  showcase.TextareaWithRows(),
+				ShowcaseClass: "w-96",
+			
+				PreviewCodeFile:   "textarea_with_rows.templ",
+				ComponentCodeFile: "textarea.templ",
+			})
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:   "With Label",
+				ShowcaseFile:  showcase.TextareaWithLabel(),
+				ShowcaseClass: "w-96",
+			
+				PreviewCodeFile:   "textarea_with_label.templ",
+				ComponentCodeFile: "textarea.templ",
+			})
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:   "With Description",
+				ShowcaseFile:  showcase.TextareaWithDescription(),
+				ShowcaseClass: "w-96",
+			
+				PreviewCodeFile:   "textarea_with_description.templ",
+				ComponentCodeFile: "textarea.templ",
+			})
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:   "With Error",
+				ShowcaseFile:  showcase.TextareaWithError(),
+				ShowcaseClass: "w-96",
+			
+				PreviewCodeFile:   "textarea_with_error.templ",
+				ComponentCodeFile: "textarea.templ",
+			})
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "Auto Resize",
+				ShowcaseFile:      showcase.TextareaAutoResize(),
+				ShowcaseClass:     "w-96",
+				PreviewCodeFile:   "textarea_auto_resize.templ",
+				ComponentCodeFile: "textarea.templ",
+			})
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:   "Disabled",
+				ShowcaseFile:  showcase.TextareaDisabled(),
+				ShowcaseClass: "w-96",
+			
+				PreviewCodeFile:   "textarea_disabled.templ",
+				ComponentCodeFile: "textarea.templ",
+			})
+		}
 	}
 }

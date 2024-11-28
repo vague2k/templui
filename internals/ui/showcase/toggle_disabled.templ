@@ -1,0 +1,12 @@
+package showcase
+
+import "github.com/axzilla/goilerplate/pkg/components"
+
+templ ToggleDisabled() {
+	@components.Toggle(components.ToggleProps{
+		ID:         "toggle-disabled",
+		Name:       "toggle-disabled",
+		LabelRight: "Disabled Toggle",
+		Attributes: templ.Attributes{"disabled": "true"},
+	})
+}

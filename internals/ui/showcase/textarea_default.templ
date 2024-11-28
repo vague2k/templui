@@ -1,0 +1,11 @@
+package showcase
+
+import "github.com/axzilla/goilerplate/pkg/components"
+
+templ TextareaDefault() {
+	@components.Textarea(components.TextareaProps{
+		ID:          "default",
+		Name:        "default",
+		Placeholder: "Type your message here.",
+	})
+}

@@ -1,0 +1,14 @@
+package showcase
+
+import "github.com/axzilla/goilerplate/pkg/components"
+
+templ TextareaDisabled() {
+	@components.Textarea(components.TextareaProps{
+		ID:         "disabled",
+		Name:       "disabled",
+		Label:      "Disabled Textarea",
+		Value:      "This textarea is disabled",
+		Rows:       3,
+		Attributes: templ.Attributes{"disabled": "true"},
+	})
+}

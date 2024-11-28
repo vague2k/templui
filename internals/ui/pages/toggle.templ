@@ -4,39 +4,44 @@ import (
 	"github.com/axzilla/goilerplate/internals/ui/layouts"
 	"github.com/axzilla/goilerplate/internals/ui/modules"
 	"github.com/axzilla/goilerplate/internals/ui/showcase"
-	"github.com/axzilla/goilerplate/pkg/components"
 )
 
 templ Toggle() {
 	@layouts.DocsLayout() {
-		<div>
-			<div class="mb-16">
-				<h1 class="text-3xl font-bold mb-2">Toggle</h1>
-				<p class="mb-4 text-muted-foreground">
-					A control that allows users to toggle between two states, typically used for enabling or disabling features.
-				</p>
-			</div>
-			@components.Tabs(components.TabsProps{
-				Tabs: []components.Tab{
-					{
-						ID:      "preview",
-						Title:   "Preview",
-						Content: showcase.ToggleShowcase(),
-					},
-					{
-						ID:      "code",
-						Title:   "Code",
-						Content: modules.CodeSnippetFromEmbedded("toggle.templ", "go", showcase.TemplFiles),
-					},
-					{
-						ID:      "component",
-						Title:   "Component",
-						Content: modules.CodeSnippetFromEmbedded("toggle.templ", "go", components.TemplFiles),
-					},
-				},
-				TabsContainerClass:    "md:w-1/2",
-				ContentContainerClass: "w-full",
+		@modules.PageWrapper(modules.PageWrapperProps{
+			Name:        "Toggle",
+			Description: templ.Raw("A control that allows users to toggle between two states, typically used for enabling or disabling features."),
+		}) {
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "Default",
+				ShowcaseFile:      showcase.ToggleDefault(),
+				PreviewCodeFile:   "toggle_default.templ",
+				ComponentCodeFile: "toggle.templ",
 			})
-		</div>
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "Label Left",
+				ShowcaseFile:      showcase.ToggleLabelLeft(),
+				PreviewCodeFile:   "toggle_label_left.templ",
+				ComponentCodeFile: "toggle.templ",
+			})
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "Label Right",
+				ShowcaseFile:      showcase.ToggleLabelRight(),
+				PreviewCodeFile:   "toggle_label_right.templ",
+				ComponentCodeFile: "toggle.templ",
+			})
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "Checked",
+				ShowcaseFile:      showcase.ToggleChecked(),
+				PreviewCodeFile:   "toggle_checked.templ",
+				ComponentCodeFile: "toggle.templ",
+			})
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "Disabled",
+				ShowcaseFile:      showcase.ToggleDisabled(),
+				PreviewCodeFile:   "toggle_disabled.templ",
+				ComponentCodeFile: "toggle.templ",
+			})
+		}
 	}
 }

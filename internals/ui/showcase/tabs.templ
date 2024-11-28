@@ -2,25 +2,23 @@ package showcase
 
 import "github.com/axzilla/goilerplate/pkg/components"
 
-templ TabsShowcase() {
-	<div class="flex justify-center items-center border rounded-md py-16 px-4">
-		@components.Tabs(components.TabsProps{
-			Tabs: []components.Tab{
-				{
-					ID:      "account",
-					Title:   "Account",
-					Content: AccountTab(),
-				},
-				{
-					ID:      "password",
-					Title:   "Password",
-					Content: PasswordTab(),
-				},
+templ Tabs() {
+	@components.Tabs(components.TabsProps{
+		Tabs: []components.Tab{
+			{
+				ID:      "account",
+				Title:   "Account",
+				Content: AccountTab(),
 			},
-			TabsContainerClass:    "w-full max-w-xs",
-			ContentContainerClass: "w-full max-w-xs",
-		})
-	</div>
+			{
+				ID:      "password",
+				Title:   "Password",
+				Content: PasswordTab(),
+			},
+		},
+		TabsContainerClass:    "w-full max-w-xs",
+		ContentContainerClass: "w-full max-w-xs",
+	})
 }
 
 templ AccountTab() {
@@ -34,25 +32,21 @@ templ AccountTab() {
 			}
 		}
 		@components.CardContent() {
-			<div class="space-y-2">
-				<div class="space-y-1">
-					<label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="name">Name</label>
-					@components.Input(components.InputProps{
-						Type:        components.InputTypeText,
-						Placeholder: "Name",
-						ID:          "name",
-						Value:       "John Doe",
-					})
-				</div>
-				<div class="space-y-1">
-					<label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="username">Username</label>
-					@components.Input(components.InputProps{
-						Type:        components.InputTypeText,
-						Placeholder: "Username",
-						ID:          "username",
-						Value:       "@johndoe",
-					})
-				</div>
+			<div class="flex flex-col gap-4">
+				@components.Input(components.InputProps{
+					Type:        components.InputTypeText,
+					Placeholder: "Name",
+					ID:          "name",
+					Value:       "John Doe",
+					Label:       "Name",
+				})
+				@components.Input(components.InputProps{
+					Type:        components.InputTypeText,
+					Placeholder: "Username",
+					ID:          "username",
+					Value:       "@johndoe",
+					Label:       "Username",
+				})
 			</div>
 		}
 		@components.CardFooter() {
@@ -72,27 +66,19 @@ templ PasswordTab() {
 			}
 		}
 		@components.CardContent() {
-			<div class="space-y-2">
-				<div class="space-y-1">
-					<label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="current_password">
-						Current Password
-					</label>
-					@components.Input(components.InputProps{
-						Type:        components.InputTypePassword,
-						Placeholder: "Current Password",
-						ID:          "current_password",
-					})
-				</div>
-				<div class="space-y-1">
-					<label class="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70" for="new_password">
-						New Password
-					</label>
-					@components.Input(components.InputProps{
-						Type:        components.InputTypePassword,
-						Placeholder: "New Password",
-						ID:          "new_password",
-					})
-				</div>
+			<div class="flex flex-col gap-4">
+				@components.Input(components.InputProps{
+					Type:        components.InputTypePassword,
+					Placeholder: "Current Password",
+					ID:          "current_password",
+					Label:       "Current Password",
+				})
+				@components.Input(components.InputProps{
+					Type:        components.InputTypePassword,
+					Placeholder: "New Password",
+					ID:          "new_password",
+					Label:       "New Password",
+				})
 			</div>
 		}
 		@components.CardFooter() {
