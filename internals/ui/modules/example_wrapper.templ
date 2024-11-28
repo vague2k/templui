@@ -34,25 +34,39 @@ templ ExampleWrapper(p ExampleWrapperProps) {
 	<div>
 		<p class="mb-2 font-bold text-muted-foreground">{ p.SectionName }</p>
 		@components.Tabs(components.TabsProps{
-			Tabs: []components.Tab{
-				{
-					ID:      "preview",
-					Title:   "Preview",
-					Content: showcaseWrapper(showcaseWrapperProps{Content: p.ShowcaseFile, Class: p.ShowcaseClass}),
-				},
-				{
-					ID:      "code",
-					Title:   "Code",
-					Content: CodeSnippetFromEmbedded(p.PreviewCodeFile, "go", showcase.TemplFiles),
-				},
-				{
-					ID:      "component",
-					Title:   "Component",
-					Content: CodeSnippetFromEmbedded(p.ComponentCodeFile, "go", components.TemplFiles),
-				},
-			},
+			Tabs:                  generateTabs(p), // Extrahiere Logik in separate Funktion
 			TabsContainerClass:    "md:w-1/2",
 			ContentContainerClass: "w-full",
 		})
 	</div>
+}
+
+// generateTabs erstellt die Tabs basierend auf den Props
+func generateTabs(p ExampleWrapperProps) []components.Tab {
+	tabs := []components.Tab{
+		{
+			ID:    "preview",
+			Title: "Preview",
+			Content: showcaseWrapper(showcaseWrapperProps{
+				Content: p.ShowcaseFile,
+				Class:   p.ShowcaseClass,
+			}),
+		},
+		{
+			ID:      "code",
+			Title:   "Code",
+			Content: CodeSnippetFromEmbedded(p.PreviewCodeFile, "go", showcase.TemplFiles),
+		},
+	}
+
+	// Füge Component Tab nur hinzu wenn gewünscht
+	if p.ComponentCodeFile != "" {
+		tabs = append(tabs, components.Tab{
+			ID:      "component",
+			Title:   "Component",
+			Content: CodeSnippetFromEmbedded(p.ComponentCodeFile, "go", components.TemplFiles),
+		})
+	}
+
+	return tabs
 }
