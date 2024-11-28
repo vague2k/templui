@@ -10,7 +10,7 @@ templ Card() {
 	@layouts.DocsLayout() {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Card",
-			Description: "Displays a card with header, content, and footer.",
+			Description: templ.Raw("Displays a card with header, content, and footer."),
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				SectionName:       "Default",

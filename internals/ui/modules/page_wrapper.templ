@@ -2,13 +2,15 @@ package modules
 
 type PageWrapperProps struct {
 	Name        string
-	Description string
+	Description templ.Component
 }
 
 templ PageWrapper(p PageWrapperProps) {
 	<div class="mb-16">
 		<h1 class="text-3xl font-bold mb-2">{ p.Name }</h1>
-		<p class="mb-4 text-muted-foreground">{ p.Description }</p>
+		<p class="mb-4 text-muted-foreground">
+			@p.Description
+		</p>
 	</div>
 	<div class="space-y-8">
 		{ children... }

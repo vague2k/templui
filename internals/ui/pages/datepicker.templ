@@ -10,7 +10,7 @@ templ Datepicker() {
 	@layouts.DocsLayout() {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Datepicker",
-			Description: "A date picker component.",
+			Description: templ.Raw("A date picker component."),
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.Datepicker(),

@@ -10,7 +10,7 @@ templ Icon() {
 	@layouts.DocsLayout() {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Icon",
-			Description: `A wrapper for <a href="https://lucide.dev" target="_blank" rel="noopener noreferrer" class="text-primary underline underline-offset-2 hover:opacity-80 transition-opacity">Lucide Icons</a> with optional settings for size, color, fill, stroke, and custom classes. Browse available icons in the Lucide library to see what you can use.`,
+			Description: templ.Raw(`A wrapper for <a href="https://lucide.dev" target="_blank" rel="noopener noreferrer" class="text-primary underline underline-offset-2 hover:opacity-80 transition-opacity">Lucide Icons</a> with optional settings for size, color, fill, stroke, and custom classes. Browse available icons in the Lucide library to see what you can use.`),
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				SectionName:       "Default",

@@ -10,7 +10,7 @@ templ Avatar() {
 	@layouts.DocsLayout() {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Avatar",
-			Description: "An image element with a fallback for representing the user.",
+			Description: templ.Raw("An image element with a fallback for representing the user."),
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				SectionName:       "With Image",

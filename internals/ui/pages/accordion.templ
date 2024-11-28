@@ -11,7 +11,7 @@ templ Accordion() {
 	@layouts.DocsLayout() {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Accordion",
-			Description: "A vertically  ds stacked set of interactive headings that each reveal a section of content.",
+			Description: templ.Raw("A vertically  ds stacked set of interactive headings that each reveal a section of content."),
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.Accordion(),
