@@ -1,0 +1,17 @@
+package showcase
+
+import "github.com/axzilla/goilerplate/pkg/components"
+
+templ SliderWithLabelAndValue() {
+	@components.Slider(components.SliderProps{
+		ID:          "temperature",
+		Name:        "temperature",
+		Label:       "Temperature",
+		Value:       23,
+		Min:         -20,
+		Max:         40,
+		Step:        1,
+		ShowValue:   true,
+		ValueFormat: "°C",
+	})
+}

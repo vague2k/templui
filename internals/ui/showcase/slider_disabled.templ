@@ -1,0 +1,17 @@
+package showcase
+
+import "github.com/axzilla/goilerplate/pkg/components"
+
+templ SliderDisabled() {
+	@components.Slider(components.SliderProps{
+		ID:        "disabled",
+		Name:      "disabled",
+		Label:     "Disabled Slider",
+		Value:     20,
+		Min:       -20,
+		Max:       200,
+		Step:      20,
+		Disabled:  true,
+		ShowValue: true,
+	})
+}

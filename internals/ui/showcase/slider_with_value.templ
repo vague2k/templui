@@ -1,0 +1,16 @@
+package showcase
+
+import "github.com/axzilla/goilerplate/pkg/components"
+
+templ SliderWithValue() {
+	@components.Slider(components.SliderProps{
+		ID:          "with-label",
+		Name:        "with-label",
+		Value:       75,
+		Min:         0,
+		Max:         100,
+		Step:        1,
+		ShowValue:   true,
+		ValueFormat: "%",
+	})
+}

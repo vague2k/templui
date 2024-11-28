@@ -1,6 +1,6 @@
 module github.com/axzilla/goilerplate
 
-go 1.23.3
+go 1.22.4
 
 require (
 	github.com/Oudwins/tailwind-merge-go v0.2.0

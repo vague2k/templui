@@ -4,39 +4,42 @@ import (
 	"github.com/axzilla/goilerplate/internals/ui/layouts"
 	"github.com/axzilla/goilerplate/internals/ui/modules"
 	"github.com/axzilla/goilerplate/internals/ui/showcase"
-	"github.com/axzilla/goilerplate/pkg/components"
 )
 
 templ Select() {
 	@layouts.DocsLayout() {
-		<div>
-			<div class="mb-16">
-				<h1 class="text-3xl font-bold mb-2">Select</h1>
-				<p class="mb-4 text-muted-foreground">
-					A dropdown menu for selecting a single value from a list of options.
-				</p>
-			</div>
-			@components.Tabs(components.TabsProps{
-				Tabs: []components.Tab{
-					{
-						ID:      "preview",
-						Title:   "Preview",
-						Content: showcase.SelectShowcase(),
-					},
-					{
-						ID:      "code",
-						Title:   "Code",
-						Content: modules.CodeSnippetFromEmbedded("select.templ", "go", showcase.TemplFiles),
-					},
-					{
-						ID:      "component",
-						Title:   "Component",
-						Content: modules.CodeSnippetFromEmbedded("select.templ", "go", components.TemplFiles),
-					},
-				},
-				TabsContainerClass:    "md:w-1/2",
-				ContentContainerClass: "w-full",
+		@modules.PageWrapper(modules.PageWrapperProps{
+			Name:        "Select",
+			Description: templ.Raw("A dropdown menu for selecting a single value from a list of options."),
+		}) {
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "Default",
+				ShowcaseFile:      showcase.SelectDefault(),
+				ShowcaseClass:     "w-48",
+				PreviewCodeFile:   "select_default.templ",
+				ComponentCodeFile: "select.templ",
 			})
-		</div>
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "With Placeholder",
+				ShowcaseFile:      showcase.SelectWithPlaceholder(),
+				ShowcaseClass:     "w-48",
+				PreviewCodeFile:   "select_with_placeholder.templ",
+				ComponentCodeFile: "select.templ",
+			})
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "Selected Value",
+				ShowcaseFile:      showcase.SelectSelectedValue(),
+				ShowcaseClass:     "w-48",
+				PreviewCodeFile:   "select_selected_value.templ",
+				ComponentCodeFile: "select.templ",
+			})
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "Disabled",
+				ShowcaseFile:      showcase.SelectDisabled(),
+				ShowcaseClass:     "w-48",
+				PreviewCodeFile:   "select_disabled.templ",
+				ComponentCodeFile: "select.templ",
+			})
+		}
 	}
 }

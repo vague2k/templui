@@ -2,35 +2,31 @@ package showcase
 
 import "github.com/axzilla/goilerplate/pkg/components"
 
-templ ModalShowcase() {
-	<div class="flex justify-center items-center border rounded-md py-16 px-4">
-		<div>
-			@components.ModalTrigger("default-modal") {
-				@components.Button(components.ButtonProps{Text: "Open Modal"})
-			}
-			@components.Modal(components.ModalProps{ID: "default-modal", Class: "max-w-md"}) {
-				@components.ModalHeader() {
-					Are you absolutely sure?
+templ Modal() {
+	@components.ModalTrigger("default-modal") {
+		@components.Button(components.ButtonProps{Text: "Open Modal"})
+	}
+	@components.Modal(components.ModalProps{ID: "default-modal", Class: "max-w-md"}) {
+		@components.ModalHeader() {
+			Are you absolutely sure?
+		}
+		@components.ModalBody() {
+			This action cannot be undone. This will permanently delete your account and remove your data from our servers.				
+		}
+		@components.ModalFooter() {
+			<div class="flex gap-2">
+				@components.ModalClose("default-modal") {
+					@components.Button(components.ButtonProps{
+						Text: "Cancel",
+					})
 				}
-				@components.ModalBody() {
-					This action cannot be undone. This will permanently delete your account and remove your data from our servers.				
+				@components.ModalClose("default-modal") {
+					@components.Button(components.ButtonProps{
+						Text:    "Continue",
+						Variant: components.ButtonVariantSecondary,
+					})
 				}
-				@components.ModalFooter() {
-					<div class="flex gap-2">
-						@components.ModalClose("default-modal") {
-							@components.Button(components.ButtonProps{
-								Text: "Cancel",
-							})
-						}
-						@components.ModalClose("default-modal") {
-							@components.Button(components.ButtonProps{
-								Text:    "Continue",
-								Variant: components.ButtonVariantSecondary,
-							})
-						}
-					</div>
-				}
-			}
-		</div>
-	</div>
+			</div>
+		}
+	}
 }

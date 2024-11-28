@@ -1,25 +1,21 @@
-// pkg/components/select.templ
-
 package components
 
-import "github.com/axzilla/goilerplate/pkg/icons"
+import (
+	"github.com/axzilla/goilerplate/pkg/icons"
+	"github.com/axzilla/goilerplate/pkg/utils"
+)
 
 type SelectProps struct {
 	// ID uniquely identifies the select input
 	ID string
-
 	// Name sets the form field name
 	Name string
-
 	// Placeholder shows text when no option selected
 	Placeholder string
-
 	// Options defines available choices
 	Options []SelectOption
-
 	// Class adds custom CSS classes
 	Class string
-
 	// Attributes for additional HTML attributes and Alpine.js bindings
 	Attributes templ.Attributes
 }
@@ -27,10 +23,8 @@ type SelectProps struct {
 type SelectOption struct {
 	// Label displays text in dropdown
 	Label string
-
 	// Value sets the option's form value
 	Value string
-
 	// Attributes for disabled state or other HTML attributes
 	Attributes templ.Attributes
 }
@@ -52,11 +46,16 @@ type SelectOption struct {
 // - Alpine.js integration
 // - Custom styling via Tailwind
 templ Select(props SelectProps) {
-	<div class="relative">
+	<div
+		class={ utils.TwMerge(
+        "relative w-full", // Make it full width by default
+        props.Class,       // Allow custom classes to override
+    ) }
+	>
 		<select
 			id={ props.ID }
 			name={ props.Name }
-			class="peer h-10 w-full appearance-none rounded-md border border-input bg-background px-3 py-2 text-sm 
+			class="peer h-10 w-full appearance-none rounded-md border border-input bg-background px-3 py-2 text-sm
                    ring-offset-background placeholder:text-muted-foreground
                    focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2
                    disabled:cursor-not-allowed disabled:opacity-50"

@@ -4,37 +4,57 @@ import (
 	"github.com/axzilla/goilerplate/internals/ui/layouts"
 	"github.com/axzilla/goilerplate/internals/ui/modules"
 	"github.com/axzilla/goilerplate/internals/ui/showcase"
-	"github.com/axzilla/goilerplate/pkg/components"
 )
 
 templ Slider() {
 	@layouts.DocsLayout() {
-		<div>
-			<div class="mb-16">
-				<h1 class="text-3xl font-bold mb-2">Slider</h1>
-				<p class="mb-4 text-muted-foreground">An input where the user selects a value from within a given range.</p>
-			</div>
-			@components.Tabs(components.TabsProps{
-				Tabs: []components.Tab{
-					{
-						ID:      "preview",
-						Title:   "Preview",
-						Content: showcase.SliderShowcase(),
-					},
-					{
-						ID:      "code",
-						Title:   "Code",
-						Content: modules.CodeSnippetFromEmbedded("slider.templ", "go", showcase.TemplFiles),
-					},
-					{
-						ID:      "component",
-						Title:   "Component",
-						Content: modules.CodeSnippetFromEmbedded("slider.templ", "go", components.TemplFiles),
-					},
-				},
-				TabsContainerClass:    "md:w-1/2",
-				ContentContainerClass: "w-full",
+		@modules.PageWrapper(modules.PageWrapperProps{
+			Name:        "Slider",
+			Description: templ.Raw("An input where the user selects a value from within a given range."),
+		}) {
+			// default, with value, with label, with steps, with label and value, disabled
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "Default",
+				ShowcaseFile:      showcase.SliderDefault(),
+				ShowcaseClass:     "w-96",
+				PreviewCodeFile:   "slider_default.templ",
+				ComponentCodeFile: "sheet.templ",
 			})
-		</div>
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "With Value",
+				ShowcaseFile:      showcase.SliderWithValue(),
+				ShowcaseClass:     "w-96",
+				PreviewCodeFile:   "slider_with_value.templ",
+				ComponentCodeFile: "sheet.templ",
+			})
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "With Label",
+				ShowcaseFile:      showcase.SliderWithLabel(),
+				ShowcaseClass:     "w-96",
+				PreviewCodeFile:   "slider_with_label.templ",
+				ComponentCodeFile: "sheet.templ",
+			})
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "With Steps",
+				ShowcaseFile:      showcase.SliderWithSteps(),
+				ShowcaseClass:     "w-96",
+				PreviewCodeFile:   "slider_with_steps.templ",
+				ComponentCodeFile: "sheet.templ",
+			})
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "With Label and Value",
+				ShowcaseFile:      showcase.SliderWithLabelAndValue(),
+				ShowcaseClass:     "w-96",
+				PreviewCodeFile:   "slider_with_label_and_value.templ",
+				ComponentCodeFile: "sheet.templ",
+			})
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "Disabled",
+				ShowcaseFile:      showcase.SliderDisabled(),
+				ShowcaseClass:     "w-96",
+				PreviewCodeFile:   "slider_disabled.templ",
+				ComponentCodeFile: "sheet.templ",
+			})
+		}
 	}
 }

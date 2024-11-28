@@ -4,34 +4,62 @@ import (
 	"github.com/axzilla/goilerplate/internals/ui/layouts"
 	"github.com/axzilla/goilerplate/internals/ui/modules"
 	"github.com/axzilla/goilerplate/internals/ui/showcase"
-	"github.com/axzilla/goilerplate/pkg/components"
 )
 
 templ Input() {
 	@layouts.DocsLayout() {
-		<div class="mb-16">
-			<h1 class="text-3xl font-bold mb-2">Input</h1>
-			<p class="mb-4 text-muted-foreground">Displays a form input field or a component that looks like an input field.</p>
-		</div>
-		@components.Tabs(components.TabsProps{
-			Tabs: []components.Tab{
-				{
-					ID:      "preview",
-					Title:   "Preview",
-					Content: showcase.InputShowcase(),
-				},
-				{
-					ID:      "code",
-					Title:   "Code",
-					Content: modules.CodeSnippetFromEmbedded("input.templ", "go", showcase.TemplFiles),
-				},
-				{
-					ID:      "component",
-					Title:   "Component",
-					Content: modules.CodeSnippetFromEmbedded("input.templ", "go", components.TemplFiles),
-				},
-			},
-			TabsContainerClass: "md:w-1/2",
-		})
+		@modules.PageWrapper(modules.PageWrapperProps{
+			Name:        "Input",
+			Description: templ.Raw("Displays a form input field or a component that looks like an input field."),
+		}) {
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "Default",
+				ShowcaseFile:      showcase.InputDefault(),
+				PreviewCodeFile:   "input_default.templ",
+				ComponentCodeFile: "input.templ",
+			})
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "With Placeholder",
+				ShowcaseFile:      showcase.InputWithPlaceholder(),
+				PreviewCodeFile:   "input_with_placeholder.templ",
+				ComponentCodeFile: "input.templ",
+			})
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "File",
+				ShowcaseFile:      showcase.InputFile(),
+				PreviewCodeFile:   "input_file.templ",
+				ComponentCodeFile: "input.templ",
+			})
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "Disabled",
+				ShowcaseFile:      showcase.InputDisabled(),
+				PreviewCodeFile:   "input_disabled.templ",
+				ComponentCodeFile: "input.templ",
+			})
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "With Label",
+				ShowcaseFile:      showcase.InputWithLabel(),
+				PreviewCodeFile:   "input_with_label.templ",
+				ComponentCodeFile: "input.templ",
+			})
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "With Description",
+				ShowcaseFile:      showcase.InputWithDescription(),
+				PreviewCodeFile:   "input_with_description.templ",
+				ComponentCodeFile: "input.templ",
+			})
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "With Error",
+				ShowcaseFile:      showcase.InputWithError(),
+				PreviewCodeFile:   "input_with_error.templ",
+				ComponentCodeFile: "input.templ",
+			})
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "Advanced",
+				ShowcaseFile:      showcase.InputAdvanced(),
+				PreviewCodeFile:   "input_advanced.templ",
+				ComponentCodeFile: "input.templ",
+			})
+		}
 	}
 }
