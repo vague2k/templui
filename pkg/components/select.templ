@@ -14,6 +14,8 @@ type SelectProps struct {
 	Placeholder string
 	// Options defines available choices
 	Options []SelectOption
+	// Disabled sets the checkbox to disabled state
+	Disabled bool
 	// Class adds custom CSS classes
 	Class string
 	// Attributes for additional HTML attributes and Alpine.js bindings
@@ -25,6 +27,8 @@ type SelectOption struct {
 	Label string
 	// Value sets the option's form value
 	Value string
+	// Selected sets the option as default
+	Selected bool
 	// Attributes for disabled state or other HTML attributes
 	Attributes templ.Attributes
 }
@@ -55,6 +59,7 @@ templ Select(props SelectProps) {
 		<select
 			id={ props.ID }
 			name={ props.Name }
+			disabled?={ props.Disabled }
 			class="peer h-10 w-full appearance-none rounded-md border border-input bg-background px-3 py-2 text-sm
                    ring-offset-background placeholder:text-muted-foreground
                    focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2
@@ -67,6 +72,7 @@ templ Select(props SelectProps) {
 			for _, option := range props.Options {
 				<option
 					value={ option.Value }
+					selected?={ option.Selected }
 					{ option.Attributes... }
 				>
 					{ option.Label }

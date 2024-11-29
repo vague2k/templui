@@ -13,6 +13,12 @@ type ToggleProps struct {
 	// LabelRight displays text after toggle
 	LabelRight string
 
+	// Disabled sets the toggle to disabled state
+	Disabled bool
+
+	// Checked sets the toggle to checked state
+	Checked bool
+
 	// Class adds custom CSS classes
 	Class string
 
@@ -40,6 +46,8 @@ type ToggleProps struct {
 templ Toggle(props ToggleProps) {
 	<label for={ props.ID } class="inline-flex cursor-pointer items-center gap-2">
 		<input
+			checked?={ props.Checked }
+			disabled?={ props.Disabled }
 			id={ props.ID }
 			type="checkbox"
 			name={ props.Name }

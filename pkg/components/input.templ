@@ -42,6 +42,9 @@ type InputProps struct {
 	// Label displays text above input
 	Label string
 
+	// Disabled sets the input to disabled state
+	Disabled bool
+
 	// Description shows helper text below input
 	Description string
 
@@ -88,8 +91,11 @@ templ Input(props InputProps) {
 		<input
 			type={ string(props.Type) }
 			placeholder={ props.Placeholder }
+			disabled?={ props.Disabled }
 			name={ props.Name }
-			value={ props.Value }
+			if props.Value != "" {
+				value={ props.Value }
+			}
 			id={ props.ID }
 			class={
 				utils.TwMerge("flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background",

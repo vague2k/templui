@@ -13,8 +13,15 @@ templ RadioGroup() {
 			Description: templ.Raw("A set of radio buttons for selecting a single option from a list."),
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				ShowcaseFile:      showcase.RadioGroup(),
-				PreviewCodeFile:   "radio_group.templ",
+				SectionName:       "Using Props",
+				ShowcaseFile:      showcase.RadioGroupProps(),
+				PreviewCodeFile:   "radio_group_props.templ",
+				ComponentCodeFile: "radio_group.templ",
+			})
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "Using Attributes",
+				ShowcaseFile:      showcase.RadioGroupAttributes(),
+				PreviewCodeFile:   "radio_group_attributes.templ",
 				ComponentCodeFile: "radio_group.templ",
 			})
 		}

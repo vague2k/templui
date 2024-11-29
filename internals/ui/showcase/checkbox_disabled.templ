@@ -3,11 +3,20 @@ package showcase
 import "github.com/axzilla/goilerplate/pkg/components"
 
 templ CheckboxDisabled() {
-	@components.Checkbox(components.CheckboxProps{
-		ID:         "disabled-checked-checkbox",
-		Name:       "disabled-checked",
-		Value:      "disabled-checked",
-		Label:      "Disabled checked option",
-		Attributes: templ.Attributes{"disabled": "true"},
-	})
+	<div class="flex flex-col gap-4">
+		@components.Checkbox(components.CheckboxProps{
+			ID:       "disabled-checkbox",
+			Name:     "disabled-checkbox",
+			Value:    "disabled-checkbox",
+			Label:    "Disabled using props",
+			Disabled: true,
+		})
+		@components.Checkbox(components.CheckboxProps{
+			ID:         "disabled-checkbox",
+			Name:       "disabled-checkbox",
+			Value:      "disabled-checkbox",
+			Label:      "Disabled using attributes",
+			Attributes: templ.Attributes{"disabled": "true"},
+		})
+	</div>
 }

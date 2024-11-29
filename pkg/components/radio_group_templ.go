@@ -34,6 +34,12 @@ type RadioGroupItemProps struct {
 	// Label displays text next to radio button
 	Label templ.Component
 
+	// Disabled sets the radio button to disabled
+	Disabled bool
+
+	// Checked sets the radio button to checked
+	Checked bool
+
 	// Class adds custom CSS classes
 	Class string
 
@@ -159,7 +165,7 @@ func RadioGroupItem(props RadioGroupItemProps) templ.Component {
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/radio_group.templ`, Line: 65, Col: 16}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/radio_group.templ`, Line: 71, Col: 16}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -185,7 +191,7 @@ func RadioGroupItem(props RadioGroupItemProps) templ.Component {
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/radio_group.templ`, Line: 75, Col: 16}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/radio_group.templ`, Line: 81, Col: 16}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
@@ -198,7 +204,7 @@ func RadioGroupItem(props RadioGroupItemProps) templ.Component {
 		var templ_7745c5c3_Var9 string
 		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(props.Name)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/radio_group.templ`, Line: 76, Col: 20}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/radio_group.templ`, Line: 82, Col: 20}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {
@@ -211,13 +217,29 @@ func RadioGroupItem(props RadioGroupItemProps) templ.Component {
 		var templ_7745c5c3_Var10 string
 		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(props.Value)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/radio_group.templ`, Line: 77, Col: 22}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/radio_group.templ`, Line: 83, Col: 22}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"before:content[&#39;&#39;] relative h-4 w-4 appearance-none rounded-full \n                   border border-2 border-primary \n                   checked:border-primary checked:bg-primary\n                   before:absolute before:left-1/2 before:top-1/2 \n                   before:h-1.5 before:w-1.5 before:-translate-x-1/2 before:-translate-y-1/2 \n                   before:rounded-full before:bg-background\n                   checked:before:visible\n                   focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring \n                   focus-visible:ring-offset-2 focus-visible:ring-offset-background\n                   disabled:cursor-not-allowed\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		if props.Checked {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" checked")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		if props.Disabled {
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" disabled")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" class=\"before:content[&#39;&#39;] relative h-4 w-4 appearance-none rounded-full \n                   border border-2 border-primary \n                   checked:border-primary checked:bg-primary\n                   before:absolute before:left-1/2 before:top-1/2 \n                   before:h-1.5 before:w-1.5 before:-translate-x-1/2 before:-translate-y-1/2 \n                   before:rounded-full before:bg-background\n                   checked:before:visible\n                   focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring \n                   focus-visible:ring-offset-2 focus-visible:ring-offset-background\n                   disabled:cursor-not-allowed\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -242,7 +264,7 @@ func RadioGroupItem(props RadioGroupItemProps) templ.Component {
 			var templ_7745c5c3_Var11 string
 			templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(props.Value)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/radio_group.templ`, Line: 93, Col: 22}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/radio_group.templ`, Line: 101, Col: 22}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 			if templ_7745c5c3_Err != nil {

@@ -26,6 +26,12 @@ type RadioGroupItemProps struct {
 	// Label displays text next to radio button
 	Label templ.Component
 
+	// Disabled sets the radio button to disabled
+	Disabled bool
+
+	// Checked sets the radio button to checked
+	Checked bool
+
 	// Class adds custom CSS classes
 	Class string
 
@@ -75,6 +81,8 @@ templ RadioGroupItem(props RadioGroupItemProps) {
 			id={ props.ID }
 			name={ props.Name }
 			value={ props.Value }
+			checked?={ props.Checked }
+			disabled?={ props.Disabled }
 			class="before:content[''] relative h-4 w-4 appearance-none rounded-full 
                    border border-2 border-primary 
                    checked:border-primary checked:bg-primary

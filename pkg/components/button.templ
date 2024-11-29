@@ -49,8 +49,8 @@ type ButtonProps struct {
 	// Target controls link opening behavior
 	Target string
 
-	// Disabled controls interactive state (bool or JS expression)
-	Disabled any
+	// Disabled sets the button to an inactive state
+	Disabled bool
 
 	// Type sets the button type attribute
 	Type string
@@ -137,13 +137,8 @@ templ Button(props ButtonProps) {
 					props.Class,
 				),
 			}
-			if props.Disabled != nil {
-				if disabledBool, ok := props.Disabled.(bool); ok && disabledBool {
-					aria-disabled="true"
-				}
-				if disabledStr, ok := props.Disabled.(string); ok {
-					:aria-disabled={ disabledStr }
-				}
+			if props.Disabled == true {
+				disabled
 			}
 			{ props.Attributes... }
 		>
@@ -166,14 +161,7 @@ templ Button(props ButtonProps) {
 			if props.Type != "" {
 				type={ props.Type }
 			}
-			if props.Disabled != nil {
-				if disabledBool, ok := props.Disabled.(bool); ok {
-					disabled?={ disabledBool }
-				}
-				if disabledStr, ok := props.Disabled.(string); ok {
-					:disabled={ disabledStr }
-				}
-			}
+			disabled?={ props.Disabled }
 			{ props.Attributes... }
 		>
 			{ children... }

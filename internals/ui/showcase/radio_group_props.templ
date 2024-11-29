@@ -2,26 +2,26 @@ package showcase
 
 import "github.com/axzilla/goilerplate/pkg/components"
 
-templ RadioGroup() {
+templ RadioGroupProps() {
 	@components.RadioGroup(components.RadioGroupProps{}) {
 		@components.RadioGroupItem(components.RadioGroupItemProps{
-			Value:      "default",
-			ID:         "r1",
-			Name:       "view-mode",
-			Label:      templ.Raw("Default"),
-			Attributes: templ.Attributes{"checked": true},
+			Value:   "default",
+			ID:      "r1",
+			Name:    "props",
+			Label:   templ.Raw("Default"),
+			Checked: true,
 		})
 		@components.RadioGroupItem(components.RadioGroupItemProps{
-			Value:      "comfortable",
-			ID:         "r2",
-			Name:       "view-mode",
-			Label:      templ.Raw("Disabled"),
-			Attributes: templ.Attributes{"disabled": true},
+			Value:    "comfortable",
+			ID:       "r2",
+			Name:     "props",
+			Label:    templ.Raw("Disabled"),
+			Disabled: true,
 		})
 		@components.RadioGroupItem(components.RadioGroupItemProps{
 			Value: "compact",
 			ID:    "r3",
-			Name:  "view-mode",
+			Name:  "props",
 			Label: templ.Raw("Compact"),
 		})
 	}

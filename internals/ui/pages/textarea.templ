@@ -20,6 +20,14 @@ templ Textarea() {
 				ComponentCodeFile: "textarea.templ",
 			})
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:   "With Value",
+				ShowcaseFile:  showcase.TextareaWithValue(),
+				ShowcaseClass: "w-96",
+			
+				PreviewCodeFile:   "textarea_with_value.templ",
+				ComponentCodeFile: "textarea.templ",
+			})
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				SectionName:   "With Rows",
 				ShowcaseFile:  showcase.TextareaWithRows(),
 				ShowcaseClass: "w-96",

@@ -30,6 +30,9 @@ type TextareaProps struct {
 	// Rows sets visible text lines height
 	Rows int
 
+	// Disabled prevents user input
+	Disabled bool
+
 	// Class adds custom CSS classes
 	Class string
 
@@ -70,8 +73,8 @@ templ Textarea(props TextareaProps) {
 		<textarea
 			id={ props.ID }
 			name={ props.Name }
-			value={ props.Value }
 			placeholder={ props.Placeholder }
+			disabled?={ props.Disabled }
 			if props.Rows != 0 {
 				rows={ strconv.Itoa(props.Rows) }
 			}
@@ -88,7 +91,11 @@ templ Textarea(props TextareaProps) {
 				@input="resize()"
 			}
 			{ props.Attributes... }
-		></textarea>
+		>
+			if props.Value != "" {
+				{ props.Value }
+			}
+		</textarea>
 		if props.Description != "" {
 			<p class="text-sm text-muted-foreground">{ props.Description }</p>
 		}

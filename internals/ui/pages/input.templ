@@ -25,6 +25,12 @@ templ Input() {
 				ComponentCodeFile: "input.templ",
 			})
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "With Values",
+				ShowcaseFile:      showcase.InputWithValues(),
+				PreviewCodeFile:   "input_with_values.templ",
+				ComponentCodeFile: "input.templ",
+			})
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				SectionName:       "File",
 				ShowcaseFile:      showcase.InputFile(),
 				PreviewCodeFile:   "input_file.templ",

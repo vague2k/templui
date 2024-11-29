@@ -22,6 +22,12 @@ type CheckboxProps struct {
 	// Class adds custom CSS classes
 	Class string
 
+	// Disabled sets the checkbox to disabled state
+	Disabled bool
+
+	// Checked sets the checkbox to checked state
+	Checked bool
+
 	// Attributes for additional HTML attributes and Alpine.js bindings
 	Attributes templ.Attributes
 }
@@ -48,6 +54,8 @@ templ Checkbox(props CheckboxProps) {
 	>
 		<div class="relative flex items-center">
 			<input
+				checked?={ props.Checked }
+				disabled?={ props.Disabled }
 				id={ props.ID }
 				name={ props.Name }
 				value={ props.Value }

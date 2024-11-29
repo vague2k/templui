@@ -1,0 +1,20 @@
+package showcase
+
+import "github.com/axzilla/goilerplate/pkg/components"
+
+templ TextareaWithValue() {
+	<div class="flex flex-col gap-4">
+		@components.Textarea(components.TextareaProps{
+			ID:    "disabled",
+			Name:  "disabled",
+			Value: "Value using props",
+		})
+		<div x-data="{ message: 'Value using attributes', }">
+			@components.Textarea(components.TextareaProps{
+				ID:         "disabled",
+				Name:       "disabled",
+				Attributes: templ.Attributes{":value": "message"},
+			})
+		</div>
+	</div>
+}

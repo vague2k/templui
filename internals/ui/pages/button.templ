@@ -25,9 +25,21 @@ templ Button() {
 				ComponentCodeFile: "button.templ",
 			})
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "States",
-				ShowcaseFile:      showcase.ButtonStates(),
-				PreviewCodeFile:   "button_states.templ",
+				SectionName:       "Full Width",
+				ShowcaseFile:      showcase.ButtonFullwidth(),
+				PreviewCodeFile:   "button_fullwidth.templ",
+				ComponentCodeFile: "button.templ",
+			})
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "With Click",
+				ShowcaseFile:      showcase.ButtonWithClick(),
+				PreviewCodeFile:   "button_with_click.templ",
+				ComponentCodeFile: "button.templ",
+			})
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "Disabled",
+				ShowcaseFile:      showcase.ButtonDisabled(),
+				PreviewCodeFile:   "button_disabled.templ",
 				ComponentCodeFile: "button.templ",
 			})
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
