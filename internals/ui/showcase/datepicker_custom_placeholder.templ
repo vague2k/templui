@@ -2,12 +2,11 @@ package showcase
 
 import "github.com/axzilla/goilerplate/pkg/components"
 
-templ Datepicker() {
+templ DatepickerCustomPlaceholder() {
 	@components.Datepicker(components.DatepickerProps{
-		ID:          "my-datepicker",
-		Name:        "selected-date",
-		Placeholder: "Select a date",
-		Format:      "YYYY-MM-DD",
+		ID:          "date",
+		Name:        "date",
+		Placeholder: "When is your birthday?",
 		Class:       "w-full max-w-xs",
 	})
 }

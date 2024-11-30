@@ -1,0 +1,76 @@
+package showcase
+
+import (
+	"github.com/axzilla/goilerplate/pkg/components"
+	"time"
+)
+
+templ DatepickerFormats() {
+	<div class="w-full max-w-xs flex flex-col gap-4">
+		// Default ISO
+		@components.Datepicker(components.DatepickerProps{
+			ID:     "date-iso",
+			Name:   "date_iso",
+			Config: components.DatePickerISO,
+			Value:  time.Now(),
+		})
+		// Default EU
+		@components.Datepicker(components.DatepickerProps{
+			ID:     "date-eu",
+			Name:   "date_eu",
+			Config: components.DatePickerEU,
+			Value:  time.Now(),
+		})
+		// Default UK
+		@components.Datepicker(components.DatepickerProps{
+			ID:     "date-uk",
+			Name:   "date_uk",
+			Config: components.DatePickerUK,
+			Value:  time.Now(),
+		})
+		// Default US
+		@components.Datepicker(components.DatepickerProps{
+			ID:     "date-us",
+			Name:   "date_us",
+			Config: components.DatePickerUS,
+			Value:  time.Now(),
+		})
+		// Default LONG
+		@components.Datepicker(components.DatepickerProps{
+			ID:     "date-long",
+			Name:   "date_long",
+			Config: components.DatePickerLONG,
+			Value:  time.Now(),
+		})
+		// Custom Config
+		@components.Datepicker(components.DatepickerProps{
+			ID:   "date-es",
+			Name: "date_es",
+			Config: components.NewDatepickerConfig(
+				components.DateFormatLONG,
+				components.DateLocaleSpanish,
+			),
+			Value:       time.Now().AddDate(0, 0, -30), // 30 days ago
+			Placeholder: "Seleccionar fecha",
+		})
+		// Custom Format (Japanese LONG)
+		@components.Datepicker(components.DatepickerProps{
+			ID:   "date-custom",
+			Name: "date_custom",
+			Config: components.NewDatepickerConfig(
+				components.DateFormatLONG,
+				components.DateLocale{
+					MonthNames: []string{
+						"1月", "2月", "3月", "4月", "5月", "6月",
+						"7月", "8月", "9月", "10月", "11月", "12月",
+					},
+					DayNames: []string{
+						"日", "月", "火", "水", "木", "金", "土",
+					},
+				},
+			),
+			Value:       time.Now().AddDate(0, 0, -30), // 30 days ago
+			Placeholder: "Seleccionar fecha",
+		})
+	</div>
+}

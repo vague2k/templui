@@ -13,8 +13,33 @@ templ Datepicker() {
 			Description: templ.Raw("A date picker component."),
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				ShowcaseFile:      showcase.Datepicker(),
-				PreviewCodeFile:   "datepicker.templ",
+				SectionName:       "Default",
+				ShowcaseFile:      showcase.DatepickerDefault(),
+				PreviewCodeFile:   "datepicker_default.templ",
+				ComponentCodeFile: "datepicker.templ",
+			})
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "Custom Placeholder",
+				ShowcaseFile:      showcase.DatepickerCustomPlaceholder(),
+				PreviewCodeFile:   "datepicker_custom_placeholder.templ",
+				ComponentCodeFile: "datepicker.templ",
+			})
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "Selected Date",
+				ShowcaseFile:      showcase.DatepickerSelectedDate(),
+				PreviewCodeFile:   "datepicker_selected_date.templ",
+				ComponentCodeFile: "datepicker.templ",
+			})
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "Disabled",
+				ShowcaseFile:      showcase.DatepickerDisabled(),
+				PreviewCodeFile:   "datepicker_disabled.templ",
+				ComponentCodeFile: "datepicker.templ",
+			})
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "Formats",
+				ShowcaseFile:      showcase.DatepickerFormats(),
+				PreviewCodeFile:   "datepicker_formats.templ",
 				ComponentCodeFile: "datepicker.templ",
 			})
 		}
