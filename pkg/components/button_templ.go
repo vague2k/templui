@@ -114,7 +114,8 @@ func (b ButtonProps) modifierClasses() string {
 	return strings.Join(classes, " ")
 }
 
-// Button renders an interactive button or link component with consistent styling.
+// Interactive element that triggers actions when clicked.
+//
 // For detailed examples and usage guides, visit https://goilerplate.com/docs/components/button
 //
 // Props:
@@ -182,7 +183,7 @@ func Button(props ButtonProps) templ.Component {
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(props.Target)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/button.templ`, Line: 129, Col: 24}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/button.templ`, Line: 130, Col: 24}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
@@ -272,7 +273,7 @@ func Button(props ButtonProps) templ.Component {
 				var templ_7745c5c3_Var8 string
 				templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(props.Type)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/button.templ`, Line: 162, Col: 21}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/button.templ`, Line: 163, Col: 21}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 				if templ_7745c5c3_Err != nil {
@@ -349,7 +350,7 @@ func renderButtonContent(props ButtonProps) templ.Component {
 		var templ_7745c5c3_Var10 string
 		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(props.Text)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/button.templ`, Line: 179, Col: 14}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/button.templ`, Line: 180, Col: 14}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 		if templ_7745c5c3_Err != nil {

@@ -400,8 +400,8 @@ func renderMenuItem(item DropdownMenuItem, index int, depth int) templ.Component
 	})
 }
 
-// DropdownMenu renders a customizable popup menu with positioning and nesting support.
-// Uses Alpine.js for interactions and supports keyboard navigation.
+// Floating menu for displaying a list of actions or options.
+//
 // For detailed examples and usage guides, visit https://goilerplate.com/docs/components/dropdown-menu
 //
 // Props:

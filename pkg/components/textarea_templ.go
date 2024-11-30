@@ -51,8 +51,8 @@ type TextareaProps struct {
 	Attributes templ.Attributes
 }
 
-// Textarea renders a multi-line text input with optional validation.
-// Uses Alpine.js for autoresize functionality when enabled.
+// Multi-line text field for longer form content.
+//
 // For detailed examples and usage guides, visit https://goilerplate.com/docs/components/textarea
 //
 // Props:

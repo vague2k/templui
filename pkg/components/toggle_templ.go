@@ -34,8 +34,8 @@ type ToggleProps struct {
 	Attributes templ.Attributes
 }
 
-// Toggle renders a switch control for boolean values.
-// Uses Alpine.js for state management and animations.
+// Two-state button that can be switched on or off.
+//
 // For detailed examples and usage guides, visit https://goilerplate.com/docs/components/toggle
 //
 // Props:

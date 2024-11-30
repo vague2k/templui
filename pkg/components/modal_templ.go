@@ -18,8 +18,8 @@ type ModalProps struct {
 	Class string
 }
 
-// Modal renders a popup dialog window with customizable content.
-// Uses Alpine.js for interactions and animations.
+// Dialog overlay that requires user attention or interaction.
+//
 // For detailed examples and usage guides, visit https://goilerplate.com/docs/components/modal
 //
 // Props:

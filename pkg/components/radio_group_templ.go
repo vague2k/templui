@@ -117,8 +117,10 @@ func RadioGroup(props RadioGroupProps) templ.Component {
 	})
 }
 
-// RadioGroupItem renders an individual radio button with label.
+// Control for selecting a single option from a list of choices.
 // Must be used within a RadioGroup component.
+//
+// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/radio-group
 //
 // Props:
 // - Value: Radio button value
@@ -165,7 +167,7 @@ func RadioGroupItem(props RadioGroupItemProps) templ.Component {
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/radio_group.templ`, Line: 71, Col: 16}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/radio_group.templ`, Line: 73, Col: 16}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -191,7 +193,7 @@ func RadioGroupItem(props RadioGroupItemProps) templ.Component {
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/radio_group.templ`, Line: 81, Col: 16}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/radio_group.templ`, Line: 83, Col: 16}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
@@ -204,7 +206,7 @@ func RadioGroupItem(props RadioGroupItemProps) templ.Component {
 		var templ_7745c5c3_Var9 string
 		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(props.Name)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/radio_group.templ`, Line: 82, Col: 20}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/radio_group.templ`, Line: 84, Col: 20}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {
@@ -217,7 +219,7 @@ func RadioGroupItem(props RadioGroupItemProps) templ.Component {
 		var templ_7745c5c3_Var10 string
 		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(props.Value)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/radio_group.templ`, Line: 83, Col: 22}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/radio_group.templ`, Line: 85, Col: 22}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 		if templ_7745c5c3_Err != nil {
@@ -264,7 +266,7 @@ func RadioGroupItem(props RadioGroupItemProps) templ.Component {
 			var templ_7745c5c3_Var11 string
 			templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(props.Value)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/radio_group.templ`, Line: 101, Col: 22}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/radio_group.templ`, Line: 103, Col: 22}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 			if templ_7745c5c3_Err != nil {

@@ -69,8 +69,8 @@ func SheetRoot() templ.Component {
 	})
 }
 
-// Sheet renders a slide-in panel with backdrop.
-// Uses Alpine.js for animations and state management.
+// Side-anchored panel that slides in from screen edges.
+//
 // For detailed examples and usage guides, visit https://goilerplate.com/docs/components/sheet
 //
 // Props:
