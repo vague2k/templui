@@ -1,0 +1,14 @@
+package showcase
+
+import (
+	"github.com/axzilla/goilerplate/pkg/components"
+	"github.com/axzilla/goilerplate/pkg/icons"
+)
+
+templ CheckboxCustomIcon() {
+	@components.Checkbox(components.CheckboxProps{
+		Label:   "Accept terms and conditions",
+		Icon:    icons.Plus(icons.IconProps{Size: "12"}),
+		Checked: true,
+	})
+}

@@ -7,18 +7,11 @@ import (
 
 type showcaseWrapperProps struct {
 	Content templ.Component
-	Class   string
 }
 
 templ showcaseWrapper(p showcaseWrapperProps) {
 	<div class="flex justify-center items-center border rounded-md py-16 px-4">
-		if p.Class != "" {
-			<div class={ p.Class }>
-				@p.Content
-			</div>
-		} else {
-			@p.Content
-		}
+		@p.Content
 	</div>
 }
 
@@ -27,7 +20,6 @@ type ExampleWrapperProps struct {
 	ShowcaseFile      templ.Component
 	PreviewCodeFile   string
 	ComponentCodeFile string
-	ShowcaseClass     string
 }
 
 templ ExampleWrapper(p ExampleWrapperProps) {
@@ -49,7 +41,6 @@ func generateTabs(p ExampleWrapperProps) []components.Tab {
 			Title: "Preview",
 			Content: showcaseWrapper(showcaseWrapperProps{
 				Content: p.ShowcaseFile,
-				Class:   p.ShowcaseClass,
 			}),
 		},
 		{

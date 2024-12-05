@@ -735,10 +735,6 @@ body {
   z-index: 50;
 }
 
-.m-0 {
-  margin: 0px;
-}
-
 .mb-1 {
   margin-bottom: 0.25rem;
 }
@@ -1038,6 +1034,12 @@ body {
 
 .gap-2 {
   gap: 0.5rem;
+}
+
+.space-x-2 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 0;
+  margin-right: calc(0.5rem * var(--tw-space-x-reverse));
+  margin-left: calc(0.5rem * calc(1 - var(--tw-space-x-reverse)));
 }
 
 .space-y-1\.5 > :not([hidden]) ~ :not([hidden]) {
@@ -1415,6 +1417,10 @@ body {
   opacity: 1;
 }
 
+.opacity-50 {
+  opacity: 0.5;
+}
+
 .shadow-lg {
   --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color);
@@ -1452,6 +1458,11 @@ body {
 .ring-black {
   --tw-ring-opacity: 1;
   --tw-ring-color: rgb(0 0 0 / var(--tw-ring-opacity));
+}
+
+.ring-destructive {
+  --tw-ring-opacity: 1;
+  --tw-ring-color: hsl(var(--destructive) / var(--tw-ring-opacity));
 }
 
 .ring-opacity-5 {
@@ -1819,6 +1830,10 @@ body {
   color: hsl(var(--foreground) / var(--tw-text-opacity));
 }
 
+.peer:checked ~ .peer-checked\:opacity-100 {
+  opacity: 1;
+}
+
 .peer:checked ~ .peer-checked\:after\:translate-x-\[16px\]::after {
   content: var(--tw-content);
   --tw-translate-x: 16px;
@@ -1845,11 +1860,6 @@ body {
 
 .peer:disabled ~ .peer-disabled\:opacity-70 {
   opacity: 0.7;
-}
-
-.dark\:file\:text-foreground:is(.dark *)::file-selector-button {
-  --tw-text-opacity: 1;
-  color: hsl(var(--foreground) / var(--tw-text-opacity));
 }
 
 @media (min-width: 640px) {
@@ -1945,19 +1955,6 @@ body {
 
 .\[\&\:\:-webkit-slider-thumb\]\:hover\:bg-primary\/90:hover::-webkit-slider-thumb {
   background-color: hsl(var(--primary) / 0.9);
-}
-
-.\[\&\:has\(input\:checked\)\]\:text-foreground:has(input:checked) {
-  --tw-text-opacity: 1;
-  color: hsl(var(--foreground) / var(--tw-text-opacity));
-}
-
-.\[\&\:has\(input\:disabled\)\]\:cursor-not-allowed:has(input:disabled) {
-  cursor: not-allowed;
-}
-
-.\[\&\:has\(input\:disabled\)\]\:opacity-50:has(input:disabled) {
-  opacity: 0.5;
 }
 
 .\[\&\:has\(svg\)\]\:pl-11:has(svg) {

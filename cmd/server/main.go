@@ -8,14 +8,16 @@ import (
 	"github.com/a-h/templ"
 	"github.com/axzilla/goilerplate/assets"
 	"github.com/axzilla/goilerplate/internals/config"
+	"github.com/axzilla/goilerplate/internals/middleware"
 	"github.com/axzilla/goilerplate/internals/ui/pages"
 )
 
 func main() {
 	mux := http.NewServeMux()
 	config.LoadConfig()
-
 	SetupAssetsRoutes(mux)
+
+	wrappedMux := middleware.WithPreviewCheck(mux)
 
 	mux.Handle("GET /", templ.Handler(pages.Landing()))
 	mux.Handle("GET /docs/components", http.RedirectHandler("/docs/components/accordion", http.StatusSeeOther))
@@ -35,7 +37,7 @@ func main() {
 	mux.Handle("GET /docs/components/icon", templ.Handler(pages.Icon()))
 	mux.Handle("GET /docs/components/input", templ.Handler(pages.Input()))
 	mux.Handle("GET /docs/components/modal", templ.Handler(pages.Modal()))
-	mux.Handle("GET /docs/components/radio-group", templ.Handler(pages.RadioGroup()))
+	mux.Handle("GET /docs/components/radio", templ.Handler(pages.Radio()))
 	mux.Handle("GET /docs/components/select", templ.Handler(pages.Select()))
 	mux.Handle("GET /docs/components/sheet", templ.Handler(pages.Sheet()))
 	mux.Handle("GET /docs/components/slider", templ.Handler(pages.Slider()))
@@ -44,7 +46,7 @@ func main() {
 	mux.Handle("GET /docs/components/toggle", templ.Handler(pages.Toggle()))
 
 	fmt.Println("Server is running on http://localhost:8090")
-	http.ListenAndServe(":8090", mux)
+	http.ListenAndServe(":8090", wrappedMux)
 }
 
 func SetupAssetsRoutes(mux *http.ServeMux) {

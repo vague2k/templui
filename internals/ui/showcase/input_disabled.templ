@@ -3,18 +3,11 @@ package showcase
 import "github.com/axzilla/goilerplate/pkg/components"
 
 templ InputDisabled() {
-	<div class="flex flex-col gap-4">
+	<div class="w-full max-w-sm">
 		@components.Input(components.InputProps{
 			Type:        "email",
-			Label:       "Disabled using props",
-			Placeholder: "e.g. john@doe.com",
+			Placeholder: "Email",
 			Disabled:    true,
-		})
-		@components.Input(components.InputProps{
-			Type:        "email",
-			Label:       "Disabled using attributes",
-			Placeholder: "e.g. john@doe.com",
-			Attributes:  templ.Attributes{"disabled": "true"},
 		})
 	</div>
 }

@@ -1,6 +1,7 @@
 package config
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"os"
@@ -25,4 +26,15 @@ func LoadConfig() {
 	AppConfig = &Config{
 		GoEnv: os.Getenv("GO_ENV"),
 	}
+}
+
+type contextKey string
+
+var PreviewContextKey = contextKey("preview")
+
+func IsPreview(ctx context.Context) bool {
+	if preview, ok := ctx.Value(PreviewContextKey).(bool); ok {
+		return preview
+	}
+	return false
 }

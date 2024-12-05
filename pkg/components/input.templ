@@ -23,99 +23,84 @@ const (
 	InputTypeFile InputType = "file"
 )
 
+// InputProps defines configuration options for the Input component
 type InputProps struct {
-	// Type sets the input field behavior
+	// Type controls the input's behavior (text, email, password etc)
 	Type InputType
 
-	// Placeholder shows helper text when empty
+	// Placeholder text shown when input is empty
 	Placeholder string
 
-	// Value sets the current input content
+	// Value sets the current content of the input field
 	Value string
 
-	// Name sets the form field name
+	// Name identifies the field in form submissions
 	Name string
 
-	// ID uniquely identifies the input
+	// ID uniquely identifies the input element in the DOM
 	ID string
 
-	// Label displays text above input
-	Label string
-
-	// Disabled sets the input to disabled state
+	// Disabled prevents user interaction when true
 	Disabled bool
 
-	// Description shows helper text below input
-	Description string
+	// Readonly prevents user input but allows for selection and copying
+	Readonly bool
 
-	// Error displays validation message
-	Error string
-
-	// Class adds custom CSS classes
+	// Class applies custom CSS classes to the input element
 	Class string
 
-	// FileAccept limits allowed file types
-	// Only used when Type is InputTypeFile
+	// ErrorClass applies custom CSS classes to the input element when an error is present
+	ErrorClass string
+
+	// FileAccept specifies allowed file types (only for file inputs)
 	FileAccept string
 
-	// Attributes for additional HTML attributes and Alpine.js bindings
+	// HasError indicates whether the input should be styled as an error
+	HasError bool
+
+	// Attributes for additional HTML/Alpine.js bindings
 	Attributes templ.Attributes
 }
 
 // Text field that allows users to enter and edit values.
 //
 // For detailed examples and usage guides, visit https://goilerplate.com/docs/components/input
-//
-// Props:
-// - Type: Input field behavior type
-// - Placeholder: Helper text when empty
-// - Value: Current input value
-// - Name: Form field name
-// - ID: Unique identifier
-// - Label: Text label
-// - Description: Helper text
-// - Error: Validation message
-// - Class: Additional CSS classes
-// - FileAccept: Allowed file types
-// - Attributes: Additional HTML attributes
 templ Input(props InputProps) {
-	<span class="space-y-2">
-		if props.Label != "" {
-			<label
-				for={ props.ID }
-				class={ "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",   
-      templ.KV("text-destructive", len(props.Error)>0) }
-			>
-				{ props.Label }
-			</label>
+	<input
+		x-ref={ props.ID }
+		type={ string(props.Type) }
+		placeholder={ props.Placeholder }
+		disabled?={ props.Disabled }
+		readonly?={ props.Readonly }
+		name={ props.Name }
+		if props.Value != "" {
+			value={ props.Value }
 		}
-		<input
-			type={ string(props.Type) }
-			placeholder={ props.Placeholder }
-			disabled?={ props.Disabled }
-			name={ props.Name }
-			if props.Value != "" {
-				value={ props.Value }
-			}
-			id={ props.ID }
-			class={
-				utils.TwMerge("flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background",
-					"file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground",
-					"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-					"disabled:cursor-not-allowed disabled:opacity-50",
-					"file:text-foreground dark:file:text-foreground",
-					props.Class),
-			}
-			if props.Type == InputTypeFile {
-				accept={ props.FileAccept }
-			}
-			{ props.Attributes... }
-		/>
-		if props.Description != "" {
-			<p class="text-sm text-muted-foreground m-0">{ props.Description }</p>
+		id={ props.ID }
+		class={
+			utils.TwMerge(
+				// Layout
+				"peer flex h-10 w-full px-3 py-2",
+		
+				// Styling
+				"rounded-md border border-input bg-background text-sm ring-offset-background",
+				"file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground ",
+				"placeholder:text-muted-foreground",
+		
+				// States
+				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+				"disabled:cursor-not-allowed disabled:opacity-50",
+		
+				// Conditional
+				utils.TwIf("border-destructive ring-destructive", props.HasError),
+		
+				// Custom
+				props.Class,
+			),
 		}
-		if props.Error != "" {
-			<p class="text-sm font-medium text-destructive">{ props.Error }</p>
+		if props.Type == InputTypeFile {
+			accept={ props.FileAccept }
 		}
-	</span>
+		{ props.Attributes... }
+	/>
 }

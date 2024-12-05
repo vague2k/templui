@@ -1,0 +1,61 @@
+package showcase
+
+import "github.com/axzilla/goilerplate/pkg/components"
+
+templ RadioForm() {
+	<div class="w-full max-w-sm">
+		@components.FormItem(components.FormItemProps{}) {
+			// Group Label
+			@components.FormLabel(components.FormLabelProps{
+				Text: "Notify me about new products",
+			})
+			// Option 1
+			@components.FormItemFlex(components.FormItemProps{}) {
+				@components.Radio(components.RadioProps{
+					ID:      "r1",
+					Name:    "notify",
+					Value:   "all",
+					Checked: true,
+				})
+				@components.FormLabel(components.FormLabelProps{
+					For:  "r1",
+					Text: "All new products",
+				})
+			}
+			// Option 2
+			@components.FormItemFlex(components.FormItemProps{}) {
+				@components.Radio(components.RadioProps{
+					ID:       "r2",
+					Name:     "notify",
+					Value:    "wishlist",
+					Disabled: true,
+				})
+				@components.FormLabel(components.FormLabelProps{
+					For:  "r2",
+					Text: "Create a wishlist(Coming Soon)",
+				})
+			}
+			// Option 3
+			@components.FormItemFlex(components.FormItemProps{}) {
+				@components.Radio(components.RadioProps{
+					ID:    "r3",
+					Name:  "notify",
+					Value: "none",
+				})
+				@components.FormLabel(components.FormLabelProps{
+					For:  "r3",
+					Text: "No notifications",
+				})
+			}
+			// Description
+			@components.FormDescription(components.FormDescriptionProps{}) {
+				You can change your preferences at any time.
+			}
+			// Error Message
+			@components.FormMessage(components.FormMessageProps{
+				Type:    "error",
+				Message: "We will send you an email when new products are available.",
+			})
+		}
+	</div>
+}

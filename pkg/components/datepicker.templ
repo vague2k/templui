@@ -6,6 +6,16 @@ import (
 	"time"
 )
 
+func mergeAttributes(attrs ...templ.Attributes) templ.Attributes {
+	merged := templ.Attributes{}
+	for _, attr := range attrs {
+		for k, v := range attr {
+			merged[k] = v
+		}
+	}
+	return merged
+}
+
 // DateFormat defines the available date formatting styles
 type DateFormat string
 
@@ -74,6 +84,13 @@ var (
 		MonthNames: []string{"Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno",
 			"Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"},
 		DayNames: []string{"Lu", "Ma", "Me", "Gi", "Ve", "Sa", "Do"},
+	}
+
+	// DateLocaleJapanese provides Japanese localization
+	DateLocaleJapanese = DateLocale{
+		MonthNames: []string{"1月", "2月", "3月", "4月", "5月", "6月",
+			"7月", "8月", "9月", "10月", "11月", "12月"},
+		DayNames: []string{"日", "月", "火", "水", "木", "金", "土"},
 	}
 )
 
@@ -144,8 +161,12 @@ type DatepickerProps struct {
 	Config DatepickerConfig
 	// Placeholder sets the input placeholder text
 	Placeholder string
+	// Required marks the input as mandatory
+	Required bool
 	// Disabled controls whether the datepicker can be interacted with
 	Disabled bool
+	// HasError indicates whether the input should be styled as an error
+	HasError bool
 	// Class adds custom CSS classes
 	Class string
 	// Attributes allows additional HTML attributes
@@ -174,6 +195,9 @@ type DatepickerProps struct {
 // - Class: Additional CSS classes
 // - Attributes: Additional HTML attributes
 templ Datepicker(props DatepickerProps) {
+	if props.Placeholder == "" {
+		{{ props.Placeholder = "Select a date" }}
+	}
 	<div
 		class={ utils.TwMerge("relative", props.Class) }
 		if props.Value != (time.Time{}) {
@@ -182,6 +206,7 @@ templ Datepicker(props DatepickerProps) {
 		data-format={ string(props.Config.Format) }
 		data-monthnames={ templ.JSONString(props.Config.Locale.MonthNames) }
 		data-daynames={ templ.JSONString(props.Config.Locale.DayNames) }
+		data-input-id={ props.ID }
 		x-data="{
             open: false,
             value: null,
@@ -214,7 +239,7 @@ templ Datepicker(props DatepickerProps) {
             },
 
             updatePosition() {
-                const trigger = this.$refs.datePickerInput;
+                const trigger = document.getElementById($el.dataset.inputId);
                 const popup = this.$refs.datePickerPopup;
                 const rect = trigger.getBoundingClientRect();
                 const popupRect = popup.getBoundingClientRect();
@@ -259,15 +284,14 @@ templ Datepicker(props DatepickerProps) {
                 switch(this.format) {
                     case 'eu':
                         return `${d}.${m}.${y}`;
-					case 'uk':
-						return `${d}/${m}/${y}`;
+					          case 'uk':
+						            return `${d}/${m}/${y}`;
                     case 'us':
                         return `${m}/${d}/${y}`;
                     case 'long':
                         // Use the months array from the provided locale
                         return `${this.months[date.getMonth()]} ${d}, ${y}`;
-					// case 'iso'
-                    default:
+                    default: // iso
                         return `${y}-${m}-${d}`;
                 }
             },
@@ -294,24 +318,26 @@ templ Datepicker(props DatepickerProps) {
 		@resize.window="if (open) updatePosition()"
 	>
 		<div class="relative">
-			<input
-				x-ref="datePickerInput"
-				type="text"
-				id={ props.ID }
-				name={ props.Name }
-				if props.Placeholder != "" {
-					placeholder={ props.Placeholder }
-				} else {
-					placeholder="Select date"
-				}
-				disabled?={ props.Disabled }
-				:value="value"
-				x-modelable="value"
-				@click="toggleDatePicker()"
-				readonly
-				class="peer flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-				{ props.Attributes... }
-			/>
+			@Input(InputProps{
+				ID:          props.ID,
+				Name:        props.Name,
+				Value:       props.Value.Format(props.Config.GetGoFormat()),
+				Placeholder: props.Placeholder,
+				Disabled:    props.Disabled,
+				Class:       utils.TwMerge(props.Class, "peer"),
+				HasError:    props.HasError,
+				Type:        "text",
+				Readonly:    true,
+				Attributes: mergeAttributes(
+					templ.Attributes{
+						"x-ref":       "datePickerInput",
+						"x-modelable": "value",
+						":value":      "value",
+						"@click":      "toggleDatePicker()",
+					},
+					props.Attributes,
+				),
+			})
 			<button
 				type="button"
 				@click="toggleDatePicker()"

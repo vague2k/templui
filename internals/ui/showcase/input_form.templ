@@ -1,0 +1,28 @@
+package showcase
+
+import "github.com/axzilla/goilerplate/pkg/components"
+
+templ InputForm() {
+	<div class="w-full max-w-sm">
+		@components.FormItem(components.FormItemProps{}) {
+			@components.FormLabel(components.FormLabelProps{
+				Text: "Email",
+				For:  "email-form",
+			})
+			@components.Input(components.InputProps{
+				ID:          "email-form",
+				Type:        "email",
+				Placeholder: "m@example.com",
+				HasError:    true,
+				Disabled:    true,
+			})
+			@components.FormDescription(components.FormDescriptionProps{}) {
+				Enter your email address for notifications.			
+			}
+			@components.FormMessage(components.FormMessageProps{
+				Message: "Please enter a valid email address",
+				Type:    "error",
+			})
+		}
+	</div>
+}

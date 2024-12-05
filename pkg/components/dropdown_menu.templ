@@ -172,7 +172,7 @@ templ renderMenuItem(item DropdownMenuItem, index int, depth int) {
 // - ARIA support
 templ DropdownMenu(props DropdownMenuProps) {
 	<div
-		x-data="{ 
+		x-data="{
 			open: false,
 			position: $el.dataset.position,
 			verticalPosition: 'bottom',
@@ -181,7 +181,7 @@ templ DropdownMenu(props DropdownMenuProps) {
 				const rect = menu.getBoundingClientRect();
 				const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
 				const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
-				
+
 				if (this.position === 'left' && rect.left < 0) {
 					this.position = 'right';
 				} else if (this.position !== 'left' && rect.right > viewportWidth) {

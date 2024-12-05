@@ -2,14 +2,13 @@ package showcase
 
 import "github.com/axzilla/goilerplate/pkg/components"
 
-templ CheckboxDisabled() {
+templ CheckboxWithLabel() {
 	<div class="flex items-center gap-2">
 		@components.Checkbox(components.CheckboxProps{
-			ID:       "checkbox-disabled",
-			Disabled: true,
+			ID: "checkbox-with-label",
 		})
 		@components.Label(components.LabelProps{
-			For:  "checkbox-disabled",
+			For:  "checkbox-with-label",
 			Text: "Accept terms and conditions",
 		})
 	</div>

@@ -6,82 +6,102 @@ import (
 )
 
 type CheckboxProps struct {
-	// ID uniquely identifies the checkbox input
-	ID string
-
-	// Name sets the form field name
-	Name string
-
-	// Value sets the checkbox value
-	Value string
-
-	// Label displays text next to checkbox
-	// Empty string hides the label
-	Label string
-
-	// Class adds custom CSS classes
-	Class string
-
-	// Disabled sets the checkbox to disabled state
+	ID       string
+	Name     string
+	Value    string
+	Label    string
 	Disabled bool
+	Checked  bool
+	Icon     templ.Component
 
-	// Checked sets the checkbox to checked state
-	Checked bool
+	WrapperClass     string
+	LabelClass       string
+	CheckboxClass    string
+	IconWrapperClass string
 
-	// Attributes for additional HTML attributes and Alpine.js bindings
 	Attributes templ.Attributes
 }
 
 // Control that allows selecting multiple options from a list.
 //
 // For detailed examples and usage guides, visit https://goilerplate.com/docs/components/checkbox
-//
-// Props:
-// - ID: Unique identifier for the input
-// - Name: Form field name
-// - Value: Checkbox value
-// - Label: Optional text label
-// - Class: Additional CSS classes
-// - Attributes: Additional HTML attributes
 templ Checkbox(props CheckboxProps) {
-	<label
-		for={ props.ID }
-		class={ utils.TwMerge(
-            "flex cursor-pointer items-center gap-2 text-sm font-medium",
-            "text-muted-foreground [&:has(input:checked)]:text-foreground",
-            "[&:has(input:disabled)]:opacity-50 [&:has(input:disabled)]:cursor-not-allowed",
-            props.Class,
-        ) }
-	>
+	if props.ID == "" {
+		{{ props.ID = utils.RandomID() }}
+	}
+	<div class={ utils.TwMerge("flex items-center gap-2", props.WrapperClass) }>
 		<div class="relative flex items-center">
 			<input
+				x-ref={ props.ID }
+				data-input-id={ props.ID }
+				data-testid={ props.ID }
 				checked?={ props.Checked }
 				disabled?={ props.Disabled }
 				id={ props.ID }
 				name={ props.Name }
 				value={ props.Value }
 				type="checkbox"
-				class="before:content[''] peer relative size-4 cursor-pointer appearance-none overflow-hidden 
-                       rounded-sm border border-2 border-primary
-                       bg-background before:absolute before:inset-0 
-                       checked:before:bg-primary
-                       focus:outline focus:outline-2 focus:outline-offset-2 
-                       focus:outline-ring checked:focus:outline-primary 
-                       active:outline-offset-0 
-                       disabled:cursor-not-allowed
-                       transition-colors"
+				class={
+					utils.TwMerge(
+						// Layout
+						"relative size-4 overflow-hidden peer",
+						"before:absolute before:inset-0 before:content['']",
+				
+						// Styling
+						"appearance-none rounded-sm border-2 border-primary bg-background",
+						"cursor-pointer transition-colors",
+				
+						// States
+						"checked:before:bg-primary",
+						"disabled:cursor-not-allowed disabled:opacity-50",
+				
+						// Custom
+						props.CheckboxClass,
+					),
+				}
 				{ props.Attributes... }
 			/>
 			<div
-				class="pointer-events-none invisible absolute left-1/2 top-1/2 size-3 
-                        -translate-x-1/2 -translate-y-1/2 text-primary-foreground 
-                        peer-checked:visible"
+				class={
+					utils.TwMerge(
+						// Layout
+						"absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2",
+				
+						// Styling
+						"size-3 text-primary-foreground pointer-events-none opacity-0",
+				
+						// States
+						"peer-checked:opacity-100",
+				
+						// Custom
+						props.IconWrapperClass,
+					),
+				}
+				:class="{ 'visible': document.getElementById($el.dataset.inputId).checked }"
 			>
-				@icons.Check(icons.IconProps{Size: "12"})
+				if props.Icon != nil {
+					@props.Icon
+				} else {
+					@icons.Check(icons.IconProps{Size: "12"})
+				}
 			</div>
 		</div>
 		if props.Label != "" {
-			<span>{ props.Label }</span>
+			<label
+				for={ props.ID }
+				class={
+					utils.TwMerge(
+						// Styling
+						"text-sm font-medium",
+				
+						// Custom
+						props.LabelClass,
+					),
+				}
+				:class="{ 'opacity-50 cursor-not-allowed': document.getElementById($el.dataset.inputId).checked }"
+			>
+				{ props.Label }
+			</label>
 		}
-	</label>
+	</div>
 }

@@ -6,23 +6,12 @@ import (
 )
 
 templ DatepickerDisabled() {
-	<div class="w-full max-w-xs flex flex-col gap-4">
-		// Disabled using attributes
+	<div class="w-full max-w-sm">
 		@components.Datepicker(components.DatepickerProps{
-			ID:          "my-datepicker",
-			Name:        "selected-date",
+			ID:          "datepicker-disabled",
+			Name:        "datepicker-disabled",
 			Placeholder: "Select a date",
 			Value:       time.Now(),
-			Class:       "w-full max-w-xs",
-			Attributes:  templ.Attributes{"disabled": true},
-		})
-		// Disabled using props
-		@components.Datepicker(components.DatepickerProps{
-			ID:          "my-datepicker-2",
-			Name:        "selected-date-2",
-			Placeholder: "Select a date",
-			Value:       time.Now(),
-			Class:       "w-full max-w-xs",
 			Disabled:    true,
 		})
 	</div>

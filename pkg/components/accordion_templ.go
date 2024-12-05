@@ -71,7 +71,7 @@ func Accordion(props AccordionProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div x-data=\"{ \n\t\t\tactiveItem: null,\n\t\t\ttoggleItem(itemId) {\n\t\t\t\tthis.activeItem = this.activeItem === itemId ? null : itemId;\n\t\t\t}\n\t\t}\" class=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div x-data=\"{\n\t\t\tactiveItem: null,\n\t\t\ttoggleItem(itemId) {\n\t\t\t\tthis.activeItem = this.activeItem === itemId ? null : itemId;\n\t\t\t}\n\t\t}\" class=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

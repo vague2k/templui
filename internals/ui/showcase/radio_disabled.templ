@@ -1,0 +1,16 @@
+package showcase
+
+import "github.com/axzilla/goilerplate/pkg/components"
+
+templ RadioDisabled() {
+	<div class="flex gap-2 items-center">
+		@components.Radio(components.RadioProps{
+			ID:       "radio-disabled",
+			Disabled: true,
+		})
+		@components.Label(components.LabelProps{
+			For:  "radio-disabled",
+			Text: "Disabled",
+		})
+	</div>
+}

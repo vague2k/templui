@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/a-h/templ"
+	"math/rand"
 
 	twmerge "github.com/Oudwins/tailwind-merge-go"
 )
@@ -13,6 +14,22 @@ import (
 // Example: "bg-red-500 hover:bg-blue-500", "bg-green-500" → "hover:bg-blue-500 bg-green-500"
 func TwMerge(classes ...string) string {
 	return twmerge.Merge(classes...)
+}
+
+// TwIf returns a class if a condition is true, otherwise an empty string
+// Example: "bg-red-500", true → "bg-red-500", false → ""
+func TwIf(class string, condition bool) string {
+	result := templ.KV(class, condition)
+	if result.Value == true {
+		return result.Key
+	}
+	return ""
+}
+
+// RandomID returns a random ID string
+// Example: "id-123456"
+func RandomID() string {
+	return fmt.Sprintf("id-%d", rand.Intn(1000000))
 }
 
 // CSS returns a link tag for the Goilerplate CSS

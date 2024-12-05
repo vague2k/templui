@@ -1,0 +1,61 @@
+package showcase
+
+import "github.com/axzilla/goilerplate/pkg/components"
+
+templ CheckboxForm() {
+	<div class="w-full max-w-sm">
+		@components.FormItem(components.FormItemProps{}) {
+			// Group Label
+			@components.FormLabel(components.FormLabelProps{
+				Text: "Select your interests",
+			})
+			// Option 1
+			@components.FormItemFlex(components.FormItemProps{}) {
+				@components.Checkbox(components.CheckboxProps{
+					ID:      "c1",
+					Name:    "interests",
+					Value:   "design",
+					Checked: true,
+				})
+				@components.FormLabel(components.FormLabelProps{
+					For:  "c1",
+					Text: "Design and UX",
+				})
+			}
+			// Option 2
+			@components.FormItemFlex(components.FormItemProps{}) {
+				@components.Checkbox(components.CheckboxProps{
+					ID:       "c2",
+					Name:     "interests",
+					Value:    "development",
+					Disabled: true,
+				})
+				@components.FormLabel(components.FormLabelProps{
+					For:  "c2",
+					Text: "Development (Coming Soon)",
+				})
+			}
+			// Option 3
+			@components.FormItemFlex(components.FormItemProps{}) {
+				@components.Checkbox(components.CheckboxProps{
+					ID:    "c3",
+					Name:  "interests",
+					Value: "business",
+				})
+				@components.FormLabel(components.FormLabelProps{
+					For:  "c3",
+					Text: "Business and Marketing",
+				})
+			}
+			// Description
+			@components.FormDescription(components.FormDescriptionProps{}) {
+				Choose all areas that interest you.
+			}
+			// Error Message
+			@components.FormMessage(components.FormMessageProps{
+				Type:    "error",
+				Message: "Please select at least one interest.",
+			})
+		}
+	</div>
+}

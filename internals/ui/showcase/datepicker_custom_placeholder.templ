@@ -3,10 +3,11 @@ package showcase
 import "github.com/axzilla/goilerplate/pkg/components"
 
 templ DatepickerCustomPlaceholder() {
-	@components.Datepicker(components.DatepickerProps{
-		ID:          "date",
-		Name:        "date",
-		Placeholder: "When is your birthday?",
-		Class:       "w-full max-w-xs",
-	})
+	<div class="w-full max-w-sm">
+		@components.Datepicker(components.DatepickerProps{
+			ID:          "datepicker-custom-placeholder",
+			Name:        "datepicker-custom-placeholder",
+			Placeholder: "When is your birthday?",
+		})
+	</div>
 }

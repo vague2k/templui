@@ -1,19 +1,6 @@
 package components
 
-import "github.com/axzilla/goilerplate/pkg/utils"
-
-type RadioGroupProps struct {
-	// Name groups related radio buttons
-	Name string
-
-	// Class adds custom CSS classes
-	Class string
-
-	// Attributes for additional HTML attributes
-	Attributes templ.Attributes
-}
-
-type RadioGroupItemProps struct {
+type RadioProps struct {
 	// Value sets the radio button value
 	Value string
 
@@ -39,53 +26,18 @@ type RadioGroupItemProps struct {
 	Attributes templ.Attributes
 }
 
-// RadioGroup renders a set of mutually exclusive radio button options.
-// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/radio-group
-//
-// Props:
-// - Name: Groups related radio buttons
-// - Class: Additional CSS classes
-// - Attributes: Additional HTML attributes
-templ RadioGroup(props RadioGroupProps) {
-	<div
-		role="radiogroup"
-		class={ utils.TwMerge("space-y-2", props.Class) }
-		{ props.Attributes... }
-	>
-		{ children... }
-	</div>
-}
-
 // Control for selecting a single option from a list of choices.
 // Must be used within a RadioGroup component.
-//
-// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/radio-group
-//
-// Props:
-// - Value: Radio button value
-// - Name: Matches parent group name
-// - ID: Unique identifier
-// - Label: Button label
-// - Class: Additional CSS classes
-// - Attributes: Additional HTML attributes
-templ RadioGroupItem(props RadioGroupItemProps) {
-	<label
-		for={ props.ID }
-		class={ utils.TwMerge(
-            "flex items-center gap-2 cursor-pointer text-sm font-medium",
-            "text-muted-foreground [&:has(input:checked)]:text-foreground",
-            "[&:has(input:disabled)]:cursor-not-allowed [&:has(input:disabled)]:opacity-50",
-            props.Class,
-        ) }
-	>
-		<input
-			type="radio"
-			id={ props.ID }
-			name={ props.Name }
-			value={ props.Value }
-			checked?={ props.Checked }
-			disabled?={ props.Disabled }
-			class="before:content[''] relative h-4 w-4 appearance-none rounded-full 
+templ Radio(props RadioProps) {
+	<input
+		x-ref={ props.ID }
+		type="radio"
+		id={ props.ID }
+		name={ props.Name }
+		value={ props.Value }
+		checked?={ props.Checked }
+		disabled?={ props.Disabled }
+		class="before:content[''] relative h-4 w-4 appearance-none rounded-full 
                    border border-2 border-primary 
                    checked:border-primary checked:bg-primary
                    before:absolute before:left-1/2 before:top-1/2 
@@ -95,12 +47,6 @@ templ RadioGroupItem(props RadioGroupItemProps) {
                    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring 
                    focus-visible:ring-offset-2 focus-visible:ring-offset-background
                    disabled:cursor-not-allowed"
-			{ props.Attributes... }
-		/>
-		if props.Label != nil {
-			@props.Label
-		} else {
-			<span>{ props.Value }</span>
-		}
-	</label>
+		{ props.Attributes... }
+	/>
 }
