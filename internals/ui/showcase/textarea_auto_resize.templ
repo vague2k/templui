@@ -3,13 +3,10 @@ package showcase
 import "github.com/axzilla/goilerplate/pkg/components"
 
 templ TextareaAutoResize() {
-	@components.Textarea(components.TextareaProps{
-		ID:          "auto-resize",
-		Name:        "auto-resize",
-		Label:       "Your Message",
-		Description: "This textarea will grow as you type.",
-		Placeholder: "Start typing to see the magic...",
-		Rows:        3,
-		AutoResize:  true,
-	})
+	<div class="w-full max-w-md">
+		@components.Textarea(components.TextareaProps{
+			Placeholder: "Start typing to see the magic...",
+			AutoResize:  true,
+		})
+	</div>
 }

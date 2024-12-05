@@ -3,13 +3,15 @@ package showcase
 import "github.com/axzilla/goilerplate/pkg/components"
 
 templ SliderWithLabel() {
-	@components.Slider(components.SliderProps{
-		ID:    "with-label",
-		Name:  "with-label",
-		Label: "Volume",
-		Value: 65,
-		Min:   0,
-		Max:   100,
-		Step:  1,
-	})
+	<div class="w-full max-w-sm">
+		@components.Slider(components.SliderProps{
+			ID:    "with-label",
+			Name:  "with-label",
+			Label: "Volume",
+			Value: 65,
+			Min:   0,
+			Max:   100,
+			Step:  1,
+		})
+	</div>
 }

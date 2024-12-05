@@ -2,11 +2,10 @@ package components
 
 import "github.com/axzilla/goilerplate/pkg/utils"
 
-// InputType defines the available input field types
+// InputType defines the type of input field
 type InputType string
 
 const (
-	// Standard text inputs
 	InputTypeText     InputType = "text"
 	InputTypePassword InputType = "password"
 	InputTypeEmail    InputType = "email"
@@ -14,108 +13,63 @@ const (
 	InputTypeTel      InputType = "tel"
 	InputTypeURL      InputType = "url"
 	InputTypeSearch   InputType = "search"
-
-	// Date and time inputs
-	InputTypeDate InputType = "date"
-	InputTypeTime InputType = "time"
-
-	// File upload input
-	InputTypeFile InputType = "file"
+	InputTypeDate     InputType = "date"
+	InputTypeTime     InputType = "time"
+	InputTypeFile     InputType = "file"
 )
 
+// InputProps configures the Input component
 type InputProps struct {
-	// Type sets the input field behavior
-	Type InputType
-
-	// Placeholder shows helper text when empty
-	Placeholder string
-
-	// Value sets the current input content
-	Value string
-
-	// Name sets the form field name
-	Name string
-
-	// ID uniquely identifies the input
-	ID string
-
-	// Label displays text above input
-	Label string
-
-	// Disabled sets the input to disabled state
-	Disabled bool
-
-	// Description shows helper text below input
-	Description string
-
-	// Error displays validation message
-	Error string
-
-	// Class adds custom CSS classes
-	Class string
-
-	// FileAccept limits allowed file types
-	// Only used when Type is InputTypeFile
-	FileAccept string
-
-	// Attributes for additional HTML attributes and Alpine.js bindings
-	Attributes templ.Attributes
+	Type        InputType        // Input field type
+	Placeholder string           // Helper text shown when empty
+	Value       string           // Current input value
+	Name        string           // Form field name
+	ID          string           // DOM identifier
+	Disabled    bool             // Prevents interaction
+	Readonly    bool             // Allows selection only
+	Class       string           // Additional CSS classes
+	FileAccept  string           // Allowed file types
+	HasError    bool             // Error state styling
+	Attributes  templ.Attributes // Extra HTML/Alpine attributes
 }
 
-// Text field that allows users to enter and edit values.
-//
-// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/input
-//
-// Props:
-// - Type: Input field behavior type
-// - Placeholder: Helper text when empty
-// - Value: Current input value
-// - Name: Form field name
-// - ID: Unique identifier
-// - Label: Text label
-// - Description: Helper text
-// - Error: Validation message
-// - Class: Additional CSS classes
-// - FileAccept: Allowed file types
-// - Attributes: Additional HTML attributes
+// Input renders a styled form input field
 templ Input(props InputProps) {
-	<span class="space-y-2">
-		if props.Label != "" {
-			<label
-				for={ props.ID }
-				class={ "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",   
-      templ.KV("text-destructive", len(props.Error)>0) }
-			>
-				{ props.Label }
-			</label>
+	<input
+		x-ref={ props.ID }
+		type={ string(props.Type) }
+		placeholder={ props.Placeholder }
+		disabled?={ props.Disabled }
+		readonly?={ props.Readonly }
+		name={ props.Name }
+		if props.Value != "" {
+			value={ props.Value }
 		}
-		<input
-			type={ string(props.Type) }
-			placeholder={ props.Placeholder }
-			disabled?={ props.Disabled }
-			name={ props.Name }
-			if props.Value != "" {
-				value={ props.Value }
-			}
-			id={ props.ID }
-			class={
-				utils.TwMerge("flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background",
-					"file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground",
-					"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-					"disabled:cursor-not-allowed disabled:opacity-50",
-					"file:text-foreground dark:file:text-foreground",
-					props.Class),
-			}
-			if props.Type == InputTypeFile {
-				accept={ props.FileAccept }
-			}
-			{ props.Attributes... }
-		/>
-		if props.Description != "" {
-			<p class="text-sm text-muted-foreground m-0">{ props.Description }</p>
+		id={ props.ID }
+		class={
+			utils.TwMerge(
+				// Layout
+				"peer flex h-10 w-full px-3 py-2",
+		
+				// Styling
+				"rounded-md border border-input bg-background text-sm ring-offset-background",
+				"file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground ",
+				"placeholder:text-muted-foreground",
+		
+				// States
+				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+				"disabled:cursor-not-allowed disabled:opacity-50",
+		
+				// Conditional
+				utils.TwIf("border-destructive ring-destructive", props.HasError),
+		
+				// Custom
+				props.Class,
+			),
 		}
-		if props.Error != "" {
-			<p class="text-sm font-medium text-destructive">{ props.Error }</p>
+		if props.Type == InputTypeFile {
+			accept={ props.FileAccept }
 		}
-	</span>
+		{ props.Attributes... }
+	/>
 }

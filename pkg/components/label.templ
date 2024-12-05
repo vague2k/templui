@@ -1,0 +1,37 @@
+package components
+
+// LabelProps represents label properties
+type LabelProps struct {
+	ID            string // Optional label ID
+	For           string // Target input ID
+	Text          string // Label text
+	Error         string // Error message
+	Class         string // Custom classes
+	DisabledClass string // Classes applied when input is disabled
+}
+
+// Label renders a form label with error and disabled states
+templ Label(props LabelProps) {
+	<label
+		id={ props.ID }
+		for={ props.For }
+		class={
+			// Styling
+			"text-sm font-medium leading-none",
+		
+			// Utility
+			templ.KV("text-destructive", len(props.Error) > 0),
+		
+			// Custom
+			props.Class,
+		}
+		if props.DisabledClass != "" {
+			data-disabled-style={ props.DisabledClass }
+		} else {
+			data-disabled-style="opacity-50 cursor-not-allowed"
+		}
+		x-bind:class="{ [$el.dataset.disabledStyle]: $refs[$el.getAttribute('for')]?.disabled }"
+	>
+		{ props.Text }
+	</label>
+}

@@ -5,83 +5,74 @@ import (
 	"github.com/axzilla/goilerplate/pkg/utils"
 )
 
+// CheckboxProps configures the Checkbox component
 type CheckboxProps struct {
-	// ID uniquely identifies the checkbox input
-	ID string
-
-	// Name sets the form field name
-	Name string
-
-	// Value sets the checkbox value
-	Value string
-
-	// Label displays text next to checkbox
-	// Empty string hides the label
-	Label string
-
-	// Class adds custom CSS classes
-	Class string
-
-	// Disabled sets the checkbox to disabled state
-	Disabled bool
-
-	// Checked sets the checkbox to checked state
-	Checked bool
-
-	// Attributes for additional HTML attributes and Alpine.js bindings
-	Attributes templ.Attributes
+	ID         string           // DOM identifier
+	Name       string           // Form field name
+	Value      string           // Checkbox value
+	Disabled   bool             // Prevents interaction
+	Checked    bool             // Selected state
+	Icon       templ.Component  // Custom check icon
+	Class      string           // Additional CSS classes
+	Attributes templ.Attributes // Extra HTML/Alpine attributes
 }
 
-// Control that allows selecting multiple options from a list.
-//
-// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/checkbox
-//
-// Props:
-// - ID: Unique identifier for the input
-// - Name: Form field name
-// - Value: Checkbox value
-// - Label: Optional text label
-// - Class: Additional CSS classes
-// - Attributes: Additional HTML attributes
+// Checkbox renders a styled checkbox input with customizable icon
 templ Checkbox(props CheckboxProps) {
-	<label
-		for={ props.ID }
-		class={ utils.TwMerge(
-            "flex cursor-pointer items-center gap-2 text-sm font-medium",
-            "text-muted-foreground [&:has(input:checked)]:text-foreground",
-            "[&:has(input:disabled)]:opacity-50 [&:has(input:disabled)]:cursor-not-allowed",
-            props.Class,
-        ) }
-	>
-		<div class="relative flex items-center">
-			<input
-				checked?={ props.Checked }
-				disabled?={ props.Disabled }
-				id={ props.ID }
-				name={ props.Name }
-				value={ props.Value }
-				type="checkbox"
-				class="before:content[''] peer relative size-4 cursor-pointer appearance-none overflow-hidden 
-                       rounded-sm border border-2 border-primary
-                       bg-background before:absolute before:inset-0 
-                       checked:before:bg-primary
-                       focus:outline focus:outline-2 focus:outline-offset-2 
-                       focus:outline-ring checked:focus:outline-primary 
-                       active:outline-offset-0 
-                       disabled:cursor-not-allowed
-                       transition-colors"
-				{ props.Attributes... }
-			/>
-			<div
-				class="pointer-events-none invisible absolute left-1/2 top-1/2 size-3 
-                        -translate-x-1/2 -translate-y-1/2 text-primary-foreground 
-                        peer-checked:visible"
-			>
+	if props.ID == "" {
+		{{ props.ID = utils.RandomID() }}
+	}
+	<div class="relative flex items-center">
+		<input
+			x-ref={ props.ID }
+			data-input-id={ props.ID }
+			data-testid={ props.ID }
+			checked?={ props.Checked }
+			disabled?={ props.Disabled }
+			id={ props.ID }
+			name={ props.Name }
+			value={ props.Value }
+			type="checkbox"
+			class={
+				utils.TwMerge(
+					// Layout
+					"relative size-4 overflow-hidden peer",
+					"before:absolute before:inset-0 before:content['']",
+			
+					// Styling
+					"appearance-none rounded-sm border-2 border-primary bg-background",
+					"cursor-pointer transition-colors",
+			
+					// States
+					"checked:before:bg-primary",
+					"disabled:cursor-not-allowed disabled:opacity-50",
+			
+					// Custom
+					props.Class,
+				),
+			}
+			{ props.Attributes... }
+		/>
+		<div
+			class={
+				utils.TwMerge(
+					// Layout
+					"absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2",
+			
+					// Styling
+					"size-3 text-primary-foreground pointer-events-none opacity-0",
+			
+					// States
+					"peer-checked:opacity-100",
+				),
+			}
+			:class="{ 'visible': document.getElementById($el.dataset.inputId).checked }"
+		>
+			if props.Icon != nil {
+				@props.Icon
+			} else {
 				@icons.Check(icons.IconProps{Size: "12"})
-			</div>
+			}
 		</div>
-		if props.Label != "" {
-			<span>{ props.Label }</span>
-		}
-	</label>
+	</div>
 }

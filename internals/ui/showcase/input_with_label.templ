@@ -3,9 +3,12 @@ package showcase
 import "github.com/axzilla/goilerplate/pkg/components"
 
 templ InputWithLabel() {
-	@components.Input(components.InputProps{
-		ID:    "email",
-		Type:  "email",
-		Label: "Email",
-	})
+	<div class="w-full max-w-sm grid gap-2">
+		@components.Label(components.LabelProps{Text: "Email", For: "email"})
+		@components.Input(components.InputProps{
+			ID:          "email",
+			Type:        "email",
+			Placeholder: "Email",
+		})
+	</div>
 }

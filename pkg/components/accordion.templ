@@ -39,7 +39,7 @@ type AccordionProps struct {
 // - Attributes: Additional HTML attributes (e.g. data-testid)
 templ Accordion(props AccordionProps) {
 	<div
-		x-data="{ 
+		x-data="{
 			activeItem: null,
 			toggleItem(itemId) {
 				this.activeItem = this.activeItem === itemId ? null : itemId;

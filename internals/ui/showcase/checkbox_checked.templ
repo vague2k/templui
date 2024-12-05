@@ -3,20 +3,7 @@ package showcase
 import "github.com/axzilla/goilerplate/pkg/components"
 
 templ CheckboxChecked() {
-	<div class="flex flex-col gap-4">
-		@components.Checkbox(components.CheckboxProps{
-			ID:      "checked-checkbox",
-			Name:    "newsletter",
-			Value:   "subscribe",
-			Label:   "Checked using props",
-			Checked: true,
-		})
-		@components.Checkbox(components.CheckboxProps{
-			ID:         "checked-checkbox",
-			Name:       "newsletter",
-			Value:      "subscribe",
-			Label:      "Checked using attributes",
-			Attributes: templ.Attributes{"checked": "true"},
-		})
-	</div>
+	@components.Checkbox(components.CheckboxProps{
+		Checked: true,
+	})
 }

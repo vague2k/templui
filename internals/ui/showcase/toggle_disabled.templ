@@ -3,18 +3,14 @@ package showcase
 import "github.com/axzilla/goilerplate/pkg/components"
 
 templ ToggleDisabled() {
-	<div class="flex flex-col gap-4">
+	<div class="flex items-center gap-2">
 		@components.Toggle(components.ToggleProps{
-			ID:         "toggle-disabled",
-			Name:       "toggle-disabled",
-			LabelRight: "Disabled using props",
-			Disabled:   true,
+			ID:       "toggle-disabled",
+			Disabled: true,
 		})
-		@components.Toggle(components.ToggleProps{
-			ID:         "toggle-disabled",
-			Name:       "toggle-disabled",
-			LabelRight: "Disabled using attributes",
-			Attributes: templ.Attributes{"disabled": "true"},
+		@components.Label(components.LabelProps{
+			For:  "toggle-disabled",
+			Text: "Airplane Mode",
 		})
 	</div>
 }

@@ -1,0 +1,15 @@
+package showcase
+
+import "github.com/axzilla/goilerplate/pkg/components"
+
+templ RadioWithLabel() {
+	<div class="flex gap-2 items-center">
+		@components.Radio(components.RadioProps{
+			ID: "radio-with-label",
+		})
+		@components.Label(components.LabelProps{
+			For:  "radio-with-label",
+			Text: "Label",
+		})
+	</div>
+}

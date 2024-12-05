@@ -3,8 +3,10 @@ package showcase
 import "github.com/axzilla/goilerplate/pkg/components"
 
 templ SliderDefault() {
-	@components.Slider(components.SliderProps{
-		ID:   "default",
-		Name: "default",
-	})
+	<div class="w-full max-w-sm">
+		@components.Slider(components.SliderProps{
+			ID:   "default",
+			Name: "default",
+		})
+	</div>
 }

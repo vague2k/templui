@@ -1,0 +1,13 @@
+package showcase
+
+import (
+	"github.com/axzilla/goilerplate/pkg/components"
+	"github.com/axzilla/goilerplate/pkg/icons"
+)
+
+templ CheckboxCustomIcon() {
+	@components.Checkbox(components.CheckboxProps{
+		Icon:    icons.Plus(icons.IconProps{Size: "12"}),
+		Checked: true,
+	})
+}

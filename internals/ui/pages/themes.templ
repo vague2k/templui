@@ -100,50 +100,48 @@ templ ThemePreview() {
 					</div>
 					<div class="space-y-2">
 						<label class="text-sm font-medium">Preferred Contact Method</label>
-						@components.RadioGroup(components.RadioGroupProps{Name: "contact-method"}) {
-							@components.RadioGroupItem(components.RadioGroupItemProps{
-								Value: "email",
-								ID:    "contact-email",
-								Name:  "contact-method",
-								Label: templ.Raw("Email"),
-							})
-							@components.RadioGroupItem(components.RadioGroupItemProps{
-								Value: "phone",
-								ID:    "contact-phone",
-								Name:  "contact-method",
-								Label: templ.Raw("Phone"),
-							})
-							@components.RadioGroupItem(components.RadioGroupItemProps{
-								Value:      "mail",
-								ID:         "contact-mail",
-								Name:       "contact-method",
-								Label:      templ.Raw("Physical Mail"),
-								Attributes: templ.Attributes{"disabled": "true"},
-							})
-						}
+						@components.Radio(components.RadioProps{
+							Value: "email",
+							ID:    "contact-email",
+							Name:  "contact-method",
+							// Label: templ.Raw("Email"),
+						})
+						@components.Radio(components.RadioProps{
+							Value: "phone",
+							ID:    "contact-phone",
+							Name:  "contact-method",
+							// Label: templ.Raw("Phone"),
+						})
+						@components.Radio(components.RadioProps{
+							Value: "mail",
+							ID:    "contact-mail",
+							Name:  "contact-method",
+							// Label:      templ.Raw("Physical Mail"),
+							Attributes: templ.Attributes{"disabled": "true"},
+						})
 					</div>
 					<div class="space-y-4">
 						<label class="text-sm font-medium">Preferences</label>
 						<div class="space-y-2">
 							@components.Toggle(components.ToggleProps{
-								ID:         "marketing",
-								Name:       "marketing",
-								LabelRight: "Receive marketing emails",
+								ID:   "marketing",
+								Name: "marketing",
+								// LabelRight: "Receive marketing emails",
 							})
 						</div>
 						<div class="space-y-2">
 							@components.Toggle(components.ToggleProps{
-								ID:         "notifications",
-								Name:       "notifications",
-								LabelRight: "Enable notifications",
+								ID:   "notifications",
+								Name: "notifications",
+								// LabelRight: "Enable notifications",
 								Attributes: templ.Attributes{"checked": "true"},
 							})
 						</div>
 						<div class="space-y-2">
 							@components.Toggle(components.ToggleProps{
-								ID:         "beta",
-								Name:       "beta",
-								LabelRight: "Join beta program",
+								ID:   "beta",
+								Name: "beta",
+								// LabelRight: "Join beta program",
 								Attributes: templ.Attributes{"disabled": "true"},
 							})
 						</div>
@@ -153,7 +151,6 @@ templ ThemePreview() {
 							ID:    "terms",
 							Name:  "terms",
 							Value: "accepted",
-							Label: "I agree to the Terms and Conditions",
 						})
 					</div>
 					<div class="space-y-2">
@@ -161,7 +158,6 @@ templ ThemePreview() {
 							ID:    "newsletter",
 							Name:  "newsletter",
 							Value: "subscribed",
-							Label: "Subscribe to our newsletter",
 						})
 					</div>
 				</form>

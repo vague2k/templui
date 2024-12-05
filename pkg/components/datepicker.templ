@@ -6,20 +6,15 @@ import (
 	"time"
 )
 
-// DateFormat defines the available date formatting styles
+// DateFormat defines date formatting options
 type DateFormat string
 
 const (
-	// DateFormatISO represents ISO format (YYYY-MM-DD)
-	DateFormatISO DateFormat = "iso"
-	// DateFormatEU represents European format (DD.MM.YYYY)
-	DateFormatEU DateFormat = "eu"
-	// DateFormatUK represents UK format (DD/MM/YYYY)
-	DateFormatUK DateFormat = "uk"
-	// DateFormatUS represents US format (MM/DD/YYYY)
-	DateFormatUS DateFormat = "us"
-	// DateFormatLONG represents long format (Month DD, YYYY)
-	DateFormatLONG DateFormat = "long"
+	DateFormatISO  DateFormat = "iso"  // ISO format (YYYY-MM-DD)
+	DateFormatEU   DateFormat = "eu"   // European format (DD.MM.YYYY)
+	DateFormatUK   DateFormat = "uk"   // UK format (DD/MM/YYYY)
+	DateFormatUS   DateFormat = "us"   // US format (MM/DD/YYYY)
+	DateFormatLONG DateFormat = "long" // Long format (Month DD, YYYY)
 )
 
 // dateFormatMapping maps DateFormat to Go time format strings
@@ -31,15 +26,13 @@ var dateFormatMapping = map[DateFormat]string{
 	DateFormatLONG: "January 2, 2006",
 }
 
-// DateLocale defines localization settings for the datepicker
+// DateLocale configures locale-specific settings
 type DateLocale struct {
-	// MonthNames contains the localized names of months
-	MonthNames []string
-	// DayNames contains the localized abbreviated day names
-	DayNames []string
+	MonthNames []string // Localized month names
+	DayNames   []string // Localized day names
 }
 
-// DateLocaleDefault provides English localization
+// DateLocaleDefault and other locale presets
 var DateLocaleDefault = DateLocale{
 	MonthNames: []string{"January", "February", "March", "April", "May", "June",
 		"July", "August", "September", "October", "November", "December"},
@@ -75,13 +68,14 @@ var (
 			"Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"},
 		DayNames: []string{"Lu", "Ma", "Me", "Gi", "Ve", "Sa", "Do"},
 	}
-)
 
-// DatepickerConfig combines format and locale settings
-type DatepickerConfig struct {
-	Format DateFormat
-	Locale DateLocale
-}
+	// DateLocaleJapanese provides Japanese localization
+	DateLocaleJapanese = DateLocale{
+		MonthNames: []string{"1月", "2月", "3月", "4月", "5月", "6月",
+			"7月", "8月", "9月", "10月", "11月", "12月"},
+		DayNames: []string{"日", "月", "火", "水", "木", "金", "土"},
+	}
+)
 
 // Pre-defined datepicker configurations
 var (
@@ -132,48 +126,31 @@ func (c DatepickerConfig) GetGoFormat() string {
 	return dateFormatMapping[DateFormatISO] // Default to ISO
 }
 
-// DatepickerProps defines all available props for the Datepicker component
-type DatepickerProps struct {
-	// ID sets the input element's ID
-	ID string
-	// Name sets the input element's name
-	Name string
-	// Value sets the initial date
-	Value time.Time
-	// Config provides format and locale settings
-	Config DatepickerConfig
-	// Placeholder sets the input placeholder text
-	Placeholder string
-	// Disabled controls whether the datepicker can be interacted with
-	Disabled bool
-	// Class adds custom CSS classes
-	Class string
-	// Attributes allows additional HTML attributes
-	Attributes templ.Attributes
+// DatepickerConfig combines format and locale settings
+type DatepickerConfig struct {
+	Format DateFormat // Date format style
+	Locale DateLocale // Localization settings
 }
 
-// Calendar interface for selecting and formatting dates.
-//
-// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/datepicker
-//
-// Features:
-// - Multiple date formats (ISO, EU, US, UK, Long)
-// - Localization support for months and weekdays
-// - Popup calendar for date selection
-// - Keyboard navigation support
-// - Responsive positioning
-// - Custom styling support
-//
-// Props:
-// - ID: Input element identifier
-// - Name: Form field name
-// - Value: Initial date value
-// - Config: Format and locale settings
-// - Placeholder: Input placeholder text
-// - Disabled: Interactivity state
-// - Class: Additional CSS classes
-// - Attributes: Additional HTML attributes
+// DatepickerProps configures the Datepicker component
+type DatepickerProps struct {
+	ID          string           // DOM identifier
+	Name        string           // Form field name
+	Value       time.Time        // Selected date
+	Config      DatepickerConfig // Format and locale config
+	Placeholder string           // Helper text shown when empty
+	Required    bool             // Marks input as mandatory
+	Disabled    bool             // Prevents interaction
+	HasError    bool             // Error state styling
+	Class       string           // Additional CSS classes
+	Attributes  templ.Attributes // Extra HTML/Alpine attributes
+}
+
+// Datepicker renders a date selection input with calendar popup
 templ Datepicker(props DatepickerProps) {
+	if props.Placeholder == "" {
+		{{ props.Placeholder = "Select a date" }}
+	}
 	<div
 		class={ utils.TwMerge("relative", props.Class) }
 		if props.Value != (time.Time{}) {
@@ -182,6 +159,7 @@ templ Datepicker(props DatepickerProps) {
 		data-format={ string(props.Config.Format) }
 		data-monthnames={ templ.JSONString(props.Config.Locale.MonthNames) }
 		data-daynames={ templ.JSONString(props.Config.Locale.DayNames) }
+		data-input-id={ props.ID }
 		x-data="{
             open: false,
             value: null,
@@ -214,7 +192,7 @@ templ Datepicker(props DatepickerProps) {
             },
 
             updatePosition() {
-                const trigger = this.$refs.datePickerInput;
+                const trigger = document.getElementById($el.dataset.inputId);
                 const popup = this.$refs.datePickerPopup;
                 const rect = trigger.getBoundingClientRect();
                 const popupRect = popup.getBoundingClientRect();
@@ -259,15 +237,14 @@ templ Datepicker(props DatepickerProps) {
                 switch(this.format) {
                     case 'eu':
                         return `${d}.${m}.${y}`;
-					case 'uk':
-						return `${d}/${m}/${y}`;
+					          case 'uk':
+						            return `${d}/${m}/${y}`;
                     case 'us':
                         return `${m}/${d}/${y}`;
                     case 'long':
                         // Use the months array from the provided locale
                         return `${this.months[date.getMonth()]} ${d}, ${y}`;
-					// case 'iso'
-                    default:
+                    default: // iso
                         return `${y}-${m}-${d}`;
                 }
             },
@@ -294,29 +271,41 @@ templ Datepicker(props DatepickerProps) {
 		@resize.window="if (open) updatePosition()"
 	>
 		<div class="relative">
-			<input
-				x-ref="datePickerInput"
-				type="text"
-				id={ props.ID }
-				name={ props.Name }
-				if props.Placeholder != "" {
-					placeholder={ props.Placeholder }
-				} else {
-					placeholder="Select date"
-				}
-				disabled?={ props.Disabled }
-				:value="value"
-				x-modelable="value"
-				@click="toggleDatePicker()"
-				readonly
-				class="peer flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
-				{ props.Attributes... }
-			/>
+			@Input(InputProps{
+				ID:          props.ID,
+				Name:        props.Name,
+				Value:       props.Value.Format(props.Config.GetGoFormat()),
+				Placeholder: props.Placeholder,
+				Disabled:    props.Disabled,
+				Class:       utils.TwMerge(props.Class, "peer"),
+				HasError:    props.HasError,
+				Type:        "text",
+				Readonly:    true,
+				Attributes: utils.MergeAttributes(
+					templ.Attributes{
+						"x-ref":       "datePickerInput",
+						"x-modelable": "value",
+						":value":      "value",
+						"@click":      "toggleDatePicker()",
+					},
+					props.Attributes,
+				),
+			})
 			<button
 				type="button"
 				@click="toggleDatePicker()"
 				disabled?={ props.Disabled }
-				class="peer-disabled:pointer-events-none peer-disabled:opacity-50 absolute top-0 right-0 px-3 py-2 cursor-pointer text-muted-foreground hover:text-foreground"
+				class={
+					utils.TwMerge(
+						// Layout
+						"absolute top-0 right-0 px-3 py-2",
+						// Styling
+						"cursor-pointer text-muted-foreground",
+						// States
+						"hover:text-foreground",
+						"peer-disabled:pointer-events-none peer-disabled:opacity-50",
+					),
+				}
 			>
 				@icons.Calendar(icons.IconProps{})
 			</button>
@@ -326,7 +315,16 @@ templ Datepicker(props DatepickerProps) {
 			x-ref="datePickerPopup"
 			@click.away="open = false"
 			x-transition.opacity
-			class="absolute left-0 z-50 mt-1 w-64 rounded-lg border bg-popover p-4 shadow-md"
+			class={
+				utils.TwMerge(
+					// Layout
+					"absolute left-0 z-50 w-64 p-4",
+					// Styling
+					"rounded-lg border bg-popover shadow-md",
+					// States
+					"top-full mt-1",
+				),
+			}
 			:class="{'top-full mt-1': position === 'bottom','bottom-full mb-1': position === 'top'}"
 		>
 			<div class="flex items-center justify-between mb-4">

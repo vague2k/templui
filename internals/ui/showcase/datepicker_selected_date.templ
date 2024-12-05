@@ -1,3 +1,4 @@
+
 package showcase
 
 import (
@@ -6,11 +7,9 @@ import (
 )
 
 templ DatepickerSelectedDate() {
-	@components.Datepicker(components.DatepickerProps{
-		ID:          "my-datepicker",
-		Name:        "selected-date",
-		Placeholder: "Select a date",
-		Value:       time.Now(),
-		Class:       "w-full max-w-xs",
-	})
+	<div class="w-full max-w-sm">
+		@components.Datepicker(components.DatepickerProps{
+			Value: time.Now(),
+		})
+	</div>
 }
