@@ -1,18 +1,11 @@
 package showcase
 
-import (
-	"github.com/axzilla/goilerplate/pkg/components"
-	"time"
-)
+import "github.com/axzilla/goilerplate/pkg/components"
 
 templ DatepickerDisabled() {
 	<div class="w-full max-w-sm">
 		@components.Datepicker(components.DatepickerProps{
-			ID:          "datepicker-disabled",
-			Name:        "datepicker-disabled",
-			Placeholder: "Select a date",
-			Value:       time.Now(),
-			Disabled:    true,
+			Disabled: true,
 		})
 	</div>
 }

@@ -5,102 +5,58 @@ import (
 	"strconv"
 )
 
+// TextareaProps configures the Textarea component
 type TextareaProps struct {
-	// ID uniquely identifies the textarea
-	ID string
-
-	// Name sets the form field name
-	Name string
-
-	// Value sets initial content
-	Value string
-
-	// Placeholder shows when empty
-	Placeholder string
-
-	// Label displays text above textarea
-	Label string
-
-	// Description shows helper text below
-	Description string
-
-	// Error displays validation message
-	Error string
-
-	// Rows sets visible text lines height
-	Rows int
-
-	// Disabled prevents user input
-	Disabled bool
-
-	// Class adds custom CSS classes
-	Class string
-
-	// AutoResize enables dynamic height adjustment
-	AutoResize bool
-
-	// Attributes for additional HTML attributes and Alpine.js bindings
-	Attributes templ.Attributes
+	ID          string           // DOM identifier
+	Name        string           // Form field name
+	Value       string           // Initial content
+	Placeholder string           // Helper text shown when empty
+	Rows        int              // Visible lines of text
+	Disabled    bool             // Prevents interaction
+	Class       string           // Additional CSS classes
+	AutoResize  bool             // Enables dynamic resizing
+	Attributes  templ.Attributes // Extra HTML/Alpine attributes
 }
 
-// Multi-line text field for longer form content.
-//
-// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/textarea
-//
-// Props:
-// - ID: Unique identifier
-// - Name: Form field name
-// - Value: Initial content
-// - Placeholder: Helper text when empty
-// - Label: Text label
-// - Description: Helper text
-// - Error: Validation message
-// - Rows: Initial height in lines
-// - Class: Additional CSS classes
-// - AutoResize: Enable dynamic sizing
-// - Attributes: Additional HTML attributes
+// Textarea renders a multi-line text input field
 templ Textarea(props TextareaProps) {
-	<div class="space-y-2">
-		if props.Label != "" {
-			<label
-				for={ props.ID }
-				class={ "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
-                    templ.KV("text-destructive", len(props.Error) > 0) }
-			>
-				{ props.Label }
-			</label>
+	<textarea
+		x-ref={ props.ID }
+		id={ props.ID }
+		name={ props.Name }
+		placeholder={ props.Placeholder }
+		disabled?={ props.Disabled }
+		if props.Rows != 0 {
+			rows={ strconv.Itoa(props.Rows) }
 		}
-		<textarea
-			id={ props.ID }
-			name={ props.Name }
-			placeholder={ props.Placeholder }
-			disabled?={ props.Disabled }
-			if props.Rows != 0 {
-				rows={ strconv.Itoa(props.Rows) }
-			}
-			class={ utils.TwMerge(
-                "flex w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background",
-                "min-h-[80px] placeholder:text-muted-foreground",
-                "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-                "disabled:cursor-not-allowed disabled:opacity-50",
-                props.Class,
-            ) }
-			if props.AutoResize {
-				x-data="{ resize() { $el.style.height = '80px'; $el.style.height = $el.scrollHeight + 'px' } }"
-				x-init="resize()"
-				@input="resize()"
-			}
-			{ props.Attributes... }
-		>
-			if props.Value != "" {
-				{ props.Value }
-			}
-		</textarea>
-		if props.Description != "" {
-			<p class="text-sm text-muted-foreground">{ props.Description }</p>
+		class={
+			utils.TwMerge(
+				// Layout
+				"flex w-full px-3 py-2",
+				"min-h-[80px]",
+		
+				// Styling
+				"rounded-md border border-input bg-background text-sm",
+				"ring-offset-background",
+				"placeholder:text-muted-foreground",
+		
+				// States
+				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+				"disabled:cursor-not-allowed disabled:opacity-50",
+		
+				// Custom
+				props.Class,
+			),
 		}
-		if props.Error != "" {
-			<p class="text-sm font-medium text-destructive">{ props.Error }</p>
+		if props.AutoResize {
+			x-data="{ resize() { $el.style.height = '80px'; $el.style.height = $el.scrollHeight + 'px' } }"
+			x-init="resize()"
+			@input="resize()"
 		}
-	</div>
+		{ props.Attributes... }
+	>
+		if props.Value != "" {
+			{ props.Value }
+		}
+	</textarea>
 }

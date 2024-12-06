@@ -3,15 +3,15 @@ package showcase
 import "github.com/axzilla/goilerplate/pkg/components"
 
 templ SelectWithPlaceholder() {
-	@components.Select(components.SelectProps{
-		ID:          "fruit",
-		Name:        "fruit",
-		Placeholder: "Select a fruit",
-		Options: []components.SelectOption{
-			{Label: "Apple", Value: "apple"},
-			{Label: "Banana", Value: "banana"},
-			{Label: "Orange", Value: "orange"},
-			{Label: "Mango", Value: "mango"},
-		},
-	})
+	<div class="w-full  max-w-md">
+		@components.Select(components.SelectProps{
+			Placeholder: "Pick a fruit",
+			Options: []components.SelectOption{
+				{Label: "Apple", Value: "apple"},
+				{Label: "Banana", Value: "banana"},
+				{Label: "Orange", Value: "orange"},
+				{Label: "Mango", Value: "mango"},
+			},
+		})
+	</div>
 }

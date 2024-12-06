@@ -5,103 +5,74 @@ import (
 	"github.com/axzilla/goilerplate/pkg/utils"
 )
 
+// CheckboxProps configures the Checkbox component
 type CheckboxProps struct {
-	ID       string
-	Name     string
-	Value    string
-	Label    string
-	Disabled bool
-	Checked  bool
-	Icon     templ.Component
-
-	WrapperClass     string
-	LabelClass       string
-	CheckboxClass    string
-	IconWrapperClass string
-
-	Attributes templ.Attributes
+	ID         string           // DOM identifier
+	Name       string           // Form field name
+	Value      string           // Checkbox value
+	Disabled   bool             // Prevents interaction
+	Checked    bool             // Selected state
+	Icon       templ.Component  // Custom check icon
+	Class      string           // Additional CSS classes
+	Attributes templ.Attributes // Extra HTML/Alpine attributes
 }
 
-// Control that allows selecting multiple options from a list.
-//
-// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/checkbox
+// Checkbox renders a styled checkbox input with customizable icon
 templ Checkbox(props CheckboxProps) {
 	if props.ID == "" {
 		{{ props.ID = utils.RandomID() }}
 	}
-	<div class={ utils.TwMerge("flex items-center gap-2", props.WrapperClass) }>
-		<div class="relative flex items-center">
-			<input
-				x-ref={ props.ID }
-				data-input-id={ props.ID }
-				data-testid={ props.ID }
-				checked?={ props.Checked }
-				disabled?={ props.Disabled }
-				id={ props.ID }
-				name={ props.Name }
-				value={ props.Value }
-				type="checkbox"
-				class={
-					utils.TwMerge(
-						// Layout
-						"relative size-4 overflow-hidden peer",
-						"before:absolute before:inset-0 before:content['']",
-				
-						// Styling
-						"appearance-none rounded-sm border-2 border-primary bg-background",
-						"cursor-pointer transition-colors",
-				
-						// States
-						"checked:before:bg-primary",
-						"disabled:cursor-not-allowed disabled:opacity-50",
-				
-						// Custom
-						props.CheckboxClass,
-					),
-				}
-				{ props.Attributes... }
-			/>
-			<div
-				class={
-					utils.TwMerge(
-						// Layout
-						"absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2",
-				
-						// Styling
-						"size-3 text-primary-foreground pointer-events-none opacity-0",
-				
-						// States
-						"peer-checked:opacity-100",
-				
-						// Custom
-						props.IconWrapperClass,
-					),
-				}
-				:class="{ 'visible': document.getElementById($el.dataset.inputId).checked }"
-			>
-				if props.Icon != nil {
-					@props.Icon
-				} else {
-					@icons.Check(icons.IconProps{Size: "12"})
-				}
-			</div>
+	<div class="relative flex items-center">
+		<input
+			x-ref={ props.ID }
+			data-input-id={ props.ID }
+			data-testid={ props.ID }
+			checked?={ props.Checked }
+			disabled?={ props.Disabled }
+			id={ props.ID }
+			name={ props.Name }
+			value={ props.Value }
+			type="checkbox"
+			class={
+				utils.TwMerge(
+					// Layout
+					"relative size-4 overflow-hidden peer",
+					"before:absolute before:inset-0 before:content['']",
+			
+					// Styling
+					"appearance-none rounded-sm border-2 border-primary bg-background",
+					"cursor-pointer transition-colors",
+			
+					// States
+					"checked:before:bg-primary",
+					"disabled:cursor-not-allowed disabled:opacity-50",
+			
+					// Custom
+					props.Class,
+				),
+			}
+			{ props.Attributes... }
+		/>
+		<div
+			class={
+				utils.TwMerge(
+					// Layout
+					"absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2",
+			
+					// Styling
+					"size-3 text-primary-foreground pointer-events-none opacity-0",
+			
+					// States
+					"peer-checked:opacity-100",
+				),
+			}
+			:class="{ 'visible': document.getElementById($el.dataset.inputId).checked }"
+		>
+			if props.Icon != nil {
+				@props.Icon
+			} else {
+				@icons.Check(icons.IconProps{Size: "12"})
+			}
 		</div>
-		if props.Label != "" {
-			<label
-				for={ props.ID }
-				class={
-					utils.TwMerge(
-						// Styling
-						"text-sm font-medium",
-				
-						// Custom
-						props.LabelClass,
-					),
-				}
-				:class="{ 'opacity-50 cursor-not-allowed': document.getElementById($el.dataset.inputId).checked }"
-			>
-				{ props.Label }
-			</label>
-		}
 	</div>
 }

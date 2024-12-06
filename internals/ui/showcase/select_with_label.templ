@@ -2,9 +2,14 @@ package showcase
 
 import "github.com/axzilla/goilerplate/pkg/components"
 
-templ SelectDefault() {
-	<div class="w-full  max-w-md">
+templ SelectWithLabel() {
+	<div class="space-y-2 w-full max-w-sm">
+		@components.Label(components.LabelProps{
+			Text: "Choose a Fruit",
+			For:  "fruit-with-label",
+		})
 		@components.Select(components.SelectProps{
+			ID: "fruit-with-label",
 			Options: []components.SelectOption{
 				{Label: "Apple", Value: "apple"},
 				{Label: "Banana", Value: "banana"},

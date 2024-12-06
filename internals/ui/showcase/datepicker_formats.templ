@@ -11,7 +11,6 @@ templ DatepickerFormats() {
 			@components.Label(components.LabelProps{Text: "Default ISO", For: "datepicker-iso-format"})
 			@components.Datepicker(components.DatepickerProps{
 				ID:     "datepicker-iso-format",
-				Name:   "datepicker-iso-format",
 				Config: components.DatePickerISO,
 				Value:  time.Now(),
 			})
@@ -20,7 +19,6 @@ templ DatepickerFormats() {
 			@components.Label(components.LabelProps{Text: "Default EU", For: "datepicker-eu-format"})
 			@components.Datepicker(components.DatepickerProps{
 				ID:     "datepicker-eu-format",
-				Name:   "datepicker-eu-format",
 				Config: components.DatePickerEU,
 				Value:  time.Now(),
 			})
@@ -29,7 +27,6 @@ templ DatepickerFormats() {
 			@components.Label(components.LabelProps{Text: "UK Format", For: "datepicker-uk-format"})
 			@components.Datepicker(components.DatepickerProps{
 				ID:     "datepicker-uk-format",
-				Name:   "datepicker-uk-format",
 				Config: components.DatePickerUK,
 				Value:  time.Now(),
 			})
@@ -38,7 +35,6 @@ templ DatepickerFormats() {
 			@components.Label(components.LabelProps{Text: "US Format", For: "datepicker-us-format"})
 			@components.Datepicker(components.DatepickerProps{
 				ID:     "datepicker-us-format",
-				Name:   "datepicker-us-format",
 				Config: components.DatePickerUS,
 				Value:  time.Now(),
 			})
@@ -47,7 +43,6 @@ templ DatepickerFormats() {
 			@components.Label(components.LabelProps{Text: "LONG Format", For: "date-long-format"})
 			@components.Datepicker(components.DatepickerProps{
 				ID:     "date-long-format",
-				Name:   "date-long-format",
 				Config: components.DatePickerLONG,
 				Value:  time.Now(),
 			})
@@ -55,8 +50,7 @@ templ DatepickerFormats() {
 		<div class="space-y-2">
 			@components.Label(components.LabelProps{Text: "LONG Format (Spanish)", For: "date-es-long-format"})
 			@components.Datepicker(components.DatepickerProps{
-				ID:   "date-es-custom-config",
-				Name: "date-es-custom-config",
+				ID: "date-es-custom-config",
 				Config: components.NewDatepickerConfig(
 					components.DateFormatLONG,
 					components.DateLocaleSpanish,

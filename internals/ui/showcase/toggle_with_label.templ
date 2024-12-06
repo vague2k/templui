@@ -2,14 +2,13 @@ package showcase
 
 import "github.com/axzilla/goilerplate/pkg/components"
 
-templ ToggleDisabled() {
+templ ToggleWithLabel() {
 	<div class="flex items-center gap-2">
 		@components.Toggle(components.ToggleProps{
-			ID:       "toggle-disabled",
-			Disabled: true,
+			ID: "toggle-with-label",
 		})
 		@components.Label(components.LabelProps{
-			For:  "toggle-disabled",
+			For:  "toggle-with-label",
 			Text: "Airplane Mode",
 		})
 	</div>

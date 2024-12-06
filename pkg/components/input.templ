@@ -2,11 +2,10 @@ package components
 
 import "github.com/axzilla/goilerplate/pkg/utils"
 
-// InputType defines the available input field types
+// InputType defines the type of input field
 type InputType string
 
 const (
-	// Standard text inputs
 	InputTypeText     InputType = "text"
 	InputTypePassword InputType = "password"
 	InputTypeEmail    InputType = "email"
@@ -14,57 +13,27 @@ const (
 	InputTypeTel      InputType = "tel"
 	InputTypeURL      InputType = "url"
 	InputTypeSearch   InputType = "search"
-
-	// Date and time inputs
-	InputTypeDate InputType = "date"
-	InputTypeTime InputType = "time"
-
-	// File upload input
-	InputTypeFile InputType = "file"
+	InputTypeDate     InputType = "date"
+	InputTypeTime     InputType = "time"
+	InputTypeFile     InputType = "file"
 )
 
-// InputProps defines configuration options for the Input component
+// InputProps configures the Input component
 type InputProps struct {
-	// Type controls the input's behavior (text, email, password etc)
-	Type InputType
-
-	// Placeholder text shown when input is empty
-	Placeholder string
-
-	// Value sets the current content of the input field
-	Value string
-
-	// Name identifies the field in form submissions
-	Name string
-
-	// ID uniquely identifies the input element in the DOM
-	ID string
-
-	// Disabled prevents user interaction when true
-	Disabled bool
-
-	// Readonly prevents user input but allows for selection and copying
-	Readonly bool
-
-	// Class applies custom CSS classes to the input element
-	Class string
-
-	// ErrorClass applies custom CSS classes to the input element when an error is present
-	ErrorClass string
-
-	// FileAccept specifies allowed file types (only for file inputs)
-	FileAccept string
-
-	// HasError indicates whether the input should be styled as an error
-	HasError bool
-
-	// Attributes for additional HTML/Alpine.js bindings
-	Attributes templ.Attributes
+	Type        InputType        // Input field type
+	Placeholder string           // Helper text shown when empty
+	Value       string           // Current input value
+	Name        string           // Form field name
+	ID          string           // DOM identifier
+	Disabled    bool             // Prevents interaction
+	Readonly    bool             // Allows selection only
+	Class       string           // Additional CSS classes
+	FileAccept  string           // Allowed file types
+	HasError    bool             // Error state styling
+	Attributes  templ.Attributes // Extra HTML/Alpine attributes
 }
 
-// Text field that allows users to enter and edit values.
-//
-// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/input
+// Input renders a styled form input field
 templ Input(props InputProps) {
 	<input
 		x-ref={ props.ID }

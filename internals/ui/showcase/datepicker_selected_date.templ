@@ -9,10 +9,7 @@ import (
 templ DatepickerSelectedDate() {
 	<div class="w-full max-w-sm">
 		@components.Datepicker(components.DatepickerProps{
-			ID:          "my-datepicker",
-			Name:        "selected-date",
-			Placeholder: "Select a date",
-			Value:       time.Now(),
+			Value: time.Now(),
 		})
 	</div>
 }

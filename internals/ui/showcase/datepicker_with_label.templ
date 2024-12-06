@@ -1,15 +1,15 @@
 package showcase
 
-import (
-	"github.com/axzilla/goilerplate/pkg/components"
-)
+import "github.com/axzilla/goilerplate/pkg/components"
 
 templ DatepickerWithLabel() {
 	<div class="w-full max-w-sm space-y-2">
-		@components.Label(components.LabelProps{Text: "Date", For: "datepicker-with-label"})
+		@components.Label(components.LabelProps{
+			Text: "Pick a date",
+			For:  "datepicker-with-label",
+		})
 		@components.Datepicker(components.DatepickerProps{
-			ID:   "datepicker-with-label",
-			Name: "datepicker-with-label",
+			ID: "datepicker-with-label",
 		})
 	</div>
 }

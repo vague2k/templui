@@ -3,18 +3,7 @@ package showcase
 import "github.com/axzilla/goilerplate/pkg/components"
 
 templ ToggleChecked() {
-	<div class="flex flex-col gap-4">
-		@components.Toggle(components.ToggleProps{
-			ID:         "toggle-checked",
-			Name:       "toggle-checked",
-			LabelRight: "Checked using props",
-			Checked:    true,
-		})
-		@components.Toggle(components.ToggleProps{
-			ID:         "toggle-checked",
-			Name:       "toggle-checked",
-			LabelRight: "Checked using attributes",
-			Attributes: templ.Attributes{"x-bind:checked": "true"},
-		})
-	</div>
+	@components.Toggle(components.ToggleProps{
+		Checked: true,
+	})
 }

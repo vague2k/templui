@@ -26,6 +26,17 @@ func TwIf(class string, condition bool) string {
 	return ""
 }
 
+// mergeAttributes merges multiple Attributes into one
+func MergeAttributes(attrs ...templ.Attributes) templ.Attributes {
+	merged := templ.Attributes{}
+	for _, attr := range attrs {
+		for k, v := range attr {
+			merged[k] = v
+		}
+	}
+	return merged
+}
+
 // RandomID returns a random ID string
 // Example: "id-123456"
 func RandomID() string {

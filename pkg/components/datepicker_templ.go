@@ -14,30 +14,15 @@ import (
 	"time"
 )
 
-func mergeAttributes(attrs ...templ.Attributes) templ.Attributes {
-	merged := templ.Attributes{}
-	for _, attr := range attrs {
-		for k, v := range attr {
-			merged[k] = v
-		}
-	}
-	return merged
-}
-
-// DateFormat defines the available date formatting styles
+// DateFormat defines date formatting options
 type DateFormat string
 
 const (
-	// DateFormatISO represents ISO format (YYYY-MM-DD)
-	DateFormatISO DateFormat = "iso"
-	// DateFormatEU represents European format (DD.MM.YYYY)
-	DateFormatEU DateFormat = "eu"
-	// DateFormatUK represents UK format (DD/MM/YYYY)
-	DateFormatUK DateFormat = "uk"
-	// DateFormatUS represents US format (MM/DD/YYYY)
-	DateFormatUS DateFormat = "us"
-	// DateFormatLONG represents long format (Month DD, YYYY)
-	DateFormatLONG DateFormat = "long"
+	DateFormatISO  DateFormat = "iso"  // ISO format (YYYY-MM-DD)
+	DateFormatEU   DateFormat = "eu"   // European format (DD.MM.YYYY)
+	DateFormatUK   DateFormat = "uk"   // UK format (DD/MM/YYYY)
+	DateFormatUS   DateFormat = "us"   // US format (MM/DD/YYYY)
+	DateFormatLONG DateFormat = "long" // Long format (Month DD, YYYY)
 )
 
 // dateFormatMapping maps DateFormat to Go time format strings
@@ -49,15 +34,13 @@ var dateFormatMapping = map[DateFormat]string{
 	DateFormatLONG: "January 2, 2006",
 }
 
-// DateLocale defines localization settings for the datepicker
+// DateLocale configures locale-specific settings
 type DateLocale struct {
-	// MonthNames contains the localized names of months
-	MonthNames []string
-	// DayNames contains the localized abbreviated day names
-	DayNames []string
+	MonthNames []string // Localized month names
+	DayNames   []string // Localized day names
 }
 
-// DateLocaleDefault provides English localization
+// DateLocaleDefault and other locale presets
 var DateLocaleDefault = DateLocale{
 	MonthNames: []string{"January", "February", "March", "April", "May", "June",
 		"July", "August", "September", "October", "November", "December"},
@@ -101,12 +84,6 @@ var (
 		DayNames: []string{"日", "月", "火", "水", "木", "金", "土"},
 	}
 )
-
-// DatepickerConfig combines format and locale settings
-type DatepickerConfig struct {
-	Format DateFormat
-	Locale DateLocale
-}
 
 // Pre-defined datepicker configurations
 var (
@@ -157,51 +134,27 @@ func (c DatepickerConfig) GetGoFormat() string {
 	return dateFormatMapping[DateFormatISO] // Default to ISO
 }
 
-// DatepickerProps defines all available props for the Datepicker component
-type DatepickerProps struct {
-	// ID sets the input element's ID
-	ID string
-	// Name sets the input element's name
-	Name string
-	// Value sets the initial date
-	Value time.Time
-	// Config provides format and locale settings
-	Config DatepickerConfig
-	// Placeholder sets the input placeholder text
-	Placeholder string
-	// Required marks the input as mandatory
-	Required bool
-	// Disabled controls whether the datepicker can be interacted with
-	Disabled bool
-	// HasError indicates whether the input should be styled as an error
-	HasError bool
-	// Class adds custom CSS classes
-	Class string
-	// Attributes allows additional HTML attributes
-	Attributes templ.Attributes
+// DatepickerConfig combines format and locale settings
+type DatepickerConfig struct {
+	Format DateFormat // Date format style
+	Locale DateLocale // Localization settings
 }
 
-// Calendar interface for selecting and formatting dates.
-//
-// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/datepicker
-//
-// Features:
-// - Multiple date formats (ISO, EU, US, UK, Long)
-// - Localization support for months and weekdays
-// - Popup calendar for date selection
-// - Keyboard navigation support
-// - Responsive positioning
-// - Custom styling support
-//
-// Props:
-// - ID: Input element identifier
-// - Name: Form field name
-// - Value: Initial date value
-// - Config: Format and locale settings
-// - Placeholder: Input placeholder text
-// - Disabled: Interactivity state
-// - Class: Additional CSS classes
-// - Attributes: Additional HTML attributes
+// DatepickerProps configures the Datepicker component
+type DatepickerProps struct {
+	ID          string           // DOM identifier
+	Name        string           // Form field name
+	Value       time.Time        // Selected date
+	Config      DatepickerConfig // Format and locale config
+	Placeholder string           // Helper text shown when empty
+	Required    bool             // Marks input as mandatory
+	Disabled    bool             // Prevents interaction
+	HasError    bool             // Error state styling
+	Class       string           // Additional CSS classes
+	Attributes  templ.Attributes // Extra HTML/Alpine attributes
+}
+
+// Datepicker renders a date selection input with calendar popup
 func Datepicker(props DatepickerProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -256,7 +209,7 @@ func Datepicker(props DatepickerProps) templ.Component {
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(props.Value.Format(props.Config.GetGoFormat()))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/datepicker.templ`, Line: 204, Col: 62}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/datepicker.templ`, Line: 157, Col: 62}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
@@ -274,7 +227,7 @@ func Datepicker(props DatepickerProps) templ.Component {
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(string(props.Config.Format))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/datepicker.templ`, Line: 206, Col: 43}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/datepicker.templ`, Line: 159, Col: 43}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
@@ -287,7 +240,7 @@ func Datepicker(props DatepickerProps) templ.Component {
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(templ.JSONString(props.Config.Locale.MonthNames))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/datepicker.templ`, Line: 207, Col: 68}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/datepicker.templ`, Line: 160, Col: 68}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -300,7 +253,7 @@ func Datepicker(props DatepickerProps) templ.Component {
 		var templ_7745c5c3_Var7 string
 		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(templ.JSONString(props.Config.Locale.DayNames))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/datepicker.templ`, Line: 208, Col: 64}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/datepicker.templ`, Line: 161, Col: 64}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
@@ -313,7 +266,7 @@ func Datepicker(props DatepickerProps) templ.Component {
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/datepicker.templ`, Line: 209, Col: 26}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/datepicker.templ`, Line: 162, Col: 26}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
@@ -333,7 +286,7 @@ func Datepicker(props DatepickerProps) templ.Component {
 			HasError:    props.HasError,
 			Type:        "text",
 			Readonly:    true,
-			Attributes: mergeAttributes(
+			Attributes: utils.MergeAttributes(
 				templ.Attributes{
 					"x-ref":       "datePickerInput",
 					"x-modelable": "value",
@@ -343,6 +296,21 @@ func Datepicker(props DatepickerProps) templ.Component {
 				props.Attributes,
 			),
 		}).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var9 = []any{
+			utils.TwMerge(
+				// Layout
+				"absolute top-0 right-0 px-3 py-2",
+				// Styling
+				"cursor-pointer text-muted-foreground",
+				// States
+				"hover:text-foreground",
+				"peer-disabled:pointer-events-none peer-disabled:opacity-50",
+			),
+		}
+		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var9...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -356,7 +324,20 @@ func Datepicker(props DatepickerProps) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" class=\"peer-disabled:pointer-events-none peer-disabled:opacity-50 absolute top-0 right-0 px-3 py-2 cursor-pointer text-muted-foreground hover:text-foreground\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" class=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var10 string
+		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var9).String())
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/datepicker.templ`, Line: 1, Col: 0}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -364,7 +345,38 @@ func Datepicker(props DatepickerProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</button></div><div x-show=\"open\" x-ref=\"datePickerPopup\" @click.away=\"open = false\" x-transition.opacity class=\"absolute left-0 z-50 mt-1 w-64 rounded-lg border bg-popover p-4 shadow-md\" :class=\"{&#39;top-full mt-1&#39;: position === &#39;bottom&#39;,&#39;bottom-full mb-1&#39;: position === &#39;top&#39;}\"><div class=\"flex items-center justify-between mb-4\"><span x-text=\"months[currentMonth] + &#39; &#39; + currentYear\" class=\"text-sm font-medium\"></span><div class=\"flex gap-1\"><button type=\"button\" @click=\"currentMonth--; if(currentMonth &lt; 0) { currentMonth = 11; currentYear--; } calculateDays()\" class=\"inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-7 w-7\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</button></div>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var11 = []any{
+			utils.TwMerge(
+				// Layout
+				"absolute left-0 z-50 w-64 p-4",
+				// Styling
+				"rounded-lg border bg-popover shadow-md",
+				// States
+				"top-full mt-1",
+			),
+		}
+		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var11...)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div x-show=\"open\" x-ref=\"datePickerPopup\" @click.away=\"open = false\" x-transition.opacity class=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var12 string
+		templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var11).String())
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/datepicker.templ`, Line: 1, Col: 0}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" :class=\"{&#39;top-full mt-1&#39;: position === &#39;bottom&#39;,&#39;bottom-full mb-1&#39;: position === &#39;top&#39;}\"><div class=\"flex items-center justify-between mb-4\"><span x-text=\"months[currentMonth] + &#39; &#39; + currentYear\" class=\"text-sm font-medium\"></span><div class=\"flex gap-1\"><button type=\"button\" @click=\"currentMonth--; if(currentMonth &lt; 0) { currentMonth = 11; currentYear--; } calculateDays()\" class=\"inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-7 w-7\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
