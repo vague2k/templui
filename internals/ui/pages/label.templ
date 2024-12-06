@@ -1,0 +1,60 @@
+package pages
+
+import (
+	"github.com/axzilla/goilerplate/internals/ui/layouts"
+	"github.com/axzilla/goilerplate/internals/ui/modules"
+	"github.com/axzilla/goilerplate/internals/ui/showcase"
+	"github.com/axzilla/goilerplate/pkg/components"
+)
+
+templ Label() {
+	@layouts.DocsLayout() {
+		@modules.PageWrapper(modules.PageWrapperProps{
+			Name:        "Label",
+			Description: templ.Raw("Renders an accessible label associated with controls."),
+		}) {
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:     "",
+				ShowcaseFile:    showcase.CheckboxWithLabel(),
+				PreviewCodeFile: "checkbox_with_label.templ",
+			})
+			<div>
+				@components.Card(components.CardProps{}) {
+					@components.CardHeader() {
+						@components.CardTitle() {
+							Usage
+						}
+						@components.CardDescription() {
+							The Label component enhances the following form controls:
+						}
+					}
+					@components.CardContent() {
+						<ul class="list-disc pl-6 space-y-2">
+							<li>
+								<a href="/docs/components/input#label" class="font-medium hover:underline">Input</a>
+							</li>
+							<li>
+								<a href="/docs/components/checkbox#label" class="font-medium hover:underline">Checkbox</a>
+							</li>
+							<li>
+								<a href="/docs/components/radio#label" class="font-medium hover:underline">Radio</a>
+							</li>
+							<li>
+								<a href="/docs/components/select#label" class="font-medium hover:underline">Select</a>
+							</li>
+							<li>
+								<a href="/docs/components/textarea#label" class="font-medium hover:underline">Textarea</a>
+							</li>
+							<li>
+								<a href="/docs/components/toggle#label" class="font-medium hover:underline">Toggle</a>
+							</li>
+							<li>
+								<a href="/docs/components/datepicker#label" class="font-medium hover:underline">Date Picker</a>
+							</li>
+						</ul>
+					}
+				}
+			</div>
+		}
+	}
+}
