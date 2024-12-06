@@ -24,12 +24,14 @@ templ Checkbox() {
 				PreviewCodeFile:   "checkbox_checked.templ",
 				ComponentCodeFile: "checkbox.templ",
 			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "With Label",
-				ShowcaseFile:      showcase.CheckboxWithLabel(),
-				PreviewCodeFile:   "checkbox_with_label.templ",
-				ComponentCodeFile: "checkbox.templ",
-			})
+			<div id="label">
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "With Label",
+					ShowcaseFile:      showcase.CheckboxWithLabel(),
+					PreviewCodeFile:   "checkbox_with_label.templ",
+					ComponentCodeFile: "checkbox.templ",
+				})
+			</div>
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				SectionName:       "Disabled",
 				ShowcaseFile:      showcase.CheckboxDisabled(),
@@ -42,12 +44,14 @@ templ Checkbox() {
 				PreviewCodeFile:   "checkbox_custom_icon.templ",
 				ComponentCodeFile: "checkbox.templ",
 			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "Form",
-				ShowcaseFile:      showcase.CheckboxForm(),
-				PreviewCodeFile:   "checkbox_form.templ",
-				ComponentCodeFile: "checkbox.templ",
-			})
+			<div id="form">
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Form",
+					ShowcaseFile:      showcase.CheckboxForm(),
+					PreviewCodeFile:   "checkbox_form.templ",
+					ComponentCodeFile: "checkbox.templ",
+				})
+			</div>
 		}
 	}
 }

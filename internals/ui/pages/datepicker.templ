@@ -18,12 +18,14 @@ templ Datepicker() {
 				PreviewCodeFile:   "datepicker_default.templ",
 				ComponentCodeFile: "datepicker.templ",
 			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "With Label",
-				ShowcaseFile:      showcase.DatepickerWithLabel(),
-				PreviewCodeFile:   "datepicker_with_label.templ",
-				ComponentCodeFile: "datepicker.templ",
-			})
+			<div id="label">
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "With Label",
+					ShowcaseFile:      showcase.DatepickerWithLabel(),
+					PreviewCodeFile:   "datepicker_with_label.templ",
+					ComponentCodeFile: "datepicker.templ",
+				})
+			</div>
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				SectionName:       "Custom Placeholder",
 				ShowcaseFile:      showcase.DatepickerCustomPlaceholder(),
@@ -48,12 +50,14 @@ templ Datepicker() {
 				PreviewCodeFile:   "datepicker_formats.templ",
 				ComponentCodeFile: "datepicker.templ",
 			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "Form",
-				ShowcaseFile:      showcase.DatepickerForm(),
-				PreviewCodeFile:   "datepicker_form.templ",
-				ComponentCodeFile: "datepicker.templ",
-			})
+			<div id="form">
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Form",
+					ShowcaseFile:      showcase.DatepickerForm(),
+					PreviewCodeFile:   "datepicker_form.templ",
+					ComponentCodeFile: "datepicker.templ",
+				})
+			</div>
 		}
 	}
 }

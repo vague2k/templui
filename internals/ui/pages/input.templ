@@ -30,18 +30,22 @@ templ Input() {
 				PreviewCodeFile:   "input_disabled.templ",
 				ComponentCodeFile: "input.templ",
 			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "With Label",
-				ShowcaseFile:      showcase.InputWithLabel(),
-				PreviewCodeFile:   "input_with_label.templ",
-				ComponentCodeFile: "input.templ",
-			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "Form",
-				ShowcaseFile:      showcase.InputForm(),
-				PreviewCodeFile:   "input_form.templ",
-				ComponentCodeFile: "input.templ",
-			})
+			<div id="label">
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "With Label",
+					ShowcaseFile:      showcase.InputWithLabel(),
+					PreviewCodeFile:   "input_with_label.templ",
+					ComponentCodeFile: "input.templ",
+				})
+			</div>
+			<div id="form">
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Form",
+					ShowcaseFile:      showcase.InputForm(),
+					PreviewCodeFile:   "input_form.templ",
+					ComponentCodeFile: "input.templ",
+				})
+			</div>
 		}
 	}
 }

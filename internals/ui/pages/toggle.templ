@@ -24,24 +24,28 @@ templ Toggle() {
 				PreviewCodeFile:   "toggle_checked.templ",
 				ComponentCodeFile: "toggle.templ",
 			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "With Label",
-				ShowcaseFile:      showcase.ToggleWithLabel(),
-				PreviewCodeFile:   "toggle_with_label.templ",
-				ComponentCodeFile: "toggle.templ",
-			})
+			<div id="label">
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "With Label",
+					ShowcaseFile:      showcase.ToggleWithLabel(),
+					PreviewCodeFile:   "toggle_with_label.templ",
+					ComponentCodeFile: "toggle.templ",
+				})
+			</div>
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				SectionName:       "Disabled",
 				ShowcaseFile:      showcase.ToggleDisabled(),
 				PreviewCodeFile:   "toggle_disabled.templ",
 				ComponentCodeFile: "toggle.templ",
 			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "Form",
-				ShowcaseFile:      showcase.ToggleForm(),
-				PreviewCodeFile:   "toggle_form.templ",
-				ComponentCodeFile: "toggle.templ",
-			})
+			<div id="form">
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Form",
+					ShowcaseFile:      showcase.ToggleForm(),
+					PreviewCodeFile:   "toggle_form.templ",
+					ComponentCodeFile: "toggle.templ",
+				})
+			</div>
 		}
 	}
 }

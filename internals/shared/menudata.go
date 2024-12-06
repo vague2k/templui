@@ -66,12 +66,20 @@ var Sections = []Section{
 				Href: "/docs/components/dropdown-menu",
 			},
 			{
+				Text: "Form",
+				Href: "/docs/components/form",
+			},
+			{
 				Text: "Icon",
 				Href: "/docs/components/icon",
 			},
 			{
 				Text: "Input",
 				Href: "/docs/components/input",
+			},
+			{
+				Text: "Label",
+				Href: "/docs/components/label",
 			},
 			{
 				Text: "Modal",

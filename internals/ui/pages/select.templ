@@ -30,24 +30,28 @@ templ Select() {
 				PreviewCodeFile:   "select_selected_value.templ",
 				ComponentCodeFile: "select.templ",
 			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "With Label",
-				ShowcaseFile:      showcase.SelectWithLabel(),
-				PreviewCodeFile:   "select_with_label.templ",
-				ComponentCodeFile: "select.templ",
-			})
+			<div id="label">
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "With Label",
+					ShowcaseFile:      showcase.SelectWithLabel(),
+					PreviewCodeFile:   "select_with_label.templ",
+					ComponentCodeFile: "select.templ",
+				})
+			</div>
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				SectionName:       "Disabled",
 				ShowcaseFile:      showcase.SelectDisabled(),
 				PreviewCodeFile:   "select_disabled.templ",
 				ComponentCodeFile: "select.templ",
 			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "Form",
-				ShowcaseFile:      showcase.SelectForm(),
-				PreviewCodeFile:   "select_form.templ",
-				ComponentCodeFile: "select.templ",
-			})
+			<div id="form">
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Form",
+					ShowcaseFile:      showcase.SelectForm(),
+					PreviewCodeFile:   "select_form.templ",
+					ComponentCodeFile: "select.templ",
+				})
+			</div>
 		}
 	}
 }
