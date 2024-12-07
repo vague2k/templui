@@ -52,7 +52,7 @@ func Radio(props RadioProps) templ.Component {
 
 				// Styling
 				"appearance-none rounded-full",
-				"border border-2 border-primary",
+				"border-2 border-primary",
 				"before:content[''] before:rounded-full before:bg-background",
 
 				// States
