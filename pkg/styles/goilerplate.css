@@ -1587,9 +1587,29 @@ body {
   height: 0.375rem;
 }
 
+.before\:h-2::before {
+  content: var(--tw-content);
+  height: 0.5rem;
+}
+
+.before\:h-2\.5::before {
+  content: var(--tw-content);
+  height: 0.625rem;
+}
+
 .before\:w-1\.5::before {
   content: var(--tw-content);
   width: 0.375rem;
+}
+
+.before\:w-2::before {
+  content: var(--tw-content);
+  width: 0.5rem;
+}
+
+.before\:w-2\.5::before {
+  content: var(--tw-content);
+  width: 0.625rem;
 }
 
 .before\:-translate-x-1\/2::before {

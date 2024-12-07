@@ -63,103 +63,138 @@ templ ThemePreview() {
 			}
 			@components.CardContent() {
 				<form class="space-y-4">
-					<div class="space-y-2">
-						<label for="username" class="text-sm font-medium">Username</label>
+					@components.FormItem(components.FormItemProps{}) {
+						@components.Label(components.LabelProps{For: "username", Text: "Username"})
 						@components.Input(components.InputProps{
 							ID:          "username",
 							Name:        "username",
 							Type:        components.InputTypeText,
 							Placeholder: "Enter your username",
 						})
-					</div>
-					<div class="space-y-2">
-						<label for="email" class="text-sm font-medium">Email</label>
+					}
+					@components.FormItem(components.FormItemProps{}) {
+						@components.Label(components.LabelProps{For: "email", Text: "Email"})
 						@components.Input(components.InputProps{
 							ID:          "email",
 							Name:        "email",
 							Type:        components.InputTypeEmail,
 							Placeholder: "Enter your email",
 						})
-					</div>
-					<div class="space-y-2">
-						<label for="password" class="text-sm font-medium">Password</label>
+					}
+					@components.FormItem(components.FormItemProps{}) {
+						@components.Label(components.LabelProps{For: "password", Text: "Password"})
 						@components.Input(components.InputProps{
 							ID:          "password",
 							Name:        "password",
 							Type:        components.InputTypePassword,
 							Placeholder: "Enter your password",
 						})
-					</div>
-					<div class="space-y-2">
-						<label for="birthdate" class="text-sm font-medium">Date of Birth</label>
+					}
+					@components.FormItem(components.FormItemProps{}) {
+						@components.Label(components.LabelProps{For: "birthdate", Text: "Birth Date"})
 						@components.Datepicker(components.DatepickerProps{
 							ID:          "birthdate",
 							Name:        "birthdate",
 							Placeholder: "Select your birth date",
 						})
-					</div>
-					<div class="space-y-2">
-						<label class="text-sm font-medium">Preferred Contact Method</label>
-						@components.Radio(components.RadioProps{
-							Value: "email",
-							ID:    "contact-email",
-							Name:  "contact-method",
-							// Label: templ.Raw("Email"),
-						})
-						@components.Radio(components.RadioProps{
-							Value: "phone",
-							ID:    "contact-phone",
-							Name:  "contact-method",
-							// Label: templ.Raw("Phone"),
-						})
-						@components.Radio(components.RadioProps{
-							Value: "mail",
-							ID:    "contact-mail",
-							Name:  "contact-method",
-							// Label:      templ.Raw("Physical Mail"),
-							Attributes: templ.Attributes{"disabled": "true"},
-						})
-					</div>
-					<div class="space-y-4">
-						<label class="text-sm font-medium">Preferences</label>
-						<div class="space-y-2">
+					}
+					@components.FormItem(components.FormItemProps{}) {
+						@components.Label(components.LabelProps{For: "contact-method", Text: "Contact Method"})
+						@components.FormItemFlex(components.FormItemProps{}) {
+							@components.Radio(components.RadioProps{
+								Value: "email",
+								ID:    "contact-email",
+								Name:  "contact-method",
+							})
+							@components.Label(components.LabelProps{
+								For:  "contact-email",
+								Text: "Email",
+							})
+						}
+						@components.FormItemFlex(components.FormItemProps{}) {
+							@components.Radio(components.RadioProps{
+								Value: "phone",
+								ID:    "contact-phone",
+								Name:  "contact-method",
+							})
+							@components.Label(components.LabelProps{
+								For:  "contact-phone",
+								Text: "Phone",
+							})
+						}
+						@components.FormItemFlex(components.FormItemProps{}) {
+							@components.Radio(components.RadioProps{
+								Value:      "mail",
+								ID:         "contact-mail",
+								Name:       "contact-method",
+								Attributes: templ.Attributes{"disabled": "true"},
+							})
+							@components.Label(components.LabelProps{
+								For:  "contact-mail",
+								Text: "Physical Mail",
+							})
+						}
+					}
+					@components.FormItem(components.FormItemProps{}) {
+						@components.Label(components.LabelProps{Text: "Preferences"})
+						@components.FormItemFlex(components.FormItemProps{}) {
 							@components.Toggle(components.ToggleProps{
 								ID:   "marketing",
 								Name: "marketing",
-								// LabelRight: "Receive marketing emails",
 							})
-						</div>
-						<div class="space-y-2">
+							@components.Label(components.LabelProps{
+								For:  "marketing",
+								Text: "Receive marketing emails",
+							})
+						}
+						@components.FormItemFlex(components.FormItemProps{}) {
 							@components.Toggle(components.ToggleProps{
-								ID:   "notifications",
-								Name: "notifications",
-								// LabelRight: "Enable notifications",
+								ID:         "notifications",
+								Name:       "notifications",
 								Attributes: templ.Attributes{"checked": "true"},
 							})
-						</div>
-						<div class="space-y-2">
+							@components.Label(components.LabelProps{
+								For:  "notifications",
+								Text: "Enable notifications",
+							})
+						}
+						@components.FormItemFlex(components.FormItemProps{}) {
 							@components.Toggle(components.ToggleProps{
-								ID:   "beta",
-								Name: "beta",
-								// LabelRight: "Join beta program",
+								ID:         "beta",
+								Name:       "beta",
 								Attributes: templ.Attributes{"disabled": "true"},
 							})
-						</div>
-					</div>
-					<div class="space-y-2">
-						@components.Checkbox(components.CheckboxProps{
-							ID:    "terms",
-							Name:  "terms",
-							Value: "accepted",
-						})
-					</div>
-					<div class="space-y-2">
-						@components.Checkbox(components.CheckboxProps{
-							ID:    "newsletter",
-							Name:  "newsletter",
-							Value: "subscribed",
-						})
-					</div>
+							@components.Label(components.LabelProps{
+								For:  "beta",
+								Text: "Join beta program",
+							})
+						}
+					}
+					@components.FormItem(components.FormItemProps{}) {
+						@components.Label(components.LabelProps{Text: "Terms and Conditions"})
+						@components.FormItemFlex(components.FormItemProps{}) {
+							@components.Checkbox(components.CheckboxProps{
+								ID:    "terms",
+								Name:  "terms",
+								Value: "accepted",
+							})
+							@components.Label(components.LabelProps{
+								For:  "terms",
+								Text: "I accept the terms and conditions",
+							})
+						}
+						@components.FormItemFlex(components.FormItemProps{}) {
+							@components.Checkbox(components.CheckboxProps{
+								ID:    "newsletter",
+								Name:  "newsletter",
+								Value: "subscribed",
+							})
+							@components.Label(components.LabelProps{
+								For:  "newsletter",
+								Text: "Subscribe to newsletter",
+							})
+						}
+					}
 				</form>
 			}
 			@components.CardFooter() {
