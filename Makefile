@@ -12,17 +12,13 @@ server:
 	--build.stop_on_error "false" \
 	--misc.clean_on_exit true
 
-tailwind-app:
-	npx tailwindcss -i ./assets/css/input.css -o ./assets/css/output.css --watch
-
-tailwind-goilerplate:
-	npx tailwindcss -c ./tailwind.config.lib.js -i ./assets/css/input.css -o ./pkg/styles/goilerplate.css --watch
-
+tailwind:
+	tailwindcss -i ./assets/css/input.css -o ./assets/css/output.css --watch
 dev:
-	make -j4 templ server tailwind-app tailwind-goilerplate
+	make -j4 templ server tailwind
 
 debug:
-	make -j3 templ tailwind-app tailwind-goilerplate
+	make -j3 templ tailwind-app tailwind
 
 generate-icons:
 	go run cmd/icongen/main.go

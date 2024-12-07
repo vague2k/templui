@@ -1,6 +1,165 @@
 package pages
 
-import "github.com/axzilla/goilerplate/internals/ui/layouts"
+import (
+	"github.com/axzilla/goilerplate/internals/ui/layouts"
+	"github.com/axzilla/goilerplate/internals/ui/modules"
+)
+
+var installGo = `go version`
+
+var installTempl = `go install github.com/a-h/templ/cmd/templ@latest`
+
+var tailwindHomebrew = `brew install tailwindcss`
+
+var tailwindMacOSArm64 = `curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-macos-arm64
+chmod +x tailwindcss-macos-arm64
+sudo mv tailwindcss-macos-arm64 /usr/local/bin/tailwindcss`
+
+var tailwindMacOSX64 = `curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-macos-x64
+chmod +x tailwindcss-macos-x64
+sudo mv tailwindcss-macos-x64 /usr/local/bin/tailwindcss`
+
+var tailwindLinuxX64 = `curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-linux-x64
+chmod +x tailwindcss-linux-x64
+sudo mv tailwindcss-linux-x64 /usr/local/bin/tailwindcss`
+
+var tailwindWindowsX64 = `# On Windows (x64)
+# Download from: https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-windows-x64.exe
+# Add to your PATH as 'tailwindcss'`
+
+var installAlpine = `<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>`
+
+var tailwindConfig = `{/** @type {import('tailwindcss').Config} */
+const config = {
+  darkMode: ["class"],
+  content: ["./**/*.html", "./**/*.templ", "./**/*.go"],
+  safelist: ["dark"],
+  theme: {
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
+      },
+    },
+    extend: {
+      colors: {
+        border: "hsl(var(--border) / <alpha-value>)",
+        input: "hsl(var(--input) / <alpha-value>)",
+        ring: "hsl(var(--ring) / <alpha-value>)",
+        background: "hsl(var(--background) / <alpha-value>)",
+        foreground: "hsl(var(--foreground) / <alpha-value>)",
+        primary: {
+          DEFAULT: "hsl(var(--primary) / <alpha-value>)",
+          foreground: "hsl(var(--primary-foreground) / <alpha-value>)",
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary) / <alpha-value>)",
+          foreground: "hsl(var(--secondary-foreground) / <alpha-value>)",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive) / <alpha-value>)",
+          foreground: "hsl(var(--destructive-foreground) / <alpha-value>)",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted) / <alpha-value>)",
+          foreground: "hsl(var(--muted-foreground) / <alpha-value>)",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent) / <alpha-value>)",
+          foreground: "hsl(var(--accent-foreground) / <alpha-value>)",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover) / <alpha-value>)",
+          foreground: "hsl(var(--popover-foreground) / <alpha-value>)",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card) / <alpha-value>)",
+          foreground: "hsl(var(--card-foreground) / <alpha-value>)",
+        },
+      },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
+      },
+      fontFamily: {},
+    },
+  },
+};
+
+export default config;`
+
+var inputCss = `@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 100%;
+    --foreground: 240 10% 3.9%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --primary: 346.8 77.2% 49.8%;
+    --primary-foreground: 355.7 100% 97.3%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --ring: 346.8 77.2% 49.8%;
+    --radius: 0.5rem;
+  }
+  .dark {
+    --background: 20 14.3% 4.1%;
+    --foreground: 0 0% 95%;
+    --muted: 0 0% 15%;
+    --muted-foreground: 240 5% 64.9%;
+    --popover: 0 0% 9%;
+    --popover-foreground: 0 0% 95%;
+    --card: 24 9.8% 10%;
+    --card-foreground: 0 0% 95%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --primary: 346.8 77.2% 49.8%;
+    --primary-foreground: 355.7 100% 97.3%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --accent: 12 6.5% 15.1%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 85.7% 97.3%;
+    --ring: 346.8 77.2% 49.8%;
+    --radius: 0.5rem;
+  }
+}
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings:
+      "rlig" 1,
+      "calt" 1;
+  }
+}`
+
+var installGoilerplate = `go get github.com/axzilla/goilerplate`
+
+var goPath = `"${GOPATH}/pkg/mod/github.com/axzilla/goilerplate@*/**/*.{go,templ}"`
+
+var usingComponents = `import "github.com/axzilla/goilerplate/pkg/components"
+
+@components.Button(components.ButtonProps{Text: "Click me"})`
 
 templ HowToUse() {
 	@layouts.DocsLayout() {
@@ -10,106 +169,129 @@ templ HowToUse() {
 				<p class="mb-4 text-muted-foreground">Learn how to integrate Goilerplate into your projects.</p>
 			</div>
 			<section class="mb-12">
-				<h2 class="text-2xl font-semibold mb-4 text-primary">Two Ways to Use Goilerplate</h2>
-				<p class="mb-4">
-					Goilerplate offers flexibility in how you can integrate it into your projects. There are two main approaches:
-				</p>
-				<div class="mb-8">
-					<h3 class="text-xl font-semibold mb-2">1. Use as a Package Library</h3>
-					<p class="mb-4">
-						Install Goilerplate as a Go package and import components as needed:
-					</p>
-					<pre>
-						<code>
-							{ `go get github.com/axzilla/goilerplate
-
-// In your Go files
-import "github.com/axzilla/goilerplate/pkg/components"
-
-// In your Templ files
-@components.Button(components.ButtonProps{Text: "Click me"})` }
-						</code>
-					</pre>
-					<p class="mt-2">This method is quick to set up and easy to update, but offers less customization.</p>
+				<h2 class="text-2xl font-semibold mb-4 text-primary">Requirements</h2>
+				<p class="mb-4">Before using Goilerplate, ensure you have these tools installed:</p>
+				<div class="space-y-6">
+					<div>
+						<h3 class="text-xl font-semibold mb-2">1. Go (1.20 or later)</h3>
+						<p class="mb-2">Check your Go version:</p>
+						@modules.CodeSnippet(installGo, "markdown")
+						<p class="text-sm mt-2">For installation instructions, visit <a href="https://golang.org/dl" class="text-primary underline">golang.org/dl</a>.</p>
+					</div>
+					<div>
+						<h3 class="text-xl font-semibold mb-2">2. Templ</h3>
+						<p class="mb-2">Install the Templ CLI:</p>
+						@modules.CodeSnippet(installTempl, "markdown")
+					</div>
+					<div>
+						<h3 class="text-xl font-semibold mb-2">3. Tailwind CSS CLI (Standalone)</h3>
+						<p class="mb-2">Install the standalone CLI based on your operating system:</p>
+						<div class="space-y-4">
+							<p class="mb-2">Homebrew (macOS):</p>
+							@modules.CodeSnippet(tailwindHomebrew, "markdown")
+							<p class="mb-2">macOS (Apple Silicon):</p>
+							@modules.CodeSnippet(tailwindMacOSArm64, "markdown")
+							<p class="mb-2">macOS (Intel):</p>
+							@modules.CodeSnippet(tailwindMacOSX64, "markdown")
+							<p class="mb-2">Linux (x64):</p>
+							@modules.CodeSnippet(tailwindLinuxX64, "markdown")
+							<p class="mb-2">Windows (x64):</p>
+							@modules.CodeSnippet(tailwindWindowsX64, "markdown")
+						</div>
+					</div>
+					<div>
+						<h3 class="text-xl font-semibold mb-2">4. Alpine.js</h3>
+						<p class="mb-2">Include via CDN in your HTML:</p>
+						@modules.CodeSnippet(installAlpine, "markdown")
+					</div>
 				</div>
-				<div class="mb-8">
-					<h3 class="text-xl font-semibold mb-2">2. Copy Components to Your Codebase</h3>
-					<p class="mb-4">
-						Copy the desired components directly into your project:
-					</p>
-					<ol class="list-decimal pl-6">
-						<li>Visit our <a href="/docs/components" class="text-primary underline">components documentation</a></li>
-						<li>Find the component you need</li>
-						<li>Copy the component code into your project's components folder</li>
-					</ol>
-					<p class="mt-2">This method allows for maximum customization but requires manual updates.</p>
+			</section>
+			//
+			<section class="mb-12">
+				<h2 class="text-2xl font-semibold mb-4 text-primary">Base Configuration</h2>
+				<p class="mb-4">Goilerplate provides pre-configured styles and themes. You'll need these files in your project:</p>
+				<div class="space-y-6">
+					<div>
+						<h3 class="text-xl font-semibold mb-2">1. Tailwind Configuration</h3>
+						<p class="mb-2">Create tailwind.config.js:</p>
+						@modules.CodeSnippet(tailwindConfig, "javascript")
+					</div>
+					<div>
+						<h3 class="text-xl font-semibold mb-2">2. CSS Base Styles</h3>
+						<p class="mb-2">Create assets/css/input.css with our base styles:</p>
+						@modules.CodeSnippet(inputCss, "css")
+						<p class="text-sm mt-2">For custom themes and additional styles, check our <a href="/docs/themes" class="text-primary underline">themes documentation</a>.</p>
+					</div>
 				</div>
-				<div class="mb-8">
-					<h3 class="text-xl font-semibold mb-2">Mix and Match</h3>
+			</section>
+			//
+			<section class="mb-12">
+				<h2 class="text-2xl font-semibold mb-4 text-primary">Installation Options</h2>
+				<p class="mb-4">After installing the requirements, you have three ways to use Goilerplate:</p>
+				<div class="space-y-8">
+					<div>
+						<h3 class="text-xl font-semibold mb-2">1. Quickstart Template (Recommended for new projects)</h3>
+						<p class="mb-4">
+							For a ready-to-go setup, check out our <a href="https://github.com/axzilla/goilerplate-quickstart" class="text-primary underline">Goilerplate Quickstart</a> template. 
+							It includes all requirements and configurations, using Goilerplate as a package library by default but can be easily modified to use copied components or a mix of both approaches.
+						</p>
+					</div>
+					<div>
+						<h3 class="text-xl font-semibold mb-2">2. Package Installation</h3>
+						<p class="mb-4">Install Goilerplate as a Go package:</p>
+						<div class="mb-4">
+							@modules.CodeSnippet(installGoilerplate, "markdown")
+						</div>
+						// @components.Card(components.CardProps{}) {
+						// @components.CardHeader() {
+						<h4 class="font-semibold mb-2">*Required: Additional Tailwind Configuration</h4>
+						// }
+						// @components.CardContent() {
+						<p class="mb-2">When using Goilerplate as a package, add this to your tailwind.config.json content array:</p>
+						<div class="mb-4">
+							@modules.CodeSnippet(goPath, "markdown")
+						</div>
+						<p class="mb-2">Replace { string("${GOPATH}") } with your actual Go path:</p>
+						@modules.CodeSnippet("go env GOPATH", "markdown")
+						// }
+						// }
+					</div>
+					<div>
+						<h3 class="text-xl font-semibold mb-2">3. Copy Components</h3>
+						<p class="mb-4">For maximum customization, copy components directly into your project (requires manual updates):</p>
+						<ol class="list-decimal pl-6">
+							<li>Visit our <a href="/docs/components" class="text-primary underline">components documentation</a></li>
+							<li>Find the component you need</li>
+							<li>Copy the component code into your project's components folder</li>
+						</ol>
+					</div>
+					<div class="mb-8">
+						<h3 class="text-xl font-semibold mb-2">Mix and Match</h3>
+						<p>
+							You can also combine approaches. For example, use some components as a package and copy others for customization.
+							Remember that when using any components as a package (including mix and match), you need to add the GOPATH configuration to your tailwind.config.json as shown in the Package Installation section.
+						</p>
+					</div>
+				</div>
+			</section>
+			<section class="mb-12">
+				<h2 class="text-2xl font-semibold mb-4 text-primary">Using Components</h2>
+				<div class="space-y-4">
+					<p>Import and use components in your Templ files:</p>
+					@modules.CodeSnippet(usingComponents, "markdown")
 					<p>
-						You can also combine both approaches. For example, use some components as a package and copy others for customization.
-						This flexibility allows you to balance between ease of use and customization needs.
+						For a complete list of available components and their usage, visit our
+						<a href="/docs/components" class="text-primary underline">components documentation</a>.
 					</p>
 				</div>
-			</section>
-			<section class="mb-12">
-				<h2 class="text-2xl font-semibold mb-4 text-primary">Quickstart Template</h2>
-				<p class="mb-4">
-					For a ready-to-go setup, check out our <a href="https://github.com/axzilla/goilerplate-quickstart" class="text-primary underline">Goilerplate Quickstart</a> template.
-					This template uses Goilerplate as a package library but can be easily modified to use copied components or a mix of both approaches.
-				</p>
-				<pre>
-					<code>
-						{ `git clone https://github.com/axzilla/goilerplate-quickstart.git
-cd goilerplate-quickstart
-
-// Follow the README instructions` }
-					</code>
-				</pre>
-			</section>
-			<section class="mb-12">
-				<h2 class="text-2xl font-semibold mb-4 text-primary">Manual Setup Requirements</h2>
-				<p class="mb-4">
-					If you choose to set up Goilerplate manually or copy components, ensure you have the following set up in your project:
-				</p>
-				<ul class="list-disc pl-6 space-y-2">
-					<li>
-						<strong>Templ:</strong> Follow the 
-						<a href="https://templ.guide/quick-start/installation" class="text-primary underline underline-offset-4 hover:text-primary/80" target="_blank" rel="noopener noreferrer">
-							Templ installation guide
-						</a>
-						to set up Templ in your project.
-					</li>
-					<li>
-						<strong>Tailwind CSS:</strong> Set up Tailwind CSS using our 
-						<a href="https://github.com/axzilla/goilerplate/blob/main/tailwind.config.js" class="text-primary underline underline-offset-4 hover:text-primary/80" target="_blank" rel="noopener noreferrer">
-							tailwind.config.js
-						</a>
-						and
-						<a href="https://github.com/axzilla/goilerplate/blob/main/assets/css/input.css" class="text-primary underline underline-offset-4 hover:text-primary/80" target="_blank" rel="noopener noreferrer">
-							input.css						
-						</a>
-						as a reference.
-					</li>
-					<li>
-						<strong>Alpine.js:</strong> Include Alpine.js in your project as described in the 
-						<a href="https://alpinejs.dev/start-here" class="text-primary underline underline-offset-4 hover:text-primary/80" target="_blank" rel="noopener noreferrer">
-							Alpine.js documentation
-						</a>.
-					</li>
-				</ul>
 			</section>
 			<section>
 				<h2 class="text-2xl font-semibold mb-4 text-primary">Next Steps</h2>
 				<p class="mb-4">
-					Whichever approach you choose, explore our 
-					<a href="/docs/components" class="text-primary underline underline-offset-4 hover:text-primary/80">
-						components
-					</a>
-					to see code examples and usage details for each Goilerplate component. Feel free to experiment with different integration methods to find what works best for your project!
+					Check out our component examples and start building your UI. If you need help or have questions, join our community or open an issue on GitHub.
 				</p>
-				<p>
-					Remember, our components page provides code snippets and usage examples, but for comprehensive documentation on Templ, Tailwind CSS, or Alpine.js, refer to their respective official documentation.
+				<p class="mb-4">
+					For comprehensive documentation on Templ, Tailwind CSS, or Alpine.js, refer to their respective official documentation.
 				</p>
 			</section>
 		</div>

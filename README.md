@@ -18,40 +18,15 @@ Goilerplate is a growing library of modern UI components designed specifically f
 - **Accessible Components**: Built with accessibility in mind, following WCAG guidelines.
 - **TypeSafe**: Utilizing Go's type system for robust, error-resistant development.
 
-## Getting Started
+## Quick Start
 
-There are two main ways to use Goilerplate in your projects:
+Visit our [documentation](https://goilerplate.com/docs/how-to-use) for detailed installation and usage instructions.
 
-1. **Use as a Package Library**
-
-   Install Goilerplate as a Go package:
-
-   ```
-   go get github.com/axzilla/goilerplate
-   ```
-
-   Then import and use components in your Templ files:
-
-   ```go
-   import "github.com/axzilla/goilerplate/pkg/components"
-
-   // In your Templ files
-   @components.Button(components.ButtonProps{Text: "Click me"})
-   ```
-
-2. **Copy Components to Your Codebase**
-
-   Visit our [components documentation](https://goilerplate.com/docs/components) to find and copy the components you need directly into your project.
-
-You can also mix and match these approaches based on your project needs.
-
-For a quick start, check out our [Goilerplate quickstart](https://github.com/axzilla/goilerplate-quickstart) template, which provides a pre-configured setup using Goilerplate as a package library.
-
-For detailed setup instructions and examples, visit our [how to use guide](https://goilerplate.com/docs/how-to-use).
+For a ready-to-go setup, check out our [Quickstart Template](https://github.com/axzilla/goilerplate-quickstart).
 
 ## Components
 
-Explore our growing list of components in the [components documentation](https://goilerplate.com/docs/components). Each component comes with usage examples and code snippets.
+Explore our growing list of components in the [components documentation](https://goilerplate.com/docs/components).
 
 ## Inspiration
 
@@ -70,17 +45,9 @@ We're exploring whether to make Goilerplate a strict port of shadcn/ui or to cre
 - Regular updates and bug fixes
 - Continuous development based on community feedback
 
-## Changelog
-
-See [releases](https://github.com/axzilla/goilerplate/releases) for a detailed list of changes in each version.
-
 ## Contributing
 
 We welcome contributions from the community! Whether it's adding new components, improving existing ones, or enhancing documentation, your input is valuable. Please check our [contributing guidelines](CONTRIBUTING.md) for more information on how to get involved.
-
-## Feedback
-
-Your feedback is crucial in shaping the future of Goilerplate. If you have suggestions, feature requests, or encounter any issues, please [open an issue](https://github.com/axzilla/goilerplate/issues) on our GitHub repository or reach out to us through our website.
 
 ## License
 
@@ -88,7 +55,7 @@ Goilerplate is open-source software licensed under the [MIT license](LICENSE).
 
 ## Support
 
-For support, questions, or discussions, please [open an issue](https://github.com/axzilla/goilerplate/issues) on our GitHub repository.
+For support, questions, or discussions, please [open an issue](https://github.com/axzilla/goilerplate/issues) on our GitHub repository or [visit our community (GitHub Discussions)](https://github.com/axzilla/goilerplate/discussions).
 
 ---
 

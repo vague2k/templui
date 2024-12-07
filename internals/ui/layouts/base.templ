@@ -1,7 +1,9 @@
 package layouts
 
-import "github.com/axzilla/goilerplate/internals/config"
-import "github.com/axzilla/goilerplate/internals/ui/modules"
+import (
+	"github.com/axzilla/goilerplate/internals/config"
+	"github.com/axzilla/goilerplate/internals/ui/modules"
+)
 
 templ BaseLayout() {
 	<!DOCTYPE html>
@@ -26,7 +28,7 @@ templ BaseLayout() {
 			<!-- Tailwind CSS (local) -->
 			<link href="/assets/css/output.css" rel="stylesheet"/>
 			<!-- Alpine.js -->
-			<script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/focus@3.x.x/dist/cdn.min.js"></script>
+			// <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/focus@3.x.x/dist/cdn.min.js"></script>
 			<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
 			// Theme Customizer 
 			<script src="/assets/js/theme-customizer.js"></script>
@@ -35,7 +37,7 @@ templ BaseLayout() {
 			<!-- Highlight.js -->
 			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/base16/woodland.min.css"/>
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-			<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/go.min.js"></script>
+			// <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/go.min.js"></script>
 			<script>hljs.highlightAll();</script>
 		</head>
 		<body
