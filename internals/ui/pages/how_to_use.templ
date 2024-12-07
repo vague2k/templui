@@ -206,7 +206,6 @@ templ HowToUse() {
 					</div>
 				</div>
 			</section>
-			//
 			<section class="mb-12">
 				<h2 class="text-2xl font-semibold mb-4 text-primary">Base Configuration</h2>
 				<p class="mb-4">Goilerplate provides pre-configured styles and themes. You'll need these files in your project:</p>
@@ -224,7 +223,62 @@ templ HowToUse() {
 					</div>
 				</div>
 			</section>
-			//
+			<section class="mb-12">
+				<h2 class="text-2xl font-semibold mb-4 text-primary">Development Tools</h2>
+				<p class="mb-4">
+					While not required, we recommend setting up these development tools for a better workflow with Go and Templ projects (regardless of whether you use Goilerplate):
+				</p>
+				<div class="space-y-6">
+					<div>
+						<h3 class="text-xl font-semibold mb-2">1. Air (Live Reload for Go)</h3>
+						<p class="mb-2">Install Air for automatic Go server rebuilds:</p>
+						@modules.CodeSnippet("go install github.com/cosmtrek/air@latest", "markdown")
+					</div>
+					<div>
+						<h3 class="text-xl font-semibold mb-2">2. Development Makefile</h3>
+						<p class="mb-2">Create a Makefile in your project root:</p>
+						@modules.CodeSnippet(`# Run templ generation in watch mode
+templ:
+    templ generate --watch --proxy="http://localhost:8090" --open-browser=false -v
+
+# Run air for Go hot reload
+server:
+    air \
+    --build.cmd "go build -o tmp/bin/main ./main.go" \
+    --build.bin "tmp/bin/main" \
+    --build.delay "100" \
+    --build.exclude_dir "node_modules" \
+    --build.include_ext "go" \
+    --build.stop_on_error "false" \
+    --misc.clean_on_exit true
+
+# Watch Tailwind CSS changes
+tailwind:
+    tailwindcss -i ./assets/css/input.css -o ./assets/css/output.css --watch
+
+# Start development server with all watchers
+dev:
+    make -j3 templ server tailwind`, "makefile")
+					</div>
+					<div>
+						<h3 class="text-xl font-semibold mb-2">3. Start Development Server</h3>
+						<p class="mb-2">Start all development tools with a single command:</p>
+						@modules.CodeSnippet("make dev", "markdown")
+						<p class="text-sm mt-2">This will:</p>
+						<ul class="list-disc pl-6 text-sm space-y-1">
+							<li>Watch and compile Templ files</li>
+							<li>Start the Go server with hot reload via Air</li>
+							<li>Watch and compile Tailwind CSS changes</li>
+						</ul>
+						<p class="text-sm mt-2">Or run services individually:</p>
+						<ul class="list-disc pl-6 text-sm space-y-1">
+							<li>{ `make templ` } - Watch Templ files only</li>
+							<li>{ `make server` } - Run Go server only</li>
+							<li>{ `make tailwind` } - Watch Tailwind CSS only</li>
+						</ul>
+					</div>
+				</div>
+			</section>
 			<section class="mb-12">
 				<h2 class="text-2xl font-semibold mb-4 text-primary">Installation Options</h2>
 				<p class="mb-4">After installing the requirements, you have three ways to use Goilerplate:</p>
