@@ -4,6 +4,7 @@ import (
 	"github.com/axzilla/goilerplate/internals/shared"
 	"github.com/axzilla/goilerplate/pkg/components"
 	"github.com/axzilla/goilerplate/pkg/icons"
+	"github.com/axzilla/goilerplate/internals/ui/icons"
 )
 
 templ Navbar() {
@@ -20,8 +21,21 @@ templ Navbar() {
 				<a href="/docs/getting-started" class="text-sm hover:underline">Docs</a>
 				<a href="/docs/components" class="text-sm hover:underline">Components</a>
 			</div>
-			<div class="flex items-center space-x-2">
-				@components.Button(components.ButtonProps{Size: components.ButtonSizeIcon, IconLeft: icons.Twitter(icons.IconProps{}), Variant: "ghost", Href: "https://x.com/_axzilla", Target: "_blank"})
+			<div class="flex items-center">
+				@components.Button(components.ButtonProps{
+					Size:     components.ButtonSizeIcon,
+					IconLeft: wrappedicons.GitHub(24),
+					Variant:  "ghost",
+					Href:     "https://github.com/axzilla/goilerplate",
+					Target:   "_blank",
+				})
+				@components.Button(components.ButtonProps{
+					Size:     components.ButtonSizeIcon,
+					IconLeft: wrappedicons.X(16),
+					Variant:  "ghost",
+					Href:     "https://x.com/_axzilla/",
+					Target:   "_blank",
+				})
 				@ThemeSwitcher()
 			</div>
 		</div>
