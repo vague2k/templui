@@ -2,7 +2,6 @@ package components
 
 import "github.com/axzilla/goilerplate/pkg/utils"
 
-// RadioProps configures the Radio component
 type RadioProps struct {
 	Value      string           // Radio button value
 	Name       string           // Form field name
@@ -10,7 +9,7 @@ type RadioProps struct {
 	Disabled   bool             // Prevents interaction
 	Checked    bool             // Selected state
 	Class      string           // Additional CSS classes
-	Attributes templ.Attributes // Extra HTML/Alpine attributes
+	Attributes templ.Attributes // Additional HTML attributes
 }
 
 // Radio renders a styled radio input button

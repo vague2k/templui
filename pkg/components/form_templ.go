@@ -10,10 +10,9 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import "github.com/axzilla/goilerplate/pkg/utils"
 
-// FormItemProps represents a form container's properties
 type FormItemProps struct {
 	ID    string // Optional container ID
-	Class string // Custom classes
+	Class string // Additional CSS classes
 }
 
 // FormItem wraps form elements in a vertical layout
@@ -128,12 +127,11 @@ func FormItemFlex(props FormItemProps) templ.Component {
 	})
 }
 
-// FormLabelProps represents label properties
 type FormLabelProps struct {
 	For           string // Target form element ID
 	Text          string // Label text
-	Class         string // Custom classes
-	DisabledClass string // Classes applied when input is disabled
+	Class         string // Additional CSS classes
+	DisabledClass string // Additional CSS classes when the form element is disabled
 }
 
 // FormLabel renders a form label
@@ -173,7 +171,7 @@ func FormLabel(props FormLabelProps) templ.Component {
 
 // FormDescriptionProps represents helper text properties
 type FormDescriptionProps struct {
-	Class string // Custom classes
+	Class string // Additional CSS classes
 }
 
 // FormDescription renders helper text below form elements
@@ -236,7 +234,7 @@ func FormDescription(props FormDescriptionProps) templ.Component {
 type FormMessageProps struct {
 	Type    string // error, success, warning, info
 	Message string // Message text
-	Class   string // Custom classes
+	Class   string // Additional CSS classes
 }
 
 // FormMessage renders feedback messages
@@ -292,7 +290,7 @@ func FormMessage(props FormMessageProps) templ.Component {
 		var templ_7745c5c3_Var14 string
 		templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(props.Message)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/form.templ`, Line: 73, Col: 17}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/form.templ`, Line: 71, Col: 17}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 		if templ_7745c5c3_Err != nil {

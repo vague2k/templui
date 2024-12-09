@@ -13,7 +13,6 @@ import (
 	"strconv"
 )
 
-// TextareaProps configures the Textarea component
 type TextareaProps struct {
 	ID          string           // DOM identifier
 	Name        string           // Form field name
@@ -21,9 +20,9 @@ type TextareaProps struct {
 	Placeholder string           // Helper text shown when empty
 	Rows        int              // Visible lines of text
 	Disabled    bool             // Prevents interaction
-	Class       string           // Additional CSS classes
 	AutoResize  bool             // Enables dynamic resizing
-	Attributes  templ.Attributes // Extra HTML/Alpine attributes
+	Class       string           // Additional CSS classes
+	Attributes  templ.Attributes // Additional HTML attributes
 }
 
 // Textarea renders a multi-line text input field
@@ -78,7 +77,7 @@ func Textarea(props TextareaProps) templ.Component {
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/textarea.templ`, Line: 24, Col: 18}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/textarea.templ`, Line: 23, Col: 18}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
@@ -91,7 +90,7 @@ func Textarea(props TextareaProps) templ.Component {
 		var templ_7745c5c3_Var4 string
 		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/textarea.templ`, Line: 25, Col: 15}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/textarea.templ`, Line: 24, Col: 15}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
@@ -104,7 +103,7 @@ func Textarea(props TextareaProps) templ.Component {
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(props.Name)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/textarea.templ`, Line: 26, Col: 19}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/textarea.templ`, Line: 25, Col: 19}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
@@ -117,7 +116,7 @@ func Textarea(props TextareaProps) templ.Component {
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(props.Placeholder)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/textarea.templ`, Line: 27, Col: 33}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/textarea.templ`, Line: 26, Col: 33}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -141,7 +140,7 @@ func Textarea(props TextareaProps) templ.Component {
 			var templ_7745c5c3_Var7 string
 			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(props.Rows))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/textarea.templ`, Line: 30, Col: 34}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/textarea.templ`, Line: 29, Col: 34}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {
@@ -187,7 +186,7 @@ func Textarea(props TextareaProps) templ.Component {
 			var templ_7745c5c3_Var9 string
 			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(props.Value)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/textarea.templ`, Line: 59, Col: 16}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/textarea.templ`, Line: 58, Col: 16}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 			if templ_7745c5c3_Err != nil {

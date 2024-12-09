@@ -2,7 +2,6 @@ package components
 
 import "github.com/axzilla/goilerplate/pkg/utils"
 
-// CardImagePosition defines where the image should be placed in the card
 type CardImagePosition string
 
 const (
@@ -13,27 +12,12 @@ const (
 )
 
 type CardProps struct {
-	// Class specifies additional CSS classes to apply to the card.
-	// Default: "" (empty string)
-	Class string
-
-	// Attributes allows passing additional HTML attributes to the card element.
-	// Default: nil
-	Attributes templ.Attributes
-
-	// Horizontal enables horizontal layout for side images
-	// Default: false
-	Horizontal bool
+	Horizontal bool             // Enables horizontal layout for side images
+	Class      string           // Additional CSS classes
+	Attributes templ.Attributes // Additional HTML attributes
 }
 
 // Container for organizing related content and actions.
-//
-// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/card
-//
-// Props:
-//   - Class: Additional CSS classes to apply to the card. Default: "" (empty string)
-//   - Attributes: Additional HTML attributes to apply to the card element. Default: nil
-//   - Horizontal: Enables horizontal layout for side images. Default: false
 templ Card(props CardProps) {
 	<div
 		class={
@@ -50,27 +34,15 @@ templ Card(props CardProps) {
 }
 
 type CardImageProps struct {
-	// Src is the source URL of the image
-	Src string
-
-	// Alt is the alternative text for the image
-	Alt string
-
-	// Class allows adding custom classes to the image container
-	Class string
-
-	// AspectRatio sets the aspect ratio of the image (e.g., "16/9", "4/3", "1/1")
-	AspectRatio string
-
-	// Position determines the position of the image in the card
-	Position CardImagePosition
-
-	// Width sets the width for side images (e.g., "1/3", "1/2")
-	Width string
+	Src         string            // Image URL
+	Alt         string            // Image alt text
+	Class       string            // Additional CSS classes
+	AspectRatio string            // Aspect ratio for image
+	Position    CardImagePosition // Image position
+	Width       string            // Image width
 }
 
-// getImageWidth returns the appropriate width class
-func getImageWidth(width string) string {
+func imageWidth(width string) string {
 	if width == "" {
 		return "w-1/3"
 	}
@@ -92,7 +64,7 @@ templ CardImage(props CardImageProps) {
 			templ.KV("rounded-r-lg", props.Position == CardImageRight),
 			// Width for side images
 			templ.KV("shrink-0", props.Position == CardImageLeft || props.Position == CardImageRight),
-			templ.KV(getImageWidth(props.Width), props.Position == CardImageLeft || props.Position == CardImageRight),
+			templ.KV(imageWidth(props.Width), props.Position == CardImageLeft || props.Position == CardImageRight),
 		}
 		if props.AspectRatio != "" {
 			style={ "aspect-ratio: " + props.AspectRatio }

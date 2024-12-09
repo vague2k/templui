@@ -11,20 +11,11 @@ import templruntime "github.com/a-h/templ/runtime"
 import "github.com/axzilla/goilerplate/pkg/utils"
 
 type ModalProps struct {
-	// ID uniquely identifies the modal for open/close control
-	ID string
-
-	// Class adds custom CSS classes
-	Class string
+	ID    string // Unique identifier for control
+	Class string // Additional CSS classes
 }
 
 // Dialog overlay that requires user attention or interaction.
-//
-// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/modal
-//
-// Props:
-// - ID: Unique identifier for control
-// - Class: Additional CSS classes
 func Modal(props ModalProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -53,7 +44,7 @@ func Modal(props ModalProps) templ.Component {
 		var templ_7745c5c3_Var2 string
 		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/modal.templ`, Line: 25, Col: 26}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/modal.templ`, Line: 16, Col: 26}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {
@@ -131,7 +122,7 @@ func ModalTrigger(id string) templ.Component {
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(id)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/modal.templ`, Line: 56, Col: 20}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/modal.templ`, Line: 47, Col: 20}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -183,7 +174,7 @@ func ModalClose(id string) templ.Component {
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(id)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/modal.templ`, Line: 67, Col: 20}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/modal.templ`, Line: 58, Col: 20}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {

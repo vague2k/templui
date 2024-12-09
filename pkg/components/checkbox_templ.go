@@ -22,7 +22,7 @@ type CheckboxProps struct {
 	Checked    bool             // Selected state
 	Icon       templ.Component  // Custom check icon
 	Class      string           // Additional CSS classes
-	Attributes templ.Attributes // Extra HTML/Alpine attributes
+	Attributes templ.Attributes // Additional HTML attributes
 }
 
 // Checkbox renders a styled checkbox input with customizable icon

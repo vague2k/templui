@@ -3,20 +3,11 @@ package components
 import "github.com/axzilla/goilerplate/pkg/utils"
 
 type ModalProps struct {
-	// ID uniquely identifies the modal for open/close control
-	ID string
-
-	// Class adds custom CSS classes
-	Class string
+	ID    string // Unique identifier for control
+	Class string // Additional CSS classes
 }
 
 // Dialog overlay that requires user attention or interaction.
-//
-// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/modal
-//
-// Props:
-// - ID: Unique identifier for control
-// - Class: Additional CSS classes
 templ Modal(props ModalProps) {
 	<div
 		x-data="{ open: false }"

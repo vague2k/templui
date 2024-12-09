@@ -2,10 +2,9 @@ package components
 
 import "github.com/axzilla/goilerplate/pkg/utils"
 
-// FormItemProps represents a form container's properties
 type FormItemProps struct {
 	ID    string // Optional container ID
-	Class string // Custom classes
+	Class string // Additional CSS classes
 }
 
 // FormItem wraps form elements in a vertical layout
@@ -22,12 +21,11 @@ templ FormItemFlex(props FormItemProps) {
 	</div>
 }
 
-// FormLabelProps represents label properties
 type FormLabelProps struct {
 	For           string // Target form element ID
 	Text          string // Label text
-	Class         string // Custom classes
-	DisabledClass string // Classes applied when input is disabled
+	Class         string // Additional CSS classes
+	DisabledClass string // Additional CSS classes when the form element is disabled
 }
 
 // FormLabel renders a form label
@@ -42,7 +40,7 @@ templ FormLabel(props FormLabelProps) {
 
 // FormDescriptionProps represents helper text properties
 type FormDescriptionProps struct {
-	Class string // Custom classes
+	Class string // Additional CSS classes
 }
 
 // FormDescription renders helper text below form elements
@@ -56,7 +54,7 @@ templ FormDescription(props FormDescriptionProps) {
 type FormMessageProps struct {
 	Type    string // error, success, warning, info
 	Message string // Message text
-	Class   string // Custom classes
+	Class   string // Additional CSS classes
 }
 
 // FormMessage renders feedback messages

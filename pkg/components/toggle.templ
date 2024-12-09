@@ -2,14 +2,13 @@ package components
 
 import "github.com/axzilla/goilerplate/pkg/utils"
 
-// ToggleProps configures the Toggle component
 type ToggleProps struct {
 	ID         string           // DOM identifier
 	Name       string           // Form field name
 	Disabled   bool             // Prevents interaction
 	Checked    bool             // Toggled state
 	Class      string           // Additional CSS classes
-	Attributes templ.Attributes // Extra HTML/Alpine attributes
+	Attributes templ.Attributes // Additional HTML attributes
 }
 
 // Toggle renders a styled switch input

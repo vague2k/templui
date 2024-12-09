@@ -1,41 +1,18 @@
 package components
 
 type Tab struct {
-	// ID uniquely identifies the tab
-	ID string
-
-	// Title displays in tab button
-	Title string
-
-	// Content renders when tab is active
-	Content templ.Component
+	ID      string          // Unique identifier for the tab
+	Title   string          // Tab title
+	Content templ.Component // Tab content
 }
 
 type TabsProps struct {
-	// Tabs defines the tabs structure and content
-	Tabs []Tab
-
-	// TabsContainerClass adds classes to tabs header
-	TabsContainerClass string
-
-	// ContentContainerClass adds classes to content area
-	ContentContainerClass string
+	Tabs                  []Tab  // List of tabs
+	TabsContainerClass    string // Additional CSS classes for the tabs container
+	ContentContainerClass string // Additional CSS classes for the content container
 }
 
-// TNavigation interface that organizes content into sections.
-//
-// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/tabs
-//
-// Props:
-// - Tabs: Tab definitions and content
-// - TabsContainerClass: Additional classes for header
-// - ContentContainerClass: Additional classes for content
-//
-// Features:
-// - Animated tab switching
-// - Keyboard navigation
-// - Responsive layout
-// - ARIA support
+// Navigation interface that organizes content into sections.
 templ Tabs(props TabsProps) {
 	<div
 		x-data="{     

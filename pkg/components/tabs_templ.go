@@ -9,41 +9,18 @@ import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
 type Tab struct {
-	// ID uniquely identifies the tab
-	ID string
-
-	// Title displays in tab button
-	Title string
-
-	// Content renders when tab is active
-	Content templ.Component
+	ID      string          // Unique identifier for the tab
+	Title   string          // Tab title
+	Content templ.Component // Tab content
 }
 
 type TabsProps struct {
-	// Tabs defines the tabs structure and content
-	Tabs []Tab
-
-	// TabsContainerClass adds classes to tabs header
-	TabsContainerClass string
-
-	// ContentContainerClass adds classes to content area
-	ContentContainerClass string
+	Tabs                  []Tab  // List of tabs
+	TabsContainerClass    string // Additional CSS classes for the tabs container
+	ContentContainerClass string // Additional CSS classes for the content container
 }
 
-// TNavigation interface that organizes content into sections.
-//
-// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/tabs
-//
-// Props:
-// - Tabs: Tab definitions and content
-// - TabsContainerClass: Additional classes for header
-// - ContentContainerClass: Additional classes for content
-//
-// Features:
-// - Animated tab switching
-// - Keyboard navigation
-// - Responsive layout
-// - ARIA support
+// Navigation interface that organizes content into sections.
 func Tabs(props TabsProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -101,7 +78,7 @@ func Tabs(props TabsProps) templ.Component {
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(tab.Title)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/tabs.templ`, Line: 76, Col: 16}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/tabs.templ`, Line: 53, Col: 16}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {

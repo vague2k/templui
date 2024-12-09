@@ -14,60 +14,21 @@ import (
 )
 
 type SliderProps struct {
-	// ID is the unique identifier for the slider
-	ID string
-
-	// Name is the name attribute for the slider
-	Name string
-
-	// Min sets the minimum value (default: 0)
-	Min int
-
-	// Max sets the maximum value (default: 100)
-	Max int
-
-	// Step defines the increment between values (default: 1)
-	Step int
-
-	// Value sets the initial value
-	Value int
-
-	// Label displays a label above the slider
-	Label string
-
-	// ShowValue toggles the value display
-	ShowValue bool
-
-	// ValueFormat adds a suffix to the value (e.g. "%", "°C")
-	ValueFormat string
-
-	// Class adds custom CSS classes
-	Class string
-
-	// Disabled makes the slider non-interactive
-	Disabled bool
-
-	// Attributes for additional HTML attributes and Alpine.js bindings
-	Attributes templ.Attributes
+	ID          string           // Unique identifier for the slider
+	Name        string           // Input name attribute
+	Min         int              // Minimum value
+	Max         int              // Maximum value
+	Step        int              // Value increment
+	Value       int              // Initial value
+	Label       string           // Optional label text
+	ShowValue   bool             // Show current value
+	ValueFormat string           // Optional format suffix
+	Disabled    bool             // Disables the slider
+	Class       string           // Additional CSS classes
+	Attributes  templ.Attributes // Additional HTML attributes
 }
 
 // Control for selecting a numeric value within a range.
-//
-// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/slider
-//
-// Props:
-//   - ID: Unique identifier for the slider
-//   - Name: Input name attribute
-//   - Min: Minimum value (default: 0)
-//   - Max: Maximum value (default: 100)
-//   - Step: Value increment (default: 1)
-//   - Value: Initial value
-//   - Label: Optional label text
-//   - ShowValue: Show current value
-//   - ValueFormat: Optional format suffix (e.g. "%", "°C")
-//   - Class: Additional CSS classes
-//   - Disabled: Disables the slider
-//   - Attributes: Additional HTML attributes (e.g. x-model for binding)
 func Slider(props SliderProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -96,7 +57,7 @@ func Slider(props SliderProps) templ.Component {
 		var templ_7745c5c3_Var2 string
 		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("{ value: %d }", props.Value))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/slider.templ`, Line: 66, Col: 52}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/slider.templ`, Line: 27, Col: 52}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {
@@ -119,7 +80,7 @@ func Slider(props SliderProps) templ.Component {
 				var templ_7745c5c3_Var3 string
 				templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/slider.templ`, Line: 71, Col: 26}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/slider.templ`, Line: 32, Col: 26}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 				if templ_7745c5c3_Err != nil {
@@ -132,7 +93,7 @@ func Slider(props SliderProps) templ.Component {
 				var templ_7745c5c3_Var4 string
 				templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(props.Label)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/slider.templ`, Line: 72, Col: 19}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/slider.templ`, Line: 33, Col: 19}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 				if templ_7745c5c3_Err != nil {
@@ -152,7 +113,7 @@ func Slider(props SliderProps) templ.Component {
 					var templ_7745c5c3_Var5 string
 					templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(props.ValueFormat)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/slider.templ`, Line: 79, Col: 26}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/slider.templ`, Line: 40, Col: 26}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 					if templ_7745c5c3_Err != nil {
@@ -192,7 +153,7 @@ func Slider(props SliderProps) templ.Component {
 		var templ_7745c5c3_Var7 string
 		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/slider.templ`, Line: 88, Col: 16}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/slider.templ`, Line: 49, Col: 16}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
@@ -205,7 +166,7 @@ func Slider(props SliderProps) templ.Component {
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(props.Name)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/slider.templ`, Line: 89, Col: 20}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/slider.templ`, Line: 50, Col: 20}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
@@ -223,7 +184,7 @@ func Slider(props SliderProps) templ.Component {
 			var templ_7745c5c3_Var9 string
 			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d", props.Value))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/slider.templ`, Line: 91, Col: 42}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/slider.templ`, Line: 52, Col: 42}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 			if templ_7745c5c3_Err != nil {
@@ -242,7 +203,7 @@ func Slider(props SliderProps) templ.Component {
 			var templ_7745c5c3_Var10 string
 			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d", props.Min))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/slider.templ`, Line: 94, Col: 38}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/slider.templ`, Line: 55, Col: 38}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {
@@ -261,7 +222,7 @@ func Slider(props SliderProps) templ.Component {
 			var templ_7745c5c3_Var11 string
 			templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d", props.Max))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/slider.templ`, Line: 97, Col: 38}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/slider.templ`, Line: 58, Col: 38}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 			if templ_7745c5c3_Err != nil {
@@ -280,7 +241,7 @@ func Slider(props SliderProps) templ.Component {
 			var templ_7745c5c3_Var12 string
 			templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d", props.Step))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/slider.templ`, Line: 100, Col: 40}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/slider.templ`, Line: 61, Col: 40}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
 			if templ_7745c5c3_Err != nil {

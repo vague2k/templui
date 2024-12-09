@@ -1,25 +1,18 @@
 package components
 
-// SheetSide defines the slide-in direction
 type SheetSide string
 
 const (
-	// Sheet appearance directions
-	SheetSideTop    SheetSide = "top"    // Slides down from top
-	SheetSideRight  SheetSide = "right"  // Slides in from right
-	SheetSideBottom SheetSide = "bottom" // Slides up from bottom
-	SheetSideLeft   SheetSide = "left"   // Slides in from left
+	SheetSideTop    SheetSide = "top"
+	SheetSideRight  SheetSide = "right"
+	SheetSideBottom SheetSide = "bottom"
+	SheetSideLeft   SheetSide = "left"
 )
 
 type SheetProps struct {
-	// Title displays in sheet header
-	Title string
-
-	// Description shows below title
-	Description string
-
-	// Side controls slide-in direction
-	Side SheetSide
+	Title       string    // Header text
+	Description string    // Subheading text
+	Side        SheetSide // Slide-in direction
 }
 
 // SheetRoot initializes Alpine.js state and event handlers
@@ -44,19 +37,6 @@ templ SheetRoot() {
 }
 
 // Side-anchored panel that slides in from screen edges.
-//
-// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/sheet
-//
-// Props:
-// - Title: Header text
-// - Description: Subheading text
-// - Side: Slide-in direction
-//
-// Features:
-// - Responsive sizing
-// - Animated transitions
-// - Backdrop blur
-// - ESC key closing
 templ Sheet(props SheetProps) {
 	<!-- Backdrop -->
 	<div

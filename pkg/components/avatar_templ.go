@@ -14,75 +14,23 @@ import (
 	"strings"
 )
 
-// AvatarSize defines the available avatar dimensions
 type AvatarSize string
 
 const (
-	// AvatarSizeSmall renders a small avatar (32x32px)
-	AvatarSizeSmall AvatarSize = "small"
-
-	// AvatarSizeMedium renders a medium avatar (48x48px)
+	AvatarSizeSmall  AvatarSize = "small"
 	AvatarSizeMedium AvatarSize = "medium"
-
-	// AvatarSizeLarge renders a large avatar (64x64px)
-	AvatarSizeLarge AvatarSize = "large"
+	AvatarSizeLarge  AvatarSize = "large"
 )
 
 type AvatarProps struct {
-	// ImageSrc is the URL for the avatar image
-	// If empty, initials will be shown instead
-	ImageSrc string
-
-	// Name is used to generate initials when no image is provided
-	Name string
-
-	// Size controls the avatar dimensions (small, medium, large)
-	Size AvatarSize
-
-	// Class adds custom CSS classes
-	Class string
-
-	// Attributes for additional HTML attributes
-	Attributes templ.Attributes
+	ImageSrc   string           // URL of avatar image
+	Name       string           // Name for generating initials
+	Size       AvatarSize       // Size variant
+	Class      string           // Additional CSS classes
+	Attributes templ.Attributes // Additional HTML attributes
 }
 
-// AvatarInitials generates a 1-2 character initial from the given name
-func AvatarInitials(name string) string {
-	parts := strings.Fields(name)
-	initials := ""
-	for i, part := range parts {
-		if i > 1 {
-			break
-		}
-		if len(part) > 0 {
-			initials += string(part[0])
-		}
-	}
-	return strings.ToUpper(initials)
-}
-
-// AvatarSizeClasses maps sizes to their corresponding CSS classes
-func AvatarSizeClasses(size AvatarSize) string {
-	switch size {
-	case AvatarSizeSmall:
-		return "w-8 h-8 text-xs"
-	case AvatarSizeLarge:
-		return "w-16 h-16 text-xl"
-	default:
-		return "w-12 h-12 text-base"
-	}
-}
-
-// Visual representation of a user through images or initials.
-//
-// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/avatar
-//
-// Props:
-// - ImageSrc: URL for the avatar image
-// - Name: Text to generate initials from when no image is provided
-// - Size: Avatar dimensions (small, medium, large)
-// - Class: Additional CSS classes
-// - Attributes: Additional HTML attributes
+// Avatar renders a user avatar image or initials
 func Avatar(props AvatarProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -104,13 +52,17 @@ func Avatar(props AvatarProps) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		var templ_7745c5c3_Var2 = []any{
-			utils.TwMerge(
-				"inline-flex items-center justify-center rounded-full bg-muted",
-				AvatarSizeClasses(props.Size),
-				props.Class,
-			),
-		}
+		var templ_7745c5c3_Var2 = []any{utils.TwMerge(
+			// Layout
+			"inline-flex items-center justify-center",
+			avatarSizeClasses(props.Size),
+
+			// Styling
+			"rounded-full bg-muted",
+
+			// Custom
+			props.Class,
+		)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -141,16 +93,27 @@ func Avatar(props AvatarProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		if props.ImageSrc != "" {
+			var templ_7745c5c3_Var4 = []any{utils.TwMerge(
+				// Layout
+				"w-full h-full",
+
+				// Styling
+				"rounded-full object-cover",
+			)}
+			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var4...)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<img src=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var4 string
-			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(props.ImageSrc)
+			var templ_7745c5c3_Var5 string
+			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(props.ImageSrc)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/avatar.templ`, Line: 91, Col: 24}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/avatar.templ`, Line: 43, Col: 24}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -158,30 +121,64 @@ func Avatar(props AvatarProps) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var5 string
-			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s's avatar", props.Name))
+			var templ_7745c5c3_Var6 string
+			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%s's avatar", props.Name))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/avatar.templ`, Line: 92, Col: 48}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/avatar.templ`, Line: 44, Col: 48}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"w-full h-full object-cover rounded-full\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var7 string
+			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var4).String())
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/avatar.templ`, Line: 1, Col: 0}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<span class=\"font-medium text-muted-foreground\">")
+			var templ_7745c5c3_Var8 = []any{utils.TwMerge(
+				// Styling
+				"font-medium text-muted-foreground",
+			)}
+			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var8...)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var6 string
-			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(AvatarInitials(props.Name))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<span class=\"")
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/avatar.templ`, Line: 97, Col: 32}
+				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
+			var templ_7745c5c3_Var9 string
+			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var8).String())
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/avatar.templ`, Line: 1, Col: 0}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var10 string
+			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(avatarInitials(props.Name))
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/avatar.templ`, Line: 60, Col: 32}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -196,6 +193,31 @@ func Avatar(props AvatarProps) templ.Component {
 		}
 		return templ_7745c5c3_Err
 	})
+}
+
+func avatarInitials(name string) string {
+	parts := strings.Fields(name)
+	initials := ""
+	for i, part := range parts {
+		if i > 1 {
+			break
+		}
+		if len(part) > 0 {
+			initials += string(part[0])
+		}
+	}
+	return strings.ToUpper(initials)
+}
+
+func avatarSizeClasses(size AvatarSize) string {
+	switch size {
+	case AvatarSizeSmall:
+		return "w-8 h-8 text-xs"
+	case AvatarSizeLarge:
+		return "w-16 h-16 text-xl"
+	default:
+		return "w-12 h-12 text-base"
+	}
 }
 
 var _ = templruntime.GeneratedTemplate

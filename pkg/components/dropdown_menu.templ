@@ -8,50 +8,25 @@ import (
 )
 
 type DropdownMenuItem struct {
-	// Label displays text for the menu item
-	Label string
-
-	// Value for non-link menu items
-	Value string
-
-	// Href makes item a navigation link
-	Href string
-
-	// Target controls link opening behavior
-	Target string
-
-	// IconLeft displays icon before label
-	IconLeft templ.Component
-
-	// IconRight displays icon after label
-	IconRight templ.Component
-
-	// SubItems creates nested submenu
-	SubItems []DropdownMenuItem
-
-	// Disabled controls interactive state
-	Disabled bool
-
-	// Attributes for additional HTML attributes
-	Attributes templ.Attributes
+	Label      string             // Display text
+	Value      string             // Optional value
+	Href       string             // Optional link URL
+	Target     string             // Optional link target
+	IconLeft   templ.Component    // Optional icon on the left
+	IconRight  templ.Component    // Optional icon on the right
+	SubItems   []DropdownMenuItem // Nested submenu items
+	Disabled   bool               // Disables the item
+	Attributes templ.Attributes   // Additional HTML attributesß
 }
 
 type DropdownMenuProps struct {
-	// Items defines the menu structure
-	Items []DropdownMenuItem
-
-	// Trigger overrides default button trigger
-	Trigger templ.Component
-
-	// Class adds custom CSS classes
-	Class string
-
-	// Position sets preferred menu placement (left, right, top, bottom)
-	Position string
+	Items    []DropdownMenuItem // Menu items
+	Trigger  templ.Component    // Custom trigger element
+	Class    string             // Additional CSS classes
+	Position string             // Preferred placement
 }
 
-// ModifierClasses generates state-based CSS classes
-func (d DropdownMenuItem) ModifierClasses() string {
+func (d DropdownMenuItem) modifierClasses() string {
 	classes := []string{}
 	if d.Disabled {
 		classes = append(classes, "text-muted-foreground cursor-not-allowed")
@@ -61,8 +36,6 @@ func (d DropdownMenuItem) ModifierClasses() string {
 	return strings.Join(classes, " ")
 }
 
-// renderMenuItem handles recursive menu item rendering
-// Supports regular items, links, and nested submenus up to 3 levels
 templ renderMenuItem(item DropdownMenuItem, index int, depth int) {
 	if len(item.SubItems) > 0 {
 		<div class="relative group">
@@ -70,7 +43,7 @@ templ renderMenuItem(item DropdownMenuItem, index int, depth int) {
 				class={
 					utils.TwMerge(
 						"w-full text-left flex items-center justify-between px-4 py-2 text-sm",
-						item.ModifierClasses(),
+						item.modifierClasses(),
 					),
 				}
 				role="menuitem"
@@ -108,7 +81,7 @@ templ renderMenuItem(item DropdownMenuItem, index int, depth int) {
 			href={ templ.SafeURL(item.Href) }
 			target={ item.Target }
 			class={
-				"block px-4 py-2 text-sm flex items-center",
+				"px-4 py-2 text-sm flex items-center",
 				templ.KV("text-foreground hover:bg-accent hover:text-accent-foreground", !item.Disabled),
 				templ.KV("text-muted-foreground cursor-not-allowed", item.Disabled),
 			}
@@ -156,20 +129,6 @@ templ renderMenuItem(item DropdownMenuItem, index int, depth int) {
 }
 
 // Floating menu for displaying a list of actions or options.
-//
-// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/dropdown-menu
-//
-// Props:
-// - Items: Menu structure and content
-// - Trigger: Custom trigger element (optional)
-// - Class: Additional CSS classes
-// - Position: Preferred placement
-//
-// Features:
-// - Nested submenus (up to 3 levels)
-// - Automatic position adjustment
-// - Keyboard navigation
-// - ARIA support
 templ DropdownMenu(props DropdownMenuProps) {
 	<div
 		x-data="{

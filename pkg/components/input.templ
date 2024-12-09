@@ -2,7 +2,6 @@ package components
 
 import "github.com/axzilla/goilerplate/pkg/utils"
 
-// InputType defines the type of input field
 type InputType string
 
 const (
@@ -18,7 +17,6 @@ const (
 	InputTypeFile     InputType = "file"
 )
 
-// InputProps configures the Input component
 type InputProps struct {
 	Type        InputType        // Input field type
 	Placeholder string           // Helper text shown when empty
@@ -27,10 +25,10 @@ type InputProps struct {
 	ID          string           // DOM identifier
 	Disabled    bool             // Prevents interaction
 	Readonly    bool             // Allows selection only
-	Class       string           // Additional CSS classes
 	FileAccept  string           // Allowed file types
 	HasError    bool             // Error state styling
-	Attributes  templ.Attributes // Extra HTML/Alpine attributes
+	Class       string           // Additional CSS classes
+	Attributes  templ.Attributes // Additional HTML attributes
 }
 
 // Input renders a styled form input field

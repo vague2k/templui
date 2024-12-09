@@ -10,7 +10,6 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import "github.com/axzilla/goilerplate/pkg/utils"
 
-// CardImagePosition defines where the image should be placed in the card
 type CardImagePosition string
 
 const (
@@ -21,27 +20,12 @@ const (
 )
 
 type CardProps struct {
-	// Class specifies additional CSS classes to apply to the card.
-	// Default: "" (empty string)
-	Class string
-
-	// Attributes allows passing additional HTML attributes to the card element.
-	// Default: nil
-	Attributes templ.Attributes
-
-	// Horizontal enables horizontal layout for side images
-	// Default: false
-	Horizontal bool
+	Horizontal bool             // Enables horizontal layout for side images
+	Class      string           // Additional CSS classes
+	Attributes templ.Attributes // Additional HTML attributes
 }
 
 // Container for organizing related content and actions.
-//
-// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/card
-//
-// Props:
-//   - Class: Additional CSS classes to apply to the card. Default: "" (empty string)
-//   - Attributes: Additional HTML attributes to apply to the card element. Default: nil
-//   - Horizontal: Enables horizontal layout for side images. Default: false
 func Card(props CardProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -112,27 +96,15 @@ func Card(props CardProps) templ.Component {
 }
 
 type CardImageProps struct {
-	// Src is the source URL of the image
-	Src string
-
-	// Alt is the alternative text for the image
-	Alt string
-
-	// Class allows adding custom classes to the image container
-	Class string
-
-	// AspectRatio sets the aspect ratio of the image (e.g., "16/9", "4/3", "1/1")
-	AspectRatio string
-
-	// Position determines the position of the image in the card
-	Position CardImagePosition
-
-	// Width sets the width for side images (e.g., "1/3", "1/2")
-	Width string
+	Src         string            // Image URL
+	Alt         string            // Image alt text
+	Class       string            // Additional CSS classes
+	AspectRatio string            // Aspect ratio for image
+	Position    CardImagePosition // Image position
+	Width       string            // Image width
 }
 
-// getImageWidth returns the appropriate width class
-func getImageWidth(width string) string {
+func imageWidth(width string) string {
 	if width == "" {
 		return "w-1/3"
 	}
@@ -173,7 +145,7 @@ func CardImage(props CardImageProps) templ.Component {
 			templ.KV("rounded-r-lg", props.Position == CardImageRight),
 			// Width for side images
 			templ.KV("shrink-0", props.Position == CardImageLeft || props.Position == CardImageRight),
-			templ.KV(getImageWidth(props.Width), props.Position == CardImageLeft || props.Position == CardImageRight),
+			templ.KV(imageWidth(props.Width), props.Position == CardImageLeft || props.Position == CardImageRight),
 		}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var5...)
 		if templ_7745c5c3_Err != nil {
@@ -204,7 +176,7 @@ func CardImage(props CardImageProps) templ.Component {
 			var templ_7745c5c3_Var7 string
 			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs("aspect-ratio: " + props.AspectRatio)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/card.templ`, Line: 98, Col: 47}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/card.templ`, Line: 70, Col: 47}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {
@@ -222,7 +194,7 @@ func CardImage(props CardImageProps) templ.Component {
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(props.Src)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/card.templ`, Line: 102, Col: 18}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/card.templ`, Line: 74, Col: 18}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
@@ -235,7 +207,7 @@ func CardImage(props CardImageProps) templ.Component {
 		var templ_7745c5c3_Var9 string
 		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(props.Alt)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/card.templ`, Line: 103, Col: 18}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/card.templ`, Line: 75, Col: 18}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {

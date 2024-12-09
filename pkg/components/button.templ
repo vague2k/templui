@@ -5,67 +5,39 @@ import (
 	"strings"
 )
 
-// ButtonVariant defines the available button styles
 type ButtonVariant string
 
-// ButtonSize defines the available button dimensions
 type ButtonSize string
 
 const (
-	// Button style variants
-	ButtonVariantDefault     ButtonVariant = "default"     // Primary action button
-	ButtonVariantDestructive ButtonVariant = "destructive" // Dangerous/warning action
-	ButtonVariantOutline     ButtonVariant = "outline"     // Bordered button
-	ButtonVariantSecondary   ButtonVariant = "secondary"   // Less prominent action
-	ButtonVariantGhost       ButtonVariant = "ghost"       // Minimal styling
-	ButtonVariantLink        ButtonVariant = "link"        // Appears as a text link
+	ButtonVariantDefault     ButtonVariant = "default"
+	ButtonVariantDestructive ButtonVariant = "destructive"
+	ButtonVariantOutline     ButtonVariant = "outline"
+	ButtonVariantSecondary   ButtonVariant = "secondary"
+	ButtonVariantGhost       ButtonVariant = "ghost"
+	ButtonVariantLink        ButtonVariant = "link"
 
-	// Button sizes
-	ButtonSizeMd   ButtonSize = "md"   // Standard size
-	ButtonSizeSm   ButtonSize = "sm"   // Compact size
-	ButtonSizeLg   ButtonSize = "lg"   // Large size
-	ButtonSizeIcon ButtonSize = "icon" // Square icon button
+	ButtonSizeMd   ButtonSize = "md"
+	ButtonSizeSm   ButtonSize = "sm"
+	ButtonSizeLg   ButtonSize = "lg"
+	ButtonSizeIcon ButtonSize = "icon"
 )
 
 type ButtonProps struct {
-	// Class adds custom CSS classes
-	Class string
-
-	// Text contains the button label
-	Text string
-
-	// Variant controls the button styling
-	Variant ButtonVariant
-
-	// Size controls button dimensions
-	Size ButtonSize
-
-	// FullWidth makes button expand to container width
-	FullWidth bool
-
-	// Href turns the button into a link
-	Href string
-
-	// Target controls link opening behavior
-	Target string
-
-	// Disabled sets the button to an inactive state
-	Disabled bool
-
-	// Type sets the button type attribute
-	Type string
-
-	// Attributes for additional HTML attributes
-	Attributes templ.Attributes
-
-	// IconLeft displays an icon before text
-	IconLeft templ.Component
-
-	// IconRight displays an icon after text
-	IconRight templ.Component
+	Class      string           // Additional CSS classes
+	Text       string           // Button label text
+	Variant    ButtonVariant    // Visual style (default, destructive, outline, secondary, ghost, link)
+	Size       ButtonSize       // Button dimensions (md, sm, lg, icon)
+	FullWidth  bool             // Expand to fill container
+	Href       string           // Optional URL for link buttons
+	Target     string           // Link target attribute (default: _self)
+	Disabled   bool             // Interactivity state
+	Type       string           // Button type attribute
+	IconLeft   templ.Component  // Icon component before text
+	IconRight  templ.Component  // Icon component after text
+	Attributes templ.Attributes // Additional HTML attributes
 }
 
-// variantClasses maps variants to their CSS classes
 func (b ButtonProps) variantClasses() string {
 	switch b.Variant {
 	case ButtonVariantDestructive:
@@ -83,7 +55,6 @@ func (b ButtonProps) variantClasses() string {
 	}
 }
 
-// sizeClasses maps sizes to their CSS classes
 func (b ButtonProps) sizeClasses() string {
 	switch b.Size {
 	case ButtonSizeSm:
@@ -97,7 +68,6 @@ func (b ButtonProps) sizeClasses() string {
 	}
 }
 
-// modifierClasses generates additional utility classes
 func (b ButtonProps) modifierClasses() string {
 	classes := []string{}
 	if b.FullWidth {
@@ -107,22 +77,6 @@ func (b ButtonProps) modifierClasses() string {
 }
 
 // Interactive element that triggers actions when clicked.
-//
-// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/button
-//
-// Props:
-// - Class: Additional CSS classes
-// - Text: Button label text
-// - Variant: Visual style (default, destructive, outline, etc)
-// - Size: Button dimensions (sm, md, lg, icon)
-// - FullWidth: Expand to fill container
-// - Href: Optional URL for link buttons
-// - Target: Link target attribute
-// - Disabled: Interactivity state
-// - Type: Button type attribute
-// - Attributes: Additional HTML attributes
-// - IconLeft: Icon component before text
-// - IconRight: Icon component after text
 templ Button(props ButtonProps) {
 	if props.Href != "" {
 		<a
@@ -171,7 +125,6 @@ templ Button(props ButtonProps) {
 	}
 }
 
-// renderButtonContent arranges button text and icons
 templ renderButtonContent(props ButtonProps) {
 	<span class="flex gap-2 items-center">
 		if props.IconLeft != nil {

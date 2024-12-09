@@ -1,13 +1,12 @@
 package components
 
-// LabelProps represents label properties
 type LabelProps struct {
 	ID            string // Optional label ID
 	For           string // Target input ID
 	Text          string // Label text
 	Error         string // Error message
-	Class         string // Custom classes
-	DisabledClass string // Classes applied when input is disabled
+	Class         string // Additional CSS classes
+	DisabledClass string // Additional CSS classes when the input is disabled
 }
 
 // Label renders a form label with error and disabled states

@@ -10,42 +10,19 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import "github.com/axzilla/goilerplate/pkg/utils"
 
-// AlertVariant defines the available alert styles
 type AlertVariant string
 
 const (
-	// DefaultAlert shows standard informational styling
-	AlertVariantDefault AlertVariant = "default"
-
-	// DestructiveAlert shows error/warning styling
+	AlertVariantDefault     AlertVariant = "default"
 	AlertVariantDestructive AlertVariant = "destructive"
 )
 
 type AlertProps struct {
-	// Variant controls the alert styling (default or destructive)
-	Variant AlertVariant
-
-	// Class adds custom CSS classes
-	Class string
+	Variant AlertVariant // Visual style variant
+	Class   string       // Additional CSS classes
 }
 
-// getAlertVariantClasses maps variants to their CSS classes
-func getAlertVariantClasses(variant AlertVariant) string {
-	switch variant {
-	case AlertVariantDestructive:
-		return "border-destructive text-destructive"
-	default:
-		return "border-border text-foreground"
-	}
-}
-
-// Status message that displays contextual feedback or notifications.
-//
-// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/alert
-//
-// Props:
-// - Variant: Visual style (DefaultAlert or DestructiveAlert)
-// - Class: Additional CSS classes
+// Alert renders a status message component
 func Alert(props AlertProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -67,13 +44,19 @@ func Alert(props AlertProps) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		var templ_7745c5c3_Var2 = []any{
-			utils.TwMerge(
-				"relative w-full rounded-lg border p-4 [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg+div]:translate-y-[-3px] [&:has(svg)]:pl-11",
-				getAlertVariantClasses(props.Variant),
-				props.Class,
-			),
-		}
+		var templ_7745c5c3_Var2 = []any{utils.TwMerge(
+			// Layout
+			"relative w-full p-4",
+			"[&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4",
+			"[&>svg+div]:translate-y-[-3px] [&:has(svg)]:pl-11",
+
+			// Styling
+			"rounded-lg border",
+			getAlertVariantClasses(props.Variant),
+
+			// Custom
+			props.Class,
+		)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -107,7 +90,7 @@ func Alert(props AlertProps) templ.Component {
 	})
 }
 
-// AlertTitle renders the title of the alert.
+// AlertTitle renders the heading section
 func AlertTitle() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -129,7 +112,31 @@ func AlertTitle() templ.Component {
 			templ_7745c5c3_Var4 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<h5 class=\"mb-1 font-medium leading-none tracking-tight\">")
+		var templ_7745c5c3_Var5 = []any{utils.TwMerge(
+			// Layout
+			"mb-1",
+
+			// Styling
+			"font-medium leading-none tracking-tight",
+		)}
+		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var5...)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<h5 class=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var6 string
+		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var5).String())
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/alert.templ`, Line: 1, Col: 0}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -145,7 +152,7 @@ func AlertTitle() templ.Component {
 	})
 }
 
-// AlertDescription renders the description of the alert.
+// AlertDescription renders the body content
 func AlertDescription() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -162,16 +169,40 @@ func AlertDescription() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var5 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var5 == nil {
-			templ_7745c5c3_Var5 = templ.NopComponent
+		templ_7745c5c3_Var7 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var7 == nil {
+			templ_7745c5c3_Var7 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"text-sm [&amp;_p]:leading-relaxed\">")
+		var templ_7745c5c3_Var8 = []any{utils.TwMerge(
+			// Layout
+			"[&_p]:leading-relaxed",
+
+			// Styling
+			"text-sm",
+		)}
+		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var8...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ_7745c5c3_Var5.Render(ctx, templ_7745c5c3_Buffer)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var9 string
+		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var8).String())
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/alert.templ`, Line: 1, Col: 0}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templ_7745c5c3_Var7.Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -181,6 +212,15 @@ func AlertDescription() templ.Component {
 		}
 		return templ_7745c5c3_Err
 	})
+}
+
+func getAlertVariantClasses(variant AlertVariant) string {
+	switch variant {
+	case AlertVariantDestructive:
+		return "border-destructive text-destructive"
+	default:
+		return "border-border text-foreground"
+	}
 }
 
 var _ = templruntime.GeneratedTemplate

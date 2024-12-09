@@ -8,14 +8,13 @@ package components
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-// LabelProps represents label properties
 type LabelProps struct {
 	ID            string // Optional label ID
 	For           string // Target input ID
 	Text          string // Label text
 	Error         string // Error message
-	Class         string // Custom classes
-	DisabledClass string // Classes applied when input is disabled
+	Class         string // Additional CSS classes
+	DisabledClass string // Additional CSS classes when the input is disabled
 }
 
 // Label renders a form label with error and disabled states
@@ -61,7 +60,7 @@ func Label(props LabelProps) templ.Component {
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/label.templ`, Line: 16, Col: 15}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/label.templ`, Line: 15, Col: 15}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
@@ -74,7 +73,7 @@ func Label(props LabelProps) templ.Component {
 		var templ_7745c5c3_Var4 string
 		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(props.For)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/label.templ`, Line: 17, Col: 17}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/label.templ`, Line: 16, Col: 17}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
@@ -105,7 +104,7 @@ func Label(props LabelProps) templ.Component {
 			var templ_7745c5c3_Var6 string
 			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(props.DisabledClass)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/label.templ`, Line: 29, Col: 44}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/label.templ`, Line: 28, Col: 44}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 			if templ_7745c5c3_Err != nil {
@@ -128,7 +127,7 @@ func Label(props LabelProps) templ.Component {
 		var templ_7745c5c3_Var7 string
 		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(props.Text)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/label.templ`, Line: 35, Col: 14}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/label.templ`, Line: 34, Col: 14}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {

@@ -6,46 +6,37 @@ import (
 )
 
 type AccordionItem struct {
-	// ID is the unique identifier for managing accordion item state
-	ID string
-
-	// Trigger is the content shown in the header/trigger area
-	// Can be any templ.Component (typically text)
-	Trigger templ.Component
-
-	// Content is the expandable content section
-	// Can be any templ.Component
-	Content templ.Component
+	ID      string          // Unique identifier for state management
+	Trigger templ.Component // Header content that toggles section
+	Content templ.Component // Expandable section content
 }
 
+// AccordionProps configures the Accordion component
 type AccordionProps struct {
-	// Items contains the accordion sections
-	Items []AccordionItem
-
-	// Class adds custom CSS classes
-	Class string
-
-	// Attributes for additional HTML attributes and Alpine.js bindings
-	Attributes templ.Attributes
+	Items      []AccordionItem  // Array of accordion sections
+	Class      string           // Additional CSS classes
+	Attributes templ.Attributes // Additional HTML attributes
 }
 
-// Vertically stacked interactive sections to organize content.
-//
-// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/accordion
-//
-// Props:
-// - Items: Array of accordion sections with ID, trigger and content
-// - Class: Additional CSS classes
-// - Attributes: Additional HTML attributes (e.g. data-testid)
+// Accordion renders a collapsible content container
 templ Accordion(props AccordionProps) {
 	<div
-		x-data="{
-			activeItem: null,
-			toggleItem(itemId) {
-				this.activeItem = this.activeItem === itemId ? null : itemId;
-			}
-		}"
-		class={ utils.TwMerge("divide-y divide-border rounded-md border", props.Class) }
+		x-data="{ 
+            activeItem: null,
+            toggleItem(itemId) {
+                this.activeItem = this.activeItem === itemId ? null : itemId;
+            }
+        }"
+		class={ utils.TwMerge(
+            // Layout
+            "divide-y rounded-md",
+            
+            // Styling
+            "divide-border border",
+            
+            // Custom
+            props.Class,
+        ) }
 		{ props.Attributes... }
 	>
 		for _, item := range props.Items {
@@ -54,7 +45,16 @@ templ Accordion(props AccordionProps) {
 					<button
 						type="button"
 						@click={ "toggleItem('" + item.ID + "')" }
-						class="flex w-full items-center justify-between py-4 px-5 text-left font-medium transition-all hover:underline [&[aria-expanded=true]>svg]:rotate-180"
+						class={ utils.TwMerge(
+                            // Layout
+                            "flex w-full items-center justify-between py-4 px-5",
+                            
+                            // Styling
+                            "text-left font-medium",
+                            
+                            // States
+                            "transition-all hover:underline [&[aria-expanded=true]>svg]:rotate-180",
+                        ) }
 						:aria-expanded={ "activeItem === '" + item.ID + "'" }
 					>
 						@item.Trigger
@@ -65,7 +65,10 @@ templ Accordion(props AccordionProps) {
 					x-show={ "activeItem === '" + item.ID + "'" }
 					x-collapse
 					x-cloak
-					class="px-5 pb-4 pt-0"
+					class={ utils.TwMerge(
+                        // Layout
+                        "px-5 pb-4 pt-0",
+                    ) }
 				>
 					@item.Content
 				</div>

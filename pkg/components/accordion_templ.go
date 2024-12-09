@@ -14,37 +14,19 @@ import (
 )
 
 type AccordionItem struct {
-	// ID is the unique identifier for managing accordion item state
-	ID string
-
-	// Trigger is the content shown in the header/trigger area
-	// Can be any templ.Component (typically text)
-	Trigger templ.Component
-
-	// Content is the expandable content section
-	// Can be any templ.Component
-	Content templ.Component
+	ID      string          // Unique identifier for state management
+	Trigger templ.Component // Header content that toggles section
+	Content templ.Component // Expandable section content
 }
 
+// AccordionProps configures the Accordion component
 type AccordionProps struct {
-	// Items contains the accordion sections
-	Items []AccordionItem
-
-	// Class adds custom CSS classes
-	Class string
-
-	// Attributes for additional HTML attributes and Alpine.js bindings
-	Attributes templ.Attributes
+	Items      []AccordionItem  // Array of accordion sections
+	Class      string           // Additional CSS classes
+	Attributes templ.Attributes // Additional HTML attributes
 }
 
-// Vertically stacked interactive sections to organize content.
-//
-// For detailed examples and usage guides, visit https://goilerplate.com/docs/components/accordion
-//
-// Props:
-// - Items: Array of accordion sections with ID, trigger and content
-// - Class: Additional CSS classes
-// - Attributes: Additional HTML attributes (e.g. data-testid)
+// Accordion renders a collapsible content container
 func Accordion(props AccordionProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -66,12 +48,21 @@ func Accordion(props AccordionProps) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		var templ_7745c5c3_Var2 = []any{utils.TwMerge("divide-y divide-border rounded-md border", props.Class)}
+		var templ_7745c5c3_Var2 = []any{utils.TwMerge(
+			// Layout
+			"divide-y rounded-md",
+
+			// Styling
+			"divide-border border",
+
+			// Custom
+			props.Class,
+		)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div x-data=\"{\n\t\t\tactiveItem: null,\n\t\t\ttoggleItem(itemId) {\n\t\t\t\tthis.activeItem = this.activeItem === itemId ? null : itemId;\n\t\t\t}\n\t\t}\" class=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div x-data=\"{ \n            activeItem: null,\n            toggleItem(itemId) {\n                this.activeItem = this.activeItem === itemId ? null : itemId;\n            }\n        }\" class=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -97,29 +88,60 @@ func Accordion(props AccordionProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		for _, item := range props.Items {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"group\"><h3><button type=\"button\" @click=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"group\"><h3>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var4 string
-			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs("toggleItem('" + item.ID + "')")
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/accordion.templ`, Line: 56, Col: 46}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
+			var templ_7745c5c3_Var4 = []any{utils.TwMerge(
+				// Layout
+				"flex w-full items-center justify-between py-4 px-5",
+
+				// Styling
+				"text-left font-medium",
+
+				// States
+				"transition-all hover:underline [&[aria-expanded=true]>svg]:rotate-180",
+			)}
+			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var4...)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"flex w-full items-center justify-between py-4 px-5 text-left font-medium transition-all hover:underline [&amp;[aria-expanded=true]&gt;svg]:rotate-180\" :aria-expanded=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button type=\"button\" @click=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var5 string
-			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs("activeItem === '" + item.ID + "'")
+			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs("toggleItem('" + item.ID + "')")
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/accordion.templ`, Line: 47, Col: 46}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var6 string
+			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var4).String())
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/accordion.templ`, Line: 1, Col: 0}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" :aria-expanded=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var7 string
+			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs("activeItem === '" + item.ID + "'")
 			if templ_7745c5c3_Err != nil {
 				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/accordion.templ`, Line: 58, Col: 57}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -135,20 +157,45 @@ func Accordion(props AccordionProps) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</button></h3><div x-show=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</button></h3>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var6 string
-			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs("activeItem === '" + item.ID + "'")
+			var templ_7745c5c3_Var8 = []any{utils.TwMerge(
+				// Layout
+				"px-5 pb-4 pt-0",
+			)}
+			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var8...)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div x-show=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var9 string
+			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs("activeItem === '" + item.ID + "'")
 			if templ_7745c5c3_Err != nil {
 				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/accordion.templ`, Line: 65, Col: 48}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" x-collapse x-cloak class=\"px-5 pb-4 pt-0\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" x-collapse x-cloak class=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var10 string
+			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var8).String())
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/accordion.templ`, Line: 1, Col: 0}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

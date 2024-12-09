@@ -77,7 +77,6 @@ var (
 	}
 )
 
-// Pre-defined datepicker configurations
 var (
 	// DatePickerISO provides ISO format with default locale
 	DatePickerISO = DatepickerConfig{
@@ -118,8 +117,7 @@ func NewDatepickerConfig(format DateFormat, locale DateLocale) DatepickerConfig 
 	}
 }
 
-// GetGoFormat returns the Go time format string for the current configuration
-func (c DatepickerConfig) GetGoFormat() string {
+func (c DatepickerConfig) getGoFormat() string {
 	if format, ok := dateFormatMapping[c.Format]; ok {
 		return format
 	}
@@ -143,7 +141,7 @@ type DatepickerProps struct {
 	Disabled    bool             // Prevents interaction
 	HasError    bool             // Error state styling
 	Class       string           // Additional CSS classes
-	Attributes  templ.Attributes // Extra HTML/Alpine attributes
+	Attributes  templ.Attributes // Additional HTML attributes
 }
 
 // Datepicker renders a date selection input with calendar popup
@@ -154,7 +152,7 @@ templ Datepicker(props DatepickerProps) {
 	<div
 		class={ utils.TwMerge("relative", props.Class) }
 		if props.Value != (time.Time{}) {
-			data-value={ props.Value.Format(props.Config.GetGoFormat()) }
+			data-value={ props.Value.Format(props.Config.getGoFormat()) }
 		}
 		data-format={ string(props.Config.Format) }
 		data-monthnames={ templ.JSONString(props.Config.Locale.MonthNames) }
@@ -274,7 +272,7 @@ templ Datepicker(props DatepickerProps) {
 			@Input(InputProps{
 				ID:          props.ID,
 				Name:        props.Name,
-				Value:       props.Value.Format(props.Config.GetGoFormat()),
+				Value:       props.Value.Format(props.Config.getGoFormat()),
 				Placeholder: props.Placeholder,
 				Disabled:    props.Disabled,
 				Class:       utils.TwMerge(props.Class, "peer"),
