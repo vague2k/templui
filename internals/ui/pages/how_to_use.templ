@@ -29,6 +29,29 @@ var tailwindWindowsX64 = `# On Windows (x64)
 
 var installAlpine = `<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>`
 
+var makeFile = `# Run templ generation in watch mode
+templ:
+    templ generate --watch --proxy="http://localhost:8090" --open-browser=false -v
+
+# Run air for Go hot reload
+server:
+    air \
+    --build.cmd "go build -o tmp/bin/main ./main.go" \
+    --build.bin "tmp/bin/main" \
+    --build.delay "100" \
+    --build.exclude_dir "node_modules" \
+    --build.include_ext "go" \
+    --build.stop_on_error "false" \
+    --misc.clean_on_exit true
+
+# Watch Tailwind CSS changes
+tailwind:
+    tailwindcss -i ./assets/css/input.css -o ./assets/css/output.css --watch
+
+# Start development server with all watchers
+dev:
+    make -j3 templ server tailwind`
+
 var tailwindConfig = `{/** @type {import('tailwindcss').Config} */
 const config = {
   darkMode: ["class"],
@@ -199,11 +222,6 @@ templ HowToUse() {
 							@modules.CodeSnippet(tailwindWindowsX64, "markdown")
 						</div>
 					</div>
-					<div>
-						<h3 class="text-xl font-semibold mb-2">4. Alpine.js</h3>
-						<p class="mb-2">Include via CDN in your HTML:</p>
-						@modules.CodeSnippet(installAlpine, "markdown")
-					</div>
 				</div>
 			</section>
 			<section class="mb-12">
@@ -221,13 +239,29 @@ templ HowToUse() {
 						@modules.CodeSnippet(inputCss, "css")
 						<p class="text-sm mt-2">For custom themes and additional styles, check our <a href="/docs/themes" class="text-primary underline">themes documentation</a>.</p>
 					</div>
+					<div>
+						<h3 class="text-xl font-semibold mb-2">3. Alpine.js</h3>
+						<p class="mb-2">Add to your HTML layout:</p>
+						@modules.CodeSnippet(installAlpine, "html")
+					</div>
 				</div>
 			</section>
 			<section class="mb-12">
 				<h2 class="text-2xl font-semibold mb-4 text-primary">Development Tools</h2>
-				<p class="mb-4">
-					While not required, we recommend setting up these development tools for a better workflow with Go and Templ projects (regardless of whether you use Goilerplate):
-				</p>
+				<div class="bg-muted p-4 rounded-lg mb-6">
+					<p class="mb-2">
+						Here's our recommended development setup for Go and Templ projects, adapted from official documentation and community best practices:
+					</p>
+					<ul class="list-disc pl-6 space-y-1">
+						<li>Hot reloading for Go, Templ, and Tailwind</li>
+						<li>Convenient development commands via Make</li>
+						<li>Automated file watching and rebuilding</li>
+					</ul>
+					<p class="mt-2 text-sm">
+						The Makefile configuration is based on the <a href="https://templ.guide" class="text-primary underline">Templ documentation</a> and adapted for our use case. 
+						While there are many ways to set up your development environment, this configuration provides a solid starting point.
+					</p>
+				</div>
 				<div class="space-y-6">
 					<div>
 						<h3 class="text-xl font-semibold mb-2">1. Air (Live Reload for Go)</h3>
@@ -237,28 +271,15 @@ templ HowToUse() {
 					<div>
 						<h3 class="text-xl font-semibold mb-2">2. Development Makefile</h3>
 						<p class="mb-2">Create a Makefile in your project root:</p>
-						@modules.CodeSnippet(`# Run templ generation in watch mode
-templ:
-    templ generate --watch --proxy="http://localhost:8090" --open-browser=false -v
-
-# Run air for Go hot reload
-server:
-    air \
-    --build.cmd "go build -o tmp/bin/main ./main.go" \
-    --build.bin "tmp/bin/main" \
-    --build.delay "100" \
-    --build.exclude_dir "node_modules" \
-    --build.include_ext "go" \
-    --build.stop_on_error "false" \
-    --misc.clean_on_exit true
-
-# Watch Tailwind CSS changes
-tailwind:
-    tailwindcss -i ./assets/css/input.css -o ./assets/css/output.css --watch
-
-# Start development server with all watchers
-dev:
-    make -j3 templ server tailwind`, "makefile")
+						@modules.CodeSnippet(makeFile, "makefile")
+						<div class="bg-muted p-4 rounded-lg mt-4">
+							<p class="font-medium mb-2">Note about ports:</p>
+							<ul class="list-disc pl-6 space-y-1 text-sm">
+								<li>In this example configuration, the Go application runs on port 8090</li>
+								<li>Templ's development server will be available at http://localhost:7331</li>
+								<li>Adjust the --proxy flag in the templ command if your app uses a different port</li>
+							</ul>
+						</div>
 					</div>
 					<div>
 						<h3 class="text-xl font-semibold mb-2">3. Start Development Server</h3>
@@ -339,14 +360,28 @@ dev:
 					</p>
 				</div>
 			</section>
+			<section class="mb-12">
+				<h2 class="text-2xl font-semibold mb-4 text-primary">Advanced Configuration</h2>
+				<p class="mb-4">
+					For advanced configuration and best practices, refer to the official documentation:
+				</p>
+				<ul class="list-disc pl-6 space-y-2">
+					<li><a href="https://templ.guide" class="text-primary underline">Templ Guide</a> - Cache configuration, component patterns, etc.</li>
+					<li><a href="https://tailwindcss.com/docs" class="text-primary underline">Tailwind CSS</a> - Custom theming, plugins, optimization</li>
+					<li><a href="https://alpinejs.dev/docs" class="text-primary underline">Alpine.js</a> - Advanced interactivity, state management</li>
+				</ul>
+				<p class="text-sm mt-4">Note: Our quickstart template includes recommended configurations for production use.</p>
+			</section>
 			<section>
 				<h2 class="text-2xl font-semibold mb-4 text-primary">Next Steps</h2>
-				<p class="mb-4">
-					Check out our component examples and start building your UI. If you need help or have questions, join our community or open an issue on GitHub.
-				</p>
-				<p class="mb-4">
-					For comprehensive documentation on Templ, Tailwind CSS, or Alpine.js, refer to their respective official documentation.
-				</p>
+				<div class="space-y-4">
+					<p>Now that you have Goilerplate set up, try:</p>
+					<ul class="list-disc pl-6 space-y-2">
+						<li>Build your first page using our <a href="/docs/components" class="text-primary underline">component library</a></li>
+						<li>Customize the look with our <a href="/docs/themes" class="text-primary underline">theming system</a></li>
+						<li>Share your feedback in our <a href="https://github.com/axzilla/goilerplate/discussions" class="text-primary underline">community discussions</a></li>
+					</ul>
+				</div>
 			</section>
 		</div>
 	}
