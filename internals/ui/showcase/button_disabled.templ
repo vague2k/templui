@@ -4,7 +4,6 @@ import "github.com/axzilla/goilerplate/pkg/components"
 
 templ ButtonDisabled() {
 	<div class="flex flex-wrap gap-2">
-		@components.Button(components.ButtonProps{Text: "Disabled using props", Disabled: true})
-		@components.Button(components.ButtonProps{Text: "Disabled using attributes", Attributes: templ.Attributes{"disabled": "true"}})
+		@components.Button(components.ButtonProps{Text: "Disabled", Disabled: true})
 	</div>
 }
