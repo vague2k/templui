@@ -1,0 +1,29 @@
+package pages
+
+import (
+	"github.com/axzilla/templui/internals/ui/layouts"
+	"github.com/axzilla/templui/internals/ui/modules"
+	"github.com/axzilla/templui/internals/ui/showcase"
+)
+
+templ Badge() {
+	@layouts.DocsLayout() {
+		@modules.PageWrapper(modules.PageWrapperProps{
+			Name:        "Badge",
+			Description: templ.Raw("Badge component is used to display a small amount of information in a visual style."),
+		}) {
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "Variants",
+				ShowcaseFile:      showcase.BadgeVariants(),
+				PreviewCodeFile:   "badge_variants.templ",
+				ComponentCodeFile: "badge.templ",
+			})
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "Icons",
+				ShowcaseFile:      showcase.BadgeIcons(),
+				PreviewCodeFile:   "badge_icons.templ",
+				ComponentCodeFile: "badge.templ",
+			})
+		}
+	}
+}

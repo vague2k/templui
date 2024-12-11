@@ -1,4 +1,4 @@
-module github.com/axzilla/goilerplate
+module github.com/axzilla/templui
 
 go 1.23.3
 

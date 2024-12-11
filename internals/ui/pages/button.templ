@@ -1,9 +1,9 @@
 package pages
 
 import (
-	"github.com/axzilla/goilerplate/internals/ui/layouts"
-	"github.com/axzilla/goilerplate/internals/ui/modules"
-	"github.com/axzilla/goilerplate/internals/ui/showcase"
+	"github.com/axzilla/templui/internals/ui/layouts"
+	"github.com/axzilla/templui/internals/ui/modules"
+	"github.com/axzilla/templui/internals/ui/showcase"
 )
 
 templ Button() {
@@ -22,18 +22,6 @@ templ Button() {
 				SectionName:       "Sizes",
 				ShowcaseFile:      showcase.ButtonSizes(),
 				PreviewCodeFile:   "button_sizes.templ",
-				ComponentCodeFile: "button.templ",
-			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "Full Width",
-				ShowcaseFile:      showcase.ButtonFullwidth(),
-				PreviewCodeFile:   "button_fullwidth.templ",
-				ComponentCodeFile: "button.templ",
-			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "With Click",
-				ShowcaseFile:      showcase.ButtonWithClick(),
-				PreviewCodeFile:   "button_with_click.templ",
 				ComponentCodeFile: "button.templ",
 			})
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
