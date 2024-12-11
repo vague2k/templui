@@ -1,17 +1,17 @@
-# Contributing to Goilerplate
+# Contributing to TemplUI
 
-First off, thank you for considering contributing to Goilerplate! We're excited to have you join our community.
+First off, thank you for considering contributing to TemplUI! We're excited to have you join our community.
 
 ## Our Vision and Your Contributions
 
-Goilerplate is an open-source project that aims to provide value to the Go community. We want to be transparent about our long-term vision:
+TemplUI is an open-source project that aims to provide value to the Go community. We want to be transparent about our long-term vision:
 
-1. We may explore opportunities to monetize aspects of Goilerplate or offer premium services related to it in the future.
+1. We may explore opportunities to monetize aspects of TemplUI or offer premium services related to it in the future.
 2. All contributions to this repository are subject to the MIT License, which allows for commercial use.
-3. By contributing to Goilerplate, you agree that your contributions may be used in both open-source and potential future commercial aspects of the project.
+3. By contributing to TemplUI, you agree that your contributions may be used in both open-source and potential future commercial aspects of the project.
 4. We value every contribution and will always strive to maintain a strong, open-source core that benefits the entire community.
 
-We believe this approach allows us to sustainably develop and maintain Goilerplate while keeping it open and accessible to all. If you have any questions or concerns about this, please reach out to us before contributing.
+We believe this approach allows us to sustainably develop and maintain TemplUI while keeping it open and accessible to all. If you have any questions or concerns about this, please reach out to us before contributing.
 
 ## How Can I Contribute?
 
@@ -25,7 +25,7 @@ We believe this approach allows us to sustainably develop and maintain Goilerpla
 
 - Use a clear and descriptive title for the issue to identify the suggestion.
 - Provide a step-by-step description of the suggested enhancement in as many details as possible.
-- Explain why this enhancement would be useful to most Goilerplate users.
+- Explain why this enhancement would be useful to most TemplUI users.
 
 ### Pull Requests
 
@@ -60,6 +60,6 @@ This section lists the labels we use to help us track and manage issues and pull
 
 ## Recognition
 
-We're committed to giving proper credit and recognition to all contributors. Your contributions, whether they're improvements to documentation, bug fixes, or new features, are invaluable to the growth and success of Goilerplate.
+We're committed to giving proper credit and recognition to all contributors. Your contributions, whether they're improvements to documentation, bug fixes, or new features, are invaluable to the growth and success of TemplUI.
 
-Thank you for contributing to Goilerplate and helping make it a great tool for the Go community!
+Thank you for contributing to TemplUI and helping make it a great tool for the Go community!

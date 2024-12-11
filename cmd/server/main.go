@@ -6,11 +6,11 @@ import (
 	"strconv"
 
 	"github.com/a-h/templ"
-	"github.com/axzilla/goilerplate/assets"
-	"github.com/axzilla/goilerplate/internals/config"
-	"github.com/axzilla/goilerplate/internals/middleware"
-	"github.com/axzilla/goilerplate/internals/ui/pages"
-	"github.com/axzilla/goilerplate/pkg/components"
+	"github.com/axzilla/templui/assets"
+	"github.com/axzilla/templui/internals/config"
+	"github.com/axzilla/templui/internals/middleware"
+	"github.com/axzilla/templui/internals/ui/pages"
+	"github.com/axzilla/templui/pkg/components"
 )
 
 func HandleToastDemo(w http.ResponseWriter, r *http.Request) {

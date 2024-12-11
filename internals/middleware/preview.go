@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/axzilla/goilerplate/internals/config"
+	"github.com/axzilla/templui/internals/config"
 )
 
 func WithPreviewCheck(next http.Handler) http.Handler {

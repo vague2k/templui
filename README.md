@@ -1,12 +1,12 @@
-# Goilerplate
+# TemplUI
 
 Modern UI Components for Go & Templ
 
-<img src="./assets/img/gopher.svg" alt="Goilerplate Logo" width="200"/>
+<img src="./assets/img/readme.png" />
 
 ## About
 
-Goilerplate is a growing library of modern UI components designed specifically for Go and Templ. It leverages Alpine.js for enhanced interactivity and Tailwind CSS for effortless styling. Whether you're building a small website or a large web application, Goilerplate provides the tools you need to create sleek, responsive interfaces with ease.
+TemplUI is a growing library of modern UI components designed specifically for Go and Templ. It leverages Alpine.js for enhanced interactivity and Tailwind CSS for effortless styling. Whether you're building a small website or a large web application, TemplUI provides the tools you need to create sleek, responsive interfaces with ease.
 
 ## Features
 
@@ -20,23 +20,23 @@ Goilerplate is a growing library of modern UI components designed specifically f
 
 ## Quick Start
 
-Visit our [documentation](https://goilerplate.com/docs/how-to-use) for detailed installation and usage instructions.
+Visit our [documentation](https://templui.io/docs/how-to-use) for detailed installation and usage instructions.
 
-For a ready-to-go setup, check out our [Quickstart Template](https://github.com/axzilla/goilerplate-quickstart).
+For a ready-to-go setup, check out our [Quickstart Template](https://github.com/axzilla/templui-quickstart).
 
 ## Components
 
-Explore our growing list of components in the [components documentation](https://goilerplate.com/docs/components).
+Explore our growing list of components in the [components documentation](https://templui.io/docs/components).
 
 ## Inspiration
 
-Goilerplate draws inspiration from several popular UI libraries and frameworks:
+TemplUI draws inspiration from several popular UI libraries and frameworks:
 
 - [shadcn/ui](https://ui.shadcn.com/)
 - [Pines UI](https://devdojo.com/pines)
 - [daisyUI](https://daisyui.com/)
 
-We're exploring whether to make Goilerplate a strict port of shadcn/ui or to create a unique blend of various inspirations. The project is still evolving, and community feedback will play a crucial role in shaping its direction.
+We're exploring whether to make TemplUI a strict port of shadcn/ui or to create a unique blend of various inspirations. The project is still evolving, and community feedback will play a crucial role in shaping its direction.
 
 ## Current Status
 
@@ -51,11 +51,11 @@ We welcome contributions from the community! Whether it's adding new components,
 
 ## License
 
-Goilerplate is open-source software licensed under the [MIT license](LICENSE).
+TemplUI is open-source software licensed under the [MIT license](LICENSE).
 
 ## Support
 
-For support, questions, or discussions, please [open an issue](https://github.com/axzilla/goilerplate/issues) on our GitHub repository or [visit our community (GitHub Discussions)](https://github.com/axzilla/goilerplate/discussions).
+For support, questions, or discussions, please [open an issue](https://github.com/axzilla/templui/issues) on our GitHub repository or [visit our community (GitHub Discussions)](https://github.com/axzilla/templui/discussions).
 
 ---
 
