@@ -8,7 +8,7 @@ package components
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "github.com/axzilla/goilerplate/pkg/utils"
+import "github.com/axzilla/templui/pkg/utils"
 
 type BadgeVariant string
 

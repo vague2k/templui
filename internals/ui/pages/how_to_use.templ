@@ -1,8 +1,8 @@
 package pages
 
 import (
-	"github.com/axzilla/goilerplate/internals/ui/layouts"
-	"github.com/axzilla/goilerplate/internals/ui/modules"
+	"github.com/axzilla/templui/internals/ui/layouts"
+	"github.com/axzilla/templui/internals/ui/modules"
 )
 
 var installGo = `go version`
@@ -176,11 +176,11 @@ var inputCss = `@tailwind base;
   }
 }`
 
-var installGoilerplate = `go get github.com/axzilla/goilerplate`
+var installTemplUI = `go get github.com/axzilla/templui`
 
-var goPath = `"${GOPATH}/pkg/mod/github.com/axzilla/goilerplate@*/**/*.{go,templ}"`
+var goPath = `"${GOPATH}/pkg/mod/github.com/axzilla/templui@*/**/*.{go,templ}"`
 
-var usingComponents = `import "github.com/axzilla/goilerplate/pkg/components"
+var usingComponents = `import "github.com/axzilla/templui/pkg/components"
 
 @components.Button(components.ButtonProps{Text: "Click me"})`
 
@@ -189,11 +189,11 @@ templ HowToUse() {
 		<div>
 			<div class="mb-16">
 				<h1 class="text-3xl font-bold mb-2">How To Use</h1>
-				<p class="mb-4 text-muted-foreground">Learn how to integrate Goilerplate into your projects.</p>
+				<p class="mb-4 text-muted-foreground">Learn how to integrate TemplUI into your projects.</p>
 			</div>
 			<section class="mb-12">
 				<h2 class="text-2xl font-semibold mb-4 text-primary">Requirements</h2>
-				<p class="mb-4">Before using Goilerplate, ensure you have these tools installed:</p>
+				<p class="mb-4">Before using TemplUI, ensure you have these tools installed:</p>
 				<div class="space-y-6">
 					<div>
 						<h3 class="text-xl font-semibold mb-2">1. Go (1.20 or later)</h3>
@@ -226,7 +226,7 @@ templ HowToUse() {
 			</section>
 			<section class="mb-12">
 				<h2 class="text-2xl font-semibold mb-4 text-primary">Base Configuration</h2>
-				<p class="mb-4">Goilerplate provides pre-configured styles and themes. You'll need these files in your project:</p>
+				<p class="mb-4">TemplUI provides pre-configured styles and themes. You'll need these files in your project:</p>
 				<div class="space-y-6">
 					<div>
 						<h3 class="text-xl font-semibold mb-2">1. Tailwind Configuration</h3>
@@ -302,27 +302,27 @@ templ HowToUse() {
 			</section>
 			<section class="mb-12">
 				<h2 class="text-2xl font-semibold mb-4 text-primary">Installation Options</h2>
-				<p class="mb-4">After installing the requirements, you have three ways to use Goilerplate:</p>
+				<p class="mb-4">After installing the requirements, you have three ways to use TemplUI:</p>
 				<div class="space-y-8">
 					<div>
 						<h3 class="text-xl font-semibold mb-2">1. Quickstart Template (Recommended for new projects)</h3>
 						<p class="mb-4">
-							For a ready-to-go setup, check out our <a href="https://github.com/axzilla/goilerplate-quickstart" class="text-primary underline">Goilerplate Quickstart</a> template. 
-							It includes all requirements and configurations, using Goilerplate as a package library by default but can be easily modified to use copied components or a mix of both approaches.
+							For a ready-to-go setup, check out our <a href="https://github.com/axzilla/templui-quickstart" class="text-primary underline">TemplUI Quickstart</a> template. 
+							It includes all requirements and configurations, using TemplUI as a package library by default but can be easily modified to use copied components or a mix of both approaches.
 						</p>
 					</div>
 					<div>
 						<h3 class="text-xl font-semibold mb-2">2. Package Installation</h3>
-						<p class="mb-4">Install Goilerplate as a Go package:</p>
+						<p class="mb-4">Install TemplUI as a Go package:</p>
 						<div class="mb-4">
-							@modules.CodeSnippet(installGoilerplate, "markdown")
+							@modules.CodeSnippet(installTemplUI, "markdown")
 						</div>
 						// @components.Card(components.CardProps{}) {
 						// @components.CardHeader() {
 						<h4 class="font-semibold mb-2">*Required: Additional Tailwind Configuration</h4>
 						// }
 						// @components.CardContent() {
-						<p class="mb-2">When using Goilerplate as a package, add this to your tailwind.config.json content array:</p>
+						<p class="mb-2">When using TemplUI as a package, add this to your tailwind.config.json content array:</p>
 						<div class="mb-4">
 							@modules.CodeSnippet(goPath, "markdown")
 						</div>
@@ -375,11 +375,11 @@ templ HowToUse() {
 			<section>
 				<h2 class="text-2xl font-semibold mb-4 text-primary">Next Steps</h2>
 				<div class="space-y-4">
-					<p>Now that you have Goilerplate set up, try:</p>
+					<p>Now that you have TemplUI set up, try:</p>
 					<ul class="list-disc pl-6 space-y-2">
 						<li>Build your first page using our <a href="/docs/components" class="text-primary underline">component library</a></li>
 						<li>Customize the look with our <a href="/docs/themes" class="text-primary underline">theming system</a></li>
-						<li>Share your feedback in our <a href="https://github.com/axzilla/goilerplate/discussions" class="text-primary underline">community discussions</a></li>
+						<li>Share your feedback in our <a href="https://github.com/axzilla/templui/discussions" class="text-primary underline">community discussions</a></li>
 					</ul>
 				</div>
 			</section>

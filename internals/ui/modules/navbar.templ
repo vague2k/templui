@@ -1,10 +1,10 @@
 package modules
 
 import (
-	"github.com/axzilla/goilerplate/internals/shared"
-	"github.com/axzilla/goilerplate/pkg/components"
-	"github.com/axzilla/goilerplate/pkg/icons"
-	"github.com/axzilla/goilerplate/internals/ui/icons"
+	"github.com/axzilla/templui/internals/shared"
+	wrappedicons "github.com/axzilla/templui/internals/ui/icons"
+	"github.com/axzilla/templui/pkg/components"
+	"github.com/axzilla/templui/pkg/icons"
 )
 
 templ Navbar() {
@@ -14,7 +14,7 @@ templ Navbar() {
 				@NavbarMobileMenu()
 				<a href="/" class="font-extrabold flex items-center">
 					<img src="/assets/img/gopher.svg" alt="logo" class="w-10 mr-2"/>
-					<span>goilerplate</span>
+					<span>templui</span>
 				</a>
 			</div>
 			<div class="hidden md:flex gap-4 items-center">
@@ -26,7 +26,7 @@ templ Navbar() {
 					Size:     components.ButtonSizeIcon,
 					IconLeft: wrappedicons.GitHub(24),
 					Variant:  "ghost",
-					Href:     "https://github.com/axzilla/goilerplate",
+					Href:     "https://github.com/axzilla/templui",
 					Target:   "_blank",
 				})
 				@components.Button(components.ButtonProps{

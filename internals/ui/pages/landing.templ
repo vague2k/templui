@@ -1,9 +1,9 @@
 package pages
 
 import (
-	"github.com/axzilla/goilerplate/internals/ui/layouts"
-	"github.com/axzilla/goilerplate/internals/ui/modules"
-	"github.com/axzilla/goilerplate/pkg/components"
+	"github.com/axzilla/templui/internals/ui/layouts"
+	"github.com/axzilla/templui/internals/ui/modules"
+	"github.com/axzilla/templui/pkg/components"
 )
 
 templ Landing() {
@@ -11,7 +11,7 @@ templ Landing() {
 		<header class="relative flex items-center justify-center w-full min-h-screen bg-gradient-to-br from-gray-100 to-white dark:from-gray-900 dark:to-black text-gray-900 dark:text-white overflow-hidden">
 			<div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
 				<h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight mb-2 sm:mb-4">
-					<span class="block">Goilerplate</span>
+					<span class="block">TemplUI</span>
 				</h1>
 				<p class="text-xl sm:text-2xl lg:text-3xl font-semibold text-gray-600 dark:text-gray-400 mb-4 sm:mb-8">
 					Modern UI Components for Go & Templ
@@ -19,7 +19,7 @@ templ Landing() {
 				<p class="max-w-3xl mx-auto text-base sm:text-lg text-gray-700 dark:text-gray-300 mb-6 sm:mb-10">
 					Craft powerful, responsive web applications with Go and Templ. 
 					Enhance interactivity with Alpine.js and style effortlessly with Tailwind CSS. 
-					Goilerplate bridges the gap between backend robustness and frontend dynamism.
+					TemplUI bridges the gap between backend robustness and frontend dynamism.
 				</p>
 				@components.Button(components.ButtonProps{
 					Text: "Explore Components",
