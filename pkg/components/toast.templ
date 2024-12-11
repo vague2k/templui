@@ -1,0 +1,91 @@
+package components
+
+import "fmt"
+import "github.com/axzilla/goilerplate/pkg/icons"
+
+type ToastProps struct {
+	Message     string // Die Nachricht
+	Type        string // success, error, warning, info, default
+	Position    string // top-right, top-left, top-center, bottom-right, bottom-left, bottom-center
+	Duration    int    // Millisekunden, 0 = permanent
+	Dismissible bool   // Kann manuell geschlossen werden
+	Size        string // sm, md, lg
+	Icon        bool   // Icon anzeigen/verstecken
+	HTML        string // Custom HTML Content
+}
+
+templ Toast(cfg ToastProps) {
+	<div
+		x-data={ `{
+            show: true,
+            message: '` + cfg.Message + `',
+            type: '` + cfg.Type + `',
+            position: '` + cfg.Position + `',
+            duration: ` + fmt.Sprint(cfg.Duration) + `,
+            dismissible: ` + fmt.Sprint(cfg.Dismissible) + `,
+            size: '` + cfg.Size + `'
+        }` }
+		x-init="if(duration > 0) setTimeout(() => show = false, duration)"
+		x-show="show"
+		x-transition:enter="transition ease-out duration-300"
+		x-transition:enter-start="opacity-0 translate-y-4"
+		x-transition:enter-end="opacity-100 translate-y-0"
+		x-transition:leave="transition ease-in duration-200"
+		x-transition:leave-start="opacity-100 translate-y-0"
+		x-transition:leave-end="opacity-0 translate-y-4"
+		@click="if(dismissible) show = false"
+		class="fixed pointer-events-auto"
+		:class="{
+            // Position
+            'top-4 right-4': position === 'top-right',
+            'top-4 left-4': position === 'top-left',
+            'top-4 left-1/2 -translate-x-1/2': position === 'top-center',
+            'bottom-4 right-4': position === 'bottom-right',
+            'bottom-4 left-4': position === 'bottom-left',
+            'bottom-4 left-1/2 -translate-x-1/2': position === 'bottom-center',
+            // Size
+            'w-72': size === 'sm',
+            'w-96': size === 'md',
+            'w-[30rem]': size === 'lg'
+        }"
+	>
+		if cfg.HTML != "" {
+			<div
+				x-html="message"
+				class="rounded-lg shadow-lg"
+			></div>
+		} else {
+			// Default Toast
+			<div
+				class="bg-primary-foreground rounded-lg shadow-sm border p-4 flex items-center justify-center"
+			>
+				if cfg.Icon {
+					// Icons für verschiedene Types
+					if cfg.Type == "success" {
+						@icons.CircleCheck(icons.IconProps{Size: "18", Class: "text-green-500 mr-3"})
+					}
+					if cfg.Type == "error" {
+						@icons.CircleX(icons.IconProps{Size: "18", Class: "text-red-500 mr-3"})
+					}
+					if cfg.Type == "warning" {
+						@icons.TriangleAlert(icons.IconProps{Size: "18", Class: "text-yellow-500 mr-3"})
+					}
+					if cfg.Type == "info" {
+						@icons.Info(icons.IconProps{Size: "18", Class: "text-blue-500 mr-3"})
+					}
+				}
+				<div class="flex-1" x-text="message"></div>
+				if cfg.Dismissible {
+					<button
+						@click.stop="show = false"
+					>
+						@icons.X(icons.IconProps{
+							Size:  "18",
+							Class: "ml-4 flex-shrink-0 opacity-75 hover:opacity-100",
+						})
+					</button>
+				}
+			</div>
+		}
+	</div>
+}

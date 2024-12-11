@@ -633,6 +633,10 @@ body {
   pointer-events: none;
 }
 
+.pointer-events-auto {
+  pointer-events: auto;
+}
+
 .visible {
   visibility: visible;
 }
@@ -723,6 +727,10 @@ body {
   top: 0.75rem;
 }
 
+.top-4 {
+  top: 1rem;
+}
+
 .top-full {
   top: 100%;
 }
@@ -780,6 +788,10 @@ body {
   margin-left: 0.75rem;
 }
 
+.ml-4 {
+  margin-left: 1rem;
+}
+
 .ml-auto {
   margin-left: auto;
 }
@@ -790,6 +802,10 @@ body {
 
 .mr-2 {
   margin-right: 0.5rem;
+}
+
+.mr-3 {
+  margin-right: 0.75rem;
 }
 
 .mt-1 {
@@ -974,8 +990,20 @@ body {
   width: 1.75rem;
 }
 
+.w-72 {
+  width: 18rem;
+}
+
 .w-8 {
   width: 2rem;
+}
+
+.w-96 {
+  width: 24rem;
+}
+
+.w-\[30rem\] {
+  width: 30rem;
 }
 
 .w-full {
@@ -988,6 +1016,10 @@ body {
 
 .max-w-3xl {
   max-width: 48rem;
+}
+
+.max-w-4xl {
+  max-width: 56rem;
 }
 
 .max-w-7xl {
@@ -1077,6 +1109,11 @@ body {
 
 .translate-y-1\/3 {
   --tw-translate-y: 33.333333%;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
+}
+
+.translate-y-4 {
+  --tw-translate-y: 1rem;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
@@ -1420,6 +1457,11 @@ body {
   background-color: hsl(var(--destructive) / var(--tw-bg-opacity, 1));
 }
 
+.bg-gray-50 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(249 250 251 / var(--tw-bg-opacity, 1));
+}
+
 .bg-gray-700 {
   --tw-bg-opacity: 1;
   background-color: rgb(55 65 81 / var(--tw-bg-opacity, 1));
@@ -1452,6 +1494,11 @@ body {
 .bg-primary {
   --tw-bg-opacity: 1;
   background-color: hsl(var(--primary) / var(--tw-bg-opacity, 1));
+}
+
+.bg-primary-foreground {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--primary-foreground) / var(--tw-bg-opacity, 1));
 }
 
 .bg-purple-500 {
@@ -1516,6 +1563,10 @@ body {
 
 .p-6 {
   padding: 1.5rem;
+}
+
+.p-8 {
+  padding: 2rem;
 }
 
 .px-2 {
@@ -1783,6 +1834,11 @@ body {
   color: rgb(255 255 255 / var(--tw-text-opacity, 1));
 }
 
+.text-yellow-500 {
+  --tw-text-opacity: 1;
+  color: rgb(234 179 8 / var(--tw-text-opacity, 1));
+}
+
 .underline {
   text-decoration-line: underline;
 }
@@ -1805,6 +1861,10 @@ body {
 
 .opacity-50 {
   opacity: 0.5;
+}
+
+.opacity-75 {
+  opacity: 0.75;
 }
 
 .opacity-80 {

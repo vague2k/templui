@@ -1,0 +1,27 @@
+package pages
+
+import (
+	"github.com/axzilla/goilerplate/internals/ui/layouts"
+	"github.com/axzilla/goilerplate/internals/ui/modules"
+	"github.com/axzilla/goilerplate/internals/ui/showcase"
+)
+
+templ Toast() {
+	@layouts.DocsLayout() {
+		@modules.PageWrapper(modules.PageWrapperProps{
+			Name:        "Toast",
+			Description: templ.Raw("Flexible Toast component for notifications and feedback."),
+		}) {
+			//			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+			//				ShowcaseFile:      showcase.Toast(),
+			//				PreviewCodeFile:   "toast.templ",
+			//				ComponentCodeFile: "toast.templ",
+			//			})
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				ShowcaseFile:      showcase.ToastAdvanced(),
+				PreviewCodeFile:   "toast_advancded.templ",
+				ComponentCodeFile: "toast.templ",
+			})
+		}
+	}
+}
