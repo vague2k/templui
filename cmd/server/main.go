@@ -13,21 +13,13 @@ import (
 	"github.com/axzilla/templui/pkg/components"
 )
 
-func HandleToastDemo(w http.ResponseWriter, r *http.Request) {
+func toastDemoHandler(w http.ResponseWriter, r *http.Request) {
 	duration, err := strconv.Atoi(r.FormValue("duration"))
 	if err != nil {
 		duration = 0
 	}
-	fmt.Println("duration", duration)
-	fmt.Println("r.FormValue(\"message\")", r.FormValue("message"))
-	fmt.Println("r.FormValue(\"type\")", r.FormValue("type"))
-	fmt.Println("r.FormValue(\"position\")", r.FormValue("position"))
-	fmt.Println("r.FormValue(\"theme\")", r.FormValue("theme"))
-	fmt.Println("r.FormValue(\"size\")", r.FormValue("size"))
-	fmt.Println("r.FormValue(\"dismissible\")", r.FormValue("dismissible"))
-	fmt.Println("r.FormValue(\"icon\")", r.FormValue("icon"))
 
-	cfg := components.ToastProps{
+	toastProps := components.ToastProps{
 		Message:     r.FormValue("message"),
 		Type:        r.FormValue("type"),
 		Position:    r.FormValue("position"),
@@ -37,38 +29,7 @@ func HandleToastDemo(w http.ResponseWriter, r *http.Request) {
 		Icon:        r.FormValue("icon") == "on",
 	}
 
-	components.Toast(cfg).Render(r.Context(), w)
-	return
-}
-
-func HandleCreateUser(w http.ResponseWriter, r *http.Request) {
-	email := r.FormValue("email")
-
-	// Validierung
-	if email == "" {
-		// Error Toast
-		components.Toast(components.ToastProps{
-			Message:     "Email ist erforderlich",
-			Type:        "error",
-			Position:    "top-left",
-			Duration:    1000,
-			Dismissible: true,
-			Size:        "md",
-			Icon:        true,
-		}).Render(r.Context(), w)
-		return
-	}
-
-	// Erfolg Toast
-	components.Toast(components.ToastProps{
-		Message:     "Benutzer erstellt",
-		Type:        "success",
-		Position:    "bottom-right",
-		Duration:    3000,
-		Dismissible: false,
-		Size:        "sm",
-		Icon:        true,
-	}).Render(r.Context(), w)
+	components.Toast(toastProps).Render(r.Context(), w)
 }
 
 func main() {
@@ -108,8 +69,7 @@ func main() {
 	mux.Handle("GET /docs/components/toast", templ.Handler(pages.Toast()))
 	mux.Handle("GET /docs/components/toggle", templ.Handler(pages.Toggle()))
 	// Showcase API
-	mux.Handle("POST /users", http.HandlerFunc(HandleCreateUser))
-	mux.Handle("POST /docs/toast/demo", http.HandlerFunc(HandleToastDemo))
+	mux.Handle("POST /docs/toast/demo", http.HandlerFunc(toastDemoHandler))
 
 	fmt.Println("Server is running on http://localhost:8090")
 	http.ListenAndServe(":8090", wrappedMux)
