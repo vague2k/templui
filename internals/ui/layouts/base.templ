@@ -6,35 +6,37 @@ import (
 )
 
 templ themeHandler() {
-	<script nonce={ templ.GetNonce(ctx) }>
-        // Initial theme setup
-        document.documentElement.classList.toggle('dark', localStorage.getItem('appTheme') === 'dark');
+	{{ handle := templ.NewOnceHandle() }}
+	@handle.Once() {
+		<script nonce={ templ.GetNonce(ctx) }>
+			// Initial theme setup
+			document.documentElement.classList.toggle('dark', localStorage.getItem('appTheme') === 'dark');
 
-        document.addEventListener('alpine:init', () => {
-            Alpine.data('themeHandler', () => ({
-				state: {
-                	isDark: localStorage.getItem('appTheme') === 'dark',
-				},
-				actions: {
-					themeClasses() {
-						return this.state.isDark ? 'text-white' : 'bg-white text-black'
+			document.addEventListener('alpine:init', () => {
+				Alpine.data('themeHandler', () => ({
+					state: {
+						isDark: localStorage.getItem('appTheme') === 'dark',
 					},
-					toggleTheme() {
-						this.state.isDark = !this.state.isDark;
-						localStorage.setItem('appTheme', this.state.isDark ? 'dark' : 'light');
-						document.documentElement.classList.toggle('dark', this.state.isDark);
+					actions: {
+						themeClasses() {
+							return this.state.isDark ? 'text-white' : 'bg-white text-black'
+						},
+						toggleTheme() {
+							this.state.isDark = !this.state.isDark;
+							localStorage.setItem('appTheme', this.state.isDark ? 'dark' : 'light');
+							document.documentElement.classList.toggle('dark', this.state.isDark);
+						}
 					}
-				}
-            }))
-        })
-    </script>
+				}))
+			})
+		</script>
+	}
 }
 
 templ BaseLayout() {
 	<!DOCTYPE html>
 	<html lang="en" class="h-full">
 		<head>
-			// Theme Handler Script
 			@themeHandler()
 			// Meta Tags
 			<title>TemplUI - Modern UI Components for Go & Templ</title>

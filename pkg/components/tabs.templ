@@ -14,30 +14,7 @@ type TabsProps struct {
 	ContentContainerClass string // Additional CSS classes for the content container
 }
 
-templ Tabs(props TabsProps) {
-	<div class="tabs-component">
-		<div class={ "relative flex items-center justify-center h-10 p-1 rounded-lg select-none bg-muted text-muted-foreground", props.TabsContainerClass }>
-			for i, tab := range props.Tabs {
-				<button
-					type="button"
-					data-tab-target={ fmt.Sprintf("tab-%d", i) }
-					class="tab-button relative z-20 flex-1 inline-flex items-center justify-center h-8 px-3 text-sm font-medium transition-all rounded-md cursor-pointer whitespace-nowrap hover:text-foreground"
-				>
-					{ tab.Title }
-				</button>
-			}
-		</div>
-		<div class={ "relative mt-2", props.ContentContainerClass }>
-			for i, tab := range props.Tabs {
-				<div
-					id={ fmt.Sprintf("tab-%d", i) }
-					class="tab-content relative hidden"
-				>
-					@tab.Content
-				</div>
-			}
-		</div>
-	</div>
+templ tabsHandler() {
 	<script nonce={ templ.GetNonce(ctx) }>
         // Initialize tabs
         function initTabs(container) {
@@ -68,4 +45,31 @@ templ Tabs(props TabsProps) {
         // Initialize all tab components
         document.querySelectorAll('.tabs-component').forEach(initTabs)
     </script>
+}
+
+templ Tabs(props TabsProps) {
+	@tabsHandler()
+	<div class="tabs-component">
+		<div class={ "relative flex items-center justify-center h-10 p-1 rounded-lg select-none bg-muted text-muted-foreground", props.TabsContainerClass }>
+			for i, tab := range props.Tabs {
+				<button
+					type="button"
+					data-tab-target={ fmt.Sprintf("tab-%d", i) }
+					class="tab-button relative z-20 flex-1 inline-flex items-center justify-center h-8 px-3 text-sm font-medium transition-all rounded-md cursor-pointer whitespace-nowrap hover:text-foreground"
+				>
+					{ tab.Title }
+				</button>
+			}
+		</div>
+		<div class={ "relative mt-2", props.ContentContainerClass }>
+			for i, tab := range props.Tabs {
+				<div
+					id={ fmt.Sprintf("tab-%d", i) }
+					class="tab-content relative hidden"
+				>
+					@tab.Content
+				</div>
+			}
+		</div>
+	</div>
 }

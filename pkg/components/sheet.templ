@@ -16,23 +16,26 @@ type SheetProps struct {
 }
 
 templ sheetHandler() {
-	<script nonce={ templ.GetNonce(ctx) }>
-        document.addEventListener('alpine:init', () => {
-            Alpine.data('sheetHandler', () => ({
-				state: {
-                	isOpen: false,
-				},
-				actions: {
-					open() {
-						this.state.isOpen = true
+	{{ handle := templ.NewOnceHandle() }}
+	@handle.Once() {
+		<script nonce={ templ.GetNonce(ctx) }>
+			document.addEventListener('alpine:init', () => {
+				Alpine.data('sheetHandler', () => ({
+					state: {
+						isOpen: false,
 					},
-					close() {
-						this.state.isOpen = false
-					},
-				}
-            }))
-        })
-    </script>
+					actions: {
+						open() {
+							this.state.isOpen = true
+						},
+						close() {
+							this.state.isOpen = false
+						},
+					}
+				}))
+			})
+		</script>
+	}
 }
 
 // SheetRoot initializes Alpine.js state and event handlers

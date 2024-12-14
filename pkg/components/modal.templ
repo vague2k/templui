@@ -9,7 +9,7 @@ type ModalProps struct {
 
 // Dialog overlay that requires user attention or interaction.
 templ Modal(props ModalProps) {
-	@initModalHandlers()
+	@modalHandler()
 	<div
 		x-data="modalHandler"
 		x-on:open-modal.window="actions.handleOpenModal"
@@ -43,7 +43,7 @@ templ Modal(props ModalProps) {
 
 // ModalTrigger creates clickable elements that open a modal
 templ ModalTrigger(id string) {
-	@initModalHandlers()
+	@modalHandler()
 	<span
 		x-data="modalTriggers"
 		data-modal-id={ id }
@@ -55,7 +55,7 @@ templ ModalTrigger(id string) {
 
 // ModalClose creates clickable elements that close a modal
 templ ModalClose(id string) {
-	@initModalHandlers()
+	@modalHandler()
 	<span
 		x-data="modalTriggers"
 		data-modal-id={ id }
@@ -88,10 +88,9 @@ templ ModalFooter() {
 	</div>
 }
 
-var modalHandle = templ.NewOnceHandle()
-
-templ initModalHandlers() {
-	@modalHandle.Once() {
+templ modalHandler() {
+	{{ handler := templ.NewOnceHandle() }}
+	@handler.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
             document.addEventListener('alpine:init', () => {
                 Alpine.data('modalHandler', () => ({

@@ -1,32 +1,35 @@
 package modules
 
-templ snippetHandler() {
-	<script nonce={ templ.GetNonce(ctx) }>
-        document.addEventListener('alpine:init', () => {
-            Alpine.data('snippet', () => ({
-				state: {
-					copied: false,
-					buttonText: 'Copy',	
-				},
-				actions: {
-					copyCode() {
-						navigator.clipboard.writeText(this.$refs.code.textContent)
-						this.state.copied = true
-						this.state.buttonText = 'Copied!'
-						setTimeout(() => {
-							this.state.copied = false
-							this.state.buttonText = 'Copy'
-						}, 2000)
+templ codeSnippetHandler() {
+	{{ handle := templ.NewOnceHandle() }}
+	@handle.Once() {
+		<script nonce={ templ.GetNonce(ctx) }>
+			document.addEventListener('alpine:init', () => {
+				Alpine.data('codeSnippetHandler', () => ({
+					state: {
+						copied: false,
+						buttonText: 'Copy',	
+					},
+					actions: {
+						copyCode() {
+							navigator.clipboard.writeText(this.$refs.code.textContent)
+							this.state.copied = true
+							this.state.buttonText = 'Copied!'
+							setTimeout(() => {
+								this.state.copied = false
+								this.state.buttonText = 'Copy'
+							}, 2000)
+						}
 					}
-				}
-            }))
-        })
-    </script>
+				}))
+			})
+		</script>
+	}
 }
 
 templ CodeSnippet(content, language string) {
-	@snippetHandler()
-	<div class="relative" x-data="snippet">
+	@codeSnippetHandler()
+	<div class="relative" x-data="codeSnippetHandler">
 		<pre class="!overflow-hidden">
 			<code
 				x-ref="code"

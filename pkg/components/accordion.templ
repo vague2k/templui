@@ -18,10 +18,9 @@ type AccordionProps struct {
 	Attributes templ.Attributes // Additional HTML attributes
 }
 
-var accordionHandle = templ.NewOnceHandle()
-
-templ initAccordionHandlers() {
-	@accordionHandle.Once() {
+templ accordionHandler() {
+	{{ handle := templ.NewOnceHandle() }}
+	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
             document.addEventListener('alpine:init', () => {
                 Alpine.data('accordionHandler', () => ({
@@ -40,7 +39,6 @@ templ initAccordionHandlers() {
 							return this.state.activeItem === itemId
 						},
 					},
-						
                 }));
             });
         </script>
@@ -49,7 +47,7 @@ templ initAccordionHandlers() {
 
 // Accordion renders a collapsible content container
 templ Accordion(props AccordionProps) {
-	@initAccordionHandlers()
+	@accordionHandler()
 	<div
 		x-data="accordionHandler"
 		class={ utils.TwMerge(
