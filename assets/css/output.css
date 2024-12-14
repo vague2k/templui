@@ -1713,11 +1713,6 @@ body {
   letter-spacing: -0.025em;
 }
 
-.text-accent-foreground {
-  --tw-text-opacity: 1;
-  color: hsl(var(--accent-foreground) / var(--tw-text-opacity, 1));
-}
-
 .text-black {
   --tw-text-opacity: 1;
   color: rgb(0 0 0 / var(--tw-text-opacity, 1));
