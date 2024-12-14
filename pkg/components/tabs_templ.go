@@ -11,15 +11,15 @@ import templruntime "github.com/a-h/templ/runtime"
 import "fmt"
 
 type Tab struct {
-	ID      string          // Unique identifier for the tab
-	Title   string          // Tab title
-	Content templ.Component // Tab content
+	ID      string
+	Title   string
+	Content templ.Component
 }
 
 type TabsProps struct {
-	Tabs                  []Tab  // List of tabs
-	TabsContainerClass    string // Additional CSS classes for the tabs container
-	ContentContainerClass string // Additional CSS classes for the content container
+	Tabs                  []Tab
+	TabsContainerClass    string
+	ContentContainerClass string
 }
 
 func tabsHandler() templ.Component {
@@ -56,7 +56,7 @@ func tabsHandler() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">\n        // Initialize tabs\n        function initTabs(container) {\n            const tabs = container.querySelectorAll('.tab-button')\n            const contents = container.querySelectorAll('.tab-content')\n\n            // Activate the first tab\n            if (tabs.length > 0) {\n                tabs[0].classList.add('text-foreground', 'bg-background', 'shadow-sm')\n                contents[0].classList.remove('hidden')\n            }\n\n            // Click handler for all tabs\n            tabs.forEach(tab => {\n                tab.addEventListener('click', () => {\n                    // Remove active classes\n                    tabs.forEach(t => t.classList.remove('text-foreground', 'bg-background', 'shadow-sm'))\n                    contents.forEach(c => c.classList.add('hidden'))\n\n                    // Active tab\n                    tab.classList.add('text-foreground', 'bg-background', 'shadow-sm')\n                    const target = tab.dataset.tabTarget\n                    container.querySelector(`#${target}`).classList.remove('hidden')\n                })\n            })\n        }\n\n        // Initialize all tab components\n        document.querySelectorAll('.tabs-component').forEach(initTabs)\n    </script>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">\n        function initTabs(container) {\n            const buttons = container.querySelectorAll('[data-tab-button]');\n            const contents = container.querySelectorAll('[data-tab-content]');\n            const marker = container.querySelector('[data-tab-marker]');\n\n            // Set initial state\n            if (buttons.length > 0) {\n                const firstButton = buttons[0];\n                firstButton.classList.add('text-foreground', 'bg-background', 'shadow-sm');\n                contents[0].classList.remove('hidden');\n                \n                // Position marker\n                marker.style.width = `${firstButton.offsetWidth}px`;\n                marker.style.height = `${firstButton.offsetHeight}px`;\n                marker.style.left = `${firstButton.offsetLeft}px`;\n            }\n\n            // Add click handlers\n            buttons.forEach((button, index) => {\n                button.addEventListener('click', () => {\n                    // Update buttons\n                    buttons.forEach(b => b.classList.remove('text-foreground', 'bg-background', 'shadow-sm'));\n                    button.classList.add('text-foreground', 'bg-background', 'shadow-sm');\n\n                    // Update contents\n                    contents.forEach(c => c.classList.add('hidden'));\n                    contents[index].classList.remove('hidden');\n\n                    // Update marker\n                    marker.style.width = `${button.offsetWidth}px`;\n                    marker.style.height = `${button.offsetHeight}px`;\n                    marker.style.left = `${button.offsetLeft}px`;\n                });\n            });\n        }\n\n        // Initialize all tab components\n        document.addEventListener('DOMContentLoaded', () => {\n            document.querySelectorAll('.tabs-component').forEach(initTabs);\n        });\n    </script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -89,7 +89,7 @@ func Tabs(props TabsProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"tabs-component\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"tabs-component relative\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -116,27 +116,27 @@ func Tabs(props TabsProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		for i, tab := range props.Tabs {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button type=\"button\" data-tab-target=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button type=\"button\" data-tab-button=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var6 string
-			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("tab-%d", i))
+			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprint(i))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/tabs.templ`, Line: 57, Col: 47}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/tabs.templ`, Line: 69, Col: 36}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"tab-button relative z-20 flex-1 inline-flex items-center justify-center h-8 px-3 text-sm font-medium transition-all rounded-md cursor-pointer whitespace-nowrap hover:text-foreground\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"relative z-20 flex-1 inline-flex items-center justify-center h-8 px-3 text-sm font-medium transition-all rounded-md cursor-pointer whitespace-nowrap hover:text-foreground\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var7 string
 			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(tab.Title)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/tabs.templ`, Line: 60, Col: 16}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/tabs.templ`, Line: 72, Col: 16}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {
@@ -147,7 +147,7 @@ func Tabs(props TabsProps) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div data-tab-marker class=\"absolute left-0 z-10 h-full duration-300 ease-out\"><div class=\"w-full h-full bg-background rounded-md shadow-sm\"></div></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -174,20 +174,20 @@ func Tabs(props TabsProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		for i, tab := range props.Tabs {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div id=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div data-tab-content=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var10 string
-			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("tab-%d", i))
+			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprint(i))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/tabs.templ`, Line: 67, Col: 34}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/tabs.templ`, Line: 85, Col: 37}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"tab-content relative hidden\">")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"relative hidden\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
