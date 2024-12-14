@@ -15,22 +15,33 @@ type SheetProps struct {
 	Side        SheetSide // Slide-in direction
 }
 
+templ sheetHandler() {
+	<script nonce={ templ.GetNonce(ctx) }>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('sheetHandler', () => ({
+				state: {
+                	isOpen: false,
+				},
+				actions: {
+					open() {
+						this.state.isOpen = true
+					},
+					close() {
+						this.state.isOpen = false
+					},
+				}
+            }))
+        })
+    </script>
+}
+
 // SheetRoot initializes Alpine.js state and event handlers
 // Must wrap Sheet components and triggers
 templ SheetRoot() {
+	@sheetHandler()
 	<div
-		x-data="{ 
-            isOpen: false,
-            side: '',
-            open(newSide) { 
-                this.side = newSide; 
-                this.isOpen = true; 
-            },
-            close() { 
-                this.isOpen = false; 
-            }
-        }"
-		@keydown.escape.window="close()"
+		x-data="sheetHandler"
+		@keydown.escape.window="actions.close"
 	>
 		{ children... }
 	</div>
@@ -40,9 +51,9 @@ templ SheetRoot() {
 templ Sheet(props SheetProps) {
 	<!-- Backdrop -->
 	<div
-		x-show="isOpen"
+		x-show="state.isOpen"
 		class="fixed inset-0 bg-background/80 backdrop-blur-sm"
-		@click="close()"
+		@click="actions.close"
 		x-transition:enter="transition ease-out duration-300"
 		x-transition:enter-start="opacity-0"
 		x-transition:enter-end="opacity-100"
@@ -52,14 +63,14 @@ templ Sheet(props SheetProps) {
 	></div>
 	<!-- Sheet -->
 	<div
-		x-show="isOpen"
-		class="z-50"
-		:class="{
-            'fixed inset-y-0 right-0 w-3/4 md:w-1/2 lg:w-1/3': side === 'right',
-            'fixed inset-y-0 left-0 w-3/4 md:w-1/2 lg:w-1/3': side === 'left',
-            'fixed inset-x-0 top-0 h-auto sm:h-1/2': side === 'top',
-            'fixed inset-x-0 bottom-0 h-auto sm:h-1/2': side === 'bottom'
-        }"
+		x-show="state.isOpen"
+		class={
+			"z-50",
+			templ.KV("fixed inset-y-0 right-0 w-3/4 md:w-1/2 lg:w-1/3", props.Side == SheetSideRight),
+			templ.KV("fixed inset-y-0 left-0 w-3/4 md:w-1/2 lg:w-1/3", props.Side == SheetSideLeft),
+			templ.KV("fixed inset-x-0 top-0 h-auto sm:h-1/2", props.Side == SheetSideTop),
+			templ.KV("fixed inset-x-0 bottom-0 h-auto sm:h-1/2", props.Side == SheetSideBottom),
+		}
 		x-transition:enter="transition ease-out duration-300"
 		x-transition:leave="transition ease-in duration-300"
 		if props.Side == SheetSideLeft {
@@ -89,10 +100,10 @@ templ Sheet(props SheetProps) {
 	>
 		<div
 			class={ "h-full overflow-y-auto bg-background p-6 shadow-lg",
-        templ.KV("border-l", props.Side == SheetSideRight),
-        templ.KV("border-r", props.Side == SheetSideLeft),
-        templ.KV("border-t", props.Side == SheetSideBottom),
-        templ.KV("border-b", props.Side == SheetSideTop) }
+            templ.KV("border-l", props.Side == SheetSideRight),
+            templ.KV("border-r", props.Side == SheetSideLeft),
+            templ.KV("border-t", props.Side == SheetSideBottom),
+            templ.KV("border-b", props.Side == SheetSideTop) }
 		>
 			<div class="flex flex-col space-y-2">
 				<h2 class="text-lg font-semibold">{ props.Title }</h2>
@@ -108,9 +119,7 @@ templ Sheet(props SheetProps) {
 // SheetTrigger creates elements that open the sheet
 // Must be used within SheetRoot
 templ SheetTrigger(text string, side SheetSide) {
-	<span
-		@click={ "open('" + string(side) + "')" }
-	>
+	<span @click="actions.open">
 		{ children... }
 	</span>
 }
@@ -119,11 +128,11 @@ templ SheetTrigger(text string, side SheetSide) {
 // Must be used within Sheet
 templ SheetClose(text string) {
 	<button
-		@click="close()"
+		@click="actions.close"
 		class={ "inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background",
-      "transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-      "disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent",
-      "hover:text-accent-foreground h-10 px-4 py-2" }
+        "transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+        "disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent",
+        "hover:text-accent-foreground h-10 px-4 py-2" }
 	>
 		{ text }
 	</button>

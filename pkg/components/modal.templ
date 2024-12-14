@@ -9,12 +9,13 @@ type ModalProps struct {
 
 // Dialog overlay that requires user attention or interaction.
 templ Modal(props ModalProps) {
+	@initModalHandlers()
 	<div
-		x-data="{ open: false }"
-		x-on:open-modal.window="if ($event.detail.id === $el.dataset.modalId) open = true"
-		x-on:close-modal.window="if ($event.detail.id === $el.dataset.modalId) open = false"
+		x-data="modalHandler"
+		x-on:open-modal.window="actions.handleOpenModal"
+		x-on:close-modal.window="actions.handleCloseModal"
 		data-modal-id={ props.ID }
-		x-show="open"
+		x-show="state.open"
 		x-transition:enter="transition ease-out duration-300"
 		x-transition:enter-start="opacity-0"
 		x-transition:enter-end="opacity-100"
@@ -33,7 +34,7 @@ templ Modal(props ModalProps) {
 					"relative bg-background rounded-lg border text-left overflow-hidden shadow-xl transform transition-all sm:my-8 w-full",
 					props.Class),
 			}
-			@click.away="open = false"
+			@click.away="actions.handleClickAway"
 		>
 			{ children... }
 		</div>
@@ -41,22 +42,24 @@ templ Modal(props ModalProps) {
 }
 
 // ModalTrigger creates clickable elements that open a modal
-// ID parameter must match the target modal's ID
 templ ModalTrigger(id string) {
+	@initModalHandlers()
 	<span
+		x-data="modalTriggers"
 		data-modal-id={ id }
-		@click="$dispatch('open-modal', { id: $el.dataset.modalId })"
+		@click="openModal"
 	>
 		{ children... }
 	</span>
 }
 
 // ModalClose creates clickable elements that close a modal
-// ID parameter must match the target modal's ID
 templ ModalClose(id string) {
+	@initModalHandlers()
 	<span
+		x-data="modalTriggers"
 		data-modal-id={ id }
-		@click="$dispatch('close-modal', { id: $el.dataset.modalId })"
+		@click="closeModal"
 	>
 		{ children... }
 	</span>
@@ -83,4 +86,51 @@ templ ModalFooter() {
 	<div class="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
 		{ children... }
 	</div>
+}
+
+var modalHandle = templ.NewOnceHandle()
+
+templ initModalHandlers() {
+	@modalHandle.Once() {
+		<script defer nonce={ templ.GetNonce(ctx) }>
+
+            document.addEventListener('alpine:init', () => {
+                // Modal selbst
+                Alpine.data('modalHandler', () => ({
+					state: {
+                    	open: false,
+					},
+					actions: {
+						handleOpenModal(event) {
+							if (event.detail.id === this.$el.dataset.modalId) {
+								this.state.open = true
+							}
+						},
+						handleCloseModal(event) {
+							if (event.detail.id === this.$el.dataset.modalId) {
+								this.state.open = false
+							}
+						},
+						handleClickAway() {
+							this.state.open = false;
+						},
+					}
+                }))
+
+				  // Trigger & Close in einem
+                Alpine.data('modalTriggers', () => ({
+                    openModal() {
+                        this.$dispatch('open-modal', { 
+                            id: this.$el.dataset.modalId 
+                        })
+                    },
+                    closeModal() {
+                        this.$dispatch('close-modal', { 
+                            id: this.$el.dataset.modalId 
+                        })
+                    }
+                }))
+            })
+        </script>
+	}
 }

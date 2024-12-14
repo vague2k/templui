@@ -37,7 +37,7 @@ func main() {
 	config.LoadConfig()
 	SetupAssetsRoutes(mux)
 
-	wrappedMux := middleware.WithPreviewCheck(mux)
+	wrappedMux := middleware.WithPreviewCheck(middleware.WithNonce(mux))
 
 	mux.Handle("GET /", templ.Handler(pages.Landing()))
 	mux.Handle("GET /docs/components", http.RedirectHandler("/docs/components/accordion", http.StatusSeeOther))

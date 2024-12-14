@@ -195,7 +195,7 @@ templ Datepicker(props DatepickerProps) {
                 const rect = trigger.getBoundingClientRect();
                 const popupRect = popup.getBoundingClientRect();
                 const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
-                
+
                 if (rect.bottom + popupRect.height > viewportHeight && rect.top > popupRect.height) {
                     this.position = 'top';
                 } else {
@@ -206,7 +206,7 @@ templ Datepicker(props DatepickerProps) {
             calculateDays() {
                 const firstDay = new Date(this.currentYear, this.currentMonth, 1).getDay();
                 const daysInMonth = new Date(this.currentYear, this.currentMonth + 1, 0).getDate();
-                
+
                 this.blankDays = Array.from({ length: firstDay }, (_, i) => i);
                 this.monthDays = Array.from({ length: daysInMonth }, (_, i) => i + 1);
             },
@@ -225,7 +225,7 @@ templ Datepicker(props DatepickerProps) {
 					default:
 						return dateStr;  // Für ISO und long Format das Datum unverändert lassen
 				}
-			}, 
+			},
 
 			formatDate(date) {
                 const d = date.getDate().toString().padStart(2, '0');

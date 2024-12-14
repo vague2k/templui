@@ -5,24 +5,42 @@ import (
 	"github.com/axzilla/templui/pkg/icons"
 )
 
+templ themeIconHandler() {
+	<script nonce={ templ.GetNonce(ctx) }>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('themeIconHandler', () => ({
+                isDarkMode() {
+                    return this.state.isDark
+                },
+                isLightMode() {
+                    return !this.state.isDark
+                }
+            }))
+        })
+    </script>
+}
+
 templ ThemeSwitcher() {
+	@themeIconHandler()
 	@components.Button(components.ButtonProps{
 		Size:     components.ButtonSizeIcon,
 		Variant:  components.ButtonVariantGhost,
 		IconLeft: templ.Component(DynamicThemeIcon()),
 		Attributes: templ.Attributes{
-			"@click": "toggleTheme()",
+			"@click": "actions.toggleTheme",
 		},
 	})
 }
 
 templ DynamicThemeIcon() {
-	<span x-show="isDark" class="block">
-		@LightIcon()
-	</span>
-	<span x-show="!isDark" class="block">
-		@DarkIcon()
-	</span>
+	<div x-data="themeIconHandler">
+		<span x-show="isDarkMode" class="block">
+			@LightIcon()
+		</span>
+		<span x-show="isLightMode" class="block">
+			@DarkIcon()
+		</span>
+	</div>
 }
 
 templ DarkIcon() {

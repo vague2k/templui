@@ -1,5 +1,7 @@
 package components
 
+import "fmt"
+
 type Tab struct {
 	ID      string          // Unique identifier for the tab
 	Title   string          // Tab title
@@ -12,65 +14,58 @@ type TabsProps struct {
 	ContentContainerClass string // Additional CSS classes for the content container
 }
 
-// Navigation interface that organizes content into sections.
 templ Tabs(props TabsProps) {
-	<div
-		x-data="{     
-      tabSelected: '1',
-      tabId: $id('tabs'),
-      tabButtonClicked(tabButton) {
-        this.tabSelected = tabButton.id.replace(this.tabId + '-', '');
-        this.tabRepositionMarker(tabButton);
-      },
-      tabRepositionMarker(tabButton) {
-        this.$refs.tabMarker.style.width = tabButton.offsetWidth + 'px';
-        this.$refs.tabMarker.style.height = tabButton.offsetHeight + 'px';
-        this.$refs.tabMarker.style.left = tabButton.offsetLeft + 'px';
-      },
-      tabContentActive(tabContent) {
-        return this.tabSelected === tabContent.id.replace(this.tabId + '-content-', '');
-      }
-    }"
-		x-init="$nextTick(() => tabRepositionMarker($refs.tabButtons.firstElementChild));"
-		class="relative"
-	>
-		<!-- Tabs buttons container -->
-		<div
-			x-ref="tabButtons"
-			class={ "relative flex items-center justify-center h-10 p-1 rounded-lg select-none",
-				"bg-muted text-muted-foreground",
-				props.TabsContainerClass }
-		>
-			<!-- Individual tab buttons -->
-			for _, tab := range props.Tabs {
+	<div class="tabs-component">
+		<div class={ "relative flex items-center justify-center h-10 p-1 rounded-lg select-none bg-muted text-muted-foreground", props.TabsContainerClass }>
+			for i, tab := range props.Tabs {
 				<button
-					:id="$id(tabId)"
-					@click="tabButtonClicked($el);"
 					type="button"
-					class="relative z-20 flex-1 inline-flex items-center justify-center h-8 px-3 text-sm font-medium transition-all rounded-md cursor-pointer whitespace-nowrap"
-					:class="{'text-foreground bg-background shadow-sm': tabSelected === '{tab.ID}', 'hover:text-foreground': tabSelected !== '{tab.ID}'}"
+					data-tab-target={ fmt.Sprintf("tab-%d", i) }
+					class="tab-button relative z-20 flex-1 inline-flex items-center justify-center h-8 px-3 text-sm font-medium transition-all rounded-md cursor-pointer whitespace-nowrap hover:text-foreground"
 				>
 					{ tab.Title }
 				</button>
 			}
-			<!-- Active tab marker -->
-			<div x-ref="tabMarker" class="absolute left-0 z-10 h-full duration-300 ease-out" x-cloak>
-				<div class="w-full h-full bg-background rounded-md shadow-sm"></div>
-			</div>
 		</div>
-		<!-- Tab content container -->
-		<div class={ "relative mt-2 content", props.ContentContainerClass }>
-			<!-- Individual tab content -->
-			for _, tab := range props.Tabs {
+		<div class={ "relative mt-2", props.ContentContainerClass }>
+			for i, tab := range props.Tabs {
 				<div
-					:id="$id(tabId + '-content')"
-					x-show="tabContentActive($el)"
-					class="relative"
-					x-cloak
+					id={ fmt.Sprintf("tab-%d", i) }
+					class="tab-content relative hidden"
 				>
 					@tab.Content
 				</div>
 			}
 		</div>
 	</div>
+	<script nonce={ templ.GetNonce(ctx) }>
+        // Initialize tabs
+        function initTabs(container) {
+            const tabs = container.querySelectorAll('.tab-button')
+            const contents = container.querySelectorAll('.tab-content')
+
+            // Activate the first tab
+            if (tabs.length > 0) {
+                tabs[0].classList.add('text-foreground', 'bg-background', 'shadow-sm')
+                contents[0].classList.remove('hidden')
+            }
+
+            // Click handler for all tabs
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active classes
+                    tabs.forEach(t => t.classList.remove('text-foreground', 'bg-background', 'shadow-sm'))
+                    contents.forEach(c => c.classList.add('hidden'))
+
+                    // Active tab
+                    tab.classList.add('text-foreground', 'bg-background', 'shadow-sm')
+                    const target = tab.dataset.tabTarget
+                    container.querySelector(`#${target}`).classList.remove('hidden')
+                })
+            })
+        }
+
+        // Initialize all tab components
+        document.querySelectorAll('.tabs-component').forEach(initTabs)
+    </script>
 }
