@@ -18,22 +18,45 @@ type AccordionProps struct {
 	Attributes templ.Attributes // Additional HTML attributes
 }
 
+var accordionHandle = templ.NewOnceHandle()
+
+templ initAccordionHandlers() {
+	@accordionHandle.Once() {
+		<script defer nonce={ templ.GetNonce(ctx) }>
+            document.addEventListener('alpine:init', () => {
+                Alpine.data('accordionHandler', () => ({
+                    state: {
+                        activeItem: null,
+                    },
+					actions: {
+						toggleItem(event) {
+							const itemId = event.target.getAttribute('data-accordion-item');
+							this.state.activeItem = this.state.activeItem === itemId ? null : itemId;
+						},
+					},
+                    helpers: {
+                        isActive() {
+							const itemId = this.$el.getAttribute('data-accordion-item');
+							return this.state.activeItem === itemId
+						},
+					},
+						
+                }));
+            });
+        </script>
+	}
+}
+
 // Accordion renders a collapsible content container
 templ Accordion(props AccordionProps) {
+	@initAccordionHandlers()
 	<div
-		x-data="{ 
-            activeItem: null,
-            toggleItem(itemId) {
-                this.activeItem = this.activeItem === itemId ? null : itemId;
-            }
-        }"
+		x-data="accordionHandler"
 		class={ utils.TwMerge(
             // Layout
             "divide-y rounded-md",
-            
             // Styling
             "divide-border border",
-            
             // Custom
             props.Class,
         ) }
@@ -44,27 +67,24 @@ templ Accordion(props AccordionProps) {
 				<h3>
 					<button
 						type="button"
-						@click={ "toggleItem('" + item.ID + "')" }
+						@click="actions.toggleItem"
+						data-accordion-item={ item.ID }
 						class={ utils.TwMerge(
                             // Layout
                             "flex w-full items-center justify-between py-4 px-5",
-                            
                             // Styling
                             "text-left font-medium",
-                            
                             // States
                             "transition-all hover:underline [&[aria-expanded=true]>svg]:rotate-180",
                         ) }
-						:aria-expanded={ "activeItem === '" + item.ID + "'" }
 					>
 						@item.Trigger
 						@icons.ChevronDown(icons.IconProps{Size: "16"})
 					</button>
 				</h3>
 				<div
-					x-show={ "activeItem === '" + item.ID + "'" }
-					x-collapse
-					x-cloak
+					data-accordion-item={ item.ID }
+					x-show="helpers.isActive"
 					class={ utils.TwMerge(
                         // Layout
                         "px-5 pb-4 pt-0",

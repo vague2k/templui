@@ -93,9 +93,7 @@ var modalHandle = templ.NewOnceHandle()
 templ initModalHandlers() {
 	@modalHandle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
-
             document.addEventListener('alpine:init', () => {
-                // Modal selbst
                 Alpine.data('modalHandler', () => ({
 					state: {
                     	open: false,
@@ -116,8 +114,6 @@ templ initModalHandlers() {
 						},
 					}
                 }))
-
-				  // Trigger & Close in einem
                 Alpine.data('modalTriggers', () => ({
                     openModal() {
                         this.$dispatch('open-modal', { 
