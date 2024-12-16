@@ -8,7 +8,7 @@ package components
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "fmt"
+import "github.com/axzilla/templui/pkg/utils"
 
 type Tab struct {
 	ID      string
@@ -56,7 +56,7 @@ func tabsHandler() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">\n        function initTabs(container) {\n            const buttons = container.querySelectorAll('[data-tab-button]');\n            const contents = container.querySelectorAll('[data-tab-content]');\n            const marker = container.querySelector('[data-tab-marker]');\n\n            // Set initial state\n            if (buttons.length > 0) {\n                const firstButton = buttons[0];\n                firstButton.classList.add('text-foreground', 'bg-background', 'shadow-sm');\n                contents[0].classList.remove('hidden');\n                \n                // Position marker\n                marker.style.width = `${firstButton.offsetWidth}px`;\n                marker.style.height = `${firstButton.offsetHeight}px`;\n                marker.style.left = `${firstButton.offsetLeft}px`;\n            }\n\n            // Add click handlers\n            buttons.forEach((button, index) => {\n                button.addEventListener('click', () => {\n                    // Update buttons\n                    buttons.forEach(b => b.classList.remove('text-foreground', 'bg-background', 'shadow-sm'));\n                    button.classList.add('text-foreground', 'bg-background', 'shadow-sm');\n\n                    // Update contents\n                    contents.forEach(c => c.classList.add('hidden'));\n                    contents[index].classList.remove('hidden');\n\n                    // Update marker\n                    marker.style.width = `${button.offsetWidth}px`;\n                    marker.style.height = `${button.offsetHeight}px`;\n                    marker.style.left = `${button.offsetLeft}px`;\n                });\n            });\n        }\n\n        // Initialize all tab components\n        document.addEventListener('DOMContentLoaded', () => {\n            document.querySelectorAll('.tabs-component').forEach(initTabs);\n        });\n    </script>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">\n\t\tdocument.addEventListener('DOMContentLoaded', () => {\n\t\t\tdocument.querySelectorAll('.tabs-component').forEach(tabs => {\n\t\t\t\tconst tabID = tabs.dataset.tabs;\n\t\t\t\tconst buttons = tabs.querySelectorAll(`[data-tab-button=\"${tabID}\"]`);\n\t\t\t\tconst contents = tabs.querySelectorAll(`[data-tab-content=\"${tabID}\"]`);\n\t\t\t\tconst marker = tabs.querySelector(`[data-tab-marker=\"${tabID}\"]`);\n\n\t\t\t\t// Zeige ersten Tab\n\t\t\t\tbuttons[0]?.classList.add('text-foreground', 'bg-background', 'shadow-sm');\n\t\t\t\tcontents[0]?.classList.remove('hidden');\n\n\t\t\t\t// Setze Marker\n\t\t\t\tif (buttons[0] && marker) {\n\t\t\t\t\tmarker.style.width = buttons[0].offsetWidth + 'px';\n\t\t\t\t\tmarker.style.height = buttons[0].offsetHeight + 'px';\n\t\t\t\t\tmarker.style.left = buttons[0].offsetLeft + 'px';\n\t\t\t\t}\n\n\t\t\t\t// Click handler\n\t\t\t\tbuttons.forEach((btn, idx) => {\n\t\t\t\t\tbtn.onclick = () => {\n\t\t\t\t\t\tbuttons.forEach(b => b.classList.remove('text-foreground', 'bg-background', 'shadow-sm'));\n\t\t\t\t\t\tbtn.classList.add('text-foreground', 'bg-background', 'shadow-sm');\n\t\t\t\t\t\tcontents.forEach(c => c.classList.add('hidden'));\n\t\t\t\t\t\tcontents[idx].classList.remove('hidden');\n\t\t\t\t\t\tmarker.style.width = btn.offsetWidth + 'px';\n\t\t\t\t\t\tmarker.style.height = btn.offsetHeight + 'px';\n\t\t\t\t\t\tmarker.style.left = btn.offsetLeft + 'px';\n\t\t\t\t\t};\n\t\t\t\t});\n\t\t\t});\n\t\t});\n    </script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -89,25 +89,17 @@ func Tabs(props TabsProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"tabs-component relative\">")
+		tabID := utils.RandomID()
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"tabs-component relative\" data-tabs=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var4 = []any{"relative flex items-center justify-center h-10 p-1 rounded-lg select-none bg-muted text-muted-foreground", props.TabsContainerClass}
-		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var4...)
+		var templ_7745c5c3_Var4 string
+		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(tabID)
 		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/tabs.templ`, Line: 57, Col: 55}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var5 string
-		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var4).String())
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/tabs.templ`, Line: 1, Col: 0}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -115,17 +107,39 @@ func Tabs(props TabsProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		for i, tab := range props.Tabs {
+		var templ_7745c5c3_Var5 = []any{"relative flex items-center justify-center h-10 p-1 rounded-lg select-none bg-muted text-muted-foreground", props.TabsContainerClass}
+		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var5...)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var6 string
+		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var5).String())
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/tabs.templ`, Line: 1, Col: 0}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		for _, tab := range props.Tabs {
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button type=\"button\" data-tab-button=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var6 string
-			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprint(i))
+			var templ_7745c5c3_Var7 string
+			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(tabID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/tabs.templ`, Line: 69, Col: 36}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/tabs.templ`, Line: 62, Col: 28}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -133,12 +147,12 @@ func Tabs(props TabsProps) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var7 string
-			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(tab.Title)
+			var templ_7745c5c3_Var8 string
+			templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(tab.Title)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/tabs.templ`, Line: 72, Col: 16}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/tabs.templ`, Line: 65, Col: 16}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -147,12 +161,25 @@ func Tabs(props TabsProps) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div data-tab-marker class=\"absolute left-0 z-10 h-full duration-300 ease-out\"><div class=\"w-full h-full bg-background rounded-md shadow-sm\"></div></div></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div data-tab-marker=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var8 = []any{"relative mt-2", props.ContentContainerClass}
-		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var8...)
+		var templ_7745c5c3_Var9 string
+		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(tabID)
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/tabs.templ`, Line: 68, Col: 31}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" class=\"absolute left-0 z-10 h-full duration-300 ease-out\"><div class=\"w-full h-full bg-background rounded-md shadow-sm\"></div></div></div>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var10 = []any{"relative mt-2", props.ContentContainerClass}
+		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var10...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -160,12 +187,12 @@ func Tabs(props TabsProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var9 string
-		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var8).String())
+		var templ_7745c5c3_Var11 string
+		templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var10).String())
 		if templ_7745c5c3_Err != nil {
 			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/tabs.templ`, Line: 1, Col: 0}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -173,17 +200,17 @@ func Tabs(props TabsProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		for i, tab := range props.Tabs {
+		for _, tab := range props.Tabs {
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div data-tab-content=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var10 string
-			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprint(i))
+			var templ_7745c5c3_Var12 string
+			templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs(tabID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/tabs.templ`, Line: 85, Col: 37}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/tabs.templ`, Line: 75, Col: 29}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

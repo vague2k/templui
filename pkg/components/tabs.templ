@@ -1,6 +1,6 @@
 package components
 
-import "fmt"
+import "github.com/axzilla/templui/pkg/utils"
 
 type Tab struct {
 	ID      string
@@ -16,73 +16,63 @@ type TabsProps struct {
 
 templ tabsHandler() {
 	<script nonce={ templ.GetNonce(ctx) }>
-        function initTabs(container) {
-            const buttons = container.querySelectorAll('[data-tab-button]');
-            const contents = container.querySelectorAll('[data-tab-content]');
-            const marker = container.querySelector('[data-tab-marker]');
+		document.addEventListener('DOMContentLoaded', () => {
+			document.querySelectorAll('.tabs-component').forEach(tabs => {
+				const tabID = tabs.dataset.tabs;
+				const buttons = tabs.querySelectorAll(`[data-tab-button="${tabID}"]`);
+				const contents = tabs.querySelectorAll(`[data-tab-content="${tabID}"]`);
+				const marker = tabs.querySelector(`[data-tab-marker="${tabID}"]`);
 
-            // Set initial state
-            if (buttons.length > 0) {
-                const firstButton = buttons[0];
-                firstButton.classList.add('text-foreground', 'bg-background', 'shadow-sm');
-                contents[0].classList.remove('hidden');
-                
-                // Position marker
-                marker.style.width = `${firstButton.offsetWidth}px`;
-                marker.style.height = `${firstButton.offsetHeight}px`;
-                marker.style.left = `${firstButton.offsetLeft}px`;
-            }
+				// Zeige ersten Tab
+				buttons[0]?.classList.add('text-foreground', 'bg-background', 'shadow-sm');
+				contents[0]?.classList.remove('hidden');
 
-            // Add click handlers
-            buttons.forEach((button, index) => {
-                button.addEventListener('click', () => {
-                    // Update buttons
-                    buttons.forEach(b => b.classList.remove('text-foreground', 'bg-background', 'shadow-sm'));
-                    button.classList.add('text-foreground', 'bg-background', 'shadow-sm');
+				// Setze Marker
+				if (buttons[0] && marker) {
+					marker.style.width = buttons[0].offsetWidth + 'px';
+					marker.style.height = buttons[0].offsetHeight + 'px';
+					marker.style.left = buttons[0].offsetLeft + 'px';
+				}
 
-                    // Update contents
-                    contents.forEach(c => c.classList.add('hidden'));
-                    contents[index].classList.remove('hidden');
-
-                    // Update marker
-                    marker.style.width = `${button.offsetWidth}px`;
-                    marker.style.height = `${button.offsetHeight}px`;
-                    marker.style.left = `${button.offsetLeft}px`;
-                });
-            });
-        }
-
-        // Initialize all tab components
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('.tabs-component').forEach(initTabs);
-        });
+				// Click handler
+				buttons.forEach((btn, idx) => {
+					btn.onclick = () => {
+						buttons.forEach(b => b.classList.remove('text-foreground', 'bg-background', 'shadow-sm'));
+						btn.classList.add('text-foreground', 'bg-background', 'shadow-sm');
+						contents.forEach(c => c.classList.add('hidden'));
+						contents[idx].classList.remove('hidden');
+						marker.style.width = btn.offsetWidth + 'px';
+						marker.style.height = btn.offsetHeight + 'px';
+						marker.style.left = btn.offsetLeft + 'px';
+					};
+				});
+			});
+		});
     </script>
 }
 
 templ Tabs(props TabsProps) {
 	@tabsHandler()
-	<div class="tabs-component relative">
+	{{ tabID := utils.RandomID() }}
+	<div class="tabs-component relative" data-tabs={ tabID }>
 		<div class={ "relative flex items-center justify-center h-10 p-1 rounded-lg select-none bg-muted text-muted-foreground", props.TabsContainerClass }>
-			for i, tab := range props.Tabs {
+			for _, tab := range props.Tabs {
 				<button
 					type="button"
-					data-tab-button={ fmt.Sprint(i) }
+					data-tab-button={ tabID }
 					class="relative z-20 flex-1 inline-flex items-center justify-center h-8 px-3 text-sm font-medium transition-all rounded-md cursor-pointer whitespace-nowrap hover:text-foreground"
 				>
 					{ tab.Title }
 				</button>
 			}
-			<div
-				data-tab-marker
-				class="absolute left-0 z-10 h-full duration-300 ease-out"
-			>
+			<div data-tab-marker={ tabID } class="absolute left-0 z-10 h-full duration-300 ease-out">
 				<div class="w-full h-full bg-background rounded-md shadow-sm"></div>
 			</div>
 		</div>
 		<div class={ "relative mt-2", props.ContentContainerClass }>
-			for i, tab := range props.Tabs {
+			for _, tab := range props.Tabs {
 				<div
-					data-tab-content={ fmt.Sprint(i) }
+					data-tab-content={ tabID }
 					class="relative hidden"
 				>
 					@tab.Content
