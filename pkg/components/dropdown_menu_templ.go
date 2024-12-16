@@ -373,8 +373,7 @@ func renderMenuItem(item DropdownMenuItem, index int, depth int) templ.Component
 	})
 }
 
-// Floating menu for displaying a list of actions or options.
-func DropdownMenu(props DropdownMenuProps) templ.Component {
+func dropdownHandler() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -395,21 +394,87 @@ func DropdownMenu(props DropdownMenuProps) templ.Component {
 			templ_7745c5c3_Var16 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		var templ_7745c5c3_Var17 = []any{utils.TwMerge("relative inline-block text-left", props.Class)}
-		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var17...)
+		handler := templ.NewOnceHandle()
+		templ_7745c5c3_Var17 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+			templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+			templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+			if !templ_7745c5c3_IsBuffer {
+				defer func() {
+					templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+					if templ_7745c5c3_Err == nil {
+						templ_7745c5c3_Err = templ_7745c5c3_BufErr
+					}
+				}()
+			}
+			ctx = templ.InitializeContext(ctx)
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<script defer nonce=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var18 string
+			templ_7745c5c3_Var18, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/dropdown_menu.templ`, Line: 134, Col: 43}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var18))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">\n            document.addEventListener('alpine:init', () => {\n\t\t\t\tAlpine.data('dropdownHandler', () => ({\n\t\t\t\t\tisOpen: false,\n\t\t\t\t\tposition: null,\n\t\t\t\t\tverticalPosition: 'bottom',\n\n\t\t\t\t\tinit() {\n\t\t\t\t\t\tthis.position = this.$el.dataset.position;\n\t\t\t\t\t},\n\n\t\t\t\t\tupdatePosition() {\n\t\t\t\t\t\tif (!this.isOpen) return;\n\n\t\t\t\t\t\tconst menu = this.$refs.menu;\n\t\t\t\t\t\tconst rect = menu.getBoundingClientRect();\n\t\t\t\t\t\tconst viewportWidth = window.innerWidth || document.documentElement.clientWidth;\n\t\t\t\t\t\tconst viewportHeight = window.innerHeight || document.documentElement.clientHeight;\n\n\t\t\t\t\t\tif (this.position === 'left' && rect.left < 0) {\n\t\t\t\t\t\t\tthis.position = 'right';\n\t\t\t\t\t\t} else if (this.position !== 'left' && rect.right > viewportWidth) {\n\t\t\t\t\t\t\tthis.position = 'left';\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\tif (this.verticalPosition === 'bottom' && rect.bottom > viewportHeight) {\n\t\t\t\t\t\t\tthis.verticalPosition = 'top';\n\t\t\t\t\t\t} else if (this.verticalPosition === 'top' && rect.top < 0) {\n\t\t\t\t\t\t\tthis.verticalPosition = 'bottom';\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\n\t\t\t\t\tgetPositionClass() {\n\t\t\t\t\t\tconst classes = [];\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (this.position === 'left') {\n\t\t\t\t\t\t\tclasses.push('right-0');\n\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\tclasses.push('left-0');\n\t\t\t\t\t\t}\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (this.verticalPosition === 'top') {\n\t\t\t\t\t\t\tclasses.push('bottom-full mb-2');\n\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\tclasses.push('top-full mt-2');\n\t\t\t\t\t\t}\n\t\t\t\t\t\t\n\t\t\t\t\t\treturn classes.join(' ');\n\t\t\t\t\t},\n\n\t\t\t\t\tsetClose() {\n\t\t\t\t\t\tthis.isOpen = false;\n\t\t\t\t\t},\n\n\t\t\t\t\tsetOpen() {\n\t\t\t\t\t\tthis.isOpen = true;\n\t\t\t\t\t},\n\n\t\t\t\t\topenMenu() {\n\t\t\t\t\t\tthis.isOpen = !this.isOpen;\n\t\t\t\t\t\tif(this.isOpen) this.$nextTick(() => this.updatePosition());\n\t\t\t\t\t}\n\t\t\t\t}))\n\t\t\t});\n        </script>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			return templ_7745c5c3_Err
+		})
+		templ_7745c5c3_Err = handler.Once().Render(templ.WithChildren(ctx, templ_7745c5c3_Var17), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div x-data=\"{\n\t\t\topen: false,\n\t\t\tposition: $el.dataset.position,\n\t\t\tverticalPosition: &#39;bottom&#39;,\n\t\t\tupdatePosition() {\n\t\t\t\tconst menu = this.$refs.menu;\n\t\t\t\tconst rect = menu.getBoundingClientRect();\n\t\t\t\tconst viewportWidth = window.innerWidth || document.documentElement.clientWidth;\n\t\t\t\tconst viewportHeight = window.innerHeight || document.documentElement.clientHeight;\n\n\t\t\t\tif (this.position === &#39;left&#39; &amp;&amp; rect.left &lt; 0) {\n\t\t\t\t\tthis.position = &#39;right&#39;;\n\t\t\t\t} else if (this.position !== &#39;left&#39; &amp;&amp; rect.right &gt; viewportWidth) {\n\t\t\t\t\tthis.position = &#39;left&#39;;\n\t\t\t\t}\n\n\t\t\t\tif (this.verticalPosition === &#39;bottom&#39; &amp;&amp; rect.bottom &gt; viewportHeight) {\n\t\t\t\t\tthis.verticalPosition = &#39;top&#39;;\n\t\t\t\t} else if (this.verticalPosition === &#39;top&#39; &amp;&amp; rect.top &lt; 0) {\n\t\t\t\t\tthis.verticalPosition = &#39;bottom&#39;;\n\t\t\t\t}\n\t\t\t}\n\t\t}\" @resize.window=\"if (open) updatePosition()\" class=\"")
+		return templ_7745c5c3_Err
+	})
+}
+
+// Floating menu for displaying a list of actions or options.
+func DropdownMenu(props DropdownMenuProps) templ.Component {
+	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
+			return templ_7745c5c3_CtxErr
+		}
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+		if !templ_7745c5c3_IsBuffer {
+			defer func() {
+				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err == nil {
+					templ_7745c5c3_Err = templ_7745c5c3_BufErr
+				}
+			}()
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var19 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var19 == nil {
+			templ_7745c5c3_Var19 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		templ_7745c5c3_Err = dropdownHandler().Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var18 string
-		templ_7745c5c3_Var18, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var17).String())
+		var templ_7745c5c3_Var20 = []any{utils.TwMerge("relative inline-block text-left", props.Class)}
+		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var20...)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div x-data=\"dropdownHandler\" @resize.window=\"updatePosition\" class=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var21 string
+		templ_7745c5c3_Var21, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var20).String())
 		if templ_7745c5c3_Err != nil {
 			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/dropdown_menu.templ`, Line: 1, Col: 0}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var18))
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var21))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -417,16 +482,16 @@ func DropdownMenu(props DropdownMenuProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var19 string
-		templ_7745c5c3_Var19, templ_7745c5c3_Err = templ.JoinStringErrs(props.Position)
+		var templ_7745c5c3_Var22 string
+		templ_7745c5c3_Var22, templ_7745c5c3_Err = templ.JoinStringErrs(props.Position)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/dropdown_menu.templ`, Line: 159, Col: 32}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/dropdown_menu.templ`, Line: 209, Col: 32}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var19))
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var22))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><div @click=\"open = !open; if(open) $nextTick(() =&gt; updatePosition())\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\"><div @click=\"openMenu\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -449,28 +514,28 @@ func DropdownMenu(props DropdownMenuProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var20 = []any{
+		var templ_7745c5c3_Var23 = []any{
 			"absolute z-50 mt-2 w-56 rounded-md shadow-lg bg-popover ring-1 ring-black ring-opacity-5 focus:outline-none",
 			"border border-border",
 		}
-		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var20...)
+		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var23...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div x-ref=\"menu\" x-show=\"open\" @click.away=\"open = false\" @keydown.escape.window=\"open = false\" x-transition:enter=\"transition ease-out duration-100\" x-transition:enter-start=\"transform opacity-0 scale-95\" x-transition:enter-end=\"transform opacity-100 scale-100\" x-transition:leave=\"transition ease-in duration-75\" x-transition:leave-start=\"transform opacity-100 scale-100\" x-transition:leave-end=\"transform opacity-0 scale-95\" class=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div x-ref=\"menu\" x-show=\"isOpen\" @click.away=\"setClose\" @keydown.escape.window=\"setClose\" x-transition:enter=\"transition ease-out duration-100\" x-transition:enter-start=\"transform opacity-0 scale-95\" x-transition:enter-end=\"transform opacity-100 scale-100\" x-transition:leave=\"transition ease-in duration-75\" x-transition:leave-start=\"transform opacity-100 scale-100\" x-transition:leave-end=\"transform opacity-0 scale-95\" class=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var21 string
-		templ_7745c5c3_Var21, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var20).String())
+		var templ_7745c5c3_Var24 string
+		templ_7745c5c3_Var24, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var23).String())
 		if templ_7745c5c3_Err != nil {
 			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/dropdown_menu.templ`, Line: 1, Col: 0}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var21))
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var24))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" :class=\"{\n\t\t\t\t&#39;right-0&#39;: position === &#39;left&#39;,\n\t\t\t\t&#39;left-0&#39;: position !== &#39;left&#39;,\n\t\t\t\t&#39;bottom-full mb-2&#39;: verticalPosition === &#39;top&#39;,\n\t\t\t\t&#39;top-full mt-2&#39;: verticalPosition === &#39;bottom&#39;\n\t\t\t}\" role=\"menu\" aria-orientation=\"vertical\" aria-labelledby=\"dropdown-menu-button\" tabindex=\"-1\"><div class=\"py-1\" role=\"none\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" x-bind:class=\"getPositionClass\" role=\"menu\" aria-orientation=\"vertical\" aria-labelledby=\"dropdown-menu-button\" tabindex=\"-1\"><div class=\"py-1\" role=\"none\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

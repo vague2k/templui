@@ -15,14 +15,14 @@ templ DropdownMenuAdvanced() {
 		Position: "left",
 		Items: []components.DropdownMenuItem{
 			{Label: "File", SubItems: []components.DropdownMenuItem{
-				{Label: "New", Value: "new", Attributes: templ.Attributes{"@click": "alert('New')"}},
-				{Label: "Open", Value: "open", Attributes: templ.Attributes{"@click": "alert('Open')"}},
-				{Label: "Save", Value: "save", Attributes: templ.Attributes{"@click": "alert('Save')"}},
+				{Label: "New", Value: "new"},
+				{Label: "Open", Value: "open"},
+				{Label: "Save", Value: "save"},
 			}},
 			{Label: "Edit", SubItems: []components.DropdownMenuItem{
-				{Label: "Cut", Value: "cut", Attributes: templ.Attributes{"@click": "alert('Cut')"}},
-				{Label: "Copy", Value: "copy", Attributes: templ.Attributes{"@click": "alert('Copy')"}},
-				{Label: "Paste", Value: "paste", Attributes: templ.Attributes{"@click": "alert('Paste')"}},
+				{Label: "Cut", Value: "cut"},
+				{Label: "Copy", Value: "copy"},
+				{Label: "Paste", Value: "paste"},
 			}},
 			{Label: "View", Disabled: true},
 			{Label: "Help", Href: "https://github.com/axzilla/templui", Target: "_blank"},
