@@ -7,7 +7,7 @@ import (
 	"github.com/axzilla/templui/pkg/utils"
 )
 
-templ themeHandler() {
+templ ThemeHandler() {
 	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
 		<script nonce={ templ.GetNonce(ctx) }>
@@ -32,8 +32,17 @@ templ themeHandler() {
 }
 
 templ componentHandlers() {
-	@themeHandler()
+	@ThemeHandler()
 	@components.ToastHandler()
+	@components.AccordionHandler()
+	@components.DatepickerHandler()
+	@components.DropdownHandler()
+	@components.LabelHandler()
+	@components.ModalHandler()
+	@components.SheetHandler()
+	@components.SliderHandler()
+	@components.TabsHandler()
+	@components.TextareaHandler()
 }
 
 templ BaseLayout() {

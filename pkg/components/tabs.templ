@@ -14,7 +14,7 @@ type TabsProps struct {
 	ContentContainerClass string
 }
 
-templ tabsHandler() {
+templ TabsHandler() {
 	<script nonce={ templ.GetNonce(ctx) }>
 		document.addEventListener('DOMContentLoaded', () => {
 			document.querySelectorAll('.tabs-component').forEach(tabs => {
@@ -52,7 +52,6 @@ templ tabsHandler() {
 }
 
 templ Tabs(props TabsProps) {
-	@tabsHandler()
 	{{ tabID := utils.RandomID() }}
 	<div class="tabs-component relative" data-tabs={ tabID }>
 		<div class={ "relative flex items-center justify-center h-10 p-1 rounded-lg select-none bg-muted text-muted-foreground", props.TabsContainerClass }>

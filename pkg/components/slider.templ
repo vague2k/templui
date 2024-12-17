@@ -20,7 +20,7 @@ type SliderProps struct {
 	Attributes  templ.Attributes // Additional HTML attributes
 }
 
-templ sliderHandler() {
+templ SliderHandler() {
 	{{ handler := templ.NewOnceHandle() }}
 	@handler.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
@@ -43,7 +43,6 @@ templ sliderHandler() {
 
 // Control for selecting a numeric value within a range.
 templ Slider(props SliderProps) {
-	@sliderHandler()
 	<div
 		class="space-y-2"
 		data-value={ fmt.Sprintf("%d", props.Value) }

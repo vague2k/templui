@@ -144,7 +144,7 @@ type DatepickerProps struct {
 	Attributes  templ.Attributes // Additional HTML attributes
 }
 
-templ datepickerHandler() {
+templ DatepickerHandler() {
 	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
@@ -311,7 +311,6 @@ templ datepickerHandler() {
 
 // Datepicker renders a date selection input with calendar popup
 templ Datepicker(props DatepickerProps) {
-	@datepickerHandler()
 	if props.ID == "" {
 		{{ props.ID = utils.RandomID() }}
 	}

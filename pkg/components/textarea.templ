@@ -17,7 +17,7 @@ type TextareaProps struct {
 	Attributes  templ.Attributes // Additional HTML attributes
 }
 
-templ TextAreaHandler() {
+templ TextareaHandler() {
 	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
@@ -35,7 +35,6 @@ templ TextAreaHandler() {
 
 // Textarea renders a multi-line text input field
 templ Textarea(props TextareaProps) {
-	@TextAreaHandler()
 	<textarea
 		x-ref={ props.ID }
 		id={ props.ID }

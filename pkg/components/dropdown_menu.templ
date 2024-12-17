@@ -128,7 +128,7 @@ templ renderMenuItem(item DropdownMenuItem, index int, depth int) {
 	}
 }
 
-templ dropdownHandler() {
+templ DropdownHandler() {
 	{{ handler := templ.NewOnceHandle() }}
 	@handler.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
@@ -201,7 +201,6 @@ templ dropdownHandler() {
 
 // Floating menu for displaying a list of actions or options.
 templ DropdownMenu(props DropdownMenuProps) {
-	@dropdownHandler()
 	<div
 		x-data="dropdownHandler"
 		@resize.window="updatePosition"

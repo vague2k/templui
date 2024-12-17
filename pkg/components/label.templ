@@ -9,7 +9,7 @@ type LabelProps struct {
 	DisabledClass string // Additional CSS classes when the input is disabled
 }
 
-templ labelHandler() {
+templ LabelHandler() {
 	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
@@ -28,7 +28,6 @@ templ labelHandler() {
 
 // Label renders a form label with error and disabled states
 templ Label(props LabelProps) {
-	@labelHandler()
 	<label
 		x-data="labelHandler"
 		id={ props.ID }

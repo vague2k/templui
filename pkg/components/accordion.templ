@@ -18,7 +18,7 @@ type AccordionProps struct {
 	Attributes templ.Attributes // Additional HTML attributes
 }
 
-templ accordionHandler() {
+templ AccordionHandler() {
 	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
@@ -41,7 +41,6 @@ templ accordionHandler() {
 
 // Accordion renders a collapsible content container
 templ Accordion(props AccordionProps) {
-	@accordionHandler()
 	<div
 		x-data="accordionHandler"
 		class={ utils.TwMerge(
