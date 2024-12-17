@@ -24,7 +24,7 @@ type ExampleWrapperProps struct {
 
 templ ExampleWrapper(p ExampleWrapperProps) {
 	<div>
-		<p class="mb-2 font-bold text-muted-foreground">{ p.SectionName }</p>
+		<p class="mb-2 font-bold">{ p.SectionName }</p>
 		@components.Tabs(components.TabsProps{
 			Tabs:                  generateTabs(p), // Extrahiere Logik in separate Funktion
 			TabsContainerClass:    "md:w-1/2",

@@ -1,20 +1,22 @@
 package modules
 
+import "github.com/axzilla/templui/pkg/icons"
+
 templ codeSnippetHandler() {
 	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
 		<script nonce={ templ.GetNonce(ctx) }>
 			document.addEventListener('alpine:init', () => {
 				Alpine.data('codeSnippetHandler', () => ({
-					copied: false,
-					buttonText: 'Copy',	
+					isCopied: false,
+					isNotCopied: true,
 					copyCode() {
 						navigator.clipboard.writeText(this.$refs.code.textContent)
-						this.copied = true
-						this.buttonText = 'Copied!'
+						this.isCopied = true
+						this.isNotCopied = false
 						setTimeout(() => {
-							this.copied = false
-							this.buttonText = 'Copy'
+							this.isCopied = false
+							this.isNotCopied = true
 						}, 2000)
 					}
 				}))
@@ -29,15 +31,21 @@ templ CodeSnippet(content, language string) {
 		<pre class="!overflow-hidden">
 			<code
 				x-ref="code"
-				class={ "language-" + language, "!max-h-[501px] !overflow-y-auto rounded-md block" }
+				class={ "language-" + language, "!max-h-[501px] !overflow-y-auto rounded-md block text-sm" }
 			>
 				{ content }
 			</code>
 		</pre>
 		<button
-			class="absolute top-2 right-2 bg-gray-700 hover:bg-gray-600 text-white font-bold py-1 px-2 rounded text-xs"
+			class="absolute top-2 right-2 hover:bg-gray-500 hover:bg-opacity-30 text-white p-2 rounded"
 			@click="copyCode"
-			x-text="buttonText"
-		></button>
+		>
+			<span x-show="isCopied">
+				@icons.Check(icons.IconProps{Size: "14"})
+			</span>
+			<span x-show="isNotCopied">
+				@icons.Clipboard(icons.IconProps{Size: "14"})
+			</span>
+		</button>
 	</div>
 }
