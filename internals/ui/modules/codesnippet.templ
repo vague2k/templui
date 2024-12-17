@@ -6,20 +6,16 @@ templ codeSnippetHandler() {
 		<script nonce={ templ.GetNonce(ctx) }>
 			document.addEventListener('alpine:init', () => {
 				Alpine.data('codeSnippetHandler', () => ({
-					state: {
-						copied: false,
-						buttonText: 'Copy',	
-					},
-					actions: {
-						copyCode() {
-							navigator.clipboard.writeText(this.$refs.code.textContent)
-							this.state.copied = true
-							this.state.buttonText = 'Copied!'
-							setTimeout(() => {
-								this.state.copied = false
-								this.state.buttonText = 'Copy'
-							}, 2000)
-						}
+					copied: false,
+					buttonText: 'Copy',	
+					copyCode() {
+						navigator.clipboard.writeText(this.$refs.code.textContent)
+						this.copied = true
+						this.buttonText = 'Copied!'
+						setTimeout(() => {
+							this.copied = false
+							this.buttonText = 'Copy'
+						}, 2000)
 					}
 				}))
 			})
@@ -40,8 +36,8 @@ templ CodeSnippet(content, language string) {
 		</pre>
 		<button
 			class="absolute top-2 right-2 bg-gray-700 hover:bg-gray-600 text-white font-bold py-1 px-2 rounded text-xs"
-			@click="actions.copyCode"
-			x-text="state.buttonText"
+			@click="copyCode"
+			x-text="buttonText"
 		></button>
 	</div>
 }

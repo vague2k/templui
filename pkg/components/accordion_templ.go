@@ -73,7 +73,7 @@ func accordionHandler() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">\n            document.addEventListener('alpine:init', () => {\n                Alpine.data('accordionHandler', () => ({\n                    state: {\n                        activeItem: null,\n                    },\n\t\t\t\t\tactions: {\n\t\t\t\t\t\ttoggleItem(event) {\n\t\t\t\t\t\t\tconst itemId = event.target.getAttribute('data-accordion-item');\n\t\t\t\t\t\t\tthis.state.activeItem = this.state.activeItem === itemId ? null : itemId;\n\t\t\t\t\t\t},\n\t\t\t\t\t},\n                    helpers: {\n                        isActive() {\n\t\t\t\t\t\t\tconst itemId = this.$el.getAttribute('data-accordion-item');\n\t\t\t\t\t\t\treturn this.state.activeItem === itemId\n\t\t\t\t\t\t},\n\t\t\t\t\t},\n                }));\n            });\n        </script>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">\n            document.addEventListener('alpine:init', () => {\n                Alpine.data('accordionHandler', () => ({\n\t\t\t\t\tactiveItem: null,\n\t\t\t\t\ttoggleItem(event) {\n\t\t\t\t\t\tconst itemId = event.target.getAttribute('data-accordion-item');\n\t\t\t\t\t\tthis.activeItem = this.activeItem === itemId ? null : itemId;\n\t\t\t\t\t},\n\t\t\t\t\tisActive() {\n\t\t\t\t\t\tconst itemId = this.$el.getAttribute('data-accordion-item');\n\t\t\t\t\t\treturn this.activeItem === itemId\n\t\t\t\t\t},\n                }));\n            });\n        </script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -167,14 +167,14 @@ func Accordion(props AccordionProps) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button type=\"button\" @click=\"actions.toggleItem\" data-accordion-item=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<button type=\"button\" @click=\"toggleItem\" data-accordion-item=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var8 string
 			templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(item.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/accordion.templ`, Line: 69, Col: 35}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/accordion.templ`, Line: 63, Col: 35}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 			if templ_7745c5c3_Err != nil {
@@ -224,13 +224,13 @@ func Accordion(props AccordionProps) templ.Component {
 			var templ_7745c5c3_Var11 string
 			templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(item.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/accordion.templ`, Line: 84, Col: 34}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/accordion.templ`, Line: 78, Col: 34}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" x-show=\"helpers.isActive\" class=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" x-show=\"isActive\" class=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

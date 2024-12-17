@@ -24,20 +24,14 @@ templ accordionHandler() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
             document.addEventListener('alpine:init', () => {
                 Alpine.data('accordionHandler', () => ({
-                    state: {
-                        activeItem: null,
-                    },
-					actions: {
-						toggleItem(event) {
-							const itemId = event.target.getAttribute('data-accordion-item');
-							this.state.activeItem = this.state.activeItem === itemId ? null : itemId;
-						},
+					activeItem: null,
+					toggleItem(event) {
+						const itemId = event.target.getAttribute('data-accordion-item');
+						this.activeItem = this.activeItem === itemId ? null : itemId;
 					},
-                    helpers: {
-                        isActive() {
-							const itemId = this.$el.getAttribute('data-accordion-item');
-							return this.state.activeItem === itemId
-						},
+					isActive() {
+						const itemId = this.$el.getAttribute('data-accordion-item');
+						return this.activeItem === itemId
 					},
                 }));
             });
@@ -65,7 +59,7 @@ templ Accordion(props AccordionProps) {
 				<h3>
 					<button
 						type="button"
-						@click="actions.toggleItem"
+						@click="toggleItem"
 						data-accordion-item={ item.ID }
 						class={ utils.TwMerge(
                             // Layout
@@ -82,7 +76,7 @@ templ Accordion(props AccordionProps) {
 				</h3>
 				<div
 					data-accordion-item={ item.ID }
-					x-show="helpers.isActive"
+					x-show="isActive"
 					class={ utils.TwMerge(
                         // Layout
                         "px-5 pb-4 pt-0",

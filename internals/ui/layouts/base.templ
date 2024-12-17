@@ -16,18 +16,14 @@ templ themeHandler() {
 
 			document.addEventListener('alpine:init', () => {
 				Alpine.data('themeHandler', () => ({
-					state: {
-						isDark: localStorage.getItem('appTheme') === 'dark',
+					isDark: localStorage.getItem('appTheme') === 'dark',
+					themeClasses() {
+						return this.isDark ? 'text-white' : 'bg-white text-black'
 					},
-					actions: {
-						themeClasses() {
-							return this.state.isDark ? 'text-white' : 'bg-white text-black'
-						},
-						toggleTheme() {
-							this.state.isDark = !this.state.isDark;
-							localStorage.setItem('appTheme', this.state.isDark ? 'dark' : 'light');
-							document.documentElement.classList.toggle('dark', this.state.isDark);
-						}
+					toggleTheme() {
+						this.isDark = !this.isDark;
+						localStorage.setItem('appTheme', this.isDark ? 'dark' : 'light');
+						document.documentElement.classList.toggle('dark', this.isDark);
 					}
 				}))
 			})
@@ -78,7 +74,7 @@ templ BaseLayout() {
 			x-data="themeHandler"
 			x-cloak
 			class="h-full flex flex-col transition-colors duration-200"
-			x-bind:class="actions.themeClasses"
+			x-bind:class="themeClasses"
 		>
 			<div class="flex flex-col min-h-screen">
 				{ children... }

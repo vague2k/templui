@@ -41,7 +41,7 @@ func Modal(props ModalProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div x-data=\"modalHandler\" x-on:open-modal.window=\"actions.handleOpenModal\" x-on:close-modal.window=\"actions.handleCloseModal\" data-modal-id=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div x-data=\"modalHandler\" x-on:open-modal.window=\"handleOpenModal\" x-on:close-modal.window=\"handleCloseModal\" data-modal-id=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -54,7 +54,7 @@ func Modal(props ModalProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" x-show=\"state.open\" x-transition:enter=\"transition ease-out duration-300\" x-transition:enter-start=\"opacity-0\" x-transition:enter-end=\"opacity-100\" x-transition:leave=\"transition ease-in duration-200\" x-transition:leave-start=\"opacity-100\" x-transition:leave-end=\"opacity-0\" class=\"fixed inset-0 z-50 flex items-center justify-center overflow-y-auto\" aria-labelledby=\"modal-title\" role=\"dialog\" aria-modal=\"true\"><div class=\"fixed inset-0 bg-black bg-opacity-50 transition-opacity\" aria-hidden=\"true\"></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" x-show=\"open\" x-transition:enter=\"transition ease-out duration-300\" x-transition:enter-start=\"opacity-0\" x-transition:enter-end=\"opacity-100\" x-transition:leave=\"transition ease-in duration-200\" x-transition:leave-start=\"opacity-100\" x-transition:leave-end=\"opacity-0\" class=\"fixed inset-0 z-50 flex items-center justify-center overflow-y-auto\" aria-labelledby=\"modal-title\" role=\"dialog\" aria-modal=\"true\"><div class=\"fixed inset-0 bg-black bg-opacity-50 transition-opacity\" aria-hidden=\"true\"></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -80,7 +80,7 @@ func Modal(props ModalProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" @click.away=\"actions.handleClickAway\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" @click.away=\"handleClickAway\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -367,7 +367,7 @@ func modalHandler() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">\n            document.addEventListener('alpine:init', () => {\n                Alpine.data('modalHandler', () => ({\n\t\t\t\t\tstate: {\n                    \topen: false,\n\t\t\t\t\t},\n\t\t\t\t\tactions: {\n\t\t\t\t\t\thandleOpenModal(event) {\n\t\t\t\t\t\t\tif (event.detail.id === this.$el.dataset.modalId) {\n\t\t\t\t\t\t\t\tthis.state.open = true\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t},\n\t\t\t\t\t\thandleCloseModal(event) {\n\t\t\t\t\t\t\tif (event.detail.id === this.$el.dataset.modalId) {\n\t\t\t\t\t\t\t\tthis.state.open = false\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t},\n\t\t\t\t\t\thandleClickAway() {\n\t\t\t\t\t\t\tthis.state.open = false;\n\t\t\t\t\t\t},\n\t\t\t\t\t}\n                }))\n                Alpine.data('modalTriggers', () => ({\n                    openModal() {\n                        this.$dispatch('open-modal', { \n                            id: this.$el.dataset.modalId \n                        })\n                    },\n                    closeModal() {\n                        this.$dispatch('close-modal', { \n                            id: this.$el.dataset.modalId \n                        })\n                    }\n                }))\n            })\n        </script>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">\n            document.addEventListener('alpine:init', () => {\n                Alpine.data('modalHandler', () => ({\n\t\t\t\t\topen: false,\n\t\t\t\t\thandleOpenModal(event) {\n\t\t\t\t\t\tif (event.detail.id === this.$el.dataset.modalId) {\n\t\t\t\t\t\t\tthis.open = true\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\t\t\t\t\thandleCloseModal(event) {\n\t\t\t\t\t\tif (event.detail.id === this.$el.dataset.modalId) {\n\t\t\t\t\t\t\tthis.open = false\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\t\t\t\t\thandleClickAway() {\n\t\t\t\t\t\tthis.open = false;\n\t\t\t\t\t},\n                }))\n                Alpine.data('modalTriggers', () => ({\n                    openModal() {\n                        this.$dispatch('open-modal', { \n                            id: this.$el.dataset.modalId \n                        })\n                    },\n                    closeModal() {\n                        this.$dispatch('close-modal', { \n                            id: this.$el.dataset.modalId \n                        })\n                    }\n                }))\n            })\n        </script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

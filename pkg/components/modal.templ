@@ -12,10 +12,10 @@ templ Modal(props ModalProps) {
 	@modalHandler()
 	<div
 		x-data="modalHandler"
-		x-on:open-modal.window="actions.handleOpenModal"
-		x-on:close-modal.window="actions.handleCloseModal"
+		x-on:open-modal.window="handleOpenModal"
+		x-on:close-modal.window="handleCloseModal"
 		data-modal-id={ props.ID }
-		x-show="state.open"
+		x-show="open"
 		x-transition:enter="transition ease-out duration-300"
 		x-transition:enter-start="opacity-0"
 		x-transition:enter-end="opacity-100"
@@ -34,7 +34,7 @@ templ Modal(props ModalProps) {
 					"relative bg-background rounded-lg border text-left overflow-hidden shadow-xl transform transition-all sm:my-8 w-full",
 					props.Class),
 			}
-			@click.away="actions.handleClickAway"
+			@click.away="handleClickAway"
 		>
 			{ children... }
 		</div>
@@ -94,24 +94,20 @@ templ modalHandler() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
             document.addEventListener('alpine:init', () => {
                 Alpine.data('modalHandler', () => ({
-					state: {
-                    	open: false,
+					open: false,
+					handleOpenModal(event) {
+						if (event.detail.id === this.$el.dataset.modalId) {
+							this.open = true
+						}
 					},
-					actions: {
-						handleOpenModal(event) {
-							if (event.detail.id === this.$el.dataset.modalId) {
-								this.state.open = true
-							}
-						},
-						handleCloseModal(event) {
-							if (event.detail.id === this.$el.dataset.modalId) {
-								this.state.open = false
-							}
-						},
-						handleClickAway() {
-							this.state.open = false;
-						},
-					}
+					handleCloseModal(event) {
+						if (event.detail.id === this.$el.dataset.modalId) {
+							this.open = false
+						}
+					},
+					handleClickAway() {
+						this.open = false;
+					},
                 }))
                 Alpine.data('modalTriggers', () => ({
                     openModal() {

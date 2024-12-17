@@ -12,10 +12,10 @@ templ themeSwitcherHandler() {
 			document.addEventListener('alpine:init', () => {
 				Alpine.data('themeSwitcherHandler', () => ({
 					isDarkMode() {
-						return this.state.isDark
+						return this.isDark
 					},
 					isLightMode() {
-						return !this.state.isDark
+						return !this.isDark
 					}
 				}))
 			})
@@ -30,7 +30,7 @@ templ ThemeSwitcher() {
 		Variant:  components.ButtonVariantGhost,
 		IconLeft: templ.Component(DynamicThemeIcon()),
 		Attributes: templ.Attributes{
-			"@click": "actions.toggleTheme",
+			"@click": "toggleTheme",
 		},
 	})
 }

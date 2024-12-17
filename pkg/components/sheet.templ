@@ -21,17 +21,13 @@ templ sheetHandler() {
 		<script nonce={ templ.GetNonce(ctx) }>
 			document.addEventListener('alpine:init', () => {
 				Alpine.data('sheetHandler', () => ({
-					state: {
-						isOpen: false,
+					isOpen: false,
+					open() {
+						this.isOpen = true
 					},
-					actions: {
-						open() {
-							this.state.isOpen = true
-						},
-						close() {
-							this.state.isOpen = false
-						},
-					}
+					close() {
+						this.isOpen = false
+					},
 				}))
 			})
 		</script>
@@ -44,7 +40,7 @@ templ SheetRoot() {
 	@sheetHandler()
 	<div
 		x-data="sheetHandler"
-		@keydown.escape.window="actions.close"
+		@keydown.escape.window="close"
 	>
 		{ children... }
 	</div>
@@ -54,9 +50,9 @@ templ SheetRoot() {
 templ Sheet(props SheetProps) {
 	<!-- Backdrop -->
 	<div
-		x-show="state.isOpen"
+		x-show="isOpen"
 		class="fixed inset-0 bg-background/80 backdrop-blur-sm"
-		@click="actions.close"
+		@click="close"
 		x-transition:enter="transition ease-out duration-300"
 		x-transition:enter-start="opacity-0"
 		x-transition:enter-end="opacity-100"
@@ -66,7 +62,7 @@ templ Sheet(props SheetProps) {
 	></div>
 	<!-- Sheet -->
 	<div
-		x-show="state.isOpen"
+		x-show="isOpen"
 		class={
 			"z-50",
 			templ.KV("fixed inset-y-0 right-0 w-3/4 md:w-1/2 lg:w-1/3", props.Side == SheetSideRight),
@@ -122,7 +118,7 @@ templ Sheet(props SheetProps) {
 // SheetTrigger creates elements that open the sheet
 // Must be used within SheetRoot
 templ SheetTrigger(text string, side SheetSide) {
-	<span @click="actions.open">
+	<span @click="open">
 		{ children... }
 	</span>
 }
@@ -131,7 +127,7 @@ templ SheetTrigger(text string, side SheetSide) {
 // Must be used within Sheet
 templ SheetClose(text string) {
 	<button
-		@click="actions.close"
+		@click="close"
 		class={ "inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background",
         "transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
         "disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent",
