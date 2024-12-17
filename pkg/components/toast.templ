@@ -1,59 +1,90 @@
 package components
 
 import (
-	"fmt"
 	"github.com/axzilla/templui/pkg/icons"
+	"strconv"
 )
 
 type ToastProps struct {
 	Message     string // Message to display
-	Type        string // Type of the toast (default, success, error, warning, info)
-	Position    string // Position of the toast (top-right, top-left, top-center, bottom-right, bottom-left, bottom-center)
+	Type        string // Type of the toast
+	Position    string // Position of the toast
 	Duration    int    // Duration in milliseconds
 	Dismissible bool   // Show dismiss button
-	Size        string // Size of the toast (sm, md, lg)
+	Size        string // Size of the toast
 	Icon        bool   // Show icon
 }
 
 // Flexible toast component for notifications and feedback.
+templ ToastHandler() {
+	{{ handler := templ.NewOnceHandle() }}
+	@handler.Once() {
+		<script defer nonce={ templ.GetNonce(ctx) }>	
+            document.addEventListener('alpine:init', () => {
+                Alpine.data('toastHandler', () => ({
+                    show: true,
+                    duration: 0,
+                    timer: null,
+
+                    init() {
+                        this.duration = parseInt(this.$el.dataset.duration || 0);
+                        this.startTimer();
+
+                        if (this.duration > 0) {
+                            const progress = this.$refs.progress;
+                            if (progress) {
+                                progress.style.transition = `width ${this.duration}ms linear`;
+                                progress.style.width = '100%';
+                                setTimeout(() => {
+                                    progress.style.width = '0%';
+                                }, 10);
+                            }
+                        }
+                    },
+
+                    startTimer() {
+                        if (this.duration <= 0) return;
+                        this.timer = setTimeout(() => {
+                            this.show = false;
+                        }, this.duration);
+                    },
+
+                    pauseTimer() {
+                        if (this.timer) clearTimeout(this.timer);
+                        const progress = this.$refs.progress;
+                        if (progress) {
+                            const width = progress.getBoundingClientRect().width;
+                            const total = progress.parentElement.getBoundingClientRect().width;
+                            this.duration = (width / total) * this.duration;
+                            progress.style.transition = "none";
+                            progress.style.width = width + "px";
+                        }
+                    },
+
+                    resumeTimer() {
+                        const progress = this.$refs.progress;
+                        if (progress) {
+                            progress.style.transition = "width " + this.duration + "ms linear";
+                            progress.style.width = "0";
+                            this.startTimer();
+                        }
+                    },
+
+                    dismissToast() {
+                        this.show = false;
+                    }
+                }))
+            })
+        </script>
+	}
+}
+
 templ Toast(props ToastProps) {
 	<div
-		x-data={ fmt.Sprintf(`{
-            show: true,
-            message: "%s",
-            type: "%s",
-            position: "%s",
-            duration: %d,
-            dismissible: %t,
-            size: "%s",
-            timer: null,
-            startTimer() {
-                if (this.duration <= 0) return;
-                this.timer = setTimeout(() => this.show = false, this.duration);
-            },
-            pauseTimer() {
-                if (this.timer) clearTimeout(this.timer);
-                const progress = this.$refs.progress;
-                if (progress) {
-                    const width = progress.getBoundingClientRect().width;
-                    const total = progress.parentElement.getBoundingClientRect().width;
-                    this.duration = (width / total) * this.duration;
-                    progress.style.transition = "none";
-                    progress.style.width = width + "px";
-                }
-            },
-            resumeTimer() {
-                const progress = this.$refs.progress;
-                if (progress) {
-                    progress.style.transition = "width " + this.duration + "ms linear";
-                    progress.style.width = "0";
-                    this.startTimer();
-                }
-            }
-        }`, props.Message, props.Type, props.Position, props.Duration, props.Dismissible, props.Size) }
-		x-init="startTimer()"
-		@mouseenter="pauseTimer()"
-		@mouseleave="resumeTimer()"
+		data-duration={ strconv.Itoa(props.Duration) }
+		x-data="toastHandler"
+		@mouseenter="pauseTimer"
+		@mouseleave="resumeTimer"
 		x-show="show"
 		x-transition:enter="transition ease-out duration-300"
 		x-transition:enter-start="opacity-0 translate-y-4"
@@ -61,40 +92,32 @@ templ Toast(props ToastProps) {
 		x-transition:leave="transition ease-in duration-200"
 		x-transition:leave-start="opacity-100 translate-y-0"
 		x-transition:leave-end="opacity-0 translate-y-4"
-		@click="if(dismissible) show = false"
-		class="z-50 fixed pointer-events-auto"
-		:class="{
-            'top-4 right-4': position === 'top-right',
-            'top-4 left-4': position === 'top-left',
-            'top-4 left-1/2 -translate-x-1/2': position === 'top-center',
-            'bottom-4 right-4': position === 'bottom-right',
-            'bottom-4 left-4': position === 'bottom-left',
-            'bottom-4 left-1/2 -translate-x-1/2': position === 'bottom-center',
-            'w-72': size === 'sm',
-            'w-96': size === 'md',
-            'w-[30rem]': size === 'lg'
-        }"
+		class={
+			"z-50 fixed pointer-events-auto",
+			templ.KV("top-4 right-4", props.Position == "top-right"),
+			templ.KV("top-4 left-4", props.Position == "top-left"),
+			templ.KV("top-4 left-1/2 -translate-x-1/2", props.Position == "top-center"),
+			templ.KV("bottom-4 right-4", props.Position == "bottom-right"),
+			templ.KV("bottom-4 left-4", props.Position == "bottom-left"),
+			templ.KV("bottom-4 left-1/2 -translate-x-1/2", props.Position == "bottom-center"),
+			templ.KV("w-72", props.Size == "sm"),
+			templ.KV("w-96", props.Size == "md"),
+			templ.KV("w-[30rem]", props.Size == "lg"),
+		}
 	>
 		<div class="bg-primary-foreground rounded-lg shadow-sm border pt-5 pb-4 px-4 flex items-center justify-center relative overflow-hidden">
 			if props.Duration > 0 {
 				<div class="absolute top-0 left-0 right-0 h-1">
 					<div
 						x-ref="progress"
-						class="absolute inset-0"
-						:class="{
-                            'bg-green-500': type === 'success',
-                            'bg-red-500': type === 'error',
-                            'bg-yellow-500': type === 'warning',
-                            'bg-blue-500': type === 'info',
-                            'bg-gray-500': type === 'default'
-                        }"
-						x-init="
-                            $el.style.transition = 'width ' + duration + 'ms linear';
-                            $el.style.width = '100%';
-                            setTimeout(() => {
-                                $el.style.width = '0%';
-                            }, 10)
-                        "
+						class={
+							"absolute inset-0",
+							templ.KV("bg-gray-500", props.Type == "default"),
+							templ.KV("bg-green-500", props.Type == "success"),
+							templ.KV("bg-red-500", props.Type == "error"),
+							templ.KV("bg-yellow-500", props.Type == "warning"),
+							templ.KV("bg-blue-500", props.Type == "info"),
+						}
 					></div>
 				</div>
 			}
@@ -112,9 +135,9 @@ templ Toast(props ToastProps) {
 					@icons.Info(icons.IconProps{Size: "18", Class: "text-blue-500 mr-3"})
 				}
 			}
-			<div class="flex-1" x-text="message"></div>
+			<div class="flex-1">{ props.Message }</div>
 			if props.Dismissible {
-				<button @click.stop="show = false">
+				<button @click.stop="dismissToast">
 					@icons.X(icons.IconProps{
 						Size:  "18",
 						Class: "opacity-75 hover:opacity-100",

@@ -11,6 +11,7 @@ import (
 	"github.com/axzilla/templui/internals/middleware"
 	"github.com/axzilla/templui/internals/ui/pages"
 	"github.com/axzilla/templui/pkg/components"
+	mw "github.com/axzilla/templui/pkg/middleware"
 )
 
 func toastDemoHandler(w http.ResponseWriter, r *http.Request) {
@@ -37,7 +38,12 @@ func main() {
 	config.LoadConfig()
 	SetupAssetsRoutes(mux)
 
-	wrappedMux := middleware.WithPreviewCheck(middleware.WithNonce(mux))
+	cspConfig := mw.CSPConfig{
+		StyleSrc: []string{
+			"cdnjs.cloudflare.com", // highlight.js CSS
+		},
+	}
+	wrappedMux := middleware.WithPreviewCheck(mw.WithCSP(cspConfig)(mux))
 
 	mux.Handle("GET /", templ.Handler(pages.Landing()))
 	mux.Handle("GET /docs/components", http.RedirectHandler("/docs/components/accordion", http.StatusSeeOther))

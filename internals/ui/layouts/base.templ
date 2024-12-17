@@ -3,6 +3,8 @@ package layouts
 import (
 	"github.com/axzilla/templui/internals/config"
 	"github.com/axzilla/templui/internals/ui/modules"
+	"github.com/axzilla/templui/pkg/components"
+	"github.com/axzilla/templui/pkg/utils"
 )
 
 templ themeHandler() {
@@ -33,11 +35,17 @@ templ themeHandler() {
 	}
 }
 
+templ componentHandlers() {
+	@themeHandler()
+	@components.ToastHandler()
+}
+
 templ BaseLayout() {
 	<!DOCTYPE html>
 	<html lang="en" class="h-full">
 		<head>
-			@themeHandler()
+			// Component Handlers Scripts
+			@componentHandlers()
 			// Meta Tags
 			<title>TemplUI - Modern UI Components for Go & Templ</title>
 			<meta charset="UTF-8"/>
@@ -58,11 +66,11 @@ templ BaseLayout() {
 			// Custom JS
 			<script nonce={ templ.GetNonce(ctx) } src="/assets/js/theme-customizer.js"></script>
 			// Alpine.js 
-			<script nonce={ templ.GetNonce(ctx) } defer src="https://cdn.jsdelivr.net/npm/@alpinejs/csp@3.x.x/dist/cdn.min.js"></script>
-			// htmx.js
+			@utils.AlpineJS()
+			// HTMX
 			<script nonce={ templ.GetNonce(ctx) } defer src="https://cdn.jsdelivr.net/npm/htmx.org@1.7.0/dist/htmx.min.js"></script>
 			// Highlight.js
-			<link nonce={ templ.GetNonce(ctx) } rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/base16/woodland.min.css"/>
+			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/base16/woodland.min.css"/>
 			<script nonce={ templ.GetNonce(ctx) } src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 			<script nonce={ templ.GetNonce(ctx) }>hljs.highlightAll();</script>
 		</head>

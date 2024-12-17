@@ -1,0 +1,7 @@
+package utils
+
+// AlpineJS returns script tags for Alpine.js.
+// This is the CSP-compliant way to include Alpine.js.
+templ AlpineJS() {
+	<script nonce={ templ.GetNonce(ctx) } defer src="https://cdn.jsdelivr.net/npm/@alpinejs/csp@3.x.x/dist/cdn.min.js"></script>
+}
