@@ -10,7 +10,7 @@ type ModalProps struct {
 // Dialog overlay that requires user attention or interaction.
 templ Modal(props ModalProps) {
 	<div
-		x-data="modalHandler"
+		x-data="modal"
 		x-on:open-modal.window="handleOpenModal"
 		x-on:close-modal.window="handleCloseModal"
 		data-modal-id={ props.ID }
@@ -85,12 +85,12 @@ templ ModalFooter() {
 	</div>
 }
 
-templ ModalHandler() {
+templ ModalScript() {
 	{{ handler := templ.NewOnceHandle() }}
 	@handler.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
             document.addEventListener('alpine:init', () => {
-                Alpine.data('modalHandler', () => ({
+                Alpine.data('modal', () => ({
 					open: false,
 					handleOpenModal(event) {
 						if (event.detail.id === this.$el.dataset.modalId) {

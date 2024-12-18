@@ -15,12 +15,12 @@ type SheetProps struct {
 	Side        SheetSide // Slide-in direction
 }
 
-templ SheetHandler() {
+templ SheetScript() {
 	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
 		<script nonce={ templ.GetNonce(ctx) }>
 			document.addEventListener('alpine:init', () => {
-				Alpine.data('sheetHandler', () => ({
+				Alpine.data('sheet', () => ({
 					isOpen: false,
 					open() {
 						this.isOpen = true
@@ -38,7 +38,7 @@ templ SheetHandler() {
 // Must wrap Sheet components and triggers
 templ SheetRoot() {
 	<div
-		x-data="sheetHandler"
+		x-data="sheet"
 		@keydown.escape.window="close"
 	>
 		{ children... }

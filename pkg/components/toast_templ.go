@@ -24,7 +24,7 @@ type ToastProps struct {
 }
 
 // Flexible toast component for notifications and feedback.
-func ToastHandler() templ.Component {
+func ToastScript() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -58,20 +58,20 @@ func ToastHandler() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<script nonce=\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<script defer nonce=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/toast.templ`, Line: 22, Col: 37}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/toast.templ`, Line: 22, Col: 43}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">\n            document.addEventListener('alpine:init', () => {\n                Alpine.data('toastHandler', () => ({\n                    show: true,\n                    duration: 0,\n                    timer: null,\n\n                    init() {\n                        this.duration = parseInt(this.$el.dataset.duration || 0);\n                        this.startTimer();\n\n                        if (this.duration > 0) {\n                            const progress = this.$refs.progress;\n                            if (progress) {\n                                progress.style.transition = `width ${this.duration}ms linear`;\n                                progress.style.width = '100%';\n                                setTimeout(() => {\n                                    progress.style.width = '0%';\n                                }, 10);\n                            }\n                        }\n                    },\n\n                    startTimer() {\n                        if (this.duration <= 0) return;\n                        this.timer = setTimeout(() => {\n                            this.show = false;\n                        }, this.duration);\n                    },\n\n                    pauseTimer() {\n                        if (this.timer) clearTimeout(this.timer);\n                        const progress = this.$refs.progress;\n                        if (progress) {\n                            const width = progress.getBoundingClientRect().width;\n                            const total = progress.parentElement.getBoundingClientRect().width;\n                            this.duration = (width / total) * this.duration;\n                            progress.style.transition = \"none\";\n                            progress.style.width = width + \"px\";\n                        }\n                    },\n\n                    resumeTimer() {\n                        const progress = this.$refs.progress;\n                        if (progress) {\n                            progress.style.transition = \"width \" + this.duration + \"ms linear\";\n                            progress.style.width = \"0\";\n                            this.startTimer();\n                        }\n                    },\n\n                    dismissToast() {\n                        this.show = false;\n                    }\n                }))\n            })\n        </script>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">\t\n            document.addEventListener('alpine:init', () => {\n                Alpine.data('toast', () => ({\n                    show: true,\n                    duration: 0,\n                    timer: null,\n\n                    init() {\n                        this.duration = parseInt(this.$el.dataset.duration || 0);\n                        this.startTimer();\n\n                        if (this.duration > 0) {\n                            const progress = this.$refs.progress;\n                            if (progress) {\n                                progress.style.transition = `width ${this.duration}ms linear`;\n                                progress.style.width = '100%';\n                                setTimeout(() => {\n                                    progress.style.width = '0%';\n                                }, 10);\n                            }\n                        }\n                    },\n\n                    startTimer() {\n                        if (this.duration <= 0) return;\n                        this.timer = setTimeout(() => {\n                            this.show = false;\n                        }, this.duration);\n                    },\n\n                    pauseTimer() {\n                        if (this.timer) clearTimeout(this.timer);\n                        const progress = this.$refs.progress;\n                        if (progress) {\n                            const width = progress.getBoundingClientRect().width;\n                            const total = progress.parentElement.getBoundingClientRect().width;\n                            this.duration = (width / total) * this.duration;\n                            progress.style.transition = \"none\";\n                            progress.style.width = width + \"px\";\n                        }\n                    },\n\n                    resumeTimer() {\n                        const progress = this.$refs.progress;\n                        if (progress) {\n                            progress.style.transition = \"width \" + this.duration + \"ms linear\";\n                            progress.style.width = \"0\";\n                            this.startTimer();\n                        }\n                    },\n\n                    dismissToast() {\n                        this.show = false;\n                    }\n                }))\n            })\n        </script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -106,10 +106,6 @@ func Toast(props ToastProps) templ.Component {
 			templ_7745c5c3_Var4 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<script src=\"/assets/css/toast.js\" defer></script>")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
 		var templ_7745c5c3_Var5 = []any{
 			"z-50 fixed pointer-events-auto",
 			templ.KV("top-4 right-4", props.Position == "top-right"),
@@ -133,13 +129,13 @@ func Toast(props ToastProps) templ.Component {
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(props.Duration))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/toast.templ`, Line: 85, Col: 46}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/toast.templ`, Line: 84, Col: 46}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" x-data=\"toastHandler\" @mouseenter=\"pauseTimer\" @mouseleave=\"resumeTimer\" x-show=\"show\" x-transition:enter=\"transition ease-out duration-300\" x-transition:enter-start=\"opacity-0 translate-y-4\" x-transition:enter-end=\"opacity-100 translate-y-0\" x-transition:leave=\"transition ease-in duration-200\" x-transition:leave-start=\"opacity-100 translate-y-0\" x-transition:leave-end=\"opacity-0 translate-y-4\" class=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" x-data=\"toast\" @mouseenter=\"pauseTimer\" @mouseleave=\"resumeTimer\" x-show=\"show\" x-transition:enter=\"transition ease-out duration-300\" x-transition:enter-start=\"opacity-0 translate-y-4\" x-transition:enter-end=\"opacity-100 translate-y-0\" x-transition:leave=\"transition ease-in duration-200\" x-transition:leave-start=\"opacity-100 translate-y-0\" x-transition:leave-end=\"opacity-0 translate-y-4\" class=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -236,7 +232,7 @@ func Toast(props ToastProps) templ.Component {
 		var templ_7745c5c3_Var10 string
 		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(props.Message)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/toast.templ`, Line: 139, Col: 38}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/toast.templ`, Line: 138, Col: 38}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 		if templ_7745c5c3_Err != nil {

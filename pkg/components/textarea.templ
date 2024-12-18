@@ -17,12 +17,12 @@ type TextareaProps struct {
 	Attributes  templ.Attributes // Additional HTML attributes
 }
 
-templ TextareaHandler() {
+templ TextareaScript() {
 	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
 			document.addEventListener('alpine:init', () => {
-				Alpine.data('textareaHandler', () => ({
+				Alpine.data('textarea', () => ({
 					resize() {
 						this.$el.style.height = '80px';
 						this.$el.style.height = this.$el.scrollHeight + 'px';
@@ -64,7 +64,7 @@ templ Textarea(props TextareaProps) {
 			),
 		}
 		if props.AutoResize {
-			x-data="textareaHandler"
+			x-data="textarea"
 			x-init="resize"
 			@input="resize"
 		}

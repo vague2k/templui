@@ -20,12 +20,12 @@ type SliderProps struct {
 	Attributes  templ.Attributes // Additional HTML attributes
 }
 
-templ SliderHandler() {
+templ SliderScript() {
 	{{ handler := templ.NewOnceHandle() }}
 	@handler.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
             document.addEventListener('alpine:init', () => {
-                Alpine.data('sliderHandler', () => ({
+                Alpine.data('slider', () => ({
                     value: null,
 
 					init() {
@@ -46,7 +46,7 @@ templ Slider(props SliderProps) {
 	<div
 		class="space-y-2"
 		data-value={ fmt.Sprintf("%d", props.Value) }
-		x-data="sliderHandler"
+		x-data="slider"
 	>
 		if props.Label != "" || props.ShowValue {
 			<div class="flex justify-between items-center">

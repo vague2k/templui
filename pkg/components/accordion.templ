@@ -18,12 +18,12 @@ type AccordionProps struct {
 	Attributes templ.Attributes // Additional HTML attributes
 }
 
-templ AccordionHandler() {
+templ AccordionScript() {
 	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
             document.addEventListener('alpine:init', () => {
-                Alpine.data('accordionHandler', () => ({
+                Alpine.data('accordion', () => ({
 					activeItem: null,
 					toggleItem(event) {
 						const itemId = event.target.getAttribute('data-accordion-item');
@@ -42,7 +42,7 @@ templ AccordionHandler() {
 // Accordion renders a collapsible content container
 templ Accordion(props AccordionProps) {
 	<div
-		x-data="accordionHandler"
+		x-data="accordion"
 		class={ utils.TwMerge(
             // Layout
             "divide-y rounded-md",

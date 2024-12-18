@@ -16,12 +16,12 @@ type ToastProps struct {
 }
 
 // Flexible toast component for notifications and feedback.
-templ ToastHandler() {
+templ ToastScript() {
 	{{ handler := templ.NewOnceHandle() }}
 	@handler.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>	
             document.addEventListener('alpine:init', () => {
-                Alpine.data('toastHandler', () => ({
+                Alpine.data('toast', () => ({
                     show: true,
                     duration: 0,
                     timer: null,
@@ -82,7 +82,7 @@ templ ToastHandler() {
 templ Toast(props ToastProps) {
 	<div
 		data-duration={ strconv.Itoa(props.Duration) }
-		x-data="toastHandler"
+		x-data="toast"
 		@mouseenter="pauseTimer"
 		@mouseleave="resumeTimer"
 		x-show="show"

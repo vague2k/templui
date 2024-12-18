@@ -26,7 +26,7 @@ type AccordionProps struct {
 	Attributes templ.Attributes // Additional HTML attributes
 }
 
-func AccordionHandler() templ.Component {
+func AccordionScript() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -73,7 +73,7 @@ func AccordionHandler() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">\n            document.addEventListener('alpine:init', () => {\n                Alpine.data('accordionHandler', () => ({\n\t\t\t\t\tactiveItem: null,\n\t\t\t\t\ttoggleItem(event) {\n\t\t\t\t\t\tconst itemId = event.target.getAttribute('data-accordion-item');\n\t\t\t\t\t\tthis.activeItem = this.activeItem === itemId ? null : itemId;\n\t\t\t\t\t},\n\t\t\t\t\tisActive() {\n\t\t\t\t\t\tconst itemId = this.$el.getAttribute('data-accordion-item');\n\t\t\t\t\t\treturn this.activeItem === itemId\n\t\t\t\t\t},\n                }));\n            });\n        </script>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">\n            document.addEventListener('alpine:init', () => {\n                Alpine.data('accordion', () => ({\n\t\t\t\t\tactiveItem: null,\n\t\t\t\t\ttoggleItem(event) {\n\t\t\t\t\t\tconst itemId = event.target.getAttribute('data-accordion-item');\n\t\t\t\t\t\tthis.activeItem = this.activeItem === itemId ? null : itemId;\n\t\t\t\t\t},\n\t\t\t\t\tisActive() {\n\t\t\t\t\t\tconst itemId = this.$el.getAttribute('data-accordion-item');\n\t\t\t\t\t\treturn this.activeItem === itemId\n\t\t\t\t\t},\n                }));\n            });\n        </script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -121,7 +121,7 @@ func Accordion(props AccordionProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div x-data=\"accordionHandler\" class=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div x-data=\"accordion\" class=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

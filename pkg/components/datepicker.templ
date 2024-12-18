@@ -144,12 +144,12 @@ type DatepickerProps struct {
 	Attributes  templ.Attributes // Additional HTML attributes
 }
 
-templ DatepickerHandler() {
+templ DatepickerScript() {
 	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
 			document.addEventListener('alpine:init', () => {
-				Alpine.data('datepickerHandler', () => ({
+				Alpine.data('datepicker', () => ({
 					open: false,
 					value: null,
 					format: null,
@@ -325,7 +325,7 @@ templ Datepicker(props DatepickerProps) {
 		data-format={ string(props.Config.Format) }
 		data-monthnames={ templ.JSONString(props.Config.Locale.MonthNames) }
 		data-daynames={ templ.JSONString(props.Config.Locale.DayNames) }
-		x-data="datepickerHandler"
+		x-data="datepicker"
 		data-input-id={ props.ID }
 		@resize.window="updatePosition"
 	>

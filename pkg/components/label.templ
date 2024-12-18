@@ -9,12 +9,12 @@ type LabelProps struct {
 	DisabledClass string // Additional CSS classes when the input is disabled
 }
 
-templ LabelHandler() {
+templ LabelScript() {
 	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
             document.addEventListener('alpine:init', () => {
-                Alpine.data('labelHandler', () => ({
+                Alpine.data('label', () => ({
 					getClass() {
 						if (this.$refs[this.$el.getAttribute('for')]?.disabled ) {
 							return this.$el.dataset.disabledStyle
@@ -29,7 +29,7 @@ templ LabelHandler() {
 // Label renders a form label with error and disabled states
 templ Label(props LabelProps) {
 	<label
-		x-data="labelHandler"
+		x-data="label"
 		id={ props.ID }
 		for={ props.For }
 		class={

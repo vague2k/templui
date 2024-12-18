@@ -7,7 +7,7 @@ import (
 	"github.com/axzilla/templui/pkg/utils"
 )
 
-templ ThemeHandler() {
+templ ThemeScript() {
 	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
 		<script nonce={ templ.GetNonce(ctx) }>
@@ -31,18 +31,18 @@ templ ThemeHandler() {
 	}
 }
 
-templ componentHandlers() {
-	@ThemeHandler()
-	@components.ToastHandler()
-	@components.AccordionHandler()
-	@components.DatepickerHandler()
-	@components.DropdownHandler()
-	@components.LabelHandler()
-	@components.ModalHandler()
-	@components.SheetHandler()
-	@components.SliderHandler()
-	@components.TabsHandler()
-	@components.TextareaHandler()
+templ componentScripts() {
+	@ThemeScript()
+	@components.ToastScript()
+	@components.AccordionScript()
+	@components.DatepickerScript()
+	@components.DropdownScript()
+	@components.LabelScript()
+	@components.ModalScript()
+	@components.SheetScript()
+	@components.SliderScript()
+	@components.TabsScript()
+	@components.TextareaScript()
 }
 
 templ BaseLayout() {
@@ -50,7 +50,7 @@ templ BaseLayout() {
 	<html lang="en" class="h-full">
 		<head>
 			// Component Handlers Scripts
-			@componentHandlers()
+			@componentScripts()
 			// Meta Tags
 			<title>TemplUI - Modern UI Components for Go & Templ</title>
 			<meta charset="UTF-8"/>

@@ -128,12 +128,12 @@ templ renderMenuItem(item DropdownMenuItem, index int, depth int) {
 	}
 }
 
-templ DropdownHandler() {
+templ DropdownScript() {
 	{{ handler := templ.NewOnceHandle() }}
 	@handler.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
             document.addEventListener('alpine:init', () => {
-				Alpine.data('dropdownHandler', () => ({
+				Alpine.data('dropdown', () => ({
 					isOpen: false,
 					position: null,
 					verticalPosition: 'bottom',
@@ -202,7 +202,7 @@ templ DropdownHandler() {
 // Floating menu for displaying a list of actions or options.
 templ DropdownMenu(props DropdownMenuProps) {
 	<div
-		x-data="dropdownHandler"
+		x-data="dropdown"
 		@resize.window="updatePosition"
 		class={ utils.TwMerge("relative inline-block text-left", props.Class) }
 		data-position={ props.Position }

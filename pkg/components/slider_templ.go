@@ -28,7 +28,7 @@ type SliderProps struct {
 	Attributes  templ.Attributes // Additional HTML attributes
 }
 
-func SliderHandler() templ.Component {
+func SliderScript() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -75,7 +75,7 @@ func SliderHandler() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">\n            document.addEventListener('alpine:init', () => {\n                Alpine.data('sliderHandler', () => ({\n                    value: null,\n\n\t\t\t\t\tinit() {\n\t\t\t\t\t\tthis.value = this.$el.dataset.value;\n\t\t\t\t\t},   \n\n                    handleInput(event) {\n                        this.value = event.target.value;\n                    }\n                }))\n            })\n        </script>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">\n            document.addEventListener('alpine:init', () => {\n                Alpine.data('slider', () => ({\n                    value: null,\n\n\t\t\t\t\tinit() {\n\t\t\t\t\t\tthis.value = this.$el.dataset.value;\n\t\t\t\t\t},   \n\n                    handleInput(event) {\n                        this.value = event.target.value;\n                    }\n                }))\n            })\n        </script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -124,7 +124,7 @@ func Slider(props SliderProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" x-data=\"sliderHandler\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\" x-data=\"slider\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

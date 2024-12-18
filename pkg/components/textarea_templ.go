@@ -25,7 +25,7 @@ type TextareaProps struct {
 	Attributes  templ.Attributes // Additional HTML attributes
 }
 
-func TextareaHandler() templ.Component {
+func TextareaScript() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -72,7 +72,7 @@ func TextareaHandler() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">\n\t\t\tdocument.addEventListener('alpine:init', () => {\n\t\t\t\tAlpine.data('textareaHandler', () => ({\n\t\t\t\t\tresize() {\n\t\t\t\t\t\tthis.$el.style.height = '80px';\n\t\t\t\t\t\tthis.$el.style.height = this.$el.scrollHeight + 'px';\n\t\t\t\t\t}\n\t\t\t\t}));\n\t\t\t});\n\t\t</script>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">\n\t\t\tdocument.addEventListener('alpine:init', () => {\n\t\t\t\tAlpine.data('textarea', () => ({\n\t\t\t\t\tresize() {\n\t\t\t\t\t\tthis.$el.style.height = '80px';\n\t\t\t\t\t\tthis.$el.style.height = this.$el.scrollHeight + 'px';\n\t\t\t\t\t}\n\t\t\t\t}));\n\t\t\t});\n\t\t</script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -230,7 +230,7 @@ func Textarea(props TextareaProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		if props.AutoResize {
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" x-data=\"textareaHandler\" x-init=\"resize\" @input=\"resize\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(" x-data=\"textarea\" x-init=\"resize\" @input=\"resize\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
