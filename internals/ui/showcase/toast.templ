@@ -3,102 +3,27 @@ package showcase
 import "github.com/axzilla/templui/pkg/components"
 
 templ Toast() {
-	<div class="w-full max-w-4xl mx-auto p-8">
-		<section class="mb-12">
-			@components.Card(components.CardProps{}) {
-				@components.CardContent() {
-					<form
-						class="flex flex-col gap-2"
-						hx-post="/docs/toast/demo"
-						hx-trigger="submit"
-						hx-target="#toast-container"
-					>
-						// Message
-						@components.FormItem(components.FormItemProps{}) {
-							@components.Label(components.LabelProps{Text: "Message"})
-							@components.Input(components.InputProps{
-								Value: "Test Notification",
-								Name:  "message",
-							})
-						}
-						// Type
-						@components.FormItem(components.FormItemProps{}) {
-							@components.Label(components.LabelProps{Text: "Type"})
-							@components.Select(components.SelectProps{
-								Name: "type",
-								Options: []components.SelectOption{
-									{Value: "default", Label: "Default"},
-									{Value: "success", Label: "Success"},
-									{Value: "error", Label: "Error"},
-									{Value: "warning", Label: "Warning"},
-									{Value: "info", Label: "Info"},
-								},
-							})
-						}
-						// Position
-						@components.FormItem(components.FormItemProps{}) {
-							@components.Label(components.LabelProps{Text: "Position"})
-							@components.Select(components.SelectProps{
-								Name: "position",
-								Options: []components.SelectOption{
-									{Value: "top-right", Label: "Top Right"},
-									{Value: "top-left", Label: "Top Left"},
-									{Value: "top-center", Label: "Top Center"},
-									{Value: "bottom-right", Label: "Bottom Right", Selected: true},
-									{Value: "bottom-left", Label: "Bottom Left"},
-									{Value: "bottom-center", Label: "Bottom Center"},
-								},
-							})
-						}
-						// Duration
-						@components.FormItem(components.FormItemProps{}) {
-							@components.Label(components.LabelProps{Text: "Duration (ms)"})
-							@components.Input(components.InputProps{
-								Type:  "number",
-								Name:  "duration",
-								Value: "3000",
-							})
-						}
-						// Size
-						@components.FormItem(components.FormItemProps{}) {
-							@components.Label(components.LabelProps{Text: "Size"})
-							@components.Select(components.SelectProps{
-								Name: "size",
-								Options: []components.SelectOption{
-									{Value: "sm", Label: "Small"},
-									{Value: "md", Label: "Medium"},
-									{Value: "lg", Label: "Large"},
-								},
-							})
-						}
-						// Options
-						@components.FormItem(components.FormItemProps{}) {
-							@components.Label(components.LabelProps{Text: "Options"})
-							@components.FormItemFlex(components.FormItemProps{}) {
-								@components.Toggle(components.ToggleProps{
-									Name:    "dismissible",
-									Checked: true,
-								})
-								@components.Label(components.LabelProps{Text: "Dismissible"})
-							}
-							@components.FormItemFlex(components.FormItemProps{}) {
-								@components.Toggle(components.ToggleProps{
-									Name:    "icon",
-									Checked: true,
-								})
-								@components.Label(components.LabelProps{Text: "Show Icon"})
-							}
-						}
-						// Submit
-						@components.Button(components.ButtonProps{
-							Text:  "Show Toast",
-							Type:  "submit",
-							Class: "w-full",
-						})
-					</form>
-				}
-			}
-		</section>
+	<div>
+		<form
+			class="flex flex-col gap-2"
+			hx-post="/docs/toast/demo"
+			hx-trigger="submit"
+			hx-target="#toast-container"
+			hx-vals='{
+				"message": "Test Notification",
+				"type": "default",
+				"position": "bottom-right",
+				"duration": "3000",
+				"size": "md",
+				"dismissible": true,
+				"icon": true
+			}'
+		>
+			@components.Button(components.ButtonProps{
+				Text: "Show Toast",
+				Type: "submit",
+			})
+		</form>
 		<div id="toast-container"></div>
 	</div>
 }

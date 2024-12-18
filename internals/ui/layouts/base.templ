@@ -76,6 +76,13 @@ templ BaseLayout() {
 			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/base16/woodland.min.css"/>
 			<script nonce={ templ.GetNonce(ctx) } src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 			<script nonce={ templ.GetNonce(ctx) }>hljs.highlightAll();</script>
+			// INFO: Tryout for capsulate components
+			// <meta
+			// 	name="htmx-config"
+			// 	content={ fmt.Sprintf(`{
+			//     "inlineScriptNonce": "%s"
+			// }`, templ.GetNonce(ctx)) }
+			// />
 		</head>
 		<body
 			x-data="themeHandler"
