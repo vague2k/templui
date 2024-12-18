@@ -11,6 +11,8 @@ templ Datepicker() {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Datepicker",
 			Description: templ.Raw("Calendar interface for selecting and formatting dates."),
+			Tailwind:    true,
+			Alpine:      true,
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				SectionName:       "Default",

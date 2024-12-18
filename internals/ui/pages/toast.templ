@@ -13,6 +13,8 @@ templ Toast() {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Toast",
 			Description: templ.Raw("Flexible toast component for notifications and feedback."),
+			Tailwind:    true,
+			Alpine:      true,
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.Toast(),

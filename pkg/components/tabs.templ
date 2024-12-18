@@ -23,11 +23,11 @@ templ TabsScript() {
 				const contents = tabs.querySelectorAll(`[data-tab-content="${tabID}"]`);
 				const marker = tabs.querySelector(`[data-tab-marker="${tabID}"]`);
 
-				// Zeige ersten Tab
+				// Show first tab
 				buttons[0]?.classList.add('text-foreground', 'bg-background', 'shadow-sm');
 				contents[0]?.classList.remove('hidden');
 
-				// Setze Marker
+				// Set marker position
 				if (buttons[0] && marker) {
 					marker.style.width = buttons[0].offsetWidth + 'px';
 					marker.style.height = buttons[0].offsetHeight + 'px';

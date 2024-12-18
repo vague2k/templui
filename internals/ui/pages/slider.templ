@@ -11,6 +11,8 @@ templ Slider() {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Slider",
 			Description: templ.Raw("Control for selecting a numeric value within a range."),
+			Tailwind:    true,
+			Alpine:      true,
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				SectionName:       "Default",

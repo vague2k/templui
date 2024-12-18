@@ -11,6 +11,8 @@ templ Modal() {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Modal",
 			Description: templ.Raw("Dialog overlay that requires user attention or interaction."),
+			Tailwind:    true,
+			Alpine:      true,
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.Modal(),

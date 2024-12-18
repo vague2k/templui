@@ -11,6 +11,8 @@ templ DropdownMenu() {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Dropdown Menu",
 			Description: templ.Raw("Floating menu for displaying a list of actions or options."),
+			Tailwind:    true,
+			Alpine:      true,
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				SectionName:       "Default",

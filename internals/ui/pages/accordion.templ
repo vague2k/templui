@@ -12,6 +12,8 @@ templ Accordion() {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Accordion",
 			Description: templ.Raw("Vertically stacked interactive sections to organize content."),
+			Tailwind:    true,
+			Alpine:      true,
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.Accordion(),

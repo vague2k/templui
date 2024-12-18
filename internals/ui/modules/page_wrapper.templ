@@ -1,8 +1,16 @@
 package modules
 
+import (
+	wrappedicons "github.com/axzilla/templui/internals/ui/icons"
+	"github.com/axzilla/templui/pkg/components"
+)
+
 type PageWrapperProps struct {
 	Name        string
 	Description templ.Component
+	Tailwind    bool
+	Alpine      bool
+	VanillaJS   bool
 }
 
 templ PageWrapper(p PageWrapperProps) {
@@ -11,6 +19,29 @@ templ PageWrapper(p PageWrapperProps) {
 		<p class="mb-4 text-muted-foreground">
 			@p.Description
 		</p>
+		<div class="flex gap-2 items-baseline">
+			if p.Tailwind {
+				@components.Badge(components.BadgeProps{
+					IconBefore: wrappedicons.Tailwind(16),
+					Text:       "TailwindCSS",
+					Variant:    components.BadgeVariantSecondary,
+				})
+			}
+			if p.Alpine {
+				@components.Badge(components.BadgeProps{
+					IconBefore: wrappedicons.Alpine(16),
+					Text:       "Alpine.js",
+					Variant:    components.BadgeVariantSecondary,
+				})
+			}
+			if p.VanillaJS {
+				@components.Badge(components.BadgeProps{
+					IconBefore: wrappedicons.JS(16),
+					Text:       "Vanilla JS",
+					Variant:    components.BadgeVariantSecondary,
+				})
+			}
+		</div>
 	</div>
 	<div class="space-y-8">
 		{ children... }
