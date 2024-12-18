@@ -89,8 +89,8 @@ templ ModalScript() {
 	{{ handler := templ.NewOnceHandle() }}
 	@handler.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
-            document.addEventListener('alpine:init', () => {
-                Alpine.data('modal', () => ({
+			document.addEventListener('alpine:init', () => {
+				Alpine.data('modal', () => ({
 					open: false,
 					handleOpenModal(event) {
 						if (event.detail.id === this.$el.dataset.modalId) {
@@ -105,20 +105,20 @@ templ ModalScript() {
 					handleClickAway() {
 						this.open = false;
 					},
-                }))
-                Alpine.data('modalTriggers', () => ({
-                    openModal() {
-                        this.$dispatch('open-modal', { 
-                            id: this.$el.dataset.modalId 
-                        })
-                    },
-                    closeModal() {
-                        this.$dispatch('close-modal', { 
-                            id: this.$el.dataset.modalId 
-                        })
-                    }
-                }))
-            })
-        </script>
+				}))
+				Alpine.data('modalTriggers', () => ({
+					openModal() {
+						this.$dispatch('open-modal', { 
+							id: this.$el.dataset.modalId 
+						})
+					},
+					closeModal() {
+						this.$dispatch('close-modal', { 
+							id: this.$el.dataset.modalId 
+						})
+					}
+				}))
+			})
+		</script>
 	}
 }

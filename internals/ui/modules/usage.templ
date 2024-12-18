@@ -13,12 +13,12 @@ templ Usage(props UsageProps) {
 		<h2 class="text-2xl font-bold mb-4">Usage</h2>
 		if props.NeedsHandler {
 			<div class="mb-4">
-				<p class="text-muted-foreground mb-2">1. Add the handler to your page/layout:</p>
+				<p class="text-muted-foreground mb-2">1. Add the script to your page/layout:</p>
 				@CodeSnippet(fmt.Sprintf(`// Option A: All components (recommended)
-@utils.ComponentHandlers()
+@utils.ComponentScripts()
 
 // Option B: Just %s
-@components.%sHandler()`, props.ComponentName, props.ComponentName), "go")
+@components.%sScript()`, props.ComponentName, props.ComponentName), "go")
 			</div>
 		}
 		<div>

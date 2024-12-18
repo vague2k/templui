@@ -25,28 +25,28 @@ templ Radio() {
 				PreviewCodeFile:   "radio_checked.templ",
 				ComponentCodeFile: "radio.templ",
 			})
-			<div id="label">
-				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "With Label",
-					ShowcaseFile:      showcase.RadioWithLabel(),
-					PreviewCodeFile:   "radio_with_label.templ",
-					ComponentCodeFile: "radio.templ",
-				})
-			</div>
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "With Label",
+				ShowcaseFile:      showcase.RadioWithLabel(),
+				PreviewCodeFile:   "radio_with_label.templ",
+				ComponentCodeFile: "radio.templ",
+			})
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				SectionName:       "Disabled",
 				ShowcaseFile:      showcase.RadioDisabled(),
 				PreviewCodeFile:   "radio_disabled.templ",
 				ComponentCodeFile: "radio.templ",
 			})
-			<div id="form">
-				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Form",
-					ShowcaseFile:      showcase.RadioForm(),
-					PreviewCodeFile:   "radio_form.templ",
-					ComponentCodeFile: "radio.templ",
-				})
-			</div>
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "Form",
+				ShowcaseFile:      showcase.RadioForm(),
+				PreviewCodeFile:   "radio_form.templ",
+				ComponentCodeFile: "radio.templ",
+			})
+			@modules.Usage(modules.UsageProps{
+				ComponentName: "Radio",
+				PropsExample:  "...",
+			})
 		}
 	}
 }

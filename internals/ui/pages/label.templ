@@ -20,6 +20,11 @@ templ Label() {
 				ShowcaseFile:    showcase.CheckboxWithLabel(),
 				PreviewCodeFile: "checkbox_with_label.templ",
 			})
+			@modules.Usage(modules.UsageProps{
+				ComponentName: "Label",
+				NeedsHandler:  true,
+				PropsExample:  "...",
+			})
 			<div>
 				@components.Card(components.CardProps{}) {
 					@components.CardHeader() {

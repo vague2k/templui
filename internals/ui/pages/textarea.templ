@@ -38,28 +38,29 @@ templ Textarea() {
 				PreviewCodeFile:   "textarea_auto_resize.templ",
 				ComponentCodeFile: "textarea.templ",
 			})
-			<div id="label">
-				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "With Label",
-					ShowcaseFile:      showcase.TextareaWithLabel(),
-					PreviewCodeFile:   "textarea_with_label.templ",
-					ComponentCodeFile: "textarea.templ",
-				})
-			</div>
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "With Label",
+				ShowcaseFile:      showcase.TextareaWithLabel(),
+				PreviewCodeFile:   "textarea_with_label.templ",
+				ComponentCodeFile: "textarea.templ",
+			})
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				SectionName:       "Disabled",
 				ShowcaseFile:      showcase.TextareaDisabled(),
 				PreviewCodeFile:   "textarea_disabled.templ",
 				ComponentCodeFile: "textarea.templ",
 			})
-			<div id="form">
-				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Form",
-					ShowcaseFile:      showcase.TextareaForm(),
-					PreviewCodeFile:   "textarea_form.templ",
-					ComponentCodeFile: "textarea.templ",
-				})
-			</div>
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				SectionName:       "Form",
+				ShowcaseFile:      showcase.TextareaForm(),
+				PreviewCodeFile:   "textarea_form.templ",
+				ComponentCodeFile: "textarea.templ",
+			})
+			@modules.Usage(modules.UsageProps{
+				ComponentName: "Textarea",
+				NeedsHandler:  true,
+				PropsExample:  "...",
+			})
 		}
 	}
 }
