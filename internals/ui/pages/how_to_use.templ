@@ -27,7 +27,9 @@ var tailwindWindowsX64 = `# On Windows (x64)
 # Download from: https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-windows-x64.exe
 # Add to your PATH as 'tailwindcss'`
 
-var installAlpine = `<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>`
+var installAlpine = `<script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/csp@3.x.x/dist/cdn.min.js"></script>`
+
+var installAlpineHelper = `@helpers.AlpineJS()`
 
 var makeFile = `# Run templ generation in watch mode
 templ:
@@ -184,6 +186,37 @@ var usingComponents = `import "github.com/axzilla/templui/pkg/components"
 
 @components.Button(components.ButtonProps{Text: "Click me"})`
 
+var cspMiddleware = `import "github.com/axzilla/templui/pkg/middleware"
+
+cspConfig := middleware.CSPConfig{
+    ScriptSrc: []string{"cdn.jsdelivr.net"}, // Add additional trusted sources if needed
+    StyleSrc: []string{}, // Add if needed
+}
+wrappedMux := middleware.WithCSP(cspConfig)(mux)
+mux.Handle("GET /", templ.Handler(pages.Landing()))
+http.ListenAndServe(":8090", wrappedMux)`
+
+var alpineHelpers = `// Option A: Include Alpine.js and all component scripts (recommended)
+@helpers.AlpineJS()
+@helpers.ComponentScripts()
+
+// Option B: Include Alpine.js and specific component scripts
+@helpers.AlpineJS()
+@components.AccordionScript()
+@components.ModalScript()
+// ... other specific component scripts as needed`
+
+var staticComponent = `// Static components (Tailwind only) can be used directly
+@components.Button(components.ButtonProps{...})
+@components.Card(components.CardProps{...})`
+
+var interactiveComponent = `// First, include required scripts
+@helpers.AlpineJS()
+@components.AccordionScript()
+
+// Then use the component
+@components.Accordion(components.AccordionProps{...})`
+
 templ HowToUse() {
 	@layouts.DocsLayout() {
 		<div>
@@ -239,10 +272,26 @@ templ HowToUse() {
 						@modules.CodeSnippet(inputCss, "css")
 						<p class="text-sm mt-2">For custom themes and additional styles, check our <a href="/docs/themes" class="text-primary underline">themes documentation</a>.</p>
 					</div>
-					<div>
-						<h3 class="text-xl font-semibold mb-2">3. Alpine.js</h3>
-						<p class="mb-2">Add to your HTML layout:</p>
+					<div class="space-y-2">
+						<h3 class="text-xl font-semibold">3. Alpine.js (CSP)</h3>
+						<p class="mb-2">TemplUI now uses the CSP-compliant version of Alpine.js. Add to your HTML layout:</p>
 						@modules.CodeSnippet(installAlpine, "html")
+						<p class="mb-2">Or use or Alpine.js helper component, so you don't need to include Alpine.js manually anymore:</p>
+						@modules.CodeSnippet(installAlpineHelper, "html")
+						<div class="bg-muted p-4 rounded-lg mt-4">
+							<p class="font-medium mb-2">Why CSP-compliant Alpine.js?</p>
+							<ul class="list-disc pl-6 space-y-1 text-sm">
+								<li>Enhanced Security: Prevents XSS attacks by controlling which scripts can execute</li>
+								<li>Best Practices: Follows modern web security standards by avoiding inline scripts</li>
+								<li>Enterprise Ready: Meets strict security requirements for business applications</li>
+								<li>Seamless Integration: Works with TemplUI's built-in CSP middleware</li>
+							</ul>
+						</div>
+					</div>
+					<div>
+						<h3 class="text-xl font-semibold mb-2">4. CSP Middleware</h3>
+						<p class="mb-4">TemplUI provides a Content Security Policy (CSP) middleware that you need to include in your server setup:</p>
+						@modules.CodeSnippet(cspMiddleware, "go")
 					</div>
 				</div>
 			</section>
@@ -317,19 +366,13 @@ templ HowToUse() {
 						<div class="mb-4">
 							@modules.CodeSnippet(installTemplUI, "markdown")
 						</div>
-						// @components.Card(components.CardProps{}) {
-						// @components.CardHeader() {
 						<h4 class="font-semibold mb-2">*Required: Additional Tailwind Configuration</h4>
-						// }
-						// @components.CardContent() {
 						<p class="mb-2">When using TemplUI as a package, add this to your tailwind.config.json content array:</p>
 						<div class="mb-4">
 							@modules.CodeSnippet(goPath, "markdown")
 						</div>
 						<p class="mb-2">Replace { string("${GOPATH}") } with your actual Go path:</p>
 						@modules.CodeSnippet("go env GOPATH", "markdown")
-						// }
-						// }
 					</div>
 					<div>
 						<h3 class="text-xl font-semibold mb-2">3. Copy Components</h3>
@@ -351,13 +394,32 @@ templ HowToUse() {
 			</section>
 			<section class="mb-12">
 				<h2 class="text-2xl font-semibold mb-4 text-primary">Using Components</h2>
-				<div class="space-y-4">
-					<p>Import and use components in your Templ files:</p>
-					@modules.CodeSnippet(usingComponents, "markdown")
-					<p>
-						For a complete list of available components and their usage, visit our
-						<a href="/docs/components" class="text-primary underline">components documentation</a>.
-					</p>
+				<p class="mb-4">Some components require additional scripts for interactivity. Here's how to set them up:</p>
+				<div class="space-y-6">
+					<div>
+						<h3 class="text-xl font-semibold mb-2">1. Include Required Scripts</h3>
+						<p class="mb-4">At the top of your layout template, include the necessary scripts:</p>
+						@modules.CodeSnippet(alpineHelpers, "go")
+					</div>
+					<div>
+						<h3 class="text-xl font-semibold mb-2">2. Component Types</h3>
+						<div class="space-y-4">
+							<div class="bg-muted p-4 rounded-lg">
+								<h4 class="font-medium mb-2">Static Components (Tailwind CSS only)</h4>
+								<p class="mb-2">Can be used directly without additional script includes:</p>
+								@modules.CodeSnippet(staticComponent, "go")
+							</div>
+							<div class="bg-muted p-4 rounded-lg">
+								<h4 class="font-medium mb-2">Interactive Components (Alpine.js/Vanilla JS)</h4>
+								<p class="mb-2">Require script includes:</p>
+								@modules.CodeSnippet(interactiveComponent, "go")
+							</div>
+							<p>
+								For a complete list of available components and their usage, visit our
+								<a href="/docs/components" class="text-primary underline">components documentation</a>.
+							</p>
+						</div>
+					</div>
 				</div>
 			</section>
 			<section class="mb-12">
