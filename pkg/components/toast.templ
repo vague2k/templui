@@ -15,6 +15,25 @@ type ToastProps struct {
 	Icon        bool   // Show icon
 }
 
+func (p ToastProps) withDefaults() ToastProps {
+	if p.Message == "" {
+		p.Message = "Notification"
+	}
+	if p.Type == "" {
+		p.Type = "default"
+	}
+	if p.Position == "" {
+		p.Position = "bottom-right"
+	}
+	if p.Duration == 0 {
+		p.Duration = 3000
+	}
+	if p.Size == "" {
+		p.Size = "md"
+	}
+	return p
+}
+
 // Flexible toast component for notifications and feedback.
 templ ToastScript() {
 	{{ handler := templ.NewOnceHandle() }}
@@ -80,6 +99,8 @@ templ ToastScript() {
 }
 
 templ Toast(props ToastProps) {
+	// Apply defaults before rendering
+	{{ props = props.withDefaults() }}
 	<div
 		data-duration={ strconv.Itoa(props.Duration) }
 		x-data="toast"

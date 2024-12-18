@@ -23,6 +23,25 @@ type ToastProps struct {
 	Icon        bool   // Show icon
 }
 
+func (p ToastProps) withDefaults() ToastProps {
+	if p.Message == "" {
+		p.Message = "Notification"
+	}
+	if p.Type == "" {
+		p.Type = "default"
+	}
+	if p.Position == "" {
+		p.Position = "bottom-right"
+	}
+	if p.Duration == 0 {
+		p.Duration = 3000
+	}
+	if p.Size == "" {
+		p.Size = "md"
+	}
+	return p
+}
+
 // Flexible toast component for notifications and feedback.
 func ToastScript() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
@@ -65,13 +84,13 @@ func ToastScript() templ.Component {
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/toast.templ`, Line: 22, Col: 43}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/toast.templ`, Line: 41, Col: 43}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">\t\n            document.addEventListener('alpine:init', () => {\n                Alpine.data('toast', () => ({\n                    show: true,\n                    duration: 0,\n                    timer: null,\n\n                    init() {\n                        this.duration = parseInt(this.$el.dataset.duration || 0);\n                        this.startTimer();\n\n                        if (this.duration > 0) {\n                            const progress = this.$refs.progress;\n                            if (progress) {\n                                progress.style.transition = `width ${this.duration}ms linear`;\n                                progress.style.width = '100%';\n                                setTimeout(() => {\n                                    progress.style.width = '0%';\n                                }, 10);\n                            }\n                        }\n                    },\n\n                    startTimer() {\n                        if (this.duration <= 0) return;\n                        this.timer = setTimeout(() => {\n                            this.show = false;\n                        }, this.duration);\n                    },\n\n                    pauseTimer() {\n                        if (this.timer) clearTimeout(this.timer);\n                        const progress = this.$refs.progress;\n                        if (progress) {\n                            const width = progress.getBoundingClientRect().width;\n                            const total = progress.parentElement.getBoundingClientRect().width;\n                            this.duration = (width / total) * this.duration;\n                            progress.style.transition = \"none\";\n                            progress.style.width = width + \"px\";\n                        }\n                    },\n\n                    resumeTimer() {\n                        const progress = this.$refs.progress;\n                        if (progress) {\n                            progress.style.transition = \"width \" + this.duration + \"ms linear\";\n                            progress.style.width = \"0\";\n                            this.startTimer();\n                        }\n                    },\n\n                    dismissToast() {\n                        this.show = false;\n                    }\n                }))\n            })\n        </script>")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("\">\t\n            document.addEventListener('alpine:init', () => {\n                Alpine.data('toast', () => ({\n                    show: true,\n                    duration: 3000,\n                    timer: null,\n\n                    init() {\n                        this.duration = parseInt(this.$el.dataset.duration || 0);\n                        this.startTimer();\n\n                        if (this.duration > 0) {\n                            const progress = this.$refs.progress;\n                            if (progress) {\n                                progress.style.transition = `width ${this.duration}ms linear`;\n                                progress.style.width = '100%';\n                                setTimeout(() => {\n                                    progress.style.width = '0%';\n                                }, 10);\n                            }\n                        }\n                    },\n\n                    startTimer() {\n                        if (this.duration <= 0) return;\n                        this.timer = setTimeout(() => {\n                            this.show = false;\n                        }, this.duration);\n                    },\n\n                    pauseTimer() {\n                        if (this.timer) clearTimeout(this.timer);\n                        const progress = this.$refs.progress;\n                        if (progress) {\n                            const width = progress.getBoundingClientRect().width;\n                            const total = progress.parentElement.getBoundingClientRect().width;\n                            this.duration = (width / total) * this.duration;\n                            progress.style.transition = \"none\";\n                            progress.style.width = width + \"px\";\n                        }\n                    },\n\n                    resumeTimer() {\n                        const progress = this.$refs.progress;\n                        if (progress) {\n                            progress.style.transition = \"width \" + this.duration + \"ms linear\";\n                            progress.style.width = \"0\";\n                            this.startTimer();\n                        }\n                    },\n\n                    dismissToast() {\n                        this.show = false;\n                    }\n                }))\n            })\n        </script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -106,6 +125,7 @@ func Toast(props ToastProps) templ.Component {
 			templ_7745c5c3_Var4 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
+		props = props.withDefaults()
 		var templ_7745c5c3_Var5 = []any{
 			"z-50 fixed pointer-events-auto",
 			templ.KV("top-4 right-4", props.Position == "top-right"),
@@ -129,7 +149,7 @@ func Toast(props ToastProps) templ.Component {
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(props.Duration))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/toast.templ`, Line: 84, Col: 46}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/toast.templ`, Line: 105, Col: 46}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -232,7 +252,7 @@ func Toast(props ToastProps) templ.Component {
 		var templ_7745c5c3_Var10 string
 		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(props.Message)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/toast.templ`, Line: 138, Col: 38}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/toast.templ`, Line: 159, Col: 38}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 		if templ_7745c5c3_Err != nil {
