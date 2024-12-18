@@ -16,30 +16,39 @@ templ Landing() {
 		<header class="flex flex-col items-center justify-center w-full calc(100vh - 65px) h-full">
 			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
 				<p class="tracking-tight text-4xl md:text-5xl font-extrabold mb-4 sm:mb-8">
-					Modern UI Components
+					Craft Beautiful
 					<br/>
-					for
 					<span>
-						Go & Templ
+						Go & Templ Apps
 					</span>
 				</p>
-				<p class="max-w-3xl mx-auto text-base sm:text-lg mb-6 sm:mb-10">
-					Build type-safe, responsive web applications with 
-					<a href="https://go.dev" class="hover:opacity-70 font-bold hover:underline">
-						Go
-					</a>
-					and 
-					<a href="https://templ.guide" class="hover:opacity-70 font-bold hover:underline">
-						Templ
-					</a>
-					. Enhance interactivity with 
-					<a href="https://alpinejs.dev" class="hover:opacity-70 font-bold hover:underline">
-						Alpine.js
-					</a>
-					and style with 
-					<a href="https://tailwindcss.com" class="hover:opacity-70 font-bold hover:underline">Tailwind CSS</a>. 
-					Bringing together backend robustness with frontend flexibility.
+				<p class="max-w-3xl mx-auto text-base sm:text-lg mb-6">
+					Enterprise-grade UI components with Developer Experience in mind. Built with 
+					<a href="https://go.dev" class="hover:opacity-70 font-bold hover:underline">Go</a> and 
+					<a href="https://templ.guide" class="hover:opacity-70 font-bold hover:underline">Templ</a>, 
+					styled with <a href="https://tailwindcss.com" class="hover:opacity-70 font-bold hover:underline">Tailwind CSS</a>, 
+					enhanced with <a href="https://alpinejs.dev" class="hover:opacity-70 font-bold hover:underline">Alpine.js</a>
+					– everything you need for modern, type-safe web apps.
 				</p>
+				<div class="flex flex-col items-center gap-4 mb-8">
+					<div class="flex flex-wrap justify-center gap-x-8 gap-y-2 text-sm text-muted-foreground">
+						<span class="flex items-center gap-1">
+							<span class="text-primary">⚡️</span> Enterprise Ready
+						</span>
+						<span class="flex items-center gap-1">
+							<span class="text-primary">🛡️</span> CSP Compliant
+						</span>
+						<span class="flex items-center gap-1">
+							<span class="text-primary">🔄</span> HTMX Optimized
+						</span>
+						<span class="flex items-center gap-1">
+							<span class="text-primary">🧩</span> Component Driven
+						</span>
+						<span class="flex items-center gap-1">
+							<span class="text-primary">🎨</span> Fully Customizable
+						</span>
+					</div>
+				</div>
 				<div class="flex gap-2 justify-center flex-wrap">
 					@components.Button(components.ButtonProps{
 						Text:      "Explore Components",

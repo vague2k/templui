@@ -11,25 +11,31 @@ templ Avatar() {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Avatar",
 			Description: templ.Raw("Visual representation of a user through images or initials."),
+			Tailwind:    true,
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "With Image",
 				ShowcaseFile:      showcase.AvatarWithImage(),
 				PreviewCodeFile:   "avatar_with_image.templ",
 				ComponentCodeFile: "avatar.templ",
 			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "With Placeholder",
-				ShowcaseFile:      showcase.AvatarWithPlaceholder(),
-				PreviewCodeFile:   "avatar_with_placeholder.templ",
-				ComponentCodeFile: "avatar.templ",
+			@modules.Usage(modules.UsageProps{
+				ComponentName: "Avatar",
+				PropsExample:  "...",
 			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "With Sizes",
-				ShowcaseFile:      showcase.AvatarWithSizes(),
-				PreviewCodeFile:   "avatar_with_sizes.templ",
-				ComponentCodeFile: "avatar.templ",
-			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "With Placeholder",
+					ShowcaseFile:      showcase.AvatarWithPlaceholder(),
+					PreviewCodeFile:   "avatar_with_placeholder.templ",
+					ComponentCodeFile: "avatar.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "With Sizes",
+					ShowcaseFile:      showcase.AvatarWithSizes(),
+					PreviewCodeFile:   "avatar_with_sizes.templ",
+					ComponentCodeFile: "avatar.templ",
+				})
+			}
 		}
 	}
 }

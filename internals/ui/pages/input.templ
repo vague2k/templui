@@ -11,41 +11,45 @@ templ Input() {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Input",
 			Description: templ.Raw("Text field that allows users to enter and edit values."),
+			Tailwind:    true,
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "Default",
 				ShowcaseFile:      showcase.InputDefault(),
 				PreviewCodeFile:   "input_default.templ",
 				ComponentCodeFile: "input.templ",
 			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "File",
-				ShowcaseFile:      showcase.InputFile(),
-				PreviewCodeFile:   "input_file.templ",
-				ComponentCodeFile: "input.templ",
+			@modules.Usage(modules.UsageProps{
+				ComponentName: "Input",
+				PropsExample:  "...",
 			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "Disabled",
-				ShowcaseFile:      showcase.InputDisabled(),
-				PreviewCodeFile:   "input_disabled.templ",
-				ComponentCodeFile: "input.templ",
-			})
-			<div id="label">
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "File",
+					ShowcaseFile:      showcase.InputFile(),
+					PreviewCodeFile:   "input_file.templ",
+					ComponentCodeFile: "input.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Disabled",
+					ShowcaseFile:      showcase.InputDisabled(),
+					PreviewCodeFile:   "input_disabled.templ",
+					ComponentCodeFile: "input.templ",
+				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "With Label",
 					ShowcaseFile:      showcase.InputWithLabel(),
 					PreviewCodeFile:   "input_with_label.templ",
 					ComponentCodeFile: "input.templ",
+					ID:                "label",
 				})
-			</div>
-			<div id="form">
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "Form",
 					ShowcaseFile:      showcase.InputForm(),
 					PreviewCodeFile:   "input_form.templ",
 					ComponentCodeFile: "input.templ",
+					ID:                "form",
 				})
-			</div>
+			}
 		}
 	}
 }

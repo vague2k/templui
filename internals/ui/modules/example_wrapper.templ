@@ -20,11 +20,16 @@ type ExampleWrapperProps struct {
 	ShowcaseFile      templ.Component
 	PreviewCodeFile   string
 	ComponentCodeFile string
+	ID                string // For #id in URL Link
 }
 
 templ ExampleWrapper(p ExampleWrapperProps) {
-	<div>
-		<p class="mb-2 font-bold text-muted-foreground">{ p.SectionName }</p>
+	<div
+		if p.ID != "" {
+			id={ p.ID }
+		}
+	>
+		<p class="mb-2 font-semibold">{ p.SectionName }</p>
 		@components.Tabs(components.TabsProps{
 			Tabs:                  generateTabs(p), // Extrahiere Logik in separate Funktion
 			TabsContainerClass:    "md:w-1/2",
@@ -45,7 +50,7 @@ func generateTabs(p ExampleWrapperProps) []components.Tab {
 		{
 			ID:      "code",
 			Title:   "Code",
-			Content: CodeSnippetFromEmbedded(p.PreviewCodeFile, "go", showcase.TemplFiles),
+			Content: CodeSnippetFromEmbedded(p.PreviewCodeFile, "", showcase.TemplFiles),
 		},
 	}
 
@@ -53,7 +58,7 @@ func generateTabs(p ExampleWrapperProps) []components.Tab {
 		tabs = append(tabs, components.Tab{
 			ID:      "component",
 			Title:   "Component",
-			Content: CodeSnippetFromEmbedded(p.ComponentCodeFile, "go", components.TemplFiles),
+			Content: CodeSnippetFromEmbedded(p.ComponentCodeFile, "", components.TemplFiles),
 		})
 	}
 

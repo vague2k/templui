@@ -1,72 +1,78 @@
 package components
 
+import "github.com/axzilla/templui/pkg/utils"
+
 type Tab struct {
-	ID      string          // Unique identifier for the tab
-	Title   string          // Tab title
-	Content templ.Component // Tab content
+	ID      string
+	Title   string
+	Content templ.Component
 }
 
 type TabsProps struct {
-	Tabs                  []Tab  // List of tabs
-	TabsContainerClass    string // Additional CSS classes for the tabs container
-	ContentContainerClass string // Additional CSS classes for the content container
+	Tabs                  []Tab
+	TabsContainerClass    string
+	ContentContainerClass string
 }
 
-// Navigation interface that organizes content into sections.
+templ TabsScript() {
+	<script nonce={ templ.GetNonce(ctx) }>
+		document.addEventListener('DOMContentLoaded', () => {
+			document.querySelectorAll('.tabs-component').forEach(tabs => {
+				const tabID = tabs.dataset.tabs;
+				const buttons = tabs.querySelectorAll(`[data-tab-button="${tabID}"]`);
+				const contents = tabs.querySelectorAll(`[data-tab-content="${tabID}"]`);
+				const marker = tabs.querySelector(`[data-tab-marker="${tabID}"]`);
+
+				// Show first tab
+				buttons[0]?.classList.add('text-foreground', 'bg-background', 'shadow-sm');
+				contents[0]?.classList.remove('hidden');
+
+				// Set marker position
+				if (buttons[0] && marker) {
+					marker.style.width = buttons[0].offsetWidth + 'px';
+					marker.style.height = buttons[0].offsetHeight + 'px';
+					marker.style.left = buttons[0].offsetLeft + 'px';
+				}
+
+				// Click handler
+				buttons.forEach((btn, idx) => {
+					btn.onclick = () => {
+						buttons.forEach(b => b.classList.remove('text-foreground', 'bg-background', 'shadow-sm'));
+						btn.classList.add('text-foreground', 'bg-background', 'shadow-sm');
+						contents.forEach(c => c.classList.add('hidden'));
+						contents[idx].classList.remove('hidden');
+						marker.style.width = btn.offsetWidth + 'px';
+						marker.style.height = btn.offsetHeight + 'px';
+						marker.style.left = btn.offsetLeft + 'px';
+					};
+				});
+			});
+		});
+    </script>
+}
+
 templ Tabs(props TabsProps) {
-	<div
-		x-data="{     
-      tabSelected: '1',
-      tabId: $id('tabs'),
-      tabButtonClicked(tabButton) {
-        this.tabSelected = tabButton.id.replace(this.tabId + '-', '');
-        this.tabRepositionMarker(tabButton);
-      },
-      tabRepositionMarker(tabButton) {
-        this.$refs.tabMarker.style.width = tabButton.offsetWidth + 'px';
-        this.$refs.tabMarker.style.height = tabButton.offsetHeight + 'px';
-        this.$refs.tabMarker.style.left = tabButton.offsetLeft + 'px';
-      },
-      tabContentActive(tabContent) {
-        return this.tabSelected === tabContent.id.replace(this.tabId + '-content-', '');
-      }
-    }"
-		x-init="$nextTick(() => tabRepositionMarker($refs.tabButtons.firstElementChild));"
-		class="relative"
-	>
-		<!-- Tabs buttons container -->
-		<div
-			x-ref="tabButtons"
-			class={ "relative flex items-center justify-center h-10 p-1 rounded-lg select-none",
-				"bg-muted text-muted-foreground",
-				props.TabsContainerClass }
-		>
-			<!-- Individual tab buttons -->
+	{{ tabID := utils.RandomID() }}
+	<div class="tabs-component relative" data-tabs={ tabID }>
+		<div class={ "relative flex items-center justify-center h-10 p-1 rounded-lg select-none bg-muted text-muted-foreground", props.TabsContainerClass }>
 			for _, tab := range props.Tabs {
 				<button
-					:id="$id(tabId)"
-					@click="tabButtonClicked($el);"
 					type="button"
-					class="relative z-20 flex-1 inline-flex items-center justify-center h-8 px-3 text-sm font-medium transition-all rounded-md cursor-pointer whitespace-nowrap"
-					:class="{'text-foreground bg-background shadow-sm': tabSelected === '{tab.ID}', 'hover:text-foreground': tabSelected !== '{tab.ID}'}"
+					data-tab-button={ tabID }
+					class="relative z-20 flex-1 inline-flex items-center justify-center h-8 px-3 text-sm font-medium transition-all rounded-md cursor-pointer whitespace-nowrap hover:text-foreground"
 				>
 					{ tab.Title }
 				</button>
 			}
-			<!-- Active tab marker -->
-			<div x-ref="tabMarker" class="absolute left-0 z-10 h-full duration-300 ease-out" x-cloak>
+			<div data-tab-marker={ tabID } class="absolute left-0 z-10 h-full duration-300 ease-out">
 				<div class="w-full h-full bg-background rounded-md shadow-sm"></div>
 			</div>
 		</div>
-		<!-- Tab content container -->
-		<div class={ "relative mt-2 content", props.ContentContainerClass }>
-			<!-- Individual tab content -->
+		<div class={ "relative mt-2", props.ContentContainerClass }>
 			for _, tab := range props.Tabs {
 				<div
-					:id="$id(tabId + '-content')"
-					x-show="tabContentActive($el)"
-					class="relative"
-					x-cloak
+					data-tab-content={ tabID }
+					class="relative hidden"
 				>
 					@tab.Content
 				</div>

@@ -25,7 +25,7 @@ type CardProps struct {
 	Attributes templ.Attributes // Additional HTML attributes
 }
 
-// Container for organizing related content and actions.
+// Container for organizing related content and
 func Card(props CardProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context

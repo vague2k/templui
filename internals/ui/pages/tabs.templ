@@ -11,11 +11,18 @@ templ Tabs() {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Tabs",
 			Description: templ.Raw("Navigation interface that organizes content into sections."),
+			Tailwind:    true,
+			VanillaJS:   true,
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.Tabs(),
 				PreviewCodeFile:   "tabs.templ",
 				ComponentCodeFile: "tabs.templ",
+			})
+			@modules.Usage(modules.UsageProps{
+				ComponentName: "Tabs",
+				NeedsHandler:  true,
+				PropsExample:  "...",
 			})
 		}
 	}

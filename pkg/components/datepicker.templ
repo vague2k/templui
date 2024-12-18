@@ -144,8 +144,176 @@ type DatepickerProps struct {
 	Attributes  templ.Attributes // Additional HTML attributes
 }
 
+templ DatepickerScript() {
+	{{ handle := templ.NewOnceHandle() }}
+	@handle.Once() {
+		<script defer nonce={ templ.GetNonce(ctx) }>
+			document.addEventListener('alpine:init', () => {
+				Alpine.data('datepicker', () => ({
+					open: false,
+					value: null,
+					format: null,
+					currentMonth: 5,
+					currentYear: new Date().getFullYear(),
+					monthDays: [],
+					blankDays: [],
+					months: this.$el?.dataset?.monthnames || ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+					days: this.$el?.dataset?.daynames || ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
+					position: 'bottom',
+
+					init() {
+						this.format = this.$el.dataset.format;
+						const initialDate = this.$el?.dataset?.value ? new Date(this.parseDate(this.$el?.dataset?.value)) : new Date();
+						this.currentMonth = initialDate.getMonth();
+						this.currentYear = initialDate.getFullYear();
+						this.calculateDays();
+						// Format the initial value using the correct locale
+						if (this.$el.dataset?.value) {
+							this.value = this.formatDate(initialDate);
+						}
+					},
+
+					toggleDatePicker() {
+						this.open = !this.open;
+						if (this.open) {
+							this.$nextTick(() => this.updatePosition());
+						}
+					},
+
+					getCurrentMonth() {
+						return this.months[this.currentMonth] + ' ' + this.currentYear;
+					},
+
+					closeDatePicker() {
+						this.open = false;
+					},
+
+					updatePosition() {
+					    const inputId = this.$root.dataset.inputId;
+    					const trigger = document.getElementById(inputId);
+						const popup = this.$refs.datePickerPopup;
+						
+						if (!trigger || !popup) return;
+						
+						const rect = trigger.getBoundingClientRect();
+						const popupRect = popup.getBoundingClientRect();
+						const viewportHeight = window.innerHeight;
+						
+						if (rect.bottom + popupRect.height > viewportHeight && rect.top > popupRect.height) {
+							this.position = 'top';
+						} else {
+							this.position = 'bottom';
+						}
+					},
+
+					calculateDays() {
+						const firstDay = new Date(this.currentYear, this.currentMonth, 1).getDay();
+						const daysInMonth = new Date(this.currentYear, this.currentMonth + 1, 0).getDate();
+
+						this.blankDays = Array.from({ length: firstDay }, (_, i) => i);
+						this.monthDays = Array.from({ length: daysInMonth }, (_, i) => i + 1);
+					},
+
+					atClickPrevMonth() {
+						this.currentMonth--;
+						if (this.currentMonth < 0) {
+							this.currentMonth = 11;
+							this.currentYear--;
+						}
+						this.calculateDays();
+					},
+
+					atClickNextMonth() {
+						this.currentMonth++;
+						if (this.currentMonth > 11) {
+							this.currentMonth = 0;
+							this.currentYear++;
+						}
+						this.calculateDays();
+					},
+
+					parseDate(dateStr) {
+						const parts = dateStr.split(/[-/.]/);
+						switch(this.format) {
+							case 'eu':
+								return `${parts[2]}-${parts[1]}-${parts[0]}`;
+							case 'us':
+								return `${parts[2]}-${parts[0]}-${parts[1]}`;
+							case 'uk':
+								return `${parts[2]}-${parts[1]}-${parts[0]}`;
+							case 'long':
+							case 'iso':
+							default:
+								return dateStr;
+						}
+					},
+
+					formatDate(date) {
+						const d = date.getDate().toString().padStart(2, '0');
+						const m = (date.getMonth() + 1).toString().padStart(2, '0');
+						const y = date.getFullYear();
+
+						switch(this.format) {
+							case 'eu':
+								return `${d}.${m}.${y}`;
+							case 'uk':
+								return `${d}/${m}/${y}`;
+							case 'us':
+								return `${m}/${d}/${y}`;
+							case 'long':
+								// Use the months array from the provided locale
+								return `${this.months[date.getMonth()]} ${d}, ${y}`;
+							case 'iso':
+							default:
+								return `${y}-${m}-${d}`;
+						}
+					},
+
+					isToday(day) {
+						const today = new Date();
+						const date = new Date(this.currentYear, this.currentMonth, day);
+						return date.toDateString() === today.toDateString();
+					},
+
+					isSelected(day) {
+						if (!this.value) return false;
+						const date = new Date(this.currentYear, this.currentMonth, day);
+						const selected = new Date(this.parseDate(this.value));
+						return date.toDateString() === selected.toDateString();
+					},
+
+					selectDate() {
+						const day = this.$el.getAttribute('data-day');
+						const date = new Date(this.currentYear, this.currentMonth, day);
+						this.value = this.formatDate(date);
+						this.open = false;
+					},
+
+					activeDayClass() {
+						const day = this.$el.getAttribute('data-day');
+						if (this.isSelected(day)) {
+							return 'bg-primary text-primary-foreground';
+						}
+						if (this.isToday(day) && !this.isSelected(day)) {
+							return 'text-red-500';
+						}
+						return 'hover:bg-accent hover:text-accent-foreground';
+					},
+
+					positionClass() {
+						return this.position === 'bottom' ? 'top-full mt-1' : 'bottom-full mb-1';
+					},
+				}));
+			});
+		</script>
+	}
+}
+
 // Datepicker renders a date selection input with calendar popup
 templ Datepicker(props DatepickerProps) {
+	if props.ID == "" {
+		{{ props.ID = utils.RandomID() }}
+	}
 	if props.Placeholder == "" {
 		{{ props.Placeholder = "Select a date" }}
 	}
@@ -157,116 +325,9 @@ templ Datepicker(props DatepickerProps) {
 		data-format={ string(props.Config.Format) }
 		data-monthnames={ templ.JSONString(props.Config.Locale.MonthNames) }
 		data-daynames={ templ.JSONString(props.Config.Locale.DayNames) }
+		x-data="datepicker"
 		data-input-id={ props.ID }
-		x-data="{
-            open: false,
-            value: null,
-            format: $el.dataset.format,
-            currentMonth: 5,
-            currentYear: new Date().getFullYear(),
-            monthDays: [],
-            blankDays: [],
-            months: JSON.parse($el.dataset.monthnames) || ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-            days: JSON.parse($el.dataset.daynames) || ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
-
-            position: 'bottom',
-
-            init() {
-                const initialDate = $el.dataset.value ? new Date(this.parseDate($el.dataset.value)) : new Date();
-                this.currentMonth = initialDate.getMonth();
-                this.currentYear = initialDate.getFullYear();
-                this.calculateDays();
-                // Format the initial value using the correct locale
-                if ($el.dataset.value) {
-                    this.value = this.formatDate(initialDate);
-                }
-            },
-
-            toggleDatePicker() {
-                this.open = !this.open;
-                if (this.open) {
-                    this.$nextTick(() => this.updatePosition());
-                }
-            },
-
-            updatePosition() {
-                const trigger = document.getElementById($el.dataset.inputId);
-                const popup = this.$refs.datePickerPopup;
-                const rect = trigger.getBoundingClientRect();
-                const popupRect = popup.getBoundingClientRect();
-                const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
-                
-                if (rect.bottom + popupRect.height > viewportHeight && rect.top > popupRect.height) {
-                    this.position = 'top';
-                } else {
-                    this.position = 'bottom';
-                }
-            },
-
-            calculateDays() {
-                const firstDay = new Date(this.currentYear, this.currentMonth, 1).getDay();
-                const daysInMonth = new Date(this.currentYear, this.currentMonth + 1, 0).getDate();
-                
-                this.blankDays = Array.from({ length: firstDay }, (_, i) => i);
-                this.monthDays = Array.from({ length: daysInMonth }, (_, i) => i + 1);
-            },
-
-			parseDate(dateStr) {
-				const parts = dateStr.split(/[-/.]/);
-				switch(this.format) {
-					case 'eu':
-						return `${parts[2]}-${parts[1]}-${parts[0]}`;
-					case 'us':
-						return `${parts[2]}-${parts[0]}-${parts[1]}`;
-					case 'uk':
-						return `${parts[2]}-${parts[1]}-${parts[0]}`;
-					case 'long':
-					case 'iso':
-					default:
-						return dateStr;  // Für ISO und long Format das Datum unverändert lassen
-				}
-			}, 
-
-			formatDate(date) {
-                const d = date.getDate().toString().padStart(2, '0');
-                const m = (date.getMonth() + 1).toString().padStart(2, '0');
-                const y = date.getFullYear();
-
-                switch(this.format) {
-                    case 'eu':
-                        return `${d}.${m}.${y}`;
-					          case 'uk':
-						            return `${d}/${m}/${y}`;
-                    case 'us':
-                        return `${m}/${d}/${y}`;
-                    case 'long':
-                        // Use the months array from the provided locale
-                        return `${this.months[date.getMonth()]} ${d}, ${y}`;
-                    default: // iso
-                        return `${y}-${m}-${d}`;
-                }
-            },
-
-            isToday(day) {
-                const today = new Date();
-                const date = new Date(this.currentYear, this.currentMonth, day);
-                return date.toDateString() === today.toDateString();
-            },
-
-            isSelected(day) {
-                if (!this.value) return false;
-                const date = new Date(this.currentYear, this.currentMonth, day);
-                const selected = new Date(this.parseDate(this.value));
-                return date.toDateString() === selected.toDateString();
-            },
-
-            selectDate(day) {
-                const date = new Date(this.currentYear, this.currentMonth, day);
-                this.value = this.formatDate(date);
-                this.open = false;
-            }
-        }"
-		@resize.window="if (open) updatePosition()"
+		@resize.window="updatePosition"
 	>
 		<div class="relative">
 			@Input(InputProps{
@@ -281,17 +342,17 @@ templ Datepicker(props DatepickerProps) {
 				Readonly:    true,
 				Attributes: utils.MergeAttributes(
 					templ.Attributes{
-						"x-ref":       "datePickerInput",
-						"x-modelable": "value",
-						":value":      "value",
-						"@click":      "toggleDatePicker()",
+						"x-ref":        "datePickerInput",
+						":x-modelable": "value",
+						":value":       "value",
+						"@click":       "toggleDatePicker",
 					},
 					props.Attributes,
 				),
 			})
 			<button
 				type="button"
-				@click="toggleDatePicker()"
+				@click="toggleDatePicker"
 				disabled?={ props.Disabled }
 				class={
 					utils.TwMerge(
@@ -311,7 +372,7 @@ templ Datepicker(props DatepickerProps) {
 		<div
 			x-show="open"
 			x-ref="datePickerPopup"
-			@click.away="open = false"
+			@click.away="closeDatePicker"
 			x-transition.opacity
 			class={
 				utils.TwMerge(
@@ -319,25 +380,23 @@ templ Datepicker(props DatepickerProps) {
 					"absolute left-0 z-50 w-64 p-4",
 					// Styling
 					"rounded-lg border bg-popover shadow-md",
-					// States
-					"top-full mt-1",
 				),
 			}
-			:class="{'top-full mt-1': position === 'bottom','bottom-full mb-1': position === 'top'}"
+			x-bind:class="positionClass"
 		>
 			<div class="flex items-center justify-between mb-4">
-				<span x-text="months[currentMonth] + ' ' + currentYear" class="text-sm font-medium"></span>
+				<span x-text="getCurrentMonth" class="text-sm font-medium"></span>
 				<div class="flex gap-1">
 					<button
 						type="button"
-						@click="currentMonth--; if(currentMonth < 0) { currentMonth = 11; currentYear--; } calculateDays()"
+						@click="atClickPrevMonth"
 						class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-7 w-7"
 					>
 						@icons.ChevronLeft(icons.IconProps{})
 					</button>
 					<button
 						type="button"
-						@click="currentMonth++; if(currentMonth > 11) { currentMonth = 0; currentYear++; } calculateDays()"
+						@click="atClickNextMonth"
 						class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-7 w-7"
 					>
 						@icons.ChevronRight(icons.IconProps{})
@@ -350,19 +409,16 @@ templ Datepicker(props DatepickerProps) {
 				</template>
 			</div>
 			<div class="grid grid-cols-7 gap-1">
-				<template x-for="blank in blankDays" :key="'blank' + blank">
+				<template x-for="blank in blankDays" key="'blank' + blank">
 					<div class="h-8 w-8"></div>
 				</template>
-				<template x-for="day in monthDays" :key="day">
+				<template x-for="day in monthDays">
 					<button
+						x-bind:data-day="day"
 						type="button"
-						@click="selectDate(day)"
+						@click="selectDate"
+						:class="activeDayClass"
 						x-text="day"
-						:class="{
-                            'bg-primary text-primary-foreground': isSelected(day),
-                            'text-red-500': isToday(day) && !isSelected(day),
-                            'hover:bg-accent hover:text-accent-foreground': !isSelected(day)
-                        }"
 						class="inline-flex h-8 w-8 items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
 					></button>
 				</template>

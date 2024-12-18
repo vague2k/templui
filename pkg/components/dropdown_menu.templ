@@ -128,37 +128,86 @@ templ renderMenuItem(item DropdownMenuItem, index int, depth int) {
 	}
 }
 
+templ DropdownScript() {
+	{{ handler := templ.NewOnceHandle() }}
+	@handler.Once() {
+		<script defer nonce={ templ.GetNonce(ctx) }>
+            document.addEventListener('alpine:init', () => {
+				Alpine.data('dropdown', () => ({
+					isOpen: false,
+					position: null,
+					verticalPosition: 'bottom',
+
+					init() {
+						this.position = this.$el.dataset.position;
+					},
+
+					updatePosition() {
+						if (!this.isOpen) return;
+
+						const menu = this.$refs.menu;
+						const rect = menu.getBoundingClientRect();
+						const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+						const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+
+						if (this.position === 'left' && rect.left < 0) {
+							this.position = 'right';
+						} else if (this.position !== 'left' && rect.right > viewportWidth) {
+							this.position = 'left';
+						}
+
+						if (this.verticalPosition === 'bottom' && rect.bottom > viewportHeight) {
+							this.verticalPosition = 'top';
+						} else if (this.verticalPosition === 'top' && rect.top < 0) {
+							this.verticalPosition = 'bottom';
+						}
+					},
+
+					getPositionClass() {
+						const classes = [];
+						
+						if (this.position === 'left') {
+							classes.push('right-0');
+						} else {
+							classes.push('left-0');
+						}
+						
+						if (this.verticalPosition === 'top') {
+							classes.push('bottom-full mb-2');
+						} else {
+							classes.push('top-full mt-2');
+						}
+						
+						return classes.join(' ');
+					},
+
+					setClose() {
+						this.isOpen = false;
+					},
+
+					setOpen() {
+						this.isOpen = true;
+					},
+
+					openMenu() {
+						this.isOpen = !this.isOpen;
+						if(this.isOpen) this.$nextTick(() => this.updatePosition());
+					}
+				}))
+			});
+        </script>
+	}
+}
+
 // Floating menu for displaying a list of actions or options.
 templ DropdownMenu(props DropdownMenuProps) {
 	<div
-		x-data="{
-			open: false,
-			position: $el.dataset.position,
-			verticalPosition: 'bottom',
-			updatePosition() {
-				const menu = this.$refs.menu;
-				const rect = menu.getBoundingClientRect();
-				const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
-				const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
-
-				if (this.position === 'left' && rect.left < 0) {
-					this.position = 'right';
-				} else if (this.position !== 'left' && rect.right > viewportWidth) {
-					this.position = 'left';
-				}
-
-				if (this.verticalPosition === 'bottom' && rect.bottom > viewportHeight) {
-					this.verticalPosition = 'top';
-				} else if (this.verticalPosition === 'top' && rect.top < 0) {
-					this.verticalPosition = 'bottom';
-				}
-			}
-		}"
-		@resize.window="if (open) updatePosition()"
+		x-data="dropdown"
+		@resize.window="updatePosition"
 		class={ utils.TwMerge("relative inline-block text-left", props.Class) }
 		data-position={ props.Position }
 	>
-		<div @click="open = !open; if(open) $nextTick(() => updatePosition())">
+		<div @click="openMenu">
 			if props.Trigger != nil {
 				@props.Trigger
 			} else {
@@ -171,9 +220,9 @@ templ DropdownMenu(props DropdownMenuProps) {
 		</div>
 		<div
 			x-ref="menu"
-			x-show="open"
-			@click.away="open = false"
-			@keydown.escape.window="open = false"
+			x-show="isOpen"
+			@click.away="setClose"
+			@keydown.escape.window="setClose"
 			x-transition:enter="transition ease-out duration-100"
 			x-transition:enter-start="transform opacity-0 scale-95"
 			x-transition:enter-end="transform opacity-100 scale-100"
@@ -184,12 +233,7 @@ templ DropdownMenu(props DropdownMenuProps) {
 				"absolute z-50 mt-2 w-56 rounded-md shadow-lg bg-popover ring-1 ring-black ring-opacity-5 focus:outline-none",
 				"border border-border",
 			}
-			:class="{
-				'right-0': position === 'left',
-				'left-0': position !== 'left',
-				'bottom-full mb-2': verticalPosition === 'top',
-				'top-full mt-2': verticalPosition === 'bottom'
-			}"
+			x-bind:class="getPositionClass"
 			role="menu"
 			aria-orientation="vertical"
 			aria-labelledby="dropdown-menu-button"

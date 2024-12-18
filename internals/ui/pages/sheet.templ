@@ -11,11 +11,18 @@ templ Sheet() {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Sheet",
 			Description: templ.Raw("Side-anchored panel that slides in from screen edges."),
+			Tailwind:    true,
+			Alpine:      true,
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.Sheet(),
 				PreviewCodeFile:   "sheet.templ",
 				ComponentCodeFile: "sheet.templ",
+			})
+			@modules.Usage(modules.UsageProps{
+				ComponentName: "Sheet",
+				NeedsHandler:  true,
+				PropsExample:  "...",
 			})
 		}
 	}

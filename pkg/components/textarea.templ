@@ -17,6 +17,22 @@ type TextareaProps struct {
 	Attributes  templ.Attributes // Additional HTML attributes
 }
 
+templ TextareaScript() {
+	{{ handle := templ.NewOnceHandle() }}
+	@handle.Once() {
+		<script defer nonce={ templ.GetNonce(ctx) }>
+			document.addEventListener('alpine:init', () => {
+				Alpine.data('textarea', () => ({
+					resize() {
+						this.$el.style.height = '80px';
+						this.$el.style.height = this.$el.scrollHeight + 'px';
+					}
+				}));
+			});
+		</script>
+	}
+}
+
 // Textarea renders a multi-line text input field
 templ Textarea(props TextareaProps) {
 	<textarea
@@ -48,9 +64,9 @@ templ Textarea(props TextareaProps) {
 			),
 		}
 		if props.AutoResize {
-			x-data="{ resize() { $el.style.height = '80px'; $el.style.height = $el.scrollHeight + 'px' } }"
-			x-init="resize()"
-			@input="resize()"
+			x-data="textarea"
+			x-init="resize"
+			@input="resize"
 		}
 		{ props.Attributes... }
 	>

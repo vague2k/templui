@@ -3,8 +3,9 @@ package utils
 import (
 	"fmt"
 
-	"github.com/a-h/templ"
 	"math/rand"
+
+	"github.com/a-h/templ"
 
 	twmerge "github.com/Oudwins/tailwind-merge-go"
 )
@@ -41,12 +42,4 @@ func MergeAttributes(attrs ...templ.Attributes) templ.Attributes {
 // Example: "id-123456"
 func RandomID() string {
 	return fmt.Sprintf("id-%d", rand.Intn(1000000))
-}
-
-// Alpine returns script tags for Alpine.js
-func AlpineJS() templ.Component {
-	return templ.Raw(`
-        <script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/focus@3.x.x/dist/cdn.min.js"></script>
-        <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    `)
 }

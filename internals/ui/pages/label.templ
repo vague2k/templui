@@ -12,6 +12,8 @@ templ Label() {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Label",
 			Description: templ.Raw("Renders an accessible label associated with controls."),
+			Tailwind:    true,
+			Alpine:      true,
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				SectionName:     "",

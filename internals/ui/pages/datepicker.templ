@@ -11,53 +11,57 @@ templ Datepicker() {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Datepicker",
 			Description: templ.Raw("Calendar interface for selecting and formatting dates."),
+			Tailwind:    true,
+			Alpine:      true,
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "Default",
 				ShowcaseFile:      showcase.DatepickerDefault(),
 				PreviewCodeFile:   "datepicker_default.templ",
 				ComponentCodeFile: "datepicker.templ",
 			})
-			<div id="label">
+			@modules.Usage(modules.UsageProps{
+				ComponentName: "Datepicker",
+				NeedsHandler:  true,
+				PropsExample:  "...",
+			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "With Label",
 					ShowcaseFile:      showcase.DatepickerWithLabel(),
 					PreviewCodeFile:   "datepicker_with_label.templ",
 					ComponentCodeFile: "datepicker.templ",
 				})
-			</div>
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "Custom Placeholder",
-				ShowcaseFile:      showcase.DatepickerCustomPlaceholder(),
-				PreviewCodeFile:   "datepicker_custom_placeholder.templ",
-				ComponentCodeFile: "datepicker.templ",
-			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "Selected Date",
-				ShowcaseFile:      showcase.DatepickerSelectedDate(),
-				PreviewCodeFile:   "datepicker_selected_date.templ",
-				ComponentCodeFile: "datepicker.templ",
-			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "Disabled",
-				ShowcaseFile:      showcase.DatepickerDisabled(),
-				PreviewCodeFile:   "datepicker_disabled.templ",
-				ComponentCodeFile: "datepicker.templ",
-			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "Formats",
-				ShowcaseFile:      showcase.DatepickerFormats(),
-				PreviewCodeFile:   "datepicker_formats.templ",
-				ComponentCodeFile: "datepicker.templ",
-			})
-			<div id="form">
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Custom Placeholder",
+					ShowcaseFile:      showcase.DatepickerCustomPlaceholder(),
+					PreviewCodeFile:   "datepicker_custom_placeholder.templ",
+					ComponentCodeFile: "datepicker.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Selected Date",
+					ShowcaseFile:      showcase.DatepickerSelectedDate(),
+					PreviewCodeFile:   "datepicker_selected_date.templ",
+					ComponentCodeFile: "datepicker.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Disabled",
+					ShowcaseFile:      showcase.DatepickerDisabled(),
+					PreviewCodeFile:   "datepicker_disabled.templ",
+					ComponentCodeFile: "datepicker.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Formats",
+					ShowcaseFile:      showcase.DatepickerFormats(),
+					PreviewCodeFile:   "datepicker_formats.templ",
+					ComponentCodeFile: "datepicker.templ",
+				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "Form",
 					ShowcaseFile:      showcase.DatepickerForm(),
 					PreviewCodeFile:   "datepicker_form.templ",
 					ComponentCodeFile: "datepicker.templ",
 				})
-			</div>
+			}
 		}
 	}
 }

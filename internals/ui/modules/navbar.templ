@@ -35,7 +35,7 @@ templ Navbar() {
 					Href:     "https://x.com/_axzilla/",
 					Target:   "_blank",
 				})
-				@ThemeSwitcher()
+				@ThemeSwitcher(ThemeSwitcherProps{})
 			</div>
 		</div>
 	</nav>
@@ -65,7 +65,6 @@ templ NavbarMobileMenu() {
 		}
 		@components.SheetTrigger(string(components.SheetSideLeft), components.SheetSideLeft) {
 			<button
-				@click="sidebarOpen = !sidebarOpen"
 				class="mr-2 lg:hidden p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
 			>
 				@icons.SquareLibrary(icons.IconProps{})

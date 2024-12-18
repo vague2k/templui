@@ -1,0 +1,20 @@
+package modules
+
+type ContainerWrapperProps struct {
+	Title       string
+	Description string
+}
+
+templ ContainerWrapper(p ContainerWrapperProps) {
+	<div class="flex flex-col items-center mb-4">
+		<div class="w-full">
+			<h2 class="text-2xl font-bold mb-4">{ p.Title }</h2>
+			if p.Description != "" {
+				<p class="mb-4">{ p.Description }</p>
+			}
+		</div>
+		<div class="w-full space-y-8">
+			{ children... }
+		</div>
+	</div>
+}

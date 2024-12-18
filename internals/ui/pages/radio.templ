@@ -11,41 +11,45 @@ templ Radio() {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Radio",
 			Description: templ.Raw("Control for selecting a single option from a list of choices."),
+			Tailwind:    true,
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "Default",
 				ShowcaseFile:      showcase.RadioDefault(),
 				PreviewCodeFile:   "radio_default.templ",
 				ComponentCodeFile: "radio.templ",
 			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "Checked",
-				ShowcaseFile:      showcase.RadioChecked(),
-				PreviewCodeFile:   "radio_checked.templ",
-				ComponentCodeFile: "radio.templ",
+			@modules.Usage(modules.UsageProps{
+				ComponentName: "Radio",
+				PropsExample:  "...",
 			})
-			<div id="label">
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Checked",
+					ShowcaseFile:      showcase.RadioChecked(),
+					PreviewCodeFile:   "radio_checked.templ",
+					ComponentCodeFile: "radio.templ",
+				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "With Label",
 					ShowcaseFile:      showcase.RadioWithLabel(),
 					PreviewCodeFile:   "radio_with_label.templ",
 					ComponentCodeFile: "radio.templ",
+					ID:                "label",
 				})
-			</div>
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "Disabled",
-				ShowcaseFile:      showcase.RadioDisabled(),
-				PreviewCodeFile:   "radio_disabled.templ",
-				ComponentCodeFile: "radio.templ",
-			})
-			<div id="form">
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Disabled",
+					ShowcaseFile:      showcase.RadioDisabled(),
+					PreviewCodeFile:   "radio_disabled.templ",
+					ComponentCodeFile: "radio.templ",
+				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "Form",
 					ShowcaseFile:      showcase.RadioForm(),
 					PreviewCodeFile:   "radio_form.templ",
 					ComponentCodeFile: "radio.templ",
+					ID:                "form",
 				})
-			</div>
+			}
 		}
 	}
 }
