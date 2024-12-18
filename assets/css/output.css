@@ -1245,6 +1245,15 @@ body {
   gap: 2rem;
 }
 
+.gap-x-8 {
+  -moz-column-gap: 2rem;
+       column-gap: 2rem;
+}
+
+.gap-y-2 {
+  row-gap: 0.5rem;
+}
+
 .space-x-2 > :not([hidden]) ~ :not([hidden]) {
   --tw-space-x-reverse: 0;
   margin-right: calc(0.5rem * var(--tw-space-x-reverse));
@@ -1510,10 +1519,6 @@ body {
 .bg-yellow-500 {
   --tw-bg-opacity: 1;
   background-color: rgb(234 179 8 / var(--tw-bg-opacity, 1));
-}
-
-.bg-muted-foreground\/10 {
-  background-color: hsl(var(--muted-foreground) / 0.1);
 }
 
 .bg-opacity-50 {
@@ -2342,10 +2347,6 @@ body {
   .sm\:my-8 {
     margin-top: 2rem;
     margin-bottom: 2rem;
-  }
-
-  .sm\:mb-10 {
-    margin-bottom: 2.5rem;
   }
 
   .sm\:mb-8 {

@@ -1,22 +1,24 @@
 # TemplUI
 
-Modern UI Components for Go & Templ
-
+Craft Beautiful Go & Templ Apps
 <img src="./assets/img/readme.png" />
 
 ## About
 
-TemplUI is a growing library of modern UI components designed specifically for Go and Templ. It leverages Alpine.js for enhanced interactivity and Tailwind CSS for effortless styling. Whether you're building a small website or a large web application, TemplUI provides the tools you need to create sleek, responsive interfaces with ease.
+TemplUI is an enterprise-ready library of UI components designed specifically for Go and Templ. It leverages Alpine.js for enhanced interactivity and Tailwind CSS for elegant styling. Built with CSP compliance and modern development practices in mind, TemplUI provides everything you need to create professional web applications.
 
 ## Features
 
-- **Go-native Implementation**: Optimized for Go developers, seamlessly integrating with Go backends.
-- **Templ-first Design**: Leverages the full power of Templ for type-safe, high-performance templating.
-- **Server-Side Rendering (SSR) Focus**: Excellent performance and SEO benefits out of the box.
-- **Alpine.js Integration**: Enhanced client-side interactivity when needed.
-- **Tailwind CSS Styling**: Modern, utility-first styling that's highly customizable.
-- **Accessible Components**: Built with accessibility in mind, following WCAG guidelines.
-- **TypeSafe**: Utilizing Go's type system for robust, error-resistant development.
+- **Enterprise Ready**: Built for production use with security and scalability in mind
+- **CSP Compliant**: Secure by design with Content Security Policy support
+- **HTMX Optimized**: Seamless integration with HTMX for dynamic interactions
+- **Component Driven**: Flexible, composable components for rapid development
+- **Fully Customizable**: Adapt components to match your brand and requirements
+- **Type-Safe**: Leveraging Go's type system for robust development
+- **Server-Side Focused**: Excellent performance and SEO benefits
+- **Modern Stack**: Go, Templ, Alpine.js, and Tailwind CSS working in harmony
+
+[Rest der README bleibt gleich...]
 
 ## Quick Start
 
