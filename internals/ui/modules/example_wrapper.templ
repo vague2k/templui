@@ -20,11 +20,16 @@ type ExampleWrapperProps struct {
 	ShowcaseFile      templ.Component
 	PreviewCodeFile   string
 	ComponentCodeFile string
+	ID                string // For #id in URL Link
 }
 
 templ ExampleWrapper(p ExampleWrapperProps) {
-	<div>
-		<p class="mb-2 font-bold">{ p.SectionName }</p>
+	<div
+		if p.ID != "" {
+			id={ p.ID }
+		}
+	>
+		<p class="mb-2 font-semibold">{ p.SectionName }</p>
 		@components.Tabs(components.TabsProps{
 			Tabs:                  generateTabs(p), // Extrahiere Logik in separate Funktion
 			TabsContainerClass:    "md:w-1/2",

@@ -14,21 +14,22 @@ templ Badge() {
 			Tailwind:    true,
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "Variants",
 				ShowcaseFile:      showcase.BadgeVariants(),
 				PreviewCodeFile:   "badge_variants.templ",
-				ComponentCodeFile: "badge.templ",
-			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "Icons",
-				ShowcaseFile:      showcase.BadgeIcons(),
-				PreviewCodeFile:   "badge_icons.templ",
 				ComponentCodeFile: "badge.templ",
 			})
 			@modules.Usage(modules.UsageProps{
 				ComponentName: "Bagde",
 				PropsExample:  "...",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "With Icon",
+					ShowcaseFile:      showcase.BadgeIcons(),
+					PreviewCodeFile:   "badge_icons.templ",
+					ComponentCodeFile: "badge.templ",
+				})
+			}
 		}
 	}
 }

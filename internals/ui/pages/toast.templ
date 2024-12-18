@@ -21,17 +21,19 @@ templ Toast() {
 				PreviewCodeFile:   "toast.templ",
 				ComponentCodeFile: "toast.templ",
 			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "Example Playground",
-				ShowcaseFile:      showcase.ToastAdvanced(),
-				PreviewCodeFile:   "toast_advanced.templ",
-				ComponentCodeFile: "toast.templ",
-			})
 			@modules.Usage(modules.UsageProps{
 				ComponentName: "Toast",
 				NeedsHandler:  true,
 			})
 			@UsageExamples()
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Playground",
+					ShowcaseFile:      showcase.ToastAdvanced(),
+					PreviewCodeFile:   "toast_advanced.templ",
+					ComponentCodeFile: "toast.templ",
+				})
+			}
 		}
 	}
 }

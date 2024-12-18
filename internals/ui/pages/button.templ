@@ -14,33 +14,34 @@ templ Button() {
 			Tailwind:    true,
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "Variants",
 				ShowcaseFile:      showcase.ButtonVariants(),
 				PreviewCodeFile:   "button_variants.templ",
-				ComponentCodeFile: "button.templ",
-			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "Sizes",
-				ShowcaseFile:      showcase.ButtonSizes(),
-				PreviewCodeFile:   "button_sizes.templ",
-				ComponentCodeFile: "button.templ",
-			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "Disabled",
-				ShowcaseFile:      showcase.ButtonDisabled(),
-				PreviewCodeFile:   "button_disabled.templ",
-				ComponentCodeFile: "button.templ",
-			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "Icons",
-				ShowcaseFile:      showcase.ButtonIcons(),
-				PreviewCodeFile:   "button_icons.templ",
 				ComponentCodeFile: "button.templ",
 			})
 			@modules.Usage(modules.UsageProps{
 				ComponentName: "Button",
 				PropsExample:  "...",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Sizes",
+					ShowcaseFile:      showcase.ButtonSizes(),
+					PreviewCodeFile:   "button_sizes.templ",
+					ComponentCodeFile: "button.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Disabled",
+					ShowcaseFile:      showcase.ButtonDisabled(),
+					PreviewCodeFile:   "button_disabled.templ",
+					ComponentCodeFile: "button.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Icons",
+					ShowcaseFile:      showcase.ButtonIcons(),
+					PreviewCodeFile:   "button_icons.templ",
+					ComponentCodeFile: "button.templ",
+				})
+			}
 		}
 	}
 }

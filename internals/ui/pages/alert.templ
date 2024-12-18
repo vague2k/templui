@@ -14,21 +14,22 @@ templ Alert() {
 			Tailwind:    true,
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "Default",
 				ShowcaseFile:      showcase.AlertDefault(),
 				PreviewCodeFile:   "alert_default.templ",
-				ComponentCodeFile: "alert.templ",
-			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "Destructive",
-				ShowcaseFile:      showcase.AlertDestructive(),
-				PreviewCodeFile:   "alert_destructive.templ",
 				ComponentCodeFile: "alert.templ",
 			})
 			@modules.Usage(modules.UsageProps{
 				ComponentName: "Alert",
 				PropsExample:  "...",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Destructive",
+					ShowcaseFile:      showcase.AlertDestructive(),
+					PreviewCodeFile:   "alert_destructive.templ",
+					ComponentCodeFile: "alert.templ",
+				})
+			}
 		}
 	}
 }

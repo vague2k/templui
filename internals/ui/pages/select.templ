@@ -14,45 +14,48 @@ templ Select() {
 			Tailwind:    true,
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "Default",
 				ShowcaseFile:      showcase.SelectDefault(),
 				PreviewCodeFile:   "select_default.templ",
-				ComponentCodeFile: "select.templ",
-			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "With Placeholder",
-				ShowcaseFile:      showcase.SelectWithPlaceholder(),
-				PreviewCodeFile:   "select_with_placeholder.templ",
-				ComponentCodeFile: "select.templ",
-			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "Selected Value",
-				ShowcaseFile:      showcase.SelectSelectedValue(),
-				PreviewCodeFile:   "select_selected_value.templ",
-				ComponentCodeFile: "select.templ",
-			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "With Label",
-				ShowcaseFile:      showcase.SelectWithLabel(),
-				PreviewCodeFile:   "select_with_label.templ",
-				ComponentCodeFile: "select.templ",
-			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "Disabled",
-				ShowcaseFile:      showcase.SelectDisabled(),
-				PreviewCodeFile:   "select_disabled.templ",
-				ComponentCodeFile: "select.templ",
-			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "Form",
-				ShowcaseFile:      showcase.SelectForm(),
-				PreviewCodeFile:   "select_form.templ",
 				ComponentCodeFile: "select.templ",
 			})
 			@modules.Usage(modules.UsageProps{
 				ComponentName: "Select",
 				PropsExample:  "...",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "With Placeholder",
+					ShowcaseFile:      showcase.SelectWithPlaceholder(),
+					PreviewCodeFile:   "select_with_placeholder.templ",
+					ComponentCodeFile: "select.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Selected Value",
+					ShowcaseFile:      showcase.SelectSelectedValue(),
+					PreviewCodeFile:   "select_selected_value.templ",
+					ComponentCodeFile: "select.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "With Label",
+					ShowcaseFile:      showcase.SelectWithLabel(),
+					PreviewCodeFile:   "select_with_label.templ",
+					ComponentCodeFile: "select.templ",
+					ID:                "label",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Disabled",
+					ShowcaseFile:      showcase.SelectDisabled(),
+					PreviewCodeFile:   "select_disabled.templ",
+					ComponentCodeFile: "select.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Form",
+					ShowcaseFile:      showcase.SelectForm(),
+					PreviewCodeFile:   "select_form.templ",
+					ComponentCodeFile: "select.templ",
+					ID:                "form",
+				})
+			}
 		}
 	}
 }

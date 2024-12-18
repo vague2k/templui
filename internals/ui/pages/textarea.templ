@@ -15,45 +15,8 @@ templ Textarea() {
 			Alpine:      true,
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "Default",
 				ShowcaseFile:      showcase.TextareaDefault(),
 				PreviewCodeFile:   "textarea_default.templ",
-				ComponentCodeFile: "textarea.templ",
-			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "With Value",
-				ShowcaseFile:      showcase.TextareaWithValue(),
-				PreviewCodeFile:   "textarea_with_value.templ",
-				ComponentCodeFile: "textarea.templ",
-			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "With Rows",
-				ShowcaseFile:      showcase.TextareaWithRows(),
-				PreviewCodeFile:   "textarea_with_rows.templ",
-				ComponentCodeFile: "textarea.templ",
-			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "Auto Resize",
-				ShowcaseFile:      showcase.TextareaAutoResize(),
-				PreviewCodeFile:   "textarea_auto_resize.templ",
-				ComponentCodeFile: "textarea.templ",
-			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "With Label",
-				ShowcaseFile:      showcase.TextareaWithLabel(),
-				PreviewCodeFile:   "textarea_with_label.templ",
-				ComponentCodeFile: "textarea.templ",
-			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "Disabled",
-				ShowcaseFile:      showcase.TextareaDisabled(),
-				PreviewCodeFile:   "textarea_disabled.templ",
-				ComponentCodeFile: "textarea.templ",
-			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "Form",
-				ShowcaseFile:      showcase.TextareaForm(),
-				PreviewCodeFile:   "textarea_form.templ",
 				ComponentCodeFile: "textarea.templ",
 			})
 			@modules.Usage(modules.UsageProps{
@@ -61,6 +24,46 @@ templ Textarea() {
 				NeedsHandler:  true,
 				PropsExample:  "...",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "With Value",
+					ShowcaseFile:      showcase.TextareaWithValue(),
+					PreviewCodeFile:   "textarea_with_value.templ",
+					ComponentCodeFile: "textarea.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "With Rows",
+					ShowcaseFile:      showcase.TextareaWithRows(),
+					PreviewCodeFile:   "textarea_with_rows.templ",
+					ComponentCodeFile: "textarea.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Auto Resize",
+					ShowcaseFile:      showcase.TextareaAutoResize(),
+					PreviewCodeFile:   "textarea_auto_resize.templ",
+					ComponentCodeFile: "textarea.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "With Label",
+					ShowcaseFile:      showcase.TextareaWithLabel(),
+					PreviewCodeFile:   "textarea_with_label.templ",
+					ComponentCodeFile: "textarea.templ",
+					ID:                "label",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Disabled",
+					ShowcaseFile:      showcase.TextareaDisabled(),
+					PreviewCodeFile:   "textarea_disabled.templ",
+					ComponentCodeFile: "textarea.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Form",
+					ShowcaseFile:      showcase.TextareaForm(),
+					PreviewCodeFile:   "textarea_form.templ",
+					ComponentCodeFile: "textarea.templ",
+					ID:                "form",
+				})
+			}
 		}
 	}
 }

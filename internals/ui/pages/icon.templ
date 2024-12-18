@@ -1,6 +1,7 @@
 package pages
 
 import (
+	"fmt"
 	"github.com/axzilla/templui/internals/ui/layouts"
 	"github.com/axzilla/templui/internals/ui/modules"
 	"github.com/axzilla/templui/internals/ui/showcase"
@@ -14,30 +15,45 @@ templ Icon() {
 			Tailwind:    true,
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:     "Default",
 				ShowcaseFile:    showcase.IconDefault(),
 				PreviewCodeFile: "icon_default.templ",
 			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:     "Colored",
-				ShowcaseFile:    showcase.IconColored(),
-				PreviewCodeFile: "icon_colored.templ",
-			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:     "Filled",
-				ShowcaseFile:    showcase.IconFilled(),
-				PreviewCodeFile: "icon_filled.templ",
-			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:     "Sizes",
-				ShowcaseFile:    showcase.IconSizes(),
-				PreviewCodeFile: "icon_sizes.templ",
-			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:     "Custom Classes",
-				ShowcaseFile:    showcase.IconCustomClasses(),
-				PreviewCodeFile: "icon_custom_classes.templ",
-			})
+			@Usage()
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:     "Colored",
+					ShowcaseFile:    showcase.IconColored(),
+					PreviewCodeFile: "icon_colored.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:     "Filled",
+					ShowcaseFile:    showcase.IconFilled(),
+					PreviewCodeFile: "icon_filled.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:     "Sizes",
+					ShowcaseFile:    showcase.IconSizes(),
+					PreviewCodeFile: "icon_sizes.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:     "Custom Classes",
+					ShowcaseFile:    showcase.IconCustomClasses(),
+					PreviewCodeFile: "icon_custom_classes.templ",
+				})
+			}
 		}
 	}
+}
+
+templ Usage() {
+	<div class="mb-8">
+		<h2 class="text-2xl font-bold mb-4">Usage</h2>
+		<div>
+			@modules.CodeSnippet(fmt.Sprintf(`@icons.%s(icons.%sProps{%s})`,
+				"ArrowRight",
+				"Icon",
+				"...",
+			), "go")
+		</div>
+	</div>
 }

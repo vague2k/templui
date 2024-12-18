@@ -15,21 +15,8 @@ templ DropdownMenu() {
 			Alpine:      true,
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "Default",
 				ShowcaseFile:      showcase.DropdownMenuDefault(),
 				PreviewCodeFile:   "dropdown_menu_default.templ",
-				ComponentCodeFile: "dropdown_menu.templ",
-			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "With Icons",
-				ShowcaseFile:      showcase.DropdownMenuWithIcons(),
-				PreviewCodeFile:   "dropdown_menu_with_icons.templ",
-				ComponentCodeFile: "dropdown_menu.templ",
-			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "Advanced",
-				ShowcaseFile:      showcase.DropdownMenuAdvanced(),
-				PreviewCodeFile:   "dropdown_menu_advanced.templ",
 				ComponentCodeFile: "dropdown_menu.templ",
 			})
 			@modules.Usage(modules.UsageProps{
@@ -37,6 +24,20 @@ templ DropdownMenu() {
 				NeedsHandler:  true,
 				PropsExample:  "...",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "With Icons",
+					ShowcaseFile:      showcase.DropdownMenuWithIcons(),
+					PreviewCodeFile:   "dropdown_menu_with_icons.templ",
+					ComponentCodeFile: "dropdown_menu.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Advanced",
+					ShowcaseFile:      showcase.DropdownMenuAdvanced(),
+					PreviewCodeFile:   "dropdown_menu_advanced.templ",
+					ComponentCodeFile: "dropdown_menu.templ",
+				})
+			}
 		}
 	}
 }

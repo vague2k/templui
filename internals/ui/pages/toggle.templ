@@ -14,43 +14,43 @@ templ Toggle() {
 			Tailwind:    true,
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "Default",
 				ShowcaseFile:      showcase.ToggleDefault(),
 				PreviewCodeFile:   "toggle_default.templ",
 				ComponentCodeFile: "toggle.templ",
 			})
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "Checked",
-				ShowcaseFile:      showcase.ToggleChecked(),
-				PreviewCodeFile:   "toggle_checked.templ",
-				ComponentCodeFile: "toggle.templ",
+			@modules.Usage(modules.UsageProps{
+				ComponentName: "Toggle",
+				PropsExample:  "...",
 			})
-			<div id="label">
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Checked",
+					ShowcaseFile:      showcase.ToggleChecked(),
+					PreviewCodeFile:   "toggle_checked.templ",
+					ComponentCodeFile: "toggle.templ",
+				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "With Label",
 					ShowcaseFile:      showcase.ToggleWithLabel(),
 					PreviewCodeFile:   "toggle_with_label.templ",
 					ComponentCodeFile: "toggle.templ",
+					ID:                "label",
 				})
-			</div>
-			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "Disabled",
-				ShowcaseFile:      showcase.ToggleDisabled(),
-				PreviewCodeFile:   "toggle_disabled.templ",
-				ComponentCodeFile: "toggle.templ",
-			})
-			<div id="form">
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Disabled",
+					ShowcaseFile:      showcase.ToggleDisabled(),
+					PreviewCodeFile:   "toggle_disabled.templ",
+					ComponentCodeFile: "toggle.templ",
+				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "Form",
 					ShowcaseFile:      showcase.ToggleForm(),
 					PreviewCodeFile:   "toggle_form.templ",
 					ComponentCodeFile: "toggle.templ",
+					ID:                "form",
 				})
-			</div>
-			@modules.Usage(modules.UsageProps{
-				ComponentName: "Toggle",
-				PropsExample:  "...",
-			})
+				`			
+			}
 		}
 	}
 }
