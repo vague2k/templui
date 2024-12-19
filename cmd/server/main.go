@@ -39,8 +39,9 @@ func main() {
 	SetupAssetsRoutes(mux)
 
 	cspConfig := mw.CSPConfig{
-		StyleSrc: []string{
-			"cdnjs.cloudflare.com", // highlight.js CSS
+		ScriptSrc: []string{
+			"cdn.jsdelivr.net",     // HTMX
+			"cdnjs.cloudflare.com", // highlight.js
 		},
 	}
 	wrappedMux := middleware.WithPreviewCheck(mw.WithCSP(cspConfig)(mux))
