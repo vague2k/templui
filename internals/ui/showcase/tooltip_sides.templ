@@ -1,0 +1,40 @@
+package showcase
+
+import "github.com/axzilla/templui/pkg/components"
+
+templ TooltipSides() {
+	<div class="flex flex-wrap gap-2">
+		@components.Tooltip(components.TooltipProps{
+			Trigger: components.Button(components.ButtonProps{
+				Text:    "Top",
+				Variant: components.ButtonVariantOutline,
+			}),
+			Content: templ.Raw("Top tooltip"),
+			Side:    components.TooltipTop, // Its the default value but we can set it explicitly
+		})
+		@components.Tooltip(components.TooltipProps{
+			Trigger: components.Button(components.ButtonProps{
+				Text:    "Right",
+				Variant: components.ButtonVariantOutline,
+			}),
+			Content: templ.Raw("Right tooltip"),
+			Side:    components.TooltipRight,
+		})
+		@components.Tooltip(components.TooltipProps{
+			Trigger: components.Button(components.ButtonProps{
+				Text:    "Bottom",
+				Variant: components.ButtonVariantOutline,
+			}),
+			Content: templ.Raw("Bottom tooltip"),
+			Side:    components.TooltipBottom,
+		})
+		@components.Tooltip(components.TooltipProps{
+			Trigger: components.Button(components.ButtonProps{
+				Text:    "Left",
+				Variant: components.ButtonVariantOutline,
+			}),
+			Content: templ.Raw("Left tooltip"),
+			Side:    components.TooltipLeft,
+		})
+	</div>
+}
