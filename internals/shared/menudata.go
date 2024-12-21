@@ -121,6 +121,10 @@ var Sections = []Section{
 				Text: "Toggle",
 				Href: "/docs/components/toggle",
 			},
+			{
+				Text: "Tooltip",
+				Href: "/docs/components/tooltip",
+			},
 		},
 	},
 }

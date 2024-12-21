@@ -10,6 +10,7 @@ templ AlpineJS() {
 
 // ComponentScripts returns script tags for all components.
 templ ComponentScripts() {
+	@components.TooltipScript()
 	@components.ToastScript()
 	@components.AccordionScript()
 	@components.DatepickerScript()

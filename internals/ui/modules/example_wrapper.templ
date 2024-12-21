@@ -50,7 +50,7 @@ func generateTabs(p ExampleWrapperProps) []components.Tab {
 		{
 			ID:      "code",
 			Title:   "Code",
-			Content: CodeSnippetFromEmbedded(p.PreviewCodeFile, "", showcase.TemplFiles),
+			Content: CodeSnippetFromEmbedded(p.PreviewCodeFile, "go", showcase.TemplFiles),
 		},
 	}
 
@@ -58,7 +58,7 @@ func generateTabs(p ExampleWrapperProps) []components.Tab {
 		tabs = append(tabs, components.Tab{
 			ID:      "component",
 			Title:   "Component",
-			Content: CodeSnippetFromEmbedded(p.ComponentCodeFile, "", components.TemplFiles),
+			Content: CodeSnippetFromEmbedded(p.ComponentCodeFile, "go", components.TemplFiles),
 		})
 	}
 
