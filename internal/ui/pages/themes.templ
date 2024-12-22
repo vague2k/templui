@@ -1,0 +1,1156 @@
+package pages
+
+import (
+	"github.com/axzilla/templui/internal/ui/layouts"
+	"github.com/axzilla/templui/internal/ui/modules"
+	"github.com/axzilla/templui/pkg/components"
+	"github.com/axzilla/templui/pkg/icons"
+)
+
+templ ThemesHandle() {
+	{{ handle := templ.NewOnceHandle() }}
+	@handle.Once() {
+		<script defer nonce={ templ.GetNonce(ctx) }>
+			document.addEventListener('alpine:init', () => {
+				Alpine.data('themeCustomizer', () => ({
+					themeColors: {
+						zinc: {
+						light: {
+							background: "0 0% 100%",
+							foreground: "240 10% 3.9%",
+							muted: "240 4.8% 95.9%",
+							"muted-foreground": "240 3.8% 46.1%",
+							popover: "0 0% 100%",
+							"popover-foreground": "240 10% 3.9%",
+							card: "0 0% 100%",
+							"card-foreground": "240 10% 3.9%",
+							border: "240 5.9% 90%",
+							input: "240 5.9% 90%",
+							primary: "240 5.9% 10%",
+							"primary-foreground": "0 0% 98%",
+							secondary: "240 4.8% 95.9%",
+							"secondary-foreground": "240 5.9% 10%",
+							accent: "240 4.8% 95.9%",
+							"accent-foreground": "240 5.9% 10%",
+							destructive: "0 84.2% 60.2%",
+							"destructive-foreground": "0 0% 98%",
+							ring: "240 5.9% 10%",
+						},
+						dark: {
+							background: "240 10% 3.9%",
+							foreground: "0 0% 98%",
+							muted: "240 3.7% 15.9%",
+							"muted-foreground": "240 5% 64.9%",
+							popover: "240 10% 3.9%",
+							"popover-foreground": "0 0% 98%",
+							card: "240 10% 3.9%",
+							"card-foreground": "0 0% 98%",
+							border: "240 3.7% 15.9%",
+							input: "240 3.7% 15.9%",
+							primary: "0 0% 98%",
+							"primary-foreground": "240 5.9% 10%",
+							secondary: "240 3.7% 15.9%",
+							"secondary-foreground": "0 0% 98%",
+							accent: "240 3.7% 15.9%",
+							"accent-foreground": "0 0% 98%",
+							destructive: "0 62.8% 30.6%",
+							"destructive-foreground": "0 0% 98%",
+							ring: "240 4.9% 83.9%",
+						},
+						},
+						slate: {
+						light: {
+							background: "0 0% 100%",
+							foreground: "222.2 84% 4.9%",
+							muted: "210 40% 96.1%",
+							"muted-foreground": "215.4 16.3% 46.9%",
+							popover: "0 0% 100%",
+							"popover-foreground": "222.2 84% 4.9%",
+							card: "0 0% 100%",
+							"card-foreground": "222.2 84% 4.9%",
+							border: "214.3 31.8% 91.4%",
+							input: "214.3 31.8% 91.4%",
+							primary: "222.2 47.4% 11.2%",
+							"primary-foreground": "210 40% 98%",
+							secondary: "210 40% 96.1%",
+							"secondary-foreground": "222.2 47.4% 11.2%",
+							accent: "210 40% 96.1%",
+							"accent-foreground": "222.2 47.4% 11.2%",
+							destructive: "0 84.2% 60.2%",
+							"destructive-foreground": "210 40% 98%",
+							ring: "222.2 84% 4.9%",
+						},
+						dark: {
+							background: "222.2 84% 4.9%",
+							foreground: "210 40% 98%",
+							muted: "217.2 32.6% 17.5%",
+							"muted-foreground": "215 20.2% 65.1%",
+							popover: "222.2 84% 4.9%",
+							"popover-foreground": "210 40% 98%",
+							card: "222.2 84% 4.9%",
+							"card-foreground": "210 40% 98%",
+							border: "217.2 32.6% 17.5%",
+							input: "217.2 32.6% 17.5%",
+							primary: "210 40% 98%",
+							"primary-foreground": "222.2 47.4% 11.2%",
+							secondary: "217.2 32.6% 17.5%",
+							"secondary-foreground": "210 40% 98%",
+							accent: "217.2 32.6% 17.5%",
+							"accent-foreground": "210 40% 98%",
+							destructive: "0 62.8% 30.6%",
+							"destructive-foreground": "210 40% 98%",
+							ring: "212.7 26.8% 83.9%",
+						},
+						},
+						stone: {
+						light: {
+							background: "0 0% 100%",
+							foreground: "20 14.3% 4.1%",
+							muted: "60 4.8% 95.9%",
+							"muted-foreground": "25 5.3% 44.7%",
+							popover: "0 0% 100%",
+							"popover-foreground": "20 14.3% 4.1%",
+							card: "0 0% 100%",
+							"card-foreground": "20 14.3% 4.1%",
+							border: "20 5.9% 90%",
+							input: "20 5.9% 90%",
+							primary: "24 9.8% 10%",
+							"primary-foreground": "60 9.1% 97.8%",
+							secondary: "60 4.8% 95.9%",
+							"secondary-foreground": "24 9.8% 10%",
+							accent: "60 4.8% 95.9%",
+							"accent-foreground": "24 9.8% 10%",
+							destructive: "0 84.2% 60.2%",
+							"destructive-foreground": "60 9.1% 97.8%",
+							ring: "20 14.3% 4.1%",
+						},
+						dark: {
+							background: "20 14.3% 4.1%",
+							foreground: "60 9.1% 97.8%",
+							muted: "12 6.5% 15.1%",
+							"muted-foreground": "24 5.4% 63.9%",
+							popover: "20 14.3% 4.1%",
+							"popover-foreground": "60 9.1% 97.8%",
+							card: "20 14.3% 4.1%",
+							"card-foreground": "60 9.1% 97.8%",
+							border: "12 6.5% 15.1%",
+							input: "12 6.5% 15.1%",
+							primary: "60 9.1% 97.8%",
+							"primary-foreground": "24 9.8% 10%",
+							secondary: "12 6.5% 15.1%",
+							"secondary-foreground": "60 9.1% 97.8%",
+							accent: "12 6.5% 15.1%",
+							"accent-foreground": "60 9.1% 97.8%",
+							destructive: "0 62.8% 30.6%",
+							"destructive-foreground": "60 9.1% 97.8%",
+							ring: "24 5.7% 82.9%",
+						},
+						},
+						gray: {
+						light: {
+							background: "0 0% 100%",
+							foreground: "224 71.4% 4.1%",
+							muted: "220 14.3% 95.9%",
+							"muted-foreground": "220 8.9% 46.1%",
+							popover: "0 0% 100%",
+							"popover-foreground": "224 71.4% 4.1%",
+							card: "0 0% 100%",
+							"card-foreground": "224 71.4% 4.1%",
+							border: "220 13% 91%",
+							input: "220 13% 91%",
+							primary: "220.9 39.3% 11%",
+							"primary-foreground": "210 20% 98%",
+							secondary: "220 14.3% 95.9%",
+							"secondary-foreground": "220.9 39.3% 11%",
+							accent: "220 14.3% 95.9%",
+							"accent-foreground": "220.9 39.3% 11%",
+							destructive: "0 84.2% 60.2%",
+							"destructive-foreground": "210 20% 98%",
+							ring: "224 71.4% 4.1%",
+						},
+						dark: {
+							background: "224 71.4% 4.1%",
+							foreground: "210 20% 98%",
+							muted: "215 27.9% 16.9%",
+							"muted-foreground": "217.9 10.6% 64.9%",
+							popover: "224 71.4% 4.1%",
+							"popover-foreground": "210 20% 98%",
+							card: "224 71.4% 4.1%",
+							"card-foreground": "210 20% 98%",
+							border: "215 27.9% 16.9%",
+							input: "215 27.9% 16.9%",
+							primary: "210 20% 98%",
+							"primary-foreground": "220.9 39.3% 11%",
+							secondary: "215 27.9% 16.9%",
+							"secondary-foreground": "210 20% 98%",
+							accent: "215 27.9% 16.9%",
+							"accent-foreground": "210 20% 98%",
+							destructive: "0 62.8% 30.6%",
+							"destructive-foreground": "210 20% 98%",
+							ring: "216 12.2% 83.9%",
+						},
+						},
+						neutral: {
+						light: {
+							background: "0 0% 100%",
+							foreground: "0 0% 3.9%",
+							muted: "0 0% 96.1%",
+							"muted-foreground": "0 0% 45.1%",
+							popover: "0 0% 100%",
+							"popover-foreground": "0 0% 3.9%",
+							card: "0 0% 100%",
+							"card-foreground": "0 0% 3.9%",
+							border: "0 0% 89.8%",
+							input: "0 0% 89.8%",
+							primary: "0 0% 9%",
+							"primary-foreground": "0 0% 98%",
+							secondary: "0 0% 96.1%",
+							"secondary-foreground": "0 0% 9%",
+							accent: "0 0% 96.1%",
+							"accent-foreground": "0 0% 9%",
+							destructive: "0 84.2% 60.2%",
+							"destructive-foreground": "0 0% 98%",
+							ring: "0 0% 3.9%",
+						},
+						dark: {
+							background: "0 0% 3.9%",
+							foreground: "0 0% 98%",
+							muted: "0 0% 14.9%",
+							"muted-foreground": "0 0% 63.9%",
+							popover: "0 0% 3.9%",
+							"popover-foreground": "0 0% 98%",
+							card: "0 0% 3.9%",
+							"card-foreground": "0 0% 98%",
+							border: "0 0% 14.9%",
+							input: "0 0% 14.9%",
+							primary: "0 0% 98%",
+							"primary-foreground": "0 0% 9%",
+							secondary: "0 0% 14.9%",
+							"secondary-foreground": "0 0% 98%",
+							accent: "0 0% 14.9%",
+							"accent-foreground": "0 0% 98%",
+							destructive: "0 62.8% 30.6%",
+							"destructive-foreground": "0 0% 98%",
+							ring: "0 0% 83.1%",
+						},
+						},
+						yellow: {
+						light: {
+							background: "0 0% 100%",
+							foreground: "20 14.3% 4.1%",
+							card: "0 0% 100%",
+							"card-foreground": "20 14.3% 4.1%",
+							popover: "0 0% 100%",
+							"popover-foreground": "20 14.3% 4.1%",
+							primary: "47.9 95.8% 53.1%",
+							"primary-foreground": "26 83.3% 14.1%",
+							secondary: "60 4.8% 95.9%",
+							"secondary-foreground": "24 9.8% 10%",
+							muted: "60 4.8% 95.9%",
+							"muted-foreground": "25 5.3% 44.7%",
+							accent: "60 4.8% 95.9%",
+							"accent-foreground": "24 9.8% 10%",
+							destructive: "0 84.2% 60.2%",
+							"destructive-foreground": "60 9.1% 97.8%",
+							border: "20 5.9% 90%",
+							input: "20 5.9% 90%",
+							ring: "20 14.3% 4.1%",
+						},
+						dark: {
+							background: "20 14.3% 4.1%",
+							foreground: "60 9.1% 97.8%",
+							card: "20 14.3% 4.1%",
+							"card-foreground": "60 9.1% 97.8%",
+							popover: "20 14.3% 4.1%",
+							"popover-foreground": "60 9.1% 97.8%",
+							primary: "47.9 95.8% 53.1%",
+							"primary-foreground": "26 83.3% 14.1%",
+							secondary: "12 6.5% 15.1%",
+							"secondary-foreground": "60 9.1% 97.8%",
+							muted: "12 6.5% 15.1%",
+							"muted-foreground": "24 5.4% 63.9%",
+							accent: "12 6.5% 15.1%",
+							"accent-foreground": "60 9.1% 97.8%",
+							destructive: "0 62.8% 30.6%",
+							"destructive-foreground": "60 9.1% 97.8%",
+							border: "12 6.5% 15.1%",
+							input: "12 6.5% 15.1%",
+							ring: "35.5 91.7% 32.9%",
+						},
+						},
+						red: {
+						light: {
+							background: "0 0% 100%",
+							foreground: "0 0% 3.9%",
+							muted: "0 0% 96.1%",
+							"muted-foreground": "0 0% 45.1%",
+							popover: "0 0% 100%",
+							"popover-foreground": "0 0% 3.9%",
+							card: "0 0% 100%",
+							"card-foreground": "0 0% 3.9%",
+							border: "0 0% 89.8%",
+							input: "0 0% 89.8%",
+							primary: "0 72.2% 50.6%",
+							"primary-foreground": "0 85.7% 97.3%",
+							secondary: "0 0% 96.1%",
+							"secondary-foreground": "0 0% 9%",
+							accent: "0 0% 96.1%",
+							"accent-foreground": "0 0% 9%",
+							destructive: "0 84.2% 60.2%",
+							"destructive-foreground": "0 0% 98%",
+							ring: "0 72.2% 50.6%",
+							radius: "0.4rem",
+						},
+						dark: {
+							background: "0 0% 3.9%",
+							foreground: "0 0% 98%",
+							muted: "0 0% 14.9%",
+							"muted-foreground": "0 0% 63.9%",
+							popover: "0 0% 3.9%",
+							"popover-foreground": "0 0% 98%",
+							card: "0 0% 3.9%",
+							"card-foreground": "0 0% 98%",
+							border: "0 0% 14.9%",
+							input: "0 0% 14.9%",
+							primary: "0 72.2% 50.6%",
+							"primary-foreground": "0 85.7% 97.3%",
+							secondary: "0 0% 14.9%",
+							"secondary-foreground": "0 0% 98%",
+							accent: "0 0% 14.9%",
+							"accent-foreground": "0 0% 98%",
+							destructive: "0 62.8% 30.6%",
+							"destructive-foreground": "0 0% 98%",
+							ring: "0 72.2% 50.6%",
+						},
+						},
+						rose: {
+						light: {
+							background: "0 0% 100%",
+							foreground: "240 10% 3.9%",
+							muted: "240 4.8% 95.9%",
+							"muted-foreground": "240 3.8% 46.1%",
+							popover: "0 0% 100%",
+							"popover-foreground": "240 10% 3.9%",
+							card: "0 0% 100%",
+							"card-foreground": "240 10% 3.9%",
+							border: "240 5.9% 90%",
+							input: "240 5.9% 90%",
+							primary: "346.8 77.2% 49.8%",
+							"primary-foreground": "355.7 100% 97.3%",
+							secondary: "240 4.8% 95.9%",
+							"secondary-foreground": "240 5.9% 10%",
+							accent: "240 4.8% 95.9%",
+							"accent-foreground": "240 5.9% 10%",
+							destructive: "0 84.2% 60.2%",
+							"destructive-foreground": "0 0% 98%",
+							ring: "346.8 77.2% 49.8%",
+						},
+						dark: {
+							background: "20 14.3% 4.1%",
+							foreground: "0 0% 95%",
+							muted: "0 0% 15%",
+							"muted-foreground": "240 5% 64.9%",
+							popover: "0 0% 9%",
+							"popover-foreground": "0 0% 95%",
+							card: "24 9.8% 10%",
+							"card-foreground": "0 0% 95%",
+							border: "240 3.7% 15.9%",
+							input: "240 3.7% 15.9%",
+							primary: "346.8 77.2% 49.8%",
+							"primary-foreground": "355.7 100% 97.3%",
+							secondary: "240 3.7% 15.9%",
+							"secondary-foreground": "0 0% 98%",
+							accent: "12 6.5% 15.1%",
+							"accent-foreground": "0 0% 98%",
+							destructive: "0 62.8% 30.6%",
+							"destructive-foreground": "0 85.7% 97.3%",
+							ring: "346.8 77.2% 49.8%",
+						},
+						},
+						orange: {
+						light: {
+							background: "0 0% 100%",
+							foreground: "20 14.3% 4.1%",
+							muted: "60 4.8% 95.9%",
+							"muted-foreground": "25 5.3% 44.7%",
+							popover: "0 0% 100%",
+							"popover-foreground": "20 14.3% 4.1%",
+							card: "0 0% 100%",
+							"card-foreground": "20 14.3% 4.1%",
+							border: "20 5.9% 90%",
+							input: "20 5.9% 90%",
+							primary: "24.6 95% 53.1%",
+							"primary-foreground": "60 9.1% 97.8%",
+							secondary: "60 4.8% 95.9%",
+							"secondary-foreground": "24 9.8% 10%",
+							accent: "60 4.8% 95.9%",
+							"accent-foreground": "24 9.8% 10%",
+							destructive: "0 84.2% 60.2%",
+							"destructive-foreground": "60 9.1% 97.8%",
+							ring: "24.6 95% 53.1%",
+						},
+						dark: {
+							background: "20 14.3% 4.1%",
+							foreground: "60 9.1% 97.8%",
+							muted: "12 6.5% 15.1%",
+							"muted-foreground": "24 5.4% 63.9%",
+							popover: "20 14.3% 4.1%",
+							"popover-foreground": "60 9.1% 97.8%",
+							card: "20 14.3% 4.1%",
+							"card-foreground": "60 9.1% 97.8%",
+							border: "12 6.5% 15.1%",
+							input: "12 6.5% 15.1%",
+							primary: "20.5 90.2% 48.2%",
+							"primary-foreground": "60 9.1% 97.8%",
+							secondary: "12 6.5% 15.1%",
+							"secondary-foreground": "60 9.1% 97.8%",
+							accent: "12 6.5% 15.1%",
+							"accent-foreground": "60 9.1% 97.8%",
+							destructive: "0 72.2% 50.6%",
+							"destructive-foreground": "60 9.1% 97.8%",
+							ring: "20.5 90.2% 48.2%",
+						},
+						},
+						green: {
+						light: {
+							background: "0 0% 100%",
+							foreground: "240 10% 3.9%",
+							muted: "240 4.8% 95.9%",
+							"muted-foreground": "240 3.8% 46.1%",
+							popover: "0 0% 100%",
+							"popover-foreground": "240 10% 3.9%",
+							card: "0 0% 100%",
+							"card-foreground": "240 10% 3.9%",
+							border: "240 5.9% 90%",
+							input: "240 5.9% 90%",
+							primary: "142.1 76.2% 36.3%",
+							"primary-foreground": "355.7 100% 97.3%",
+							secondary: "240 4.8% 95.9%",
+							"secondary-foreground": "240 5.9% 10%",
+							accent: "240 4.8% 95.9%",
+							"accent-foreground": "240 5.9% 10%",
+							destructive: "0 84.2% 60.2%",
+							"destructive-foreground": "0 0% 98%",
+							ring: "142.1 76.2% 36.3%",
+						},
+						dark: {
+							background: "20 14.3% 4.1%",
+							foreground: "0 0% 95%",
+							muted: "0 0% 15%",
+							"muted-foreground": "240 5% 64.9%",
+							popover: "0 0% 9%",
+							"popover-foreground": "0 0% 95%",
+							card: "24 9.8% 10%",
+							"card-foreground": "0 0% 95%",
+							border: "240 3.7% 15.9%",
+							input: "240 3.7% 15.9%",
+							primary: "142.1 70.6% 45.3%",
+							"primary-foreground": "144.9 80.4% 10%",
+							secondary: "240 3.7% 15.9%",
+							"secondary-foreground": "0 0% 98%",
+							accent: "12 6.5% 15.1%",
+							"accent-foreground": "0 0% 98%",
+							destructive: "0 62.8% 30.6%",
+							"destructive-foreground": "0 85.7% 97.3%",
+							ring: "142.4 71.8% 29.2%",
+						},
+						},
+						blue: {
+						light: {
+							background: "0 0% 100%",
+							foreground: "222.2 84% 4.9%",
+							muted: "210 40% 96.1%",
+							"muted-foreground": "215.4 16.3% 46.9%",
+							popover: "0 0% 100%",
+							"popover-foreground": "222.2 84% 4.9%",
+							card: "0 0% 100%",
+							"card-foreground": "222.2 84% 4.9%",
+							border: "214.3 31.8% 91.4%",
+							input: "214.3 31.8% 91.4%",
+							primary: "221.2 83.2% 53.3%",
+							"primary-foreground": "210 40% 98%",
+							secondary: "210 40% 96.1%",
+							"secondary-foreground": "222.2 47.4% 11.2%",
+							accent: "210 40% 96.1%",
+							"accent-foreground": "222.2 47.4% 11.2%",
+							destructive: "0 84.2% 60.2%",
+							"destructive-foreground": "210 40% 98%",
+							ring: "221.2 83.2% 53.3%",
+						},
+						dark: {
+							background: "222.2 84% 4.9%",
+							foreground: "210 40% 98%",
+							muted: "217.2 32.6% 17.5%",
+							"muted-foreground": "215 20.2% 65.1%",
+							popover: "222.2 84% 4.9%",
+							"popover-foreground": "210 40% 98%",
+							card: "222.2 84% 4.9%",
+							"card-foreground": "210 40% 98%",
+							border: "217.2 32.6% 17.5%",
+							input: "217.2 32.6% 17.5%",
+							primary: "217.2 91.2% 59.8%",
+							"primary-foreground": "222.2 47.4% 11.2%",
+							secondary: "217.2 32.6% 17.5%",
+							"secondary-foreground": "210 40% 98%",
+							accent: "217.2 32.6% 17.5%",
+							"accent-foreground": "210 40% 98%",
+							destructive: "0 62.8% 30.6%",
+							"destructive-foreground": "210 40% 98%",
+							ring: "224.3 76.3% 48%",
+						},
+						},
+						violet: {
+						light: {
+							background: "0 0% 100%",
+							foreground: "224 71.4% 4.1%",
+							muted: "220 14.3% 95.9%",
+							"muted-foreground": "220 8.9% 46.1%",
+							popover: "0 0% 100%",
+							"popover-foreground": "224 71.4% 4.1%",
+							card: "0 0% 100%",
+							"card-foreground": "224 71.4% 4.1%",
+							border: "220 13% 91%",
+							input: "220 13% 91%",
+							primary: "262.1 83.3% 57.8%",
+							"primary-foreground": "210 20% 98%",
+							secondary: "220 14.3% 95.9%",
+							"secondary-foreground": "220.9 39.3% 11%",
+							accent: "220 14.3% 95.9%",
+							"accent-foreground": "220.9 39.3% 11%",
+							destructive: "0 84.2% 60.2%",
+							"destructive-foreground": "210 20% 98%",
+							ring: "262.1 83.3% 57.8%",
+						},
+						dark: {
+							background: "224 71.4% 4.1%",
+							foreground: "210 20% 98%",
+							muted: "215 27.9% 16.9%",
+							"muted-foreground": "217.9 10.6% 64.9%",
+							popover: "224 71.4% 4.1%",
+							"popover-foreground": "210 20% 98%",
+							card: "224 71.4% 4.1%",
+							"card-foreground": "210 20% 98%",
+							border: "215 27.9% 16.9%",
+							input: "215 27.9% 16.9%",
+							primary: "263.4 70% 50.4%",
+							"primary-foreground": "210 20% 98%",
+							secondary: "215 27.9% 16.9%",
+							"secondary-foreground": "210 20% 98%",
+							accent: "215 27.9% 16.9%",
+							"accent-foreground": "210 20% 98%",
+							destructive: "0 62.8% 30.6%",
+							"destructive-foreground": "210 20% 98%",
+							ring: "263.4 70% 50.4%",
+						},
+						},
+					},
+					theme: "zinc",
+					radius: "0.5",
+					generatedCSS: "",
+
+					init() {
+						this.applyTheme();
+					},
+
+					setTheme(event) {
+						this.theme = event.target.dataset.theme;
+						this.applyTheme();
+					},
+
+					setRadius() {
+						this.radius = this.$el.dataset.radius;
+						this.applyTheme();
+					},
+
+					resetTheme() {
+						this.theme = "zinc";
+						this.radius = "0.5";
+						this.applyTheme();
+					},
+
+					applyTheme() {
+						const preview = document.getElementById("theme-preview");
+						if (!preview) return;
+
+						preview.className = `theme-${this.theme} w-full`;
+						preview.style.setProperty("--radius", `${this.radius}rem`);
+					},
+
+					isTheme() {
+						return this.theme === this.$el.dataset.theme;
+					},
+
+					getGeneratedCSS() {
+						this.generatedCSS = this.generateCSS();
+					},
+
+					generateCSS() {
+						const colors = this.themeColors[this.theme];
+						if (!colors) return "";
+
+						const cssVars = Object.entries(colors.light)
+							.map(([key, value]) => `--${key}: ${value};`)
+							// Hier definieren wir, wie jede neue Zeile eingerückt sein soll
+							.join("\n\t\t");
+
+						const darkCssVars = Object.entries(colors.dark)
+							.map(([key, value]) => `--${key}: ${value};`)
+							.join("\n\t\t");
+						// INFO: Don't change the indentation here
+						return `@layer base {
+	:root {
+		${cssVars}
+		--radius: ${this.radius}rem;
+	}
+	.dark {
+		${darkCssVars}
+		--radius: ${this.radius}rem;
+	}
+}`;
+					},
+
+					setBorderOnThemeButton() {
+						if (this.theme === this.$el.dataset.theme) {
+							return "border-primary";
+						}
+					},
+
+					setBorderOnRadiusButton() {
+						if (this.radius === this.$el.dataset.radius) {
+							return "border-2 border-primary";
+						}
+					},
+
+					copyToClipboard() {
+						navigator.clipboard
+							.writeText(this.generatedCSS)
+							.then(() => {
+							alert("Copied to clipboard!");
+							})
+							.catch((err) => {
+							console.error("Failed to copy: ", err);
+							});
+						},
+				}))
+			})
+		</script>
+	}
+}
+
+templ Themes() {
+	@ThemesHandle()
+	@layouts.DocsLayout() {
+		<div
+			x-data="themeCustomizer"
+		>
+			<div class="mb-16">
+				<h1 class="text-3xl font-bold mb-2">Themes</h1>
+				<p class="mb-4 text-muted-foreground">Customize the theme of the UI components.</p>
+			</div>
+			<div class="flex flex-col md:flex-row gap-8">
+				<div class="w-full md:w-1/2">
+					<div class="flex items-start justify-between mb-4">
+						<div>
+							<div class="font-semibold">Customize</div>
+							<div class="text-xs text-muted-foreground">Pick a style and color for your components.</div>
+						</div>
+						@components.Button(components.ButtonProps{
+							Size:     "icon",
+							Variant:  "ghost",
+							IconLeft: icons.RotateCcw(icons.IconProps{Size: "14"}),
+							Attributes: templ.Attributes{
+								"@click": "resetTheme",
+							},
+						})
+					</div>
+					@ThemeCustomizer(ThemeCustomizerProps{
+						CurrentTheme:  "orange",
+						CurrentRadius: "0.5",
+					})
+				</div>
+				<div class="w-full md:w-1/2">
+					<div class="mb-4">
+						<div class="font-semibold">Preview</div>
+						<div class="text-xs text-muted-foreground">This is how your theme will look like.</div>
+					</div>
+					@ThemePreview()
+				</div>
+			</div>
+		</div>
+	}
+}
+
+templ ThemePreview() {
+	<div id="theme-preview" class="theme-preview p-6 border rounded-lg">
+		@components.Card(components.CardProps{}) {
+			@components.CardHeader() {
+				@components.CardTitle() {
+					User Registration 
+				}
+				@components.CardDescription() {
+					Please fill out the form below to create your account. 
+				}
+			}
+			@components.CardContent() {
+				<form class="space-y-4">
+					@components.FormItem(components.FormItemProps{}) {
+						@components.Label(components.LabelProps{For: "username", Text: "Username"})
+						@components.Input(components.InputProps{
+							ID:          "username",
+							Name:        "username",
+							Type:        components.InputTypeText,
+							Placeholder: "Enter your username",
+						})
+					}
+					@components.FormItem(components.FormItemProps{}) {
+						@components.Label(components.LabelProps{For: "email", Text: "Email"})
+						@components.Input(components.InputProps{
+							ID:          "email",
+							Name:        "email",
+							Type:        components.InputTypeEmail,
+							Placeholder: "Enter your email",
+						})
+					}
+					@components.FormItem(components.FormItemProps{}) {
+						@components.Label(components.LabelProps{For: "password", Text: "Password"})
+						@components.Input(components.InputProps{
+							ID:          "password",
+							Name:        "password",
+							Type:        components.InputTypePassword,
+							Placeholder: "Enter your password",
+						})
+					}
+					@components.FormItem(components.FormItemProps{}) {
+						@components.Label(components.LabelProps{For: "birthdate", Text: "Birth Date"})
+						@components.Datepicker(components.DatepickerProps{
+							ID:          "birthdate",
+							Name:        "birthdate",
+							Placeholder: "Select your birth date",
+						})
+					}
+					@components.FormItem(components.FormItemProps{}) {
+						@components.Label(components.LabelProps{For: "contact-method", Text: "Contact Method"})
+						@components.FormItemFlex(components.FormItemProps{}) {
+							@components.Radio(components.RadioProps{
+								Value: "email",
+								ID:    "contact-email",
+								Name:  "contact-method",
+							})
+							@components.Label(components.LabelProps{
+								For:  "contact-email",
+								Text: "Email",
+							})
+						}
+						@components.FormItemFlex(components.FormItemProps{}) {
+							@components.Radio(components.RadioProps{
+								Value: "phone",
+								ID:    "contact-phone",
+								Name:  "contact-method",
+							})
+							@components.Label(components.LabelProps{
+								For:  "contact-phone",
+								Text: "Phone",
+							})
+						}
+						@components.FormItemFlex(components.FormItemProps{}) {
+							@components.Radio(components.RadioProps{
+								Value:      "mail",
+								ID:         "contact-mail",
+								Name:       "contact-method",
+								Attributes: templ.Attributes{"disabled": "true"},
+							})
+							@components.Label(components.LabelProps{
+								For:  "contact-mail",
+								Text: "Physical Mail",
+							})
+						}
+					}
+					@components.FormItem(components.FormItemProps{}) {
+						@components.Label(components.LabelProps{Text: "Preferences"})
+						@components.FormItemFlex(components.FormItemProps{}) {
+							@components.Toggle(components.ToggleProps{
+								ID:   "marketing",
+								Name: "marketing",
+							})
+							@components.Label(components.LabelProps{
+								For:  "marketing",
+								Text: "Receive marketing emails",
+							})
+						}
+						@components.FormItemFlex(components.FormItemProps{}) {
+							@components.Toggle(components.ToggleProps{
+								ID:         "notifications",
+								Name:       "notifications",
+								Attributes: templ.Attributes{"checked": "true"},
+							})
+							@components.Label(components.LabelProps{
+								For:  "notifications",
+								Text: "Enable notifications",
+							})
+						}
+						@components.FormItemFlex(components.FormItemProps{}) {
+							@components.Toggle(components.ToggleProps{
+								ID:         "beta",
+								Name:       "beta",
+								Attributes: templ.Attributes{"disabled": "true"},
+							})
+							@components.Label(components.LabelProps{
+								For:  "beta",
+								Text: "Join beta program",
+							})
+						}
+					}
+					@components.FormItem(components.FormItemProps{}) {
+						@components.Label(components.LabelProps{Text: "Terms and Conditions"})
+						@components.FormItemFlex(components.FormItemProps{}) {
+							@components.Checkbox(components.CheckboxProps{
+								ID:    "terms",
+								Name:  "terms",
+								Value: "accepted",
+							})
+							@components.Label(components.LabelProps{
+								For:  "terms",
+								Text: "I accept the terms and conditions",
+							})
+						}
+						@components.FormItemFlex(components.FormItemProps{}) {
+							@components.Checkbox(components.CheckboxProps{
+								ID:    "newsletter",
+								Name:  "newsletter",
+								Value: "subscribed",
+							})
+							@components.Label(components.LabelProps{
+								For:  "newsletter",
+								Text: "Subscribe to newsletter",
+							})
+						}
+					}
+				</form>
+			}
+			@components.CardFooter() {
+				<div class="flex justify-between w-full">
+					@components.Button(components.ButtonProps{
+						Text:    "Cancel",
+						Variant: "secondary",
+					})
+					@components.Button(components.ButtonProps{
+						Text:    "Register",
+						Variant: "primary",
+					})
+				</div>
+			}
+		}
+	</div>
+}
+
+type ThemeCustomizerProps struct {
+	CurrentTheme  string
+	CurrentRadius string
+}
+
+templ ThemeCustomizer(props ThemeCustomizerProps) {
+	<div
+		class="theme-customizer w-full flex flex-col gap-2"
+	>
+		<div class="flex flex-1 flex-col space-y-4 md:space-y-6">
+			@ThemeSelector()
+			@RadiusSelector()
+			@ModeSelector()
+		</div>
+		@components.ModalTrigger("css-modal") {
+			@components.Button(components.ButtonProps{Text: "Generate and Copy CSS", FullWidth: true, Attributes: templ.Attributes{
+				"@click": "getGeneratedCSS",
+			}})
+		}
+		@components.Modal(components.ModalProps{ID: "css-modal", Class: "max-w-xl"}) {
+			@components.ModalHeader() {
+				Generated CSS Code
+			}
+			@components.ModalBody() {
+				<pre x-text="generatedCSS" class="text-primary p-4 rounded overflow-x-auto max-h-96"></pre>
+			}
+			@components.ModalFooter() {
+				<div class="flex gap-2">
+					@components.Button(components.ButtonProps{
+						Text:       "Copy to Clipboard",
+						Variant:    "primary",
+						Attributes: templ.Attributes{"@click": "copyToClipboard"},
+					})
+					@components.ModalClose("css-modal") {
+						@components.Button(components.ButtonProps{
+							Text:    "Close",
+							Variant: "secondary",
+						})
+					}
+				</div>
+			}
+		}
+	</div>
+}
+
+templ ThemeSelector() {
+	<div class="space-y-1.5">
+		<label class="text-xs font-medium">Theme</label>
+		<div class="grid grid-cols-3 gap-2">
+			<button
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				style="--theme-primary: hsl(240 5.9% 10%);"
+				data-theme="zinc"
+				x-bind:class="setBorderOnThemeButton"
+				@click="setTheme"
+			>
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]">
+					<span
+						data-theme="zinc"
+						x-show="isTheme"
+					>
+						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
+					</span>
+				</span>
+				Zinc
+			</button>
+			<button
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				style="--theme-primary: hsl(215.4 16.3% 46.9%);"
+				data-theme="slate"
+				x-bind:class="setBorderOnThemeButton"
+				@click="setTheme"
+			>
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]">
+					<span
+						data-theme="slate"
+						x-show="isTheme"
+					>
+						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
+					</span>
+				</span>
+				Slate
+			</button>
+			<button
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				style="--theme-primary: hsl(25 5.3% 44.7%);"
+				data-theme="stone"
+				x-bind:class="setBorderOnThemeButton"
+				@click="setTheme"
+			>
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]">
+					<span
+						data-theme="stone"
+						x-show="isTheme"
+					>
+						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
+					</span>
+				</span>
+				Stone
+			</button>
+			<button
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				style="--theme-primary: hsl(220 8.9% 46.1%);"
+				data-theme="gray"
+				x-bind:class="setBorderOnThemeButton"
+				@click="setTheme"
+			>
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]">
+					<span
+						data-theme="gray"
+						x-show="isTheme"
+					>
+						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
+					</span>
+				</span>
+				Gray
+			</button>
+			<button
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				style="--theme-primary: hsl(0 0% 45.1%);"
+				data-theme="neutral"
+				x-bind:class="setBorderOnThemeButton"
+				@click="setTheme"
+			>
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]">
+					<span
+						data-theme="neutral"
+						x-show="isTheme"
+					>
+						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
+					</span>
+				</span>
+				Neutral
+			</button>
+			<button
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				style="--theme-primary: hsl(0 72.2% 50.6%);"
+				data-theme="red"
+				x-bind:class="setBorderOnThemeButton"
+				@click="setTheme"
+			>
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]">
+					<span
+						data-theme="red"
+						x-show="isTheme"
+					>
+						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
+					</span>
+				</span>
+				Red
+			</button>
+			<button
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				style="--theme-primary: hsl(346.8 77.2% 49.8%);"
+				data-theme="rose"
+				x-bind:class="setBorderOnThemeButton"
+				@click="setTheme"
+			>
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]">
+					<span
+						data-theme="rose"
+						x-show="isTheme"
+					>
+						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
+					</span>
+				</span>
+				Rose
+			</button>
+			<button
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				style="--theme-primary: hsl(24.6 95% 53.1%);"
+				data-theme="orange"
+				x-bind:class="setBorderOnThemeButton"
+				@click="setTheme"
+			>
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]">
+					<span
+						data-theme="orange"
+						x-show="isTheme"
+					>
+						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
+					</span>
+				</span>
+				Orange
+			</button>
+			<button
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				style="--theme-primary: hsl(142.1 76.2% 36.3%);"
+				data-theme="green"
+				x-bind:class="setBorderOnThemeButton"
+				@click="setTheme"
+			>
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]">
+					<span
+						data-theme="green"
+						x-show="isTheme"
+					>
+						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
+					</span>
+				</span>
+				Green
+			</button>
+			<button
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				style="--theme-primary: hsl(221.2 83.2% 53.3%);"
+				data-theme="blue"
+				x-bind:class="setBorderOnThemeButton"
+				@click="setTheme"
+			>
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]">
+					<span
+						data-theme="blue"
+						x-show="isTheme"
+					>
+						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
+					</span>
+				</span>
+				Blue
+			</button>
+			<button
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				style="--theme-primary: hsl(47.9 95.8% 53.1%);"
+				data-theme="yellow"
+				x-bind:class="setBorderOnThemeButton"
+				@click="setTheme"
+			>
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]">
+					<span
+						data-theme="yellow"
+						x-show="isTheme"
+					>
+						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
+					</span>
+				</span>
+				Yellow
+			</button>
+			<button
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				style="--theme-primary: hsl(262.1 83.3% 57.8%);"
+				data-theme="violet"
+				x-bind:class="setBorderOnThemeButton"
+				@click="setTheme"
+			>
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]">
+					<span
+						data-theme="violet"
+						x-show="isTheme"
+					>
+						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
+					</span>
+				</span>
+				Violet
+			</button>
+		</div>
+	</div>
+}
+
+templ RadiusSelector() {
+	<div class="space-y-1.5">
+		<label class="text-xs font-medium">Radius</label>
+		<div class="grid grid-cols-5 gap-2">
+			<button
+				class="px-3 py-1 rounded border"
+				data-radius="0"
+				x-bind:class="setBorderOnRadiusButton"
+				@click="setRadius"
+			>
+				0
+			</button>
+			<button
+				class="px-3 py-1 rounded border"
+				data-radius="0.3"
+				x-bind:class="setBorderOnRadiusButton"
+				@click="setRadius"
+			>
+				0.3
+			</button>
+			<button
+				class="px-3 py-1 rounded border"
+				data-radius="0.5"
+				x-bind:class="setBorderOnRadiusButton"
+				@click="setRadius"
+			>
+				0.5
+			</button>
+			<button
+				class="px-3 py-1 rounded border"
+				data-radius="0.75"
+				x-bind:class="setBorderOnRadiusButton"
+				@click="setRadius"
+			>
+				0.75
+			</button>
+			<button
+				class="px-3 py-1 rounded border"
+				data-radius="1.0"
+				x-bind:class="setBorderOnRadiusButton"
+				@click="setRadius"
+			>
+				1.0
+			</button>
+		</div>
+	</div>
+}
+
+templ ModeSelector() {
+	<div class="space-y-1.5">
+		<label class="text-xs font-medium">Mode</label>
+		@modules.ThemeSwitcher(modules.ThemeSwitcherProps{Class: "w-full border"})
+	</div>
+}

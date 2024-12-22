@@ -1,6 +1,6 @@
 # exlude generated files but not for the pkg folder
-internals/**/*_templ.go
-internals/**/*_templ.txt
+internal/**/*_templ.go
+internal/**/*_templ.txt
 
 # exclude .txt files because they are not needed as a go package but the .go files are
 pkg/**/*_templ.txt

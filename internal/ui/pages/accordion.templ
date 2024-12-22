@@ -1,0 +1,30 @@
+
+package pages
+
+import (
+	"github.com/axzilla/templui/internal/ui/layouts"
+	"github.com/axzilla/templui/internal/ui/modules"
+	"github.com/axzilla/templui/internal/ui/showcase"
+)
+
+templ Accordion() {
+	@layouts.DocsLayout() {
+		@modules.PageWrapper(modules.PageWrapperProps{
+			Name:        "Accordion",
+			Description: templ.Raw("Vertically stacked interactive sections to organize content."),
+			Tailwind:    true,
+			Alpine:      true,
+		}) {
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				ShowcaseFile:      showcase.Accordion(),
+				PreviewCodeFile:   "accordion.templ",
+				ComponentCodeFile: "accordion.templ",
+			})
+			@modules.Usage(modules.UsageProps{
+				ComponentName: "Accordion",
+				NeedsHandler:  true,
+				PropsExample:  "...",
+			})
+		}
+	}
+}

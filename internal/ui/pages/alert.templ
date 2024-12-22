@@ -1,0 +1,35 @@
+package pages
+
+import (
+	"github.com/axzilla/templui/internal/ui/layouts"
+	"github.com/axzilla/templui/internal/ui/modules"
+	"github.com/axzilla/templui/internal/ui/showcase"
+)
+
+templ Alert() {
+	@layouts.DocsLayout() {
+		@modules.PageWrapper(modules.PageWrapperProps{
+			Name:        "Alert",
+			Description: templ.Raw("Status message that displays contextual feedback or notifications."),
+			Tailwind:    true,
+		}) {
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				ShowcaseFile:      showcase.AlertDefault(),
+				PreviewCodeFile:   "alert_default.templ",
+				ComponentCodeFile: "alert.templ",
+			})
+			@modules.Usage(modules.UsageProps{
+				ComponentName: "Alert",
+				PropsExample:  "...",
+			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Destructive",
+					ShowcaseFile:      showcase.AlertDestructive(),
+					PreviewCodeFile:   "alert_destructive.templ",
+					ComponentCodeFile: "alert.templ",
+				})
+			}
+		}
+	}
+}

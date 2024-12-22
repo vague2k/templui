@@ -6,7 +6,7 @@ import (
 	"strings"
 
 	"github.com/a-h/templ"
-	"github.com/axzilla/templui/internals/utils"
+	"github.com/axzilla/templui/internal/utils"
 )
 
 type CSPConfig struct {
