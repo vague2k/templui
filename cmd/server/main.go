@@ -7,9 +7,9 @@ import (
 
 	"github.com/a-h/templ"
 	"github.com/axzilla/templui/assets"
-	"github.com/axzilla/templui/internals/config"
-	"github.com/axzilla/templui/internals/middleware"
-	"github.com/axzilla/templui/internals/ui/pages"
+	"github.com/axzilla/templui/internal/config"
+	"github.com/axzilla/templui/internal/middleware"
+	"github.com/axzilla/templui/internal/ui/pages"
 	"github.com/axzilla/templui/pkg/components"
 	mw "github.com/axzilla/templui/pkg/middleware"
 )

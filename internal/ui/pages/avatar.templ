@@ -1,0 +1,41 @@
+package pages
+
+import (
+	"github.com/axzilla/templui/internal/ui/layouts"
+	"github.com/axzilla/templui/internal/ui/modules"
+	"github.com/axzilla/templui/internal/ui/showcase"
+)
+
+templ Avatar() {
+	@layouts.DocsLayout() {
+		@modules.PageWrapper(modules.PageWrapperProps{
+			Name:        "Avatar",
+			Description: templ.Raw("Visual representation of a user through images or initials."),
+			Tailwind:    true,
+		}) {
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				ShowcaseFile:      showcase.AvatarWithImage(),
+				PreviewCodeFile:   "avatar_with_image.templ",
+				ComponentCodeFile: "avatar.templ",
+			})
+			@modules.Usage(modules.UsageProps{
+				ComponentName: "Avatar",
+				PropsExample:  "...",
+			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "With Placeholder",
+					ShowcaseFile:      showcase.AvatarWithPlaceholder(),
+					PreviewCodeFile:   "avatar_with_placeholder.templ",
+					ComponentCodeFile: "avatar.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "With Sizes",
+					ShowcaseFile:      showcase.AvatarWithSizes(),
+					PreviewCodeFile:   "avatar_with_sizes.templ",
+					ComponentCodeFile: "avatar.templ",
+				})
+			}
+		}
+	}
+}

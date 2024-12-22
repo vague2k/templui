@@ -1,0 +1,29 @@
+package pages
+
+import (
+	"github.com/axzilla/templui/internal/ui/layouts"
+	"github.com/axzilla/templui/internal/ui/modules"
+	"github.com/axzilla/templui/internal/ui/showcase"
+)
+
+templ Modal() {
+	@layouts.DocsLayout() {
+		@modules.PageWrapper(modules.PageWrapperProps{
+			Name:        "Modal",
+			Description: templ.Raw("Dialog overlay that requires user attention or interaction."),
+			Tailwind:    true,
+			Alpine:      true,
+		}) {
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				ShowcaseFile:      showcase.Modal(),
+				PreviewCodeFile:   "modal.templ",
+				ComponentCodeFile: "modal.templ",
+			})
+			@modules.Usage(modules.UsageProps{
+				ComponentName: "Modal",
+				NeedsHandler:  true,
+				PropsExample:  "...",
+			})
+		}
+	}
+}
