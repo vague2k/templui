@@ -1,0 +1,13 @@
+package showcase
+
+import "github.com/axzilla/templui/pkg/components"
+
+templ Code() {
+	<div class="w-full max-w-md">
+		@components.Code(components.CodeProps{
+			Language: "go",
+		}) {
+			{ `fmt.Println("Hello, World!")` }
+		}
+	</div>
+}

@@ -1,6 +1,9 @@
 package modules
 
-import "fmt"
+import (
+	"fmt"
+	"github.com/axzilla/templui/pkg/components"
+)
 
 type UsageProps struct {
 	ComponentName string // Name der Komponente (z.B. "Toast", "Modal")
@@ -14,22 +17,26 @@ templ Usage(props UsageProps) {
 		if props.NeedsHandler {
 			<div class="mb-4">
 				<p class="text-muted-foreground mb-2">1. Add the script to your page/layout:</p>
-				@CodeSnippet(fmt.Sprintf(`// Option A: All components (recommended)
+				@components.Code(components.CodeProps{Language: "go"}) {
+					{ fmt.Sprintf(`// Option A: All components (recommended)
 @utils.ComponentScripts()
 
 // Option B: Just %s
-@components.%sScript()`, props.ComponentName, props.ComponentName), "go")
+@components.%sScript()`, props.ComponentName, props.ComponentName) }
+				}
 			</div>
 		}
 		<div>
 			if props.NeedsHandler {
 				<p class="text-muted-foreground mb-2">2. Use the component:</p>
 			}
-			@CodeSnippet(fmt.Sprintf(`@components.%s(components.%sProps{%s})`,
-				props.ComponentName,
-				props.ComponentName,
-				props.PropsExample,
-			), "go")
+			@components.Code(components.CodeProps{Language: "go"}) {
+				{ fmt.Sprintf(`@components.%s(components.%sProps{%s})`,
+			props.ComponentName,
+			props.ComponentName,
+			props.PropsExample,
+		) }
+			}
 		</div>
 	</div>
 }

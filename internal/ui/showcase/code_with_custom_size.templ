@@ -1,0 +1,32 @@
+package showcase
+
+import "github.com/axzilla/templui/pkg/components"
+
+templ CodeWithCustomSize() {
+	<div class="w-full max-w-md">
+		@components.Code(components.CodeProps{
+			Language:       "go",
+			ShowCopyButton: true,
+			Size:           components.CodeSizeSm,
+		}) {
+			{ `package main
+
+import (
+   "fmt"
+   "log"
+   "net/http"
+)
+
+func main() {
+   http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+       fmt.Fprintf(w, "Hello, World!")
+   })
+
+   fmt.Println("Server starting on :3000...")
+   if err := http.ListenAndServe(":3000", nil); err != nil {
+       log.Fatal(err)
+   }
+}` }
+		}
+	</div>
+}

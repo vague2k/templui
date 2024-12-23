@@ -1,0 +1,91 @@
+package components
+
+import (
+	"github.com/axzilla/templui/pkg/icons"
+	"github.com/axzilla/templui/pkg/utils"
+)
+
+templ CodeScript() {
+	{{ handle := templ.NewOnceHandle() }}
+	@handle.Once() {
+		<script nonce={ templ.GetNonce(ctx) }>
+           document.addEventListener('alpine:init', () => {
+               Alpine.data('code', () => ({
+                   isCopied: false,
+                   isNotCopied: true,
+                   copyCode() {
+                       navigator.clipboard.writeText(this.$refs.code.textContent)
+                       this.isCopied = true
+                       this.isNotCopied = false
+                       setTimeout(() => {
+                           this.isCopied = false
+                           this.isNotCopied = true
+                       }, 2000)
+                   }
+               }))
+           })
+       </script>
+	}
+}
+
+// CodeSize represents the available sizes for the Code component
+type CodeSize string
+
+const (
+	CodeSizeDefault CodeSize = ""     // ~20 lines (default)
+	CodeSizeSm      CodeSize = "sm"   // ~10 lines (for short examples)
+	CodeSizeLg      CodeSize = "lg"   // ~40 lines (for long examples)
+	CodeSizeFull    CodeSize = "full" // Full height (no max-height)
+)
+
+type CodeProps struct {
+	Language       string   // Programming language for syntax highlighting
+	ShowCopyButton bool     // Whether to show the copy button
+	Size           CodeSize // Size of the code block
+	Class          string   // Additional classes for the wrapper div
+	CodeClass      string   // Additional classes for the code element
+}
+
+// Code displays a code block with optional syntax highlighting and copy functionality
+templ Code(p CodeProps) {
+	<div
+		class={
+			utils.TwMerge(
+				"relative",
+				p.Class,
+			),
+		}
+		x-data="code"
+	>
+		<pre class="!overflow-hidden">
+			<code
+				x-ref="code"
+				class={
+					utils.TwMerge(
+						"language-"+p.Language,
+						"!overflow-y-auto rounded-md block text-sm !max-h-[501px]",
+						utils.TwIf("!max-h-[250px]", p.Size == CodeSizeSm),
+						utils.TwIf("!max-h-[1000px]", p.Size == CodeSizeLg),
+						utils.TwIf("!max-h-full", p.Size == CodeSizeFull),
+						p.CodeClass,
+					),
+				}
+			>
+				{ children... }
+			</code>
+		</pre>
+		if p.ShowCopyButton {
+			<button
+				class="absolute top-2 right-2 hover:bg-gray-500 hover:bg-opacity-30 text-white p-2 rounded"
+				@click="copyCode"
+			>
+				<span x-show="isCopied">
+					@icons.Check(icons.IconProps{Size: "14"})
+				</span>
+				<span x-show="isNotCopied">
+					@icons.Clipboard(icons.IconProps{Size: "14"})
+				</span>
+			</button>
+		}
+	</div>
+}
