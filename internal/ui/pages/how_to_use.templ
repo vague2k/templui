@@ -2,7 +2,7 @@ package pages
 
 import (
 	"github.com/axzilla/templui/internal/ui/layouts"
-	"github.com/axzilla/templui/internal/ui/modules"
+	"github.com/axzilla/templui/pkg/components"
 )
 
 var installGo = `go version`
@@ -233,28 +233,42 @@ templ HowToUse() {
 					<div>
 						<h3 class="text-xl font-semibold mb-2">1. Go (1.20 or later)</h3>
 						<p class="mb-2">Check your Go version:</p>
-						@modules.CodeSnippet(installGo, "markdown")
+						@components.Code(components.CodeProps{Language: "shell", ShowCopyButton: true}) {
+							{ installGo }
+						}
 						<p class="text-sm mt-2">For installation instructions, visit <a href="https://golang.org/dl" class="text-primary underline">golang.org/dl</a>.</p>
 					</div>
 					<div>
 						<h3 class="text-xl font-semibold mb-2">2. Templ</h3>
 						<p class="mb-2">Install the Templ CLI:</p>
-						@modules.CodeSnippet(installTempl, "markdown")
+						@components.Code(components.CodeProps{Language: "shell", ShowCopyButton: true}) {
+							{ installTempl }
+						}
 					</div>
 					<div>
 						<h3 class="text-xl font-semibold mb-2">3. Tailwind CSS CLI (Standalone)</h3>
 						<p class="mb-2">Install the standalone CLI based on your operating system:</p>
 						<div class="space-y-4">
 							<p class="mb-2">Homebrew (macOS):</p>
-							@modules.CodeSnippet(tailwindHomebrew, "markdown")
+							@components.Code(components.CodeProps{Language: "shell", ShowCopyButton: true}) {
+								{ tailwindHomebrew }
+							}
 							<p class="mb-2">macOS (Apple Silicon):</p>
-							@modules.CodeSnippet(tailwindMacOSArm64, "markdown")
+							@components.Code(components.CodeProps{Language: "shell", ShowCopyButton: true}) {
+								{ tailwindMacOSArm64 }
+							}
 							<p class="mb-2">macOS (Intel):</p>
-							@modules.CodeSnippet(tailwindMacOSX64, "markdown")
+							@components.Code(components.CodeProps{Language: "shell", ShowCopyButton: true}) {
+								{ tailwindMacOSX64 }
+							}
 							<p class="mb-2">Linux (x64):</p>
-							@modules.CodeSnippet(tailwindLinuxX64, "markdown")
+							@components.Code(components.CodeProps{Language: "shell", ShowCopyButton: true}) {
+								{ tailwindLinuxX64 }
+							}
 							<p class="mb-2">Windows (x64):</p>
-							@modules.CodeSnippet(tailwindWindowsX64, "markdown")
+							@components.Code(components.CodeProps{Language: "shell", ShowCopyButton: true}) {
+								{ tailwindWindowsX64 }
+							}
 						</div>
 					</div>
 				</div>
@@ -266,12 +280,16 @@ templ HowToUse() {
 					<div>
 						<h3 class="text-xl font-semibold mb-2">1. Tailwind Configuration</h3>
 						<p class="mb-2">Create tailwind.config.js:</p>
-						@modules.CodeSnippet(tailwindConfig, "javascript")
+						@components.Code(components.CodeProps{Language: "javascript", ShowCopyButton: true}) {
+							{ tailwindConfig }
+						}
 					</div>
 					<div>
 						<h3 class="text-xl font-semibold mb-2">2. CSS Base Styles</h3>
 						<p class="mb-2">Create assets/css/input.css with our base styles:</p>
-						@modules.CodeSnippet(inputCss, "css")
+						@components.Code(components.CodeProps{Language: "css", ShowCopyButton: true}) {
+							{ inputCss }
+						}
 						<p class="text-sm mt-2">For custom themes and additional styles, check our <a href="/docs/themes" class="text-primary underline">themes documentation</a>.</p>
 					</div>
 					<div class="space-y-2">
@@ -284,9 +302,13 @@ templ HowToUse() {
 								class="underline hover:opacity-80 font-semibold"
 							>Alpine's CSP build</a>. Use our recommended helper component:
 						</p>
-						@modules.CodeSnippet(installAlpineHelper, "html")
+						@components.Code(components.CodeProps{Language: "html", ShowCopyButton: true}) {
+							{ installAlpineHelper }
+						}
 						<p class="mb-2">Or include the CSP-compliant Alpine.js version directly:</p>
-						@modules.CodeSnippet(installAlpine, "html")
+						@components.Code(components.CodeProps{Language: "html", ShowCopyButton: true}) {
+							{ installAlpine }
+						}
 						<div class="bg-muted p-4 rounded-lg mt-4">
 							<p class="font-medium mb-2">CSP Compliance in TemplUI</p>
 							<div class="space-y-4">
@@ -344,7 +366,9 @@ templ HowToUse() {
 								</div>
 							</div>
 						</div>
-						@modules.CodeSnippet(cspMiddleware, "go")
+						@components.Code(components.CodeProps{Language: "go", ShowCopyButton: true}) {
+							{ cspMiddleware }
+						}
 					</div>
 				</div>
 			</section>
@@ -368,12 +392,16 @@ templ HowToUse() {
 					<div>
 						<h3 class="text-xl font-semibold mb-2">1. Air (Live Reload for Go)</h3>
 						<p class="mb-2">Install Air for automatic Go server rebuilds:</p>
-						@modules.CodeSnippet("go install github.com/cosmtrek/air@latest", "markdown")
+						@components.Code(components.CodeProps{Language: "shell", ShowCopyButton: true}) {
+							{ "go install github.com/cosmtrek/air@latest" }
+						}
 					</div>
 					<div>
 						<h3 class="text-xl font-semibold mb-2">2. Development Makefile</h3>
 						<p class="mb-2">Create a Makefile in your project root:</p>
-						@modules.CodeSnippet(makeFile, "makefile")
+						@components.Code(components.CodeProps{Language: "makefile", ShowCopyButton: true}) {
+							{ makeFile }
+						}
 						<div class="bg-muted p-4 rounded-lg mt-4">
 							<p class="font-medium mb-2">Note about ports:</p>
 							<ul class="list-disc pl-6 space-y-1 text-sm">
@@ -386,7 +414,9 @@ templ HowToUse() {
 					<div>
 						<h3 class="text-xl font-semibold mb-2">3. Start Development Server</h3>
 						<p class="mb-2">Start all development tools with a single command:</p>
-						@modules.CodeSnippet("make dev", "markdown")
+						@components.Code(components.CodeProps{Language: "shell", ShowCopyButton: true}) {
+							{ "make dev" }
+						}
 						<p class="text-sm mt-2">This will:</p>
 						<ul class="list-disc pl-6 text-sm space-y-1">
 							<li>Watch and compile Templ files</li>
@@ -417,15 +447,21 @@ templ HowToUse() {
 						<h3 class="text-xl font-semibold mb-2">2. Package Installation</h3>
 						<p class="mb-4">Install TemplUI as a Go package:</p>
 						<div class="mb-4">
-							@modules.CodeSnippet(installTemplUI, "markdown")
+							@components.Code(components.CodeProps{Language: "shell", ShowCopyButton: true}) {
+								{ installTemplUI }
+							}
 						</div>
 						<h4 class="font-semibold mb-2">*Required: Additional Tailwind Configuration</h4>
 						<p class="mb-2">When using TemplUI as a package, add this to your tailwind.config.json content array:</p>
 						<div class="mb-4">
-							@modules.CodeSnippet(goPath, "markdown")
+							@components.Code(components.CodeProps{Language: "markdown", ShowCopyButton: true}) {
+								{ goPath }
+							}
 						</div>
 						<p class="mb-2">Replace { string("${GOPATH}") } with your actual Go path:</p>
-						@modules.CodeSnippet("go env GOPATH", "markdown")
+						@components.Code(components.CodeProps{Language: "shell", ShowCopyButton: true}) {
+							{ "go env GOPATH" }
+						}
 					</div>
 					<div>
 						<h3 class="text-xl font-semibold mb-2">3. Copy Components</h3>
@@ -452,7 +488,9 @@ templ HowToUse() {
 					<div>
 						<h3 class="text-xl font-semibold mb-2">1. Include Required Scripts</h3>
 						<p class="mb-4">At the top of your layout template, include the necessary scripts:</p>
-						@modules.CodeSnippet(alpineHelpers, "go")
+						@components.Code(components.CodeProps{Language: "go", ShowCopyButton: true}) {
+							{ alpineHelpers }
+						}
 					</div>
 					<div>
 						<h3 class="text-xl font-semibold mb-2">2. Component Types</h3>
@@ -460,12 +498,16 @@ templ HowToUse() {
 							<div class="bg-muted p-4 rounded-lg">
 								<h4 class="font-medium mb-2">Static Components (Tailwind CSS only)</h4>
 								<p class="mb-2">Can be used directly without additional script includes:</p>
-								@modules.CodeSnippet(staticComponent, "go")
+								@components.Code(components.CodeProps{Language: "go", ShowCopyButton: true}) {
+									{ staticComponent }
+								}
 							</div>
 							<div class="bg-muted p-4 rounded-lg">
 								<h4 class="font-medium mb-2">Interactive Components (Alpine.js/Vanilla JS)</h4>
 								<p class="mb-2">Require script includes:</p>
-								@modules.CodeSnippet(interactiveComponent, "go")
+								@components.Code(components.CodeProps{Language: "go", ShowCopyButton: true}) {
+									{ interactiveComponent }
+								}
 							</div>
 							<p>
 								For a complete list of available components and their usage, visit our

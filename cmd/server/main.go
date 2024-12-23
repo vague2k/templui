@@ -59,6 +59,7 @@ func main() {
 	mux.Handle("GET /docs/components/badge", templ.Handler(pages.Badge()))
 	mux.Handle("GET /docs/components/button", templ.Handler(pages.Button()))
 	mux.Handle("GET /docs/components/card", templ.Handler(pages.Card()))
+	mux.Handle("GET /docs/components/code", templ.Handler(pages.Code()))
 	mux.Handle("GET /docs/components/checkbox", templ.Handler(pages.Checkbox()))
 	mux.Handle("GET /docs/components/datepicker", templ.Handler(pages.Datepicker()))
 	mux.Handle("GET /docs/components/dropdown-menu", templ.Handler(pages.DropdownMenu()))

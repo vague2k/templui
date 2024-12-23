@@ -76,7 +76,9 @@ func Save(w http.ResponseWriter, r *http.Request) {
 }`, "templ")
 
 templ withHtmx() {
-	@modules.CodeSnippet(withHtmxCode, "go")
+	@components.Code(components.CodeProps{Language: "go"}) {
+		{ withHtmxCode }
+	}
 }
 
 var fullPageFormCode = fmt.Sprintf(`// Template
@@ -100,5 +102,7 @@ func Save(w http.ResponseWriter, r *http.Request) {
 }`, "templ")
 
 templ fullPageForm() {
-	@modules.CodeSnippet(string(fullPageFormCode), "go")
+	@components.Code(components.CodeProps{Language: "go"}) {
+		{ fullPageFormCode }
+	}
 }
