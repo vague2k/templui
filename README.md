@@ -18,8 +18,6 @@ TemplUI is an enterprise-ready library of UI components designed specifically fo
 - **Server-Side Focused**: Excellent performance and SEO benefits
 - **Modern Stack**: Go, Templ, Alpine.js, and Tailwind CSS working in harmony
 
-[Rest der README bleibt gleich...]
-
 ## Quick Start
 
 Visit our [documentation](https://templui.io/docs/how-to-use) for detailed installation and usage instructions.
