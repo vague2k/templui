@@ -31,7 +31,9 @@ templ Checkbox(props CheckboxProps) {
 			disabled?={ props.Disabled }
 			id={ props.ID }
 			name={ props.Name }
-			value={ props.Value }
+			if props.Value != "" {
+				value={ props.Value }
+			}
 			type="checkbox"
 			class={
 				utils.TwMerge(
