@@ -44,7 +44,7 @@ func main() {
 			"cdnjs.cloudflare.com", // highlight.js
 		},
 	}
-	wrappedMux := middleware.WithPreviewCheck(mw.WithCSP(cspConfig)(mux))
+	wrappedMux := middleware.CacheControlMiddleware(middleware.WithPreviewCheck(mw.WithCSP(cspConfig)(mux)))
 
 	mux.Handle("GET /", templ.Handler(pages.Landing()))
 	mux.Handle("GET /docs/components", http.RedirectHandler("/docs/components/accordion", http.StatusSeeOther))
