@@ -231,7 +231,7 @@ templ HowToUse() {
 				<p class="mb-4">Before using TemplUI, ensure you have these tools installed:</p>
 				<div class="space-y-6">
 					<div>
-						<h3 class="text-xl font-semibold mb-2">1. Go (1.20 or later)</h3>
+						<h3 class="text-xl font-semibold mb-2">1. Go (1.23 or later)</h3>
 						<p class="mb-2">Check your Go version:</p>
 						@components.Code(components.CodeProps{Language: "shell", ShowCopyButton: true}) {
 							{ installGo }
@@ -239,7 +239,7 @@ templ HowToUse() {
 						<p class="text-sm mt-2">For installation instructions, visit <a href="https://golang.org/dl" class="text-primary underline">golang.org/dl</a>.</p>
 					</div>
 					<div>
-						<h3 class="text-xl font-semibold mb-2">2. Templ</h3>
+						<h3 class="text-xl font-semibold mb-2">2. Templ (v0.3.819 or later)</h3>
 						<p class="mb-2">Install the Templ CLI:</p>
 						@components.Code(components.CodeProps{Language: "shell", ShowCopyButton: true}) {
 							{ installTempl }

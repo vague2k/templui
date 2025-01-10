@@ -162,6 +162,16 @@ templ DatepickerScript() {
 					position: 'bottom',
 
 					init() {
+					    const monthNames = JSON.parse(this.$el?.dataset?.monthnames);
+    					if (monthNames) {
+        					this.months = monthNames;
+   						}
+
+   						const dayNames = JSON.parse(this.$el?.dataset?.daynames);
+    					if (dayNames) {
+        					this.days = dayNames;
+    					}				
+
 						this.format = this.$el.dataset.format;
 						const initialDate = this.$el?.dataset?.value ? new Date(this.parseDate(this.$el?.dataset?.value)) : new Date();
 						this.currentMonth = initialDate.getMonth();
