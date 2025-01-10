@@ -1,0 +1,37 @@
+package pages
+
+import (
+	"github.com/axzilla/templui/internal/ui/layouts"
+	"github.com/axzilla/templui/internal/ui/modules"
+	"github.com/axzilla/templui/internal/ui/showcase"
+)
+
+templ Timepicker() {
+	@layouts.DocsLayout() {
+		@modules.PageWrapper(modules.PageWrapperProps{
+			Name:        "Timepicker",
+			Description: templ.Raw("???"),
+			Tailwind:    true,
+			Alpine:      true,
+		}) {
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				ShowcaseFile:      showcase.TimePickerDefault(),
+				PreviewCodeFile:   "timepicker_default.templ",
+				ComponentCodeFile: "timepicker.templ",
+			})
+			@modules.Usage(modules.UsageProps{
+				ComponentName: "Timepicker",
+				NeedsHandler:  true,
+				PropsExample:  "...",
+			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+				<!-- @modules.ExampleWrapper(modules.ExampleWrapperProps{ -->
+				<!-- 	SectionName:       "With Label", -->
+				<!-- 	ShowcaseFile:      showcase.DatepickerWithLabel(), -->
+				<!-- 	PreviewCodeFile:   "datepicker_with_label.templ", -->
+				<!-- 	ComponentCodeFile: "datepicker.templ", -->
+				<!-- }) -->
+			}
+		}
+	}
+}

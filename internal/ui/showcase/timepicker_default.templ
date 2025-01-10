@@ -1,0 +1,83 @@
+package showcase
+
+import "time"
+import "github.com/axzilla/templui/pkg/components"
+
+templ TimePickerDefault() {
+	<form
+		id="time-form"
+		class="w-full max-w-sm space-y-8"
+	>
+		<div class="space-y-4">
+			<h3 class="text-lg font-medium">TimePicker Examples</h3>
+			<div class="space-y-2">
+				<label class="text-sm text-muted-foreground">Default (24h)</label>
+				@components.Timepicker(components.TimepickerProps{
+					ID:   "time-24h",
+					Name: "time24",
+				})
+			</div>
+			<div class="space-y-2">
+				<label class="text-sm text-muted-foreground">24h with DB Value (14:30)</label>
+				@components.Timepicker(components.TimepickerProps{
+					ID:    "time-24h-value",
+					Name:  "time24value",
+					Value: DefaultTimeValue,
+				})
+			</div>
+			<div class="space-y-2">
+				<label class="text-sm text-muted-foreground">12h with DB Value (2:30 PM)</label>
+				@components.Timepicker(components.TimepickerProps{
+					ID:         "time-12h-value",
+					Name:       "time12value",
+					Value:      time.Date(2024, 1, 1, 14, 30, 0, 0, time.Local),
+					Use12Hours: true,
+				})
+			</div>
+			<div class="space-y-2">
+				<label class="text-sm text-muted-foreground">12h German</label>
+				@components.Timepicker(components.TimepickerProps{
+					ID:         "time-12h-de",
+					Name:       "time12de",
+					Use12Hours: true,
+					AMLabel:    "vorm.",
+					PMLabel:    "nachm.",
+				})
+			</div>
+		</div>
+		<button
+			type="submit"
+			class="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90"
+		>
+			Submit Form
+		</button>
+	</form>
+	<script nonce={ templ.GetNonce(ctx) }>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('time-form');
+            
+            form.addEventListener('submit', function(event) {
+                event.preventDefault();
+                const formData = new FormData(event.target);
+                
+                // Nur die Zeit-Werte loggen
+                console.log('Form Values:');
+                const timeInputs = {
+                    time24: formData.get('time24'),
+                    time24value: formData.get('time24value'),
+                    time12value: formData.get('time12value'),
+                    time12de: formData.get('time12de')
+                };
+                
+                // Sollte dann so aussehen:
+                // time24: 00:00
+                // time24value: 14:30
+                // time12value: 14:30
+                // time12de: 23:33
+                Object.entries(timeInputs).forEach(([key, value]) => {
+                    console.log(`${key}: ${value}`);
+                });
+            });
+        });
+    </script>
+}
