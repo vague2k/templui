@@ -346,27 +346,27 @@ func Timepicker(props TimepickerProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "</div></div><div x-show=\"use12Hours\" class=\"mt-4 flex justify-center space-x-4\"><button data-period=\"AM\" @click=\"selectPeriod\" x-bind:class=\"periodButtonClass\" class=\"px-3 py-1 rounded-md\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "</div></div><div x-show=\"use12Hours\" class=\"mt-4 flex justify-center space-x-4\"><button type=\"button\" data-period=\"AM\" @click=\"selectPeriod\" x-bind:class=\"periodButtonClass\" class=\"px-3 py-1 rounded-md\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var13 string
 		templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(props.AMLabel)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/timepicker.templ`, Line: 253, Col: 20}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/timepicker.templ`, Line: 254, Col: 20}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "</button> <button data-period=\"PM\" @click=\"selectPeriod\" x-bind:class=\"periodButtonClass\" class=\"px-3 py-1 rounded-md\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "</button> <button type=\"button\" data-period=\"PM\" @click=\"selectPeriod\" x-bind:class=\"periodButtonClass\" class=\"px-3 py-1 rounded-md\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var14 string
 		templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(props.PMLabel)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/timepicker.templ`, Line: 261, Col: 20}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/timepicker.templ`, Line: 263, Col: 20}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 		if templ_7745c5c3_Err != nil {

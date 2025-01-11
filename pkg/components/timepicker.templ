@@ -245,6 +245,7 @@ templ Timepicker(props TimepickerProps) {
 			</div>
 			<div x-show="use12Hours" class="mt-4 flex justify-center space-x-4">
 				<button
+					type="button"
 					data-period="AM"
 					@click="selectPeriod"
 					x-bind:class="periodButtonClass"
@@ -253,6 +254,7 @@ templ Timepicker(props TimepickerProps) {
 					{ props.AMLabel }
 				</button>
 				<button
+					type="button"
 					data-period="PM"
 					@click="selectPeriod"
 					x-bind:class="periodButtonClass"
