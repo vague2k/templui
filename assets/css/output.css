@@ -1058,6 +1058,16 @@ body {
   width: 100%;
 }
 
+.min-w-max {
+  min-width: -moz-max-content;
+  min-width: max-content;
+}
+
+.min-w-min {
+  min-width: -moz-min-content;
+  min-width: min-content;
+}
+
 .max-w-0 {
   max-width: 0px;
 }
@@ -1280,6 +1290,10 @@ body {
 
 .justify-start {
   justify-content: flex-start;
+}
+
+.justify-end {
+  justify-content: flex-end;
 }
 
 .justify-center {
@@ -2610,6 +2624,11 @@ body {
 
 .\[\&\:has\(svg\)\]\:pl-11:has(svg) {
   padding-left: 2.75rem;
+}
+
+.\[\&\:not\(\.bg-primary\)\]\:hover\:bg-muted:hover:not(.bg-primary) {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--muted) / var(--tw-bg-opacity, 1));
 }
 
 .\[\&\>svg\+div\]\:translate-y-\[-3px\]>svg+div {

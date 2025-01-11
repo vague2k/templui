@@ -102,10 +102,10 @@ templ TimepickerScript() {
 						this.updateValues();
 					},
 
-                    periodButtonClass() {
-                        const period = this.$el.getAttribute('data-period');
-                        return period === 'PM' === this.isPM ? 'bg-primary text-primary-foreground' : '';
-                    }
+					periodButtonClass() {
+						const period = this.$el.getAttribute('data-period');
+						return period === 'PM' === this.isPM ? 'bg-primary text-primary-foreground' : '';
+					}
                 }));
             });
         </script>
@@ -180,7 +180,7 @@ templ Timepicker(props TimepickerProps) {
 			/>
 			@Input(InputProps{
 				ID: props.ID,
-				// KEIN Name hier, da der hidden input den Formularwert übernimmt
+				// No Name attribute here because thats what the hidden input has
 				Value:       props.Value.Format("15:04"),
 				Placeholder: props.Placeholder,
 				Disabled:    props.Disabled,
@@ -191,7 +191,7 @@ templ Timepicker(props TimepickerProps) {
 				Attributes: utils.MergeAttributes(
 					templ.Attributes{
 						"x-ref":  "timePickerInput",
-						":value": "displayValue", // Nur der Anzeigewert
+						":value": "displayValue", // Only the display value
 						"@click": "toggleTimePicker",
 					},
 					props.Attributes,
@@ -217,9 +217,9 @@ templ Timepicker(props TimepickerProps) {
 			x-show="open"
 			@click.away="closeTimePicker"
 			x-transition.opacity
-			class="absolute left-0 z-50 w-64 p-4 mt-1 rounded-lg border bg-popover shadow-md"
+			class="absolute left-0 z-50 w-72 p-4 mt-1 rounded-lg border bg-popover shadow-md"
 		>
-			<div class="grid grid-cols-2 gap-4">
+			<div class="grid grid-cols-2 gap-2 flex-1">
 				<div>
 					@Select(SelectProps{
 						ID:   "hour-select",
@@ -243,25 +243,36 @@ templ Timepicker(props TimepickerProps) {
 					})
 				</div>
 			</div>
-			<div x-show="use12Hours" class="mt-4 flex justify-center space-x-4">
-				<button
-					type="button"
-					data-period="AM"
-					@click="selectPeriod"
-					x-bind:class="periodButtonClass"
-					class="px-3 py-1 rounded-md"
-				>
-					{ props.AMLabel }
-				</button>
-				<button
-					type="button"
-					data-period="PM"
-					@click="selectPeriod"
-					x-bind:class="periodButtonClass"
-					class="px-3 py-1 rounded-md"
-				>
-					{ props.PMLabel }
-				</button>
+			<div class="flex justify-between mt-4 gap-2">
+				<div x-show="use12Hours" class="flex justify-center gap-2">
+					<button
+						type="button"
+						data-period="AM"
+						@click="selectPeriod"
+						class="px-3 py-1 text-sm rounded-md [&:not(.bg-primary)]:hover:bg-muted"
+						x-bind:class="periodButtonClass"
+					>
+						{ props.AMLabel }
+					</button>
+					<button
+						type="button"
+						data-period="PM"
+						@click="selectPeriod"
+						class="px-3 py-1 text-sm rounded-md [&:not(.bg-primary)]:hover:bg-muted"
+						x-bind:class="periodButtonClass"
+					>
+						{ props.PMLabel }
+					</button>
+				</div>
+				@Button(ButtonProps{
+					Type:    "button",
+					Text:    "Done",
+					Size:    ButtonSizeSm,
+					Variant: ButtonVariantSecondary,
+					Attributes: templ.Attributes{
+						"@click": "closeTimePicker",
+					},
+				})
 			</div>
 		</div>
 	</div>

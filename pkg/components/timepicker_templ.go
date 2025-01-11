@@ -77,7 +77,7 @@ func TimepickerScript() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\">\n            document.addEventListener('alpine:init', () => {\n                Alpine.data('timepicker', () => ({\n\t\t\t\t\topen: false,\n\t\t\t\t\tformValue: null,     // 24h Format for Form submission\n\t\t\t\t\tdisplayValue: null,  // 12h/24h Format for Display\n\t\t\t\t\tselectedHour: 0,\n\t\t\t\t\tselectedMinute: 0,\n\t\t\t\t\tisPM: false,\n\t\t\t\t\thours: [],\n\t\t\t\t\tminutes: [],\n\t\t\t\t\tuse12Hours: false,\n    \n\t\t\t\t\tinit() {\n\t\t\t\t\t\tthis.use12Hours = this.$el.dataset.use12hours === 'true';\n\n\t\t\t\t\t\t// Initialize from dataset value\n\t\t\t\t\t\tif (this.$el.dataset?.value) {\n\t\t\t\t\t\t\tconst [hours, minutes] = this.$el.dataset.value.split(':').map(Number);\n\t\t\t\t\t\t\tthis.selectedMinute = minutes;\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\tif (this.use12Hours) {\n\t\t\t\t\t\t\t\tthis.isPM = hours >= 12;\n\t\t\t\t\t\t\t\tthis.selectedHour = hours > 12 ? hours - 12 : (hours === 0 ? 12 : hours);\n\t\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\t\tthis.selectedHour = hours;\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t// Set initial values\n\t\t\t\t\t\t\tthis.updateValues();\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\n                    toggleTimePicker() {\n                        this.open = !this.open;\n                    },\n\n                    closeTimePicker() {\n                        this.open = false;\n                    },\n\n\t\t\t\t\tupdateValues() {\n\t\t\t\t\t\t// Calculate 24h time for form\n\t\t\t\t\t\tlet hour24 = this.selectedHour;\n\t\t\t\t\t\tif (this.use12Hours) {\n\t\t\t\t\t\t\tif (this.isPM && hour24 !== 12) hour24 += 12;\n\t\t\t\t\t\t\tif (!this.isPM && hour24 === 12) hour24 = 0;\n\t\t\t\t\t\t}\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Always set 24h format for form submission\n\t\t\t\t\t\tthis.formValue = `${String(hour24).padStart(2, '0')}:${String(this.selectedMinute).padStart(2, '0')}`;\n\n\t\t\t\t\t\t// Set display format based on mode\n\t\t\t\t\t\tif (this.use12Hours) {\n\t\t\t\t\t\t\tthis.displayValue = `${String(this.selectedHour).padStart(2, '0')}:${String(this.selectedMinute).padStart(2, '0')} ${this.isPM ? 'PM' : 'AM'}`;\n\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\tthis.displayValue = this.formValue;\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\n\t\t\t\t\tselectHour() {\n\t\t\t\t\t\tconst hour = parseInt(this.$el.value);\n\t\t\t\t\t\tthis.selectedHour = hour;\n\t\t\t\t\t\tthis.updateValues();\n\t\t\t\t\t},\n\n\t\t\t\t\tselectMinute() {\n\t\t\t\t\t\tconst minute = parseInt(this.$el.value);\n\t\t\t\t\t\tthis.selectedMinute = minute;\n\t\t\t\t\t\tthis.updateValues();\n\t\t\t\t\t},\n\n\t\t\t\t\tselectPeriod() {\n\t\t\t\t\t\tconst period = this.$el.getAttribute('data-period');\n\t\t\t\t\t\tthis.isPM = period === 'PM';\n\t\t\t\t\t\tthis.updateValues();\n\t\t\t\t\t},\n\n                    periodButtonClass() {\n                        const period = this.$el.getAttribute('data-period');\n                        return period === 'PM' === this.isPM ? 'bg-primary text-primary-foreground' : '';\n                    }\n                }));\n            });\n        </script>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\">\n            document.addEventListener('alpine:init', () => {\n                Alpine.data('timepicker', () => ({\n\t\t\t\t\topen: false,\n\t\t\t\t\tformValue: null,     // 24h Format for Form submission\n\t\t\t\t\tdisplayValue: null,  // 12h/24h Format for Display\n\t\t\t\t\tselectedHour: 0,\n\t\t\t\t\tselectedMinute: 0,\n\t\t\t\t\tisPM: false,\n\t\t\t\t\thours: [],\n\t\t\t\t\tminutes: [],\n\t\t\t\t\tuse12Hours: false,\n    \n\t\t\t\t\tinit() {\n\t\t\t\t\t\tthis.use12Hours = this.$el.dataset.use12hours === 'true';\n\n\t\t\t\t\t\t// Initialize from dataset value\n\t\t\t\t\t\tif (this.$el.dataset?.value) {\n\t\t\t\t\t\t\tconst [hours, minutes] = this.$el.dataset.value.split(':').map(Number);\n\t\t\t\t\t\t\tthis.selectedMinute = minutes;\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\tif (this.use12Hours) {\n\t\t\t\t\t\t\t\tthis.isPM = hours >= 12;\n\t\t\t\t\t\t\t\tthis.selectedHour = hours > 12 ? hours - 12 : (hours === 0 ? 12 : hours);\n\t\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\t\tthis.selectedHour = hours;\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t// Set initial values\n\t\t\t\t\t\t\tthis.updateValues();\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\n                    toggleTimePicker() {\n                        this.open = !this.open;\n                    },\n\n                    closeTimePicker() {\n                        this.open = false;\n                    },\n\n\t\t\t\t\tupdateValues() {\n\t\t\t\t\t\t// Calculate 24h time for form\n\t\t\t\t\t\tlet hour24 = this.selectedHour;\n\t\t\t\t\t\tif (this.use12Hours) {\n\t\t\t\t\t\t\tif (this.isPM && hour24 !== 12) hour24 += 12;\n\t\t\t\t\t\t\tif (!this.isPM && hour24 === 12) hour24 = 0;\n\t\t\t\t\t\t}\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Always set 24h format for form submission\n\t\t\t\t\t\tthis.formValue = `${String(hour24).padStart(2, '0')}:${String(this.selectedMinute).padStart(2, '0')}`;\n\n\t\t\t\t\t\t// Set display format based on mode\n\t\t\t\t\t\tif (this.use12Hours) {\n\t\t\t\t\t\t\tthis.displayValue = `${String(this.selectedHour).padStart(2, '0')}:${String(this.selectedMinute).padStart(2, '0')} ${this.isPM ? 'PM' : 'AM'}`;\n\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\tthis.displayValue = this.formValue;\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\n\t\t\t\t\tselectHour() {\n\t\t\t\t\t\tconst hour = parseInt(this.$el.value);\n\t\t\t\t\t\tthis.selectedHour = hour;\n\t\t\t\t\t\tthis.updateValues();\n\t\t\t\t\t},\n\n\t\t\t\t\tselectMinute() {\n\t\t\t\t\t\tconst minute = parseInt(this.$el.value);\n\t\t\t\t\t\tthis.selectedMinute = minute;\n\t\t\t\t\t\tthis.updateValues();\n\t\t\t\t\t},\n\n\t\t\t\t\tselectPeriod() {\n\t\t\t\t\t\tconst period = this.$el.getAttribute('data-period');\n\t\t\t\t\t\tthis.isPM = period === 'PM';\n\t\t\t\t\t\tthis.updateValues();\n\t\t\t\t\t},\n\n\t\t\t\t\tperiodButtonClass() {\n\t\t\t\t\t\tconst period = this.$el.getAttribute('data-period');\n\t\t\t\t\t\treturn period === 'PM' === this.isPM ? 'bg-primary text-primary-foreground' : '';\n\t\t\t\t\t}\n                }));\n            });\n        </script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -251,7 +251,7 @@ func Timepicker(props TimepickerProps) templ.Component {
 		}
 		templ_7745c5c3_Err = Input(InputProps{
 			ID: props.ID,
-			// KEIN Name hier, da der hidden input den Formularwert übernimmt
+			// No Name attribute here because thats what the hidden input has
 			Value:       props.Value.Format("15:04"),
 			Placeholder: props.Placeholder,
 			Disabled:    props.Disabled,
@@ -262,7 +262,7 @@ func Timepicker(props TimepickerProps) templ.Component {
 			Attributes: utils.MergeAttributes(
 				templ.Attributes{
 					"x-ref":  "timePickerInput",
-					":value": "displayValue", // Nur der Anzeigewert
+					":value": "displayValue", // Only the display value
 					"@click": "toggleTimePicker",
 				},
 				props.Attributes,
@@ -314,7 +314,7 @@ func Timepicker(props TimepickerProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "</button></div><div x-show=\"open\" @click.away=\"closeTimePicker\" x-transition.opacity class=\"absolute left-0 z-50 w-64 p-4 mt-1 rounded-lg border bg-popover shadow-md\"><div class=\"grid grid-cols-2 gap-4\"><div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "</button></div><div x-show=\"open\" @click.away=\"closeTimePicker\" x-transition.opacity class=\"absolute left-0 z-50 w-72 p-4 mt-1 rounded-lg border bg-popover shadow-md\"><div class=\"grid grid-cols-2 gap-2 flex-1\"><div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -346,33 +346,49 @@ func Timepicker(props TimepickerProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "</div></div><div x-show=\"use12Hours\" class=\"mt-4 flex justify-center space-x-4\"><button type=\"button\" data-period=\"AM\" @click=\"selectPeriod\" x-bind:class=\"periodButtonClass\" class=\"px-3 py-1 rounded-md\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "</div></div><div class=\"flex justify-between mt-4 gap-2\"><div x-show=\"use12Hours\" class=\"flex justify-center gap-2\"><button type=\"button\" data-period=\"AM\" @click=\"selectPeriod\" class=\"px-3 py-1 text-sm rounded-md [&amp;:not(.bg-primary)]:hover:bg-muted\" x-bind:class=\"periodButtonClass\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var13 string
 		templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(props.AMLabel)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/timepicker.templ`, Line: 254, Col: 20}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/timepicker.templ`, Line: 255, Col: 21}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "</button> <button type=\"button\" data-period=\"PM\" @click=\"selectPeriod\" x-bind:class=\"periodButtonClass\" class=\"px-3 py-1 rounded-md\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "</button> <button type=\"button\" data-period=\"PM\" @click=\"selectPeriod\" class=\"px-3 py-1 text-sm rounded-md [&amp;:not(.bg-primary)]:hover:bg-muted\" x-bind:class=\"periodButtonClass\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var14 string
 		templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(props.PMLabel)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/timepicker.templ`, Line: 263, Col: 20}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/timepicker.templ`, Line: 264, Col: 21}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "</button></div></div></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "</button></div>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = Button(ButtonProps{
+			Type:    "button",
+			Text:    "Done",
+			Size:    ButtonSizeSm,
+			Variant: ButtonVariantSecondary,
+			Attributes: templ.Attributes{
+				"@click": "closeTimePicker",
+			},
+		}).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "</div></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
