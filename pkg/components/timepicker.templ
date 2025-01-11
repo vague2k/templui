@@ -37,7 +37,8 @@ templ TimepickerScript() {
 					hours: [],
 					minutes: [],
 					use12Hours: false,
-    
+    				position: 'bottom',
+
 					init() {
 						this.use12Hours = this.$el.dataset.use12hours === 'true';
 
@@ -57,9 +58,34 @@ templ TimepickerScript() {
 						}
 					},
 
-                    toggleTimePicker() {
-                        this.open = !this.open;
-                    },
+					toggleTimePicker() {
+						this.open = !this.open;
+						if (this.open) {
+							this.$nextTick(() => this.updatePosition());
+						}
+					},
+
+					updatePosition() {
+						const inputId = this.$root.dataset.inputId;
+						const trigger = document.getElementById(inputId);
+						const popup = this.$refs.timePickerPopup;
+						
+						if (!trigger || !popup) return;
+						
+						const rect = trigger.getBoundingClientRect();
+						const popupRect = popup.getBoundingClientRect();
+						const viewportHeight = window.innerHeight;
+						
+						if (rect.bottom + popupRect.height > viewportHeight && rect.top > popupRect.height) {
+							this.position = 'top';
+						} else {
+							this.position = 'bottom';
+						}
+					},
+
+					positionClass() {
+						return this.position === 'bottom' ? 'top-full mt-1' : 'bottom-full mb-1';
+					},
 
                     closeTimePicker() {
                         this.open = false;
@@ -215,9 +241,12 @@ templ Timepicker(props TimepickerProps) {
 		</div>
 		<div
 			x-show="open"
+			x-ref="timePickerPopup"
 			@click.away="closeTimePicker"
 			x-transition.opacity
-			class="absolute left-0 z-50 w-72 p-4 mt-1 rounded-lg border bg-popover shadow-md"
+			class="absolute left-0 z-50 w-72 p-4 rounded-lg border bg-popover shadow-md"
+			x-bind:class="positionClass"
+			@resize.window="updatePosition"
 		>
 			<div class="grid grid-cols-2 gap-2 flex-1">
 				<div>
