@@ -113,19 +113,27 @@ templ TimepickerScript() {
 }
 
 func generateHourOptions(use12Hours bool) []SelectOption {
-	start := 0
-	end := 23
+	options := make([]SelectOption, 0)
 	if use12Hours {
-		start = 1
-		end = 12
-	}
-
-	options := make([]SelectOption, 0, end-start+1)
-	for i := start; i <= end; i++ {
+		// Start with 12, then 1 through 11
 		options = append(options, SelectOption{
-			Label: fmt.Sprintf("%02d", i),
-			Value: fmt.Sprintf("%d", i),
+			Label: "12",
+			Value: "12",
 		})
+		for i := 1; i <= 11; i++ {
+			options = append(options, SelectOption{
+				Label: fmt.Sprintf("%02d", i),
+				Value: fmt.Sprintf("%d", i),
+			})
+		}
+	} else {
+		// 24-hour format: 0 through 23
+		for i := 0; i <= 23; i++ {
+			options = append(options, SelectOption{
+				Label: fmt.Sprintf("%02d", i),
+				Value: fmt.Sprintf("%d", i),
+			})
+		}
 	}
 	return options
 }
@@ -213,7 +221,6 @@ templ Timepicker(props TimepickerProps) {
 		>
 			<div class="grid grid-cols-2 gap-4">
 				<div>
-					<label class="text-sm font-medium mb-2 block">Hour</label>
 					@Select(SelectProps{
 						ID:   "hour-select",
 						Name: "hour",
@@ -225,7 +232,6 @@ templ Timepicker(props TimepickerProps) {
 					})
 				</div>
 				<div>
-					<label class="text-sm font-medium mb-2 block">Minute</label>
 					@Select(SelectProps{
 						ID:   "minute-select",
 						Name: "minute",
