@@ -74,6 +74,7 @@ func main() {
 	mux.Handle("GET /docs/components/slider", templ.Handler(pages.Slider()))
 	mux.Handle("GET /docs/components/tabs", templ.Handler(pages.Tabs()))
 	mux.Handle("GET /docs/components/textarea", templ.Handler(pages.Textarea()))
+	mux.Handle("GET /docs/components/timepicker", templ.Handler(pages.Timepicker()))
 	mux.Handle("GET /docs/components/toast", templ.Handler(pages.Toast()))
 	mux.Handle("GET /docs/components/toggle", templ.Handler(pages.Toggle()))
 	mux.Handle("GET /docs/components/tooltip", templ.Handler(pages.Tooltip()))

@@ -1,0 +1,37 @@
+package pages
+
+import (
+	"github.com/axzilla/templui/internal/ui/layouts"
+	"github.com/axzilla/templui/internal/ui/modules"
+	"github.com/axzilla/templui/internal/ui/showcase"
+)
+
+templ Timepicker() {
+	@layouts.DocsLayout() {
+		@modules.PageWrapper(modules.PageWrapperProps{
+			Name:        "Timepicker",
+			Description: templ.Raw("A native time selector with support for 12/24 hour formats."),
+			Tailwind:    true,
+			Alpine:      true,
+		}) {
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				ShowcaseFile:      showcase.TimepickerDefault(),
+				PreviewCodeFile:   "timepicker_default.templ",
+				ComponentCodeFile: "timepicker.templ",
+			})
+			@modules.Usage(modules.UsageProps{
+				ComponentName: "Timepicker",
+				NeedsHandler:  true,
+				PropsExample:  "...",
+			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "12h Format",
+					ShowcaseFile:      showcase.TimePicker12Hour(),
+					PreviewCodeFile:   "timepicker_12hour.templ",
+					ComponentCodeFile: "timepicker.templ",
+				})
+			}
+		}
+	}
+}
