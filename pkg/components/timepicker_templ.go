@@ -16,18 +16,18 @@ import (
 )
 
 type TimepickerProps struct {
-	ID          string
-	Name        string
-	Value       time.Time
-	Use12Hours  bool
-	AMLabel     string
-	PMLabel     string
-	Placeholder string
-	Required    bool
-	Disabled    bool
-	HasError    bool
-	Class       string
-	Attributes  templ.Attributes
+	ID          string           // Unique identifier
+	Name        string           // Form input name
+	Value       time.Time        // Initial time value
+	Use12Hours  bool             // Enable 12-hour format with AM/PM
+	AMLabel     string           // AM label for 12-hour format
+	PMLabel     string           // PM label for 12-hour format
+	Placeholder string           // Input placeholder text
+	Required    bool             // Required form field
+	Disabled    bool             // Disable interactivity
+	HasError    bool             // Error state styling
+	Class       string           // Additional CSS classes
+	Attributes  templ.Attributes // Additional HTML attributes
 }
 
 func TimepickerScript() templ.Component {
@@ -128,6 +128,7 @@ func generateMinuteOptions() []SelectOption {
 	return options
 }
 
+// A native time selector with support for 12/24 hour formats.
 func Timepicker(props TimepickerProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -149,10 +150,6 @@ func Timepicker(props TimepickerProps) templ.Component {
 			templ_7745c5c3_Var4 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = TimepickerScript().Render(ctx, templ_7745c5c3_Buffer)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
 		if props.ID == "" {
 			props.ID = utils.RandomID()
 		}
