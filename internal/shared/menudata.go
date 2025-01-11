@@ -118,6 +118,10 @@ var Sections = []Section{
 				Href: "/docs/components/textarea",
 			},
 			{
+				Text: "Timepicker",
+				Href: "/docs/components/timepicker",
+			},
+			{
 				Text: "Toast",
 				Href: "/docs/components/toast",
 			},
