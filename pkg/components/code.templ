@@ -19,15 +19,31 @@ templ CodeScript() {
                 Alpine.data('code', () => ({
                     isCopied: false,
                     isNotCopied: true,
-                    copyCode() {
-                        navigator.clipboard.writeText(this.$refs.code.textContent)
-                        this.isCopied = true
-                        this.isNotCopied = false
-                        setTimeout(() => {
-                            this.isCopied = false
-                            this.isNotCopied = true
-                        }, 2000)
-                    }
+					copyCode() {
+						try {
+							// Moderne Methode (HTTPS)
+							if (navigator.clipboard && window.isSecureContext) {
+								navigator.clipboard.writeText(this.$refs.code.textContent);
+							} else {
+								// Fallback für HTTP
+								const textArea = document.createElement('textarea');
+								textArea.value = this.$refs.code.textContent;
+								document.body.appendChild(textArea);
+								textArea.select();
+								document.execCommand('copy');
+								document.body.removeChild(textArea);
+							}
+							
+							this.isCopied = true;
+							this.isNotCopied = false;
+							setTimeout(() => {
+								this.isCopied = false;
+								this.isNotCopied = true;
+							}, 2000);
+						} catch (err) {
+							console.error('Copy failed', err);
+						}
+					}
                 }))
             })
         </script>

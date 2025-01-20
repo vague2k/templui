@@ -107,7 +107,7 @@
 }
 
 /*
-! tailwindcss v3.4.16 | MIT License | https://tailwindcss.com
+! tailwindcss v3.4.17 | MIT License | https://tailwindcss.com
 */
 
 /*
@@ -755,10 +755,6 @@ body {
   top: 100%;
 }
 
-.top-\[72px\] {
-  top: 72px;
-}
-
 .z-10 {
   z-index: 10;
 }
@@ -950,10 +946,6 @@ body {
   height: 100vh;
 }
 
-.h-40 {
-  height: 10rem;
-}
-
 .\!max-h-\[1000px\] {
   max-height: 1000px !important;
 }
@@ -1056,16 +1048,6 @@ body {
 
 .w-full {
   width: 100%;
-}
-
-.min-w-max {
-  min-width: -moz-max-content;
-  min-width: max-content;
-}
-
-.min-w-min {
-  min-width: -moz-min-content;
-  min-width: min-content;
 }
 
 .max-w-0 {
@@ -1264,10 +1246,6 @@ body {
   grid-template-columns: repeat(7, minmax(0, 1fr));
 }
 
-.grid-cols-4 {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-}
-
 .flex-col {
   flex-direction: column;
 }
@@ -1290,10 +1268,6 @@ body {
 
 .justify-start {
   justify-content: flex-start;
-}
-
-.justify-end {
-  justify-content: flex-end;
 }
 
 .justify-center {
@@ -1337,12 +1311,6 @@ body {
   --tw-space-x-reverse: 0;
   margin-right: calc(0.5rem * var(--tw-space-x-reverse));
   margin-left: calc(0.5rem * calc(1 - var(--tw-space-x-reverse)));
-}
-
-.space-x-4 > :not([hidden]) ~ :not([hidden]) {
-  --tw-space-x-reverse: 0;
-  margin-right: calc(1rem * var(--tw-space-x-reverse));
-  margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
 }
 
 .space-y-1 > :not([hidden]) ~ :not([hidden]) {
@@ -1615,10 +1583,6 @@ body {
   background-color: rgb(234 179 8 / var(--tw-bg-opacity, 1));
 }
 
-.bg-muted\/20 {
-  background-color: hsl(var(--muted) / 0.2);
-}
-
 .bg-opacity-50 {
   --tw-bg-opacity: 0.5;
 }
@@ -1716,11 +1680,6 @@ body {
 .py-8 {
   padding-top: 2rem;
   padding-bottom: 2rem;
-}
-
-.px-2 {
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
 }
 
 .pb-0 {
@@ -2447,16 +2406,6 @@ body {
 
 .peer:disabled ~ .peer-disabled\:opacity-50 {
   opacity: 0.5;
-}
-
-.data-\[selected\=true\]\:bg-primary[data-selected="true"] {
-  --tw-bg-opacity: 1;
-  background-color: hsl(var(--primary) / var(--tw-bg-opacity, 1));
-}
-
-.data-\[selected\=true\]\:text-primary-foreground[data-selected="true"] {
-  --tw-text-opacity: 1;
-  color: hsl(var(--primary-foreground) / var(--tw-text-opacity, 1));
 }
 
 .dark\:text-gray-200:is(.dark *) {
