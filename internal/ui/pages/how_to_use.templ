@@ -11,20 +11,20 @@ var installTempl = `go install github.com/a-h/templ/cmd/templ@latest`
 
 var tailwindHomebrew = `brew install tailwindcss`
 
-var tailwindMacOSArm64 = `curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-macos-arm64
+var tailwindMacOSArm64 = `curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/download/v3.4.17/tailwindcss-macos-arm64
 chmod +x tailwindcss-macos-arm64
 sudo mv tailwindcss-macos-arm64 /usr/local/bin/tailwindcss`
 
-var tailwindMacOSX64 = `curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-macos-x64
+var tailwindMacOSX64 = `curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/download/v3.4.17/tailwindcss-macos-x64
 chmod +x tailwindcss-macos-x64
 sudo mv tailwindcss-macos-x64 /usr/local/bin/tailwindcss`
 
-var tailwindLinuxX64 = `curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-linux-x64
+var tailwindLinuxX64 = `curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/download/v3.4.17/tailwindcss-linux-x64
 chmod +x tailwindcss-linux-x64
 sudo mv tailwindcss-linux-x64 /usr/local/bin/tailwindcss`
 
 var tailwindWindowsX64 = `# On Windows (x64)
-# Download from: https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-windows-x64.exe
+# Download from: https://github.com/tailwindlabs/tailwindcss/releases/download/v3.4.17/tailwindcss-windows-x64.exe
 # Add to your PATH as 'tailwindcss'`
 
 var installAlpine = `<script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/csp@3.x.x/dist/cdn.min.js"></script>`
@@ -247,12 +247,14 @@ templ HowToUse() {
 					</div>
 					<div>
 						<h3 class="text-xl font-semibold mb-2">3. Tailwind CSS CLI (Standalone)</h3>
+						<small>Currently only compatible with Tailwind CSS v3.x. Support for Tailwind CSS v4.x is work in progress.</small>
 						<p class="mb-2">Install the standalone CLI based on your operating system:</p>
 						<div class="space-y-4">
-							<p class="mb-2">Homebrew (macOS):</p>
-							@components.Code(components.CodeProps{Language: "shell", ShowCopyButton: true}) {
-								{ tailwindHomebrew }
-							}
+							// TODO: Bring back if v4 is implemented
+							<!-- <p class="mb-2">Homebrew (macOS):</p> -->
+							<!-- @components.Code(components.CodeProps{Language: "shell", ShowCopyButton: true}) { -->
+							<!-- 	{ tailwindHomebrew } -->
+							<!-- } -->
 							<p class="mb-2">macOS (Apple Silicon):</p>
 							@components.Code(components.CodeProps{Language: "shell", ShowCopyButton: true}) {
 								{ tailwindMacOSArm64 }
