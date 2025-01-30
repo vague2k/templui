@@ -1,5 +1,7 @@
 # TemplUI
 
+[![GitHub Sponsors](https://img.shields.io/github/sponsors/axzilla?style=social&label=♥️%20Sponsor)](https://github.com/sponsors/axzilla)
+
 The UI Toolkit for Go & Templ
 <img src="./assets/img/readme.png" />
 
