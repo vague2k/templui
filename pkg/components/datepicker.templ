@@ -217,9 +217,11 @@ templ DatepickerScript() {
 					},
 
 					calculateDays() {
-						const firstDay = new Date(this.currentYear, this.currentMonth, 1).getDay();
+						let firstDay = new Date(this.currentYear, this.currentMonth, 1).getDay();
 						const daysInMonth = new Date(this.currentYear, this.currentMonth + 1, 0).getDate();
-
+						
+						firstDay = firstDay === 0 ? 6 : firstDay - 1;
+						
 						this.blankDays = Array.from({ length: firstDay }, (_, i) => i);
 						this.monthDays = Array.from({ length: daysInMonth }, (_, i) => i + 1);
 					},
