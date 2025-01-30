@@ -1,6 +1,6 @@
 # TemplUI
 
-Craft Beautiful Go & Templ Apps
+The UI Toolkit for Go & Templ
 <img src="./assets/img/readme.png" />
 
 ## About
