@@ -54,7 +54,7 @@ tailwind:
 dev:
     make -j3 templ server tailwind`
 
-var tailwindConfig = `{/** @type {import('tailwindcss').Config} */
+var tailwindConfig = `/** @type {import('tailwindcss').Config} */
 const config = {
   darkMode: ["class"],
   content: ["./**/*.html", "./**/*.templ", "./**/*.go"],
