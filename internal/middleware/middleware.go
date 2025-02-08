@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/axzilla/templui/internal/config"
+	"github.com/axzilla/templui/internal/utils"
 )
 
 func WithPreviewCheck(next http.Handler) http.Handler {
@@ -25,3 +26,17 @@ func CacheControlMiddleware(next http.Handler) http.Handler {
 		next.ServeHTTP(w, r)
 	})
 }
+
+// WithURLPathValue adds the current URL's path to the context.
+func WithURLPathValue(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		ctx := context.WithValue(
+			r.Context(),
+			utils.CtxURLPathValueKey,
+			r.URL.Path,
+		)
+
+		next.ServeHTTP(w, r.WithContext(ctx))
+	})
+}
+

@@ -5,6 +5,9 @@ import (
 	"encoding/base64"
 )
 
+type CtxKey string
+
+const CtxURLPathValueKey = CtxKey("url_value")
 func GenerateNonce() string {
 	nonceBytes := make([]byte, 16)
 	_, err := rand.Read(nonceBytes)
