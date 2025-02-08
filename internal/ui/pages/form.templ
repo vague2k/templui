@@ -15,9 +15,10 @@ templ Form() {
 			Tailwind:    true,
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:     "",
-				ShowcaseFile:    showcase.InputForm(),
-				PreviewCodeFile: "input_form.templ",
+				SectionName:       "",
+				ShowcaseFile:      showcase.InputForm(),
+				PreviewCodeFile:   "input_form.templ",
+				ComponentCodeFile: "form.templ",
 			})
 			<div>
 				@components.Card(components.CardProps{}) {
