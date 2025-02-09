@@ -5,6 +5,7 @@ import (
 	wrappedicons "github.com/axzilla/templui/internal/ui/icons"
 	"github.com/axzilla/templui/pkg/components"
 	"github.com/axzilla/templui/pkg/icons"
+	"github.com/axzilla/templui/internal/ctxkeys"
 )
 
 templ Navbar() {
@@ -50,13 +51,21 @@ templ NavbarMobileMenu() {
 					<ul class="mt-2 space-y-1">
 						for _, link := range section.Links {
 							<li>
-								<a
-									href={ templ.SafeURL(link.Href) }
-									class={ "text-sm flex items-center px-4 py-2 rounded-md text-gray-700 dark:text-gray-200", 
-                    "hover:bg-gray-100 dark:hover:bg-gray-700" }
-								>
-									<span>{ link.Text }</span>
-								</a>
+								if link.Href == ctx.Value(ctxkeys.URLPathValue) {
+									<a
+										href={ templ.SafeURL(link.Href) }
+										class={ "text-sm flex items-center px-4 py-2 rounded-md text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-700" }
+									>
+										<span>{ link.Text }</span>
+									</a>
+								} else {
+									<a
+										href={ templ.SafeURL(link.Href) }
+										class={ "text-sm flex items-center px-4 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700" }
+									>
+										<span>{ link.Text }</span>
+									</a>
+								}
 							</li>
 						}
 					</ul>
@@ -68,7 +77,6 @@ templ NavbarMobileMenu() {
 				class="mr-2 lg:hidden p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500"
 			>
 				@icons.SquareLibrary(icons.IconProps{})
-				// @Icon(IconProps{Name: "square-library"})
 			</button>
 		}
 	}
