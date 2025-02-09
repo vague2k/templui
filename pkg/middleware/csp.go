@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"strings"
 
@@ -16,7 +17,13 @@ type CSPConfig struct {
 func WithCSP(config CSPConfig) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			nonce := utils.GenerateNonce()
+			nonce, err := utils.GenerateNonce()
+			if err != nil {
+				log.Printf("failed to generate nonce: %v", err)
+				w.Header().Set("Content-Security-Policy", "script-src 'self'")
+				http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+				return
+			}
 
 			// Combine all script sources
 			scriptSources := append(

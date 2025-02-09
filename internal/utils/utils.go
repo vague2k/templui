@@ -3,26 +3,14 @@ package utils
 import (
 	"crypto/rand"
 	"encoding/base64"
+	"fmt"
 )
 
-type CtxKey string
-
-const CtxURLPathValueKey = CtxKey("url_value")
-
-func GenerateNonce() string {
-	try := 0
-Retry:
-	try++
-
+func GenerateNonce() (string, error) {
 	nonceBytes := make([]byte, 16)
 	_, err := rand.Read(nonceBytes)
 	if err != nil {
-		if try < 2 {
-			goto Retry
-		}
-
-		return ""
+		return "", fmt.Errorf("failed to generate nonce: %w", err)
 	}
-	return base64.StdEncoding.EncodeToString(nonceBytes)
+	return base64.StdEncoding.EncodeToString(nonceBytes), nil
 }
-
