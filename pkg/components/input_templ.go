@@ -72,7 +72,7 @@ func Input(props InputProps) templ.Component {
 				"placeholder:text-muted-foreground",
 
 				// States
-				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+				"focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
 				"disabled:cursor-not-allowed disabled:opacity-50",
 
 				// Conditional

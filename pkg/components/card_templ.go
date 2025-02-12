@@ -49,7 +49,7 @@ func Card(props CardProps) templ.Component {
 		ctx = templ.ClearChildren(ctx)
 		var templ_7745c5c3_Var2 = []any{
 			utils.TwMerge(
-				"w-full rounded-lg border bg-card text-card-foreground shadow-sm",
+				"w-full rounded-lg border bg-card text-card-foreground shadow-xs",
 				props.Class,
 			),
 			templ.KV("flex overflow-hidden", props.Horizontal),

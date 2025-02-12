@@ -150,17 +150,17 @@ func Code(p CodeProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "\" x-data=\"code\"><pre class=\"!overflow-hidden\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "\" x-data=\"code\"><pre class=\"overflow-hidden!\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var8 = []any{
 			utils.TwMerge(
 				"language-"+p.Language,
-				"!overflow-y-auto rounded-md block text-sm !max-h-[501px]",
-				utils.TwIf("!max-h-[250px]", p.Size == CodeSizeSm),
-				utils.TwIf("!max-h-[1000px]", p.Size == CodeSizeLg),
-				utils.TwIf("!max-h-full", p.Size == CodeSizeFull),
+				"overflow-y-auto! rounded-md block text-sm max-h-[501px]!",
+				utils.TwIf("max-h-[250px]!", p.Size == CodeSizeSm),
+				utils.TwIf("max-h-[1000px]!", p.Size == CodeSizeLg),
+				utils.TwIf("max-h-full!", p.Size == CodeSizeFull),
 				p.CodeClass,
 			),
 		}

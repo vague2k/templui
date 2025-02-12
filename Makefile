@@ -13,7 +13,7 @@ server:
 	--misc.clean_on_exit true
 
 tailwind:
-	tailwindcss -i ./assets/css/input.css -o ./assets/css/output.css --watch
+	npx @tailwindcss/cli -i ./assets/css/input.css -o ./assets/css/output.css --watch
 dev:
 	make -j4 templ server tailwind
 

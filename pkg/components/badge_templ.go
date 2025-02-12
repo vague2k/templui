@@ -69,7 +69,7 @@ func Badge(props BadgeProps) templ.Component {
 				// Style
 				"rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors",
 				// State
-				"focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+				"focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2",
 				// Variants
 				props.variantClasses(),
 				// Custom
