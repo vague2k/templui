@@ -44,11 +44,16 @@ func main() {
 			"cdnjs.cloudflare.com", // highlight.js
 		},
 	}
-	wrappedMux := middleware.CacheControlMiddleware(middleware.WithPreviewCheck(mw.WithCSP(cspConfig)(mux)))
+
+	wrappedMux := middleware.WithURLPathValue(
+		middleware.CacheControlMiddleware(
+			mw.WithCSP(cspConfig)(mux),
+		),
+	)
 
 	mux.Handle("GET /", templ.Handler(pages.Landing()))
-	mux.Handle("GET /docs/components", http.RedirectHandler("/docs/components/accordion", http.StatusSeeOther))
 	mux.Handle("GET /docs/getting-started", http.RedirectHandler("/docs/introduction", http.StatusSeeOther))
+	mux.Handle("GET /docs/components", http.RedirectHandler("/docs/components/accordion", http.StatusSeeOther))
 	mux.Handle("GET /docs/introduction", templ.Handler(pages.Introduction()))
 	mux.Handle("GET /docs/how-to-use", templ.Handler(pages.HowToUse()))
 	mux.Handle("GET /docs/themes", templ.Handler(pages.Themes()))

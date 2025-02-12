@@ -16,9 +16,10 @@ templ Label() {
 			Alpine:      true,
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:     "",
-				ShowcaseFile:    showcase.CheckboxWithLabel(),
-				PreviewCodeFile: "checkbox_with_label.templ",
+				SectionName:       "",
+				ShowcaseFile:      showcase.CheckboxWithLabel(),
+				PreviewCodeFile:   "checkbox_with_label.templ",
+				ComponentCodeFile: "label.templ",
 			})
 			<div>
 				@components.Card(components.CardProps{}) {
@@ -60,3 +61,4 @@ templ Label() {
 		}
 	}
 }
+

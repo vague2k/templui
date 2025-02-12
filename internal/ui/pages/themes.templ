@@ -893,13 +893,13 @@ templ ThemeSelector() {
 		<label class="text-xs font-medium">Theme</label>
 		<div class="grid grid-cols-3 gap-2">
 			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
 				style="--theme-primary: hsl(240 5.9% 10%);"
 				data-theme="zinc"
 				x-bind:class="setBorderOnThemeButton"
 				@click="setTheme"
 			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]">
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
 					<span
 						data-theme="zinc"
 						x-show="isTheme"
@@ -910,13 +910,13 @@ templ ThemeSelector() {
 				Zinc
 			</button>
 			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
 				style="--theme-primary: hsl(215.4 16.3% 46.9%);"
 				data-theme="slate"
 				x-bind:class="setBorderOnThemeButton"
 				@click="setTheme"
 			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]">
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
 					<span
 						data-theme="slate"
 						x-show="isTheme"
@@ -927,13 +927,13 @@ templ ThemeSelector() {
 				Slate
 			</button>
 			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
 				style="--theme-primary: hsl(25 5.3% 44.7%);"
 				data-theme="stone"
 				x-bind:class="setBorderOnThemeButton"
 				@click="setTheme"
 			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]">
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
 					<span
 						data-theme="stone"
 						x-show="isTheme"
@@ -944,13 +944,13 @@ templ ThemeSelector() {
 				Stone
 			</button>
 			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
 				style="--theme-primary: hsl(220 8.9% 46.1%);"
 				data-theme="gray"
 				x-bind:class="setBorderOnThemeButton"
 				@click="setTheme"
 			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]">
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
 					<span
 						data-theme="gray"
 						x-show="isTheme"
@@ -961,13 +961,13 @@ templ ThemeSelector() {
 				Gray
 			</button>
 			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
 				style="--theme-primary: hsl(0 0% 45.1%);"
 				data-theme="neutral"
 				x-bind:class="setBorderOnThemeButton"
 				@click="setTheme"
 			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]">
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
 					<span
 						data-theme="neutral"
 						x-show="isTheme"
@@ -978,13 +978,13 @@ templ ThemeSelector() {
 				Neutral
 			</button>
 			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
 				style="--theme-primary: hsl(0 72.2% 50.6%);"
 				data-theme="red"
 				x-bind:class="setBorderOnThemeButton"
 				@click="setTheme"
 			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]">
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
 					<span
 						data-theme="red"
 						x-show="isTheme"
@@ -995,13 +995,13 @@ templ ThemeSelector() {
 				Red
 			</button>
 			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
 				style="--theme-primary: hsl(346.8 77.2% 49.8%);"
 				data-theme="rose"
 				x-bind:class="setBorderOnThemeButton"
 				@click="setTheme"
 			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]">
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
 					<span
 						data-theme="rose"
 						x-show="isTheme"
@@ -1012,13 +1012,13 @@ templ ThemeSelector() {
 				Rose
 			</button>
 			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
 				style="--theme-primary: hsl(24.6 95% 53.1%);"
 				data-theme="orange"
 				x-bind:class="setBorderOnThemeButton"
 				@click="setTheme"
 			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]">
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
 					<span
 						data-theme="orange"
 						x-show="isTheme"
@@ -1029,13 +1029,13 @@ templ ThemeSelector() {
 				Orange
 			</button>
 			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
 				style="--theme-primary: hsl(142.1 76.2% 36.3%);"
 				data-theme="green"
 				x-bind:class="setBorderOnThemeButton"
 				@click="setTheme"
 			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]">
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
 					<span
 						data-theme="green"
 						x-show="isTheme"
@@ -1046,13 +1046,13 @@ templ ThemeSelector() {
 				Green
 			</button>
 			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
 				style="--theme-primary: hsl(221.2 83.2% 53.3%);"
 				data-theme="blue"
 				x-bind:class="setBorderOnThemeButton"
 				@click="setTheme"
 			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]">
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
 					<span
 						data-theme="blue"
 						x-show="isTheme"
@@ -1063,13 +1063,13 @@ templ ThemeSelector() {
 				Blue
 			</button>
 			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
 				style="--theme-primary: hsl(47.9 95.8% 53.1%);"
 				data-theme="yellow"
 				x-bind:class="setBorderOnThemeButton"
 				@click="setTheme"
 			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]">
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
 					<span
 						data-theme="yellow"
 						x-show="isTheme"
@@ -1080,13 +1080,13 @@ templ ThemeSelector() {
 				Yellow
 			</button>
 			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
 				style="--theme-primary: hsl(262.1 83.3% 57.8%);"
 				data-theme="violet"
 				x-bind:class="setBorderOnThemeButton"
 				@click="setTheme"
 			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-[--theme-primary]">
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
 					<span
 						data-theme="violet"
 						x-show="isTheme"
