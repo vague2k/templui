@@ -11,6 +11,7 @@ type CheckboxProps struct {
 	Name       string           // Form field name
 	Value      string           // Checkbox value
 	Disabled   bool             // Prevents interaction
+	Required   bool             // Required
 	Checked    bool             // Selected state
 	Icon       templ.Component  // Custom check icon
 	Class      string           // Additional CSS classes
@@ -29,6 +30,7 @@ templ Checkbox(props CheckboxProps) {
 			data-testid={ props.ID }
 			checked?={ props.Checked }
 			disabled?={ props.Disabled }
+			required?={ props.Required }
 			id={ props.ID }
 			name={ props.Name }
 			if props.Value != "" {
