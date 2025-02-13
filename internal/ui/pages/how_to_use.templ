@@ -11,25 +11,21 @@ var installTempl = `go install github.com/a-h/templ/cmd/templ@latest`
 
 var tailwindHomebrew = `brew install tailwindcss`
 
-var tailwindMacOSArm64 = `curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/download/v3.4.17/tailwindcss-macos-arm64
+var tailwindMacOSArm64 = `curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-macos-arm64
 chmod +x tailwindcss-macos-arm64
 sudo mv tailwindcss-macos-arm64 /usr/local/bin/tailwindcss`
 
-var tailwindMacOSX64 = `curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/download/v3.4.17/tailwindcss-macos-x64
+var tailwindMacOSX64 = `curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-macos-x64
 chmod +x tailwindcss-macos-x64
 sudo mv tailwindcss-macos-x64 /usr/local/bin/tailwindcss`
 
-var tailwindLinuxX64 = `curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/download/v3.4.17/tailwindcss-linux-x64
+var tailwindLinuxX64 = `curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-linux-x64
 chmod +x tailwindcss-linux-x64
 sudo mv tailwindcss-linux-x64 /usr/local/bin/tailwindcss`
 
-var tailwindWindowsX64 = `# On Windows (x64)
-# Download from: https://github.com/tailwindlabs/tailwindcss/releases/download/v3.4.17/tailwindcss-windows-x64.exe
+var tailwindWindowsX64 = `# On Windows (x64i
+// # Download from: https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-windows-x64.exe
 # Add to your PATH as 'tailwindcss'`
-
-var installAlpine = `<script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/csp@3.x.x/dist/cdn.min.js"></script>`
-
-var installAlpineHelper = `@helpers.AlpineJS()`
 
 var makeFile = `# Run templ generation in watch mode
 templ:
@@ -54,70 +50,36 @@ tailwind:
 dev:
     make -j3 templ server tailwind`
 
-var tailwindConfig = `/** @type {import('tailwindcss').Config} */
-const config = {
-  darkMode: ["class"],
-  content: ["./**/*.html", "./**/*.templ", "./**/*.go"],
-  safelist: ["dark"],
-  theme: {
-    container: {
-      center: true,
-      padding: "2rem",
-      screens: {
-        "2xl": "1400px",
-      },
-    },
-    extend: {
-      colors: {
-        border: "hsl(var(--border) / <alpha-value>)",
-        input: "hsl(var(--input) / <alpha-value>)",
-        ring: "hsl(var(--ring) / <alpha-value>)",
-        background: "hsl(var(--background) / <alpha-value>)",
-        foreground: "hsl(var(--foreground) / <alpha-value>)",
-        primary: {
-          DEFAULT: "hsl(var(--primary) / <alpha-value>)",
-          foreground: "hsl(var(--primary-foreground) / <alpha-value>)",
-        },
-        secondary: {
-          DEFAULT: "hsl(var(--secondary) / <alpha-value>)",
-          foreground: "hsl(var(--secondary-foreground) / <alpha-value>)",
-        },
-        destructive: {
-          DEFAULT: "hsl(var(--destructive) / <alpha-value>)",
-          foreground: "hsl(var(--destructive-foreground) / <alpha-value>)",
-        },
-        muted: {
-          DEFAULT: "hsl(var(--muted) / <alpha-value>)",
-          foreground: "hsl(var(--muted-foreground) / <alpha-value>)",
-        },
-        accent: {
-          DEFAULT: "hsl(var(--accent) / <alpha-value>)",
-          foreground: "hsl(var(--accent-foreground) / <alpha-value>)",
-        },
-        popover: {
-          DEFAULT: "hsl(var(--popover) / <alpha-value>)",
-          foreground: "hsl(var(--popover-foreground) / <alpha-value>)",
-        },
-        card: {
-          DEFAULT: "hsl(var(--card) / <alpha-value>)",
-          foreground: "hsl(var(--card-foreground) / <alpha-value>)",
-        },
-      },
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
-      },
-      fontFamily: {},
-    },
-  },
-};
+var inputCss = `@import 'tailwindcss';
 
-export default config;`
+@custom-variant dark (&:where(.dark, .dark *));
 
-var inputCss = `@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@theme {
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(---accent-foreground));
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+
+  --container-2xl: 1400px;
+}
 
 @layer base {
   :root {
@@ -131,41 +93,41 @@ var inputCss = `@tailwind base;
     --card-foreground: 240 10% 3.9%;
     --border: 240 5.9% 90%;
     --input: 240 5.9% 90%;
-    --primary: 346.8 77.2% 49.8%;
-    --primary-foreground: 355.7 100% 97.3%;
+    --primary: 240 5.9% 10%;
+    --primary-foreground: 0 0% 98%;
     --secondary: 240 4.8% 95.9%;
     --secondary-foreground: 240 5.9% 10%;
     --accent: 240 4.8% 95.9%;
     --accent-foreground: 240 5.9% 10%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-    --ring: 346.8 77.2% 49.8%;
+    --ring: 240 5.9% 10%;
     --radius: 0.5rem;
   }
+  
   .dark {
-    --background: 20 14.3% 4.1%;
-    --foreground: 0 0% 95%;
-    --muted: 0 0% 15%;
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
     --muted-foreground: 240 5% 64.9%;
-    --popover: 0 0% 9%;
-    --popover-foreground: 0 0% 95%;
-    --card: 24 9.8% 10%;
-    --card-foreground: 0 0% 95%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
-    --primary: 346.8 77.2% 49.8%;
-    --primary-foreground: 355.7 100% 97.3%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
     --secondary: 240 3.7% 15.9%;
     --secondary-foreground: 0 0% 98%;
-    --accent: 12 6.5% 15.1%;
+    --accent: 240 3.7% 15.9%;
     --accent-foreground: 0 0% 98%;
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 85.7% 97.3%;
-    --ring: 346.8 77.2% 49.8%;
+    --destructive-foreground: 0 0% 98%;
+    --ring: 240 4.9% 83.9%;
     --radius: 0.5rem;
   }
-}
-@layer base {
+
   * {
     @apply border-border;
   }
@@ -180,7 +142,7 @@ var inputCss = `@tailwind base;
 
 var installTemplUI = `go get github.com/axzilla/templui`
 
-var goPath = `"${GOPATH}/pkg/mod/github.com/axzilla/templui@*/**/*.{go,templ}"`
+var goPath = `@source "${GOPATH}/pkg/mod/github.com/axzilla/templui@*/**/*.{go,templ}";`
 
 var usingComponents = `import "github.com/axzilla/templui/pkg/components"
 
@@ -199,11 +161,9 @@ mux.Handle("GET /", templ.Handler(pages.Landing()))
 http.ListenAndServe(":8090", wrappedMux)`
 
 var alpineHelpers = `// Option A: Include Alpine.js and all component scripts (recommended)
-@helpers.AlpineJS()
 @helpers.ComponentScripts()
 
 // Option B: Include Alpine.js and specific component scripts
-@helpers.AlpineJS()
 @components.AccordionScript()
 @components.ModalScript()
 // ... other specific component scripts as needed`
@@ -213,7 +173,6 @@ var staticComponent = `// Static components (Tailwind only) can be used directly
 @components.Card(components.CardProps{...})`
 
 var interactiveComponent = `// First, include required scripts
-@helpers.AlpineJS()
 @components.AccordionScript()
 
 // Then use the component
@@ -224,11 +183,11 @@ templ HowToUse() {
 		<div>
 			<div class="mb-16">
 				<h1 class="text-3xl font-bold mb-2">How To Use</h1>
-				<p class="mb-4 text-muted-foreground">Learn how to integrate TemplUI into your projects.</p>
+				<p class="mb-4 text-muted-foreground">Learn how to integrate templUI into your projects.</p>
 			</div>
 			<section class="mb-12">
 				<h2 class="text-2xl font-semibold mb-4 text-primary">Requirements</h2>
-				<p class="mb-4">Before using TemplUI, ensure you have these tools installed:</p>
+				<p class="mb-4">Before using templUI, ensure you have these tools installed:</p>
 				<div class="space-y-6">
 					<div>
 						<h3 class="text-xl font-semibold mb-2">1. Go (1.23 or later)</h3>
@@ -246,15 +205,13 @@ templ HowToUse() {
 						}
 					</div>
 					<div>
-						<h3 class="text-xl font-semibold mb-2">3. Tailwind CSS CLI (Standalone)</h3>
-						<small class="text-red-500 font-bold">Currently only compatible with Tailwind CSS v3.x. Support for Tailwind CSS v4.x is work in progress.</small>
+						<h3 class="text-xl font-semibold mb-2">3. Tailwind CSS Standalone CLI (v4.0.5 or later)</h3>
 						<p class="mb-2">Install the standalone CLI based on your operating system:</p>
 						<div class="space-y-4">
-							// TODO: Bring back if v4 is implemented
-							<!-- <p class="mb-2">Homebrew (macOS):</p> -->
-							<!-- @components.Code(components.CodeProps{Language: "shell", ShowCopyButton: true}) { -->
-							<!-- 	{ tailwindHomebrew } -->
-							<!-- } -->
+							<p class="mb-2">Homebrew (macOS):</p>
+							@components.Code(components.CodeProps{Language: "shell", ShowCopyButton: true}) {
+								{ tailwindHomebrew }
+							}
 							<p class="mb-2">macOS (Apple Silicon):</p>
 							@components.Code(components.CodeProps{Language: "shell", ShowCopyButton: true}) {
 								{ tailwindMacOSArm64 }
@@ -280,14 +237,7 @@ templ HowToUse() {
 				<p class="mb-4">TemplUI provides pre-configured styles and themes. You'll need these files in your project:</p>
 				<div class="space-y-6">
 					<div>
-						<h3 class="text-xl font-semibold mb-2">1. Tailwind Configuration</h3>
-						<p class="mb-2">Create tailwind.config.js:</p>
-						@components.Code(components.CodeProps{Language: "javascript", ShowCopyButton: true}) {
-							{ tailwindConfig }
-						}
-					</div>
-					<div>
-						<h3 class="text-xl font-semibold mb-2">2. CSS Base Styles</h3>
+						<h3 class="text-xl font-semibold mb-2">1. CSS Configuration file + Base Styles</h3>
 						<p class="mb-2">Create assets/css/input.css with our base styles:</p>
 						@components.Code(components.CodeProps{Language: "css", ShowCopyButton: true}) {
 							{ inputCss }
@@ -295,82 +245,35 @@ templ HowToUse() {
 						<p class="text-sm mt-2">For custom themes and additional styles, check our <a href="/docs/themes" class="text-primary underline">themes documentation</a>.</p>
 					</div>
 					<div class="space-y-2">
-						<h3 class="text-xl font-semibold">3. Alpine.js (CSP-Ready)</h3>
-						<p class="mb-2">
-							TemplUI is CSP-compliant by default using 
-							<a
-								href="https://alpinejs.dev/advanced/csp"
-								target="_blank"
-								class="underline hover:opacity-80 font-semibold"
-							>Alpine's CSP build</a>. Use our recommended helper component:
-						</p>
-						@components.Code(components.CodeProps{Language: "html", ShowCopyButton: true}) {
-							{ installAlpineHelper }
-						}
-						<p class="mb-2">Or include the CSP-compliant Alpine.js version directly:</p>
-						@components.Code(components.CodeProps{Language: "html", ShowCopyButton: true}) {
-							{ installAlpine }
-						}
-						<div class="bg-muted p-4 rounded-lg mt-4">
-							<p class="font-medium mb-2">CSP Compliance in TemplUI</p>
-							<div class="space-y-4">
-								<div class="border-l-4 border-success pl-4">
-									<p class="font-medium">Default: CSP-Ready Components</p>
-									<ul class="list-disc pl-6 text-sm">
-										<li>
-											Uses 
-											<a
-												href="https://alpinejs.dev/advanced/csp"
-												target="_blank"
-												class="underline hover:opacity-80 font-semibold"
-											>Alpine.js CSP build</a>
-										</li>
-										<li>All components use nonces via templ</li>
-										<li>No inline scripts</li>
-										<li>No external scripts</li>
-									</ul>
-									<p class="text-sm mt-2">→ CSP-compliant out of the box!</p>
-								</div>
-								<div class="border-l-4 border-warning pl-4">
-									<p class="font-medium">When Adding External Scripts:</p>
-									<ul class="list-disc pl-6 text-sm">
-										<li>Enable CSP middleware</li>
-										<li>Configure allowed domains (HTMX, highlight.js etc.)</li>
-										<li>Add nonce to external script tags</li>
-									</ul>
-									<p class="text-sm mt-2 text-warning-foreground">
-										⚠️ Without middleware, external scripts will work but break CSP compliance
-									</p>
+						<h3 class="text-xl font-semibold">2. Alpine.js Installation</h3>
+						<p class="mb-2">Add Alpine.js to your layout template:</p>
+						<div class="space-y-4">
+							<div>
+								<p class="font-medium">Standard Installation (Recommended)</p>
+								<p class="mb-2">For most projects, use the standard Alpine.js build:</p>
+								@components.Code(components.CodeProps{Language: "html", ShowCopyButton: true}) {
+									{ `<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>` }
+								}
+							</div>
+							<div class="border-l-4 border-info pl-4 mt-4">
+								<p class="font-medium">Enhanced Security Installation</p>
+								<p class="mb-2 text-sm">TemplUI is built to be CSP-compliant. If your application requires strict Content Security Policy (CSP):</p>
+								<div class="space-y-4">
+									<div>
+										<p class="text-sm mb-2">1. Use Alpine.js CSP build instead:</p>
+										@components.Code(components.CodeProps{Language: "html", ShowCopyButton: true}) {
+											{ `<script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/csp@3.x.x/dist/cdn.min.js"></script>` }
+										}
+									</div>
+									<div>
+										<p class="text-sm mb-2">2. Add CSP middleware if you're using external resources (like HTMX, highlight.js):</p>
+										@components.Code(components.CodeProps{Language: "go", ShowCopyButton: true}) {
+											{ cspMiddleware }
+										}
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-					<div>
-						<h3 class="text-xl font-semibold mb-2">4. CSP Middleware</h3>
-						<p class="mb-4">The CSP middleware is only needed when adding external scripts while maintaining CSP compliance:</p>
-						<div class="bg-muted p-4 rounded-lg mb-4">
-							<p class="font-medium">Example Scenarios:</p>
-							<div class="space-y-4">
-								<div class="border-l-4 border-success pl-4">
-									<p class="font-medium">No Middleware Needed:</p>
-									<ul class="list-disc pl-6 text-sm">
-										<li>Using only TemplUI components</li>
-										<li>No external scripts or resources</li>
-									</ul>
-								</div>
-								<div class="border-l-4 border-warning pl-4">
-									<p class="font-medium">Middleware Required:</p>
-									<ul class="list-disc pl-6 text-sm">
-										<li>When using HTMX</li>
-										<li>When using highlight.js</li>
-										<li>When adding any other external scripts</li>
-									</ul>
-								</div>
-							</div>
-						</div>
-						@components.Code(components.CodeProps{Language: "go", ShowCopyButton: true}) {
-							{ cspMiddleware }
-						}
 					</div>
 				</div>
 			</section>
@@ -436,25 +339,25 @@ templ HowToUse() {
 			</section>
 			<section class="mb-12">
 				<h2 class="text-2xl font-semibold mb-4 text-primary">Installation Options</h2>
-				<p class="mb-4">After installing the requirements, you have three ways to use TemplUI:</p>
+				<p class="mb-4">After installing the requirements, you have three ways to use templUI:</p>
 				<div class="space-y-8">
 					<div>
 						<h3 class="text-xl font-semibold mb-2">1. Quickstart Template (Recommended for new projects)</h3>
 						<p class="mb-4">
-							For a ready-to-go setup, check out our <a href="https://github.com/axzilla/templui-quickstart" class="text-primary underline" target="_blank">TemplUI Quickstart</a> template.
-							It includes all requirements and configurations, using TemplUI as a package library by default but can be easily modified to use copied components or a mix of both approaches.
+							For a ready-to-go setup, check out our <a href="https://github.com/axzilla/templui-quickstart" class="text-primary underline" target="_blank">templUI Quickstart</a> template.
+							It includes all requirements and configurations, using templUI as a package library by default but can be easily modified to use copied components or a mix of both approaches.
 						</p>
 					</div>
 					<div>
 						<h3 class="text-xl font-semibold mb-2">2. Package Installation</h3>
-						<p class="mb-4">Install TemplUI as a Go package:</p>
+						<p class="mb-4">Install templUI as a Go package:</p>
 						<div class="mb-4">
 							@components.Code(components.CodeProps{Language: "shell", ShowCopyButton: true}) {
 								{ installTemplUI }
 							}
 						</div>
 						<h4 class="font-semibold mb-2">*Required: Additional Tailwind Configuration</h4>
-						<p class="mb-2">When using TemplUI as a package, add this to your tailwind.config.json content array:</p>
+						<p class="mb-2">When using templUI as a package, add this to your input.css:</p>
 						<div class="mb-4">
 							@components.Code(components.CodeProps{Language: "markdown", ShowCopyButton: true}) {
 								{ goPath }
@@ -467,18 +370,13 @@ templ HowToUse() {
 					</div>
 					<div>
 						<h3 class="text-xl font-semibold mb-2">3. Copy Components</h3>
-						<p class="mb-4">For maximum customization, copy components directly into your project (requires manual updates):</p>
-						<ol class="list-decimal pl-6">
-							<li>Visit our <a href="/docs/components" class="text-primary underline">components documentation</a></li>
-							<li>Find the component you need</li>
-							<li>Copy the component code into your project's components folder</li>
-						</ol>
+						<p class="mb-4">For maximum customization, copy components directly into your project (requires manual updates).</p>
 					</div>
 					<div class="mb-8">
-						<h3 class="text-xl font-semibold mb-2">Mix and Match</h3>
+						<h3 class="text-xl font-semibold mb-2">4. Mix and Match</h3>
 						<p>
 							You can also combine approaches. For example, use some components as a package and copy others for customization.
-							Remember that when using any components as a package (including mix and match), you need to add the GOPATH configuration to your tailwind.config.json as shown in the Package Installation section.
+							Remember that when using any components as a package (including mix and match), you need to add the GOPATH configuration to your input.css as shown in the Package Installation section.
 						</p>
 					</div>
 				</div>
@@ -511,10 +409,6 @@ templ HowToUse() {
 									{ interactiveComponent }
 								}
 							</div>
-							<p>
-								For a complete list of available components and their usage, visit our
-								<a href="/docs/components" class="text-primary underline">components documentation</a>.
-							</p>
 						</div>
 					</div>
 				</div>
@@ -525,22 +419,10 @@ templ HowToUse() {
 					For advanced configuration and best practices, refer to the official documentation:
 				</p>
 				<ul class="list-disc pl-6 space-y-2">
-					<li><a href="https://templ.guide" class="text-primary underline" target="_blank">Templ Guide</a> - Cache configuration, component patterns, etc.</li>
+					<li><a href="https://templ.guide" class="text-primary underline" target="_blank">Templ</a> - Cache configuration, component patterns, etc.</li>
 					<li><a href="https://tailwindcss.com/docs" class="text-primary underline" target="_blank">Tailwind CSS</a> - Custom theming, plugins, optimization</li>
 					<li><a href="https://alpinejs.dev/docs" class="text-primary underline" target="_blank">Alpine.js</a> - Advanced interactivity, state management</li>
 				</ul>
-				<p class="text-sm mt-4">Note: Our quickstart template includes recommended configurations for production use.</p>
-			</section>
-			<section>
-				<h2 class="text-2xl font-semibold mb-4 text-primary">Next Steps</h2>
-				<div class="space-y-4">
-					<p>Now that you have TemplUI set up, try:</p>
-					<ul class="list-disc pl-6 space-y-2">
-						<li>Build your first page using our <a href="/docs/components" class="text-primary underline">component library</a></li>
-						<li>Customize the look with our <a href="/docs/themes" class="text-primary underline">theming system</a></li>
-						<li>Share your feedback in our <a href="https://github.com/axzilla/templui/discussions" class="text-primary underline">community discussions</a></li>
-					</ul>
-				</div>
 			</section>
 		</div>
 	}

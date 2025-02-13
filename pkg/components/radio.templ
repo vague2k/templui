@@ -7,6 +7,7 @@ type RadioProps struct {
 	Name       string           // Form field name
 	ID         string           // DOM identifier
 	Disabled   bool             // Prevents interaction
+	Required   bool             // Required
 	Checked    bool             // Selected state
 	Class      string           // Additional CSS classes
 	Attributes templ.Attributes // Additional HTML attributes
@@ -22,6 +23,7 @@ templ Radio(props RadioProps) {
 		value={ props.Value }
 		checked?={ props.Checked }
 		disabled?={ props.Disabled }
+		required?={ props.Required }
 		class={
 			utils.TwMerge(
 				// Layout
@@ -37,7 +39,7 @@ templ Radio(props RadioProps) {
 				// States
 				"checked:border-primary checked:bg-primary",
 				"checked:before:visible",
-				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+				"focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring",
 				"focus-visible:ring-offset-2 focus-visible:ring-offset-background",
 				"disabled:cursor-not-allowed",
 		

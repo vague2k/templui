@@ -12,6 +12,7 @@ type TextareaProps struct {
 	Placeholder string           // Helper text shown when empty
 	Rows        int              // Visible lines of text
 	Disabled    bool             // Prevents interaction
+	Required    bool             // Required
 	AutoResize  bool             // Enables dynamic resizing
 	Class       string           // Additional CSS classes
 	Attributes  templ.Attributes // Additional HTML attributes
@@ -41,6 +42,7 @@ templ Textarea(props TextareaProps) {
 		name={ props.Name }
 		placeholder={ props.Placeholder }
 		disabled?={ props.Disabled }
+		required?={ props.Required }
 		if props.Rows != 0 {
 			rows={ strconv.Itoa(props.Rows) }
 		}
@@ -56,7 +58,7 @@ templ Textarea(props TextareaProps) {
 				"placeholder:text-muted-foreground",
 		
 				// States
-				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+				"focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
 				"disabled:cursor-not-allowed disabled:opacity-50",
 		
 				// Custom

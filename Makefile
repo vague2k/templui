@@ -12,10 +12,15 @@ server:
 	--build.stop_on_error "false" \
 	--misc.clean_on_exit true
 
-tailwind:
+tailwind-clean:
+	tailwindcss -i ./assets/css/input.css -o ./assets/css/output.css --clean
+
+tailwind-watch:
 	tailwindcss -i ./assets/css/input.css -o ./assets/css/output.css --watch
+
 dev:
-	make -j4 templ server tailwind
+	make tailwind-clean
+	make -j3 templ server tailwind-watch
 
 debug:
 	make -j3 templ tailwind-app tailwind

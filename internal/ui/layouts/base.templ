@@ -54,7 +54,7 @@ templ BaseLayout() {
 			// Custom CSS
 			<link href="/assets/css/themes.css" rel="stylesheet"/>
 			// Alpine.js 
-			@helpers.AlpineJS()
+			<script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/csp@3.x.x/dist/cdn.min.js"></script>
 			// HTMX
 			<script nonce={ templ.GetNonce(ctx) } defer src="https://cdn.jsdelivr.net/npm/htmx.org@1.7.0/dist/htmx.min.js"></script>
 			// INFO: Tryout for capsulate components
