@@ -145,7 +145,7 @@ func Sheet(props SheetProps) templ.Component {
 			templ_7745c5c3_Var5 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<!-- Backdrop --><div x-show=\"isOpen\" class=\"fixed inset-0 bg-background/80 backdrop-blur-sm\" @click=\"close\" x-transition:enter=\"transition ease-out duration-300\" x-transition:enter-start=\"opacity-0\" x-transition:enter-end=\"opacity-100\" x-transition:leave=\"transition ease-in duration-300\" x-transition:leave-start=\"opacity-100\" x-transition:leave-end=\"opacity-0\"></div><!-- Sheet -->")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<!-- Backdrop --><div x-show=\"isOpen\" class=\"fixed inset-0 bg-background/80 backdrop-blur-xs\" @click=\"close\" x-transition:enter=\"transition ease-out duration-300\" x-transition:enter-start=\"opacity-0\" x-transition:enter-end=\"opacity-100\" x-transition:leave=\"transition ease-in duration-300\" x-transition:leave-start=\"opacity-100\" x-transition:leave-end=\"opacity-0\"></div><!-- Sheet -->")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -332,7 +332,7 @@ func SheetClose(text string) templ.Component {
 		}
 		ctx = templ.ClearChildren(ctx)
 		var templ_7745c5c3_Var14 = []any{"inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background",
-			"transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+			"transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
 			"disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent",
 			"hover:text-accent-foreground h-10 px-4 py-2"}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var14...)

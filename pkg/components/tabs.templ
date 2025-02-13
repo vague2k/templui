@@ -31,8 +31,8 @@ templ TabsScript() {
 
                 buttons.forEach((btn, idx) => {
                     btn.onclick = () => {
-                        buttons.forEach(b => b.classList.remove('text-foreground', 'bg-background', 'shadow-sm'));
-                        btn.classList.add('text-foreground', 'bg-background', 'shadow-sm');
+                        buttons.forEach(b => b.classList.remove('text-foreground', 'bg-background', 'shadow-xs'));
+                        btn.classList.add('text-foreground', 'bg-background', 'shadow-xs');
                         contents.forEach(c => c.classList.add('hidden'));
                         contents[idx].classList.remove('hidden');
                         marker.style.width = btn.offsetWidth + 'px';
@@ -54,13 +54,13 @@ templ Tabs(props TabsProps) {
 					type="button"
 					data-tab-button={ tabID }
 					class={ "relative z-20 flex-1 inline-flex items-center justify-center h-8 px-3 text-sm font-medium transition-all rounded-md cursor-pointer whitespace-nowrap hover:text-foreground" ,
-                        templ.KV(" text-foreground bg-background shadow-sm", i == 0) }
+                        templ.KV(" text-foreground bg-background shadow-xs", i == 0) }
 				>
 					{ tab.Title }
 				</button>
 			}
 			<div data-tab-marker={ tabID } class="absolute left-0 z-10 h-full duration-300 ease-out">
-				<div class="w-full h-full bg-background rounded-md shadow-sm"></div>
+				<div class="w-full h-full bg-background rounded-md shadow-xs"></div>
 			</div>
 		</div>
 		<div class={ "relative mt-2", props.ContentContainerClass }>

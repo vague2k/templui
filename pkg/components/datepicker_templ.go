@@ -435,7 +435,7 @@ func Datepicker(props DatepickerProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "\" x-bind:class=\"positionClass\"><div class=\"flex items-center justify-between mb-4\"><span x-text=\"getCurrentMonth\" class=\"text-sm font-medium\"></span><div class=\"flex gap-1\"><button type=\"button\" @click=\"atClickPrevMonth\" class=\"inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-7 w-7\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "\" x-bind:class=\"positionClass\"><div class=\"flex items-center justify-between mb-4\"><span x-text=\"getCurrentMonth\" class=\"text-sm font-medium\"></span><div class=\"flex gap-1\"><button type=\"button\" @click=\"atClickPrevMonth\" class=\"inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-7 w-7\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -443,7 +443,7 @@ func Datepicker(props DatepickerProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "</button> <button type=\"button\" @click=\"atClickNextMonth\" class=\"inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-7 w-7\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "</button> <button type=\"button\" @click=\"atClickNextMonth\" class=\"inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-7 w-7\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -451,7 +451,7 @@ func Datepicker(props DatepickerProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "</button></div></div><div class=\"grid grid-cols-7 gap-1 mb-2\"><template x-for=\"day in days\" :key=\"day\"><div class=\"text-center text-xs text-muted-foreground\" x-text=\"day\"></div></template></div><div class=\"grid grid-cols-7 gap-1\"><template x-for=\"blank in blankDays\" key=\"&#39;blank&#39; + blank\"><div class=\"h-8 w-8\"></div></template><template x-for=\"day in monthDays\"><button x-bind:data-day=\"day\" type=\"button\" @click=\"selectDate\" :class=\"activeDayClass\" x-text=\"day\" class=\"inline-flex h-8 w-8 items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2\"></button></template></div></div></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "</button></div></div><div class=\"grid grid-cols-7 gap-1 mb-2\"><template x-for=\"day in days\" :key=\"day\"><div class=\"text-center text-xs text-muted-foreground\" x-text=\"day\"></div></template></div><div class=\"grid grid-cols-7 gap-1\"><template x-for=\"blank in blankDays\" key=\"&#39;blank&#39; + blank\"><div class=\"h-8 w-8\"></div></template><template x-for=\"day in monthDays\"><button x-bind:data-day=\"day\" type=\"button\" @click=\"selectDate\" :class=\"activeDayClass\" x-text=\"day\" class=\"inline-flex h-8 w-8 items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2\"></button></template></div></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

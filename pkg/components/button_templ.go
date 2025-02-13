@@ -110,7 +110,7 @@ func Button(props ButtonProps) templ.Component {
 			var templ_7745c5c3_Var2 = []any{
 				utils.TwMerge(
 					"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors",
-					"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+					"focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
 					props.variantClasses(),
 					props.sizeClasses(),
 					props.modifierClasses(),
@@ -190,7 +190,7 @@ func Button(props ButtonProps) templ.Component {
 			var templ_7745c5c3_Var6 = []any{
 				utils.TwMerge(
 					"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors",
-					"focus-visible:outline-none focus-visible:ring-2 focus:ring-ring focus-visible:ring-offset-2",
+					"focus-visible:outline-hidden focus-visible:ring-2 focus:ring-ring focus-visible:ring-offset-2",
 					"disabled:pointer-events-none disabled:opacity-50",
 					props.variantClasses(),
 					props.sizeClasses(),
