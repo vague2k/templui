@@ -25,6 +25,7 @@ type InputProps struct {
 	ID          string           // DOM identifier
 	Disabled    bool             // Prevents interaction
 	Readonly    bool             // Allows selection only
+	Required    bool             // Required
 	FileAccept  string           // Allowed file types
 	HasError    bool             // Error state styling
 	Class       string           // Additional CSS classes
@@ -39,6 +40,7 @@ templ Input(props InputProps) {
 		placeholder={ props.Placeholder }
 		disabled?={ props.Disabled }
 		readonly?={ props.Readonly }
+		required?={ props.Required }
 		name={ props.Name }
 		if props.Value != "" {
 			value={ props.Value }
