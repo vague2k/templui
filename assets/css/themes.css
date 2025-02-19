@@ -27,8 +27,6 @@
   --destructive-foreground: hsl(0 0% 98%);
 
   --ring: hsl(240 5.9% 10%);
-
-  --radius: hsl(0.5rem);
 }
 
 .dark .theme-zinc {
@@ -91,8 +89,6 @@
   --destructive-foreground: hsl(210 40% 98%);
 
   --ring: hsl(222.2 84% 4.9%);
-
-  --radius: hsl(0.5rem);
 }
 
 .dark .theme-slate {
@@ -155,8 +151,6 @@
   --destructive-foreground: hsl(60 9.1% 97.8%);
 
   --ring: hsl(20 14.3% 4.1%);
-
-  --radius: hsl(0.95rem);
 }
 
 .dark .theme-stone {
@@ -219,8 +213,6 @@
   --destructive-foreground: hsl(210 20% 98%);
 
   --ring: hsl(224 71.4% 4.1%);
-
-  --radius: hsl(0.35rem);
 }
 
 .dark .theme-gray {
@@ -283,8 +275,6 @@
   --destructive-foreground: hsl(0 0% 98%);
 
   --ring: hsl(0 0% 3.9%);
-
-  --radius: hsl();
 }
 
 .dark .theme-neutral {
@@ -347,8 +337,6 @@
   --destructive-foreground: hsl(0 0% 98%);
 
   --ring: hsl(0 72.2% 50.6%);
-
-  --radius: hsl(0.4rem);
 }
 
 .dark .theme-red {
@@ -411,8 +399,6 @@
   --destructive-foreground: hsl(0 0% 98%);
 
   --ring: hsl(346.8 77.2% 49.8%);
-
-  --radius: hsl(0.5rem);
 }
 
 .dark .theme-rose {
@@ -475,8 +461,6 @@
   --destructive-foreground: hsl(60 9.1% 97.8%);
 
   --ring: hsl(24.6 95% 53.1%);
-
-  --radius: hsl(0.95rem);
 }
 
 .dark .theme-orange {
@@ -539,8 +523,6 @@
   --destructive-foreground: hsl(0 0% 98%);
 
   --ring: hsl(142.1 76.2% 36.3%);
-
-  --radius: hsl();
 }
 
 .dark .theme-green {
@@ -603,8 +585,6 @@
   --destructive-foreground: hsl(210 40% 98%);
 
   --ring: hsl(221.2 83.2% 53.3%);
-
-  --radius: hsl();
 }
 
 .dark .theme-blue {
@@ -667,8 +647,6 @@
   --destructive-foreground: hsl(60 9.1% 97.8%);
 
   --ring: hsl(20 14.3% 4.1%);
-
-  --radius: hsl(0.95rem);
 }
 
 .dark .theme-yellow {
@@ -731,8 +709,6 @@
   --destructive-foreground: hsl(210 20% 98%);
 
   --ring: hsl(262.1 83.3% 57.8%);
-
-  --radius: hsl();
 }
 
 .dark .theme-violet {
