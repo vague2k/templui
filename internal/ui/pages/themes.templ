@@ -638,7 +638,6 @@ templ ThemesHandle() {
 }
 
 templ Themes() {
-	@ThemesHandle()
 	@layouts.DocsLayout() {
 		<div
 			x-data="themeCustomizer"
@@ -677,6 +676,7 @@ templ Themes() {
 				</div>
 			</div>
 		</div>
+		@ThemesHandle()
 	}
 }
 
