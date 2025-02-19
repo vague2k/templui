@@ -1,4 +1,4 @@
-/*! tailwindcss v4.0.6 | MIT License | https://tailwindcss.com */
+/*! tailwindcss v4.0.7 | MIT License | https://tailwindcss.com */
 @layer theme, base, components, utilities;
 @layer theme {
   :root, :host {
@@ -374,24 +374,25 @@
     --default-mono-font-variation-settings: var(
       --font-mono--font-variation-settings
     );
-    --color-border: hsl(var(--border));
-    --color-input: hsl(var(--input));
-    --color-background: hsl(var(--background));
-    --color-foreground: hsl(var(--foreground));
-    --color-primary: hsl(var(--primary));
-    --color-primary-foreground: hsl(var(--primary-foreground));
-    --color-secondary: hsl(var(--secondary));
-    --color-secondary-foreground: hsl(var(--secondary-foreground));
-    --color-destructive: hsl(var(--destructive));
-    --color-destructive-foreground: hsl(var(--destructive-foreground));
-    --color-muted: hsl(var(--muted));
-    --color-muted-foreground: hsl(var(--muted-foreground));
-    --color-accent: hsl(var(--accent));
-    --color-accent-foreground: hsl(var(---accent-foreground));
-    --color-popover: hsl(var(--popover));
-    --color-popover-foreground: hsl(var(--popover-foreground));
-    --color-card: hsl(var(--card));
-    --color-card-foreground: hsl(var(--card-foreground));
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(---accent-foreground);
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+    --color-ring: var(--ring);
   }
 }
 @layer base {
@@ -687,9 +688,6 @@
   }
   .mt-4 {
     margin-top: calc(var(--spacing) * 4);
-  }
-  .mt-6 {
-    margin-top: calc(var(--spacing) * 6);
   }
   .mr-1 {
     margin-right: calc(var(--spacing) * 1);
@@ -1013,9 +1011,6 @@
   .resize {
     resize: both;
   }
-  .list-decimal {
-    list-style-type: decimal;
-  }
   .list-disc {
     list-style-type: disc;
   }
@@ -1145,7 +1140,7 @@
   }
   .divide-border {
     :where(& > :not(:last-child)) {
-      border-color: var(--color-border);
+      border-color: var(--border);
     }
   }
   .overflow-hidden {
@@ -1170,29 +1165,29 @@
     border-radius: calc(infinity * 1px);
   }
   .rounded-lg {
-    border-radius: var(--radius-lg);
+    border-radius: var(--radius);
   }
   .rounded-md {
-    border-radius: var(--radius-md);
+    border-radius: calc(var(--radius) - 2px);
   }
   .rounded-sm {
-    border-radius: var(--radius-sm);
+    border-radius: calc(var(--radius) - 4px);
   }
   .rounded-l-lg {
-    border-top-left-radius: var(--radius-lg);
-    border-bottom-left-radius: var(--radius-lg);
+    border-top-left-radius: var(--radius);
+    border-bottom-left-radius: var(--radius);
   }
   .rounded-t-lg {
-    border-top-left-radius: var(--radius-lg);
-    border-top-right-radius: var(--radius-lg);
+    border-top-left-radius: var(--radius);
+    border-top-right-radius: var(--radius);
   }
   .rounded-r-lg {
-    border-top-right-radius: var(--radius-lg);
-    border-bottom-right-radius: var(--radius-lg);
+    border-top-right-radius: var(--radius);
+    border-bottom-right-radius: var(--radius);
   }
   .rounded-b-lg {
-    border-bottom-right-radius: var(--radius-lg);
-    border-bottom-left-radius: var(--radius-lg);
+    border-bottom-right-radius: var(--radius);
+    border-bottom-left-radius: var(--radius);
   }
   .border {
     border-style: var(--tw-border-style);
@@ -1223,19 +1218,19 @@
     border-left-width: 4px;
   }
   .border-border {
-    border-color: var(--color-border);
+    border-color: var(--border);
   }
   .border-destructive {
-    border-color: var(--color-destructive);
+    border-color: var(--destructive);
   }
   .border-foreground {
-    border-color: var(--color-foreground);
+    border-color: var(--foreground);
   }
   .border-input {
-    border-color: var(--color-input);
+    border-color: var(--input);
   }
   .border-primary {
-    border-color: var(--color-primary);
+    border-color: var(--primary);
   }
   .border-transparent {
     border-color: transparent;
@@ -1244,10 +1239,10 @@
     background-color: var(--theme-primary);
   }
   .bg-background {
-    background-color: var(--color-background);
+    background-color: var(--background);
   }
   .bg-background\/80 {
-    background-color: color-mix(in oklab, var(--color-background) 80%, transparent);
+    background-color: color-mix(in oklab, var(--background) 80%, transparent);
   }
   .bg-black {
     background-color: var(--color-black);
@@ -1256,13 +1251,13 @@
     background-color: var(--color-blue-500);
   }
   .bg-card {
-    background-color: var(--color-card);
+    background-color: var(--card);
   }
   .bg-destructive {
-    background-color: var(--color-destructive);
+    background-color: var(--destructive);
   }
   .bg-foreground {
-    background-color: var(--color-foreground);
+    background-color: var(--foreground);
   }
   .bg-gray-100 {
     background-color: var(--color-gray-100);
@@ -1274,28 +1269,28 @@
     background-color: var(--color-green-500);
   }
   .bg-muted {
-    background-color: var(--color-muted);
+    background-color: var(--muted);
   }
   .bg-muted\/50 {
-    background-color: color-mix(in oklab, var(--color-muted) 50%, transparent);
+    background-color: color-mix(in oklab, var(--muted) 50%, transparent);
   }
   .bg-neutral-200 {
     background-color: var(--color-neutral-200);
   }
   .bg-popover {
-    background-color: var(--color-popover);
+    background-color: var(--popover);
   }
   .bg-primary {
-    background-color: var(--color-primary);
+    background-color: var(--primary);
   }
   .bg-primary-foreground {
-    background-color: var(--color-primary-foreground);
+    background-color: var(--primary-foreground);
   }
   .bg-red-500 {
     background-color: var(--color-red-500);
   }
   .bg-secondary {
-    background-color: var(--color-secondary);
+    background-color: var(--secondary);
   }
   .bg-white {
     background-color: var(--color-white);
@@ -1457,7 +1452,7 @@
     white-space: nowrap;
   }
   .text-background {
-    color: var(--color-background);
+    color: var(--background);
   }
   .text-black {
     color: var(--color-black);
@@ -1466,16 +1461,16 @@
     color: var(--color-blue-500);
   }
   .text-card-foreground {
-    color: var(--color-card-foreground);
+    color: var(--card-foreground);
   }
   .text-destructive {
-    color: var(--color-destructive);
+    color: var(--destructive);
   }
   .text-destructive-foreground {
-    color: var(--color-destructive-foreground);
+    color: var(--destructive-foreground);
   }
   .text-foreground {
-    color: var(--color-foreground);
+    color: var(--foreground);
   }
   .text-gray-400 {
     color: var(--color-gray-400);
@@ -1490,19 +1485,19 @@
     color: var(--color-green-500);
   }
   .text-muted-foreground {
-    color: var(--color-muted-foreground);
+    color: var(--muted-foreground);
   }
   .text-primary {
-    color: var(--color-primary);
+    color: var(--primary);
   }
   .text-primary-foreground {
-    color: var(--color-primary-foreground);
+    color: var(--primary-foreground);
   }
   .text-red-500 {
     color: var(--color-red-500);
   }
   .text-secondary-foreground {
-    color: var(--color-secondary-foreground);
+    color: var(--secondary-foreground);
   }
   .text-white {
     color: var(--color-white);
@@ -1523,7 +1518,7 @@
     text-underline-offset: 4px;
   }
   .accent-foreground {
-    accent-color: var(--color-foreground);
+    accent-color: var(--foreground);
   }
   .opacity-0 {
     opacity: 0%;
@@ -1568,10 +1563,10 @@
     --tw-ring-color: var(--color-black);
   }
   .ring-destructive {
-    --tw-ring-color: var(--color-destructive);
+    --tw-ring-color: var(--destructive);
   }
   .ring-offset-background {
-    --tw-ring-offset-color: var(--color-background);
+    --tw-ring-offset-color: var(--background);
   }
   .outline {
     outline-style: var(--tw-outline-style);
@@ -1663,7 +1658,7 @@
   .group-hover\:text-foreground {
     &:is(:where(.group):hover *) {
       @media (hover: hover) {
-        color: var(--color-foreground);
+        color: var(--foreground);
       }
     }
   }
@@ -1676,7 +1671,7 @@
   }
   .peer-checked\:bg-primary {
     &:is(:where(.peer):checked ~ *) {
-      background-color: var(--color-primary);
+      background-color: var(--primary);
     }
   }
   .peer-checked\:opacity-100 {
@@ -1724,12 +1719,12 @@
   }
   .file\:text-foreground {
     &::file-selector-button {
-      color: var(--color-foreground);
+      color: var(--foreground);
     }
   }
   .placeholder\:text-muted-foreground {
     &::placeholder {
-      color: var(--color-muted-foreground);
+      color: var(--muted-foreground);
     }
   }
   .before\:absolute {
@@ -1791,7 +1786,7 @@
   .before\:bg-background {
     &::before {
       content: var(--tw-content);
-      background-color: var(--color-background);
+      background-color: var(--background);
     }
   }
   .after\:absolute {
@@ -1833,7 +1828,7 @@
   .after\:bg-muted-foreground {
     &::after {
       content: var(--tw-content);
-      background-color: var(--color-muted-foreground);
+      background-color: var(--muted-foreground);
     }
   }
   .after\:transition-all {
@@ -1864,18 +1859,18 @@
     &:is(:where(.peer):checked ~ *) {
       &::after {
         content: var(--tw-content);
-        background-color: var(--color-secondary);
+        background-color: var(--secondary);
       }
     }
   }
   .checked\:border-primary {
     &:checked {
-      border-color: var(--color-primary);
+      border-color: var(--primary);
     }
   }
   .checked\:bg-primary {
     &:checked {
-      background-color: var(--color-primary);
+      background-color: var(--primary);
     }
   }
   .checked\:before\:visible {
@@ -1890,14 +1885,14 @@
     &:checked {
       &::before {
         content: var(--tw-content);
-        background-color: var(--color-primary);
+        background-color: var(--primary);
       }
     }
   }
   .hover\:bg-accent {
     &:hover {
       @media (hover: hover) {
-        background-color: var(--color-accent);
+        background-color: var(--accent);
       }
     }
   }
@@ -1911,7 +1906,7 @@
   .hover\:bg-destructive\/90 {
     &:hover {
       @media (hover: hover) {
-        background-color: color-mix(in oklab, var(--color-destructive) 90%, transparent);
+        background-color: color-mix(in oklab, var(--destructive) 90%, transparent);
       }
     }
   }
@@ -1932,28 +1927,28 @@
   .hover\:bg-muted {
     &:hover {
       @media (hover: hover) {
-        background-color: var(--color-muted);
+        background-color: var(--muted);
       }
     }
   }
   .hover\:bg-primary\/90 {
     &:hover {
       @media (hover: hover) {
-        background-color: color-mix(in oklab, var(--color-primary) 90%, transparent);
+        background-color: color-mix(in oklab, var(--primary) 90%, transparent);
       }
     }
   }
   .hover\:bg-secondary\/80 {
     &:hover {
       @media (hover: hover) {
-        background-color: color-mix(in oklab, var(--color-secondary) 80%, transparent);
+        background-color: color-mix(in oklab, var(--secondary) 80%, transparent);
       }
     }
   }
   .hover\:text-accent-foreground {
     &:hover {
       @media (hover: hover) {
-        color: var(--color-accent-foreground);
+        color: var(---accent-foreground);
       }
     }
   }
@@ -1967,7 +1962,7 @@
   .hover\:text-foreground {
     &:hover {
       @media (hover: hover) {
-        color: var(--color-foreground);
+        color: var(--foreground);
       }
     }
   }
@@ -1988,7 +1983,7 @@
   .hover\:text-primary\/80 {
     &:hover {
       @media (hover: hover) {
-        color: color-mix(in oklab, var(--color-primary) 80%, transparent);
+        color: color-mix(in oklab, var(--primary) 80%, transparent);
       }
     }
   }
@@ -2031,6 +2026,11 @@
       --tw-ring-color: var(--color-indigo-500);
     }
   }
+  .focus\:ring-ring {
+    &:focus {
+      --tw-ring-color: var(--ring);
+    }
+  }
   .focus\:ring-offset-2 {
     &:focus {
       --tw-ring-offset-width: 2px;
@@ -2063,6 +2063,11 @@
       box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
     }
   }
+  .focus-visible\:ring-ring {
+    &:focus-visible {
+      --tw-ring-color: var(--ring);
+    }
+  }
   .focus-visible\:ring-offset-2 {
     &:focus-visible {
       --tw-ring-offset-width: 2px;
@@ -2071,7 +2076,7 @@
   }
   .focus-visible\:ring-offset-background {
     &:focus-visible {
-      --tw-ring-offset-color: var(--color-background);
+      --tw-ring-offset-color: var(--background);
     }
   }
   .focus-visible\:outline-hidden {
@@ -2263,14 +2268,14 @@
   }
   .\[\&\:\:-moz-range-thumb\]\:bg-primary {
     &::-moz-range-thumb {
-      background-color: var(--color-primary);
+      background-color: var(--primary);
     }
   }
   .\[\&\:\:-moz-range-thumb\]\:hover\:bg-primary\/90 {
     &::-moz-range-thumb {
       &:hover {
         @media (hover: hover) {
-          background-color: color-mix(in oklab, var(--color-primary) 90%, transparent);
+          background-color: color-mix(in oklab, var(--primary) 90%, transparent);
         }
       }
     }
@@ -2297,14 +2302,14 @@
   }
   .\[\&\:\:-webkit-slider-thumb\]\:bg-primary {
     &::-webkit-slider-thumb {
-      background-color: var(--color-primary);
+      background-color: var(--primary);
     }
   }
   .\[\&\:\:-webkit-slider-thumb\]\:hover\:bg-primary\/90 {
     &::-webkit-slider-thumb {
       &:hover {
         @media (hover: hover) {
-          background-color: color-mix(in oklab, var(--color-primary) 90%, transparent);
+          background-color: color-mix(in oklab, var(--primary) 90%, transparent);
         }
       }
     }
@@ -2318,7 +2323,7 @@
     &:not(.bg-primary) {
       &:hover {
         @media (hover: hover) {
-          background-color: var(--color-muted);
+          background-color: var(--muted);
         }
       }
     }
@@ -2353,63 +2358,63 @@
     &amp;:not(.bg-primary) {
       &:hover {
         @media (hover: hover) {
-          background-color: var(--color-muted);
+          background-color: var(--muted);
         }
       }
     }
   }
 }
+:root {
+  --background: hsl(0 0% 100%);
+  --foreground: hsl(240 10% 3.9%);
+  --muted: hsl(240 4.8% 95.9%);
+  --muted-foreground: hsl(240 3.8% 46.1%);
+  --popover: hsl(0 0% 100%);
+  --popover-foreground: hsl(240 10% 3.9%);
+  --card: hsl(0 0% 100%);
+  --card-foreground: hsl(240 10% 3.9%);
+  --border: hsl(240 5.9% 90%);
+  --input: hsl(240 5.9% 90%);
+  --primary: hsl(240 5.9% 10%);
+  --primary-foreground: hsl(0 0% 98%);
+  --secondary: hsl(240 4.8% 95.9%);
+  --secondary-foreground: hsl(240 5.9% 10%);
+  --accent: hsl(240 4.8% 95.9%);
+  --accent-foreground: hsl(240 5.9% 10%);
+  --destructive: hsl(0 84.2% 60.2%);
+  --destructive-foreground: hsl(0 0% 98%);
+  --ring: hsl(240 5.9% 10%);
+  --radius: 0.5rem;
+}
+.dark {
+  --background: hsl(240 10% 3.9%);
+  --foreground: hsl(0 0% 98%);
+  --muted: hsl(240 3.7% 15.9%);
+  --muted-foreground: hsl(240 5% 64.9%);
+  --popover: hsl(240 10% 3.9%);
+  --popover-foreground: hsl(0 0% 98%);
+  --card: hsl(240 10% 3.9%);
+  --card-foreground: hsl(0 0% 98%);
+  --border: hsl(240 3.7% 15.9%);
+  --input: hsl(240 3.7% 15.9%);
+  --primary: hsl(0 0% 98%);
+  --primary-foreground: hsl(240 5.9% 10%);
+  --secondary: hsl(240 3.7% 15.9%);
+  --secondary-foreground: hsl(0 0% 98%);
+  --accent: hsl(240 3.7% 15.9%);
+  --accent-foreground: hsl(0 0% 98%);
+  --destructive: hsl(0 62.8% 30.6%);
+  --destructive-foreground: hsl(0 0% 98%);
+  --ring: hsl(240 4.9% 83.9%);
+  --radius: 0.5rem;
+}
 @layer base {
-  :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --ring: 240 5.9% 10%;
-    --radius: 0.5rem;
-  }
-  .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --ring: 240 4.9% 83.9%;
-    --radius: 0.5rem;
-  }
   * {
-    border-color: var(--color-border);
+    border-color: var(--border);
   }
   body {
-    background-color: var(--color-background);
-    color: var(--color-foreground);
+    background-color: var(--background);
+    color: var(--foreground);
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
@@ -2619,6 +2624,10 @@
   inherits: false;
 }
 @property --tw-sepia {
+  syntax: "*";
+  inherits: false;
+}
+@property --tw-drop-shadow {
   syntax: "*";
   inherits: false;
 }
