@@ -553,8 +553,12 @@ templ ThemesHandle() {
 					},
 
 					setTheme(event) {
-						this.theme = event.target.dataset.theme;
-						this.applyTheme();
+						// Look for data-theme on target or its ancestors
+						const themeElement = event.target.closest('[data-theme]');
+						if (themeElement) {
+							this.theme = themeElement.dataset.theme;
+							this.applyTheme();
+						}
 					},
 
 					setRadius() {
