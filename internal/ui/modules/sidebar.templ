@@ -6,11 +6,11 @@ import "github.com/axzilla/templui/internal/ctxkeys"
 templ Sidebar() {
 	<aside class="h-full">
 		<div class="h-full overflow-y-auto">
-			<nav class="px-4 py-6">
+			<nav class="">
 				<ul class="space-y-2">
 					for _, section := range shared.Sections {
 						<li class="pb-4">
-							<h3 class="px-4 text-sm font-bold text-gray-600">{ section.Title }</h3>
+							<h3 class="text-sm font-bold text-muted-foreground">{ section.Title }</h3>
 							<ul class="mt-2 space-y-1">
 								for _, link := range section.Links {
 									<li>
