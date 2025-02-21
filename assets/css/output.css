@@ -802,6 +802,9 @@
   .h-16 {
     height: calc(var(--spacing) * 16);
   }
+  .h-\[66\.67\%\] {
+    height: 66.67%;
+  }
   .h-auto {
     height: auto;
   }
@@ -1265,6 +1268,15 @@
   .bg-gray-500 {
     background-color: var(--color-gray-500);
   }
+  .bg-gray-700 {
+    background-color: var(--color-gray-700);
+  }
+  .bg-gray-800 {
+    background-color: var(--color-gray-800);
+  }
+  .bg-gray-900 {
+    background-color: var(--color-gray-900);
+  }
   .bg-green-500 {
     background-color: var(--color-green-500);
   }
@@ -1331,9 +1343,6 @@
   .px-5 {
     padding-inline: calc(var(--spacing) * 5);
   }
-  .px-6 {
-    padding-inline: calc(var(--spacing) * 6);
-  }
   .px-8 {
     padding-inline: calc(var(--spacing) * 8);
   }
@@ -1358,9 +1367,6 @@
   .py-6 {
     padding-block: calc(var(--spacing) * 6);
   }
-  .py-8 {
-    padding-block: calc(var(--spacing) * 8);
-  }
   .py-12 {
     padding-block: calc(var(--spacing) * 12);
   }
@@ -1376,6 +1382,9 @@
   .pt-8 {
     padding-top: calc(var(--spacing) * 8);
   }
+  .pt-16 {
+    padding-top: calc(var(--spacing) * 16);
+  }
   .pr-4 {
     padding-right: calc(var(--spacing) * 4);
   }
@@ -1387,6 +1396,9 @@
   }
   .pb-8 {
     padding-bottom: calc(var(--spacing) * 8);
+  }
+  .pb-12 {
+    padding-bottom: calc(var(--spacing) * 12);
   }
   .pl-4 {
     padding-left: calc(var(--spacing) * 4);
@@ -1463,6 +1475,9 @@
   .whitespace-nowrap {
     white-space: nowrap;
   }
+  .text-accent-foreground {
+    color: var(---accent-foreground);
+  }
   .text-background {
     color: var(--background);
   }
@@ -1504,6 +1519,9 @@
   }
   .text-primary-foreground {
     color: var(--primary-foreground);
+  }
+  .text-primary\/90 {
+    color: color-mix(in oklab, var(--primary) 90%, transparent);
   }
   .text-red-500 {
     color: var(--color-red-500);
@@ -1570,6 +1588,12 @@
   .shadow-xs {
     --tw-shadow: 0 1px 2px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.05));
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
+  .shadow-blue-500 {
+    --tw-shadow-color: var(--color-blue-500);
+  }
+  .shadow-blue-500\/50 {
+    --tw-shadow-color: color-mix(in oklab, var(--color-blue-500) 50%, transparent);
   }
   .ring-black {
     --tw-ring-color: var(--color-black);
