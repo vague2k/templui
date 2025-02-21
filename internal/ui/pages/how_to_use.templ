@@ -199,8 +199,8 @@ templ HowToUse() {
 						<p class="text-sm mt-2">For installation instructions, visit <a href="https://golang.org/dl" class="text-primary underline" target="_blank">golang.org/dl</a>.</p>
 					</div>
 					<div>
-						<h3 class="text-xl font-semibold mb-2">2. Templ (v0.3.833 or later)</h3>
-						<p class="mb-2">Install the Templ CLI:</p>
+						<h3 class="text-xl font-semibold mb-2">2. templ (v0.3.833 or later)</h3>
+						<p class="mb-2">Install the templ CLI:</p>
 						@components.Code(components.CodeProps{Language: "shell", ShowCopyButton: true}) {
 							{ installTempl }
 						}
@@ -235,7 +235,7 @@ templ HowToUse() {
 			</section>
 			<section class="mb-12">
 				<h2 class="text-2xl font-semibold mb-4 text-primary">Base Configuration</h2>
-				<p class="mb-4">TemplUI provides pre-configured styles and themes. You'll need these files in your project:</p>
+				<p class="mb-4">templUI provides pre-configured styles and themes. You'll need these files in your project:</p>
 				<div class="space-y-6">
 					<div>
 						<h3 class="text-xl font-semibold mb-2">1. CSS Configuration file + Base Styles</h3>
@@ -258,7 +258,7 @@ templ HowToUse() {
 							</div>
 							<div class="border-l-4 border-info pl-4 mt-4">
 								<p class="font-medium">Enhanced Security Installation</p>
-								<p class="mb-2 text-sm">TemplUI is built to be CSP-compliant. If your application requires strict Content Security Policy (CSP):</p>
+								<p class="mb-2 text-sm">templUI is built to be CSP-compliant. If your application requires strict Content Security Policy (CSP):</p>
 								<div class="space-y-4">
 									<div>
 										<p class="text-sm mb-2">1. Use Alpine.js CSP build instead:</p>
@@ -282,7 +282,7 @@ templ HowToUse() {
 				<h2 class="text-2xl font-semibold mb-4 text-primary">Development Tools</h2>
 				<div class="bg-muted p-4 rounded-lg mb-6">
 					<p class="mb-2">
-						Here's our recommended development setup for Go and Templ projects, adapted from official documentation and community best practices:
+						Here's our recommended development setup for Go and templ projects, adapted from official documentation and community best practices:
 					</p>
 					<ul class="list-disc pl-6 space-y-1">
 						<li>Hot reloading for Go, Templ, and Tailwind</li>
@@ -290,7 +290,7 @@ templ HowToUse() {
 						<li>Automated file watching and rebuilding</li>
 					</ul>
 					<p class="mt-2 text-sm">
-						The Makefile configuration is based on the <a href="https://templ.guide" class="text-primary underline" target="_blank">Templ documentation</a> and adapted for our use case.
+						The Makefile configuration is based on the <a href="https://templ.guide" class="text-primary underline" target="_blank">templ documentation</a> and adapted for our use case.
 						While there are many ways to set up your development environment, this configuration provides a solid starting point.
 					</p>
 				</div>
@@ -325,13 +325,13 @@ templ HowToUse() {
 						}
 						<p class="text-sm mt-2">This will:</p>
 						<ul class="list-disc pl-6 text-sm space-y-1">
-							<li>Watch and compile Templ files</li>
+							<li>Watch and compile templ files</li>
 							<li>Start the Go server with hot reload via Air</li>
 							<li>Watch and compile Tailwind CSS changes</li>
 						</ul>
 						<p class="text-sm mt-2">Or run services individually:</p>
 						<ul class="list-disc pl-6 text-sm space-y-1">
-							<li>{ `make templ` } - Watch Templ files only</li>
+							<li>{ `make templ` } - Watch templ files only</li>
 							<li>{ `make server` } - Run Go server only</li>
 							<li>{ `make tailwind` } - Watch Tailwind CSS only</li>
 						</ul>

@@ -1,13 +1,13 @@
-# TemplUI
+# templUI
 
 [![GitHub Sponsors](https://img.shields.io/github/sponsors/axzilla?style=social&label=♥️%20Sponsor)](https://github.com/sponsors/axzilla)
 
-The UI Toolkit for Go & Templ
+The UI Kit for templ
 <img src="./assets/img/readme.png" />
 
 ## About
 
-TemplUI is an enterprise-ready library of UI components designed specifically for Go and Templ. It leverages Alpine.js for enhanced interactivity and Tailwind CSS for elegant styling. Built with CSP compliance and modern development practices in mind, TemplUI provides everything you need to create professional web applications.
+templUI is an enterprise-ready library of UI components designed specifically for templ. It leverages Alpine.js for enhanced interactivity and Tailwind CSS for elegant styling. Built with CSP compliance and modern development practices in mind, templUI provides everything you need to create professional web applications.
 
 ## Features
 
@@ -32,13 +32,13 @@ Explore our growing list of components in the [components documentation](https:/
 
 ## Inspiration
 
-TemplUI draws inspiration from several popular UI libraries and frameworks:
+templUI draws inspiration from several popular UI libraries and frameworks:
 
 - [shadcn/ui](https://ui.shadcn.com/)
 - [Pines UI](https://devdojo.com/pines)
 - [daisyUI](https://daisyui.com/)
 
-We're exploring whether to make TemplUI a strict port of shadcn/ui or to create a unique blend of various inspirations. The project is still evolving, and community feedback will play a crucial role in shaping its direction.
+We're exploring whether to make templUI a strict port of shadcn/ui or to create a unique blend of various inspirations. The project is still evolving, and community feedback will play a crucial role in shaping its direction.
 
 ## Current Status
 
@@ -53,7 +53,7 @@ We welcome contributions from the community! Whether it's adding new components,
 
 ## License
 
-TemplUI is open-source software licensed under the [MIT license](LICENSE).
+templUI is open-source software licensed under the [MIT license](LICENSE).
 
 ## Support
 
