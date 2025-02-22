@@ -2,9 +2,9 @@ package components
 
 import (
 	"github.com/axzilla/templui/pkg/utils"
-	"strconv"
 )
 
+// TooltipSide definiert die Position des Tooltips relativ zum Trigger
 type TooltipSide string
 
 const (
@@ -28,58 +28,9 @@ type TooltipProps struct {
 	Content    templ.Component  // The tooltip content
 	Side       TooltipSide      // Tooltip position relative to trigger
 	ShowArrow  bool             // Whether to show the arrow pointer
-	OpenDelay  int              // Delay before showing tooltip (ms)
-	CloseDelay int              // Delay before hiding tooltip (ms)
 	Variant    TooltipVariant   // Visual style variant
 	Class      string           // Additional CSS classes
 	Attributes templ.Attributes // Additional HTML attributes
-}
-
-templ TooltipScript() {
-	{{ handle := templ.NewOnceHandle() }}
-	@handle.Once() {
-		<script defer nonce={ templ.GetNonce(ctx) }>
-            document.addEventListener('alpine:init', () => {
-                Alpine.data('tooltip', () => ({
-                    visible: false,
-                    timeoutId: null,  // Track the timeout
-                    openDelay: null,
-                    closeDelay: null,
-
-                    init() {
-                        this.openDelay = parseInt(this.$root.dataset.openDelay) || 0;
-                        this.closeDelay = parseInt(this.$root.dataset.closeDelay) || 0;
-                    },
-
-                    show() { 
-                        // Clear any existing timeout first
-                        if (this.timeoutId) {
-                            clearTimeout(this.timeoutId);
-                        }
-                        this.timeoutId = setTimeout(() => {
-                            this.visible = true;
-                            this.timeoutId = null;  // Clear the reference
-                        }, this.openDelay);
-                    },
-
-                    hide() {
-                        // Clear any existing timeout first
-                        if (this.timeoutId) {
-                            clearTimeout(this.timeoutId);
-                        }
-                        this.timeoutId = setTimeout(() => {
-                            this.visible = false;
-                            this.timeoutId = null;  // Clear the reference
-                        }, this.closeDelay);
-                    },
-
-                    handleMouseLeave() {
-                        this.hide();
-                    }
-                }));
-            });
-        </script>
-	}
 }
 
 func getTooltipSideClass(side TooltipSide) string {
@@ -93,7 +44,7 @@ func getTooltipSideClass(side TooltipSide) string {
 	case TooltipLeft:
 		return "right-full top-1/2 -translate-y-1/2 mr-2"
 	default:
-		return "bottom-full left-1/2 -translate-x-1/2 mb-2"
+		return "bottom-full left-1/2 -translate-x-1/2 mb-2" // Top
 	}
 }
 
@@ -121,7 +72,7 @@ func getArrowClass(side TooltipSide) string {
 	case TooltipLeft:
 		return "right-[-4px] top-1/2 -translate-y-1/2"
 	default:
-		return "bottom-[-4px] left-1/2 -translate-x-1/2"
+		return "bottom-[-4px] left-1/2 -translate-x-1/2" // Top
 	}
 }
 
@@ -140,75 +91,32 @@ func getArrowColor(variant TooltipVariant) string {
 
 // A small pop-up box that appears when a user hovers over an element
 templ Tooltip(props TooltipProps) {
-	<div
-		x-data="tooltip"
-		if props.OpenDelay > 0 {
-			data-open-delay={ strconv.Itoa(props.OpenDelay) }
-		}
-		if props.CloseDelay > 0 {
-			data-close-delay={ strconv.Itoa(props.CloseDelay) }
-		}
-		class="relative inline-block"
-		{ props.Attributes... }
-	>
-		<!-- Trigger -->
+	<div class="relative inline-block group">
+		@props.Trigger
 		<div
-			@mouseenter="show"
-			@mouseleave="handleMouseLeave"
-			@focus="show"
-			@blur="hide"
-		>
-			@props.Trigger
-		</div>
-		<!-- Tooltip -->
-		<div
-			x-show="visible"
-			x-transition:enter="transition ease-out duration-200"
-			x-transition:enter-start="opacity-0 scale-95"
-			x-transition:enter-end="opacity-100 scale-100"
-			x-transition:leave="transition ease-in duration-100"
-			x-transition:leave-start="opacity-100 scale-100"
-			x-transition:leave-end="opacity-0 scale-95"
-			@mouseenter="show"
-			@mouseleave="hide"
 			class={
 				utils.TwMerge(
-					// Layout
-					"absolute w-auto z-50",
-					"flex-shrink-1 block whitespace-nowrap",
-			
-					// Style
-					"text-xs",
-					"px-4 py-1 rounded-lg",
-			
-					// Conditional
+					"absolute w-max z-50 pointer-events-none",
+					"text-xs px-4 py-1 rounded-lg",
+					"transition-opacity duration-200 delay-500 opacity-0 group-hover:opacity-100",
+					"whitespace-nowrap",
 					getTooltipSideClass(props.Side),
 					getTooltipVariantClass(props.Variant),
-			
-					// Custom
 					props.Class,
 				),
 			}
 		>
-			<!-- Arrow -->
 			if props.ShowArrow {
 				<div
 					class={
 						utils.TwMerge(
-							// Layout
-							"absolute h-2 w-2",
-					
-							// Style
-							"rotate-45",
-					
-							// Conditional
+							"absolute h-2 w-2 rotate-45",
 							getArrowClass(props.Side),
 							getArrowColor(props.Variant),
 						),
 					}
 				></div>
 			}
-			<!-- Content -->
 			@props.Content
 		</div>
 	</div>
