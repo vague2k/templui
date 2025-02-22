@@ -12,7 +12,6 @@ templ Tooltip() {
 			Name:        "Tooltip",
 			Description: templ.Raw("A small pop-up box that appears when a user hovers over an element"),
 			Tailwind:    true,
-			Alpine:      true,
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.Tooltip(),
@@ -21,16 +20,9 @@ templ Tooltip() {
 			})
 			@modules.Usage(modules.UsageProps{
 				ComponentName: "Tooltip",
-				NeedsHandler:  true,
 				PropsExample:  "...",
 			})
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
-				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "With delay (3s open, 1s close)",
-					ShowcaseFile:      showcase.TooltipWithDelay(),
-					PreviewCodeFile:   "tooltip_with_delay.templ",
-					ComponentCodeFile: "tooltip.templ",
-				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "Variants",
 					ShowcaseFile:      showcase.TooltipVariants(),

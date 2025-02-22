@@ -18,72 +18,41 @@ type AccordionProps struct {
 	Attributes templ.Attributes // Additional HTML attributes
 }
 
-templ AccordionScript() {
-	{{ handle := templ.NewOnceHandle() }}
-	@handle.Once() {
-		<script defer nonce={ templ.GetNonce(ctx) }>
-            document.addEventListener('alpine:init', () => {
-                Alpine.data('accordion', () => ({
-					activeItem: null,
-					toggleItem(event) {
-						const itemId = event.target.getAttribute('data-accordion-item');
-						this.activeItem = this.activeItem === itemId ? null : itemId;
-					},
-					isActive() {
-						const itemId = this.$el.getAttribute('data-accordion-item');
-						return this.activeItem === itemId
-					},
-                }));
-            });
-        </script>
-	}
-}
-
-// Accordion renders a collapsible content container
 templ Accordion(props AccordionProps) {
 	<div
-		x-data="accordion"
 		class={ utils.TwMerge(
-            // Layout
-            "divide-y rounded-md",
-            // Styling
-            "divide-border border",
-            // Custom
+            "divide-y rounded-md divide-border border",
             props.Class,
         ) }
 		{ props.Attributes... }
 	>
 		for _, item := range props.Items {
-			<div class="group">
-				<h3>
-					<button
-						type="button"
-						@click="toggleItem"
-						data-accordion-item={ item.ID }
-						class={ utils.TwMerge(
-                            // Layout
-                            "flex w-full items-center justify-between py-4 px-5",
-                            // Styling
-                            "text-left font-medium",
-                            // States
-                            "transition-all hover:underline [&[aria-expanded=true]>svg]:rotate-180",
-                        ) }
-					>
-						@item.Trigger
-						@icons.ChevronDown(icons.IconProps{Size: "16"})
-					</button>
-				</h3>
-				<div
-					data-accordion-item={ item.ID }
-					x-show="isActive"
+			<details
+				name="accordion"
+				class={ utils.TwMerge(
+                "group",
+                "open:[&>summary_svg]:rotate-180",
+            ) }
+			>
+				<summary
 					class={ utils.TwMerge(
-                        // Layout
+                        "flex w-full items-center justify-between py-4 px-5",
+                        "text-left font-medium cursor-pointer",
+                        "transition-all hover:underline",
+                        "list-none [&::-webkit-details-marker]:hidden",
+                    ) }
+				>
+					@item.Trigger
+					@icons.ChevronDown(icons.IconProps{Size: "16", Class: "transition-transform"})
+				</summary>
+				<div
+					class={ utils.TwMerge(
                         "px-5 pb-4 pt-0",
                     ) }
 				>
 					@item.Content
 				</div>
-			</div>
+			</details>
 		}
 	</div>
 }
