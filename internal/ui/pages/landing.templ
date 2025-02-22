@@ -15,40 +15,32 @@ templ Landing() {
 		</div>
 		<header class="flex flex-col items-center justify-center w-full calc(100vh - 65px) h-full">
 			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
-				<p class="tracking-tight text-4xl md:text-5xl font-extrabold mb-4 sm:mb-8">
-					The UI Toolkit for 				
-					<br/>
-					<span>
-						Go & Templ
-					</span>
-				</p>
-				<p class="max-w-3xl mx-auto text-base sm:text-lg mb-6">
-					Enterprise-grade UI components with Developer Experience in mind. Built with 
-					<a href="https://go.dev" class="hover:opacity-70 font-bold hover:underline">Go</a> and 
-					<a href="https://templ.guide" class="hover:opacity-70 font-bold hover:underline">Templ</a>, 
-					styled with <a href="https://tailwindcss.com" class="hover:opacity-70 font-bold hover:underline">Tailwind CSS</a>, 
-					enhanced with <a href="https://alpinejs.dev" class="hover:opacity-70 font-bold hover:underline">Alpine.js</a>
-					– everything you need for modern, type-safe web apps.
-				</p>
 				<div class="flex flex-col items-center gap-4 mb-8">
-					<div class="flex flex-wrap justify-center gap-x-8 gap-y-2 text-sm text-muted-foreground">
+					<div class="flex flex-wrap justify-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
 						<span class="flex items-center gap-1">
-							<span class="text-primary">⚡️</span> Enterprise Ready
+							@components.Badge(components.BadgeProps{
+								IconBefore: wrappedicons.Tailwind(16),
+								Text:       "TailwindCSS",
+								Variant:    components.BadgeVariantSecondary,
+							})
 						</span>
 						<span class="flex items-center gap-1">
-							<span class="text-primary">🛡️</span> CSP Compliant
-						</span>
-						<span class="flex items-center gap-1">
-							<span class="text-primary">🔄</span> HTMX Optimized
-						</span>
-						<span class="flex items-center gap-1">
-							<span class="text-primary">🧩</span> Component Driven
-						</span>
-						<span class="flex items-center gap-1">
-							<span class="text-primary">🎨</span> Fully Customizable
+							@components.Badge(components.BadgeProps{
+								IconBefore: wrappedicons.Alpine(16),
+								Text:       "Alpine.js",
+								Variant:    components.BadgeVariantSecondary,
+							})
 						</span>
 					</div>
 				</div>
+				<p class="tracking-tight text-4xl md:text-5xl font-extrabold mb-4 sm:mb-8">
+					The UI Kit for templ
+				</p>
+				<p class="max-w-xl mx-auto text-base sm:text-lg mb-6 text-muted-foreground">
+					Top-tier UI components for sleek templ apps.
+					<br/>
+					Clean, typesafe, and endlessly adaptable.
+				</p>
 				<div class="flex gap-2 justify-center flex-wrap">
 					@components.Button(components.ButtonProps{
 						Text:      "Explore Components",
@@ -68,7 +60,6 @@ templ Landing() {
 					})
 				</div>
 			</div>
-			<iframe src="https://github.com/sponsors/axzilla/button" title="Sponsor axzilla" height="32" width="114" style="border: 0; border-radius: 6px;"></iframe>
 		</header>
 	}
 }

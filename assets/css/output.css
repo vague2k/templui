@@ -549,17 +549,6 @@
   .visible {
     visibility: visible;
   }
-  .sr-only {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    margin: -1px;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border-width: 0;
-  }
   .absolute {
     position: absolute;
   }
@@ -1074,8 +1063,8 @@
   .gap-8 {
     gap: calc(var(--spacing) * 8);
   }
-  .gap-x-8 {
-    column-gap: calc(var(--spacing) * 8);
+  .gap-x-4 {
+    column-gap: calc(var(--spacing) * 4);
   }
   .space-y-1 {
     :where(& > :not(:last-child)) {
@@ -1355,9 +1344,6 @@
   .py-6 {
     padding-block: calc(var(--spacing) * 6);
   }
-  .py-8 {
-    padding-block: calc(var(--spacing) * 8);
-  }
   .py-12 {
     padding-block: calc(var(--spacing) * 12);
   }
@@ -1370,11 +1356,20 @@
   .pt-5 {
     padding-top: calc(var(--spacing) * 5);
   }
+  .pt-8 {
+    padding-top: calc(var(--spacing) * 8);
+  }
+  .pr-4 {
+    padding-right: calc(var(--spacing) * 4);
+  }
   .pb-0 {
     padding-bottom: calc(var(--spacing) * 0);
   }
   .pb-4 {
     padding-bottom: calc(var(--spacing) * 4);
+  }
+  .pb-8 {
+    padding-bottom: calc(var(--spacing) * 8);
   }
   .pl-4 {
     padding-left: calc(var(--spacing) * 4);
@@ -1492,6 +1487,9 @@
   }
   .text-primary-foreground {
     color: var(--primary-foreground);
+  }
+  .text-primary\/90 {
+    color: color-mix(in oklab, var(--primary) 90%, transparent);
   }
   .text-red-500 {
     color: var(--color-red-500);
@@ -1991,13 +1989,6 @@
     &:hover {
       @media (hover: hover) {
         text-decoration-line: underline;
-      }
-    }
-  }
-  .hover\:opacity-70 {
-    &:hover {
-      @media (hover: hover) {
-        opacity: 70%;
       }
     }
   }
