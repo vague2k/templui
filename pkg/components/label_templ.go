@@ -64,7 +64,7 @@ func LabelScript() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\">\n            document.addEventListener('alpine:init', () => {\n                Alpine.data('label', () => ({\n\t\t\t\t\tgetClass() {\n\t\t\t\t\t\tif (this.$refs[this.$el.getAttribute('for')]?.disabled ) {\n\t\t\t\t\t\t\treturn this.$el.dataset.disabledStyle\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n                }));\n            });\n        </script>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\">\n            function initLabel(label) {\n                const input = document.getElementById(label.getAttribute('for'));\n                if (!input) return;\n                \n                const disabledStyle = label.dataset.disabledStyle.split(' ');\n                \n                function getClass() {\n                    if (input.disabled) {\n                        label.classList.add(...disabledStyle);\n                    } else {\n                        label.classList.remove(...disabledStyle);\n                    }\n                }\n                \n                getClass();\n                \n                input.addEventListener('change', getClass);\n            }\n            \n            document.addEventListener('DOMContentLoaded', () => {\n                document.querySelectorAll('label[data-label-behavior]').forEach(label => initLabel(label));\n            });\n        </script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -78,7 +78,6 @@ func LabelScript() templ.Component {
 	})
 }
 
-// Label renders a form label with error and disabled states
 func Label(props LabelProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -101,27 +100,22 @@ func Label(props LabelProps) templ.Component {
 		}
 		ctx = templ.ClearChildren(ctx)
 		var templ_7745c5c3_Var5 = []any{
-			// Styling
 			"text-sm font-medium leading-none",
-
-			// Utility
 			templ.KV("text-destructive", len(props.Error) > 0),
-
-			// Custom
 			props.Class,
 		}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var5...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<label x-data=\"label\" id=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<label data-label-behavior id=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/label.templ`, Line: 33, Col: 15}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/label.templ`, Line: 45, Col: 15}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -134,7 +128,7 @@ func Label(props LabelProps) templ.Component {
 		var templ_7745c5c3_Var7 string
 		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(props.For)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/label.templ`, Line: 34, Col: 17}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/label.templ`, Line: 46, Col: 17}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
@@ -165,7 +159,7 @@ func Label(props LabelProps) templ.Component {
 			var templ_7745c5c3_Var9 string
 			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(props.DisabledClass)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/label.templ`, Line: 46, Col: 44}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/label.templ`, Line: 53, Col: 44}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 			if templ_7745c5c3_Err != nil {
@@ -181,14 +175,14 @@ func Label(props LabelProps) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, " x-bind:class=\"getClass\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, ">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var10 string
 		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(props.Text)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/label.templ`, Line: 52, Col: 14}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `pkg/components/label.templ`, Line: 58, Col: 14}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 		if templ_7745c5c3_Err != nil {
