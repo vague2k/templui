@@ -41,6 +41,12 @@ templ Button() {
 					PreviewCodeFile:   "button_icons.templ",
 					ComponentCodeFile: "button.templ",
 				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "HTMX Loading (5s)",
+					ShowcaseFile:      showcase.ButtonHtmxLoading(),
+					PreviewCodeFile:   "button_htmx_loading.templ",
+					ComponentCodeFile: "button.templ",
+				})
 			}
 		}
 	}
