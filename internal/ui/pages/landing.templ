@@ -11,6 +11,7 @@ import (
 templ Landing() {
 	@layouts.BaseLayout() {
 		<div class="shrink-0">
+			@modules.AnnouncementBar()
 			@modules.Navbar()
 		</div>
 		<header class="flex flex-col items-center justify-center w-full calc(100vh - 65px) h-full">
