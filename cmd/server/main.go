@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/a-h/templ"
 	"github.com/axzilla/templui/assets"
@@ -33,6 +34,11 @@ func toastDemoHandler(w http.ResponseWriter, r *http.Request) {
 	components.Toast(toastProps).Render(r.Context(), w)
 }
 
+func buttonHtmxLoadingHandler(w http.ResponseWriter, r *http.Request) {
+	time.Sleep(5 * time.Second)
+	w.WriteHeader(http.StatusNoContent)
+}
+
 func main() {
 	mux := http.NewServeMux()
 	config.LoadConfig()
@@ -51,6 +57,8 @@ func main() {
 		),
 	)
 
+	mux.Handle("GET /pro", templ.Handler(pages.Pro()))
+	//
 	mux.Handle("GET /", templ.Handler(pages.Landing()))
 	mux.Handle("GET /docs/getting-started", http.RedirectHandler("/docs/introduction", http.StatusSeeOther))
 	mux.Handle("GET /docs/components", http.RedirectHandler("/docs/components/accordion", http.StatusSeeOther))
@@ -85,6 +93,7 @@ func main() {
 	mux.Handle("GET /docs/components/tooltip", templ.Handler(pages.Tooltip()))
 	// Showcase API
 	mux.Handle("POST /docs/toast/demo", http.HandlerFunc(toastDemoHandler))
+	mux.Handle("POST /docs/button/htmx-loading", http.HandlerFunc(buttonHtmxLoadingHandler))
 
 	fmt.Println("Server is running on http://localhost:8090")
 	http.ListenAndServe(":8090", wrappedMux)
