@@ -1,8 +1,12 @@
 package main
 
 import (
+	"bytes"
+	"encoding/json"
 	"fmt"
+	"io"
 	"net/http"
+	"os"
 	"strconv"
 	"time"
 
@@ -39,6 +43,172 @@ func buttonHtmxLoadingHandler(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusNoContent)
 }
 
+func proHandler(w http.ResponseWriter, r *http.Request) {
+	// Parse form data
+	if err := r.ParseForm(); err != nil {
+		components.Toast(components.ToastProps{
+			Message:     "Error processing form: " + err.Error(),
+			Type:        "error",
+			Position:    "bottom-right",
+			Duration:    5000,
+			Dismissible: true,
+			Icon:        true,
+		}).Render(r.Context(), w)
+		return
+	}
+
+	// Get email from form
+	email := r.FormValue("email")
+	if email == "" {
+		components.Toast(components.ToastProps{
+			Message:     "Please enter an email address",
+			Type:        "error",
+			Position:    "bottom-right",
+			Duration:    5000,
+			Dismissible: true,
+			Icon:        true,
+		}).Render(r.Context(), w)
+		return
+	}
+
+	// Mailchimp configuration
+	apiKey := os.Getenv("MAILCHIMP_API_KEY")
+	serverID := os.Getenv("MAILCHIMP_SERVER_ID") // e.g., "us1"
+	listID := os.Getenv("MAILCHIMP_LIST_ID")     // Audience ID
+
+	if apiKey == "" || serverID == "" || listID == "" {
+		fmt.Printf("Missing Mailchimp configuration: API Key: %v, Server ID: %v, List ID: %v\n",
+			apiKey != "", serverID != "", listID != "")
+		components.Toast(components.ToastProps{
+			Message:     "Mailchimp configuration missing",
+			Type:        "error",
+			Position:    "bottom-right",
+			Duration:    5000,
+			Dismissible: true,
+			Icon:        true,
+		}).Render(r.Context(), w)
+		return
+	}
+
+	fmt.Printf("Attempting to add email: %s to list: %s on server: %s\n", email, listID, serverID)
+
+	// Create subscriber data
+	subscriberData := map[string]interface{}{
+		"email_address": email,
+		"status":        "subscribed", // Changed from "pending" to "subscribed" for simpler testing
+	}
+
+	jsonData, err := json.Marshal(subscriberData)
+	if err != nil {
+		components.Toast(components.ToastProps{
+			Message:     "Error processing request: " + err.Error(),
+			Type:        "error",
+			Position:    "bottom-right",
+			Duration:    5000,
+			Dismissible: true,
+			Icon:        true,
+		}).Render(r.Context(), w)
+		return
+	}
+
+	// Create request to Mailchimp API - ensure the URL format is correct
+	endpoint := fmt.Sprintf("https://%s.api.mailchimp.com/3.0/lists/%s/members", serverID, listID)
+	fmt.Println("Sending request to:", endpoint)
+
+	req, err := http.NewRequest("POST", endpoint, bytes.NewBuffer(jsonData))
+	if err != nil {
+		components.Toast(components.ToastProps{
+			Message:     "Error creating request: " + err.Error(),
+			Type:        "error",
+			Position:    "bottom-right",
+			Duration:    5000,
+			Dismissible: true,
+			Icon:        true,
+		}).Render(r.Context(), w)
+		return
+	}
+
+	// Set headers and auth - Mailchimp requires "anystring:apiKey" format for Basic Auth
+	req.SetBasicAuth("anystring", apiKey)
+	req.Header.Set("Content-Type", "application/json")
+
+	// Send request
+	client := &http.Client{Timeout: 10 * time.Second}
+	resp, err := client.Do(req)
+	if err != nil {
+		components.Toast(components.ToastProps{
+			Message:     "Error connecting to Mailchimp: " + err.Error(),
+			Type:        "error",
+			Position:    "bottom-right",
+			Duration:    5000,
+			Dismissible: true,
+			Icon:        true,
+		}).Render(r.Context(), w)
+		return
+	}
+	defer resp.Body.Close()
+
+	// Read response
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		components.Toast(components.ToastProps{
+			Message:     "Error reading response: " + err.Error(),
+			Type:        "error",
+			Position:    "bottom-right",
+			Duration:    5000,
+			Dismissible: true,
+			Icon:        true,
+		}).Render(r.Context(), w)
+		return
+	}
+
+	// Log the full response for debugging
+	fmt.Printf("Mailchimp response status: %d\n", resp.StatusCode)
+	fmt.Printf("Mailchimp response body: %s\n", string(body))
+
+	// Check response status
+	if resp.StatusCode == 400 {
+		// Check if this is a "Member Exists" error (which is actually okay)
+		var errorResp map[string]interface{}
+		if err := json.Unmarshal(body, &errorResp); err == nil {
+			if title, ok := errorResp["title"].(string); ok && title == "Member Exists" {
+				// User is already subscribed - this is okay
+				components.Toast(components.ToastProps{
+					Message:     "You're already on our waitlist!",
+					Type:        "success",
+					Position:    "bottom-right",
+					Duration:    5000,
+					Dismissible: true,
+					Icon:        true,
+				}).Render(r.Context(), w)
+				return
+			}
+		}
+	}
+
+	if resp.StatusCode != http.StatusOK && resp.StatusCode != http.StatusCreated {
+		components.Toast(components.ToastProps{
+			Message:     fmt.Sprintf("Mailchimp error: %d - %s", resp.StatusCode, string(body)),
+			Type:        "error",
+			Position:    "bottom-right",
+			Duration:    5000,
+			Dismissible: true,
+			Icon:        true,
+		}).Render(r.Context(), w)
+		return
+	}
+
+	// Success response
+	components.Toast(components.ToastProps{
+		Message:     "Thank you! Your email has been added to our waitlist.",
+		Type:        "success",
+		Position:    "bottom-right",
+		Duration:    5000,
+		Dismissible: true,
+		Icon:        true,
+	}).Render(r.Context(), w)
+}
+
 func main() {
 	mux := http.NewServeMux()
 	config.LoadConfig()
@@ -57,6 +227,9 @@ func main() {
 		),
 	)
 
+	mux.Handle("GET /pro", templ.Handler(pages.Pro()))
+	mux.Handle("POST /pro", http.HandlerFunc(proHandler))
+	//
 	mux.Handle("GET /", templ.Handler(pages.Landing()))
 	mux.Handle("GET /docs/getting-started", http.RedirectHandler("/docs/introduction", http.StatusSeeOther))
 	mux.Handle("GET /docs/components", http.RedirectHandler("/docs/components/accordion", http.StatusSeeOther))
