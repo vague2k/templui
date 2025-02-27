@@ -13,40 +13,33 @@ templ LabelScript() {
 	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
-            function initLabel(label) {
-                const input = document.getElementById(label.getAttribute('for'));
-                if (!input) return;
-                
-                const disabledStyle = label.dataset.disabledStyle.split(' ');
-                
-                function getClass() {
-                    if (input.disabled) {
-                        label.classList.add(...disabledStyle);
-                    } else {
-                        label.classList.remove(...disabledStyle);
-                    }
-                }
-                
-                getClass();
-                
-                input.addEventListener('change', getClass);
-            }
-            
-            document.addEventListener('DOMContentLoaded', () => {
-                document.querySelectorAll('label[data-label-behavior]').forEach(label => initLabel(label));
+            document.addEventListener('alpine:init', () => {
+                Alpine.data('label', () => ({
+					getClass() {
+						if (this.$refs[this.$el.getAttribute('for')]?.disabled ) {
+							return this.$el.dataset.disabledStyle
+						}
+					}
+                }));
             });
         </script>
 	}
 }
 
+// Label renders a form label with error and disabled states
 templ Label(props LabelProps) {
 	<label
-		data-label-behavior
+		x-data="label"
 		id={ props.ID }
 		for={ props.For }
 		class={
+			// Styling
 			"text-sm font-medium leading-none",
+		
+			// Utility
 			templ.KV("text-destructive", len(props.Error) > 0),
+		
+			// Custom
 			props.Class,
 		}
 		if props.DisabledClass != "" {
@@ -54,6 +47,7 @@ templ Label(props LabelProps) {
 		} else {
 			data-disabled-style="opacity-50 cursor-not-allowed"
 		}
+		x-bind:class="getClass"
 	>
 		{ props.Text }
 	</label>

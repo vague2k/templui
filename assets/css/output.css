@@ -1262,9 +1262,6 @@
   .bg-background\/80 {
     background-color: color-mix(in oklab, var(--background) 80%, transparent);
   }
-  .bg-black {
-    background-color: var(--color-black);
-  }
   .bg-blue-500 {
     background-color: var(--color-blue-500);
   }
