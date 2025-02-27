@@ -7,7 +7,6 @@ import (
 	"strings"
 )
 
-// DropdownMenuItem defines a single menu item
 type DropdownMenuItem struct {
 	Label      string             // Display text
 	Value      string             // Optional value
@@ -17,18 +16,16 @@ type DropdownMenuItem struct {
 	IconRight  templ.Component    // Optional icon on the right
 	SubItems   []DropdownMenuItem // Nested submenu items
 	Disabled   bool               // Disables the item
-	Attributes templ.Attributes   // Additional HTML attributes
+	Attributes templ.Attributes   // Additional HTML attributesß
 }
 
-// DropdownMenuProps defines the properties of the dropdown
 type DropdownMenuProps struct {
 	Items    []DropdownMenuItem // Menu items
 	Trigger  templ.Component    // Custom trigger element
 	Class    string             // Additional CSS classes
-	Position string             // Preferred placement (only top or bottom)
+	Position string             // Preferred placement
 }
 
-// modifierClasses returns the classes based on the item's state
 func (d DropdownMenuItem) modifierClasses() string {
 	classes := []string{}
 	if d.Disabled {
@@ -39,10 +36,9 @@ func (d DropdownMenuItem) modifierClasses() string {
 	return strings.Join(classes, " ")
 }
 
-// renderMenuItem renders a single menu item recursively
 templ renderMenuItem(item DropdownMenuItem, index int, depth int) {
 	if len(item.SubItems) > 0 {
-		<div class="relative group/submenu">
+		<div class="relative group">
 			<button
 				class={
 					utils.TwMerge(
@@ -71,12 +67,12 @@ templ renderMenuItem(item DropdownMenuItem, index int, depth int) {
 				}
 			</button>
 			if depth < 3 {
-				<div
-					class={ "absolute left-full top-0 hidden group-hover/submenu:block py-1 bg-popover rounded-md shadow-lg border border-border w-56", }
-				>
-					for subIndex, subItem := range item.SubItems {
-						@renderMenuItem(subItem, subIndex, depth+1)
-					}
+				<div class="absolute left-full top-0 hidden group-hover:block">
+					<div class="py-1 bg-popover rounded-md shadow-lg border border-border">
+						for subIndex, subItem := range item.SubItems {
+							@renderMenuItem(subItem, subIndex, depth+1)
+						}
+					</div>
 				</div>
 			}
 		</div>
@@ -85,7 +81,7 @@ templ renderMenuItem(item DropdownMenuItem, index int, depth int) {
 			href={ templ.SafeURL(item.Href) }
 			target={ item.Target }
 			class={
-				"block w-full px-4 py-2 text-sm flex items-center",
+				"px-4 py-2 text-sm flex items-center",
 				templ.KV("text-foreground hover:bg-accent hover:text-accent-foreground", !item.Disabled),
 				templ.KV("text-muted-foreground cursor-not-allowed", item.Disabled),
 			}
@@ -132,92 +128,86 @@ templ renderMenuItem(item DropdownMenuItem, index int, depth int) {
 	}
 }
 
-// DropdownMenuScript defines the Vanilla JS logic for dropdowns
-templ DropdownMenuScript() {
-	// Ensure the script is only included once
+templ DropdownScript() {
 	{{ handler := templ.NewOnceHandle() }}
 	@handler.Once() {
-		<script nonce={ templ.GetNonce(ctx) }>
-            document.addEventListener('DOMContentLoaded', () => {
-                // Select all dropdown menus on the page
-                const dropdowns = document.querySelectorAll('.dropdown-menu');
+		<script defer nonce={ templ.GetNonce(ctx) }>
+            document.addEventListener('alpine:init', () => {
+				Alpine.data('dropdown', () => ({
+					isOpen: false,
+					position: null,
+					verticalPosition: 'bottom',
 
-                dropdowns.forEach(dropdown => {
-                    // Get the trigger and content elements
-                    const trigger = dropdown.querySelector('.dropdown-trigger');
-                    const menu = dropdown.querySelector('.dropdown-content');
-                    const initialPosition = menu.getAttribute('data-initial-position') || 'bottom';
+					init() {
+						this.position = this.$el.dataset.position;
+					},
 
-                    // Reset the menu position to its initial state
-                    function resetPosition() {
-                        menu.classList.remove('bottom-full', 'mb-2', 'top-full', 'mt-2');
-                        switch (initialPosition) {
-                            case 'top':
-                                menu.classList.add('bottom-full', 'mb-2');
-                                break;
-                            case 'bottom':
-                                menu.classList.add('top-full', 'mt-2');
-                                break;
-                            default:
-                                menu.classList.add('top-full', 'mt-2'); // Default: Bottom
-                        }
-                    }
+					updatePosition() {
+						if (!this.isOpen) return;
 
-                    // Toggle the menu visibility
-                    function toggleMenu() {
-                        const isOpen = !menu.classList.contains('hidden');
-                        if (isOpen) {
-                            menu.classList.add('hidden');
-                        } else {
-                            resetPosition();
-                            menu.classList.remove('hidden');
-                            adjustPosition();
-                        }
-                    }
+						const menu = this.$refs.menu;
+						const rect = menu.getBoundingClientRect();
+						const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+						const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
 
-                    // Adjust the menu position based on viewport space
-                    function adjustPosition() {
-                        const rect = menu.getBoundingClientRect();
-                        const triggerRect = trigger.getBoundingClientRect();
-                        const viewportHeight = window.innerHeight;
+						if (this.position === 'left' && rect.left < 0) {
+							this.position = 'right';
+						} else if (this.position !== 'left' && rect.right > viewportWidth) {
+							this.position = 'left';
+						}
 
-                        if (rect.bottom > viewportHeight && initialPosition === 'bottom') {
-                            menu.classList.remove('top-full', 'mt-2');
-                            menu.classList.add('bottom-full', 'mb-2');
-                        } else if (rect.top < 0 && initialPosition === 'top') {
-                            menu.classList.remove('bottom-full', 'mb-2');
-                            menu.classList.add('top-full', 'mt-2');
-                        }
-                    }
+						if (this.verticalPosition === 'bottom' && rect.bottom > viewportHeight) {
+							this.verticalPosition = 'top';
+						} else if (this.verticalPosition === 'top' && rect.top < 0) {
+							this.verticalPosition = 'bottom';
+						}
+					},
 
-                    // Add click event to trigger to toggle the menu
-                    trigger.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        toggleMenu();
-                    });
+					getPositionClass() {
+						const classes = [];
+						
+						if (this.position === 'left') {
+							classes.push('right-0');
+						} else {
+							classes.push('left-0');
+						}
+						
+						if (this.verticalPosition === 'top') {
+							classes.push('bottom-full mb-2');
+						} else {
+							classes.push('top-full mt-2');
+						}
+						
+						return classes.join(' ');
+					},
 
-                    // Close the menu when clicking outside
-                    document.addEventListener('click', (e) => {
-                        if (!dropdown.contains(e.target)) {
-                            menu.classList.add('hidden');
-                        }
-                    });
-                });
-            });
+					setClose() {
+						this.isOpen = false;
+					},
+
+					setOpen() {
+						this.isOpen = true;
+					},
+
+					openMenu() {
+						this.isOpen = !this.isOpen;
+						if(this.isOpen) this.$nextTick(() => this.updatePosition());
+					}
+				}))
+			});
         </script>
 	}
 }
 
-// DropdownMenu renders a dropdown menu with Vanilla JS
+// Floating menu for displaying a list of actions or options.
 templ DropdownMenu(props DropdownMenuProps) {
-	// Container for the dropdown with unique ID and position data
 	<div
-		class={ utils.TwMerge("relative inline-block dropdown-menu", props.Class) }
+		x-data="dropdown"
+		@resize.window="updatePosition"
+		class={ utils.TwMerge("relative inline-block text-left", props.Class) }
 		data-position={ props.Position }
-		data-id={ utils.RandomID() }
 	>
-		// Trigger element that toggles the menu
-		<div class="dropdown-trigger">
+		<div @click="openMenu">
 			if props.Trigger != nil {
 				@props.Trigger
 			} else {
@@ -228,23 +218,32 @@ templ DropdownMenu(props DropdownMenuProps) {
 				})
 			}
 		</div>
-		// Dropdown content, initially hidden
 		<div
+			x-ref="menu"
+			x-show="isOpen"
+			@click.away="setClose"
+			@keydown.escape.window="setClose"
+			x-transition:enter="transition ease-out duration-100"
+			x-transition:enter-start="transform opacity-0 scale-95"
+			x-transition:enter-end="transform opacity-100 scale-100"
+			x-transition:leave="transition ease-in duration-75"
+			x-transition:leave-start="transform opacity-100 scale-100"
+			x-transition:leave-end="transform opacity-0 scale-95"
 			class={
-				utils.TwMerge(
-					"absolute z-50 w-56 rounded-md shadow-lg bg-popover border border-border py-1 hidden dropdown-content",
-					"transition-all duration-200",
-				),
+				"absolute z-50 mt-2 w-56 rounded-md shadow-lg bg-popover focus:outline-hidden",
+				"border border-border",
 			}
-			data-initial-position={ props.Position }
+			x-bind:class="getPositionClass"
 			role="menu"
 			aria-orientation="vertical"
 			aria-labelledby="dropdown-menu-button"
 			tabindex="-1"
 		>
-			for index, item := range props.Items {
-				@renderMenuItem(item, index, 0)
-			}
+			<div class="py-1" role="none">
+				for index, item := range props.Items {
+					@renderMenuItem(item, index, 0)
+				}
+			</div>
 		</div>
 	</div>
 }
