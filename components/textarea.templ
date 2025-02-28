@@ -1,0 +1,79 @@
+package components
+
+import (
+	"github.com/axzilla/templui/utils"
+	"strconv"
+)
+
+type TextareaProps struct {
+	ID          string           // DOM identifier
+	Name        string           // Form field name
+	Value       string           // Initial content
+	Placeholder string           // Helper text shown when empty
+	Rows        int              // Visible lines of text
+	Disabled    bool             // Prevents interaction
+	Required    bool             // Required
+	AutoResize  bool             // Enables dynamic resizing
+	Class       string           // Additional CSS classes
+	Attributes  templ.Attributes // Additional HTML attributes
+}
+
+templ TextareaScript() {
+	{{ handle := templ.NewOnceHandle() }}
+	@handle.Once() {
+		<script defer nonce={ templ.GetNonce(ctx) }>
+			document.addEventListener('alpine:init', () => {
+				Alpine.data('textarea', () => ({
+					resize() {
+						this.$el.style.height = '80px';
+						this.$el.style.height = this.$el.scrollHeight + 'px';
+					}
+				}));
+			});
+		</script>
+	}
+}
+
+// Textarea renders a multi-line text input field
+templ Textarea(props TextareaProps) {
+	<textarea
+		x-ref={ props.ID }
+		id={ props.ID }
+		name={ props.Name }
+		placeholder={ props.Placeholder }
+		disabled?={ props.Disabled }
+		required?={ props.Required }
+		if props.Rows != 0 {
+			rows={ strconv.Itoa(props.Rows) }
+		}
+		class={
+			utils.TwMerge(
+				// Layout
+				"flex w-full px-3 py-2",
+				"min-h-[80px]",
+		
+				// Styling
+				"rounded-md border border-input bg-background text-sm",
+				"ring-offset-background",
+				"placeholder:text-muted-foreground",
+		
+				// States
+				"focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+				"disabled:cursor-not-allowed disabled:opacity-50",
+		
+				// Custom
+				props.Class,
+			),
+		}
+		if props.AutoResize {
+			x-data="textarea"
+			x-init="resize"
+			@input="resize"
+		}
+		{ props.Attributes... }
+	>
+		if props.Value != "" {
+			{ props.Value }
+		}
+	</textarea>
+}

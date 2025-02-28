@@ -1,0 +1,19 @@
+<div class=\"relative flex items-center\">
+<input x-ref=\"
+\" data-input-id=\"
+\" data-testid=\"
+\"
+ checked
+ disabled
+ required
+ id=\"
+\" name=\"
+\"
+ value=\"
+\"
+ type=\"checkbox\" class=\"
+\"
+>
+<div class=\"
+\">
+</div></div>

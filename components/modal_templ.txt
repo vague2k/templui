@@ -1,0 +1,19 @@
+<div x-data=\"modal\" x-on:open-modal.window=\"handleOpenModal\" x-on:close-modal.window=\"handleCloseModal\" data-modal-id=\"
+\" x-show=\"open\" x-transition:enter=\"transition ease-out duration-300\" x-transition:enter-start=\"opacity-0\" x-transition:enter-end=\"opacity-100\" x-transition:leave=\"transition ease-in duration-200\" x-transition:leave-start=\"opacity-100\" x-transition:leave-end=\"opacity-0\" class=\"fixed inset-0 z-50 flex items-center justify-center overflow-y-auto\" aria-labelledby=\"modal-title\" role=\"dialog\" aria-modal=\"true\"><div class=\"fixed inset-0 bg-background/70 bg-opacity-50 transition-opacity\" aria-hidden=\"true\"></div>
+<div class=\"
+\" @click.away=\"handleClickAway\">
+</div></div>
+<span x-data=\"modalTriggers\" data-modal-id=\"
+\" @click=\"openModal\">
+</span>
+<span x-data=\"modalTriggers\" data-modal-id=\"
+\" @click=\"closeModal\">
+</span>
+<div class=\"px-4 pt-5 pb-4 sm:p-6 sm:pb-4\"><h3 class=\"text-lg leading-6 font-medium text-foreground\" id=\"modal-title\">
+</h3></div>
+<div class=\"px-4 pt-5 pb-4 sm:p-6 sm:pb-4\">
+</div>
+<div class=\"px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse\">
+</div>
+<script defer nonce=\"
+\">\n\t\t\tdocument.addEventListener('alpine:init', () => {\n\t\t\t\tAlpine.data('modal', () => ({\n\t\t\t\t\topen: false,\n\t\t\t\t\thandleOpenModal(event) {\n\t\t\t\t\t\tif (event.detail.id === this.$el.dataset.modalId) {\n\t\t\t\t\t\t\tthis.open = true\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\t\t\t\t\thandleCloseModal(event) {\n\t\t\t\t\t\tif (event.detail.id === this.$el.dataset.modalId) {\n\t\t\t\t\t\t\tthis.open = false\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\t\t\t\t\thandleClickAway() {\n\t\t\t\t\t\tthis.open = false;\n\t\t\t\t\t},\n\t\t\t\t}))\n\t\t\t\tAlpine.data('modalTriggers', () => ({\n\t\t\t\t\topenModal() {\n\t\t\t\t\t\tthis.$dispatch('open-modal', { \n\t\t\t\t\t\t\tid: this.$el.dataset.modalId \n\t\t\t\t\t\t})\n\t\t\t\t\t},\n\t\t\t\t\tcloseModal() {\n\t\t\t\t\t\tthis.$dispatch('close-modal', { \n\t\t\t\t\t\t\tid: this.$el.dataset.modalId \n\t\t\t\t\t\t})\n\t\t\t\t\t}\n\t\t\t\t}))\n\t\t\t})\n\t\t</script>

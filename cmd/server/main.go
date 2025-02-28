@@ -8,11 +8,11 @@ import (
 
 	"github.com/a-h/templ"
 	"github.com/axzilla/templui/assets"
+	"github.com/axzilla/templui/components"
 	"github.com/axzilla/templui/internal/config"
 	"github.com/axzilla/templui/internal/middleware"
 	"github.com/axzilla/templui/internal/ui/pages"
-	"github.com/axzilla/templui/pkg/components"
-	mw "github.com/axzilla/templui/pkg/middleware"
+	mw "github.com/axzilla/templui/middleware"
 )
 
 func toastDemoHandler(w http.ResponseWriter, r *http.Request) {

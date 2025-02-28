@@ -1,0 +1,17 @@
+<input x-ref=\"
+\" type=\"
+\" placeholder=\"
+\"
+ disabled
+ readonly
+ required
+ name=\"
+\"
+ value=\"
+\"
+ id=\"
+\" class=\"
+\"
+ accept=\"
+\"
+>

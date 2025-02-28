@@ -1,0 +1,12 @@
+<div class=\"
+\"
+>
+<details name=\"accordion\" class=\"
+\">
+<summary class=\"
+\">
+</summary>
+<div class=\"
+\">
+</div></details>
+</div>

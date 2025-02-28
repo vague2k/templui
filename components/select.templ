@@ -1,0 +1,89 @@
+package components
+
+import (
+	"github.com/axzilla/templui/icons"
+	"github.com/axzilla/templui/utils"
+)
+
+type SelectProps struct {
+	ID          string           // DOM identifier
+	Name        string           // Form field name
+	Placeholder string           // Helper text shown when empty
+	Options     []SelectOption   // Available choices
+	Disabled    bool             // Prevents interaction
+	Required    bool             // Required
+	HasError    bool             // Error state styling
+	Class       string           // Additional CSS classes
+	Attributes  templ.Attributes // Additional HTML attributes
+}
+
+type SelectOption struct {
+	Label      string           // Display text
+	Value      string           // Form value
+	Selected   bool             // Default selection
+	Attributes templ.Attributes // Additional HTML attributes
+}
+
+// Select renders a styled dropdown selection input
+templ Select(props SelectProps) {
+	<div class={ utils.TwMerge("relative w-full", props.Class) }>
+		<select
+			x-ref={ props.ID }
+			id={ props.ID }
+			name={ props.Name }
+			disabled?={ props.Disabled }
+			required?={ props.Required }
+			class={
+				utils.TwMerge(
+					// Layout
+					"peer h-10 w-full px-3 py-2",
+			
+					// Styling
+					"rounded-md border border-input bg-background text-sm",
+					"appearance-none ring-offset-background",
+					"placeholder:text-muted-foreground",
+			
+					// States
+					"focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2",
+					"disabled:cursor-not-allowed disabled:opacity-50",
+			
+					// Conditional
+					utils.TwIf("border-destructive ring-destructive", props.HasError),
+				),
+			}
+			{ props.Attributes... }
+		>
+			if props.Placeholder != "" {
+				<option value="" disabled selected hidden>{ props.Placeholder }</option>
+			}
+			for _, option := range props.Options {
+				<option
+					value={ option.Value }
+					selected?={ option.Selected }
+					{ option.Attributes... }
+				>
+					{ option.Label }
+				</option>
+			}
+		</select>
+		<div
+			class={
+				utils.TwMerge(
+					// Layout
+					"absolute right-3 top-3",
+			
+					// Styling
+					"pointer-events-none",
+			
+					// States
+					"peer-disabled:opacity-50",
+				),
+			}
+		>
+			@icons.ChevronDown(icons.IconProps{
+				Size:  "16",
+				Class: "text-muted-foreground",
+			})
+		</div>
+	</div>
+}

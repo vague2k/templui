@@ -1,8 +1,8 @@
 package pages
 
 import (
+	"github.com/axzilla/templui/components"
 	"github.com/axzilla/templui/internal/ui/layouts"
-	"github.com/axzilla/templui/pkg/components"
 )
 
 var installGo = `go version`
@@ -145,11 +145,11 @@ var installTemplUI = `go get github.com/axzilla/templui`
 
 var goPath = `@source "${GOPATH}/pkg/mod/github.com/axzilla/templui@*/**/*.{go,templ}";`
 
-var usingComponents = `import "github.com/axzilla/templui/pkg/components"
+var usingComponents = `import "github.com/axzilla/templui/components"
 
 @components.Button(components.ButtonProps{Text: "Click me"})`
 
-var cspMiddleware = `import "github.com/axzilla/templui/pkg/middleware"
+var cspMiddleware = `import "github.com/axzilla/templui/middleware"
 
 // Optional: Configure CSP for additional external resources
 cspConfig := middleware.CSPConfig{

@@ -1,0 +1,11 @@
+<script defer nonce=\"
+\">\n            document.addEventListener('alpine:init', () => {\n                Alpine.data('label', () => ({\n\t\t\t\t\tgetClass() {\n\t\t\t\t\t\tif (this.$refs[this.$el.getAttribute('for')]?.disabled ) {\n\t\t\t\t\t\t\treturn this.$el.dataset.disabledStyle\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n                }));\n            });\n        </script>
+<label x-data=\"label\" id=\"
+\" for=\"
+\" class=\"
+\"
+ data-disabled-style=\"
+\"
+ data-disabled-style=\"opacity-50 cursor-not-allowed\"
+ x-bind:class=\"getClass\">
+</label>
