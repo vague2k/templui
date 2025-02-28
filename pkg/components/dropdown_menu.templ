@@ -128,7 +128,7 @@ templ renderMenuItem(item DropdownMenuItem, index int, depth int) {
 	}
 }
 
-templ DropdownScript() {
+templ DropdownMenuScript() {
 	{{ handler := templ.NewOnceHandle() }}
 	@handler.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
