@@ -66,6 +66,7 @@ func main() {
 	// Components
 	mux.Handle("GET /docs/components/accordion", templ.Handler(pages.Accordion()))
 	mux.Handle("GET /docs/components/alert", templ.Handler(pages.Alert()))
+	mux.Handle("GET /docs/components/aspect-ratio", templ.Handler(pages.AspectRatio()))
 	mux.Handle("GET /docs/components/avatar", templ.Handler(pages.Avatar()))
 	mux.Handle("GET /docs/components/badge", templ.Handler(pages.Badge()))
 	mux.Handle("GET /docs/components/button", templ.Handler(pages.Button()))

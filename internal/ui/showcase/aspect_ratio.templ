@@ -1,0 +1,16 @@
+package showcase
+
+import "github.com/axzilla/templui/components"
+
+templ AspectRatio() {
+	@components.AspectRatio(components.AspectRatioProps{
+		Ratio: components.AspectRatioVideo,
+		Class: "rounded-md overflow-hidden",
+	}) {
+		<img
+			src="/assets/img/aspect_ratio_placeholder.jpg"
+			alt="Example image"
+			class="h-full w-full object-cover"
+		/>
+	}
+}

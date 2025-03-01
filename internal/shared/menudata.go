@@ -42,6 +42,10 @@ var Sections = []Section{
 				Href: "/docs/components/alert",
 			},
 			{
+				Text: "Aspect Ratio",
+				Href: "/docs/components/aspect-ratio",
+			},
+			{
 				Text: "Avatar",
 				Href: "/docs/components/avatar",
 			},
