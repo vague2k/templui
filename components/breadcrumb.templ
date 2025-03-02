@@ -1,0 +1,74 @@
+package components
+
+import (
+	"github.com/axzilla/templui/icons"
+	"github.com/axzilla/templui/utils"
+)
+
+// BreadcrumbItem represents a single item in the breadcrumb trail
+type BreadcrumbItem struct {
+	Label      string           // Display text for the breadcrumb item
+	Href       string           // URL to navigate to when clicked
+	Icon       templ.Component  // Optional icon to display before the label
+	Current    bool             // Whether this item represents the current page
+	Attributes templ.Attributes // Additional HTML attributes
+}
+
+// BreadcrumbProps configures the Breadcrumb component
+type BreadcrumbProps struct {
+	Items      []BreadcrumbItem // Array of breadcrumb items to display
+	Separator  templ.Component  // Custom separator between items (defaults to chevron)
+	Class      string           // Additional CSS classes
+	Attributes templ.Attributes // Additional HTML attributes
+}
+
+// Navigation component that helps users understand their location within a website's hierarchy.
+templ Breadcrumb(props BreadcrumbProps) {
+	<nav
+		class={ utils.TwMerge(
+			"flex",
+			props.Class,
+		) }
+		aria-label="Breadcrumb"
+		{ props.Attributes... }
+	>
+		<ol class="flex items-center flex-wrap gap-1 text-sm">
+			for i, item := range props.Items {
+				<li class="flex items-center">
+					if i > 0 {
+						<span class="mx-2 text-muted-foreground">
+							if props.Separator != nil {
+								@props.Separator
+							} else {
+								@icons.ChevronRight(icons.IconProps{Size: "14", Class: "text-muted-foreground"})
+							}
+						</span>
+					}
+					if item.Current {
+						<span
+							class="font-medium text-foreground flex items-center gap-1.5"
+							aria-current="page"
+							{ item.Attributes... }
+						>
+							if item.Icon != nil {
+								@item.Icon
+							}
+							{ item.Label }
+						</span>
+					} else {
+						<a
+							href={ templ.SafeURL(item.Href) }
+							class="text-muted-foreground hover:text-foreground hover:underline flex items-center gap-1.5 transition-colors"
+							{ item.Attributes... }
+						>
+							if item.Icon != nil {
+								@item.Icon
+							}
+							{ item.Label }
+						</a>
+					}
+				</li>
+			}
+		</ol>
+	</nav>
+}

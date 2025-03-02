@@ -69,6 +69,7 @@ func main() {
 	mux.Handle("GET /docs/components/aspect-ratio", templ.Handler(pages.AspectRatio()))
 	mux.Handle("GET /docs/components/avatar", templ.Handler(pages.Avatar()))
 	mux.Handle("GET /docs/components/badge", templ.Handler(pages.Badge()))
+	mux.Handle("GET /docs/components/breadcrumb", templ.Handler(pages.Breadcrumb()))
 	mux.Handle("GET /docs/components/button", templ.Handler(pages.Button()))
 	mux.Handle("GET /docs/components/card", templ.Handler(pages.Card()))
 	mux.Handle("GET /docs/components/code", templ.Handler(pages.Code()))
