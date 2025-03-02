@@ -83,6 +83,7 @@ func main() {
 	mux.Handle("GET /docs/components/label", templ.Handler(pages.Label()))
 	mux.Handle("GET /docs/components/modal", templ.Handler(pages.Modal()))
 	mux.Handle("GET /docs/components/radio", templ.Handler(pages.Radio()))
+	mux.Handle("GET /docs/components/radio-card", templ.Handler(pages.RadioCard()))
 	mux.Handle("GET /docs/components/select", templ.Handler(pages.Select()))
 	mux.Handle("GET /docs/components/sheet", templ.Handler(pages.Sheet()))
 	mux.Handle("GET /docs/components/slider", templ.Handler(pages.Slider()))

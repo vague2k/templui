@@ -6,33 +6,33 @@ import "github.com/axzilla/templui/icons"
 templ CheckboxCard() {
 	<div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
 		@components.CheckboxCard(components.CheckboxCardProps{
-			ID:          "plan-basic",
-			Name:        "plan",
-			Value:       "basic",
-			Title:       "Basic Plan",
-			Description: "Essential features for individuals and small teams",
-			Icon:        icons.Package(icons.IconProps{Size: "20"}),
-			Footer:      PriceFooter("$5.99"),
+			ID:          "feature-analytics",
+			Name:        "features",
+			Value:       "analytics",
+			Title:       "Analytics",
+			Description: "Real-time data analytics and reporting tools",
+			Icon:        icons.ChartBar(icons.IconProps{Size: "20"}),
+			Footer:      PriceFooter("$5/month"),
 		})
 		@components.CheckboxCard(components.CheckboxCardProps{
-			ID:          "plan-pro",
-			Name:        "plan",
-			Value:       "pro",
+			ID:          "feature-storage",
+			Name:        "features",
+			Value:       "storage",
 			Checked:     true,
-			Title:       "Pro Plan",
-			Description: "Enhanced capabilities for growing businesses",
-			Icon:        icons.Star(icons.IconProps{Size: "20"}),
-			Footer:      PriceFooter("$5.99"),
+			Title:       "Cloud Storage",
+			Description: "Secure file storage with 100GB capacity",
+			Icon:        icons.Cloud(icons.IconProps{Size: "20"}),
+			Footer:      PriceFooter("$3/month"),
 		})
 		@components.CheckboxCard(components.CheckboxCardProps{
-			ID:          "plan-enterprise",
-			Name:        "plan",
-			Value:       "enterprise",
-			Title:       "Enterprise Plan",
-			Description: "Advanced features for large organizations",
-			Icon:        icons.Building(icons.IconProps{Size: "20"}),
+			ID:          "feature-api",
+			Name:        "features",
+			Value:       "api",
+			Title:       "API Access",
+			Description: "Full access to our developer API endpoints",
+			Icon:        icons.Code(icons.IconProps{Size: "20"}),
+			Footer:      PriceFooter("$8/month"),
 			Disabled:    true,
-			Footer:      PriceFooter("$5.99"),
 		})
 	</div>
 }

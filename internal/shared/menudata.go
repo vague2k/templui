@@ -110,6 +110,10 @@ var Sections = []Section{
 				Href: "/docs/components/radio",
 			},
 			{
+				Text: "RadioCard",
+				Href: "/docs/components/radio-card",
+			},
+			{
 				Text: "Select",
 				Href: "/docs/components/select",
 			},
