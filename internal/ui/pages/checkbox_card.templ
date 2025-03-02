@@ -1,0 +1,27 @@
+package pages
+
+import (
+	"github.com/axzilla/templui/internal/ui/layouts"
+	"github.com/axzilla/templui/internal/ui/modules"
+	"github.com/axzilla/templui/internal/ui/showcase"
+)
+
+templ CheckboxCard() {
+	@layouts.DocsLayout() {
+		@modules.PageWrapper(modules.PageWrapperProps{
+			Name:        "Checkbox Card",
+			Description: templ.Raw("Selectable card component that combines a checkbox with rich content for option selection."),
+			Tailwind:    true,
+		}) {
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				ShowcaseFile:      showcase.CheckboxCard(),
+				PreviewCodeFile:   "checkbox_card.templ",
+				ComponentCodeFile: "checkbox_card.templ",
+			})
+			@modules.Usage(modules.UsageProps{
+				ComponentName: "CheckboxCard",
+				PropsExample:  "...",
+			})
+		}
+	}
+}

@@ -1,0 +1,45 @@
+package showcase
+
+import "github.com/axzilla/templui/components"
+import "github.com/axzilla/templui/icons"
+
+templ CheckboxCard() {
+	<div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+		@components.CheckboxCard(components.CheckboxCardProps{
+			ID:          "plan-basic",
+			Name:        "plan",
+			Value:       "basic",
+			Title:       "Basic Plan",
+			Description: "Essential features for individuals and small teams",
+			Icon:        icons.Package(icons.IconProps{Size: "20"}),
+			Footer:      PriceFooter("$5.99"),
+		})
+		@components.CheckboxCard(components.CheckboxCardProps{
+			ID:          "plan-pro",
+			Name:        "plan",
+			Value:       "pro",
+			Checked:     true,
+			Title:       "Pro Plan",
+			Description: "Enhanced capabilities for growing businesses",
+			Icon:        icons.Star(icons.IconProps{Size: "20"}),
+			Footer:      PriceFooter("$5.99"),
+		})
+		@components.CheckboxCard(components.CheckboxCardProps{
+			ID:          "plan-enterprise",
+			Name:        "plan",
+			Value:       "enterprise",
+			Title:       "Enterprise Plan",
+			Description: "Advanced features for large organizations",
+			Icon:        icons.Building(icons.IconProps{Size: "20"}),
+			Disabled:    true,
+			Footer:      PriceFooter("$5.99"),
+		})
+	</div>
+}
+
+templ PriceFooter(price string) {
+	<div class="flex justify-between items-center border-t border-border pt-2 mt-2 text-sm">
+		<span class="text-muted-foreground">Price</span>
+		<span class="font-medium">{ price }</span>
+	</div>
+}
