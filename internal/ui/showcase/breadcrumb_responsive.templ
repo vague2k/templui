@@ -1,0 +1,50 @@
+package showcase
+
+import "github.com/axzilla/templui/components"
+
+templ BreadcrumbResponsive() {
+	<!-- Mobile view (with ellipsis) -->
+	<div class="md:hidden">
+		@components.Breadcrumb(components.BreadcrumbProps{
+			Items: []components.BreadcrumbItem{
+				{
+					Label: "Home",
+					Href:  "/",
+				},
+				{
+					Label: "...",
+					Href:  "#",
+				},
+				{
+					Label:   "Current Page",
+					Href:    "/current-page",
+					Current: true,
+				},
+			},
+		})
+	</div>
+	<!-- Desktop view (full breadcrumb) -->
+	<div class="hidden md:block">
+		@components.Breadcrumb(components.BreadcrumbProps{
+			Items: []components.BreadcrumbItem{
+				{
+					Label: "Home",
+					Href:  "/",
+				},
+				{
+					Label: "Category",
+					Href:  "/category",
+				},
+				{
+					Label: "Subcategory",
+					Href:  "/category/subcategory",
+				},
+				{
+					Label:   "Current Page",
+					Href:    "/category/subcategory/current-page",
+					Current: true,
+				},
+			},
+		})
+	</div>
+}

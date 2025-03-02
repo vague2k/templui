@@ -1,0 +1,23 @@
+package showcase
+
+import "github.com/axzilla/templui/components"
+
+templ BreadcrumbDefault() {
+	@components.Breadcrumb(components.BreadcrumbProps{
+		Items: []components.BreadcrumbItem{
+			{
+				Label: "Home",
+				Href:  "/",
+			},
+			{
+				Label: "Components",
+				Href:  "/docs/components",
+			},
+			{
+				Label:   "Breadcrumb",
+				Href:    "/docs/components/breadcrumb",
+				Current: true,
+			},
+		},
+	})
+}

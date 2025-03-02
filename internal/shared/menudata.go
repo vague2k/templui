@@ -54,6 +54,10 @@ var Sections = []Section{
 				Href: "/docs/components/badge",
 			},
 			{
+				Text: "Breadcrumb",
+				Href: "/docs/components/breadcrumb",
+			},
+			{
 				Text: "Button",
 				Href: "/docs/components/button",
 			},
@@ -68,6 +72,10 @@ var Sections = []Section{
 			{
 				Text: "Checkbox",
 				Href: "/docs/components/checkbox",
+			},
+			{
+				Text: "Checkbox Card",
+				Href: "/docs/components/checkbox-card",
 			},
 			{
 				Text: "Datepicker",
@@ -100,6 +108,10 @@ var Sections = []Section{
 			{
 				Text: "Radio",
 				Href: "/docs/components/radio",
+			},
+			{
+				Text: "RadioCard",
+				Href: "/docs/components/radio-card",
 			},
 			{
 				Text: "Select",

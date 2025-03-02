@@ -1,0 +1,86 @@
+package components
+
+import (
+	"github.com/axzilla/templui/utils"
+)
+
+// CheckboxCardProps configures the CheckboxCard component
+type CheckboxCardProps struct {
+	ID          string           // DOM identifier
+	Name        string           // Form field name
+	Value       string           // Checkbox value
+	Checked     bool             // Selected state
+	Disabled    bool             // Prevents interaction
+	Required    bool             // Required
+	Title       string           // Card title
+	Description string           // Card description
+	Icon        templ.Component  // Optional icon
+	Footer      templ.Component  // Optional footer content
+	Class       string           // Additional CSS classes for the card
+	Attributes  templ.Attributes // Additional HTML attributes
+}
+
+// CheckboxCard creates a selectable card component with minimal styling approach
+templ CheckboxCard(props CheckboxCardProps) {
+	if props.ID == "" {
+		{{ props.ID = utils.RandomID() }}
+	}
+	<div class={ utils.TwMerge("relative", utils.TwIf("opacity-60", props.Disabled)) }>
+		<input
+			type="checkbox"
+			id={ props.ID }
+			name={ props.Name }
+			value={ props.Value }
+			checked?={ props.Checked }
+			disabled?={ props.Disabled }
+			required?={ props.Required }
+			class="peer sr-only"
+			{ props.Attributes... }
+		/>
+		<label
+			for={ props.ID }
+			class={
+				utils.TwMerge(
+					// Base styling
+					"block w-full rounded-lg border overflow-hidden h-full",
+					"bg-card text-card-foreground p-4 flex flex-col",
+			
+					// Interactive states
+					"cursor-pointer",
+					"hover:border-primary/50",
+					"peer-checked:ring-1 peer-checked:ring-primary peer-checked:border-primary",
+					utils.TwIf("cursor-not-allowed", props.Disabled),
+			
+					// Animation
+					"transition-all duration-200",
+			
+					// Custom classes
+					props.Class,
+				),
+			}
+		>
+			<div class="flex items-center justify-between mb-2">
+				<div class="flex items-center gap-2">
+					if props.Icon != nil {
+						<div class="text-primary">
+							@props.Icon
+						</div>
+					}
+					<h3 class="text-lg font-semibold leading-none tracking-tight">
+						{ props.Title }
+					</h3>
+				</div>
+			</div>
+			if props.Description != "" {
+				<p class="text-sm text-muted-foreground">
+					{ props.Description }
+				</p>
+			}
+			if props.Footer != nil {
+				<div class="mt-auto pt-4 w-full">
+					@props.Footer
+				</div>
+			}
+		</label>
+	</div>
+}
