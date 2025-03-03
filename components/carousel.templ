@@ -1,0 +1,307 @@
+package components
+
+import (
+	"fmt"
+	"github.com/axzilla/templui/icons"
+	"github.com/axzilla/templui/utils"
+	"strconv"
+)
+
+// CarouselSlide represents an individual slide in the carousel
+type CarouselSlide struct {
+	Content     templ.Component  // Main content of the slide
+	Description string           // Optional description
+	Attributes  templ.Attributes // Additional HTML attributes for each slide
+}
+
+// CarouselProps configures the Carousel component
+type CarouselProps struct {
+	ID             string           // Unique identifier for the carousel
+	Slides         []CarouselSlide  // Array of carousel slides
+	ShowControls   bool             // Whether to display previous/next buttons
+	ShowIndicators bool             // Whether to display pagination indicators
+	Autoplay       bool             // Whether the carousel should autoplay
+	Interval       int              // Autoplay interval in milliseconds (default: 5000)
+	Loop           bool             // Whether the carousel should loop back to the beginning
+	Class          string           // Additional CSS classes
+	Attributes     templ.Attributes // Additional HTML attributes
+}
+
+templ CarouselScript() {
+	{{ handle := templ.NewOnceHandle() }}
+	@handle.Once() {
+		<script defer nonce={ templ.GetNonce(ctx) }>
+            // Use a self-invoking function to create a closure for each carousel
+            function initCarousel(carouselEl) {
+                // Individual carousel state - completely isolated from other carousels
+                const state = {
+                    currentIndex: 0,
+                    slideCount: parseInt(carouselEl.dataset.slideCount || 0),
+                    autoplay: carouselEl.dataset.autoplay === 'true',
+                    interval: parseInt(carouselEl.dataset.interval || 5000),
+                    loop: carouselEl.dataset.loop === 'true',
+                    autoplayInterval: null,
+                    isHovering: false,
+                    touchStartX: 0
+                };
+                
+                // DOM elements specific to this carousel
+                const track = carouselEl.querySelector('.carousel-track');
+                const indicators = Array.from(carouselEl.querySelectorAll('.carousel-indicator'));
+                const prevBtn = carouselEl.querySelector('.carousel-prev');
+                const nextBtn = carouselEl.querySelector('.carousel-next');
+                
+                // Function to update the track position
+                function updateTrackPosition() {
+                    if (track) {
+                        track.style.transform = `translateX(-${state.currentIndex * 100}%)`;
+                    }
+                }
+                
+                // Function to update indicator states
+                function updateIndicators() {
+                    indicators.forEach((indicator, i) => {
+                        if (i === state.currentIndex) {
+                            indicator.classList.add('bg-white');
+                        } else {
+                            indicator.classList.remove('bg-white');
+                        }
+                    });
+                }
+                
+                // Function to update button states
+                function updateButtons() {
+                    if (prevBtn) {
+                        prevBtn.disabled = !state.loop && state.currentIndex === 0;
+                        if (prevBtn.disabled) {
+                            prevBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                        } else {
+                            prevBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                        }
+                    }
+                    
+                    if (nextBtn) {
+                        nextBtn.disabled = !state.loop && state.currentIndex === state.slideCount - 1;
+                        if (nextBtn.disabled) {
+                            nextBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                        } else {
+                            nextBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+                        }
+                    }
+                }
+                
+                // Function to start autoplay
+                function startAutoplay() {
+                    if (state.autoplayInterval) {
+                        clearInterval(state.autoplayInterval);
+                    }
+                    
+                    state.autoplayInterval = setInterval(() => {
+                        if (!state.isHovering) {
+                            goToNext();
+                        }
+                    }, state.interval);
+                }
+                
+                // Function to stop autoplay
+                function stopAutoplay() {
+                    if (state.autoplayInterval) {
+                        clearInterval(state.autoplayInterval);
+                        state.autoplayInterval = null;
+                    }
+                }
+                
+                // Navigation functions
+                function goToNext() {
+                    let nextIndex = state.currentIndex + 1;
+                    
+                    if (nextIndex >= state.slideCount) {
+                        if (state.loop) {
+                            nextIndex = 0;
+                        } else {
+                            nextIndex = state.slideCount - 1;
+                        }
+                    }
+                    
+                    goToSlide(nextIndex);
+                }
+                
+                function goToPrev() {
+                    let prevIndex = state.currentIndex - 1;
+                    
+                    if (prevIndex < 0) {
+                        if (state.loop) {
+                            prevIndex = state.slideCount - 1;
+                        } else {
+                            prevIndex = 0;
+                        }
+                    }
+                    
+                    goToSlide(prevIndex);
+                }
+                
+                function goToSlide(index) {
+                    if (index === state.currentIndex) return;
+                    
+                    state.currentIndex = index;
+                    updateTrackPosition();
+                    updateIndicators();
+                    updateButtons();
+                    
+                    // Reset autoplay if enabled
+                    if (state.autoplay) {
+                        stopAutoplay();
+                        if (!state.isHovering) {
+                            startAutoplay();
+                        }
+                    }
+                }
+                
+                // Touch event handlers
+                function handleTouchStart(event) {
+                    state.touchStartX = event.touches[0].clientX;
+                }
+                
+                function handleTouchEnd(event) {
+                    const touchEndX = event.changedTouches[0].clientX;
+                    const diff = state.touchStartX - touchEndX;
+                    
+                    if (Math.abs(diff) > 50) {
+                        if (diff > 0) {
+                            goToNext();
+                        } else {
+                            goToPrev();
+                        }
+                    }
+                }
+                
+                // Set up event handlers
+                if (track) {
+                    track.addEventListener('touchstart', handleTouchStart);
+                    track.addEventListener('touchend', handleTouchEnd);
+                }
+                
+                indicators.forEach((indicator, index) => {
+                    indicator.addEventListener('click', () => goToSlide(index));
+                });
+                
+                if (prevBtn) {
+                    prevBtn.addEventListener('click', goToPrev);
+                }
+                
+                if (nextBtn) {
+                    nextBtn.addEventListener('click', goToNext);
+                }
+                
+                // Mouse enter/leave events for autoplay
+                carouselEl.addEventListener('mouseenter', () => {
+                    state.isHovering = true;
+                    if (state.autoplay) {
+                        stopAutoplay();
+                    }
+                });
+                
+                carouselEl.addEventListener('mouseleave', () => {
+                    state.isHovering = false;
+                    if (state.autoplay) {
+                        startAutoplay();
+                    }
+                });
+                
+                // Initialize the carousel
+                updateTrackPosition();
+                updateIndicators();
+                updateButtons();
+                
+                // Start autoplay if enabled
+                if (state.autoplay) {
+                    startAutoplay();
+                }
+            }
+            
+            // Initialize all carousels when the DOM is loaded
+            document.addEventListener('DOMContentLoaded', () => {
+                document.querySelectorAll('.carousel-component').forEach(carousel => {
+                    initCarousel(carousel);
+                });
+            });
+        </script>
+	}
+}
+
+// Carousel renders a responsive image and content slider
+templ Carousel(props CarouselProps) {
+	if props.ID == "" {
+		{{ props.ID = utils.RandomID() }}
+	}
+	@CarouselScript()
+	<div
+		id={ props.ID }
+		class={ utils.TwMerge(
+			"carousel-component relative overflow-hidden w-full",
+			props.Class,
+		) }
+		data-slide-count={ fmt.Sprintf("%d", len(props.Slides)) }
+		data-autoplay={ strconv.FormatBool(props.Autoplay) }
+		data-interval={ fmt.Sprintf("%d", func() int {
+			if props.Interval == 0 {
+				return 5000
+			}
+			return props.Interval
+		}()) }
+		data-loop={ strconv.FormatBool(props.Loop) }
+		{ props.Attributes... }
+	>
+		<!-- Slide Track -->
+		<div class="carousel-track flex h-full w-full transition-transform duration-500 ease-in-out">
+			<!-- Slides -->
+			for _, slide := range props.Slides {
+				<div class="carousel-slide flex-shrink-0 w-full h-full relative" { slide.Attributes... }>
+					@slide.Content
+					if slide.Description != "" {
+						<div class="absolute bottom-0 left-0 right-0 bg-black/50 text-white p-4">
+							<p>{ slide.Description }</p>
+						</div>
+					}
+				</div>
+			}
+		</div>
+		<!-- Navigation Controls -->
+		if props.ShowControls {
+			<button
+				class="carousel-prev absolute left-2 top-1/2 transform -translate-y-1/2 p-2 rounded-full bg-black/20 text-white hover:bg-black/40 focus:outline-none"
+				aria-label="Previous slide"
+				type="button"
+			>
+				@icons.ChevronLeft(icons.IconProps{})
+			</button>
+			<button
+				class="carousel-next absolute right-2 top-1/2 transform -translate-y-1/2 p-2 rounded-full bg-black/20 text-white hover:bg-black/40 focus:outline-none"
+				aria-label="Next slide"
+				type="button"
+			>
+				@icons.ChevronRight(icons.IconProps{})
+			</button>
+		}
+		<!-- Pagination Indicators -->
+		if props.ShowIndicators {
+			<div class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2">
+				for i := range props.Slides {
+					<button
+						class={ utils.TwMerge(
+							"carousel-indicator w-3 h-3 rounded-full bg-white/50 hover:bg-white/80 focus:outline-none transition-colors",
+							func() string {
+								if i == 0 {
+									return "bg-white"
+								}
+								return ""
+							}(),
+						) }
+						aria-label={ fmt.Sprintf("Go to slide %d", i+1) }
+						type="button"
+					></button>
+				}
+			</div>
+		}
+	</div>
+}
