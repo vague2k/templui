@@ -63,8 +63,10 @@ templ CarouselScript() {
                     indicators.forEach((indicator, i) => {
                         if (i === state.currentIndex) {
                             indicator.classList.add('bg-white');
+                            indicator.classList.remove('bg-white/50');
                         } else {
                             indicator.classList.remove('bg-white');
+                            indicator.classList.add('bg-white/50');
                         }
                     });
                 }
