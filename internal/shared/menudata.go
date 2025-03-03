@@ -70,6 +70,10 @@ var Sections = []Section{
 				Href: "/docs/components/carousel",
 			},
 			{
+				Text: "Chart",
+				Href: "/docs/components/chart",
+			},
+			{
 				Text: "Code",
 				Href: "/docs/components/code",
 			},
