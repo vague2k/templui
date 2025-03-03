@@ -70,8 +70,8 @@ var Sections = []Section{
 				Href: "/docs/components/carousel",
 			},
 			{
-				Text: "Chart",
-				Href: "/docs/components/chart",
+				Text: "Charts",
+				Href: "/docs/components/charts",
 			},
 			{
 				Text: "Code",
