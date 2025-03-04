@@ -1,8 +1,6 @@
 package components
 
-import (
-	"github.com/axzilla/templui/utils"
-)
+import "github.com/axzilla/templui/utils"
 
 // ChartDataset represents a dataset for Chart.js
 type ChartDataset struct {
@@ -49,17 +47,21 @@ type ChartData struct {
 
 // ChartConfig represents the complete Chart.js configuration
 type ChartConfig struct {
-	Type    string       `json:"type"`
-	Data    ChartData    `json:"data"`
-	Options ChartOptions `json:"options,omitempty"`
+	Type       string       `json:"type"`
+	Data       ChartData    `json:"data"`
+	Options    ChartOptions `json:"options,omitempty"`
+	ShowLegend bool         `json:"showLegend,omitempty"`
+	ShowXAxis  bool         `json:"showXAxis,omitempty"`
+	ShowYAxis  bool         `json:"showYAxis,omitempty"`
 }
 
 // ChartProps for the Chart component
 type ChartProps struct {
-	Config ChartConfig
-	Class  string // Additional CSS classes
-	Height string // Chart container height
-	Width  string // Chart container width
+	Config     ChartConfig
+	ShowLegend bool
+	Class      string // Additional CSS classes
+	Height     string // Chart container height
+	Width      string // Chart container width
 }
 
 // ChartScripts ensures Chart.js and initialization code is only loaded once per page
@@ -70,110 +72,127 @@ templ ChartScripts() {
 		<script nonce={ templ.GetNonce(ctx) } src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 		<!-- Initialize charts -->
 		<script nonce={ templ.GetNonce(ctx) }>
-document.addEventListener('DOMContentLoaded', function() {
-  // Chart-Instanzen speichern
-  const chartInstances = {};
-  
-  // Funktion zum Initialisieren/Aktualisieren der Charts
-  function initCharts() {
-    document.querySelectorAll('.chart-container').forEach(container => {
-      const canvas = container.querySelector('canvas');
-      if (!canvas) return;
-      
-      const dataId = canvas.getAttribute('data-chart-id');
-      const dataElement = document.getElementById(dataId);
-      if (!dataElement) return;
-      
-      // Vorhandenes Chart zerstören, falls vorhanden
-      if (chartInstances[canvas.id]) {
-        chartInstances[canvas.id].destroy();
-      }
-      
-      // Parse Konfiguration
-      const chartConfig = JSON.parse(dataElement.textContent);
-      
-      // Chart erstellen mit aktuellen Theme-Farben
-      const chart = new Chart(canvas, {
-        ...chartConfig,
-        options: {
-          plugins: {
-            legend: {
-              display: false
-            }
-          },
-          scales: {
-            x: {
-              display: true,
-              ticks: {
-                color: 'var(--muted-foreground)'
-              },
-              grid: {
-                color: 'var(--border)'
-              }
-            },
-            y: {
-              display: false
-            }
-          }
-        }
-      });
-      
-      // Chart-Instanz speichern
-      chartInstances[canvas.id] = chart;
-    });
-  }
-  
-  // Initial Charts erstellen
-  initCharts();
-  
-  // Alpine.js Events abfangen für Theme-Änderungen
-  document.addEventListener('theme-changed', function() {
-    // Charts neu initialisieren bei Theme-Änderung
-    initCharts();
-  });
-  
-  // MutationObserver als Fallback
-  const observer = new MutationObserver(mutations => {
-    mutations.forEach(mutation => {
-      if (mutation.attributeName === 'class' && 
-         (document.documentElement.classList.contains('dark') || 
-          !document.documentElement.classList.contains('dark'))) {
-        initCharts();
-      }
-    });
-  });
-  
-  observer.observe(document.documentElement, { attributes: true });
-});
-</script>
+			document.addEventListener('DOMContentLoaded', function() {
+				
+				// Chart-Instanzen speichern
+				const chartInstances = {};
+
+				// Funktion zum Abrufen der aktuellen CSS-Variablen-Werte
+				function getThemeColors() {
+					const computedStyle = getComputedStyle(document.documentElement);
+					return {
+						foreground: computedStyle.getPropertyValue('--foreground').trim(),
+						background: computedStyle.getPropertyValue('--background').trim(),
+						mutedForeground: computedStyle.getPropertyValue('--muted-foreground').trim(),
+						border: computedStyle.getPropertyValue('--border').trim()
+					};
+				}
+
+				// Funktion zum Initialisieren/Aktualisieren der Charts
+				function initCharts() {
+					// Aktuelle Farbwerte abrufen
+					const colors = getThemeColors();
+
+					document.querySelectorAll('.chart-container').forEach(container => {
+						const canvas = container.querySelector('canvas');
+						if (!canvas) return;
+
+						const dataId = canvas.getAttribute('data-chart-id');
+						const dataElement = document.getElementById(dataId);
+						if (!dataElement) return;
+
+						// Vorhandenes Chart zerstören, falls vorhanden
+						if (chartInstances[canvas.id]) {
+							chartInstances[canvas.id].destroy();
+						}
+
+						// Parse Konfiguration
+						const chartConfig = JSON.parse(dataElement.textContent);
+						console.log(chartConfig)
+						// Chart erstellen mit berechneten Theme-Farben
+						const chart = new Chart(canvas, {
+							...chartConfig,
+							options: {
+								plugins: {
+									legend: {
+										display: chartConfig.showLegend || false,
+										labels: {
+											color: colors.foreground
+										}
+									},
+									tooltip: {
+										// shadow and border possible?
+										backgroundColor: colors.background,
+										bodyColor: colors.mutedForeground,
+										titleColor: colors.foreground,
+										borderColor: colors.border,
+										borderWidth: 1
+									}
+								},
+								scales: {
+									x: {
+										display: chartConfig.showXAxis || true,
+										ticks: {
+											color: colors.mutedForeground
+										},
+									},
+									y: {
+										display: chartConfig.showYAxis || false,
+										ticks: {
+											color: colors.mutedForeground
+										},
+									}
+								}
+							}
+						});
+			
+						// Chart-Instanz speichern
+						chartInstances[canvas.id] = chart;
+					});
+				}
+
+				// Initial Charts erstellen
+				initCharts();
+
+				// MutationObserver für Theme-Änderungen
+				const observer = new MutationObserver(() => {
+					// Kurze Verzögerung, um sicherzustellen, dass CSS-Variablen aktualisiert sind
+					setTimeout(initCharts, 50);
+				});
+
+				observer.observe(document.documentElement, { attributes: true });
+
+				// Auch auf Alpine-Initialisierung warten
+				document.addEventListener('alpine:initialized', () => {
+					// Globales Theme-Changed-Event registrieren
+					document.addEventListener('theme-changed', initCharts);
+				});
+			});
+		</script>
 	}
 }
 
 // Chart renders a chart using Chart.js
 templ Chart(props ChartProps) {
-	<!-- Include scripts (only included once) -->
 	<!-- Generate unique IDs for this chart -->
 	{{ chartId := "chart-" + utils.RandomID() }}
 	{{ dataId := chartId + "-data" }}
 	<!-- Calculate container dimensions -->
-	{{ height := props.Height }}
-	{{ width := props.Width }}
-	{{if height == "" {
-	height = "40vh"
-}
-	}}
-	{{if width == "" {
-	width = "100%"
-}
-	}}
+	if props.Height == "" {
+		{{ 	props.Height = "40vh" }}
+	}
+	if props.Width == "" {
+		{{ 	props.Width = "100%" }}
+	}
 	<!-- Chart container -->
 	<div
 		class={ utils.TwMerge("chart-container", props.Class) }
-		style={ "position: relative; height:" + height + "; width:" + width }
+		style={ "position: relative; height:" + props.Height + "; width:" + props.Width }
 	>
 		<canvas id={ chartId } data-chart-id={ dataId }></canvas>
 	</div>
 	<!-- Store the chart configuration in a JSON script tag -->
+	{{ props.Config.ShowLegend = props.ShowLegend }}
 	@templ.JSONScript(dataId, props.Config)
 }
 

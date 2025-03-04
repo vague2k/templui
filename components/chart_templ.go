@@ -8,9 +8,7 @@ package components
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import (
-	"github.com/axzilla/templui/utils"
-)
+import "github.com/axzilla/templui/utils"
 
 // ChartDataset represents a dataset for Chart.js
 type ChartDataset struct {
@@ -57,17 +55,21 @@ type ChartData struct {
 
 // ChartConfig represents the complete Chart.js configuration
 type ChartConfig struct {
-	Type    string       `json:"type"`
-	Data    ChartData    `json:"data"`
-	Options ChartOptions `json:"options,omitempty"`
+	Type       string       `json:"type"`
+	Data       ChartData    `json:"data"`
+	Options    ChartOptions `json:"options,omitempty"`
+	ShowLegend bool         `json:"showLegend,omitempty"`
+	ShowXAxis  bool         `json:"showXAxis,omitempty"`
+	ShowYAxis  bool         `json:"showYAxis,omitempty"`
 }
 
 // ChartProps for the Chart component
 type ChartProps struct {
-	Config ChartConfig
-	Class  string // Additional CSS classes
-	Height string // Chart container height
-	Width  string // Chart container width
+	Config     ChartConfig
+	ShowLegend bool
+	Class      string // Additional CSS classes
+	Height     string // Chart container height
+	Width      string // Chart container width
 }
 
 // ChartScripts ensures Chart.js and initialization code is only loaded once per page
@@ -112,7 +114,7 @@ func ChartScripts() templ.Component {
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 70, Col: 37}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 72, Col: 37}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -125,13 +127,13 @@ func ChartScripts() templ.Component {
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 72, Col: 37}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 74, Col: 37}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\">\ndocument.addEventListener('DOMContentLoaded', function() {\n  // Chart-Instanzen speichern\n  const chartInstances = {};\n  \n  // Funktion zum Initialisieren/Aktualisieren der Charts\n  function initCharts() {\n    document.querySelectorAll('.chart-container').forEach(container => {\n      const canvas = container.querySelector('canvas');\n      if (!canvas) return;\n      \n      const dataId = canvas.getAttribute('data-chart-id');\n      const dataElement = document.getElementById(dataId);\n      if (!dataElement) return;\n      \n      // Vorhandenes Chart zerstören, falls vorhanden\n      if (chartInstances[canvas.id]) {\n        chartInstances[canvas.id].destroy();\n      }\n      \n      // Parse Konfiguration\n      const chartConfig = JSON.parse(dataElement.textContent);\n      \n      // Chart erstellen mit aktuellen Theme-Farben\n      const chart = new Chart(canvas, {\n        ...chartConfig,\n        options: {\n          plugins: {\n            legend: {\n              display: false\n            }\n          },\n          scales: {\n            x: {\n              display: true,\n              ticks: {\n                color: 'var(--muted-foreground)'\n              },\n              grid: {\n                color: 'var(--border)'\n              }\n            },\n            y: {\n              display: false\n            }\n          }\n        }\n      });\n      \n      // Chart-Instanz speichern\n      chartInstances[canvas.id] = chart;\n    });\n  }\n  \n  // Initial Charts erstellen\n  initCharts();\n  \n  // Alpine.js Events abfangen für Theme-Änderungen\n  document.addEventListener('theme-changed', function() {\n    // Charts neu initialisieren bei Theme-Änderung\n    initCharts();\n  });\n  \n  // MutationObserver als Fallback\n  const observer = new MutationObserver(mutations => {\n    mutations.forEach(mutation => {\n      if (mutation.attributeName === 'class' && \n         (document.documentElement.classList.contains('dark') || \n          !document.documentElement.classList.contains('dark'))) {\n        initCharts();\n      }\n    });\n  });\n  \n  observer.observe(document.documentElement, { attributes: true });\n});\n</script>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\">\n\t\t\tdocument.addEventListener('DOMContentLoaded', function() {\n\t\t\t\t\n\t\t\t\t// Chart-Instanzen speichern\n\t\t\t\tconst chartInstances = {};\n\n\t\t\t\t// Funktion zum Abrufen der aktuellen CSS-Variablen-Werte\n\t\t\t\tfunction getThemeColors() {\n\t\t\t\t\tconst computedStyle = getComputedStyle(document.documentElement);\n\t\t\t\t\treturn {\n\t\t\t\t\t\tforeground: computedStyle.getPropertyValue('--foreground').trim(),\n\t\t\t\t\t\tbackground: computedStyle.getPropertyValue('--background').trim(),\n\t\t\t\t\t\tmutedForeground: computedStyle.getPropertyValue('--muted-foreground').trim(),\n\t\t\t\t\t\tborder: computedStyle.getPropertyValue('--border').trim()\n\t\t\t\t\t};\n\t\t\t\t}\n\n\t\t\t\t// Funktion zum Initialisieren/Aktualisieren der Charts\n\t\t\t\tfunction initCharts() {\n\t\t\t\t\t// Aktuelle Farbwerte abrufen\n\t\t\t\t\tconst colors = getThemeColors();\n\n\t\t\t\t\tdocument.querySelectorAll('.chart-container').forEach(container => {\n\t\t\t\t\t\tconst canvas = container.querySelector('canvas');\n\t\t\t\t\t\tif (!canvas) return;\n\n\t\t\t\t\t\tconst dataId = canvas.getAttribute('data-chart-id');\n\t\t\t\t\t\tconst dataElement = document.getElementById(dataId);\n\t\t\t\t\t\tif (!dataElement) return;\n\n\t\t\t\t\t\t// Vorhandenes Chart zerstören, falls vorhanden\n\t\t\t\t\t\tif (chartInstances[canvas.id]) {\n\t\t\t\t\t\t\tchartInstances[canvas.id].destroy();\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\t// Parse Konfiguration\n\t\t\t\t\t\tconst chartConfig = JSON.parse(dataElement.textContent);\n\t\t\t\t\t\tconsole.log(chartConfig)\n\t\t\t\t\t\t// Chart erstellen mit berechneten Theme-Farben\n\t\t\t\t\t\tconst chart = new Chart(canvas, {\n\t\t\t\t\t\t\t...chartConfig,\n\t\t\t\t\t\t\toptions: {\n\t\t\t\t\t\t\t\tplugins: {\n\t\t\t\t\t\t\t\t\tlegend: {\n\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showLegend || false,\n\t\t\t\t\t\t\t\t\t\tlabels: {\n\t\t\t\t\t\t\t\t\t\t\tcolor: colors.foreground\n\t\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\ttooltip: {\n\t\t\t\t\t\t\t\t\t\t// shadow and border possible?\n\t\t\t\t\t\t\t\t\t\tbackgroundColor: colors.background,\n\t\t\t\t\t\t\t\t\t\tbodyColor: colors.mutedForeground,\n\t\t\t\t\t\t\t\t\t\ttitleColor: colors.foreground,\n\t\t\t\t\t\t\t\t\t\tborderColor: colors.border,\n\t\t\t\t\t\t\t\t\t\tborderWidth: 1\n\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\tscales: {\n\t\t\t\t\t\t\t\t\tx: {\n\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showXAxis || true,\n\t\t\t\t\t\t\t\t\t\tticks: {\n\t\t\t\t\t\t\t\t\t\t\tcolor: colors.mutedForeground\n\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\ty: {\n\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showYAxis || false,\n\t\t\t\t\t\t\t\t\t\tticks: {\n\t\t\t\t\t\t\t\t\t\t\tcolor: colors.mutedForeground\n\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t});\n\t\t\t\n\t\t\t\t\t\t// Chart-Instanz speichern\n\t\t\t\t\t\tchartInstances[canvas.id] = chart;\n\t\t\t\t\t});\n\t\t\t\t}\n\n\t\t\t\t// Initial Charts erstellen\n\t\t\t\tinitCharts();\n\n\t\t\t\t// MutationObserver für Theme-Änderungen\n\t\t\t\tconst observer = new MutationObserver(() => {\n\t\t\t\t\t// Kurze Verzögerung, um sicherzustellen, dass CSS-Variablen aktualisiert sind\n\t\t\t\t\tsetTimeout(initCharts, 50);\n\t\t\t\t});\n\n\t\t\t\tobserver.observe(document.documentElement, { attributes: true });\n\n\t\t\t\t// Auch auf Alpine-Initialisierung warten\n\t\t\t\tdocument.addEventListener('alpine:initialized', () => {\n\t\t\t\t\t// Globales Theme-Changed-Event registrieren\n\t\t\t\t\tdocument.addEventListener('theme-changed', initCharts);\n\t\t\t\t});\n\t\t\t});\n\t\t</script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -167,7 +169,7 @@ func Chart(props ChartProps) templ.Component {
 			templ_7745c5c3_Var5 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<!-- Include scripts (only included once) --><!-- Generate unique IDs for this chart -->")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "<!-- Generate unique IDs for this chart -->")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -177,13 +179,11 @@ func Chart(props ChartProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		height := props.Height
-		width := props.Width
-		if height == "" {
-			height = "40vh"
+		if props.Height == "" {
+			props.Height = "40vh"
 		}
-		if width == "" {
-			width = "100%"
+		if props.Width == "" {
+			props.Width = "100%"
 		}
 		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<!-- Chart container -->")
 		if templ_7745c5c3_Err != nil {
@@ -212,9 +212,9 @@ func Chart(props ChartProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var8 string
-		templ_7745c5c3_Var8, templ_7745c5c3_Err = templruntime.SanitizeStyleAttributeValues("position: relative; height:" + height + "; width:" + width)
+		templ_7745c5c3_Var8, templ_7745c5c3_Err = templruntime.SanitizeStyleAttributeValues("position: relative; height:" + props.Height + "; width:" + props.Width)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 172, Col: 69}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 190, Col: 81}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
@@ -227,7 +227,7 @@ func Chart(props ChartProps) templ.Component {
 		var templ_7745c5c3_Var9 string
 		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(chartId)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 174, Col: 22}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 192, Col: 22}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {
@@ -240,7 +240,7 @@ func Chart(props ChartProps) templ.Component {
 		var templ_7745c5c3_Var10 string
 		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(dataId)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 174, Col: 47}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 192, Col: 47}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 		if templ_7745c5c3_Err != nil {
@@ -250,6 +250,7 @@ func Chart(props ChartProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
+		props.Config.ShowLegend = props.ShowLegend
 		templ_7745c5c3_Err = templ.JSONScript(dataId, props.Config).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
