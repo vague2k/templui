@@ -51,14 +51,18 @@ type ChartConfig struct {
 	Data       ChartData    `json:"data"`
 	Options    ChartOptions `json:"options,omitempty"`
 	ShowLegend bool         `json:"showLegend,omitempty"`
-	ShowXAxis  bool         `json:"showXAxis,omitempty"`
-	ShowYAxis  bool         `json:"showYAxis,omitempty"`
+	ShowXAxis  bool         `json:"showXAxis"`
+	ShowYAxis  bool         `json:"showYAxis"`
 }
 
 // ChartProps for the Chart component
 type ChartProps struct {
-	Config     ChartConfig
+	Type       string
+	Data       ChartData
+	Options    ChartOptions
 	ShowLegend bool
+	ShowXAxis  bool
+	ShowYAxis  bool
 	Class      string // Additional CSS classes
 	Height     string // Chart container height
 	Width      string // Chart container width
@@ -69,7 +73,7 @@ templ ChartScripts() {
 	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
 		<!-- Load Chart.js library -->
-		<script nonce={ templ.GetNonce(ctx) } src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+		<script defer nonce={ templ.GetNonce(ctx) } src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 		<!-- Initialize charts -->
 		<script nonce={ templ.GetNonce(ctx) }>
 			document.addEventListener('DOMContentLoaded', function() {
@@ -108,7 +112,7 @@ templ ChartScripts() {
 
 						// Parse Konfiguration
 						const chartConfig = JSON.parse(dataElement.textContent);
-						console.log(chartConfig)
+
 						// Chart erstellen mit berechneten Theme-Farben
 						const chart = new Chart(canvas, {
 							...chartConfig,
@@ -131,13 +135,13 @@ templ ChartScripts() {
 								},
 								scales: {
 									x: {
-										display: chartConfig.showXAxis || true,
+										display: chartConfig.showXAxis,
 										ticks: {
 											color: colors.mutedForeground
 										},
 									},
 									y: {
-										display: chartConfig.showYAxis || false,
+										display: chartConfig.showYAxis,
 										ticks: {
 											color: colors.mutedForeground
 										},
@@ -179,10 +183,10 @@ templ Chart(props ChartProps) {
 	{{ dataId := chartId + "-data" }}
 	<!-- Calculate container dimensions -->
 	if props.Height == "" {
-		{{ 	props.Height = "40vh" }}
+		{{ 	props.Height = "41vh" }}
 	}
 	if props.Width == "" {
-		{{ 	props.Width = "100%" }}
+		{{ 	props.Width = "101%" }}
 	}
 	<!-- Chart container -->
 	<div
@@ -191,64 +195,73 @@ templ Chart(props ChartProps) {
 	>
 		<canvas id={ chartId } data-chart-id={ dataId }></canvas>
 	</div>
-	<!-- Store the chart configuration in a JSON script tag -->
-	{{ props.Config.ShowLegend = props.ShowLegend }}
-	@templ.JSONScript(dataId, props.Config)
+	{{
+	// Create chart config with defaults
+	chartConfig := ChartConfig{
+		Type:       props.Type,
+		Data:       props.Data,
+		Options:    props.Options,
+		ShowLegend: props.ShowLegend,
+		ShowXAxis:  props.ShowXAxis,
+		ShowYAxis:  props.ShowYAxis,
+	}
+	}}
+	@templ.JSONScript(dataId, chartConfig)
 }
 
-// Helper functions to create common charts
-templ LineChart(labels []string, values []float64, title string) {
-	@Chart(ChartProps{
-		Config: ChartConfig{
-			Type: "line",
-			Data: ChartData{
-				Labels: labels,
-				Datasets: []ChartDataset{
-					{
-						Label:       title,
-						Data:        values,
-						BorderColor: "rgb(75, 192, 192)",
-						BorderWidth: 1,
-						Tension:     0.1,
-					},
-				},
-			},
-			Options: ChartOptions{
-				Responsive: true,
-				Scales: ChartScales{
-					Y: ChartYAxis{
-						BeginAtZero: true,
-					},
-				},
-			},
-		},
-	})
-}
-
-templ BarChart(labels []string, values []float64, title string) {
-	@Chart(ChartProps{
-		Config: ChartConfig{
-			Type: "bar",
-			Data: ChartData{
-				Labels: labels,
-				Datasets: []ChartDataset{
-					{
-						Label:           title,
-						Data:            values,
-						BorderWidth:     1,
-						BackgroundColor: "rgba(75, 192, 192, 0.2)",
-						BorderColor:     "rgb(75, 192, 192)",
-					},
-				},
-			},
-			Options: ChartOptions{
-				Responsive: true,
-				Scales: ChartScales{
-					Y: ChartYAxis{
-						BeginAtZero: true,
-					},
-				},
-			},
-		},
-	})
-}
+// // Helper functions to create common charts
+// templ LineChart(labels []string, values []float64, title string) {
+// 	@Chart(ChartProps{
+// 		Config: ChartConfig{
+// 			Type: "line",
+// 			Data: ChartData{
+// 				Labels: labels,
+// 				Datasets: []ChartDataset{
+// 					{
+// 						Label:       title,
+// 						Data:        values,
+// 						BorderColor: "rgb(75, 192, 192)",
+// 						BorderWidth: 1,
+// 						Tension:     0.1,
+// 					},
+// 				},
+// 			},
+// 			Options: ChartOptions{
+// 				Responsive: true,
+// 				Scales: ChartScales{
+// 					Y: ChartYAxis{
+// 						BeginAtZero: true,
+// 					},
+// 				},
+// 			},
+// 		},
+// 	})
+// }
+//
+// templ BarChart(labels []string, values []float64, title string) {
+// 	@Chart(ChartProps{
+// 		Config: ChartConfig{
+// 			Type: "bar",
+// 			Data: ChartData{
+// 				Labels: labels,
+// 				Datasets: []ChartDataset{
+// 					{
+// 						Label:           title,
+// 						Data:            values,
+// 						BorderWidth:     1,
+// 						BackgroundColor: "rgba(75, 192, 192, 0.2)",
+// 						BorderColor:     "rgb(75, 192, 192)",
+// 					},
+// 				},
+// 			},
+// 			Options: ChartOptions{
+// 				Responsive: true,
+// 				Scales: ChartScales{
+// 					Y: ChartYAxis{
+// 						BeginAtZero: true,
+// 					},
+// 				},
+// 			},
+// 		},
+// 	})
+// }

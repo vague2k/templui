@@ -546,6 +546,9 @@
   .collapse {
     visibility: collapse;
   }
+  .invisible {
+    visibility: hidden;
+  }
   .visible {
     visibility: visible;
   }
@@ -686,9 +689,6 @@
       max-width: 96rem;
     }
   }
-  .m-0 {
-    margin: calc(var(--spacing) * 0);
-  }
   .m-1 {
     margin: calc(var(--spacing) * 1);
   }
@@ -697,9 +697,6 @@
   }
   .mx-auto {
     margin-inline: auto;
-  }
-  .-me-5 {
-    margin-inline-end: calc(var(--spacing) * -5);
   }
   .mt-1 {
     margin-top: calc(var(--spacing) * 1);
@@ -882,6 +879,9 @@
   }
   .min-h-screen {
     min-height: 100vh;
+  }
+  .\!w-2 {
+    width: calc(var(--spacing) * 2) !important;
   }
   .w-1 {
     width: calc(var(--spacing) * 1);
