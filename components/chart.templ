@@ -1,0 +1,235 @@
+package components
+
+import (
+	"github.com/axzilla/templui/utils"
+)
+
+// ChartDataset represents a dataset for Chart.js
+type ChartDataset struct {
+	Label           string    `json:"label"`
+	Data            []float64 `json:"data"`
+	BorderWidth     int       `json:"borderWidth,omitempty"`
+	BorderColor     string    `json:"borderColor,omitempty"`
+	BackgroundColor string    `json:"backgroundColor,omitempty"`
+	Tension         float64   `json:"tension,omitempty"`
+	Fill            bool      `json:"fill,omitempty"`
+}
+
+// ChartScales represents the scales configuration
+type ChartScales struct {
+	Y ChartYAxis `json:"y,omitempty"`
+	X ChartXAxis `json:"x,omitempty"`
+}
+
+// ChartYAxis represents the Y axis configuration
+type ChartYAxis struct {
+	BeginAtZero bool    `json:"beginAtZero,omitempty"`
+	Min         float64 `json:"min,omitempty"`
+	Max         float64 `json:"max,omitempty"`
+	Title       string  `json:"title,omitempty"`
+}
+
+// ChartXAxis represents the X axis configuration
+type ChartXAxis struct {
+	Title string `json:"title,omitempty"`
+}
+
+// ChartOptions represents Chart.js options
+type ChartOptions struct {
+	Responsive bool        `json:"responsive,omitempty"`
+	Scales     ChartScales `json:"scales,omitempty"`
+	Legend     bool        `json:"legend,omitempty"`
+}
+
+// ChartData represents all data needed for Chart.js
+type ChartData struct {
+	Labels   []string       `json:"labels"`
+	Datasets []ChartDataset `json:"datasets"`
+}
+
+// ChartConfig represents the complete Chart.js configuration
+type ChartConfig struct {
+	Type    string       `json:"type"`
+	Data    ChartData    `json:"data"`
+	Options ChartOptions `json:"options,omitempty"`
+}
+
+// ChartProps for the Chart component
+type ChartProps struct {
+	Config ChartConfig
+	Class  string // Additional CSS classes
+	Height string // Chart container height
+	Width  string // Chart container width
+}
+
+// ChartScripts ensures Chart.js and initialization code is only loaded once per page
+templ ChartScripts() {
+	{{ handle := templ.NewOnceHandle() }}
+	@handle.Once() {
+		<!-- Load Chart.js library -->
+		<script nonce={ templ.GetNonce(ctx) } src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+		<!-- Initialize charts -->
+		<script nonce={ templ.GetNonce(ctx) }>
+document.addEventListener('DOMContentLoaded', function() {
+  // Chart-Instanzen speichern
+  const chartInstances = {};
+  
+  // Funktion zum Initialisieren/Aktualisieren der Charts
+  function initCharts() {
+    document.querySelectorAll('.chart-container').forEach(container => {
+      const canvas = container.querySelector('canvas');
+      if (!canvas) return;
+      
+      const dataId = canvas.getAttribute('data-chart-id');
+      const dataElement = document.getElementById(dataId);
+      if (!dataElement) return;
+      
+      // Vorhandenes Chart zerstören, falls vorhanden
+      if (chartInstances[canvas.id]) {
+        chartInstances[canvas.id].destroy();
+      }
+      
+      // Parse Konfiguration
+      const chartConfig = JSON.parse(dataElement.textContent);
+      
+      // Chart erstellen mit aktuellen Theme-Farben
+      const chart = new Chart(canvas, {
+        ...chartConfig,
+        options: {
+          plugins: {
+            legend: {
+              display: false
+            }
+          },
+          scales: {
+            x: {
+              display: true,
+              ticks: {
+                color: 'var(--muted-foreground)'
+              },
+              grid: {
+                color: 'var(--border)'
+              }
+            },
+            y: {
+              display: false
+            }
+          }
+        }
+      });
+      
+      // Chart-Instanz speichern
+      chartInstances[canvas.id] = chart;
+    });
+  }
+  
+  // Initial Charts erstellen
+  initCharts();
+  
+  // Alpine.js Events abfangen für Theme-Änderungen
+  document.addEventListener('theme-changed', function() {
+    // Charts neu initialisieren bei Theme-Änderung
+    initCharts();
+  });
+  
+  // MutationObserver als Fallback
+  const observer = new MutationObserver(mutations => {
+    mutations.forEach(mutation => {
+      if (mutation.attributeName === 'class' && 
+         (document.documentElement.classList.contains('dark') || 
+          !document.documentElement.classList.contains('dark'))) {
+        initCharts();
+      }
+    });
+  });
+  
+  observer.observe(document.documentElement, { attributes: true });
+});
+</script>
+	}
+}
+
+// Chart renders a chart using Chart.js
+templ Chart(props ChartProps) {
+	<!-- Include scripts (only included once) -->
+	<!-- Generate unique IDs for this chart -->
+	{{ chartId := "chart-" + utils.RandomID() }}
+	{{ dataId := chartId + "-data" }}
+	<!-- Calculate container dimensions -->
+	{{ height := props.Height }}
+	{{ width := props.Width }}
+	{{if height == "" {
+	height = "40vh"
+}
+	}}
+	{{if width == "" {
+	width = "100%"
+}
+	}}
+	<!-- Chart container -->
+	<div
+		class={ utils.TwMerge("chart-container", props.Class) }
+		style={ "position: relative; height:" + height + "; width:" + width }
+	>
+		<canvas id={ chartId } data-chart-id={ dataId }></canvas>
+	</div>
+	<!-- Store the chart configuration in a JSON script tag -->
+	@templ.JSONScript(dataId, props.Config)
+}
+
+// Helper functions to create common charts
+templ LineChart(labels []string, values []float64, title string) {
+	@Chart(ChartProps{
+		Config: ChartConfig{
+			Type: "line",
+			Data: ChartData{
+				Labels: labels,
+				Datasets: []ChartDataset{
+					{
+						Label:       title,
+						Data:        values,
+						BorderColor: "rgb(75, 192, 192)",
+						BorderWidth: 1,
+						Tension:     0.1,
+					},
+				},
+			},
+			Options: ChartOptions{
+				Responsive: true,
+				Scales: ChartScales{
+					Y: ChartYAxis{
+						BeginAtZero: true,
+					},
+				},
+			},
+		},
+	})
+}
+
+templ BarChart(labels []string, values []float64, title string) {
+	@Chart(ChartProps{
+		Config: ChartConfig{
+			Type: "bar",
+			Data: ChartData{
+				Labels: labels,
+				Datasets: []ChartDataset{
+					{
+						Label:           title,
+						Data:            values,
+						BorderWidth:     1,
+						BackgroundColor: "rgba(75, 192, 192, 0.2)",
+						BorderColor:     "rgb(75, 192, 192)",
+					},
+				},
+			},
+			Options: ChartOptions{
+				Responsive: true,
+				Scales: ChartScales{
+					Y: ChartYAxis{
+						BeginAtZero: true,
+					},
+				},
+			},
+		},
+	})
+}

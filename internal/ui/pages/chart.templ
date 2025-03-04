@@ -1,11 +1,52 @@
 package pages
 
-import "github.com/axzilla/templui/internal/ui/layouts"
+import (
+	"github.com/axzilla/templui/components"
+	"github.com/axzilla/templui/internal/ui/layouts"
+)
 
+// Chart is an example usage of ChartComponent
 templ Chart() {
 	@layouts.DocsLayout() {
-		<div class="container mx-auto p-4">
-			<h1 class="text-2xl font-bold mb-4">Charts</h1>
+		<div class="container mx-auto py-8">
+			<h1 class="text-2xl font-bold mb-4">Chart Example</h1>
+			@components.Card(components.CardProps{}) {
+				@components.Chart(components.ChartProps{
+					Config: components.ChartConfig{
+						Type: "bar",
+						Data: components.ChartData{
+							Labels: []string{"Red", "Blue", "Yellow", "Green", "Purple", "Orange"},
+							Datasets: []components.ChartDataset{
+								{
+									Label: "Dataset 1",
+									Data:  []float64{12, 19, 3, 5, 2, 3},
+								},
+								{
+									Label: "Dataset 2",
+									Data:  []float64{7, 11, 5, 8, 3, 7},
+								},
+								{
+									Label: "Dataset 2",
+									Data:  []float64{1, 111, 15, 81, 13, 17},
+								},
+							},
+						},
+						Options: components.ChartOptions{
+							Responsive: true,
+							Legend:     false,
+							Scales: components.ChartScales{
+								Y: components.ChartYAxis{
+									BeginAtZero: true,
+									Title:       "Value",
+								},
+								X: components.ChartXAxis{
+									Title: "Category",
+								},
+							},
+						},
+					},
+				})
+			}
 		</div>
 	}
 }
