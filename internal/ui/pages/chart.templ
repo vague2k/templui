@@ -50,6 +50,30 @@ templ Chart() {
 					PreviewCodeFile:   "chart_bar_stacked.templ",
 					ComponentCodeFile: "chart.templ",
 				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Line Chart",
+					ShowcaseFile:      showcase.ChartLine(),
+					PreviewCodeFile:   "chart_line.templ",
+					ComponentCodeFile: "chart.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Line Chart - Linear",
+					ShowcaseFile:      showcase.ChartLineLinear(),
+					PreviewCodeFile:   "chart_line_linear.templ",
+					ComponentCodeFile: "chart.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Line Chart - Step",
+					ShowcaseFile:      showcase.ChartLineStep(),
+					PreviewCodeFile:   "chart_line_step.templ",
+					ComponentCodeFile: "chart.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Line Chart - Multiple",
+					ShowcaseFile:      showcase.ChartLineMultiple(),
+					PreviewCodeFile:   "chart_line_multiple.templ",
+					ComponentCodeFile: "chart.templ",
+				})
 			}
 		}
 	}
