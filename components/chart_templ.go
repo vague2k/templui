@@ -10,6 +10,14 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import "github.com/axzilla/templui/utils"
 
+type ChartType string
+
+const (
+	ChartTypeBar  ChartType = "bar"
+	ChartTypeLine ChartType = "line"
+	ChartTypePie  ChartType = "pie"
+)
+
 // ChartDataset represents a dataset for Chart.js
 type ChartDataset struct {
 	Label           string    `json:"label"`
@@ -55,25 +63,31 @@ type ChartData struct {
 
 // ChartConfig represents the complete Chart.js configuration
 type ChartConfig struct {
-	Type       string       `json:"type"`
-	Data       ChartData    `json:"data"`
-	Options    ChartOptions `json:"options,omitempty"`
-	ShowLegend bool         `json:"showLegend,omitempty"`
-	ShowXAxis  bool         `json:"showXAxis"`
-	ShowYAxis  bool         `json:"showYAxis"`
+	Type        ChartType    `json:"type"`
+	Data        ChartData    `json:"data"`
+	Options     ChartOptions `json:"options,omitempty"`
+	ShowLegend  bool         `json:"showLegend,omitempty"`
+	ShowXAxis   bool         `json:"showXAxis"`
+	ShowYAxis   bool         `json:"showYAxis"`
+	ShowXLabels bool         `json:"showXLabels"`
+	ShowYLabels bool         `json:"showYLabels"`
+	ShowXGrid   bool         `json:"showXGrid"`
+	ShowYGrid   bool         `json:"showYGrid"`
 }
 
 // ChartProps for the Chart component
 type ChartProps struct {
-	Type       string
-	Data       ChartData
-	Options    ChartOptions
-	ShowLegend bool
-	ShowXAxis  bool
-	ShowYAxis  bool
-	Class      string // Additional CSS classes
-	Height     string // Chart container height
-	Width      string // Chart container width
+	Type        ChartType
+	Data        ChartData
+	Options     ChartOptions
+	ShowLegend  bool
+	ShowXAxis   bool
+	ShowYAxis   bool
+	ShowXLabels bool
+	ShowYLabels bool
+	ShowXGrid   bool
+	ShowYGrid   bool
+	Class       string // Additional CSS classes
 }
 
 // ChartScripts ensures Chart.js and initialization code is only loaded once per page
@@ -118,7 +132,7 @@ func ChartScripts() templ.Component {
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 76, Col: 43}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 90, Col: 43}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -131,13 +145,13 @@ func ChartScripts() templ.Component {
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 78, Col: 37}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 92, Col: 37}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\">\n\t\t\tdocument.addEventListener('DOMContentLoaded', function() {\n\t\t\t\t\n\t\t\t\t// Chart-Instanzen speichern\n\t\t\t\tconst chartInstances = {};\n\n\t\t\t\t// Funktion zum Abrufen der aktuellen CSS-Variablen-Werte\n\t\t\t\tfunction getThemeColors() {\n\t\t\t\t\tconst computedStyle = getComputedStyle(document.documentElement);\n\t\t\t\t\treturn {\n\t\t\t\t\t\tforeground: computedStyle.getPropertyValue('--foreground').trim(),\n\t\t\t\t\t\tbackground: computedStyle.getPropertyValue('--background').trim(),\n\t\t\t\t\t\tmutedForeground: computedStyle.getPropertyValue('--muted-foreground').trim(),\n\t\t\t\t\t\tborder: computedStyle.getPropertyValue('--border').trim()\n\t\t\t\t\t};\n\t\t\t\t}\n\n\t\t\t\t// Funktion zum Initialisieren/Aktualisieren der Charts\n\t\t\t\tfunction initCharts() {\n\t\t\t\t\t// Aktuelle Farbwerte abrufen\n\t\t\t\t\tconst colors = getThemeColors();\n\n\t\t\t\t\tdocument.querySelectorAll('.chart-container').forEach(container => {\n\t\t\t\t\t\tconst canvas = container.querySelector('canvas');\n\t\t\t\t\t\tif (!canvas) return;\n\n\t\t\t\t\t\tconst dataId = canvas.getAttribute('data-chart-id');\n\t\t\t\t\t\tconst dataElement = document.getElementById(dataId);\n\t\t\t\t\t\tif (!dataElement) return;\n\n\t\t\t\t\t\t// Vorhandenes Chart zerstören, falls vorhanden\n\t\t\t\t\t\tif (chartInstances[canvas.id]) {\n\t\t\t\t\t\t\tchartInstances[canvas.id].destroy();\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\t// Parse Konfiguration\n\t\t\t\t\t\tconst chartConfig = JSON.parse(dataElement.textContent);\n\n\t\t\t\t\t\t// Chart erstellen mit berechneten Theme-Farben\n\t\t\t\t\t\tconst chart = new Chart(canvas, {\n\t\t\t\t\t\t\t...chartConfig,\n\t\t\t\t\t\t\toptions: {\n\t\t\t\t\t\t\t\tplugins: {\n\t\t\t\t\t\t\t\t\tlegend: {\n\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showLegend || false,\n\t\t\t\t\t\t\t\t\t\tlabels: {\n\t\t\t\t\t\t\t\t\t\t\tcolor: colors.foreground\n\t\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\ttooltip: {\n\t\t\t\t\t\t\t\t\t\t// shadow and border possible?\n\t\t\t\t\t\t\t\t\t\tbackgroundColor: colors.background,\n\t\t\t\t\t\t\t\t\t\tbodyColor: colors.mutedForeground,\n\t\t\t\t\t\t\t\t\t\ttitleColor: colors.foreground,\n\t\t\t\t\t\t\t\t\t\tborderColor: colors.border,\n\t\t\t\t\t\t\t\t\t\tborderWidth: 1\n\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\tscales: {\n\t\t\t\t\t\t\t\t\tx: {\n\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showXAxis,\n\t\t\t\t\t\t\t\t\t\tticks: {\n\t\t\t\t\t\t\t\t\t\t\tcolor: colors.mutedForeground\n\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\ty: {\n\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showYAxis,\n\t\t\t\t\t\t\t\t\t\tticks: {\n\t\t\t\t\t\t\t\t\t\t\tcolor: colors.mutedForeground\n\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t});\n\t\t\t\n\t\t\t\t\t\t// Chart-Instanz speichern\n\t\t\t\t\t\tchartInstances[canvas.id] = chart;\n\t\t\t\t\t});\n\t\t\t\t}\n\n\t\t\t\t// Initial Charts erstellen\n\t\t\t\tinitCharts();\n\n\t\t\t\t// MutationObserver für Theme-Änderungen\n\t\t\t\tconst observer = new MutationObserver(() => {\n\t\t\t\t\t// Kurze Verzögerung, um sicherzustellen, dass CSS-Variablen aktualisiert sind\n\t\t\t\t\tsetTimeout(initCharts, 50);\n\t\t\t\t});\n\n\t\t\t\tobserver.observe(document.documentElement, { attributes: true });\n\n\t\t\t\t// Auch auf Alpine-Initialisierung warten\n\t\t\t\tdocument.addEventListener('alpine:initialized', () => {\n\t\t\t\t\t// Globales Theme-Changed-Event registrieren\n\t\t\t\t\tdocument.addEventListener('theme-changed', initCharts);\n\t\t\t\t});\n\t\t\t});\n\t\t</script>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\">\n\t\t\tdocument.addEventListener('DOMContentLoaded', function() {\n\t\t\t\t\n\t\t\t\t// Chart-Instanzen speichern\n\t\t\t\tconst chartInstances = {};\n\n\t\t\t\t// Funktion zum Abrufen der aktuellen CSS-Variablen-Werte\n\t\t\t\tfunction getThemeColors() {\n\t\t\t\t\tconst computedStyle = getComputedStyle(document.documentElement);\n\t\t\t\t\treturn {\n\t\t\t\t\t\tforeground: computedStyle.getPropertyValue('--foreground').trim(),\n\t\t\t\t\t\tbackground: computedStyle.getPropertyValue('--background').trim(),\n\t\t\t\t\t\tmutedForeground: computedStyle.getPropertyValue('--muted-foreground').trim(),\n\t\t\t\t\t\tborder: computedStyle.getPropertyValue('--border').trim()\n\t\t\t\t\t};\n\t\t\t\t}\n\n\t\t\t\t// Funktion zum Initialisieren/Aktualisieren der Charts\n\t\t\t\tfunction initCharts() {\n\t\t\t\t\t// Aktuelle Farbwerte abrufen\n\t\t\t\t\tconst colors = getThemeColors();\n\n\t\t\t\t\tdocument.querySelectorAll('.chart-container').forEach(container => {\n\t\t\t\t\t\tconst canvas = container.querySelector('canvas');\n\t\t\t\t\t\tif (!canvas) return;\n\n\t\t\t\t\t\tconst dataId = canvas.getAttribute('data-chart-id');\n\t\t\t\t\t\tconst dataElement = document.getElementById(dataId);\n\t\t\t\t\t\tif (!dataElement) return;\n\n\t\t\t\t\t\t// Vorhandenes Chart zerstören, falls vorhanden\n\t\t\t\t\t\tif (chartInstances[canvas.id]) {\n\t\t\t\t\t\t\tchartInstances[canvas.id].destroy();\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\t// Parse Konfiguration\n\t\t\t\t\t\tconst chartConfig = JSON.parse(dataElement.textContent);\n\n\t\t\t\t\t\t// Chart erstellen mit berechneten Theme-Farben\n\t\t\t\t\t\tconst chart = new Chart(canvas, {\n\t\t\t\t\t\t\t...chartConfig,\n\t\t\t\t\t\t\toptions: {\n\t\t\t\t\t\t\t\tplugins: {\n\t\t\t\t\t\t\t\t\tlegend: {\n\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showLegend || false,\n\t\t\t\t\t\t\t\t\t\tlabels: {\n\t\t\t\t\t\t\t\t\t\t\tcolor: colors.foreground\n\t\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\ttooltip: {\n\t\t\t\t\t\t\t\t\t\tbackgroundColor: colors.background,\n\t\t\t\t\t\t\t\t\t\tbodyColor: colors.mutedForeground,\n\t\t\t\t\t\t\t\t\t\ttitleColor: colors.foreground,\n\t\t\t\t\t\t\t\t\t\tborderColor: colors.border,\n\t\t\t\t\t\t\t\t\t\tborderWidth: 1\n\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\tscales: {\n\t\t\t\t\t\t\t\t\tx: {\n\t\t\t\t\t\t\t\t\t\t// Display options separately for axis, ticks, and grid\n\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showXLabels || chartConfig.showXGrid || chartConfig.showXAxis,\n\t\t\t\t\t\t\t\t\t\tborder: {\n\t\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showXAxis || false\n\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\tticks: { \t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showXLabels || false,   \n\t\t\t\t\t\t\t\t\t\t\tcolor: colors.mutedForeground\n\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\tgrid: {\n\t\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showXGrid || false,\n\t\t\t\t\t\t\t\t\t\t\tcolor: colors.border\n\t\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\ty: {\n\t\t\t\t\t\t\t\t\t\t// Display options separately for axis, ticks, and grid\n\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showYLabels || chartConfig.showYGrid || chartConfig.showYAxis,\n\t\t\t\t\t\t\t\t\t\tborder: {\n\t\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showYAxis || false\n\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\tticks: { \t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showYLabels || false,   \n\t\t\t\t\t\t\t\t\t\t\tcolor: colors.mutedForeground\n\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\tgrid: {\n\t\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showYGrid || false,\n\t\t\t\t\t\t\t\t\t\t\tcolor: colors.border\n\t\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t});\n\t\t\t\n\t\t\t\t\t\t// Chart-Instanz speichern\n\t\t\t\t\t\tchartInstances[canvas.id] = chart;\n\t\t\t\t\t});\n\t\t\t\t}\n\n\t\t\t\t// Initial Charts erstellen\n\t\t\t\tinitCharts();\n\n\t\t\t\twindow.addEventListener('resize', function() {\n\t\t\t\t\tfor (let id in chartInstances) {\n\t\t\t\t\t\tchartInstances[id].resize();\n\t\t\t\t\t}\n\t\t\t\t});\n\n\t\t\t\t// MutationObserver für Theme-Änderungen\n\t\t\t\tconst observer = new MutationObserver(() => {\n\t\t\t\t\t// Kurze Verzögerung, um sicherzustellen, dass CSS-Variablen aktualisiert sind\n\t\t\t\t\tsetTimeout(initCharts, 50);\n\t\t\t\t});\n\n\t\t\t\tobserver.observe(document.documentElement, { attributes: true });\n\n\t\t\t\t// Auch auf Alpine-Initialisierung warten\n\t\t\t\tdocument.addEventListener('alpine:initialized', () => {\n\t\t\t\t\t// Globales Theme-Changed-Event registrieren\n\t\t\t\t\tdocument.addEventListener('theme-changed', initCharts);\n\t\t\t\t});\n\t\t\t});\n\t\t</script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -179,26 +193,16 @@ func Chart(props ChartProps) templ.Component {
 		}
 		chartId := "chart-" + utils.RandomID()
 		dataId := chartId + "-data"
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<!-- Calculate container dimensions -->")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<!-- Chart container -->")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		if props.Height == "" {
-			props.Height = "41vh"
-		}
-		if props.Width == "" {
-			props.Width = "101%"
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<!-- Chart container -->")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var6 = []any{utils.TwMerge("chart-container", props.Class)}
+		var templ_7745c5c3_Var6 = []any{utils.TwMerge("chart-container relative", props.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var6...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<div class=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<div class=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -211,58 +215,49 @@ func Chart(props ChartProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "\" style=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "\"><canvas id=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var8 string
-		templ_7745c5c3_Var8, templ_7745c5c3_Err = templruntime.SanitizeStyleAttributeValues("position: relative; height:" + props.Height + "; width:" + props.Width)
+		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(chartId)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 194, Col: 81}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 223, Col: 22}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "\"><canvas id=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "\" data-chart-id=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var9 string
-		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(chartId)
+		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(dataId)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 196, Col: 22}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 223, Col: 47}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "\" data-chart-id=\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var10 string
-		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(dataId)
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 196, Col: 47}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "\"></canvas></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "\"></canvas></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 
 		// Create chart config with defaults
 		chartConfig := ChartConfig{
-			Type:       props.Type,
-			Data:       props.Data,
-			Options:    props.Options,
-			ShowLegend: props.ShowLegend,
-			ShowXAxis:  props.ShowXAxis,
-			ShowYAxis:  props.ShowYAxis,
+			Type:        props.Type,
+			Data:        props.Data,
+			Options:     props.Options,
+			ShowLegend:  props.ShowLegend,
+			ShowXAxis:   props.ShowXAxis,
+			ShowYAxis:   props.ShowYAxis,
+			ShowXLabels: props.ShowXLabels,
+			ShowYLabels: props.ShowYLabels,
+			ShowXGrid:   props.ShowXGrid,
+			ShowYGrid:   props.ShowYGrid,
 		}
 		templ_7745c5c3_Err = templ.JSONScript(dataId, chartConfig).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
@@ -272,61 +267,4 @@ func Chart(props ChartProps) templ.Component {
 	})
 }
 
-// // Helper functions to create common charts
-//
-//	templ LineChart(labels []string, values []float64, title string) {
-//		@Chart(ChartProps{
-//			Config: ChartConfig{
-//				Type: "line",
-//				Data: ChartData{
-//					Labels: labels,
-//					Datasets: []ChartDataset{
-//						{
-//							Label:       title,
-//							Data:        values,
-//							BorderColor: "rgb(75, 192, 192)",
-//							BorderWidth: 1,
-//							Tension:     0.1,
-//						},
-//					},
-//				},
-//				Options: ChartOptions{
-//					Responsive: true,
-//					Scales: ChartScales{
-//						Y: ChartYAxis{
-//							BeginAtZero: true,
-//						},
-//					},
-//				},
-//			},
-//		})
-//	}
-//
-//	templ BarChart(labels []string, values []float64, title string) {
-//		@Chart(ChartProps{
-//			Config: ChartConfig{
-//				Type: "bar",
-//				Data: ChartData{
-//					Labels: labels,
-//					Datasets: []ChartDataset{
-//						{
-//							Label:           title,
-//							Data:            values,
-//							BorderWidth:     1,
-//							BackgroundColor: "rgba(75, 192, 192, 0.2)",
-//							BorderColor:     "rgb(75, 192, 192)",
-//						},
-//					},
-//				},
-//				Options: ChartOptions{
-//					Responsive: true,
-//					Scales: ChartScales{
-//						Y: ChartYAxis{
-//							BeginAtZero: true,
-//						},
-//					},
-//				},
-//			},
-//		})
-//	}
 var _ = templruntime.GeneratedTemplate

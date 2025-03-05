@@ -2,6 +2,14 @@ package components
 
 import "github.com/axzilla/templui/utils"
 
+type ChartType string
+
+const (
+	ChartTypeBar  ChartType = "bar"
+	ChartTypeLine ChartType = "line"
+	ChartTypePie  ChartType = "pie"
+)
+
 // ChartDataset represents a dataset for Chart.js
 type ChartDataset struct {
 	Label           string    `json:"label"`
@@ -47,25 +55,31 @@ type ChartData struct {
 
 // ChartConfig represents the complete Chart.js configuration
 type ChartConfig struct {
-	Type       string       `json:"type"`
-	Data       ChartData    `json:"data"`
-	Options    ChartOptions `json:"options,omitempty"`
-	ShowLegend bool         `json:"showLegend,omitempty"`
-	ShowXAxis  bool         `json:"showXAxis"`
-	ShowYAxis  bool         `json:"showYAxis"`
+	Type        ChartType    `json:"type"`
+	Data        ChartData    `json:"data"`
+	Options     ChartOptions `json:"options,omitempty"`
+	ShowLegend  bool         `json:"showLegend,omitempty"`
+	ShowXAxis   bool         `json:"showXAxis"`
+	ShowYAxis   bool         `json:"showYAxis"`
+	ShowXLabels bool         `json:"showXLabels"`
+	ShowYLabels bool         `json:"showYLabels"`
+	ShowXGrid   bool         `json:"showXGrid"`
+	ShowYGrid   bool         `json:"showYGrid"`
 }
 
 // ChartProps for the Chart component
 type ChartProps struct {
-	Type       string
-	Data       ChartData
-	Options    ChartOptions
-	ShowLegend bool
-	ShowXAxis  bool
-	ShowYAxis  bool
-	Class      string // Additional CSS classes
-	Height     string // Chart container height
-	Width      string // Chart container width
+	Type        ChartType
+	Data        ChartData
+	Options     ChartOptions
+	ShowLegend  bool
+	ShowXAxis   bool
+	ShowYAxis   bool
+	ShowXLabels bool
+	ShowYLabels bool
+	ShowXGrid   bool
+	ShowYGrid   bool
+	Class       string // Additional CSS classes
 }
 
 // ChartScripts ensures Chart.js and initialization code is only loaded once per page
@@ -125,7 +139,6 @@ templ ChartScripts() {
 										}
 									},
 									tooltip: {
-										// shadow and border possible?
 										backgroundColor: colors.background,
 										bodyColor: colors.mutedForeground,
 										titleColor: colors.foreground,
@@ -135,16 +148,34 @@ templ ChartScripts() {
 								},
 								scales: {
 									x: {
-										display: chartConfig.showXAxis,
-										ticks: {
+										// Display options separately for axis, ticks, and grid
+										display: chartConfig.showXLabels || chartConfig.showXGrid || chartConfig.showXAxis,
+										border: {
+											display: chartConfig.showXAxis || false
+										},
+										ticks: { 										
+											display: chartConfig.showXLabels || false,   
 											color: colors.mutedForeground
 										},
+										grid: {
+											display: chartConfig.showXGrid || false,
+											color: colors.border
+										}
 									},
 									y: {
-										display: chartConfig.showYAxis,
-										ticks: {
+										// Display options separately for axis, ticks, and grid
+										display: chartConfig.showYLabels || chartConfig.showYGrid || chartConfig.showYAxis,
+										border: {
+											display: chartConfig.showYAxis || false
+										},
+										ticks: { 										
+											display: chartConfig.showYLabels || false,   
 											color: colors.mutedForeground
 										},
+										grid: {
+											display: chartConfig.showYGrid || false,
+											color: colors.border
+										}
 									}
 								}
 							}
@@ -157,6 +188,12 @@ templ ChartScripts() {
 
 				// Initial Charts erstellen
 				initCharts();
+
+				window.addEventListener('resize', function() {
+					for (let id in chartInstances) {
+						chartInstances[id].resize();
+					}
+				});
 
 				// MutationObserver für Theme-Änderungen
 				const observer = new MutationObserver(() => {
@@ -181,87 +218,24 @@ templ Chart(props ChartProps) {
 	<!-- Generate unique IDs for this chart -->
 	{{ chartId := "chart-" + utils.RandomID() }}
 	{{ dataId := chartId + "-data" }}
-	<!-- Calculate container dimensions -->
-	if props.Height == "" {
-		{{ 	props.Height = "41vh" }}
-	}
-	if props.Width == "" {
-		{{ 	props.Width = "101%" }}
-	}
 	<!-- Chart container -->
-	<div
-		class={ utils.TwMerge("chart-container", props.Class) }
-		style={ "position: relative; height:" + props.Height + "; width:" + props.Width }
-	>
+	<div class={ utils.TwMerge("chart-container relative", props.Class) }>
 		<canvas id={ chartId } data-chart-id={ dataId }></canvas>
 	</div>
 	{{
 	// Create chart config with defaults
 	chartConfig := ChartConfig{
-		Type:       props.Type,
-		Data:       props.Data,
-		Options:    props.Options,
-		ShowLegend: props.ShowLegend,
-		ShowXAxis:  props.ShowXAxis,
-		ShowYAxis:  props.ShowYAxis,
+		Type:        props.Type,
+		Data:        props.Data,
+		Options:     props.Options,
+		ShowLegend:  props.ShowLegend,
+		ShowXAxis:   props.ShowXAxis,
+		ShowYAxis:   props.ShowYAxis,
+		ShowXLabels: props.ShowXLabels,
+		ShowYLabels: props.ShowYLabels,
+		ShowXGrid:   props.ShowXGrid,
+		ShowYGrid:   props.ShowYGrid,
 	}
 	}}
 	@templ.JSONScript(dataId, chartConfig)
 }
-
-// // Helper functions to create common charts
-// templ LineChart(labels []string, values []float64, title string) {
-// 	@Chart(ChartProps{
-// 		Config: ChartConfig{
-// 			Type: "line",
-// 			Data: ChartData{
-// 				Labels: labels,
-// 				Datasets: []ChartDataset{
-// 					{
-// 						Label:       title,
-// 						Data:        values,
-// 						BorderColor: "rgb(75, 192, 192)",
-// 						BorderWidth: 1,
-// 						Tension:     0.1,
-// 					},
-// 				},
-// 			},
-// 			Options: ChartOptions{
-// 				Responsive: true,
-// 				Scales: ChartScales{
-// 					Y: ChartYAxis{
-// 						BeginAtZero: true,
-// 					},
-// 				},
-// 			},
-// 		},
-// 	})
-// }
-//
-// templ BarChart(labels []string, values []float64, title string) {
-// 	@Chart(ChartProps{
-// 		Config: ChartConfig{
-// 			Type: "bar",
-// 			Data: ChartData{
-// 				Labels: labels,
-// 				Datasets: []ChartDataset{
-// 					{
-// 						Label:           title,
-// 						Data:            values,
-// 						BorderWidth:     1,
-// 						BackgroundColor: "rgba(75, 192, 192, 0.2)",
-// 						BorderColor:     "rgb(75, 192, 192)",
-// 					},
-// 				},
-// 			},
-// 			Options: ChartOptions{
-// 				Responsive: true,
-// 				Scales: ChartScales{
-// 					Y: ChartYAxis{
-// 						BeginAtZero: true,
-// 					},
-// 				},
-// 			},
-// 		},
-// 	})
-// }
