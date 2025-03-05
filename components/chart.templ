@@ -65,6 +65,8 @@ type ChartConfig struct {
 	ShowYLabels bool         `json:"showYLabels"`
 	ShowXGrid   bool         `json:"showXGrid"`
 	ShowYGrid   bool         `json:"showYGrid"`
+	Horizontal  bool         `json:"horizontal"`
+	Stacked     bool         `json:"stacked"`
 }
 
 // ChartProps for the Chart component
@@ -79,6 +81,8 @@ type ChartProps struct {
 	ShowYLabels bool
 	ShowXGrid   bool
 	ShowYGrid   bool
+	Horizontal  bool
+	Stacked     bool
 	Class       string // Additional CSS classes
 }
 
@@ -131,6 +135,7 @@ templ ChartScripts() {
 						const chart = new Chart(canvas, {
 							...chartConfig,
 							options: {
+    							indexAxis: chartConfig.horizontal ? "y" : "x",
 								plugins: {
 									legend: {
 										display: chartConfig.showLegend || false,
@@ -160,7 +165,9 @@ templ ChartScripts() {
 										grid: {
 											display: chartConfig.showXGrid || false,
 											color: colors.border
-										}
+										},
+										stacked: chartConfig.stacked
+										
 									},
 									y: {
 										// Display options separately for axis, ticks, and grid
@@ -175,7 +182,8 @@ templ ChartScripts() {
 										grid: {
 											display: chartConfig.showYGrid || false,
 											color: colors.border
-										}
+										},
+										stacked: chartConfig.stacked
 									}
 								}
 							}
@@ -235,6 +243,8 @@ templ Chart(props ChartProps) {
 		ShowYLabels: props.ShowYLabels,
 		ShowXGrid:   props.ShowXGrid,
 		ShowYGrid:   props.ShowYGrid,
+		Horizontal:  props.Horizontal,
+		Stacked:     props.Stacked,
 	}
 	}}
 	@templ.JSONScript(dataId, chartConfig)

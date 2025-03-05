@@ -25,27 +25,32 @@ templ Chart() {
 				NeedsHandler:  true,
 				PropsExample:  "...",
 			})
-			<!-- @modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) { -->
-			<!-- 	@modules.ExampleWrapper(modules.ExampleWrapperProps{ -->
-			<!-- 		SectionName:       "Autoplay", -->
-			<!-- 		ShowcaseFile:      showcase.CarouselAutoplay(), -->
-			<!-- 		PreviewCodeFile:   "carousel_autoplay.templ", -->
-			<!-- 		ComponentCodeFile: "carousel.templ", -->
-			<!-- 	}) -->
-			<!-- 	@modules.ExampleWrapper(modules.ExampleWrapperProps{ -->
-			<!-- 		SectionName:       "Minimal", -->
-			<!-- 		ShowcaseFile:      showcase.CarouselMinimal(), -->
-			<!-- 		PreviewCodeFile:   "carousel_minimal.templ", -->
-			<!-- 		ComponentCodeFile: "carousel.templ", -->
-			<!-- 	}) -->
-			<!-- 	@modules.ExampleWrapper(modules.ExampleWrapperProps{ -->
-			<!-- 		SectionName:       "With Images", -->
-			<!-- 		ShowcaseFile:      showcase.CarouselWithImages(), -->
-			<!-- 		PreviewCodeFile:   "carousel_with_images.templ", -->
-			<!-- 		ComponentCodeFile: "carousel.templ", -->
-			<!-- 	}) -->
-			<!-- } -->
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Bar Chart - Multiple",
+					ShowcaseFile:      showcase.ChartBarMultiple(),
+					PreviewCodeFile:   "chart_bar_multiple.templ",
+					ComponentCodeFile: "chart.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Bar Chart - Horizontal",
+					ShowcaseFile:      showcase.ChartBarHorizontal(),
+					PreviewCodeFile:   "chart_bar_horizontal.templ",
+					ComponentCodeFile: "chart.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Bar Chart - Negative",
+					ShowcaseFile:      showcase.ChartBarNegative(),
+					PreviewCodeFile:   "chart_bar_negative.templ",
+					ComponentCodeFile: "chart.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Bar Chart - Stacked",
+					ShowcaseFile:      showcase.ChartBarStacked(),
+					PreviewCodeFile:   "chart_bar_stacked.templ",
+					ComponentCodeFile: "chart.templ",
+				})
+			}
 		}
 	}
-	//
 }
