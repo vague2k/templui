@@ -83,6 +83,24 @@ templ Chart() {
 					PreviewCodeFile:   "chart_area.templ",
 					ComponentCodeFile: "chart.templ",
 				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Area Chart - Linear",
+					ShowcaseFile:      showcase.ChartAreaLinear(),
+					PreviewCodeFile:   "chart_area_linear.templ",
+					ComponentCodeFile: "chart.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Area Chart - Step",
+					ShowcaseFile:      showcase.ChartAreaStep(),
+					PreviewCodeFile:   "chart_area_step.templ",
+					ComponentCodeFile: "chart.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Area Chart - Stacked",
+					ShowcaseFile:      showcase.ChartAreaStacked(),
+					PreviewCodeFile:   "chart_area_stacked.templ",
+					ComponentCodeFile: "chart.templ",
+				})
 			}
 		}
 	}

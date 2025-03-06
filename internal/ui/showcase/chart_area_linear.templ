@@ -4,7 +4,7 @@ import (
 	"github.com/axzilla/templui/components"
 )
 
-templ ChartArea() {
+templ ChartAreaLinear() {
 	@components.Card(components.CardProps{Class: "max-w-sm"}) {
 		@components.CardContent() {
 			@components.Chart(components.ChartProps{
@@ -16,7 +16,6 @@ templ ChartArea() {
 					Datasets: []components.ChartDataset{
 						{
 							Data:        []float64{3, 9, 3, 12, 7, 8},
-							Tension:     0.5,
 							BorderWidth: 1,
 							Fill:        true,
 						},

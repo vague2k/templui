@@ -365,6 +365,9 @@
   .left-full {
     left: 100%;
   }
+  .z-3 {
+    z-index: 3;
+  }
   .z-10 {
     z-index: 10;
   }
@@ -1487,6 +1490,9 @@
   }
   .\[yG\:X\] {
     yG: X;
+  }
+  .\[z\:5CB��\*\] {
+    z: 5CB��*;
   }
   .group-hover\:block {
     &:is(:where(.group):hover *) {

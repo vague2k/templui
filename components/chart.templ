@@ -132,6 +132,10 @@ templ ChartScripts() {
 						// Parse Konfiguration
 						const chartConfig = JSON.parse(dataElement.textContent);
 
+						// Some general options
+						Chart.defaults.elements.point.radius = 0;
+						Chart.defaults.elements.point.hoverRadius = 5;
+
 						// Chart erstellen mit berechneten Theme-Farben
 						const chart = new Chart(canvas, {
 							...chartConfig,
@@ -176,6 +180,7 @@ templ ChartScripts() {
 										
 									},
 									y: {
+    									offset: true, // Dadurch wird automatisch ein Abstand am Ende hinzugefügt // Needed because we set point.radius = 0 and this removes offet and then a part of the datapoint/hover point is hidden
     									beginAtZero: true,
 										// Display options separately for axis, ticks, and grid
 										display: chartConfig.showYLabels || chartConfig.showYGrid || chartConfig.showYAxis,
