@@ -7,7 +7,7 @@ type ChartType string
 const (
 	ChartTypeBar  ChartType = "bar"
 	ChartTypeLine ChartType = "line"
-	ChartTypePie  ChartType = "pie"
+	// ChartTypePie  ChartType = "pie"
 )
 
 // ChartDataset represents a dataset for Chart.js
@@ -136,6 +136,10 @@ templ ChartScripts() {
 						const chart = new Chart(canvas, {
 							...chartConfig,
 							options: {
+								interaction: {
+      								intersect: false,
+									mode: "index",
+    							},
     							indexAxis: chartConfig.horizontal ? "y" : "x",
 								plugins: {
 									legend: {

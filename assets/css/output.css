@@ -1482,6 +1482,9 @@
     -webkit-user-select: none;
     user-select: none;
   }
+  .\[yG\:X\] {
+    yG: X;
+  }
   .group-hover\:block {
     &:is(:where(.group):hover *) {
       @media (hover: hover) {
