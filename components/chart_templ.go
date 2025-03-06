@@ -33,34 +33,11 @@ type ChartDataset struct {
 	Stepped         bool      `json:"stepped,omitempty"`         // Whether to draw the line as a stepped line
 }
 
-// ChartScales represents the scales configuration
-// Contains settings for both X and Y axes of the chart
-type ChartScales struct {
-	Y ChartYAxis `json:"y,omitempty"` // Y-axis configuration
-	X ChartXAxis `json:"x,omitempty"` // X-axis configuration
-}
-
-// ChartYAxis represents the Y axis configuration
-// Controls how the vertical axis is displayed and scaled
-type ChartYAxis struct {
-	BeginAtZero bool    `json:"beginAtZero,omitempty"` // Whether the axis should start at zero
-	Min         float64 `json:"min,omitempty"`         // Minimum value for the axis
-	Max         float64 `json:"max,omitempty"`         // Maximum value for the axis
-	Title       string  `json:"title,omitempty"`       // Title of the axis
-}
-
-// ChartXAxis represents the X axis configuration
-// Controls how the horizontal axis is displayed
-type ChartXAxis struct {
-	Title string `json:"title,omitempty"` // Title of the axis
-}
-
 // ChartOptions represents Chart.js options
 // Contains general chart configuration options
 type ChartOptions struct {
-	Responsive bool        `json:"responsive,omitempty"` // Whether the chart should resize with its container
-	Scales     ChartScales `json:"scales,omitempty"`     // Axis scales configuration
-	Legend     bool        `json:"legend,omitempty"`     // Whether to display the legend
+	Responsive bool `json:"responsive,omitempty"` // Whether the chart should resize with its container
+	Legend     bool `json:"legend,omitempty"`     // Whether to display the legend
 }
 
 // ChartData represents all data needed for Chart.js
@@ -148,7 +125,7 @@ func ChartScripts() templ.Component {
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 106, Col: 43}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 83, Col: 43}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -161,7 +138,7 @@ func ChartScripts() templ.Component {
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 108, Col: 37}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 85, Col: 37}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
@@ -238,7 +215,7 @@ func Chart(props ChartProps) templ.Component {
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(chartId)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 298, Col: 22}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 275, Col: 22}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
@@ -251,7 +228,7 @@ func Chart(props ChartProps) templ.Component {
 		var templ_7745c5c3_Var9 string
 		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(dataId)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 298, Col: 47}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 275, Col: 47}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {
