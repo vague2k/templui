@@ -1,0 +1,26 @@
+package showcase
+
+import (
+	"github.com/axzilla/templui/components"
+)
+
+templ ChartBarHorizontal() {
+	@components.Card(components.CardProps{Class: "max-w-sm"}) {
+		@components.CardContent() {
+			@components.Chart(components.ChartProps{
+				Type:        components.ChartTypeBar,
+				Horizontal:  true,
+				ShowXGrid:   true,
+				ShowYLabels: true,
+				Data: components.ChartData{
+					Labels: []string{"Jan", "Feb", "March", "April", "May", "June"},
+					Datasets: []components.ChartDataset{
+						{
+							Data: []float64{12, 19, 12, 5, 2, 3},
+						},
+					},
+				},
+			})
+		}
+	}
+}

@@ -19,9 +19,13 @@ templ ThemeScript() {
 						return this.isDark ? 'text-white' : 'bg-white text-black'
 					},
 					toggleTheme() {
+						
 						this.isDark = !this.isDark;
 						localStorage.setItem('appTheme', this.isDark ? 'dark' : 'light');
 						document.documentElement.classList.toggle('dark', this.isDark);
+						
+						// Event auslösen, dass das Theme geändert wurde
+						document.dispatchEvent(new CustomEvent('theme-changed'));
 					}
 				}))
 			})

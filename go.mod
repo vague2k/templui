@@ -1,6 +1,6 @@
 module github.com/axzilla/templui
 
-go 1.23.3
+go 1.24.0
 
 require (
 	github.com/Oudwins/tailwind-merge-go v0.2.0
