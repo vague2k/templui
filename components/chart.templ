@@ -13,83 +13,92 @@ const (
 )
 
 // ChartDataset represents a dataset for Chart.js
+// Contains the data points and visual styling for a single data series
 type ChartDataset struct {
-	Label           string    `json:"label"`
-	Data            []float64 `json:"data"`
-	BorderWidth     int       `json:"borderWidth,omitempty"`
-	BorderColor     string    `json:"borderColor,omitempty"`
-	BackgroundColor string    `json:"backgroundColor,omitempty"`
-	Tension         float64   `json:"tension,omitempty"`
-	Fill            bool      `json:"fill,omitempty"`
-	Stepped         bool      `json:"stepped,omitempty"`
+	Label           string    `json:"label"`                     // Name of the dataset to be displayed in legend
+	Data            []float64 `json:"data"`                      // Actual data points for the chart
+	BorderWidth     int       `json:"borderWidth,omitempty"`     // Width of the line/bar border in pixels
+	BorderColor     string    `json:"borderColor,omitempty"`     // Color of the line/bar border
+	BackgroundColor string    `json:"backgroundColor,omitempty"` // Background/fill color of the chart elements
+	Tension         float64   `json:"tension,omitempty"`         // Smoothing of the line (0 = straight lines, 1 = maximum curve)
+	Fill            bool      `json:"fill,omitempty"`            // Whether to fill the area under the line
+	Stepped         bool      `json:"stepped,omitempty"`         // Whether to draw the line as a stepped line
 }
 
 // ChartScales represents the scales configuration
+// Contains settings for both X and Y axes of the chart
 type ChartScales struct {
-	Y ChartYAxis `json:"y,omitempty"`
-	X ChartXAxis `json:"x,omitempty"`
+	Y ChartYAxis `json:"y,omitempty"` // Y-axis configuration
+	X ChartXAxis `json:"x,omitempty"` // X-axis configuration
 }
 
 // ChartYAxis represents the Y axis configuration
+// Controls how the vertical axis is displayed and scaled
 type ChartYAxis struct {
-	BeginAtZero bool    `json:"beginAtZero,omitempty"`
-	Min         float64 `json:"min,omitempty"`
-	Max         float64 `json:"max,omitempty"`
-	Title       string  `json:"title,omitempty"`
+	BeginAtZero bool    `json:"beginAtZero,omitempty"` // Whether the axis should start at zero
+	Min         float64 `json:"min,omitempty"`         // Minimum value for the axis
+	Max         float64 `json:"max,omitempty"`         // Maximum value for the axis
+	Title       string  `json:"title,omitempty"`       // Title of the axis
 }
 
 // ChartXAxis represents the X axis configuration
+// Controls how the horizontal axis is displayed
 type ChartXAxis struct {
-	Title string `json:"title,omitempty"`
+	Title string `json:"title,omitempty"` // Title of the axis
 }
 
 // ChartOptions represents Chart.js options
+// Contains general chart configuration options
 type ChartOptions struct {
-	Responsive bool        `json:"responsive,omitempty"`
-	Scales     ChartScales `json:"scales,omitempty"`
-	Legend     bool        `json:"legend,omitempty"`
+	Responsive bool        `json:"responsive,omitempty"` // Whether the chart should resize with its container
+	Scales     ChartScales `json:"scales,omitempty"`     // Axis scales configuration
+	Legend     bool        `json:"legend,omitempty"`     // Whether to display the legend
 }
 
 // ChartData represents all data needed for Chart.js
+// Contains both the dataset and labels
 type ChartData struct {
-	Labels   []string       `json:"labels"`
-	Datasets []ChartDataset `json:"datasets"`
+	Labels   []string       `json:"labels"`   // Labels for data points (X-axis labels for most charts)
+	Datasets []ChartDataset `json:"datasets"` // Array of datasets to be displayed
 }
 
 // ChartConfig represents the complete Chart.js configuration
+// This is the full configuration that gets passed to Chart.js
 type ChartConfig struct {
-	Type        ChartType    `json:"type"`
-	Data        ChartData    `json:"data"`
-	Options     ChartOptions `json:"options,omitempty"`
-	ShowLegend  bool         `json:"showLegend,omitempty"`
-	ShowXAxis   bool         `json:"showXAxis"`
-	ShowYAxis   bool         `json:"showYAxis"`
-	ShowXLabels bool         `json:"showXLabels"`
-	ShowYLabels bool         `json:"showYLabels"`
-	ShowXGrid   bool         `json:"showXGrid"`
-	ShowYGrid   bool         `json:"showYGrid"`
-	Horizontal  bool         `json:"horizontal"`
-	Stacked     bool         `json:"stacked"`
+	Type        ChartType    `json:"type"`                 // Type of chart (line, bar, etc.)
+	Data        ChartData    `json:"data"`                 // Data and datasets
+	Options     ChartOptions `json:"options,omitempty"`    // Chart display options
+	ShowLegend  bool         `json:"showLegend,omitempty"` // Whether to display the legend
+	ShowXAxis   bool         `json:"showXAxis"`            // Whether to display the X-axis line
+	ShowYAxis   bool         `json:"showYAxis"`            // Whether to display the Y-axis line
+	ShowXLabels bool         `json:"showXLabels"`          // Whether to display X-axis labels
+	ShowYLabels bool         `json:"showYLabels"`          // Whether to display Y-axis labels
+	ShowXGrid   bool         `json:"showXGrid"`            // Whether to display X-axis grid lines
+	ShowYGrid   bool         `json:"showYGrid"`            // Whether to display Y-axis grid lines
+	Horizontal  bool         `json:"horizontal"`           // Whether the chart should be horizontal
+	Stacked     bool         `json:"stacked"`              // Whether datasets should be stacked
 }
 
 // ChartProps for the Chart component
+// Properties that can be passed to the Chart component
 type ChartProps struct {
-	Type        ChartType
-	Data        ChartData
-	Options     ChartOptions
-	ShowLegend  bool
-	ShowXAxis   bool
-	ShowYAxis   bool
-	ShowXLabels bool
-	ShowYLabels bool
-	ShowXGrid   bool
-	ShowYGrid   bool
-	Horizontal  bool
-	Stacked     bool
-	Class       string // Additional CSS classes
+	Type        ChartType    // Type of chart to render
+	Data        ChartData    // Data to display in the chart
+	Options     ChartOptions // Additional chart options
+	ShowLegend  bool         // Whether to display the legend
+	ShowXAxis   bool         // Whether to display the X-axis line
+	ShowYAxis   bool         // Whether to display the Y-axis line
+	ShowXLabels bool         // Whether to display X-axis labels
+	ShowYLabels bool         // Whether to display Y-axis labels
+	ShowXGrid   bool         // Whether to display X-axis grid lines
+	ShowYGrid   bool         // Whether to display Y-axis grid lines
+	Horizontal  bool         // Whether the chart should be horizontal
+	Stacked     bool         // Whether datasets should be stacked
+	Class       string       // Additional CSS classes
 }
 
 // ChartScripts ensures Chart.js and initialization code is only loaded once per page
+// This prevents duplicate script loading when multiple charts are used
 templ ChartScripts() {
 	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
@@ -99,10 +108,11 @@ templ ChartScripts() {
 		<script nonce={ templ.GetNonce(ctx) }>
 			document.addEventListener('DOMContentLoaded', function() {
 				
-				// Chart-Instanzen speichern
+				// Store chart instances to allow updating and cleanup
 				const chartInstances = {};
 
-				// Funktion zum Abrufen der aktuellen CSS-Variablen-Werte
+				// Function to get the current theme colors from CSS variables
+				// This ensures charts match the current site theme
 				function getThemeColors() {
 					const computedStyle = getComputedStyle(document.documentElement);
 					return {
@@ -113,11 +123,13 @@ templ ChartScripts() {
 					};
 				}
 
-				// Funktion zum Initialisieren/Aktualisieren der Charts
+				// Function to initialize or update all charts
+				// This is called initially and whenever the theme changes
 				function initCharts() {
-					// Aktuelle Farbwerte abrufen
+					// Get current theme colors
 					const colors = getThemeColors();
 
+					// Process each chart container on the page
 					document.querySelectorAll('.chart-container').forEach(container => {
 						const canvas = container.querySelector('canvas');
 						if (!canvas) return;
@@ -126,29 +138,34 @@ templ ChartScripts() {
 						const dataElement = document.getElementById(dataId);
 						if (!dataElement) return;
 
-						// Vorhandenes Chart zerstören, falls vorhanden
+						// Destroy existing chart instance if it exists
+						// This prevents memory leaks when updating charts
 						if (chartInstances[canvas.id]) {
 							chartInstances[canvas.id].destroy();
 						}
 
-						// Parse Konfiguration
+						// Parse the chart configuration from JSON
 						const chartConfig = JSON.parse(dataElement.textContent);
 
-						// Some general options
+						// Set global defaults for points
+						// Hide points by default but show on hover
 						Chart.defaults.elements.point.radius = 0;
 						Chart.defaults.elements.point.hoverRadius = 5;
 
-						// Chart erstellen mit berechneten Theme-Farben
+						// Create the chart with theme-aware colors
 						const chart = new Chart(canvas, {
 							...chartConfig,
 							options: {
+								// Configure interaction mode based on chart type
 								interaction: {
 									intersect: false,
 									mode: chartConfig.type === "pie" || 
 											chartConfig.type === "doughnut" ||
 											chartConfig.type === "radar" ? "nearest" : "index"
 								},
+								// Set axis orientation (horizontal or vertical)
 								indexAxis: chartConfig.horizontal ? "y" : "x",
+								// Configure plugins (legend, tooltip)
 								plugins: {
 									legend: {
 										display: chartConfig.showLegend || false,
@@ -164,8 +181,9 @@ templ ChartScripts() {
 										borderWidth: 1
 									}
 								},
+								// Configure scales based on chart type
 								scales: chartConfig.type === "radar" ? {
-									// Nur für Radar-Charts
+									// Radar chart uses a radial (r) scale
 									r: {
 										grid: {
 											color: colors.border,
@@ -193,9 +211,10 @@ templ ChartScripts() {
 										beginAtZero: true
 									}
 								} : {
-									// Für alle anderen Chart-Typen
+									// Standard charts use x and y scales
 									x: {
 										beginAtZero: true,
+										// Control visibility of axis components
 										display: chartConfig.showXLabels || chartConfig.showXGrid || chartConfig.showXAxis,
 										border: {
 											display: chartConfig.showXAxis || false
@@ -211,8 +230,10 @@ templ ChartScripts() {
 										stacked: chartConfig.stacked
 									},
 									y: {
+										// Add offset to prevent clipping of data points
 										offset: true,
 										beginAtZero: true,
+										// Control visibility of axis components
 										display: chartConfig.showYLabels || chartConfig.showYGrid || chartConfig.showYAxis,
 										border: {
 											display: chartConfig.showYAxis || false
@@ -231,31 +252,33 @@ templ ChartScripts() {
 							}
 						});
 			
-						// Chart-Instanz speichern
+						// Store chart instance for later reference
 						chartInstances[canvas.id] = chart;
 					});
 				}
 
-				// Initial Charts erstellen
+				// Initialize charts when page loads
 				initCharts();
 
+				// Update charts when window resizes
 				window.addEventListener('resize', function() {
 					for (let id in chartInstances) {
 						chartInstances[id].resize();
 					}
 				});
 
-				// MutationObserver für Theme-Änderungen
+				// Watch for theme changes using MutationObserver
+				// This detects when CSS variables change
 				const observer = new MutationObserver(() => {
-					// Kurze Verzögerung, um sicherzustellen, dass CSS-Variablen aktualisiert sind
+					// Small delay to ensure CSS variables are updated
 					setTimeout(initCharts, 50);
 				});
 
 				observer.observe(document.documentElement, { attributes: true });
 
-				// Auch auf Alpine-Initialisierung warten
+				// Wait for Alpine.js initialization if it's being used
 				document.addEventListener('alpine:initialized', () => {
-					// Globales Theme-Changed-Event registrieren
+					// Listen for theme change events
 					document.addEventListener('theme-changed', initCharts);
 				});
 			});
@@ -264,6 +287,7 @@ templ ChartScripts() {
 }
 
 // Chart renders a chart using Chart.js
+// This creates a responsive, themed chart based on the provided configuration
 templ Chart(props ChartProps) {
 	<!-- Generate unique IDs for this chart -->
 	{{ chartId := "chart-" + utils.RandomID() }}

@@ -21,83 +21,92 @@ const (
 )
 
 // ChartDataset represents a dataset for Chart.js
+// Contains the data points and visual styling for a single data series
 type ChartDataset struct {
-	Label           string    `json:"label"`
-	Data            []float64 `json:"data"`
-	BorderWidth     int       `json:"borderWidth,omitempty"`
-	BorderColor     string    `json:"borderColor,omitempty"`
-	BackgroundColor string    `json:"backgroundColor,omitempty"`
-	Tension         float64   `json:"tension,omitempty"`
-	Fill            bool      `json:"fill,omitempty"`
-	Stepped         bool      `json:"stepped,omitempty"`
+	Label           string    `json:"label"`                     // Name of the dataset to be displayed in legend
+	Data            []float64 `json:"data"`                      // Actual data points for the chart
+	BorderWidth     int       `json:"borderWidth,omitempty"`     // Width of the line/bar border in pixels
+	BorderColor     string    `json:"borderColor,omitempty"`     // Color of the line/bar border
+	BackgroundColor string    `json:"backgroundColor,omitempty"` // Background/fill color of the chart elements
+	Tension         float64   `json:"tension,omitempty"`         // Smoothing of the line (0 = straight lines, 1 = maximum curve)
+	Fill            bool      `json:"fill,omitempty"`            // Whether to fill the area under the line
+	Stepped         bool      `json:"stepped,omitempty"`         // Whether to draw the line as a stepped line
 }
 
 // ChartScales represents the scales configuration
+// Contains settings for both X and Y axes of the chart
 type ChartScales struct {
-	Y ChartYAxis `json:"y,omitempty"`
-	X ChartXAxis `json:"x,omitempty"`
+	Y ChartYAxis `json:"y,omitempty"` // Y-axis configuration
+	X ChartXAxis `json:"x,omitempty"` // X-axis configuration
 }
 
 // ChartYAxis represents the Y axis configuration
+// Controls how the vertical axis is displayed and scaled
 type ChartYAxis struct {
-	BeginAtZero bool    `json:"beginAtZero,omitempty"`
-	Min         float64 `json:"min,omitempty"`
-	Max         float64 `json:"max,omitempty"`
-	Title       string  `json:"title,omitempty"`
+	BeginAtZero bool    `json:"beginAtZero,omitempty"` // Whether the axis should start at zero
+	Min         float64 `json:"min,omitempty"`         // Minimum value for the axis
+	Max         float64 `json:"max,omitempty"`         // Maximum value for the axis
+	Title       string  `json:"title,omitempty"`       // Title of the axis
 }
 
 // ChartXAxis represents the X axis configuration
+// Controls how the horizontal axis is displayed
 type ChartXAxis struct {
-	Title string `json:"title,omitempty"`
+	Title string `json:"title,omitempty"` // Title of the axis
 }
 
 // ChartOptions represents Chart.js options
+// Contains general chart configuration options
 type ChartOptions struct {
-	Responsive bool        `json:"responsive,omitempty"`
-	Scales     ChartScales `json:"scales,omitempty"`
-	Legend     bool        `json:"legend,omitempty"`
+	Responsive bool        `json:"responsive,omitempty"` // Whether the chart should resize with its container
+	Scales     ChartScales `json:"scales,omitempty"`     // Axis scales configuration
+	Legend     bool        `json:"legend,omitempty"`     // Whether to display the legend
 }
 
 // ChartData represents all data needed for Chart.js
+// Contains both the dataset and labels
 type ChartData struct {
-	Labels   []string       `json:"labels"`
-	Datasets []ChartDataset `json:"datasets"`
+	Labels   []string       `json:"labels"`   // Labels for data points (X-axis labels for most charts)
+	Datasets []ChartDataset `json:"datasets"` // Array of datasets to be displayed
 }
 
 // ChartConfig represents the complete Chart.js configuration
+// This is the full configuration that gets passed to Chart.js
 type ChartConfig struct {
-	Type        ChartType    `json:"type"`
-	Data        ChartData    `json:"data"`
-	Options     ChartOptions `json:"options,omitempty"`
-	ShowLegend  bool         `json:"showLegend,omitempty"`
-	ShowXAxis   bool         `json:"showXAxis"`
-	ShowYAxis   bool         `json:"showYAxis"`
-	ShowXLabels bool         `json:"showXLabels"`
-	ShowYLabels bool         `json:"showYLabels"`
-	ShowXGrid   bool         `json:"showXGrid"`
-	ShowYGrid   bool         `json:"showYGrid"`
-	Horizontal  bool         `json:"horizontal"`
-	Stacked     bool         `json:"stacked"`
+	Type        ChartType    `json:"type"`                 // Type of chart (line, bar, etc.)
+	Data        ChartData    `json:"data"`                 // Data and datasets
+	Options     ChartOptions `json:"options,omitempty"`    // Chart display options
+	ShowLegend  bool         `json:"showLegend,omitempty"` // Whether to display the legend
+	ShowXAxis   bool         `json:"showXAxis"`            // Whether to display the X-axis line
+	ShowYAxis   bool         `json:"showYAxis"`            // Whether to display the Y-axis line
+	ShowXLabels bool         `json:"showXLabels"`          // Whether to display X-axis labels
+	ShowYLabels bool         `json:"showYLabels"`          // Whether to display Y-axis labels
+	ShowXGrid   bool         `json:"showXGrid"`            // Whether to display X-axis grid lines
+	ShowYGrid   bool         `json:"showYGrid"`            // Whether to display Y-axis grid lines
+	Horizontal  bool         `json:"horizontal"`           // Whether the chart should be horizontal
+	Stacked     bool         `json:"stacked"`              // Whether datasets should be stacked
 }
 
 // ChartProps for the Chart component
+// Properties that can be passed to the Chart component
 type ChartProps struct {
-	Type        ChartType
-	Data        ChartData
-	Options     ChartOptions
-	ShowLegend  bool
-	ShowXAxis   bool
-	ShowYAxis   bool
-	ShowXLabels bool
-	ShowYLabels bool
-	ShowXGrid   bool
-	ShowYGrid   bool
-	Horizontal  bool
-	Stacked     bool
-	Class       string // Additional CSS classes
+	Type        ChartType    // Type of chart to render
+	Data        ChartData    // Data to display in the chart
+	Options     ChartOptions // Additional chart options
+	ShowLegend  bool         // Whether to display the legend
+	ShowXAxis   bool         // Whether to display the X-axis line
+	ShowYAxis   bool         // Whether to display the Y-axis line
+	ShowXLabels bool         // Whether to display X-axis labels
+	ShowYLabels bool         // Whether to display Y-axis labels
+	ShowXGrid   bool         // Whether to display X-axis grid lines
+	ShowYGrid   bool         // Whether to display Y-axis grid lines
+	Horizontal  bool         // Whether the chart should be horizontal
+	Stacked     bool         // Whether datasets should be stacked
+	Class       string       // Additional CSS classes
 }
 
 // ChartScripts ensures Chart.js and initialization code is only loaded once per page
+// This prevents duplicate script loading when multiple charts are used
 func ChartScripts() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -139,7 +148,7 @@ func ChartScripts() templ.Component {
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 97, Col: 43}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 106, Col: 43}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -152,13 +161,13 @@ func ChartScripts() templ.Component {
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 99, Col: 37}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 108, Col: 37}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\">\n\t\t\tdocument.addEventListener('DOMContentLoaded', function() {\n\t\t\t\t\n\t\t\t\t// Chart-Instanzen speichern\n\t\t\t\tconst chartInstances = {};\n\n\t\t\t\t// Funktion zum Abrufen der aktuellen CSS-Variablen-Werte\n\t\t\t\tfunction getThemeColors() {\n\t\t\t\t\tconst computedStyle = getComputedStyle(document.documentElement);\n\t\t\t\t\treturn {\n\t\t\t\t\t\tforeground: computedStyle.getPropertyValue('--foreground').trim(),\n\t\t\t\t\t\tbackground: computedStyle.getPropertyValue('--background').trim(),\n\t\t\t\t\t\tmutedForeground: computedStyle.getPropertyValue('--muted-foreground').trim(),\n\t\t\t\t\t\tborder: computedStyle.getPropertyValue('--border').trim()\n\t\t\t\t\t};\n\t\t\t\t}\n\n\t\t\t\t// Funktion zum Initialisieren/Aktualisieren der Charts\n\t\t\t\tfunction initCharts() {\n\t\t\t\t\t// Aktuelle Farbwerte abrufen\n\t\t\t\t\tconst colors = getThemeColors();\n\n\t\t\t\t\tdocument.querySelectorAll('.chart-container').forEach(container => {\n\t\t\t\t\t\tconst canvas = container.querySelector('canvas');\n\t\t\t\t\t\tif (!canvas) return;\n\n\t\t\t\t\t\tconst dataId = canvas.getAttribute('data-chart-id');\n\t\t\t\t\t\tconst dataElement = document.getElementById(dataId);\n\t\t\t\t\t\tif (!dataElement) return;\n\n\t\t\t\t\t\t// Vorhandenes Chart zerstören, falls vorhanden\n\t\t\t\t\t\tif (chartInstances[canvas.id]) {\n\t\t\t\t\t\t\tchartInstances[canvas.id].destroy();\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\t// Parse Konfiguration\n\t\t\t\t\t\tconst chartConfig = JSON.parse(dataElement.textContent);\n\n\t\t\t\t\t\t// Some general options\n\t\t\t\t\t\tChart.defaults.elements.point.radius = 0;\n\t\t\t\t\t\tChart.defaults.elements.point.hoverRadius = 5;\n\n\t\t\t\t\t\t// Chart erstellen mit berechneten Theme-Farben\n\t\t\t\t\t\tconst chart = new Chart(canvas, {\n\t\t\t\t\t\t\t...chartConfig,\n\t\t\t\t\t\t\toptions: {\n\t\t\t\t\t\t\t\tinteraction: {\n\t\t\t\t\t\t\t\t\tintersect: false,\n\t\t\t\t\t\t\t\t\tmode: chartConfig.type === \"pie\" || \n\t\t\t\t\t\t\t\t\t\t\tchartConfig.type === \"doughnut\" ||\n\t\t\t\t\t\t\t\t\t\t\tchartConfig.type === \"radar\" ? \"nearest\" : \"index\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\tindexAxis: chartConfig.horizontal ? \"y\" : \"x\",\n\t\t\t\t\t\t\t\tplugins: {\n\t\t\t\t\t\t\t\t\tlegend: {\n\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showLegend || false,\n\t\t\t\t\t\t\t\t\t\tlabels: {\n\t\t\t\t\t\t\t\t\t\t\tcolor: colors.foreground\n\t\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\ttooltip: {\n\t\t\t\t\t\t\t\t\t\tbackgroundColor: colors.background,\n\t\t\t\t\t\t\t\t\t\tbodyColor: colors.mutedForeground,\n\t\t\t\t\t\t\t\t\t\ttitleColor: colors.foreground,\n\t\t\t\t\t\t\t\t\t\tborderColor: colors.border,\n\t\t\t\t\t\t\t\t\t\tborderWidth: 1\n\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\tscales: chartConfig.type === \"radar\" ? {\n\t\t\t\t\t\t\t\t\t// Nur für Radar-Charts\n\t\t\t\t\t\t\t\t\tr: {\n\t\t\t\t\t\t\t\t\t\tgrid: {\n\t\t\t\t\t\t\t\t\t\t\tcolor: colors.border,\n\t\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showYGrid || true\n\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\tticks: {\n\t\t\t\t\t\t\t\t\t\t\tcolor: colors.mutedForeground,\n\t\t\t\t\t\t\t\t\t\t\tbackdropColor: 'transparent',\n\t\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showYLabels || true\n\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\tangleLines: {\n\t\t\t\t\t\t\t\t\t\t\tcolor: colors.border,\n\t\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showXGrid || true\n\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\tpointLabels: {\n\t\t\t\t\t\t\t\t\t\t\tcolor: colors.foreground,\n\t\t\t\t\t\t\t\t\t\t\tfont: {\n\t\t\t\t\t\t\t\t\t\t\t\tsize: 12\n\t\t\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\tborder: {\n\t\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showYAxis || false,\n\t\t\t\t\t\t\t\t\t\t\tcolor: colors.border\n\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\tbeginAtZero: true\n\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t} : {\n\t\t\t\t\t\t\t\t\t// Für alle anderen Chart-Typen\n\t\t\t\t\t\t\t\t\tx: {\n\t\t\t\t\t\t\t\t\t\tbeginAtZero: true,\n\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showXLabels || chartConfig.showXGrid || chartConfig.showXAxis,\n\t\t\t\t\t\t\t\t\t\tborder: {\n\t\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showXAxis || false\n\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\tticks: {                                      \n\t\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showXLabels || false,   \n\t\t\t\t\t\t\t\t\t\t\tcolor: colors.mutedForeground\n\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\tgrid: {\n\t\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showXGrid || false,\n\t\t\t\t\t\t\t\t\t\t\tcolor: colors.border\n\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\tstacked: chartConfig.stacked\n\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\ty: {\n\t\t\t\t\t\t\t\t\t\toffset: true,\n\t\t\t\t\t\t\t\t\t\tbeginAtZero: true,\n\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showYLabels || chartConfig.showYGrid || chartConfig.showYAxis,\n\t\t\t\t\t\t\t\t\t\tborder: {\n\t\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showYAxis || false\n\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\tticks: {                                      \n\t\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showYLabels || false,   \n\t\t\t\t\t\t\t\t\t\t\tcolor: colors.mutedForeground\n\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\tgrid: {\n\t\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showYGrid || false,\n\t\t\t\t\t\t\t\t\t\t\tcolor: colors.border\n\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\tstacked: chartConfig.stacked\n\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t});\n\t\t\t\n\t\t\t\t\t\t// Chart-Instanz speichern\n\t\t\t\t\t\tchartInstances[canvas.id] = chart;\n\t\t\t\t\t});\n\t\t\t\t}\n\n\t\t\t\t// Initial Charts erstellen\n\t\t\t\tinitCharts();\n\n\t\t\t\twindow.addEventListener('resize', function() {\n\t\t\t\t\tfor (let id in chartInstances) {\n\t\t\t\t\t\tchartInstances[id].resize();\n\t\t\t\t\t}\n\t\t\t\t});\n\n\t\t\t\t// MutationObserver für Theme-Änderungen\n\t\t\t\tconst observer = new MutationObserver(() => {\n\t\t\t\t\t// Kurze Verzögerung, um sicherzustellen, dass CSS-Variablen aktualisiert sind\n\t\t\t\t\tsetTimeout(initCharts, 50);\n\t\t\t\t});\n\n\t\t\t\tobserver.observe(document.documentElement, { attributes: true });\n\n\t\t\t\t// Auch auf Alpine-Initialisierung warten\n\t\t\t\tdocument.addEventListener('alpine:initialized', () => {\n\t\t\t\t\t// Globales Theme-Changed-Event registrieren\n\t\t\t\t\tdocument.addEventListener('theme-changed', initCharts);\n\t\t\t\t});\n\t\t\t});\n\t\t</script>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\">\n\t\t\tdocument.addEventListener('DOMContentLoaded', function() {\n\t\t\t\t\n\t\t\t\t// Store chart instances to allow updating and cleanup\n\t\t\t\tconst chartInstances = {};\n\n\t\t\t\t// Function to get the current theme colors from CSS variables\n\t\t\t\t// This ensures charts match the current site theme\n\t\t\t\tfunction getThemeColors() {\n\t\t\t\t\tconst computedStyle = getComputedStyle(document.documentElement);\n\t\t\t\t\treturn {\n\t\t\t\t\t\tforeground: computedStyle.getPropertyValue('--foreground').trim(),\n\t\t\t\t\t\tbackground: computedStyle.getPropertyValue('--background').trim(),\n\t\t\t\t\t\tmutedForeground: computedStyle.getPropertyValue('--muted-foreground').trim(),\n\t\t\t\t\t\tborder: computedStyle.getPropertyValue('--border').trim()\n\t\t\t\t\t};\n\t\t\t\t}\n\n\t\t\t\t// Function to initialize or update all charts\n\t\t\t\t// This is called initially and whenever the theme changes\n\t\t\t\tfunction initCharts() {\n\t\t\t\t\t// Get current theme colors\n\t\t\t\t\tconst colors = getThemeColors();\n\n\t\t\t\t\t// Process each chart container on the page\n\t\t\t\t\tdocument.querySelectorAll('.chart-container').forEach(container => {\n\t\t\t\t\t\tconst canvas = container.querySelector('canvas');\n\t\t\t\t\t\tif (!canvas) return;\n\n\t\t\t\t\t\tconst dataId = canvas.getAttribute('data-chart-id');\n\t\t\t\t\t\tconst dataElement = document.getElementById(dataId);\n\t\t\t\t\t\tif (!dataElement) return;\n\n\t\t\t\t\t\t// Destroy existing chart instance if it exists\n\t\t\t\t\t\t// This prevents memory leaks when updating charts\n\t\t\t\t\t\tif (chartInstances[canvas.id]) {\n\t\t\t\t\t\t\tchartInstances[canvas.id].destroy();\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\t// Parse the chart configuration from JSON\n\t\t\t\t\t\tconst chartConfig = JSON.parse(dataElement.textContent);\n\n\t\t\t\t\t\t// Set global defaults for points\n\t\t\t\t\t\t// Hide points by default but show on hover\n\t\t\t\t\t\tChart.defaults.elements.point.radius = 0;\n\t\t\t\t\t\tChart.defaults.elements.point.hoverRadius = 5;\n\n\t\t\t\t\t\t// Create the chart with theme-aware colors\n\t\t\t\t\t\tconst chart = new Chart(canvas, {\n\t\t\t\t\t\t\t...chartConfig,\n\t\t\t\t\t\t\toptions: {\n\t\t\t\t\t\t\t\t// Configure interaction mode based on chart type\n\t\t\t\t\t\t\t\tinteraction: {\n\t\t\t\t\t\t\t\t\tintersect: false,\n\t\t\t\t\t\t\t\t\tmode: chartConfig.type === \"pie\" || \n\t\t\t\t\t\t\t\t\t\t\tchartConfig.type === \"doughnut\" ||\n\t\t\t\t\t\t\t\t\t\t\tchartConfig.type === \"radar\" ? \"nearest\" : \"index\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t// Set axis orientation (horizontal or vertical)\n\t\t\t\t\t\t\t\tindexAxis: chartConfig.horizontal ? \"y\" : \"x\",\n\t\t\t\t\t\t\t\t// Configure plugins (legend, tooltip)\n\t\t\t\t\t\t\t\tplugins: {\n\t\t\t\t\t\t\t\t\tlegend: {\n\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showLegend || false,\n\t\t\t\t\t\t\t\t\t\tlabels: {\n\t\t\t\t\t\t\t\t\t\t\tcolor: colors.foreground\n\t\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\ttooltip: {\n\t\t\t\t\t\t\t\t\t\tbackgroundColor: colors.background,\n\t\t\t\t\t\t\t\t\t\tbodyColor: colors.mutedForeground,\n\t\t\t\t\t\t\t\t\t\ttitleColor: colors.foreground,\n\t\t\t\t\t\t\t\t\t\tborderColor: colors.border,\n\t\t\t\t\t\t\t\t\t\tborderWidth: 1\n\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t// Configure scales based on chart type\n\t\t\t\t\t\t\t\tscales: chartConfig.type === \"radar\" ? {\n\t\t\t\t\t\t\t\t\t// Radar chart uses a radial (r) scale\n\t\t\t\t\t\t\t\t\tr: {\n\t\t\t\t\t\t\t\t\t\tgrid: {\n\t\t\t\t\t\t\t\t\t\t\tcolor: colors.border,\n\t\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showYGrid || true\n\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\tticks: {\n\t\t\t\t\t\t\t\t\t\t\tcolor: colors.mutedForeground,\n\t\t\t\t\t\t\t\t\t\t\tbackdropColor: 'transparent',\n\t\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showYLabels || true\n\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\tangleLines: {\n\t\t\t\t\t\t\t\t\t\t\tcolor: colors.border,\n\t\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showXGrid || true\n\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\tpointLabels: {\n\t\t\t\t\t\t\t\t\t\t\tcolor: colors.foreground,\n\t\t\t\t\t\t\t\t\t\t\tfont: {\n\t\t\t\t\t\t\t\t\t\t\t\tsize: 12\n\t\t\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\tborder: {\n\t\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showYAxis || false,\n\t\t\t\t\t\t\t\t\t\t\tcolor: colors.border\n\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\tbeginAtZero: true\n\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t} : {\n\t\t\t\t\t\t\t\t\t// Standard charts use x and y scales\n\t\t\t\t\t\t\t\t\tx: {\n\t\t\t\t\t\t\t\t\t\tbeginAtZero: true,\n\t\t\t\t\t\t\t\t\t\t// Control visibility of axis components\n\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showXLabels || chartConfig.showXGrid || chartConfig.showXAxis,\n\t\t\t\t\t\t\t\t\t\tborder: {\n\t\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showXAxis || false\n\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\tticks: {                                      \n\t\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showXLabels || false,   \n\t\t\t\t\t\t\t\t\t\t\tcolor: colors.mutedForeground\n\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\tgrid: {\n\t\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showXGrid || false,\n\t\t\t\t\t\t\t\t\t\t\tcolor: colors.border\n\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\tstacked: chartConfig.stacked\n\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\ty: {\n\t\t\t\t\t\t\t\t\t\t// Add offset to prevent clipping of data points\n\t\t\t\t\t\t\t\t\t\toffset: true,\n\t\t\t\t\t\t\t\t\t\tbeginAtZero: true,\n\t\t\t\t\t\t\t\t\t\t// Control visibility of axis components\n\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showYLabels || chartConfig.showYGrid || chartConfig.showYAxis,\n\t\t\t\t\t\t\t\t\t\tborder: {\n\t\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showYAxis || false\n\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\tticks: {                                      \n\t\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showYLabels || false,   \n\t\t\t\t\t\t\t\t\t\t\tcolor: colors.mutedForeground\n\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\tgrid: {\n\t\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showYGrid || false,\n\t\t\t\t\t\t\t\t\t\t\tcolor: colors.border\n\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\tstacked: chartConfig.stacked\n\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t});\n\t\t\t\n\t\t\t\t\t\t// Store chart instance for later reference\n\t\t\t\t\t\tchartInstances[canvas.id] = chart;\n\t\t\t\t\t});\n\t\t\t\t}\n\n\t\t\t\t// Initialize charts when page loads\n\t\t\t\tinitCharts();\n\n\t\t\t\t// Update charts when window resizes\n\t\t\t\twindow.addEventListener('resize', function() {\n\t\t\t\t\tfor (let id in chartInstances) {\n\t\t\t\t\t\tchartInstances[id].resize();\n\t\t\t\t\t}\n\t\t\t\t});\n\n\t\t\t\t// Watch for theme changes using MutationObserver\n\t\t\t\t// This detects when CSS variables change\n\t\t\t\tconst observer = new MutationObserver(() => {\n\t\t\t\t\t// Small delay to ensure CSS variables are updated\n\t\t\t\t\tsetTimeout(initCharts, 50);\n\t\t\t\t});\n\n\t\t\t\tobserver.observe(document.documentElement, { attributes: true });\n\n\t\t\t\t// Wait for Alpine.js initialization if it's being used\n\t\t\t\tdocument.addEventListener('alpine:initialized', () => {\n\t\t\t\t\t// Listen for theme change events\n\t\t\t\t\tdocument.addEventListener('theme-changed', initCharts);\n\t\t\t\t});\n\t\t\t});\n\t\t</script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -173,6 +182,7 @@ func ChartScripts() templ.Component {
 }
 
 // Chart renders a chart using Chart.js
+// This creates a responsive, themed chart based on the provided configuration
 func Chart(props ChartProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -229,7 +239,7 @@ func Chart(props ChartProps) templ.Component {
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(chartId)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 273, Col: 22}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 297, Col: 22}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
@@ -242,7 +252,7 @@ func Chart(props ChartProps) templ.Component {
 		var templ_7745c5c3_Var9 string
 		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(dataId)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 273, Col: 47}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 297, Col: 47}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {
