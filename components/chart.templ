@@ -159,8 +159,10 @@ templ ChartScripts() {
 								// Configure interaction mode based on chart type
 								interaction: {
 									intersect: false,
+									axis: "xy",
 									mode: chartConfig.type === "pie" || 
 											chartConfig.type === "doughnut" ||
+											chartConfig.type === "bar" ||
 											chartConfig.type === "radar" ? "nearest" : "index"
 								},
 								// Set axis orientation (horizontal or vertical)
