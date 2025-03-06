@@ -143,12 +143,12 @@ templ ChartScripts() {
 							...chartConfig,
 							options: {
 								interaction: {
-      								intersect: false,
+									intersect: false,
 									mode: chartConfig.type === "pie" || 
 											chartConfig.type === "doughnut" ||
 											chartConfig.type === "radar" ? "nearest" : "index"
-    							},
-    							indexAxis: chartConfig.horizontal ? "y" : "x",
+								},
+								indexAxis: chartConfig.horizontal ? "y" : "x",
 								plugins: {
 									legend: {
 										display: chartConfig.showLegend || false,
@@ -164,15 +164,43 @@ templ ChartScripts() {
 										borderWidth: 1
 									}
 								},
-								scales: {
+								scales: chartConfig.type === "radar" ? {
+									// Nur für Radar-Charts
+									r: {
+										grid: {
+											color: colors.border,
+											display: chartConfig.showYGrid || true
+										},
+										ticks: {
+											color: colors.mutedForeground,
+											backdropColor: 'transparent',
+											display: chartConfig.showYLabels || true
+										},
+										angleLines: {
+											color: colors.border,
+											display: chartConfig.showXGrid || true
+										},
+										pointLabels: {
+											color: colors.foreground,
+											font: {
+												size: 12
+											}
+										},
+										border: {
+											display: chartConfig.showYAxis || false,
+											color: colors.border
+										},
+										beginAtZero: true
+									}
+								} : {
+									// Für alle anderen Chart-Typen
 									x: {
-    									beginAtZero: true,
-										// Display options separately for axis, ticks, and grid
+										beginAtZero: true,
 										display: chartConfig.showXLabels || chartConfig.showXGrid || chartConfig.showXAxis,
 										border: {
 											display: chartConfig.showXAxis || false
 										},
-										ticks: { 										
+										ticks: {                                      
 											display: chartConfig.showXLabels || false,   
 											color: colors.mutedForeground
 										},
@@ -181,17 +209,15 @@ templ ChartScripts() {
 											color: colors.border
 										},
 										stacked: chartConfig.stacked
-										
 									},
 									y: {
-    									offset: true, // Dadurch wird automatisch ein Abstand am Ende hinzugefügt // Needed because we set point.radius = 0 and this removes offet and then a part of the datapoint/hover point is hidden
-    									beginAtZero: true,
-										// Display options separately for axis, ticks, and grid
+										offset: true,
+										beginAtZero: true,
 										display: chartConfig.showYLabels || chartConfig.showYGrid || chartConfig.showYAxis,
 										border: {
 											display: chartConfig.showYAxis || false
 										},
-										ticks: { 										
+										ticks: {                                      
 											display: chartConfig.showYLabels || false,   
 											color: colors.mutedForeground
 										},
