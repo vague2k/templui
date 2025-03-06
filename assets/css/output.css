@@ -918,6 +918,9 @@
   .overflow-hidden\! {
     overflow: hidden !important;
   }
+  .overflow-visible {
+    overflow: visible;
+  }
   .overflow-x-auto {
     overflow-x: auto;
   }

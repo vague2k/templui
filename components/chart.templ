@@ -158,6 +158,7 @@ templ ChartScripts() {
 								},
 								scales: {
 									x: {
+    									beginAtZero: true,
 										// Display options separately for axis, ticks, and grid
 										display: chartConfig.showXLabels || chartConfig.showXGrid || chartConfig.showXAxis,
 										border: {
@@ -175,6 +176,7 @@ templ ChartScripts() {
 										
 									},
 									y: {
+    									beginAtZero: true,
 										// Display options separately for axis, ticks, and grid
 										display: chartConfig.showYLabels || chartConfig.showYGrid || chartConfig.showYAxis,
 										border: {
