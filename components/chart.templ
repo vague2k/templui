@@ -288,8 +288,7 @@ templ ChartScripts() {
 	}
 }
 
-// Chart renders a chart using Chart.js
-// This creates a responsive, themed chart based on the provided configuration
+// Beautiful charts. Built using Chart.js.
 templ Chart(props ChartProps) {
 	<!-- Generate unique IDs for this chart -->
 	{{ chartId := "chart-" + utils.RandomID() }}
