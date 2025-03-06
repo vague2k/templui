@@ -101,6 +101,51 @@ templ Chart() {
 					PreviewCodeFile:   "chart_area_stacked.templ",
 					ComponentCodeFile: "chart.templ",
 				})
+				// Pie Charts
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Pie Chart",
+					ShowcaseFile:      showcase.ChartPie(),
+					PreviewCodeFile:   "chart_pie.templ",
+					ComponentCodeFile: "chart.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Pie Chart - Stacked",
+					ShowcaseFile:      showcase.ChartPieStacked(),
+					PreviewCodeFile:   "chart_pie_stacked.templ",
+					ComponentCodeFile: "chart.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Pie Chart - Legend",
+					ShowcaseFile:      showcase.ChartPieLegend(),
+					PreviewCodeFile:   "chart_pie_legend.templ",
+					ComponentCodeFile: "chart.templ",
+				})
+				// Doughnut Charts
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Doughnut Chart",
+					ShowcaseFile:      showcase.ChartDoughnut(),
+					PreviewCodeFile:   "chart_doughnut.templ",
+					ComponentCodeFile: "chart.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Doughnut Chart - Stacked",
+					ShowcaseFile:      showcase.ChartDoughnutStacked(),
+					PreviewCodeFile:   "chart_doughnut_stacked.templ",
+					ComponentCodeFile: "chart.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Doughnut Chart - Legend",
+					ShowcaseFile:      showcase.ChartDoughnutLegend(),
+					PreviewCodeFile:   "chart_doughnut_legend.templ",
+					ComponentCodeFile: "chart.templ",
+				})
+				// Radar Charts
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Radar Chart",
+					ShowcaseFile:      showcase.ChartRadar(),
+					PreviewCodeFile:   "chart_radar.templ",
+					ComponentCodeFile: "chart.templ",
+				})
 			}
 		}
 	}

@@ -5,9 +5,11 @@ import "github.com/axzilla/templui/utils"
 type ChartType string
 
 const (
-	ChartTypeBar  ChartType = "bar"
-	ChartTypeLine ChartType = "line"
-	// ChartTypePie  ChartType = "pie"
+	ChartTypeBar      ChartType = "bar"
+	ChartTypeLine     ChartType = "line"
+	ChartTypePie      ChartType = "pie"
+	ChartTypeDoughnut ChartType = "doughnut"
+	ChartTypeRadar    ChartType = "radar"
 )
 
 // ChartDataset represents a dataset for Chart.js
@@ -142,7 +144,9 @@ templ ChartScripts() {
 							options: {
 								interaction: {
       								intersect: false,
-									mode: "index",
+									mode: chartConfig.type === "pie" || 
+											chartConfig.type === "doughnut" ||
+											chartConfig.type === "radar" ? "nearest" : "index"
     							},
     							indexAxis: chartConfig.horizontal ? "y" : "x",
 								plugins: {
