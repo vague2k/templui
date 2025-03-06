@@ -57,6 +57,7 @@ func main() {
 		),
 	)
 
+	//
 	mux.Handle("GET /", templ.Handler(pages.Landing()))
 	mux.Handle("GET /docs/getting-started", http.RedirectHandler("/docs/introduction", http.StatusSeeOther))
 	mux.Handle("GET /docs/components", http.RedirectHandler("/docs/components/accordion", http.StatusSeeOther))
@@ -72,6 +73,8 @@ func main() {
 	mux.Handle("GET /docs/components/breadcrumb", templ.Handler(pages.Breadcrumb()))
 	mux.Handle("GET /docs/components/button", templ.Handler(pages.Button()))
 	mux.Handle("GET /docs/components/card", templ.Handler(pages.Card()))
+	mux.Handle("GET /docs/components/carousel", templ.Handler(pages.Carousel()))
+	mux.Handle("GET /docs/components/charts", templ.Handler(pages.Chart()))
 	mux.Handle("GET /docs/components/code", templ.Handler(pages.Code()))
 	mux.Handle("GET /docs/components/checkbox", templ.Handler(pages.Checkbox()))
 	mux.Handle("GET /docs/components/checkbox-card", templ.Handler(pages.CheckboxCard()))

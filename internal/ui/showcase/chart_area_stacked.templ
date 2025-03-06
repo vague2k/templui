@@ -1,0 +1,36 @@
+package showcase
+
+import (
+	"github.com/axzilla/templui/components"
+)
+
+templ ChartAreaStacked() {
+	@components.Card(components.CardProps{Class: "max-w-sm"}) {
+		@components.CardContent() {
+			@components.Chart(components.ChartProps{
+				Type:        components.ChartTypeLine,
+				ShowYGrid:   true,
+				ShowXLabels: true,
+				Data: components.ChartData{
+					Labels: []string{"Jan", "Feb", "March", "April", "May", "June"},
+					Datasets: []components.ChartDataset{
+						{
+							Data:        []float64{3, 9, 3, 12, 7, 8},
+							BorderWidth: 1,
+							Fill:        true,
+							Tension:     0.5,
+							Label:       "Mobile",
+						},
+						{
+							Data:        []float64{7, 16, 5, 20, 14, 15},
+							BorderWidth: 1,
+							Fill:        true,
+							Tension:     0.5,
+							Label:       "Mobile",
+						},
+					},
+				},
+			})
+		}
+	}
+}

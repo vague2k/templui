@@ -1,0 +1,42 @@
+package showcase
+
+import (
+	"github.com/axzilla/templui/components"
+)
+
+templ CarouselWithImages() {
+	@components.Carousel(components.CarouselProps{
+		Slides: []components.CarouselSlide{
+			{
+				Content:     ImageSlide("/assets/img/demo/carousel-1.jpeg", "Image 1"),
+				Description: "Nature landscape example 1",
+			},
+			{
+				Content:     ImageSlide("/assets/img/demo/carousel-2.jpeg", "Image 2"),
+				Description: "Nature landscape example 2",
+			},
+			{
+				Content:     ImageSlide("/assets/img/demo/carousel-3.jpeg", "Image 3"),
+				Description: "Nature landscape example 3",
+			},
+		},
+		ShowControls:   true,
+		ShowIndicators: true,
+		Autoplay:       true,
+		Interval:       5000,
+		Loop:           true,
+		Class:          "rounded-md overflow-hidden shadow-md",
+	})
+}
+
+templ ImageSlide(src string, alt string) {
+	@components.AspectRatio(components.AspectRatioProps{
+		Ratio: components.AspectRatioVideo,
+	}) {
+		<img
+			src={ src }
+			alt={ alt }
+			class="w-full h-full object-cover"
+		/>
+	}
+}

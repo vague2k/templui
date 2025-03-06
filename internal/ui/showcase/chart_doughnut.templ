@@ -1,0 +1,23 @@
+package showcase
+
+import (
+	"github.com/axzilla/templui/components"
+)
+
+templ ChartDoughnut() {
+	@components.Card(components.CardProps{Class: "max-w-sm"}) {
+		@components.CardContent() {
+			@components.Chart(components.ChartProps{
+				Type: components.ChartTypeDoughnut,
+				Data: components.ChartData{
+					Labels: []string{"Jan", "Feb", "March", "April", "May", "June"},
+					Datasets: []components.ChartDataset{
+						{
+							Data: []float64{7, 16, 5, 20, 14, 15},
+						},
+					},
+				},
+			})
+		}
+	}
+}

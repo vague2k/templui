@@ -1,0 +1,25 @@
+package showcase
+
+import (
+	"github.com/axzilla/templui/components"
+)
+
+templ ChartDoughnutLegend() {
+	@components.Card(components.CardProps{Class: "max-w-sm"}) {
+		@components.CardContent() {
+			@components.Chart(components.ChartProps{
+				Type:       components.ChartTypeDoughnut,
+				ShowLegend: true,
+				Data: components.ChartData{
+					Labels: []string{"Jan", "Feb", "March", "April", "May", "June"},
+					Datasets: []components.ChartDataset{
+						{
+							Data:  []float64{3, 9, 3, 12, 7, 8},
+							Label: "Mobile",
+						},
+					},
+				},
+			})
+		}
+	}
+}
