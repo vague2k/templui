@@ -10,7 +10,7 @@ templ Pagination() {
 	@layouts.DocsLayout() {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Pagination",
-			Description: templ.Raw("Navigation controls for moving between pages of content."),
+			Description: templ.Raw("Navigation controls for moving between pages of content. HTMX ready."),
 			Tailwind:    true,
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
@@ -20,7 +20,7 @@ templ Pagination() {
 			})
 			@modules.Usage(modules.UsageProps{
 				ComponentName: "Pagination",
-				PropsExample:  "CurrentPage: 1, TotalPages: 10",
+				PropsExample:  "...",
 			})
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
@@ -41,18 +41,6 @@ templ Pagination() {
 					PreviewCodeFile:   "pagination_outline.templ",
 					ComponentCodeFile: "pagination.templ",
 				})
-				<!-- @modules.ExampleWrapper(modules.ExampleWrapperProps{ -->
-				<!-- 	SectionName:       "With HTMX", -->
-				<!-- 	ShowcaseFile:      showcase.PaginationWithHtmx(), -->
-				<!-- 	PreviewCodeFile:   "pagination_with_htmx.templ", -->
-				<!-- 	ComponentCodeFile: "pagination.templ", -->
-				<!-- }) -->
-				<!-- @modules.ExampleWrapper(modules.ExampleWrapperProps{ -->
-				<!-- 	SectionName:       "Custom Layout", -->
-				<!-- 	ShowcaseFile:      showcase.PaginationCustomLayout(), -->
-				<!-- 	PreviewCodeFile:   "pagination_custom_layout.templ", -->
-				<!-- 	ComponentCodeFile: "pagination.templ", -->
-				<!-- }) -->
 			}
 		}
 	}

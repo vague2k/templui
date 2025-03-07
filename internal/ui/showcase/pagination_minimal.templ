@@ -1,0 +1,17 @@
+package showcase
+
+import (
+	"github.com/axzilla/templui/components"
+)
+
+templ PaginationMinimal() {
+	@components.Pagination(components.PaginationProps{
+		CurrentPage:  4,
+		TotalPages:   10,
+		Type:         components.PaginationTypeMinimal,
+		MaxVisible:   5,
+		ShowNumbers:  true,
+		ShowControls: true,
+		// UrlPattern:   "/blog?page={page}",
+	})
+}

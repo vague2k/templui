@@ -545,9 +545,6 @@
   .h-16 {
     height: calc(var(--spacing) * 16);
   }
-  .h-40 {
-    height: calc(var(--spacing) * 40);
-  }
   .h-96 {
     height: calc(var(--spacing) * 96);
   }
@@ -628,9 +625,6 @@
   }
   .w-16 {
     width: calc(var(--spacing) * 16);
-  }
-  .w-20 {
-    width: calc(var(--spacing) * 20);
   }
   .w-56 {
     width: calc(var(--spacing) * 56);
@@ -1124,9 +1118,6 @@
   }
   .p-2 {
     padding: calc(var(--spacing) * 2);
-  }
-  .p-3 {
-    padding: calc(var(--spacing) * 3);
   }
   .p-4 {
     padding: calc(var(--spacing) * 4);
@@ -2024,11 +2015,6 @@
   .sm\:max-w-\[70\%\] {
     @media (width >= 40rem) {
       max-width: 70%;
-    }
-  }
-  .sm\:flex-row {
-    @media (width >= 40rem) {
-      flex-direction: row;
     }
   }
   .sm\:flex-row-reverse {
