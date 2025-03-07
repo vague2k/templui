@@ -116,62 +116,91 @@ templ Pagination(props PaginationProps) {
 
 // renderPrevButton creates the "Previous" navigation button
 templ renderPrevButton(props PaginationProps, totalPages int) {
+	// Disabled button when on first page
 	if props.CurrentPage <= 1 {
-		// Disabled button when on first page
-		<button
-			class={ utils.TwMerge(
-					getButtonBaseClasses(props.Type),
-					"flex items-center gap-1 opacity-50 cursor-not-allowed",
-				) }
-			disabled
-			aria-label="Go to previous page"
-			aria-disabled="true"
-		>
+		@Button(ButtonProps{
+			Variant:  ButtonVariantGhost,
+			Disabled: true,
+		}) {
 			@icons.ChevronLeft(icons.IconProps{Size: "16"})
 			if props.Type != PaginationTypeMinimal {
 				<span>Previous</span>
 			}
-		</button>
+		}
+		<!-- <button -->
+		<!-- 	class={ utils.TwMerge( -->
+		<!-- 			getButtonBaseClasses(props.Type), -->
+		<!-- 			"flex items-center gap-1 opacity-50 cursor-not-allowed", -->
+		<!-- 		) } -->
+		<!-- 	disabled -->
+		<!-- 	aria-label="Go to previous page" -->
+		<!-- 	aria-disabled="true" -->
+		<!-- > -->
+		<!-- 	@icons.ChevronLeft(icons.IconProps{Size: "16"}) -->
+		<!-- 	if props.Type != PaginationTypeMinimal { -->
+		<!-- 		<span>Previous</span> -->
+		<!-- 	} -->
+		<!-- </button> -->
 	} else {
 		// Active button with link
 		if props.HxGet {
-			<button
-				class={ utils.TwMerge(
-						getButtonBaseClasses(props.Type),
-						"flex items-center gap-1 hover:bg-accent hover:text-accent-foreground",
-					) }
-				aria-label="Go to previous page"
-				data-page={ strconv.Itoa(props.CurrentPage - 1) }
-				data-pagination-prev
-				hx-get={ getPageUrl(props.UrlPattern, props.CurrentPage-1) }
-				if props.HxTarget != "" {
-					hx-target={ props.HxTarget }
-				}
-				if props.HxSwap != "" {
-					hx-swap={ props.HxSwap }
-				}
-			>
+			@Button(ButtonProps{
+				Variant:  ButtonVariantGhost,
+				HxGet:    getPageUrl(props.UrlPattern, props.CurrentPage-1),
+				HxTarget: props.HxTarget,
+				HxSwap:   props.HxSwap,
+			}) {
 				@icons.ChevronLeft(icons.IconProps{Size: "16"})
 				if props.Type != PaginationTypeMinimal {
 					<span>Previous</span>
 				}
-			</button>
+			}
+			<!-- <button -->
+			<!-- 	class={ utils.TwMerge( -->
+			<!-- 			getButtonBaseClasses(props.Type), -->
+			<!-- 			"flex items-center gap-1 hover:bg-accent hover:text-accent-foreground", -->
+			<!-- 		) } -->
+			<!-- 	aria-label="Go to previous page" -->
+			<!-- 	data-page={ strconv.Itoa(props.CurrentPage - 1) } -->
+			<!-- 	data-pagination-prev -->
+			<!-- 	hx-get={ getPageUrl(props.UrlPattern, props.CurrentPage-1) } -->
+			<!-- 	if props.HxTarget != "" { -->
+			<!-- 		hx-target={ props.HxTarget } -->
+			<!-- 	} -->
+			<!-- 	if props.HxSwap != "" { -->
+			<!-- 		hx-swap={ props.HxSwap } -->
+			<!-- 	} -->
+			<!-- > -->
+			<!-- 	@icons.ChevronLeft(icons.IconProps{Size: "16"}) -->
+			<!-- 	if props.Type != PaginationTypeMinimal { -->
+			<!-- 		<span>Previous</span> -->
+			<!-- 	} -->
+			<!-- </button> -->
 		} else {
-			<a
-				href={ templ.SafeURL(getPageUrl(props.UrlPattern, props.CurrentPage-1)) }
-				class={ utils.TwMerge(
-						getButtonBaseClasses(props.Type),
-						"flex items-center gap-1 hover:bg-accent hover:text-accent-foreground",
-					) }
-				aria-label="Go to previous page"
-				data-page={ strconv.Itoa(props.CurrentPage - 1) }
-				data-pagination-prev
-			>
-				@icons.ChevronLeft(icons.IconProps{Size: "16"})
+			@Button(ButtonProps{
+				Variant: ButtonVariantGhost,
+				Href:    getPageUrl(props.UrlPattern, props.CurrentPage-1),
+			}) {
+				@icons.ChevronLeft(icons.IconProps{Size: "16", Class: "mr-1"})
 				if props.Type != PaginationTypeMinimal {
 					<span>Previous</span>
 				}
-			</a>
+			}
+			<!-- <a -->
+			<!-- 	href={ templ.SafeURL(getPageUrl(props.UrlPattern, props.CurrentPage-1)) } -->
+			<!-- 	class={ utils.TwMerge( -->
+			<!-- 			getButtonBaseClasses(props.Type), -->
+			<!-- 			"flex items-center gap-1 hover:bg-accent hover:text-accent-foreground", -->
+			<!-- 		) } -->
+			<!-- 	aria-label="Go to previous page" -->
+			<!-- 	data-page={ strconv.Itoa(props.CurrentPage - 1) } -->
+			<!-- 	data-pagination-prev -->
+			<!-- > -->
+			<!-- 	@icons.ChevronLeft(icons.IconProps{Size: "16"}) -->
+			<!-- 	if props.Type != PaginationTypeMinimal { -->
+			<!-- 		<span>Previous</span> -->
+			<!-- 	} -->
+			<!-- </a> -->
 		}
 	}
 }
@@ -180,60 +209,89 @@ templ renderPrevButton(props PaginationProps, totalPages int) {
 templ renderNextButton(props PaginationProps, totalPages int) {
 	if props.CurrentPage >= totalPages {
 		// Disabled button when on last page
-		<button
-			class={ utils.TwMerge(
-					getButtonBaseClasses(props.Type),
-					"flex items-center gap-1 opacity-50 cursor-not-allowed",
-				) }
-			disabled
-			aria-label="Go to next page"
-			aria-disabled="true"
-		>
+		@Button(ButtonProps{
+			Variant:  ButtonVariantGhost,
+			Disabled: true,
+		}) {
 			if props.Type != PaginationTypeMinimal {
 				<span>Next</span>
 			}
-			@icons.ChevronRight(icons.IconProps{Size: "16"})
-		</button>
+			@icons.ChevronRight(icons.IconProps{Size: "16", Class: "ml-1"})
+		}
+		<!-- <button -->
+		<!-- 	class={ utils.TwMerge( -->
+		<!-- 			getButtonBaseClasses(props.Type), -->
+		<!-- 			"flex items-center gap-1 opacity-50 cursor-not-allowed", -->
+		<!-- 		) } -->
+		<!-- 	disabled -->
+		<!-- 	aria-label="Go to next page" -->
+		<!-- 	aria-disabled="true" -->
+		<!-- > -->
+		<!-- 	if props.Type != PaginationTypeMinimal { -->
+		<!-- 		<span>Next</span> -->
+		<!-- 	} -->
+		<!-- 	@icons.ChevronRight(icons.IconProps{Size: "16"}) -->
+		<!-- </button> -->
 	} else {
 		// Active button with link
 		if props.HxGet {
-			<button
-				class={ utils.TwMerge(
-						getButtonBaseClasses(props.Type),
-						"flex items-center gap-1 hover:bg-accent hover:text-accent-foreground",
-					) }
-				aria-label="Go to next page"
-				data-page={ strconv.Itoa(props.CurrentPage + 1) }
-				data-pagination-next
-				hx-get={ getPageUrl(props.UrlPattern, props.CurrentPage+1) }
-				if props.HxTarget != "" {
-					hx-target={ props.HxTarget }
-				}
-				if props.HxSwap != "" {
-					hx-swap={ props.HxSwap }
-				}
-			>
+			@Button(ButtonProps{
+				Variant:  ButtonVariantGhost,
+				HxGet:    getPageUrl(props.UrlPattern, props.CurrentPage+1),
+				HxTarget: props.HxTarget,
+				HxSwap:   props.HxSwap,
+			}) {
 				if props.Type != PaginationTypeMinimal {
 					<span>Next</span>
 				}
-				@icons.ChevronRight(icons.IconProps{Size: "16"})
-			</button>
+				@icons.ChevronRight(icons.IconProps{Size: "16", Class: "ml-1"})
+			}
+			<!-- <button -->
+			<!-- 	class={ utils.TwMerge( -->
+			<!-- 			getButtonBaseClasses(props.Type), -->
+			<!-- 			"flex items-center gap-1 hover:bg-accent hover:text-accent-foreground", -->
+			<!-- 		) } -->
+			<!-- 	aria-label="Go to next page" -->
+			<!-- 	data-page={ strconv.Itoa(props.CurrentPage + 1) } -->
+			<!-- 	data-pagination-next -->
+			<!-- 	hx-get={ getPageUrl(props.UrlPattern, props.CurrentPage+1) } -->
+			<!-- 	if props.HxTarget != "" { -->
+			<!-- 		hx-target={ props.HxTarget } -->
+			<!-- 	} -->
+			<!-- 	if props.HxSwap != "" { -->
+			<!-- 		hx-swap={ props.HxSwap } -->
+			<!-- 	} -->
+			<!-- > -->
+			<!-- 	if props.Type != PaginationTypeMinimal { -->
+			<!-- 		<span>Next</span> -->
+			<!-- 	} -->
+			<!-- 	@icons.ChevronRight(icons.IconProps{Size: "16"}) -->
+			<!-- </button> -->
 		} else {
-			<a
-				href={ templ.SafeURL(getPageUrl(props.UrlPattern, props.CurrentPage+1)) }
-				class={ utils.TwMerge(
-						getButtonBaseClasses(props.Type),
-						"flex items-center gap-1 hover:bg-accent hover:text-accent-foreground",
-					) }
-				aria-label="Go to next page"
-				data-page={ strconv.Itoa(props.CurrentPage + 1) }
-				data-pagination-next
-			>
+			@Button(ButtonProps{
+				Variant: ButtonVariantGhost,
+				Href:    getPageUrl(props.UrlPattern, props.CurrentPage+1),
+			}) {
 				if props.Type != PaginationTypeMinimal {
 					<span>Next</span>
 				}
-				@icons.ChevronRight(icons.IconProps{Size: "16"})
-			</a>
+				@icons.ChevronRight(icons.IconProps{Size: "16", Class: "ml-1"})
+			}
+			<!-- <a -->
+			<!-- 	href={ templ.SafeURL(getPageUrl(props.UrlPattern, props.CurrentPage+1)) } -->
+			<!-- 	class={ utils.TwMerge( -->
+			<!-- 			getButtonBaseClasses(props.Type), -->
+			<!-- 			"flex items-center gap-1 hover:bg-accent hover:text-accent-foreground", -->
+			<!-- 		) } -->
+			<!-- 	aria-label="Go to next page" -->
+			<!-- 	data-page={ strconv.Itoa(props.CurrentPage + 1) } -->
+			<!-- 	data-pagination-next -->
+			<!-- > -->
+			<!-- 	if props.Type != PaginationTypeMinimal { -->
+			<!-- 		<span>Next</span> -->
+			<!-- 	} -->
+			<!-- 	@icons.ChevronRight(icons.IconProps{Size: "16"}) -->
+			<!-- </a> -->
 		}
 	}
 }
@@ -270,52 +328,71 @@ templ renderPageNumbers(props PaginationProps, totalPages int) {
 templ renderPageButton(props PaginationProps, page int, totalPages int) {
 	if page == props.CurrentPage {
 		// Current page (no link, just a button)
-		<button
-			class={ utils.TwMerge(
-					getButtonBaseClasses(props.Type),
-					utils.TwIfElse(props.Type == PaginationTypeMinimal,"w-8 h-8", "w-10 h-10"),
-					getCurrentPageClasses(props.Type),
-				) }
-			aria-label={ "Page " + strconv.Itoa(page) + " (current)" }
-			aria-current="page"
-			disabled
-		>
-			{ strconv.Itoa(page) }
-		</button>
+		@Button(ButtonProps{
+			Variant: ButtonVariantDefault,
+			Text:    strconv.Itoa(page),
+			Size:    ButtonSizeIcon,
+		})
+		<!-- <button -->
+		<!-- 	class={ utils.TwMerge( -->
+		<!-- 			getButtonBaseClasses(props.Type), -->
+		<!-- 			utils.TwIfElse(props.Type == PaginationTypeMinimal,"w-8 h-8", "w-10 h-10"), -->
+		<!-- 			getCurrentPageClasses(props.Type), -->
+		<!-- 		) } -->
+		<!-- 	aria-label={ "Page " + strconv.Itoa(page) + " (current)" } -->
+		<!-- 	aria-current="page" -->
+		<!-- 	disabled -->
+		<!-- > -->
+		<!-- 	{ strconv.Itoa(page) } -->
+		<!-- </button> -->
 	} else {
 		// Other pages (with links)
 		if props.HxGet {
-			<button
-				class={ utils.TwMerge(
-						getButtonBaseClasses(props.Type),
-						utils.TwIfElse(props.Type == PaginationTypeMinimal,"w-8 h-8", "w-10 h-10"),
-						"hover:bg-accent hover:text-accent-foreground",
-					) }
-				aria-label={ "Go to page " + strconv.Itoa(page) }
-				data-page={ strconv.Itoa(page) }
-				hx-get={ getPageUrl(props.UrlPattern, page) }
-				if props.HxTarget != "" {
-					hx-target={ props.HxTarget }
-				}
-				if props.HxSwap != "" {
-					hx-swap={ props.HxSwap }
-				}
-			>
-				{ strconv.Itoa(page) }
-			</button>
+			@Button(ButtonProps{
+				Variant:  ButtonVariantGhost,
+				Text:     strconv.Itoa(page),
+				HxGet:    getPageUrl(props.UrlPattern, page),
+				HxTarget: props.HxTarget,
+				HxSwap:   props.HxSwap,
+				Size:     ButtonSizeIcon,
+			})
+			<!-- <button -->
+			<!-- 	class={ utils.TwMerge( -->
+			<!-- 			getButtonBaseClasses(props.Type), -->
+			<!-- 			utils.TwIfElse(props.Type == PaginationTypeMinimal,"w-8 h-8", "w-10 h-10"), -->
+			<!-- 			"hover:bg-accent hover:text-accent-foreground", -->
+			<!-- 		) } -->
+			<!-- 	aria-label={ "Go to page " + strconv.Itoa(page) } -->
+			<!-- 	data-page={ strconv.Itoa(page) } -->
+			<!-- 	hx-get={ getPageUrl(props.UrlPattern, page) } -->
+			<!-- 	if props.HxTarget != "" { -->
+			<!-- 		hx-target={ props.HxTarget } -->
+			<!-- 	} -->
+			<!-- 	if props.HxSwap != "" { -->
+			<!-- 		hx-swap={ props.HxSwap } -->
+			<!-- 	} -->
+			<!-- > -->
+			<!-- 	{ strconv.Itoa(page) } -->
+			<!-- </button> -->
 		} else {
-			<a
-				href={ templ.SafeURL(getPageUrl(props.UrlPattern, page)) }
-				class={ utils.TwMerge(
-						getButtonBaseClasses(props.Type),
-						utils.TwIfElse(props.Type == PaginationTypeMinimal,"w-8 h-8", "w-10 h-10"),
-						"hover:bg-accent hover:text-accent-foreground",
-					) }
-				aria-label={ "Go to page " + strconv.Itoa(page) }
-				data-page={ strconv.Itoa(page) }
-			>
-				{ strconv.Itoa(page) }
-			</a>
+			@Button(ButtonProps{
+				Variant: ButtonVariantGhost,
+				Text:    strconv.Itoa(page),
+				Size:    ButtonSizeIcon,
+				Href:    getPageUrl(props.UrlPattern, page),
+			})
+			<!-- <a -->
+			<!-- 	href={ templ.SafeURL(getPageUrl(props.UrlPattern, page)) } -->
+			<!-- 	class={ utils.TwMerge( -->
+			<!-- 			getButtonBaseClasses(props.Type), -->
+			<!-- 			utils.TwIfElse(props.Type == PaginationTypeMinimal,"w-8 h-8", "w-10 h-10"), -->
+			<!-- 			"hover:bg-accent hover:text-accent-foreground", -->
+			<!-- 		) } -->
+			<!-- 	aria-label={ "Go to page " + strconv.Itoa(page) } -->
+			<!-- 	data-page={ strconv.Itoa(page) } -->
+			<!-- > -->
+			<!-- 	{ strconv.Itoa(page) } -->
+			<!-- </a> -->
 		}
 	}
 }
