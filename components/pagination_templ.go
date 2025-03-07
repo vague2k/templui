@@ -587,7 +587,7 @@ func renderPageButton(props PaginationProps, page int, totalPages int) templ.Com
 				return templ_7745c5c3_Err
 			}
 			templ_7745c5c3_Err = Button(ButtonProps{
-				Variant: ButtonVariantDefault,
+				Variant: getButtonVariant(props.Type),
 				Text:    strconv.Itoa(page),
 				Size:    ButtonSizeIcon,
 			}).Render(ctx, templ_7745c5c3_Buffer)
@@ -667,6 +667,16 @@ func calculateVisibleRange(currentPage, totalPages, maxVisible int) (int, int) {
 	}
 
 	return start, end
+}
+
+// Get the appropriate button variant based on pagination type
+func getButtonVariant(paginationType PaginationType) ButtonVariant {
+	switch paginationType {
+	case PaginationTypeOutline:
+		return ButtonVariantOutline
+	default:
+		return ButtonVariantDefault
+	}
 }
 
 // getButtonBaseClasses returns CSS classes based on pagination type

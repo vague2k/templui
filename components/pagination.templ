@@ -329,7 +329,7 @@ templ renderPageButton(props PaginationProps, page int, totalPages int) {
 	if page == props.CurrentPage {
 		// Current page (no link, just a button)
 		@Button(ButtonProps{
-			Variant: ButtonVariantDefault,
+			Variant: getButtonVariant(props.Type),
 			Text:    strconv.Itoa(page),
 			Size:    ButtonSizeIcon,
 		})
@@ -425,6 +425,16 @@ func calculateVisibleRange(currentPage, totalPages, maxVisible int) (int, int) {
 	}
 
 	return start, end
+}
+
+// Get the appropriate button variant based on pagination type
+func getButtonVariant(paginationType PaginationType) ButtonVariant {
+	switch paginationType {
+	case PaginationTypeOutline:
+		return ButtonVariantOutline
+	default:
+		return ButtonVariantDefault
+	}
 }
 
 // getButtonBaseClasses returns CSS classes based on pagination type
