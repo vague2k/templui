@@ -114,6 +114,10 @@ var Sections = []Section{
 				Href: "/docs/components/modal",
 			},
 			{
+				Text: "Pagination",
+				Href: "/docs/components/pagination",
+			},
+			{
 				Text: "Radio",
 				Href: "/docs/components/radio",
 			},

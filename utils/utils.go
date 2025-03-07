@@ -27,6 +27,15 @@ func TwIf(class string, condition bool) string {
 	return ""
 }
 
+// TwIfElse returns trueClass if condition is true, otherwise falseClass
+// Example: true, "bg-red-500", "bg-gray-300" → "bg-red-500", false, "bg-red-500", "bg-gray-300" → "bg-gray-300"
+func TwIfElse(condition bool, trueClass string, falseClass string) string {
+	if condition {
+		return trueClass
+	}
+	return falseClass
+}
+
 // mergeAttributes merges multiple Attributes into one
 func MergeAttributes(attrs ...templ.Attributes) templ.Attributes {
 	merged := templ.Attributes{}
