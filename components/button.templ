@@ -97,6 +97,7 @@ func (b ButtonProps) modifierClasses() string {
 templ Button(props ButtonProps) {
 	if props.Href != "" {
 		<a
+			{ props.Attributes... }
 			href={ templ.SafeURL(props.Href) }
 			target={ props.Target }
 			class={
@@ -140,6 +141,7 @@ templ Button(props ButtonProps) {
 		</a>
 	} else {
 		<button
+			{ props.Attributes... }
 			class={
 				utils.TwMerge(
 					"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors",
