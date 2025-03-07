@@ -149,7 +149,7 @@ func Pagination(props PaginationProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		if props.ShowControls {
-			templ_7745c5c3_Err = renderPrevButton(props, totalPages).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = renderPrevButton(props).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -175,7 +175,7 @@ func Pagination(props PaginationProps) templ.Component {
 }
 
 // renderPrevButton creates the "Previous" navigation button
-func renderPrevButton(props PaginationProps, totalPages int) templ.Component {
+func renderPrevButton(props PaginationProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -232,12 +232,8 @@ func renderPrevButton(props PaginationProps, totalPages int) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, " <!-- <button --> <!-- \tclass={ utils.TwMerge( --> <!-- \t\t\tgetButtonBaseClasses(props.Type), --> <!-- \t\t\t\"flex items-center gap-1 opacity-50 cursor-not-allowed\", --> <!-- \t\t) } --> <!-- \tdisabled --> <!-- \taria-label=\"Go to previous page\" --> <!-- \taria-disabled=\"true\" --> <!-- > --> <!-- \t@icons.ChevronLeft(icons.IconProps{Size: \"16\"}) --> <!-- \tif props.Type != PaginationTypeMinimal { --> <!-- \t\t<span>Previous</span> --> <!-- \t} --> <!-- </button> -->")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
 		} else {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, " ")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, " ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -258,12 +254,12 @@ func renderPrevButton(props PaginationProps, totalPages int) templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, " ")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, " ")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
 					if props.Type != PaginationTypeMinimal {
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<span>Previous</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<span>Previous</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -276,10 +272,6 @@ func renderPrevButton(props PaginationProps, totalPages int) templ.Component {
 					HxTarget: props.HxTarget,
 					HxSwap:   props.HxSwap,
 				}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var6), templ_7745c5c3_Buffer)
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, " <!-- <button --> <!-- \tclass={ utils.TwMerge( --> <!-- \t\t\tgetButtonBaseClasses(props.Type), --> <!-- \t\t\t\"flex items-center gap-1 hover:bg-accent hover:text-accent-foreground\", --> <!-- \t\t) } --> <!-- \taria-label=\"Go to previous page\" --> <!-- \tdata-page={ strconv.Itoa(props.CurrentPage - 1) } --> <!-- \tdata-pagination-prev --> <!-- \thx-get={ getPageUrl(props.UrlPattern, props.CurrentPage-1) } --> <!-- \tif props.HxTarget != \"\" { --> <!-- \t\thx-target={ props.HxTarget } --> <!-- \t} --> <!-- \tif props.HxSwap != \"\" { --> <!-- \t\thx-swap={ props.HxSwap } --> <!-- \t} --> <!-- > --> <!-- \t@icons.ChevronLeft(icons.IconProps{Size: \"16\"}) --> <!-- \tif props.Type != PaginationTypeMinimal { --> <!-- \t\t<span>Previous</span> --> <!-- \t} --> <!-- </button> -->")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -300,12 +292,12 @@ func renderPrevButton(props PaginationProps, totalPages int) templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, " ")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, " ")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
 					if props.Type != PaginationTypeMinimal {
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "<span>Previous</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<span>Previous</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -316,10 +308,6 @@ func renderPrevButton(props PaginationProps, totalPages int) templ.Component {
 					Variant: ButtonVariantGhost,
 					Href:    getPageUrl(props.UrlPattern, props.CurrentPage-1),
 				}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var7), templ_7745c5c3_Buffer)
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, " <!-- <a --> <!-- \thref={ templ.SafeURL(getPageUrl(props.UrlPattern, props.CurrentPage-1)) } --> <!-- \tclass={ utils.TwMerge( --> <!-- \t\t\tgetButtonBaseClasses(props.Type), --> <!-- \t\t\t\"flex items-center gap-1 hover:bg-accent hover:text-accent-foreground\", --> <!-- \t\t) } --> <!-- \taria-label=\"Go to previous page\" --> <!-- \tdata-page={ strconv.Itoa(props.CurrentPage - 1) } --> <!-- \tdata-pagination-prev --> <!-- > --> <!-- \t@icons.ChevronLeft(icons.IconProps{Size: \"16\"}) --> <!-- \tif props.Type != PaginationTypeMinimal { --> <!-- \t\t<span>Previous</span> --> <!-- \t} --> <!-- </a> -->")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -352,7 +340,7 @@ func renderNextButton(props PaginationProps, totalPages int) templ.Component {
 		}
 		ctx = templ.ClearChildren(ctx)
 		if props.CurrentPage >= totalPages {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, " ")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, " ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -369,12 +357,12 @@ func renderNextButton(props PaginationProps, totalPages int) templ.Component {
 				}
 				ctx = templ.InitializeContext(ctx)
 				if props.Type != PaginationTypeMinimal {
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "<span>Next</span>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "<span>Next</span>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, " ")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, " ")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -391,12 +379,8 @@ func renderNextButton(props PaginationProps, totalPages int) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, " <!-- <button --> <!-- \tclass={ utils.TwMerge( --> <!-- \t\t\tgetButtonBaseClasses(props.Type), --> <!-- \t\t\t\"flex items-center gap-1 opacity-50 cursor-not-allowed\", --> <!-- \t\t) } --> <!-- \tdisabled --> <!-- \taria-label=\"Go to next page\" --> <!-- \taria-disabled=\"true\" --> <!-- > --> <!-- \tif props.Type != PaginationTypeMinimal { --> <!-- \t\t<span>Next</span> --> <!-- \t} --> <!-- \t@icons.ChevronRight(icons.IconProps{Size: \"16\"}) --> <!-- </button> -->")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
 		} else {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, " ")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, " ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -414,12 +398,12 @@ func renderNextButton(props PaginationProps, totalPages int) templ.Component {
 					}
 					ctx = templ.InitializeContext(ctx)
 					if props.Type != PaginationTypeMinimal {
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "<span>Next</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "<span>Next</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, " ")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, " ")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -438,10 +422,6 @@ func renderNextButton(props PaginationProps, totalPages int) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, " <!-- <button --> <!-- \tclass={ utils.TwMerge( --> <!-- \t\t\tgetButtonBaseClasses(props.Type), --> <!-- \t\t\t\"flex items-center gap-1 hover:bg-accent hover:text-accent-foreground\", --> <!-- \t\t) } --> <!-- \taria-label=\"Go to next page\" --> <!-- \tdata-page={ strconv.Itoa(props.CurrentPage + 1) } --> <!-- \tdata-pagination-next --> <!-- \thx-get={ getPageUrl(props.UrlPattern, props.CurrentPage+1) } --> <!-- \tif props.HxTarget != \"\" { --> <!-- \t\thx-target={ props.HxTarget } --> <!-- \t} --> <!-- \tif props.HxSwap != \"\" { --> <!-- \t\thx-swap={ props.HxSwap } --> <!-- \t} --> <!-- > --> <!-- \tif props.Type != PaginationTypeMinimal { --> <!-- \t\t<span>Next</span> --> <!-- \t} --> <!-- \t@icons.ChevronRight(icons.IconProps{Size: \"16\"}) --> <!-- </button> -->")
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
 			} else {
 				templ_7745c5c3_Var11 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 					templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -456,12 +436,12 @@ func renderNextButton(props PaginationProps, totalPages int) templ.Component {
 					}
 					ctx = templ.InitializeContext(ctx)
 					if props.Type != PaginationTypeMinimal {
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 23, "<span>Next</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "<span>Next</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 24, " ")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, " ")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -475,10 +455,6 @@ func renderNextButton(props PaginationProps, totalPages int) templ.Component {
 					Variant: ButtonVariantGhost,
 					Href:    getPageUrl(props.UrlPattern, props.CurrentPage+1),
 				}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var11), templ_7745c5c3_Buffer)
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 25, " <!-- <a --> <!-- \thref={ templ.SafeURL(getPageUrl(props.UrlPattern, props.CurrentPage+1)) } --> <!-- \tclass={ utils.TwMerge( --> <!-- \t\t\tgetButtonBaseClasses(props.Type), --> <!-- \t\t\t\"flex items-center gap-1 hover:bg-accent hover:text-accent-foreground\", --> <!-- \t\t) } --> <!-- \taria-label=\"Go to next page\" --> <!-- \tdata-page={ strconv.Itoa(props.CurrentPage + 1) } --> <!-- \tdata-pagination-next --> <!-- > --> <!-- \tif props.Type != PaginationTypeMinimal { --> <!-- \t\t<span>Next</span> --> <!-- \t} --> <!-- \t@icons.ChevronRight(icons.IconProps{Size: \"16\"}) --> <!-- </a> -->")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -511,16 +487,16 @@ func renderPageNumbers(props PaginationProps, totalPages int) templ.Component {
 		}
 		ctx = templ.ClearChildren(ctx)
 		if props.Type != PaginationTypeMinimal && props.CurrentPage > 3 && props.MaxVisible < totalPages {
-			templ_7745c5c3_Err = renderPageButton(props, 1, totalPages).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = renderPageButton(props, 1).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 26, "  ")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "  ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			if props.CurrentPage > 4 {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 27, "<span class=\"flex h-10 w-10 items-center justify-center text-sm\">...</span>")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, "<span class=\"flex h-10 w-10 items-center justify-center text-sm\">...</span>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -530,27 +506,27 @@ func renderPageNumbers(props PaginationProps, totalPages int) templ.Component {
 		// Calculate visible page range
 		start, end := calculateVisibleRange(props.CurrentPage, totalPages, props.MaxVisible)
 		for i := start; i <= end; i++ {
-			templ_7745c5c3_Err = renderPageButton(props, i, totalPages).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = renderPageButton(props, i).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
 		if props.Type != PaginationTypeMinimal && props.CurrentPage < totalPages-2 && props.MaxVisible < totalPages {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 28, " ")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, " ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			if props.CurrentPage < totalPages-3 {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 29, "<span class=\"flex h-10 w-10 items-center justify-center text-sm\">...</span>")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 23, "<span class=\"flex h-10 w-10 items-center justify-center text-sm\">...</span>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 30, " ")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 24, " ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = renderPageButton(props, totalPages, totalPages).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = renderPageButton(props, totalPages).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -560,7 +536,7 @@ func renderPageNumbers(props PaginationProps, totalPages int) templ.Component {
 }
 
 // renderPageButton creates an individual page number button
-func renderPageButton(props PaginationProps, page int, totalPages int) templ.Component {
+func renderPageButton(props PaginationProps, page int) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -582,7 +558,7 @@ func renderPageButton(props PaginationProps, page int, totalPages int) templ.Com
 		}
 		ctx = templ.ClearChildren(ctx)
 		if page == props.CurrentPage {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 31, " ")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 25, " ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -594,12 +570,8 @@ func renderPageButton(props PaginationProps, page int, totalPages int) templ.Com
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 32, " <!-- <button --> <!-- \tclass={ utils.TwMerge( --> <!-- \t\t\tgetButtonBaseClasses(props.Type), --> <!-- \t\t\tutils.TwIfElse(props.Type == PaginationTypeMinimal,\"w-8 h-8\", \"w-10 h-10\"), --> <!-- \t\t\tgetCurrentPageClasses(props.Type), --> <!-- \t\t) } --> <!-- \taria-label={ \"Page \" + strconv.Itoa(page) + \" (current)\" } --> <!-- \taria-current=\"page\" --> <!-- \tdisabled --> <!-- > --> <!-- \t{ strconv.Itoa(page) } --> <!-- </button> -->")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
 		} else {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 33, " ")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 26, " ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -615,10 +587,6 @@ func renderPageButton(props PaginationProps, page int, totalPages int) templ.Com
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 34, " <!-- <button --> <!-- \tclass={ utils.TwMerge( --> <!-- \t\t\tgetButtonBaseClasses(props.Type), --> <!-- \t\t\tutils.TwIfElse(props.Type == PaginationTypeMinimal,\"w-8 h-8\", \"w-10 h-10\"), --> <!-- \t\t\t\"hover:bg-accent hover:text-accent-foreground\", --> <!-- \t\t) } --> <!-- \taria-label={ \"Go to page \" + strconv.Itoa(page) } --> <!-- \tdata-page={ strconv.Itoa(page) } --> <!-- \thx-get={ getPageUrl(props.UrlPattern, page) } --> <!-- \tif props.HxTarget != \"\" { --> <!-- \t\thx-target={ props.HxTarget } --> <!-- \t} --> <!-- \tif props.HxSwap != \"\" { --> <!-- \t\thx-swap={ props.HxSwap } --> <!-- \t} --> <!-- > --> <!-- \t{ strconv.Itoa(page) } --> <!-- </button> -->")
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
 			} else {
 				templ_7745c5c3_Err = Button(ButtonProps{
 					Variant: ButtonVariantGhost,
@@ -626,10 +594,6 @@ func renderPageButton(props PaginationProps, page int, totalPages int) templ.Com
 					Size:    ButtonSizeIcon,
 					Href:    getPageUrl(props.UrlPattern, page),
 				}).Render(ctx, templ_7745c5c3_Buffer)
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 35, " <!-- <a --> <!-- \thref={ templ.SafeURL(getPageUrl(props.UrlPattern, page)) } --> <!-- \tclass={ utils.TwMerge( --> <!-- \t\t\tgetButtonBaseClasses(props.Type), --> <!-- \t\t\tutils.TwIfElse(props.Type == PaginationTypeMinimal,\"w-8 h-8\", \"w-10 h-10\"), --> <!-- \t\t\t\"hover:bg-accent hover:text-accent-foreground\", --> <!-- \t\t) } --> <!-- \taria-label={ \"Go to page \" + strconv.Itoa(page) } --> <!-- \tdata-page={ strconv.Itoa(page) } --> <!-- > --> <!-- \t{ strconv.Itoa(page) } --> <!-- </a> -->")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -676,30 +640,6 @@ func getButtonVariant(paginationType PaginationType) ButtonVariant {
 		return ButtonVariantOutline
 	default:
 		return ButtonVariantDefault
-	}
-}
-
-// getButtonBaseClasses returns CSS classes based on pagination type
-func getButtonBaseClasses(paginationType PaginationType) string {
-	switch paginationType {
-	case PaginationTypeOutline:
-		return "flex items-center justify-center rounded-md border border-input bg-transparent text-sm font-medium transition-colors"
-	case PaginationTypeMinimal:
-		return "flex items-center justify-center rounded-md text-sm font-medium transition-colors h-8 w-8"
-	default:
-		return "flex items-center justify-center rounded-md px-3 text-sm font-medium transition-colors"
-	}
-}
-
-// getCurrentPageClasses returns CSS classes for the current page based on type
-func getCurrentPageClasses(paginationType PaginationType) string {
-	switch paginationType {
-	case PaginationTypeOutline:
-		return "border-primary bg-transparent text-foreground font-semibold"
-	case PaginationTypeMinimal:
-		return "bg-primary text-primary-foreground"
-	default:
-		return "bg-primary text-primary-foreground"
 	}
 }
 
