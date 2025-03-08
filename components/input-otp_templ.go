@@ -121,7 +121,7 @@ func InputOTP(props InputOTPProps) templ.Component {
 			props.Type = "text"
 		}
 		if props.Placeholder == "" {
-			props.Placeholder = "•"
+			props.Placeholder = ""
 		}
 		templ_7745c5c3_Err = InputOTPScript().Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {

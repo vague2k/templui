@@ -9,50 +9,44 @@ import (
 templ InputOtp() {
 	@layouts.DocsLayout() {
 		@modules.PageWrapper(modules.PageWrapperProps{
-			Name:        "OTP Input",
+			Name:        "Input OTP",
 			Description: templ.Raw("Input field for one-time password/verification code entry."),
 			Tailwind:    true,
 			Alpine:      true,
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.InputOTPDefault(),
-				PreviewCodeFile:   "otp_input_default.templ",
+				PreviewCodeFile:   "input_otp_default.templ",
 				ComponentCodeFile: "otp_input.templ",
 			})
 			@modules.Usage(modules.UsageProps{
 				ComponentName: "InputOTP",
 				NeedsHandler:  true,
-				PropsExample:  "Length: 6, Type: \"text\", Placeholder: \"•\"",
+				PropsExample:  "...",
 			})
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "With Error",
-					ShowcaseFile:      showcase.InputOTPWithError(),
-					PreviewCodeFile:   "otp_input_with_error.templ",
+					SectionName:       "With Placeholder",
+					ShowcaseFile:      showcase.InputOTPPlaceholder(),
+					PreviewCodeFile:   "input_otp_placeholder.templ",
 					ComponentCodeFile: "otp_input.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "With Custom Length",
 					ShowcaseFile:      showcase.InputOTPCustomLength(),
-					PreviewCodeFile:   "otp_input_custom_length.templ",
+					PreviewCodeFile:   "input_otp_custom_length.templ",
 					ComponentCodeFile: "otp_input.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "With Password Type",
 					ShowcaseFile:      showcase.InputOTPPassword(),
-					PreviewCodeFile:   "otp_input_password.templ",
-					ComponentCodeFile: "otp_input.templ",
-				})
-				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "With Custom Styling",
-					ShowcaseFile:      showcase.InputOTPCustomStyling(),
-					PreviewCodeFile:   "otp_input_custom_styling.templ",
+					PreviewCodeFile:   "input_otp_password.templ",
 					ComponentCodeFile: "otp_input.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "With Form",
 					ShowcaseFile:      showcase.InputOTPForm(),
-					PreviewCodeFile:   "otp_input_form.templ",
+					PreviewCodeFile:   "input_otp_form.templ",
 					ComponentCodeFile: "otp_input.templ",
 					ID:                "form",
 				})
