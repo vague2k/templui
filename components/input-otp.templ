@@ -35,11 +35,6 @@ templ InputOTPScript() {
 							this.otpValue = this.$el.dataset.value;
 							this.fillInputsFromValue();
 						}
-						
-						// Set focus to first empty input on init
-						this.$nextTick(() => {
-							this.focusFirstEmptyInput();
-						});
 					},
 					
 					// Get all input refs
