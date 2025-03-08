@@ -34,7 +34,7 @@ templ Label(props LabelProps) {
 		for={ props.For }
 		class={
 			// Styling
-			"text-sm font-medium leading-none",
+			"text-sm font-medium leading-none inline-block",
 		
 			// Utility
 			templ.KV("text-destructive", len(props.Error) > 0),
