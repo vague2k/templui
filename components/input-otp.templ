@@ -5,8 +5,8 @@ import (
 	"strconv"
 )
 
-// OTPInputProps configures the OTP input component
-type OTPInputProps struct {
+// InputOTPProps configures the OTP input component
+type InputOTPProps struct {
 	ID          string           // DOM identifier
 	Name        string           // Form field name
 	Value       string           // Current OTP value
@@ -20,12 +20,12 @@ type OTPInputProps struct {
 	Attributes  templ.Attributes // Additional HTML attributes
 }
 
-templ OTPInputScript() {
+templ InputOTPScript() {
 	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
 			document.addEventListener('alpine:init', () => {
-				Alpine.data('otpInput', () => ({
+				Alpine.data('inputOTP', () => ({
 					otpValue: '',
 					inputRefs: [],
 					
@@ -167,8 +167,8 @@ templ OTPInputScript() {
 	}
 }
 
-// OTPInput renders a one-time password input field divided into individual digit inputs
-templ OTPInput(props OTPInputProps) {
+// InputOTP renders a one-time password input field divided into individual digit inputs
+templ InputOTP(props InputOTPProps) {
 	if props.ID == "" {
 		{{ props.ID = utils.RandomID() }}
 	}
@@ -181,7 +181,7 @@ templ OTPInput(props OTPInputProps) {
 	if props.Placeholder == "" {
 		{{ props.Placeholder = "•" }}
 	}
-	@OTPInputScript()
+	@InputOTPScript()
 	<div
 		id={ props.ID + "-container" }
 		class={ utils.TwMerge(
@@ -191,7 +191,7 @@ templ OTPInput(props OTPInputProps) {
 			// Custom
 			props.Class,
 		) }
-		x-data="otpInput"
+		x-data="inputOTP"
 		data-length={ strconv.Itoa(props.Length) }
 		if props.Value != "" {
 			data-value={ props.Value }

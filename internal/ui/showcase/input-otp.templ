@@ -1,12 +1,10 @@
 package showcase
 
-import (
-	"github.com/axzilla/templui/components"
-)
+import "github.com/axzilla/templui/components"
 
-templ OtpInputDefault() {
+templ InputOTPDefault() {
 	<div class="flex flex-col space-y-4">
-		@components.OTPInput(components.OTPInputProps{
+		@components.InputOTP(components.InputOTPProps{
 			ID:          "otp-default",
 			Name:        "otp-default",
 			Length:      6,
@@ -15,9 +13,9 @@ templ OtpInputDefault() {
 	</div>
 }
 
-templ OtpInputWithError() {
+templ InputOTPWithError() {
 	<div class="flex flex-col space-y-4">
-		@components.OTPInput(components.OTPInputProps{
+		@components.InputOTP(components.InputOTPProps{
 			ID:       "otp-error",
 			Name:     "otp-error",
 			Length:   6,
@@ -27,9 +25,9 @@ templ OtpInputWithError() {
 	</div>
 }
 
-templ OtpInputCustomLength() {
+templ InputOTPCustomLength() {
 	<div class="flex flex-col space-y-4">
-		@components.OTPInput(components.OTPInputProps{
+		@components.InputOTP(components.InputOTPProps{
 			ID:     "otp-custom-length",
 			Name:   "otp-custom-length",
 			Length: 4,
@@ -38,9 +36,9 @@ templ OtpInputCustomLength() {
 	</div>
 }
 
-templ OtpInputPassword() {
+templ InputOTPPassword() {
 	<div class="flex flex-col space-y-4">
-		@components.OTPInput(components.OTPInputProps{
+		@components.InputOTP(components.InputOTPProps{
 			ID:     "otp-password",
 			Name:   "otp-password",
 			Length: 6,
@@ -50,9 +48,9 @@ templ OtpInputPassword() {
 	</div>
 }
 
-templ OtpInputCustomStyling() {
+templ InputOTPCustomStyling() {
 	<div class="flex flex-col space-y-4">
-		@components.OTPInput(components.OTPInputProps{
+		@components.InputOTP(components.InputOTPProps{
 			ID:     "otp-custom-style",
 			Name:   "otp-custom-style",
 			Length: 6,
@@ -65,14 +63,14 @@ templ OtpInputCustomStyling() {
 	</div>
 }
 
-templ OtpInputForm() {
+templ InputOTPForm() {
 	<form class="space-y-6">
 		@components.FormItem(components.FormItemProps{}) {
 			@components.FormLabel(components.FormLabelProps{
 				For:  "otp-form",
 				Text: "Verification Code",
 			})
-			@components.OTPInput(components.OTPInputProps{
+			@components.InputOTP(components.InputOTPProps{
 				ID:       "otp-form",
 				Name:     "otp-form",
 				Length:   6,

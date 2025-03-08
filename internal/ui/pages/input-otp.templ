@@ -15,43 +15,43 @@ templ InputOtp() {
 			Alpine:      true,
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				ShowcaseFile:      showcase.OtpInputDefault(),
+				ShowcaseFile:      showcase.InputOTPDefault(),
 				PreviewCodeFile:   "otp_input_default.templ",
 				ComponentCodeFile: "otp_input.templ",
 			})
 			@modules.Usage(modules.UsageProps{
-				ComponentName: "OTPInput",
+				ComponentName: "InputOTP",
 				NeedsHandler:  true,
 				PropsExample:  "Length: 6, Type: \"text\", Placeholder: \"•\"",
 			})
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "With Error",
-					ShowcaseFile:      showcase.OtpInputWithError(),
+					ShowcaseFile:      showcase.InputOTPWithError(),
 					PreviewCodeFile:   "otp_input_with_error.templ",
 					ComponentCodeFile: "otp_input.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "With Custom Length",
-					ShowcaseFile:      showcase.OtpInputCustomLength(),
+					ShowcaseFile:      showcase.InputOTPCustomLength(),
 					PreviewCodeFile:   "otp_input_custom_length.templ",
 					ComponentCodeFile: "otp_input.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "With Password Type",
-					ShowcaseFile:      showcase.OtpInputPassword(),
+					ShowcaseFile:      showcase.InputOTPPassword(),
 					PreviewCodeFile:   "otp_input_password.templ",
 					ComponentCodeFile: "otp_input.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "With Custom Styling",
-					ShowcaseFile:      showcase.OtpInputCustomStyling(),
+					ShowcaseFile:      showcase.InputOTPCustomStyling(),
 					PreviewCodeFile:   "otp_input_custom_styling.templ",
 					ComponentCodeFile: "otp_input.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "With Form",
-					ShowcaseFile:      showcase.OtpInputForm(),
+					ShowcaseFile:      showcase.InputOTPForm(),
 					PreviewCodeFile:   "otp_input_form.templ",
 					ComponentCodeFile: "otp_input.templ",
 					ID:                "form",
