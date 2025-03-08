@@ -83,6 +83,7 @@ func main() {
 	mux.Handle("GET /docs/components/form", templ.Handler(pages.Form()))
 	mux.Handle("GET /docs/components/icon", templ.Handler(pages.Icon()))
 	mux.Handle("GET /docs/components/input", templ.Handler(pages.Input()))
+	mux.Handle("GET /docs/components/input-otp", templ.Handler(pages.InputOtp()))
 	mux.Handle("GET /docs/components/label", templ.Handler(pages.Label()))
 	mux.Handle("GET /docs/components/modal", templ.Handler(pages.Modal()))
 	mux.Handle("GET /docs/components/pagination", templ.Handler(pages.Pagination()))

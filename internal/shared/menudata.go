@@ -106,6 +106,10 @@ var Sections = []Section{
 				Href: "/docs/components/input",
 			},
 			{
+				Text: "Input OTP",
+				Href: "/docs/components/input-otp",
+			},
+			{
 				Text: "Label",
 				Href: "/docs/components/label",
 			},
