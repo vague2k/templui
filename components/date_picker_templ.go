@@ -87,63 +87,63 @@ var (
 
 var (
 	// DatePickerISO provides ISO format with default locale
-	DatePickerISO = DatepickerConfig{
+	DatePickerISO = DatePickerConfig{
 		Format: DateFormatISO,
 		Locale: DateLocaleDefault,
 	}
 
 	// DatePickerEU provides European format with default locale
-	DatePickerEU = DatepickerConfig{
+	DatePickerEU = DatePickerConfig{
 		Format: DateFormatEU,
 		Locale: DateLocaleDefault,
 	}
 
 	// DatePickerUK provides UK format with default locale
-	DatePickerUK = DatepickerConfig{
+	DatePickerUK = DatePickerConfig{
 		Format: DateFormatUK,
 		Locale: DateLocaleDefault,
 	}
 
 	// DatePickerUS provides US format with default locale
-	DatePickerUS = DatepickerConfig{
+	DatePickerUS = DatePickerConfig{
 		Format: DateFormatUS,
 		Locale: DateLocaleDefault,
 	}
 
 	// DatePickerUS provides US format with default locale
-	DatePickerLONG = DatepickerConfig{
+	DatePickerLONG = DatePickerConfig{
 		Format: DateFormatLONG,
 		Locale: DateLocaleDefault,
 	}
 )
 
-// NewDatepickerConfig creates a new configuration with specified format and locale
-func NewDatepickerConfig(format DateFormat, locale DateLocale) DatepickerConfig {
-	return DatepickerConfig{
+// NewDatePickerConfig creates a new configuration with specified format and locale
+func NewDatePickerConfig(format DateFormat, locale DateLocale) DatePickerConfig {
+	return DatePickerConfig{
 		Format: format,
 		Locale: locale,
 	}
 }
 
-func (c DatepickerConfig) getGoFormat() string {
+func (c DatePickerConfig) getGoFormat() string {
 	if format, ok := dateFormatMapping[c.Format]; ok {
 		return format
 	}
 	return dateFormatMapping[DateFormatISO] // Default to ISO
 }
 
-// DatepickerConfig combines format and locale settings
-type DatepickerConfig struct {
+// DatePickerConfig combines format and locale settings
+type DatePickerConfig struct {
 	Format DateFormat // Date format style
 	Locale DateLocale // Localization settings
 }
 
-// DatepickerProps configures the Datepicker component
-type DatepickerProps struct {
+// DatePickerProps configures the DatePicker component
+type DatePickerProps struct {
 	ID          string           // DOM identifier
 	Name        string           // Form field name
 	Value       time.Time        // Selected date
-	Config      DatepickerConfig // Format and locale config
+	Config      DatePickerConfig // Format and locale config
 	Placeholder string           // Helper text shown when empty
 	Disabled    bool             // Prevents interaction
 	HasError    bool             // Error state styling
@@ -151,7 +151,7 @@ type DatepickerProps struct {
 	Attributes  templ.Attributes // Additional HTML attributes
 }
 
-func DatepickerScript() templ.Component {
+func DatePickerScript() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -192,13 +192,13 @@ func DatepickerScript() templ.Component {
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/datepicker.templ`, Line: 149, Col: 43}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/date_picker.templ`, Line: 149, Col: 43}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\">\n\t\t\tdocument.addEventListener('alpine:init', () => {\n\t\t\t\tAlpine.data('datepicker', () => ({\n\t\t\t\t\topen: false,\n\t\t\t\t\tvalue: null,\n\t\t\t\t\tformat: null,\n\t\t\t\t\tcurrentMonth: 5,\n\t\t\t\t\tcurrentYear: new Date().getFullYear(),\n\t\t\t\t\tmonthDays: [],\n\t\t\t\t\tblankDays: [],\n\t\t\t\t\tmonths: this.$el?.dataset?.monthnames || ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],\n\t\t\t\t\tdays: this.$el?.dataset?.daynames || ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],\n\t\t\t\t\tposition: 'bottom',\n\n\t\t\t\t\tinit() {\n\t\t\t\t\t    const monthNames = JSON.parse(this.$el?.dataset?.monthnames);\n    \t\t\t\t\tif (monthNames) {\n        \t\t\t\t\tthis.months = monthNames;\n   \t\t\t\t\t\t}\n\n   \t\t\t\t\t\tconst dayNames = JSON.parse(this.$el?.dataset?.daynames);\n    \t\t\t\t\tif (dayNames) {\n        \t\t\t\t\tthis.days = dayNames;\n    \t\t\t\t\t}\t\t\t\t\n\n\t\t\t\t\t\tthis.format = this.$el.dataset.format;\n\t\t\t\t\t\tconst initialDate = this.$el?.dataset?.value ? new Date(this.parseDate(this.$el?.dataset?.value)) : new Date();\n\t\t\t\t\t\tthis.currentMonth = initialDate.getMonth();\n\t\t\t\t\t\tthis.currentYear = initialDate.getFullYear();\n\t\t\t\t\t\tthis.calculateDays();\n\t\t\t\t\t\t// Format the initial value using the correct locale\n\t\t\t\t\t\tif (this.$el.dataset?.value) {\n\t\t\t\t\t\t\tthis.value = this.formatDate(initialDate);\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\n\t\t\t\t\ttoggleDatePicker() {\n\t\t\t\t\t\tthis.open = !this.open;\n\t\t\t\t\t\tif (this.open) {\n\t\t\t\t\t\t\tthis.$nextTick(() => this.updatePosition());\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\n\t\t\t\t\tgetCurrentMonth() {\n\t\t\t\t\t\treturn this.months[this.currentMonth] + ' ' + this.currentYear;\n\t\t\t\t\t},\n\n\t\t\t\t\tcloseDatePicker() {\n\t\t\t\t\t\tthis.open = false;\n\t\t\t\t\t},\n\n\t\t\t\t\tupdatePosition() {\n\t\t\t\t\t    const inputId = this.$root.dataset.inputId;\n    \t\t\t\t\tconst trigger = document.getElementById(inputId);\n\t\t\t\t\t\tconst popup = this.$refs.datePickerPopup;\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (!trigger || !popup) return;\n\t\t\t\t\t\t\n\t\t\t\t\t\tconst rect = trigger.getBoundingClientRect();\n\t\t\t\t\t\tconst popupRect = popup.getBoundingClientRect();\n\t\t\t\t\t\tconst viewportHeight = window.innerHeight;\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (rect.bottom + popupRect.height > viewportHeight && rect.top > popupRect.height) {\n\t\t\t\t\t\t\tthis.position = 'top';\n\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\tthis.position = 'bottom';\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\n\t\t\t\t\tcalculateDays() {\n\t\t\t\t\t\tlet firstDay = new Date(this.currentYear, this.currentMonth, 1).getDay();\n\t\t\t\t\t\tconst daysInMonth = new Date(this.currentYear, this.currentMonth + 1, 0).getDate();\n\t\t\t\t\t\t\n\t\t\t\t\t\tfirstDay = firstDay === 0 ? 6 : firstDay - 1;\n\t\t\t\t\t\t\n\t\t\t\t\t\tthis.blankDays = Array.from({ length: firstDay }, (_, i) => i);\n\t\t\t\t\t\tthis.monthDays = Array.from({ length: daysInMonth }, (_, i) => i + 1);\n\t\t\t\t\t},\n\n\t\t\t\t\tatClickPrevMonth() {\n\t\t\t\t\t\tthis.currentMonth--;\n\t\t\t\t\t\tif (this.currentMonth < 0) {\n\t\t\t\t\t\t\tthis.currentMonth = 11;\n\t\t\t\t\t\t\tthis.currentYear--;\n\t\t\t\t\t\t}\n\t\t\t\t\t\tthis.calculateDays();\n\t\t\t\t\t},\n\n\t\t\t\t\tatClickNextMonth() {\n\t\t\t\t\t\tthis.currentMonth++;\n\t\t\t\t\t\tif (this.currentMonth > 11) {\n\t\t\t\t\t\t\tthis.currentMonth = 0;\n\t\t\t\t\t\t\tthis.currentYear++;\n\t\t\t\t\t\t}\n\t\t\t\t\t\tthis.calculateDays();\n\t\t\t\t\t},\n\n\t\t\t\t\tparseDate(dateStr) {\n\t\t\t\t\t\tconst parts = dateStr.split(/[-/.]/);\n\t\t\t\t\t\tswitch(this.format) {\n\t\t\t\t\t\t\tcase 'eu':\n\t\t\t\t\t\t\t\treturn `${parts[2]}-${parts[1]}-${parts[0]}`;\n\t\t\t\t\t\t\tcase 'us':\n\t\t\t\t\t\t\t\treturn `${parts[2]}-${parts[0]}-${parts[1]}`;\n\t\t\t\t\t\t\tcase 'uk':\n\t\t\t\t\t\t\t\treturn `${parts[2]}-${parts[1]}-${parts[0]}`;\n\t\t\t\t\t\t\tcase 'long':\n\t\t\t\t\t\t\tcase 'iso':\n\t\t\t\t\t\t\tdefault:\n\t\t\t\t\t\t\t\treturn dateStr;\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\n\t\t\t\t\tformatDate(date) {\n\t\t\t\t\t\tconst d = date.getDate().toString().padStart(2, '0');\n\t\t\t\t\t\tconst m = (date.getMonth() + 1).toString().padStart(2, '0');\n\t\t\t\t\t\tconst y = date.getFullYear();\n\n\t\t\t\t\t\tswitch(this.format) {\n\t\t\t\t\t\t\tcase 'eu':\n\t\t\t\t\t\t\t\treturn `${d}.${m}.${y}`;\n\t\t\t\t\t\t\tcase 'uk':\n\t\t\t\t\t\t\t\treturn `${d}/${m}/${y}`;\n\t\t\t\t\t\t\tcase 'us':\n\t\t\t\t\t\t\t\treturn `${m}/${d}/${y}`;\n\t\t\t\t\t\t\tcase 'long':\n\t\t\t\t\t\t\t\t// Use the months array from the provided locale\n\t\t\t\t\t\t\t\treturn `${this.months[date.getMonth()]} ${d}, ${y}`;\n\t\t\t\t\t\t\tcase 'iso':\n\t\t\t\t\t\t\tdefault:\n\t\t\t\t\t\t\t\treturn `${y}-${m}-${d}`;\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\n\t\t\t\t\tisToday(day) {\n\t\t\t\t\t\tconst today = new Date();\n\t\t\t\t\t\tconst date = new Date(this.currentYear, this.currentMonth, day);\n\t\t\t\t\t\treturn date.toDateString() === today.toDateString();\n\t\t\t\t\t},\n\n\t\t\t\t\tisSelected(day) {\n\t\t\t\t\t\tif (!this.value) return false;\n\t\t\t\t\t\tconst date = new Date(this.currentYear, this.currentMonth, day);\n\t\t\t\t\t\tconst selected = new Date(this.parseDate(this.value));\n\t\t\t\t\t\treturn date.toDateString() === selected.toDateString();\n\t\t\t\t\t},\n\n\t\t\t\t\tselectDate() {\n\t\t\t\t\t\tconst day = this.$el.getAttribute('data-day');\n\t\t\t\t\t\tconst date = new Date(this.currentYear, this.currentMonth, day);\n\t\t\t\t\t\tthis.value = this.formatDate(date);\n\t\t\t\t\t\tthis.open = false;\n\t\t\t\t\t},\n\n\t\t\t\t\tactiveDayClass() {\n\t\t\t\t\t\tconst day = this.$el.getAttribute('data-day');\n\t\t\t\t\t\tif (this.isSelected(day)) {\n\t\t\t\t\t\t\treturn 'bg-primary text-primary-foreground';\n\t\t\t\t\t\t}\n\t\t\t\t\t\tif (this.isToday(day) && !this.isSelected(day)) {\n\t\t\t\t\t\t\treturn 'text-red-500';\n\t\t\t\t\t\t}\n\t\t\t\t\t\treturn 'hover:bg-accent hover:text-accent-foreground';\n\t\t\t\t\t},\n\n\t\t\t\t\tpositionClass() {\n\t\t\t\t\t\treturn this.position === 'bottom' ? 'top-full mt-1' : 'bottom-full mb-1';\n\t\t\t\t\t},\n\t\t\t\t}));\n\t\t\t});\n\t\t</script>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\">\n\t\t\tdocument.addEventListener('alpine:init', () => {\n\t\t\t\tAlpine.data('date-picker', () => ({\n\t\t\t\t\topen: false,\n\t\t\t\t\tvalue: null,\n\t\t\t\t\tformat: null,\n\t\t\t\t\tcurrentMonth: 5,\n\t\t\t\t\tcurrentYear: new Date().getFullYear(),\n\t\t\t\t\tmonthDays: [],\n\t\t\t\t\tblankDays: [],\n\t\t\t\t\tmonths: this.$el?.dataset?.monthnames || ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],\n\t\t\t\t\tdays: this.$el?.dataset?.daynames || ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],\n\t\t\t\t\tposition: 'bottom',\n\n\t\t\t\t\tinit() {\n\t\t\t\t\t    const monthNames = JSON.parse(this.$el?.dataset?.monthnames);\n    \t\t\t\t\tif (monthNames) {\n        \t\t\t\t\tthis.months = monthNames;\n   \t\t\t\t\t\t}\n\n   \t\t\t\t\t\tconst dayNames = JSON.parse(this.$el?.dataset?.daynames);\n    \t\t\t\t\tif (dayNames) {\n        \t\t\t\t\tthis.days = dayNames;\n    \t\t\t\t\t}\t\t\t\t\n\n\t\t\t\t\t\tthis.format = this.$el.dataset.format;\n\t\t\t\t\t\tconst initialDate = this.$el?.dataset?.value ? new Date(this.parseDate(this.$el?.dataset?.value)) : new Date();\n\t\t\t\t\t\tthis.currentMonth = initialDate.getMonth();\n\t\t\t\t\t\tthis.currentYear = initialDate.getFullYear();\n\t\t\t\t\t\tthis.calculateDays();\n\t\t\t\t\t\t// Format the initial value using the correct locale\n\t\t\t\t\t\tif (this.$el.dataset?.value) {\n\t\t\t\t\t\t\tthis.value = this.formatDate(initialDate);\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\n\t\t\t\t\ttoggleDatePicker() {\n\t\t\t\t\t\tthis.open = !this.open;\n\t\t\t\t\t\tif (this.open) {\n\t\t\t\t\t\t\tthis.$nextTick(() => this.updatePosition());\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\n\t\t\t\t\tgetCurrentMonth() {\n\t\t\t\t\t\treturn this.months[this.currentMonth] + ' ' + this.currentYear;\n\t\t\t\t\t},\n\n\t\t\t\t\tcloseDatePicker() {\n\t\t\t\t\t\tthis.open = false;\n\t\t\t\t\t},\n\n\t\t\t\t\tupdatePosition() {\n\t\t\t\t\t    const inputId = this.$root.dataset.inputId;\n    \t\t\t\t\tconst trigger = document.getElementById(inputId);\n\t\t\t\t\t\tconst popup = this.$refs.datePickerPopup;\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (!trigger || !popup) return;\n\t\t\t\t\t\t\n\t\t\t\t\t\tconst rect = trigger.getBoundingClientRect();\n\t\t\t\t\t\tconst popupRect = popup.getBoundingClientRect();\n\t\t\t\t\t\tconst viewportHeight = window.innerHeight;\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (rect.bottom + popupRect.height > viewportHeight && rect.top > popupRect.height) {\n\t\t\t\t\t\t\tthis.position = 'top';\n\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\tthis.position = 'bottom';\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\n\t\t\t\t\tcalculateDays() {\n\t\t\t\t\t\tlet firstDay = new Date(this.currentYear, this.currentMonth, 1).getDay();\n\t\t\t\t\t\tconst daysInMonth = new Date(this.currentYear, this.currentMonth + 1, 0).getDate();\n\t\t\t\t\t\t\n\t\t\t\t\t\tfirstDay = firstDay === 0 ? 6 : firstDay - 1;\n\t\t\t\t\t\t\n\t\t\t\t\t\tthis.blankDays = Array.from({ length: firstDay }, (_, i) => i);\n\t\t\t\t\t\tthis.monthDays = Array.from({ length: daysInMonth }, (_, i) => i + 1);\n\t\t\t\t\t},\n\n\t\t\t\t\tatClickPrevMonth() {\n\t\t\t\t\t\tthis.currentMonth--;\n\t\t\t\t\t\tif (this.currentMonth < 0) {\n\t\t\t\t\t\t\tthis.currentMonth = 11;\n\t\t\t\t\t\t\tthis.currentYear--;\n\t\t\t\t\t\t}\n\t\t\t\t\t\tthis.calculateDays();\n\t\t\t\t\t},\n\n\t\t\t\t\tatClickNextMonth() {\n\t\t\t\t\t\tthis.currentMonth++;\n\t\t\t\t\t\tif (this.currentMonth > 11) {\n\t\t\t\t\t\t\tthis.currentMonth = 0;\n\t\t\t\t\t\t\tthis.currentYear++;\n\t\t\t\t\t\t}\n\t\t\t\t\t\tthis.calculateDays();\n\t\t\t\t\t},\n\n\t\t\t\t\tparseDate(dateStr) {\n\t\t\t\t\t\tconst parts = dateStr.split(/[-/.]/);\n\t\t\t\t\t\tswitch(this.format) {\n\t\t\t\t\t\t\tcase 'eu':\n\t\t\t\t\t\t\t\treturn `${parts[2]}-${parts[1]}-${parts[0]}`;\n\t\t\t\t\t\t\tcase 'us':\n\t\t\t\t\t\t\t\treturn `${parts[2]}-${parts[0]}-${parts[1]}`;\n\t\t\t\t\t\t\tcase 'uk':\n\t\t\t\t\t\t\t\treturn `${parts[2]}-${parts[1]}-${parts[0]}`;\n\t\t\t\t\t\t\tcase 'long':\n\t\t\t\t\t\t\tcase 'iso':\n\t\t\t\t\t\t\tdefault:\n\t\t\t\t\t\t\t\treturn dateStr;\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\n\t\t\t\t\tformatDate(date) {\n\t\t\t\t\t\tconst d = date.getDate().toString().padStart(2, '0');\n\t\t\t\t\t\tconst m = (date.getMonth() + 1).toString().padStart(2, '0');\n\t\t\t\t\t\tconst y = date.getFullYear();\n\n\t\t\t\t\t\tswitch(this.format) {\n\t\t\t\t\t\t\tcase 'eu':\n\t\t\t\t\t\t\t\treturn `${d}.${m}.${y}`;\n\t\t\t\t\t\t\tcase 'uk':\n\t\t\t\t\t\t\t\treturn `${d}/${m}/${y}`;\n\t\t\t\t\t\t\tcase 'us':\n\t\t\t\t\t\t\t\treturn `${m}/${d}/${y}`;\n\t\t\t\t\t\t\tcase 'long':\n\t\t\t\t\t\t\t\t// Use the months array from the provided locale\n\t\t\t\t\t\t\t\treturn `${this.months[date.getMonth()]} ${d}, ${y}`;\n\t\t\t\t\t\t\tcase 'iso':\n\t\t\t\t\t\t\tdefault:\n\t\t\t\t\t\t\t\treturn `${y}-${m}-${d}`;\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\n\t\t\t\t\tisToday(day) {\n\t\t\t\t\t\tconst today = new Date();\n\t\t\t\t\t\tconst date = new Date(this.currentYear, this.currentMonth, day);\n\t\t\t\t\t\treturn date.toDateString() === today.toDateString();\n\t\t\t\t\t},\n\n\t\t\t\t\tisSelected(day) {\n\t\t\t\t\t\tif (!this.value) return false;\n\t\t\t\t\t\tconst date = new Date(this.currentYear, this.currentMonth, day);\n\t\t\t\t\t\tconst selected = new Date(this.parseDate(this.value));\n\t\t\t\t\t\treturn date.toDateString() === selected.toDateString();\n\t\t\t\t\t},\n\n\t\t\t\t\tselectDate() {\n\t\t\t\t\t\tconst day = this.$el.getAttribute('data-day');\n\t\t\t\t\t\tconst date = new Date(this.currentYear, this.currentMonth, day);\n\t\t\t\t\t\tthis.value = this.formatDate(date);\n\t\t\t\t\t\tthis.open = false;\n\t\t\t\t\t},\n\n\t\t\t\t\tactiveDayClass() {\n\t\t\t\t\t\tconst day = this.$el.getAttribute('data-day');\n\t\t\t\t\t\tif (this.isSelected(day)) {\n\t\t\t\t\t\t\treturn 'bg-primary text-primary-foreground';\n\t\t\t\t\t\t}\n\t\t\t\t\t\tif (this.isToday(day) && !this.isSelected(day)) {\n\t\t\t\t\t\t\treturn 'text-red-500';\n\t\t\t\t\t\t}\n\t\t\t\t\t\treturn 'hover:bg-accent hover:text-accent-foreground';\n\t\t\t\t\t},\n\n\t\t\t\t\tpositionClass() {\n\t\t\t\t\t\treturn this.position === 'bottom' ? 'top-full mt-1' : 'bottom-full mb-1';\n\t\t\t\t\t},\n\t\t\t\t}));\n\t\t\t});\n\t\t</script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -212,8 +212,8 @@ func DatepickerScript() templ.Component {
 	})
 }
 
-// Datepicker renders a date selection input with calendar popup
-func Datepicker(props DatepickerProps) templ.Component {
+// DatePicker renders a date selection input with calendar popup
+func DatePicker(props DatePickerProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -252,7 +252,7 @@ func Datepicker(props DatepickerProps) templ.Component {
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var5).String())
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/datepicker.templ`, Line: 1, Col: 0}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/date_picker.templ`, Line: 1, Col: 0}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -270,7 +270,7 @@ func Datepicker(props DatepickerProps) templ.Component {
 			var templ_7745c5c3_Var7 string
 			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(props.Value.Format(props.Config.getGoFormat()))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/datepicker.templ`, Line: 334, Col: 62}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/date_picker.templ`, Line: 334, Col: 62}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {
@@ -288,7 +288,7 @@ func Datepicker(props DatepickerProps) templ.Component {
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(string(props.Config.Format))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/datepicker.templ`, Line: 336, Col: 43}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/date_picker.templ`, Line: 336, Col: 43}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
@@ -301,7 +301,7 @@ func Datepicker(props DatepickerProps) templ.Component {
 		var templ_7745c5c3_Var9 string
 		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(templ.JSONString(props.Config.Locale.MonthNames))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/datepicker.templ`, Line: 337, Col: 68}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/date_picker.templ`, Line: 337, Col: 68}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {
@@ -314,20 +314,20 @@ func Datepicker(props DatepickerProps) templ.Component {
 		var templ_7745c5c3_Var10 string
 		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(templ.JSONString(props.Config.Locale.DayNames))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/datepicker.templ`, Line: 338, Col: 64}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/date_picker.templ`, Line: 338, Col: 64}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "\" x-data=\"datepicker\" data-input-id=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "\" x-data=\"date-picker\" data-input-id=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var11 string
 		templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/datepicker.templ`, Line: 340, Col: 26}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/date_picker.templ`, Line: 340, Col: 26}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 		if templ_7745c5c3_Err != nil {
@@ -392,7 +392,7 @@ func Datepicker(props DatepickerProps) templ.Component {
 		var templ_7745c5c3_Var13 string
 		templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var12).String())
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/datepicker.templ`, Line: 1, Col: 0}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/date_picker.templ`, Line: 1, Col: 0}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 		if templ_7745c5c3_Err != nil {
@@ -429,7 +429,7 @@ func Datepicker(props DatepickerProps) templ.Component {
 		var templ_7745c5c3_Var15 string
 		templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var14).String())
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/datepicker.templ`, Line: 1, Col: 0}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/date_picker.templ`, Line: 1, Col: 0}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var15))
 		if templ_7745c5c3_Err != nil {

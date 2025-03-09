@@ -366,12 +366,6 @@
   .left-full {
     left: 100%;
   }
-  .z-2 {
-    z-index: 2;
-  }
-  .z-3 {
-    z-index: 3;
-  }
   .z-10 {
     z-index: 10;
   }
@@ -1089,9 +1083,6 @@
   .bg-secondary {
     background-color: var(--secondary);
   }
-  .bg-transparent {
-    background-color: transparent;
-  }
   .bg-white {
     background-color: var(--color-white);
   }
@@ -1503,9 +1494,6 @@
   .select-none {
     -webkit-user-select: none;
     user-select: none;
-  }
-  .\[y\:-񾨢Իq�\1c �\7f _�\#�y�\1f \e \] {
-    y: -񾨢Իq�� �#�y�;
   }
   .group-hover\:block {
     &:is(:where(.group):hover *) {
@@ -1996,12 +1984,6 @@
         outline: 2px solid transparent;
         outline-offset: 2px;
       }
-    }
-  }
-  .focus-visible\:outline-none {
-    &:focus-visible {
-      --tw-outline-style: none;
-      outline-style: none;
     }
   }
   .disabled\:pointer-events-none {

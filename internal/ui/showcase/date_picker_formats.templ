@@ -5,43 +5,43 @@ import (
 	"time"
 )
 
-templ DatepickerFormats() {
+templ DatePickerFormats() {
 	<div class="w-full max-w-sm flex flex-col gap-4">
 		<div class="space-y-2">
-			@components.Label(components.LabelProps{Text: "Default ISO", For: "datepicker-iso-format"})
-			@components.Datepicker(components.DatepickerProps{
-				ID:     "datepicker-iso-format",
+			@components.Label(components.LabelProps{Text: "Default ISO", For: "date-picker-iso-format"})
+			@components.DatePicker(components.DatePickerProps{
+				ID:     "date-picker-iso-format",
 				Config: components.DatePickerISO,
 				Value:  time.Now(),
 			})
 		</div>
 		<div class="space-y-2">
-			@components.Label(components.LabelProps{Text: "Default EU", For: "datepicker-eu-format"})
-			@components.Datepicker(components.DatepickerProps{
-				ID:     "datepicker-eu-format",
+			@components.Label(components.LabelProps{Text: "Default EU", For: "date-picker-eu-format"})
+			@components.DatePicker(components.DatePickerProps{
+				ID:     "date-picker-eu-format",
 				Config: components.DatePickerEU,
 				Value:  time.Now(),
 			})
 		</div>
 		<div class="space-y-2">
-			@components.Label(components.LabelProps{Text: "UK Format", For: "datepicker-uk-format"})
-			@components.Datepicker(components.DatepickerProps{
-				ID:     "datepicker-uk-format",
+			@components.Label(components.LabelProps{Text: "UK Format", For: "date-picker-uk-format"})
+			@components.DatePicker(components.DatePickerProps{
+				ID:     "date-picker-uk-format",
 				Config: components.DatePickerUK,
 				Value:  time.Now(),
 			})
 		</div>
 		<div class="space-y-2">
-			@components.Label(components.LabelProps{Text: "US Format", For: "datepicker-us-format"})
-			@components.Datepicker(components.DatepickerProps{
-				ID:     "datepicker-us-format",
+			@components.Label(components.LabelProps{Text: "US Format", For: "date-picker-us-format"})
+			@components.DatePicker(components.DatePickerProps{
+				ID:     "date-picker-us-format",
 				Config: components.DatePickerUS,
 				Value:  time.Now(),
 			})
 		</div>
 		<div class="space-y-2">
 			@components.Label(components.LabelProps{Text: "LONG Format", For: "date-long-format"})
-			@components.Datepicker(components.DatepickerProps{
+			@components.DatePicker(components.DatePickerProps{
 				ID:     "date-long-format",
 				Config: components.DatePickerLONG,
 				Value:  time.Now(),
@@ -49,9 +49,9 @@ templ DatepickerFormats() {
 		</div>
 		<div class="space-y-2">
 			@components.Label(components.LabelProps{Text: "LONG Format (Spanish)", For: "date-es-long-format"})
-			@components.Datepicker(components.DatepickerProps{
+			@components.DatePicker(components.DatePickerProps{
 				ID: "date-es-custom-config",
-				Config: components.NewDatepickerConfig(
+				Config: components.NewDatePickerConfig(
 					components.DateFormatLONG,
 					components.DateLocaleSpanish,
 				),

@@ -86,8 +86,8 @@ var Sections = []Section{
 				Href: "/docs/components/checkbox-card",
 			},
 			{
-				Text: "Datepicker",
-				Href: "/docs/components/datepicker",
+				Text: "Date Picker",
+				Href: "/docs/components/date-picker",
 			},
 			{
 				Text: "Dropdown Menu",
