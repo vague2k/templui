@@ -7,7 +7,10 @@ import (
 )
 
 templ Alert() {
-	@layouts.DocsLayout() {
+	@layouts.DocsLayout(
+		"Alert",
+		"Status message that displays contextual feedback or notifications.",
+	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Alert",
 			Description: templ.Raw("Status message that displays contextual feedback or notifications."),

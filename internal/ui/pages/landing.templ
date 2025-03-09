@@ -9,7 +9,10 @@ import (
 )
 
 templ Landing() {
-	@layouts.BaseLayout() {
+	@layouts.BaseLayout(
+		"The UI Kit for templ",
+		"Top-tier UI components for sleek templ apps.",
+	) {
 		<div class="shrink-0">
 			@modules.AnnouncementBar()
 			@modules.Navbar()

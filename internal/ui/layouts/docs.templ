@@ -2,8 +2,8 @@ package layouts
 
 import "github.com/axzilla/templui/internal/ui/modules"
 
-templ DocsLayout() {
-	@BaseLayout() {
+templ DocsLayout(title, description string) {
+	@BaseLayout(title, description) {
 		<div class="flex flex-col h-screen">
 			@modules.AnnouncementBar()
 			@modules.Navbar()

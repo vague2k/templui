@@ -7,7 +7,10 @@ import (
 )
 
 templ Textarea() {
-	@layouts.DocsLayout() {
+	@layouts.DocsLayout(
+		"Textarea",
+		"Multi-line text field for longer form content.",
+	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Textarea",
 			Description: templ.Raw("Multi-line text field for longer form content."),

@@ -8,7 +8,10 @@ import (
 )
 
 templ Label() {
-	@layouts.DocsLayout() {
+	@layouts.DocsLayout(
+		"Label",
+		"Renders an accessible label associated with controls.",
+	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Label",
 			Description: templ.Raw("Renders an accessible label associated with controls."),

@@ -8,7 +8,10 @@ import (
 )
 
 templ Form() {
-	@layouts.DocsLayout() {
+	@layouts.DocsLayout(
+		"Form",
+		"A collection of form components and helper utilities for building accessible forms.",
+	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Form",
 			Description: templ.Raw("A collection of form components and helper utilities for building accessible forms."),

@@ -9,7 +9,10 @@ import (
 )
 
 templ Toast() {
-	@layouts.DocsLayout() {
+	@layouts.DocsLayout(
+		"Toast",
+		"Flexible toast component for notifications and feedback.",
+	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Toast",
 			Description: templ.Raw("Flexible toast component for notifications and feedback."),

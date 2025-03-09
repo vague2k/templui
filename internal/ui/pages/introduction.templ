@@ -3,7 +3,10 @@ package pages
 import "github.com/axzilla/templui/internal/ui/layouts"
 
 templ Introduction() {
-	@layouts.DocsLayout() {
+	@layouts.DocsLayout(
+		"Introduction",
+		"Welcome to templUI, the UI Kit for templ.",
+	) {
 		<div>
 			<div class="mb-16">
 				<h1 class="text-3xl font-bold mb-2">🎉 templUI</h1>

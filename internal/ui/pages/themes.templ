@@ -640,7 +640,10 @@ templ ThemesHandle() {
 }
 
 templ Themes() {
-	@layouts.DocsLayout() {
+	@layouts.DocsLayout(
+		"Themes",
+		"Customize the theme of the UI components.",
+	) {
 		<div
 			x-data="themeCustomizer"
 		>

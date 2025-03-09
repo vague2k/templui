@@ -5,7 +5,10 @@ import "github.com/axzilla/templui/internal/ui/modules"
 import "github.com/axzilla/templui/internal/ui/showcase"
 
 templ AspectRatio() {
-	@layouts.DocsLayout() {
+	@layouts.DocsLayout(
+		"Aspect Ratio",
+		"A component for maintaining consistent width-to-height ratios across different screen sizes.",
+	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Aspect Ratio",
 			Description: templ.Raw("A component for maintaining consistent width-to-height ratios across different screen sizes."),
