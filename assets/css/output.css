@@ -1083,6 +1083,9 @@
   .bg-secondary {
     background-color: var(--secondary);
   }
+  .bg-transparent {
+    background-color: transparent;
+  }
   .bg-white {
     background-color: var(--color-white);
   }
@@ -1249,6 +1252,9 @@
   .text-xs {
     font-size: var(--text-xs);
     line-height: var(--tw-leading, var(--text-xs--line-height));
+  }
+  .text-\[0\.8rem\] {
+    font-size: 0.8rem;
   }
   .leading-6 {
     --tw-leading: calc(var(--spacing) * 6);
@@ -1981,6 +1987,12 @@
         outline: 2px solid transparent;
         outline-offset: 2px;
       }
+    }
+  }
+  .focus-visible\:outline-none {
+    &:focus-visible {
+      --tw-outline-style: none;
+      outline-style: none;
     }
   }
   .disabled\:pointer-events-none {
