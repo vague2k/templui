@@ -2,9 +2,30 @@ package components
 
 import "github.com/axzilla/templui/utils"
 
+// FormItemProps represents form item properties
 type FormItemProps struct {
 	ID    string // Optional container ID
 	Class string // Additional CSS classes
+}
+
+// FormLabelProps represents form label properties
+type FormLabelProps struct {
+	For           string // Target form element ID
+	Text          string // Label text
+	Class         string // Additional CSS classes
+	DisabledClass string // Additional CSS classes when the form element is disabled
+}
+
+// FormDescriptionProps represents helper text properties
+type FormDescriptionProps struct {
+	Class string // Additional CSS classes
+}
+
+// FormMessageProps represents feedback message properties
+type FormMessageProps struct {
+	Type    string // error, success, warning, info
+	Message string // Message text
+	Class   string // Additional CSS classes
 }
 
 // FormItem wraps form elements in a vertical layout
@@ -21,13 +42,6 @@ templ FormItemFlex(props FormItemProps) {
 	</div>
 }
 
-type FormLabelProps struct {
-	For           string // Target form element ID
-	Text          string // Label text
-	Class         string // Additional CSS classes
-	DisabledClass string // Additional CSS classes when the form element is disabled
-}
-
 // FormLabel renders a form label
 templ FormLabel(props FormLabelProps) {
 	@Label(LabelProps{
@@ -38,11 +52,6 @@ templ FormLabel(props FormLabelProps) {
 	})
 }
 
-// FormDescriptionProps represents helper text properties
-type FormDescriptionProps struct {
-	Class string // Additional CSS classes
-}
-
 // FormDescription renders helper text below form elements
 templ FormDescription(props FormDescriptionProps) {
 	<p class={ utils.TwMerge("text-sm text-muted-foreground", props.Class) }>
@@ -50,21 +59,11 @@ templ FormDescription(props FormDescriptionProps) {
 	</p>
 }
 
-// FormMessageProps represents feedback message properties
-type FormMessageProps struct {
-	Type    string // error, success, warning, info
-	Message string // Message text
-	Class   string // Additional CSS classes
-}
-
 // FormMessage renders feedback messages
 templ FormMessage(props FormMessageProps) {
 	<p
 		class={
-			utils.TwMerge(
-				"text-sm font-medium",
-				props.Class,
-			),
+			utils.TwMerge("text-[0.8rem] font-medium", props.Class),
 			templ.KV("text-destructive", props.Type == "error"),
 		}
 	>

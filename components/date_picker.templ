@@ -79,63 +79,63 @@ var (
 
 var (
 	// DatePickerISO provides ISO format with default locale
-	DatePickerISO = DatepickerConfig{
+	DatePickerISO = DatePickerConfig{
 		Format: DateFormatISO,
 		Locale: DateLocaleDefault,
 	}
 
 	// DatePickerEU provides European format with default locale
-	DatePickerEU = DatepickerConfig{
+	DatePickerEU = DatePickerConfig{
 		Format: DateFormatEU,
 		Locale: DateLocaleDefault,
 	}
 
 	// DatePickerUK provides UK format with default locale
-	DatePickerUK = DatepickerConfig{
+	DatePickerUK = DatePickerConfig{
 		Format: DateFormatUK,
 		Locale: DateLocaleDefault,
 	}
 
 	// DatePickerUS provides US format with default locale
-	DatePickerUS = DatepickerConfig{
+	DatePickerUS = DatePickerConfig{
 		Format: DateFormatUS,
 		Locale: DateLocaleDefault,
 	}
 
 	// DatePickerUS provides US format with default locale
-	DatePickerLONG = DatepickerConfig{
+	DatePickerLONG = DatePickerConfig{
 		Format: DateFormatLONG,
 		Locale: DateLocaleDefault,
 	}
 )
 
-// NewDatepickerConfig creates a new configuration with specified format and locale
-func NewDatepickerConfig(format DateFormat, locale DateLocale) DatepickerConfig {
-	return DatepickerConfig{
+// NewDatePickerConfig creates a new configuration with specified format and locale
+func NewDatePickerConfig(format DateFormat, locale DateLocale) DatePickerConfig {
+	return DatePickerConfig{
 		Format: format,
 		Locale: locale,
 	}
 }
 
-func (c DatepickerConfig) getGoFormat() string {
+func (c DatePickerConfig) getGoFormat() string {
 	if format, ok := dateFormatMapping[c.Format]; ok {
 		return format
 	}
 	return dateFormatMapping[DateFormatISO] // Default to ISO
 }
 
-// DatepickerConfig combines format and locale settings
-type DatepickerConfig struct {
+// DatePickerConfig combines format and locale settings
+type DatePickerConfig struct {
 	Format DateFormat // Date format style
 	Locale DateLocale // Localization settings
 }
 
-// DatepickerProps configures the Datepicker component
-type DatepickerProps struct {
+// DatePickerProps configures the DatePicker component
+type DatePickerProps struct {
 	ID          string           // DOM identifier
 	Name        string           // Form field name
 	Value       time.Time        // Selected date
-	Config      DatepickerConfig // Format and locale config
+	Config      DatePickerConfig // Format and locale config
 	Placeholder string           // Helper text shown when empty
 	Disabled    bool             // Prevents interaction
 	HasError    bool             // Error state styling
@@ -143,12 +143,12 @@ type DatepickerProps struct {
 	Attributes  templ.Attributes // Additional HTML attributes
 }
 
-templ DatepickerScript() {
+templ DatePickerScript() {
 	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
 			document.addEventListener('alpine:init', () => {
-				Alpine.data('datepicker', () => ({
+				Alpine.data('date-picker', () => ({
 					open: false,
 					value: null,
 					format: null,
@@ -320,8 +320,8 @@ templ DatepickerScript() {
 	}
 }
 
-// Datepicker renders a date selection input with calendar popup
-templ Datepicker(props DatepickerProps) {
+// DatePicker renders a date selection input with calendar popup
+templ DatePicker(props DatePickerProps) {
 	if props.ID == "" {
 		{{ props.ID = utils.RandomID() }}
 	}
@@ -336,7 +336,7 @@ templ Datepicker(props DatepickerProps) {
 		data-format={ string(props.Config.Format) }
 		data-monthnames={ templ.JSONString(props.Config.Locale.MonthNames) }
 		data-daynames={ templ.JSONString(props.Config.Locale.DayNames) }
-		x-data="datepicker"
+		x-data="date-picker"
 		data-input-id={ props.ID }
 		@resize.window="updatePosition"
 	>

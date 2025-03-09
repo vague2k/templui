@@ -48,7 +48,7 @@ func ComponentScripts() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = components.DatepickerScript().Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = components.DatePickerScript().Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -84,7 +84,7 @@ func ComponentScripts() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = components.TimepickerScript().Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = components.TimePickerScript().Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

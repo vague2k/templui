@@ -10,9 +10,30 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import "github.com/axzilla/templui/utils"
 
+// FormItemProps represents form item properties
 type FormItemProps struct {
 	ID    string // Optional container ID
 	Class string // Additional CSS classes
+}
+
+// FormLabelProps represents form label properties
+type FormLabelProps struct {
+	For           string // Target form element ID
+	Text          string // Label text
+	Class         string // Additional CSS classes
+	DisabledClass string // Additional CSS classes when the form element is disabled
+}
+
+// FormDescriptionProps represents helper text properties
+type FormDescriptionProps struct {
+	Class string // Additional CSS classes
+}
+
+// FormMessageProps represents feedback message properties
+type FormMessageProps struct {
+	Type    string // error, success, warning, info
+	Message string // Message text
+	Class   string // Additional CSS classes
 }
 
 // FormItem wraps form elements in a vertical layout
@@ -127,13 +148,6 @@ func FormItemFlex(props FormItemProps) templ.Component {
 	})
 }
 
-type FormLabelProps struct {
-	For           string // Target form element ID
-	Text          string // Label text
-	Class         string // Additional CSS classes
-	DisabledClass string // Additional CSS classes when the form element is disabled
-}
-
 // FormLabel renders a form label
 func FormLabel(props FormLabelProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
@@ -167,11 +181,6 @@ func FormLabel(props FormLabelProps) templ.Component {
 		}
 		return nil
 	})
-}
-
-// FormDescriptionProps represents helper text properties
-type FormDescriptionProps struct {
-	Class string // Additional CSS classes
 }
 
 // FormDescription renders helper text below form elements
@@ -230,13 +239,6 @@ func FormDescription(props FormDescriptionProps) templ.Component {
 	})
 }
 
-// FormMessageProps represents feedback message properties
-type FormMessageProps struct {
-	Type    string // error, success, warning, info
-	Message string // Message text
-	Class   string // Additional CSS classes
-}
-
 // FormMessage renders feedback messages
 func FormMessage(props FormMessageProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
@@ -260,10 +262,7 @@ func FormMessage(props FormMessageProps) templ.Component {
 		}
 		ctx = templ.ClearChildren(ctx)
 		var templ_7745c5c3_Var12 = []any{
-			utils.TwMerge(
-				"text-sm font-medium",
-				props.Class,
-			),
+			utils.TwMerge("text-[0.8rem] font-medium", props.Class),
 			templ.KV("text-destructive", props.Type == "error"),
 		}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var12...)
@@ -290,7 +289,7 @@ func FormMessage(props FormMessageProps) templ.Component {
 		var templ_7745c5c3_Var14 string
 		templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(props.Message)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/form.templ`, Line: 71, Col: 17}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/form.templ`, Line: 70, Col: 17}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 		if templ_7745c5c3_Err != nil {

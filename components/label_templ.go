@@ -102,7 +102,7 @@ func Label(props LabelProps) templ.Component {
 		ctx = templ.ClearChildren(ctx)
 		var templ_7745c5c3_Var5 = []any{
 			// Styling
-			"text-sm font-medium leading-none",
+			"text-sm font-medium leading-none inline-block",
 
 			// Utility
 			templ.KV("text-destructive", len(props.Error) > 0),

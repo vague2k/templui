@@ -2,10 +2,8 @@ package showcase
 
 import "github.com/axzilla/templui/components"
 
-templ TimePicker12Hour() {
+templ DatePickerDefault() {
 	<div class="w-full max-w-sm">
-		@components.Timepicker(components.TimepickerProps{
-			Use12Hours: true,
-		})
+		@components.DatePicker(components.DatePickerProps{})
 	</div>
 }
