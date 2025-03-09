@@ -1,0 +1,24 @@
+package showcase
+
+import "github.com/axzilla/templui/components"
+
+templ InputOTPForm() {
+	@components.FormItem(components.FormItemProps{}) {
+		@components.FormLabel(components.FormLabelProps{
+			For:  "otp-form",
+			Text: "Verification Code",
+		})
+		@components.InputOTP(components.InputOTPProps{
+			ID:       "otp-form",
+			Required: true,
+			HasError: true,
+		})
+		@components.FormDescription(components.FormDescriptionProps{}) {
+			Enter the 6-digit code sent to your phone
+		}
+		@components.FormMessage(components.FormMessageProps{
+			Message: "Invalid verification code.",
+			Type:    "error",
+		})
+	}
+}

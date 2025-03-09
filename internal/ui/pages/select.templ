@@ -7,7 +7,10 @@ import (
 )
 
 templ Select() {
-	@layouts.DocsLayout() {
+	@layouts.DocsLayout(
+		"Select",
+		"Dropdown control for choosing from predefined options.",
+	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Select",
 			Description: templ.Raw("Dropdown control for choosing from predefined options."),

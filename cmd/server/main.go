@@ -57,6 +57,15 @@ func main() {
 		),
 	)
 
+	// SEO
+	mux.HandleFunc("GET /sitemap.xml", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/xml")
+		http.ServeFile(w, r, "static/sitemap.xml")
+	})
+	mux.HandleFunc("GET /robots.txt", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "text/plain")
+		http.ServeFile(w, r, "static/robots.txt")
+	})
 	//
 	mux.Handle("GET /", templ.Handler(pages.Landing()))
 	mux.Handle("GET /docs/getting-started", http.RedirectHandler("/docs/introduction", http.StatusSeeOther))
@@ -78,11 +87,12 @@ func main() {
 	mux.Handle("GET /docs/components/code", templ.Handler(pages.Code()))
 	mux.Handle("GET /docs/components/checkbox", templ.Handler(pages.Checkbox()))
 	mux.Handle("GET /docs/components/checkbox-card", templ.Handler(pages.CheckboxCard()))
-	mux.Handle("GET /docs/components/datepicker", templ.Handler(pages.Datepicker()))
+	mux.Handle("GET /docs/components/date-picker", templ.Handler(pages.DatePicker()))
 	mux.Handle("GET /docs/components/dropdown-menu", templ.Handler(pages.DropdownMenu()))
 	mux.Handle("GET /docs/components/form", templ.Handler(pages.Form()))
 	mux.Handle("GET /docs/components/icon", templ.Handler(pages.Icon()))
 	mux.Handle("GET /docs/components/input", templ.Handler(pages.Input()))
+	mux.Handle("GET /docs/components/input-otp", templ.Handler(pages.InputOtp()))
 	mux.Handle("GET /docs/components/label", templ.Handler(pages.Label()))
 	mux.Handle("GET /docs/components/modal", templ.Handler(pages.Modal()))
 	mux.Handle("GET /docs/components/pagination", templ.Handler(pages.Pagination()))
@@ -93,7 +103,7 @@ func main() {
 	mux.Handle("GET /docs/components/slider", templ.Handler(pages.Slider()))
 	mux.Handle("GET /docs/components/tabs", templ.Handler(pages.Tabs()))
 	mux.Handle("GET /docs/components/textarea", templ.Handler(pages.Textarea()))
-	mux.Handle("GET /docs/components/timepicker", templ.Handler(pages.Timepicker()))
+	mux.Handle("GET /docs/components/time-picker", templ.Handler(pages.TimePicker()))
 	mux.Handle("GET /docs/components/toast", templ.Handler(pages.Toast()))
 	mux.Handle("GET /docs/components/toggle", templ.Handler(pages.Toggle()))
 	mux.Handle("GET /docs/components/tooltip", templ.Handler(pages.Tooltip()))

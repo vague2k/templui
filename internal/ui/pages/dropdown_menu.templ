@@ -7,7 +7,10 @@ import (
 )
 
 templ DropdownMenu() {
-	@layouts.DocsLayout() {
+	@layouts.DocsLayout(
+		"Dropdown Menu",
+		"Floating menu for displaying a list of actions or options.",
+	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Dropdown Menu",
 			Description: templ.Raw("Floating menu for displaying a list of actions or options."),

@@ -7,7 +7,10 @@ import (
 )
 
 templ Tabs() {
-	@layouts.DocsLayout() {
+	@layouts.DocsLayout(
+		"Tabs",
+		"Navigation interface that organizes content into sections.",
+	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Tabs",
 			Description: templ.Raw("Navigation interface that organizes content into sections."),

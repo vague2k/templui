@@ -8,7 +8,10 @@ import (
 )
 
 templ Form() {
-	@layouts.DocsLayout() {
+	@layouts.DocsLayout(
+		"Form",
+		"A collection of form components and helper utilities for building accessible forms.",
+	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Form",
 			Description: templ.Raw("A collection of form components and helper utilities for building accessible forms."),
@@ -51,7 +54,10 @@ templ Form() {
 								<a href="/docs/components/toggle#form" class="font-medium hover:underline">Toggle</a>
 							</li>
 							<li>
-								<a href="/docs/components/datepicker#form" class="font-medium hover:underline">Date Picker</a>
+								<a href="/docs/components/date-picker#form" class="font-medium hover:underline">Date Picker</a>
+							</li>
+							<li>
+								<a href="/docs/components/time-picker#form" class="font-medium hover:underline">Time Picker</a>
 							</li>
 						</ul>
 					}

@@ -7,7 +7,10 @@ import (
 )
 
 templ Input() {
-	@layouts.DocsLayout() {
+	@layouts.DocsLayout(
+		"Input",
+		"Text field that allows users to enter and edit values.",
+	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Input",
 			Description: templ.Raw("Text field that allows users to enter and edit values."),

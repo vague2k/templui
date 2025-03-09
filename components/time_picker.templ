@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-type TimepickerProps struct {
+type TimePickerProps struct {
 	ID          string           // Unique identifier
 	Name        string           // Form input name
 	Value       time.Time        // Initial time value
@@ -22,12 +22,12 @@ type TimepickerProps struct {
 	Attributes  templ.Attributes // Additional HTML attributes
 }
 
-templ TimepickerScript() {
+templ TimePickerScript() {
 	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
             document.addEventListener('alpine:init', () => {
-                Alpine.data('timepicker', () => ({
+                Alpine.data('timePicker', () => ({
 					open: false,
 					formValue: null,     // 24h Format for Form submission
 					displayValue: null,  // 12h/24h Format for Display
@@ -176,7 +176,7 @@ func generateMinuteOptions() []SelectOption {
 }
 
 // A native time selector with support for 12/24 hour formats.
-templ Timepicker(props TimepickerProps) {
+templ TimePicker(props TimePickerProps) {
 	if props.ID == "" {
 		{{ props.ID = utils.RandomID() }}
 	}
@@ -195,7 +195,7 @@ templ Timepicker(props TimepickerProps) {
 			data-value={ props.Value.Format("15:04") }
 		}
 		data-use12hours={ fmt.Sprintf("%t", props.Use12Hours) }
-		x-data="timepicker"
+		x-data="timePicker"
 		data-input-id={ props.ID }
 	>
 		<div class="relative">

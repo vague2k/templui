@@ -7,7 +7,10 @@ import (
 )
 
 templ Slider() {
-	@layouts.DocsLayout() {
+	@layouts.DocsLayout(
+		"Slider",
+		"Control for selecting a numeric value within a range.",
+	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Slider",
 			Description: templ.Raw("Control for selecting a numeric value within a range."),

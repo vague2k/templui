@@ -1,0 +1,11 @@
+package showcase
+
+import "github.com/axzilla/templui/components"
+
+templ TimePickerCustomPlaceholder() {
+	<div class="w-full max-w-sm">
+		@components.TimePicker(components.TimePickerProps{
+			Placeholder: "When do you want to meet?",
+		})
+	</div>
+}

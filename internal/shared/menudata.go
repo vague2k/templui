@@ -86,8 +86,8 @@ var Sections = []Section{
 				Href: "/docs/components/checkbox-card",
 			},
 			{
-				Text: "Datepicker",
-				Href: "/docs/components/datepicker",
+				Text: "Date Picker",
+				Href: "/docs/components/date-picker",
 			},
 			{
 				Text: "Dropdown Menu",
@@ -104,6 +104,10 @@ var Sections = []Section{
 			{
 				Text: "Input",
 				Href: "/docs/components/input",
+			},
+			{
+				Text: "Input OTP",
+				Href: "/docs/components/input-otp",
 			},
 			{
 				Text: "Label",
@@ -146,8 +150,8 @@ var Sections = []Section{
 				Href: "/docs/components/textarea",
 			},
 			{
-				Text: "Timepicker",
-				Href: "/docs/components/timepicker",
+				Text: "Time Picker",
+				Href: "/docs/components/time-picker",
 			},
 			{
 				Text: "Toast",

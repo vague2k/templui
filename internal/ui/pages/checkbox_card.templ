@@ -7,7 +7,10 @@ import (
 )
 
 templ CheckboxCard() {
-	@layouts.DocsLayout() {
+	@layouts.DocsLayout(
+		"Checkbox Card",
+		"Selectable card component that combines a checkbox with rich content for option selection.",
+	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Checkbox Card",
 			Description: templ.Raw("Selectable card component that combines a checkbox with rich content for option selection."),

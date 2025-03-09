@@ -1,0 +1,71 @@
+package pages
+
+import (
+	"github.com/axzilla/templui/internal/ui/layouts"
+	"github.com/axzilla/templui/internal/ui/modules"
+	"github.com/axzilla/templui/internal/ui/showcase"
+)
+
+templ DatePicker() {
+	@layouts.DocsLayout(
+		"Date Picker",
+		"Calendar interface for selecting and formatting dates.",
+	) {
+		@modules.PageWrapper(modules.PageWrapperProps{
+			Name:        "Date Picker",
+			Description: templ.Raw("Calendar interface for selecting and formatting dates."),
+			Tailwind:    true,
+			Alpine:      true,
+		}) {
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				ShowcaseFile:      showcase.DatePickerDefault(),
+				PreviewCodeFile:   "date-picker_default.templ",
+				ComponentCodeFile: "date-picker.templ",
+			})
+			@modules.Usage(modules.UsageProps{
+				ComponentName: "DatePicker",
+				NeedsHandler:  true,
+				PropsExample:  "...",
+			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "With Label",
+					ShowcaseFile:      showcase.DatePickerWithLabel(),
+					PreviewCodeFile:   "date-picker_with_label.templ",
+					ComponentCodeFile: "date-picker.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Custom Placeholder",
+					ShowcaseFile:      showcase.DatePickerCustomPlaceholder(),
+					PreviewCodeFile:   "date-picker_custom_placeholder.templ",
+					ComponentCodeFile: "date-picker.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Selected Date",
+					ShowcaseFile:      showcase.DatePickerSelectedDate(),
+					PreviewCodeFile:   "date-picker_selected_date.templ",
+					ComponentCodeFile: "date-picker.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Disabled",
+					ShowcaseFile:      showcase.DatePickerDisabled(),
+					PreviewCodeFile:   "date-picker_disabled.templ",
+					ComponentCodeFile: "date-picker.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Formats",
+					ShowcaseFile:      showcase.DatePickerFormats(),
+					PreviewCodeFile:   "date-picker_formats.templ",
+					ComponentCodeFile: "date-picker.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Form",
+					ShowcaseFile:      showcase.DatePickerForm(),
+					PreviewCodeFile:   "date-picker_form.templ",
+					ComponentCodeFile: "date-picker.templ",
+					ID:                "form",
+				})
+			}
+		}
+	}
+}

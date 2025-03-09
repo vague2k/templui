@@ -7,7 +7,10 @@ import (
 )
 
 templ Badge() {
-	@layouts.DocsLayout() {
+	@layouts.DocsLayout(
+		"Badge",
+		"Badge component is used to display a small amount of information in a visual style.",
+	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Badge",
 			Description: templ.Raw("Badge component is used to display a small amount of information in a visual style."),

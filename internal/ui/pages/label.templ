@@ -8,7 +8,10 @@ import (
 )
 
 templ Label() {
-	@layouts.DocsLayout() {
+	@layouts.DocsLayout(
+		"Label",
+		"Renders an accessible label associated with controls.",
+	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Label",
 			Description: templ.Raw("Renders an accessible label associated with controls."),
@@ -52,7 +55,10 @@ templ Label() {
 								<a href="/docs/components/toggle#label" class="font-medium hover:underline">Toggle</a>
 							</li>
 							<li>
-								<a href="/docs/components/datepicker#label" class="font-medium hover:underline">Date Picker</a>
+								<a href="/docs/components/date-picker#label" class="font-medium hover:underline">Date Picker</a>
+							</li>
+							<li>
+								<a href="/docs/components/time-picker#label" class="font-medium hover:underline">Time Picker</a>
 							</li>
 						</ul>
 					}
