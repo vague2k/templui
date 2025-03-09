@@ -1,0 +1,295 @@
+package components
+
+import (
+	"github.com/axzilla/templui/icons"
+	"github.com/axzilla/templui/utils"
+	"strconv"
+)
+
+// RatingSize defines available sizes for the Rating component
+type RatingSize string
+
+const (
+	RatingSizeSmall  RatingSize = "small"
+	RatingSizeMedium RatingSize = "medium"
+	RatingSizeLarge  RatingSize = "large"
+)
+
+// RatingStyle defines the visual style for the Rating component
+type RatingStyle string
+
+const (
+	RatingStyleStar    RatingStyle = "star"    // Star icons for ratings
+	RatingStyleHeart   RatingStyle = "heart"   // Heart icons for ratings
+	RatingStyleEmoji   RatingStyle = "emoji"   // Emoji faces for ratings
+	RatingStyleNumeric RatingStyle = "numeric" // Numeric display (with optional icon)
+)
+
+// RatingProps configures the Rating component
+type RatingProps struct {
+	Value       float64          // Current rating value
+	MaxValue    int              // Maximum rating value (default: 5)
+	ReadOnly    bool             // Whether the rating is interactive or display-only
+	Style       RatingStyle      // Visual style for the rating
+	Size        RatingSize       // Size of the rating elements
+	Precision   float64          // Step precision for fractional ratings (0.5, 0.1, etc.)
+	Label       string           // Optional label for the rating
+	Name        string           // Form field name (when used in forms)
+	ShowValue   bool             // Whether to display the numeric value
+	OnlyInteger bool             // Force ratings to integer values
+	Class       string           // Additional CSS classes
+	Attributes  templ.Attributes // Additional HTML attributes
+}
+
+// Default values for the Rating component
+func (p *RatingProps) setDefaults() {
+	if p.MaxValue <= 0 {
+		p.MaxValue = 5
+	}
+	if p.Precision <= 0 {
+		p.Precision = 1.0
+	}
+	if p.Style == "" {
+		p.Style = RatingStyleStar
+	}
+	if p.Size == "" {
+		p.Size = RatingSizeMedium
+	}
+}
+
+// Get size class based on the RatingSize
+func getSizeClass(size RatingSize) string {
+	switch size {
+	case RatingSizeSmall:
+		return "text-lg"
+	case RatingSizeLarge:
+		return "text-3xl"
+	default: // Medium
+		return "text-2xl"
+	}
+}
+
+// Get color class based on the RatingStyle
+func getColorClass(style RatingStyle) string {
+	switch style {
+	case RatingStyleHeart:
+		return "text-destructive"
+	case RatingStyleEmoji:
+		return "text-yellow-500"
+	default: // Star and others
+		return "text-yellow-400"
+	}
+}
+
+// Get item icon based on the RatingStyle
+func getRatingIcon(style RatingStyle, filled bool, value float64) templ.Component {
+	// Emoji style uses different icons based on value
+	if style == RatingStyleEmoji {
+		if filled {
+			// Choose emoji based on rating level (1-5)
+			switch {
+			case value <= 1:
+				return icons.Angry(icons.IconProps{})
+			case value <= 2:
+				return icons.Frown(icons.IconProps{})
+			case value <= 3:
+				return icons.Meh(icons.IconProps{})
+			case value <= 4:
+				return icons.Smile(icons.IconProps{})
+			default:
+				return icons.Laugh(icons.IconProps{})
+			}
+		}
+		return icons.Meh(icons.IconProps{})
+	}
+
+	// Handle other styles
+	if filled {
+		switch style {
+		case RatingStyleHeart:
+			return icons.Heart(icons.IconProps{Fill: "currentColor"})
+		default: // Star
+			return icons.Star(icons.IconProps{Fill: "currentColor"})
+		}
+	} else {
+		switch style {
+		case RatingStyleHeart:
+			return icons.Heart(icons.IconProps{})
+		default: // Star
+			return icons.Star(icons.IconProps{})
+		}
+	}
+}
+
+// Interactive Rating component with Alpine.js
+templ RatingScript() {
+	{{ handle := templ.NewOnceHandle() }}
+	@handle.Once() {
+		<script defer nonce={ templ.GetNonce(ctx) }>
+            document.addEventListener('alpine:init', () => {
+                Alpine.data('rating', () => ({
+                    value: 0,
+                    maxValue: 5,
+                    precision: 1,
+                    readonly: false,
+                    name: '',
+                    onlyInteger: false,
+                    previewValue: 0,
+                    
+                    init() {
+                        // Get configuration from data attributes
+                        this.value = parseFloat(this.$el.dataset.value) || 0;
+                        this.maxValue = parseInt(this.$el.dataset.maxvalue) || 5;
+                        this.precision = parseFloat(this.$el.dataset.precision) || 1;
+                        this.readonly = this.$el.dataset.readonly === 'true';
+                        this.name = this.$el.dataset.name || '';
+                        this.onlyInteger = this.$el.dataset.onlyinteger === 'true';
+                        
+                        // Round value to the nearest step based on precision
+                        this.value = Math.round(this.value / this.precision) * this.precision;
+                    },
+                    
+                    setValue() {
+                        if (this.readonly) return;
+                        
+                        // Get the rating value from the clicked element's data attribute
+                        const item = this.$event.target.closest('[data-rating-value]');
+                        if (!item) return;
+                        
+                        const newValue = parseInt(item.dataset.ratingValue);
+                        
+                        // Handle precision for fractional ratings
+                        if (this.onlyInteger) {
+                            this.value = Math.round(newValue);
+                        } else {
+                            this.value = Math.round(newValue / this.precision) * this.precision;
+                        }
+                        
+                        // Ensure value is within bounds
+                        this.value = Math.max(0, Math.min(this.maxValue, this.value));
+                        
+                        // Dispatch event for form integration
+                        this.$dispatch('rating-change', { 
+                            name: this.name, 
+                            value: this.value 
+                        });
+                    },
+                    
+                    getFormattedValue() {
+                        // Format the value for display (rounded to 2 decimal places)
+                        return Math.round(this.value * 100) / 100;
+                    },
+                    
+                    getItemStyle() {
+                        // Get the index from the element's data attribute
+                        const index = parseInt(this.$el.dataset.index || '0');
+                        
+                        // Calculate item styling
+                        const filled = index <= Math.floor(this.value);
+                        const partial = !filled && (index - 1 < this.value && this.value < index);
+                        const percentage = partial ? (this.value - Math.floor(this.value)) * 100 : 0;
+                        
+                        // Return appropriate width style
+                        return {
+                            width: filled ? '100%' : (partial ? percentage + '%' : '0%')
+                        };
+                    },
+                    
+                    hover() {
+                        if (this.readonly) return;
+                        // Preview rating on hover
+                        const item = this.$event.target.closest('[data-rating-value]');
+                        if (!item) return;
+                        
+                        this.previewValue = parseInt(item.dataset.ratingValue);
+                    },
+                    
+                    getCursorClass() {
+                        return this.readonly ? 'cursor-default' : 'cursor-pointer';
+                    }
+                }));
+            });
+        </script>
+	}
+}
+
+// Rating component for user ratings and feedback
+templ Rating(props RatingProps) {
+	// Apply default values
+	{{ props.setDefaults() }}
+	<div
+		x-data="rating"
+		data-value={ strconv.FormatFloat(props.Value, 'f', -1, 64) }
+		data-maxvalue={ strconv.Itoa(props.MaxValue) }
+		data-precision={ strconv.FormatFloat(props.Precision, 'f', -1, 64) }
+		data-readonly={ strconv.FormatBool(props.ReadOnly) }
+		data-name={ props.Name }
+		data-onlyinteger={ strconv.FormatBool(props.OnlyInteger) }
+		class={ utils.TwMerge(
+			"flex flex-col items-start gap-1",
+			props.Class,
+		) }
+		{ props.Attributes... }
+	>
+		if props.Label != "" {
+			<label class="text-sm font-medium text-foreground">{ props.Label }</label>
+		}
+		<div class="flex items-center gap-1">
+			if props.Style != RatingStyleNumeric {
+				<!-- Standard rating items (stars, hearts, emojis) -->
+				for i := 1; i <= props.MaxValue; i++ {
+					<div
+						class={
+							utils.TwMerge(
+								"relative",
+								getSizeClass(props.Size),
+								getColorClass(props.Style),
+								"transition-opacity",
+							),
+							templ.KV("cursor-pointer", !props.ReadOnly),
+							templ.KV("cursor-default", props.ReadOnly),
+						}
+						data-rating-value={ strconv.Itoa(i) }
+						@click="setValue"
+						@mouseover="hover"
+					>
+						<div class="opacity-30">
+							@getRatingIcon(props.Style, false, float64(i))
+						</div>
+						<div
+							class="absolute inset-0 overflow-hidden"
+							x-bind:style="getItemStyle"
+							data-index={ strconv.Itoa(i) }
+						>
+							@getRatingIcon(props.Style, true, float64(i))
+						</div>
+					</div>
+				}
+			} else {
+				<!-- Numeric display with optional icon -->
+				<span class={ utils.TwMerge("font-bold", getSizeClass(props.Size)) }>
+					<span x-text="getFormattedValue"></span>
+					<span>/</span><span x-text="maxValue"></span>
+				</span>
+				<span class={ utils.TwMerge(getColorClass(RatingStyleStar), getSizeClass(props.Size)) }>
+					@icons.Star(icons.IconProps{})
+				</span>
+			}
+			<!-- Hidden input for form submission -->
+			if props.Name != "" {
+				<input
+					type="hidden"
+					name={ props.Name }
+					x-bind:value="value"
+				/>
+			}
+			<!-- Optional display of numeric value -->
+			if props.ShowValue && props.Style != RatingStyleNumeric {
+				<span class="ml-2 text-sm text-muted-foreground">
+					<span x-text="getFormattedValue"></span>
+					<span>/</span><span x-text="maxValue"></span>
+				</span>
+			}
+		</div>
+	</div>
+}
