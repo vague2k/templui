@@ -31,6 +31,30 @@ templ Timepicker() {
 					PreviewCodeFile:   "timepicker_12hour.templ",
 					ComponentCodeFile: "timepicker.templ",
 				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "With Label",
+					ShowcaseFile:      showcase.TimePickerLabel(),
+					PreviewCodeFile:   "timepicker_label.templ",
+					ComponentCodeFile: "timepicker.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "With Custom Placeholder",
+					ShowcaseFile:      showcase.TimePickerCustomPlaceholder(),
+					PreviewCodeFile:   "timepicker_custom_placeholder.templ",
+					ComponentCodeFile: "timepicker.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "With Selected Time",
+					ShowcaseFile:      showcase.TimePickerSelectedTime(),
+					PreviewCodeFile:   "timepicker_selected_time.templ",
+					ComponentCodeFile: "timepicker.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "With Form",
+					ShowcaseFile:      showcase.TimePickerForm(),
+					PreviewCodeFile:   "timepicker_form.templ",
+					ComponentCodeFile: "timepicker.templ",
+				})
 			}
 		}
 	}
