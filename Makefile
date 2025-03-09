@@ -24,6 +24,9 @@ dev:
 
 debug:
 	make -j3 templ tailwind-app tailwind
+	
+generate-sitemap:
+	go run ./cmd/sitemap/main.go --baseurl="https://templui.io" --routes="./cmd/server/main.go" --output="./static/sitemap.xml" --robots="./static/robots.txt"
 
 generate-icons:
 	go run cmd/icongen/main.go

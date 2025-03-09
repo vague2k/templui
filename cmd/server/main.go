@@ -57,6 +57,15 @@ func main() {
 		),
 	)
 
+	// SEO
+	mux.HandleFunc("GET /sitemap.xml", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "application/xml")
+		http.ServeFile(w, r, "static/sitemap.xml")
+	})
+	mux.HandleFunc("GET /robots.txt", func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Content-Type", "text/plain")
+		http.ServeFile(w, r, "static/robots.txt")
+	})
 	//
 	mux.Handle("GET /", templ.Handler(pages.Landing()))
 	mux.Handle("GET /docs/getting-started", http.RedirectHandler("/docs/introduction", http.StatusSeeOther))
