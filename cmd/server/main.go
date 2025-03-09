@@ -13,6 +13,7 @@ import (
 	"github.com/axzilla/templui/internal/middleware"
 	"github.com/axzilla/templui/internal/ui/pages"
 	mw "github.com/axzilla/templui/middleware"
+	"github.com/axzilla/templui/static"
 )
 
 func toastDemoHandler(w http.ResponseWriter, r *http.Request) {
@@ -58,13 +59,28 @@ func main() {
 	)
 
 	// SEO
+	// Sitemap.xml Handler mit eingebetteter Datei
 	mux.HandleFunc("GET /sitemap.xml", func(w http.ResponseWriter, r *http.Request) {
+		content, err := static.Files.ReadFile("sitemap.xml")
+		if err != nil {
+			http.Error(w, "Sitemap not found", http.StatusNotFound)
+			return
+		}
+
 		w.Header().Set("Content-Type", "application/xml")
-		http.ServeFile(w, r, "static/sitemap.xml")
+		w.Write(content)
 	})
+
+	// Robots.txt Handler mit eingebetteter Datei
 	mux.HandleFunc("GET /robots.txt", func(w http.ResponseWriter, r *http.Request) {
+		content, err := static.Files.ReadFile("robots.txt")
+		if err != nil {
+			http.Error(w, "Robots.txt not found", http.StatusNotFound)
+			return
+		}
+
 		w.Header().Set("Content-Type", "text/plain")
-		http.ServeFile(w, r, "static/robots.txt")
+		w.Write(content)
 	})
 	//
 	mux.Handle("GET /", templ.Handler(pages.Landing()))
