@@ -6,21 +6,21 @@ import (
 	"github.com/axzilla/templui/internal/ui/showcase"
 )
 
-templ Timepicker() {
+templ TimePicker() {
 	@layouts.DocsLayout() {
 		@modules.PageWrapper(modules.PageWrapperProps{
-			Name:        "Timepicker",
+			Name:        "Time Picker",
 			Description: templ.Raw("A native time selector with support for 12/24 hour formats."),
 			Tailwind:    true,
 			Alpine:      true,
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				ShowcaseFile:      showcase.TimepickerDefault(),
-				PreviewCodeFile:   "timepicker_default.templ",
-				ComponentCodeFile: "timepicker.templ",
+				ShowcaseFile:      showcase.TimePickerDefault(),
+				PreviewCodeFile:   "time_picker_default.templ",
+				ComponentCodeFile: "time_picker.templ",
 			})
 			@modules.Usage(modules.UsageProps{
-				ComponentName: "Timepicker",
+				ComponentName: "TimePicker",
 				NeedsHandler:  true,
 				PropsExample:  "...",
 			})
@@ -28,33 +28,33 @@ templ Timepicker() {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "12h Format",
 					ShowcaseFile:      showcase.TimePicker12Hour(),
-					PreviewCodeFile:   "timepicker_12hour.templ",
-					ComponentCodeFile: "timepicker.templ",
+					PreviewCodeFile:   "time_picker_12hour.templ",
+					ComponentCodeFile: "time_picker.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "With Label",
 					ShowcaseFile:      showcase.TimePickerLabel(),
-					PreviewCodeFile:   "timepicker_label.templ",
-					ComponentCodeFile: "timepicker.templ",
+					PreviewCodeFile:   "time_picker_label.templ",
+					ComponentCodeFile: "time_picker.templ",
 					ID:                "label",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "With Custom Placeholder",
 					ShowcaseFile:      showcase.TimePickerCustomPlaceholder(),
-					PreviewCodeFile:   "timepicker_custom_placeholder.templ",
-					ComponentCodeFile: "timepicker.templ",
+					PreviewCodeFile:   "time_picker_custom_placeholder.templ",
+					ComponentCodeFile: "time_picker.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "With Selected Time",
 					ShowcaseFile:      showcase.TimePickerSelectedTime(),
-					PreviewCodeFile:   "timepicker_selected_time.templ",
-					ComponentCodeFile: "timepicker.templ",
+					PreviewCodeFile:   "time_picker_selected_time.templ",
+					ComponentCodeFile: "time_picker.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "With Form",
 					ShowcaseFile:      showcase.TimePickerForm(),
-					PreviewCodeFile:   "timepicker_form.templ",
-					ComponentCodeFile: "timepicker.templ",
+					PreviewCodeFile:   "time_picker_form.templ",
+					ComponentCodeFile: "time_picker.templ",
 					ID:                "form",
 				})
 			}

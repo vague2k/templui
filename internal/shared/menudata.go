@@ -150,8 +150,8 @@ var Sections = []Section{
 				Href: "/docs/components/textarea",
 			},
 			{
-				Text: "Timepicker",
-				Href: "/docs/components/timepicker",
+				Text: "Time Picker",
+				Href: "/docs/components/time-picker",
 			},
 			{
 				Text: "Toast",

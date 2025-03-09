@@ -5,7 +5,7 @@ import "time"
 
 templ TimePickerSelectedTime() {
 	<div class="w-full max-w-sm">
-		@components.Timepicker(components.TimepickerProps{
+		@components.TimePicker(components.TimePickerProps{
 			Value: time.Now(),
 		})
 	</div>

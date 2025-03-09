@@ -7,11 +7,11 @@ templ TimePickerForm() {
 		@components.FormItem(components.FormItemProps{}) {
 			@components.FormLabel(components.FormLabelProps{
 				Text: "Select a time",
-				For:  "timepicker-form",
+				For:  "time-picker-form",
 			})
-			@components.Timepicker(components.TimepickerProps{
-				ID:       "timepicker-form",
-				Name:     "timepicker-form",
+			@components.TimePicker(components.TimePickerProps{
+				ID:       "time-picker-form",
+				Name:     "time-picker-form",
 				HasError: true,
 			})
 			@components.FormDescription(components.FormDescriptionProps{}) {
