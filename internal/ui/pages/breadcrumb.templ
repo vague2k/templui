@@ -7,7 +7,10 @@ import (
 )
 
 templ Breadcrumb() {
-	@layouts.DocsLayout() {
+	@layouts.DocsLayout(
+		"Breadcrumb",
+		"Navigation component that helps users understand their location within a website's hierarchy.",
+	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Breadcrumb",
 			Description: templ.Raw("Navigation component that helps users understand their location within a website's hierarchy."),

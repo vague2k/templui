@@ -3,6 +3,8 @@ package layouts
 import (
 	"github.com/axzilla/templui/helpers"
 	"github.com/axzilla/templui/internal/config"
+	"github.com/axzilla/templui/internal/ui/modules"
+	"github.com/axzilla/templui/internal/ctxkeys"
 )
 
 templ ThemeScript() {
@@ -33,12 +35,13 @@ templ ThemeScript() {
 	}
 }
 
-templ BaseLayout() {
+templ BaseLayout(title, description string) {
 	<!DOCTYPE html>
 	<html lang="en" class="h-full">
 		<head>
-			// Meta Tags
-			<title>templUI - The UI Kit for templ</title>
+			// SEO
+			@modules.SEO(title, description, ctx.Value(ctxkeys.URLPathValue).(string))
+			// Charset & Viewport
 			<meta charset="UTF-8"/>
 			<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 			<style>
@@ -48,8 +51,9 @@ templ BaseLayout() {
 			if config.AppConfig.GoEnv == "production" {
 				<script defer data-domain="templui.io" src="https://plausible.axeladrian.com/js/script.js" nonce={ templ.GetNonce(ctx) }></script>
 			}
-			// Component Scripts
+			// Theme Script
 			@ThemeScript()
+			// Component Scripts
 			@helpers.ComponentScripts()
 			// Favicon
 			<link rel="icon" href="/assets/img/favicon.svg" type="image/x-icon"/>
@@ -61,13 +65,6 @@ templ BaseLayout() {
 			<script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/csp@3.x.x/dist/cdn.min.js"></script>
 			// HTMX
 			<script nonce={ templ.GetNonce(ctx) } src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.4/dist/htmx.min.js"></script>
-			// INFO: Tryout for capsulate components
-			// <meta
-			// 	name="htmx-config"
-			// 	content={ fmt.Sprintf(`{
-			//     "inlineScriptNonce": "%s"
-			// }`, templ.GetNonce(ctx)) }
-			// />
 		</head>
 		<body
 			x-data="themeHandler"

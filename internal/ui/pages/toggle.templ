@@ -7,7 +7,10 @@ import (
 )
 
 templ Toggle() {
-	@layouts.DocsLayout() {
+	@layouts.DocsLayout(
+		"Toggle",
+		"Two-state button that can be switched on or off.",
+	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Toggle",
 			Description: templ.Raw("Two-state button that can be switched on or off."),

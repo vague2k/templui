@@ -7,7 +7,10 @@ import (
 )
 
 templ Avatar() {
-	@layouts.DocsLayout() {
+	@layouts.DocsLayout(
+		"Avatar",
+		"Visual representation of a user through images or initials.",
+	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Avatar",
 			Description: templ.Raw("Visual representation of a user through images or initials."),

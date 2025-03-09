@@ -180,7 +180,10 @@ var interactiveComponent = `// First, include required scripts
 @components.Accordion(components.AccordionProps{...})`
 
 templ HowToUse() {
-	@layouts.DocsLayout() {
+	@layouts.DocsLayout(
+		"How To Use",
+		"Learn how to integrate templUI into your projects.",
+	) {
 		<div>
 			<div class="mb-16">
 				<h1 class="text-3xl font-bold mb-2">How To Use</h1>

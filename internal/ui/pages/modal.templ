@@ -7,7 +7,10 @@ import (
 )
 
 templ Modal() {
-	@layouts.DocsLayout() {
+	@layouts.DocsLayout(
+		"Modal",
+		"Dialog overlay that requires user attention or interaction.",
+	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Modal",
 			Description: templ.Raw("Dialog overlay that requires user attention or interaction."),

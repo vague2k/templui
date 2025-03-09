@@ -7,7 +7,10 @@ import (
 )
 
 templ TimePicker() {
-	@layouts.DocsLayout() {
+	@layouts.DocsLayout(
+		"Time Picker",
+		"A native time selector with support for 12/24 hour formats.",
+	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Time Picker",
 			Description: templ.Raw("A native time selector with support for 12/24 hour formats."),

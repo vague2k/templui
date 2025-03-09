@@ -7,7 +7,10 @@ import (
 )
 
 templ Button() {
-	@layouts.DocsLayout() {
+	@layouts.DocsLayout(
+		"Button",
+		"Interactive element that triggers actions when clicked.",
+	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Button",
 			Description: templ.Raw("Interactive element that triggers actions when clicked."),

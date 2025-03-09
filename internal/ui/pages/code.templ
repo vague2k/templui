@@ -7,7 +7,10 @@ import (
 )
 
 templ Code() {
-	@layouts.DocsLayout() {
+	@layouts.DocsLayout(
+		"Code",
+		"Code displays a code block with optional syntax highlighting and copy functionality.",
+	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Code",
 			Description: templ.Raw("Code displays a code block with optional syntax highlighting and copy functionality"),
