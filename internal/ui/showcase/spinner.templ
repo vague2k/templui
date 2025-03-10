@@ -1,0 +1,221 @@
+package showcase
+
+import "github.com/axzilla/templui/components"
+
+templ SpinnerDefault() {
+	<div class="flex justify-center">
+		@components.Spinner(components.SpinnerProps{
+			Size:    components.SpinnerSizeMd,
+			Variant: components.SpinnerVariantBorder,
+		})
+	</div>
+}
+
+templ SpinnerSizes() {
+	<div class="flex flex-wrap items-end justify-center gap-8">
+		<div class="flex flex-col items-center">
+			<span class="text-sm text-muted-foreground mb-2">XS</span>
+			@components.Spinner(components.SpinnerProps{
+				Size:    components.SpinnerSizeXs,
+				Variant: components.SpinnerVariantBorder,
+			})
+		</div>
+		<div class="flex flex-col items-center">
+			<span class="text-sm text-muted-foreground mb-2">SM</span>
+			@components.Spinner(components.SpinnerProps{
+				Size:    components.SpinnerSizeSm,
+				Variant: components.SpinnerVariantBorder,
+			})
+		</div>
+		<div class="flex flex-col items-center">
+			<span class="text-sm text-muted-foreground mb-2">MD (Default)</span>
+			@components.Spinner(components.SpinnerProps{
+				Size:    components.SpinnerSizeMd,
+				Variant: components.SpinnerVariantBorder,
+			})
+		</div>
+		<div class="flex flex-col items-center">
+			<span class="text-sm text-muted-foreground mb-2">LG</span>
+			@components.Spinner(components.SpinnerProps{
+				Size:    components.SpinnerSizeLg,
+				Variant: components.SpinnerVariantBorder,
+			})
+		</div>
+		<div class="flex flex-col items-center">
+			<span class="text-sm text-muted-foreground mb-2">XL</span>
+			@components.Spinner(components.SpinnerProps{
+				Size:    components.SpinnerSizeXl,
+				Variant: components.SpinnerVariantBorder,
+			})
+		</div>
+		<div class="flex flex-col items-center">
+			<span class="text-sm text-muted-foreground mb-2">2XL</span>
+			@components.Spinner(components.SpinnerProps{
+				Size:    components.SpinnerSize2xl,
+				Variant: components.SpinnerVariantBorder,
+			})
+		</div>
+	</div>
+}
+
+templ SpinnerVariants() {
+	<div class="flex flex-wrap items-end justify-center gap-12">
+		<div class="flex flex-col items-center">
+			<span class="text-sm text-muted-foreground mb-2">Border (Default)</span>
+			@components.Spinner(components.SpinnerProps{
+				Size:    components.SpinnerSizeMd,
+				Variant: components.SpinnerVariantBorder,
+			})
+		</div>
+		<div class="flex flex-col items-center">
+			<span class="text-sm text-muted-foreground mb-2">Dots</span>
+			@components.Spinner(components.SpinnerProps{
+				Size:    components.SpinnerSizeMd,
+				Variant: components.SpinnerVariantDots,
+			})
+		</div>
+		<div class="flex flex-col items-center">
+			<span class="text-sm text-muted-foreground mb-2">Pulse</span>
+			@components.Spinner(components.SpinnerProps{
+				Size:    components.SpinnerSizeMd,
+				Variant: components.SpinnerVariantPulse,
+			})
+		</div>
+	</div>
+}
+
+templ SpinnerColors() {
+	<div class="flex flex-wrap items-end justify-center gap-8">
+		<div class="flex flex-col items-center">
+			<span class="text-sm text-muted-foreground mb-2">Default (Primary)</span>
+			@components.Spinner(components.SpinnerProps{
+				Size:    components.SpinnerSizeMd,
+				Variant: components.SpinnerVariantBorder,
+			})
+		</div>
+		<div class="flex flex-col items-center">
+			<span class="text-sm text-muted-foreground mb-2">Red</span>
+			@components.Spinner(components.SpinnerProps{
+				Size:    components.SpinnerSizeMd,
+				Variant: components.SpinnerVariantBorder,
+				Color:   "text-red-500",
+			})
+		</div>
+		<div class="flex flex-col items-center">
+			<span class="text-sm text-muted-foreground mb-2">Green</span>
+			@components.Spinner(components.SpinnerProps{
+				Size:    components.SpinnerSizeMd,
+				Variant: components.SpinnerVariantBorder,
+				Color:   "text-green-500",
+			})
+		</div>
+		<div class="flex flex-col items-center">
+			<span class="text-sm text-muted-foreground mb-2">Blue</span>
+			@components.Spinner(components.SpinnerProps{
+				Size:    components.SpinnerSizeMd,
+				Variant: components.SpinnerVariantBorder,
+				Color:   "text-blue-500",
+			})
+		</div>
+		<div class="flex flex-col items-center">
+			<span class="text-sm text-muted-foreground mb-2">Yellow</span>
+			@components.Spinner(components.SpinnerProps{
+				Size:    components.SpinnerSizeMd,
+				Variant: components.SpinnerVariantBorder,
+				Color:   "text-yellow-500",
+			})
+		</div>
+		<div class="flex flex-col items-center">
+			<span class="text-sm text-muted-foreground mb-2">Purple</span>
+			@components.Spinner(components.SpinnerProps{
+				Size:    components.SpinnerSizeMd,
+				Variant: components.SpinnerVariantBorder,
+				Color:   "text-purple-500",
+			})
+		</div>
+	</div>
+}
+
+templ SpinnerWithText() {
+	<div class="flex flex-wrap items-end justify-center gap-8">
+		<!-- Border spinner with text -->
+		<div class="flex flex-col items-center">
+			@components.Spinner(components.SpinnerProps{
+				Size:    components.SpinnerSizeMd,
+				Variant: components.SpinnerVariantBorder,
+				Text:    "Loading...",
+			})
+		</div>
+		<!-- Dots spinner with text -->
+		<div class="flex flex-col items-center">
+			@components.Spinner(components.SpinnerProps{
+				Size:    components.SpinnerSizeMd,
+				Variant: components.SpinnerVariantDots,
+				Text:    "Please wait",
+			})
+		</div>
+		<!-- Pulse spinner with text -->
+		<div class="flex flex-col items-center">
+			@components.Spinner(components.SpinnerProps{
+				Size:    components.SpinnerSizeLg,
+				Variant: components.SpinnerVariantPulse,
+				Text:    "Processing your request",
+				Color:   "text-blue-500",
+			})
+		</div>
+	</div>
+}
+
+templ SpinnerInButton() {
+	<div class="flex flex-wrap items-center justify-center gap-8">
+		<!-- Primary button with spinner -->
+		@components.Button(components.ButtonProps{
+			Attributes: templ.Attributes{
+				"disabled": "true",
+			},
+			Class: "min-w-[120px]",
+		}) {
+			<div class="flex items-center gap-2">
+				@components.Spinner(components.SpinnerProps{
+					Size:    components.SpinnerSizeXs,
+					Variant: components.SpinnerVariantBorder,
+					Color:   "text-primary-foreground",
+				})
+				<span>Loading</span>
+			</div>
+		}
+		<!-- Secondary button with spinner -->
+		@components.Button(components.ButtonProps{
+			Variant: components.ButtonVariantSecondary,
+			Attributes: templ.Attributes{
+				"disabled": "true",
+			},
+			Class: "min-w-[120px]",
+		}) {
+			<div class="flex items-center gap-2">
+				@components.Spinner(components.SpinnerProps{
+					Size:    components.SpinnerSizeXs,
+					Variant: components.SpinnerVariantBorder,
+					Color:   "text-secondary-foreground",
+				})
+				<span>Processing</span>
+			</div>
+		}
+		<!-- Outline button with spinner -->
+		@components.Button(components.ButtonProps{
+			Variant: components.ButtonVariantOutline,
+			Attributes: templ.Attributes{
+				"disabled": "true",
+			},
+			Class: "min-w-[120px]",
+		}) {
+			<div class="flex items-center gap-2">
+				@components.Spinner(components.SpinnerProps{
+					Size:    components.SpinnerSizeXs,
+					Variant: components.SpinnerVariantDots,
+				})
+				<span>Submitting</span>
+			</div>
+		}
+	</div>
+}
