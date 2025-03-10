@@ -9,12 +9,6 @@ import (
 // RatingSize defines available sizes for the Rating component
 type RatingSize string
 
-const (
-	RatingSizeSmall  RatingSize = "small"
-	RatingSizeMedium RatingSize = "medium"
-	RatingSizeLarge  RatingSize = "large"
-)
-
 // RatingStyle defines the visual style for the Rating component
 type RatingStyle string
 
@@ -33,7 +27,6 @@ type RatingProps struct {
 	Style       RatingStyle      // Visual style for the rating
 	Size        RatingSize       // Size of the rating elements
 	Precision   float64          // Step precision for fractional ratings (0.5, 0.1, etc.)
-	Label       string           // Optional label for the rating
 	Name        string           // Form field name (when used in forms)
 	ShowValue   bool             // Whether to display the numeric value
 	OnlyInteger bool             // Force ratings to integer values
@@ -51,21 +44,6 @@ func (p *RatingProps) setDefaults() {
 	}
 	if p.Style == "" {
 		p.Style = RatingStyleStar
-	}
-	if p.Size == "" {
-		p.Size = RatingSizeMedium
-	}
-}
-
-// Get size class based on the RatingSize
-func getSizeClass(size RatingSize) string {
-	switch size {
-	case RatingSizeSmall:
-		return "text-lg"
-	case RatingSizeLarge:
-		return "text-3xl"
-	default: // Medium
-		return "text-2xl"
 	}
 }
 
@@ -231,9 +209,6 @@ templ Rating(props RatingProps) {
 		) }
 		{ props.Attributes... }
 	>
-		if props.Label != "" {
-			<label class="text-sm font-medium text-foreground">{ props.Label }</label>
-		}
 		<div class="flex items-center gap-1">
 			if props.Style != RatingStyleNumeric {
 				<!-- Standard rating items (stars, hearts, emojis) -->
@@ -242,7 +217,6 @@ templ Rating(props RatingProps) {
 						class={
 							utils.TwMerge(
 								"relative",
-								getSizeClass(props.Size),
 								getColorClass(props.Style),
 								"transition-opacity",
 							),
@@ -267,11 +241,11 @@ templ Rating(props RatingProps) {
 				}
 			} else {
 				<!-- Numeric display with optional icon -->
-				<span class={ utils.TwMerge("font-bold", getSizeClass(props.Size)) }>
+				<span class={ utils.TwMerge("font-bold") }>
 					<span x-text="getFormattedValue"></span>
-					<span>/</span><span x-text="maxValue"></span>
+					<span>/ </span><span x-text="maxValue"></span>
 				</span>
-				<span class={ utils.TwMerge(getColorClass(RatingStyleStar), getSizeClass(props.Size)) }>
+				<span class={ utils.TwMerge(getColorClass(RatingStyleStar)) }>
 					@icons.Star(icons.IconProps{})
 				</span>
 			}
@@ -282,13 +256,6 @@ templ Rating(props RatingProps) {
 					name={ props.Name }
 					x-bind:value="value"
 				/>
-			}
-			<!-- Optional display of numeric value -->
-			if props.ShowValue && props.Style != RatingStyleNumeric {
-				<span class="ml-2 text-sm text-muted-foreground">
-					<span x-text="getFormattedValue"></span>
-					<span>/</span><span x-text="maxValue"></span>
-				</span>
 			}
 		</div>
 	</div>

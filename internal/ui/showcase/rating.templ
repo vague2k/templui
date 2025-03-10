@@ -2,226 +2,149 @@ package showcase
 
 import "github.com/axzilla/templui/components"
 
-// Basic star rating showcase
 templ RatingDefault() {
 	@components.Rating(components.RatingProps{
 		Value:     3.5,
 		MaxValue:  5,
 		ReadOnly:  false,
 		Style:     components.RatingStyleStar,
-		Size:      components.RatingSizeMedium,
 		Precision: 0.5,
 		ShowValue: true,
 	})
 }
 
-// Read-only rating showcase
 templ RatingReadOnly() {
 	@components.Rating(components.RatingProps{
 		Value:    4.7,
 		MaxValue: 5,
 		ReadOnly: true,
 		Style:    components.RatingStyleStar,
-		Size:     components.RatingSizeMedium,
 	})
 }
 
-// Different sizes showcase
-templ RatingSizes() {
-	<div class="flex flex-col gap-4">
-		@components.Rating(components.RatingProps{
-			Value:    4,
-			MaxValue: 5,
-			ReadOnly: true,
-			Style:    components.RatingStyleStar,
-			Size:     components.RatingSizeSmall,
-			Label:    "Small",
-		})
-		@components.Rating(components.RatingProps{
-			Value:    4,
-			MaxValue: 5,
-			ReadOnly: true,
-			Style:    components.RatingStyleStar,
-			Size:     components.RatingSizeMedium,
-			Label:    "Medium",
-		})
-		@components.Rating(components.RatingProps{
-			Value:    4,
-			MaxValue: 5,
-			ReadOnly: true,
-			Style:    components.RatingStyleStar,
-			Size:     components.RatingSizeLarge,
-			Label:    "Large",
-		})
-	</div>
-}
-
-// Different styles showcase
 templ RatingStyles() {
 	<div class="flex flex-col gap-4">
-		@components.Rating(components.RatingProps{
-			Value:    4,
-			MaxValue: 5,
-			ReadOnly: true,
-			Style:    components.RatingStyleStar,
-			Size:     components.RatingSizeMedium,
-			Label:    "Star",
-		})
-		@components.Rating(components.RatingProps{
-			Value:    4,
-			MaxValue: 5,
-			ReadOnly: true,
-			Style:    components.RatingStyleHeart,
-			Size:     components.RatingSizeMedium,
-			Label:    "Heart",
-		})
-		@components.Rating(components.RatingProps{
-			Value:    4,
-			MaxValue: 5,
-			ReadOnly: true,
-			Style:    components.RatingStyleEmoji,
-			Size:     components.RatingSizeMedium,
-			Label:    "Emoji",
-		})
-		@components.Rating(components.RatingProps{
-			Value:    4,
-			MaxValue: 5,
-			ReadOnly: true,
-			Style:    components.RatingStyleNumeric,
-			Size:     components.RatingSizeMedium,
-			Label:    "Numeric",
-		})
+		<div class="flex flex-col gap-2">
+			@components.Label(components.LabelProps{Text: "Star"})
+			@components.Rating(components.RatingProps{
+				Value:    4,
+				MaxValue: 5,
+				ReadOnly: true,
+				Style:    components.RatingStyleStar,
+			})
+		</div>
+		<div class="flex flex-col gap-2">
+			@components.Label(components.LabelProps{Text: "Heart"})
+			@components.Rating(components.RatingProps{
+				Value:    4,
+				MaxValue: 5,
+				ReadOnly: true,
+				Style:    components.RatingStyleHeart,
+			})
+		</div>
+		<div class="flex flex-col gap-2">
+			@components.Label(components.LabelProps{Text: "Emoji"})
+			@components.Rating(components.RatingProps{
+				Value:    4,
+				MaxValue: 5,
+				ReadOnly: true,
+				Style:    components.RatingStyleEmoji,
+			})
+		</div>
+		<div class="flex flex-col gap-2">
+			@components.Label(components.LabelProps{Text: "Numeric"})
+			@components.Rating(components.RatingProps{
+				Value:     3.6,
+				MaxValue:  5,
+				ReadOnly:  true,
+				Precision: 0.1,
+				Style:     components.RatingStyleNumeric,
+			})
+		</div>
 	</div>
 }
 
-// Form integration showcase
 templ RatingForm() {
 	<form class="max-w-sm mx-auto">
-		@components.Card(components.CardProps{}) {
-			@components.CardHeader() {
-				@components.CardTitle() {
-					Product Review
-				}
-				@components.CardDescription() {
-					Please rate our service
-				}
+		@components.FormItem(components.FormItemProps{}) {
+			@components.Label(components.LabelProps{Text: "Product Quality"})
+			@components.Rating(components.RatingProps{
+				Value:     3,
+				MaxValue:  5,
+				ReadOnly:  false,
+				Style:     components.RatingStyleStar,
+				Precision: 1.0,
+				Name:      "product_quality",
+			})
+			@components.FormDescription(components.FormDescriptionProps{}) {
+				Rate the quality of the product you received.
 			}
-			@components.CardContent() {
-				@components.FormItem(components.FormItemProps{}) {
-					@components.Rating(components.RatingProps{
-						Value:     3,
-						MaxValue:  5,
-						ReadOnly:  false,
-						Style:     components.RatingStyleStar,
-						Size:      components.RatingSizeMedium,
-						Precision: 1.0,
-						Label:     "Product Quality",
-						Name:      "product_quality",
-					})
-				}
-				@components.FormItem(components.FormItemProps{}) {
-					@components.Rating(components.RatingProps{
-						Value:     4,
-						MaxValue:  5,
-						ReadOnly:  false,
-						Style:     components.RatingStyleHeart,
-						Size:      components.RatingSizeMedium,
-						Precision: 1.0,
-						Label:     "Customer Service",
-						Name:      "customer_service",
-					})
-				}
-				@components.FormItem(components.FormItemProps{}) {
-					@components.Rating(components.RatingProps{
-						Value:     2.5,
-						MaxValue:  5,
-						ReadOnly:  false,
-						Style:     components.RatingStyleEmoji,
-						Size:      components.RatingSizeMedium,
-						Precision: 0.5,
-						Label:     "Overall Experience",
-						Name:      "overall_experience",
-					})
-				}
-				@components.FormItem(components.FormItemProps{}) {
-					@components.Label(components.LabelProps{
-						Text: "Additional Comments",
-						For:  "comments",
-					})
-					@components.Textarea(components.TextareaProps{
-						ID:          "comments",
-						Name:        "comments",
-						Placeholder: "Tell us what you think...",
-						Rows:        3,
-					})
-				}
-			}
-			@components.CardFooter() {
-				@components.Button(components.ButtonProps{
-					Type: "submit",
-					Text: "Submit Review",
-				})
-			}
+			@components.FormMessage(components.FormMessageProps{
+				Type:    "error",
+				Message: "Please rate the product quality."})
 		}
 	</form>
 }
 
-// Custom precision showcase
 templ RatingPrecision() {
 	<div class="flex flex-col gap-4">
-		@components.Rating(components.RatingProps{
-			Value:       3.7,
-			MaxValue:    5,
-			ReadOnly:    false,
-			Style:       components.RatingStyleStar,
-			Size:        components.RatingSizeMedium,
-			Precision:   1.0,
-			Label:       "Integer Ratings",
-			ShowValue:   true,
-			OnlyInteger: true,
-		})
-		@components.Rating(components.RatingProps{
-			Value:     3.7,
-			MaxValue:  5,
-			ReadOnly:  false,
-			Style:     components.RatingStyleStar,
-			Size:      components.RatingSizeMedium,
-			Precision: 0.5,
-			Label:     "Half-Star Ratings",
-			ShowValue: true,
-		})
-		@components.Rating(components.RatingProps{
-			Value:     3.7,
-			MaxValue:  5,
-			ReadOnly:  false,
-			Style:     components.RatingStyleStar,
-			Size:      components.RatingSizeMedium,
-			Precision: 0.1,
-			Label:     "Decimal Ratings (0.1)",
-			ShowValue: true,
-		})
+		<div class="flex flex-col gap-2">
+			@components.Label(components.LabelProps{Text: "Integer Ratings"})
+			@components.Rating(components.RatingProps{
+				Value:       3.7,
+				MaxValue:    5,
+				ReadOnly:    false,
+				Style:       components.RatingStyleStar,
+				Precision:   1.0,
+				ShowValue:   true,
+				OnlyInteger: true,
+			})
+		</div>
+		<div class="flex flex-col gap-2">
+			@components.Label(components.LabelProps{Text: "Half-Star Ratings"})
+			@components.Rating(components.RatingProps{
+				Value:     3.7,
+				MaxValue:  5,
+				ReadOnly:  false,
+				Style:     components.RatingStyleStar,
+				Precision: 0.5,
+				ShowValue: true,
+			})
+		</div>
+		<div class="flex flex-col gap-2">
+			@components.Label(components.LabelProps{Text: "Decimal Ratings (0.1)"})
+			@components.Rating(components.RatingProps{
+				Value:     3.7,
+				MaxValue:  5,
+				ReadOnly:  false,
+				Style:     components.RatingStyleStar,
+				Precision: 0.1,
+				ShowValue: true,
+			})
+		</div>
 	</div>
 }
 
-// Custom max values showcase
 templ RatingMaxValues() {
 	<div class="flex flex-col gap-4">
-		@components.Rating(components.RatingProps{
-			Value:    3,
-			MaxValue: 3,
-			ReadOnly: true,
-			Style:    components.RatingStyleStar,
-			Size:     components.RatingSizeMedium,
-			Label:    "3-Star Rating",
-		})
-		@components.Rating(components.RatingProps{
-			Value:     7,
-			MaxValue:  10,
-			ReadOnly:  true,
-			Style:     components.RatingStyleStar,
-			Size:      components.RatingSizeMedium,
-			Label:     "10-Star Rating",
-			ShowValue: true,
-		})
+		<div class="flex flex-col gap-2">
+			@components.Label(components.LabelProps{Text: "5-Star Rating"})
+			@components.Rating(components.RatingProps{
+				Value:    3,
+				MaxValue: 3,
+				ReadOnly: true,
+				Style:    components.RatingStyleStar,
+			})
+		</div>
+		<div class="flex flex-col gap-2">
+			@components.Label(components.LabelProps{Text: "10-Star Rating"})
+			@components.Rating(components.RatingProps{
+				Value:     7,
+				MaxValue:  10,
+				ReadOnly:  true,
+				Style:     components.RatingStyleStar,
+				ShowValue: true,
+			})
+		</div>
 	</div>
 }
