@@ -1,0 +1,67 @@
+package components
+
+import "github.com/axzilla/templui/utils"
+
+// SeparatorOrientation defines the orientation of the separator
+type SeparatorOrientation string
+
+const (
+	// SeparatorOrientationHorizontal defines a horizontal separator
+	SeparatorOrientationHorizontal SeparatorOrientation = "horizontal"
+	// SeparatorOrientationVertical defines a vertical separator
+	SeparatorOrientationVertical SeparatorOrientation = "vertical"
+)
+
+// SeparatorProps configures the Separator component
+type SeparatorProps struct {
+	Orientation SeparatorOrientation // Direction of the separator (horizontal or vertical)
+	Decorated   bool                 // Whether to show a decorative style
+	Label       string               // Optional label text to display in the middle
+	Class       string               // Additional CSS classes
+	Attributes  templ.Attributes     // Additional HTML attributes
+}
+
+// Separator creates a visual divider between content with optional label
+//
+// Props:
+//   - Orientation: Direction of the separator ("horizontal" or "vertical"). Default: "horizontal"
+//   - Decorated: Whether to show a decorative style. Default: false
+//   - Label: Optional text to display in the middle of the separator
+//   - Class: Additional CSS classes to apply
+//   - Attributes: Additional HTML attributes to apply
+templ Separator(props SeparatorProps) {
+	<div
+		role="separator"
+		aria-orientation={ string(props.Orientation) }
+		class={
+			utils.TwMerge(
+				// Base styles
+				"shrink-0",
+				// Orientation-specific styles
+				getOrientationClasses(props.Orientation),
+				// Decoration styles
+				utils.TwIf("border-dashed", props.Decorated),
+				// Custom classes
+				props.Class,
+			),
+		}
+		{ props.Attributes... }
+	>
+		if props.Label != "" && props.Orientation == SeparatorOrientationHorizontal {
+			<div class="relative flex items-center w-full">
+				<span class="absolute w-full border-t" aria-hidden="true"></span>
+				<span class="relative mx-auto bg-background px-2 text-xs text-muted-foreground">
+					{ props.Label }
+				</span>
+			</div>
+		}
+	</div>
+}
+
+// getOrientationClasses returns the appropriate CSS classes based on orientation
+func getOrientationClasses(orientation SeparatorOrientation) string {
+	if orientation == SeparatorOrientationVertical {
+		return "h-full w-[1px] border-l"
+	}
+	return "h-[1px] w-full border-t"
+}

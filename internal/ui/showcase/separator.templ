@@ -1,0 +1,60 @@
+package showcase
+
+import (
+	"github.com/axzilla/templui/components"
+)
+
+// SeparatorDefault displays the default horizontal separator
+templ SeparatorDefault() {
+	<div class="w-full max-w-md">
+		<div class="space-y-4">
+			<p>Content above the separator</p>
+			@components.Separator(components.SeparatorProps{
+				Orientation: components.SeparatorOrientationHorizontal,
+			})
+			<p>Content below the separator</p>
+		</div>
+	</div>
+}
+
+// SeparatorVertical displays a vertical separator with content on both sides
+templ SeparatorVertical() {
+	<div class="w-full max-w-md">
+		<div class="flex h-24 items-center">
+			<div class="w-1/2 text-center">Left content</div>
+			@components.Separator(components.SeparatorProps{
+				Orientation: components.SeparatorOrientationVertical,
+				Class:       "mx-4",
+			})
+			<div class="w-1/2 text-center">Right content</div>
+		</div>
+	</div>
+}
+
+// SeparatorWithLabel displays a horizontal separator with a centered label
+templ SeparatorWithLabel() {
+	<div class="w-full max-w-md">
+		<div class="space-y-4">
+			<p>Content above the separator</p>
+			@components.Separator(components.SeparatorProps{
+				Orientation: components.SeparatorOrientationHorizontal,
+				Label:       "OR",
+			})
+			<p>Content below the separator</p>
+		</div>
+	</div>
+}
+
+// SeparatorDecorated displays a decorated separator with dashed style
+templ SeparatorDecorated() {
+	<div class="w-full max-w-md">
+		<div class="space-y-4">
+			<p>Content above the separator</p>
+			@components.Separator(components.SeparatorProps{
+				Orientation: components.SeparatorOrientationHorizontal,
+				Decorated:   true,
+			})
+			<p>Content below the separator</p>
+		</div>
+	</div>
+}

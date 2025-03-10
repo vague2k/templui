@@ -138,6 +138,11 @@ var Sections = []Section{
 				Href: "/docs/components/select",
 			},
 			{
+				Text: "Separator",
+				Href: "/docs/components/separator",
+			},
+
+			{
 				Text: "Sheet",
 				Href: "/docs/components/sheet",
 			},
