@@ -118,6 +118,7 @@ func main() {
 	mux.Handle("GET /docs/components/select", templ.Handler(pages.Select()))
 	mux.Handle("GET /docs/components/separator", templ.Handler(pages.Separator()))
 	mux.Handle("GET /docs/components/sheet", templ.Handler(pages.Sheet()))
+	mux.Handle("GET /docs/components/skeleton", templ.Handler(pages.Skeleton()))
 	mux.Handle("GET /docs/components/slider", templ.Handler(pages.Slider()))
 	mux.Handle("GET /docs/components/spinner", templ.Handler(pages.Spinner()))
 	mux.Handle("GET /docs/components/tabs", templ.Handler(pages.Tabs()))
