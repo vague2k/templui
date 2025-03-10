@@ -10,7 +10,6 @@ import (
 	"github.com/axzilla/templui/assets"
 	"github.com/axzilla/templui/components"
 	"github.com/axzilla/templui/internal/config"
-	"github.com/axzilla/templui/internal/handlers"
 	"github.com/axzilla/templui/internal/middleware"
 	"github.com/axzilla/templui/internal/ui/pages"
 	mw "github.com/axzilla/templui/middleware"
@@ -132,11 +131,6 @@ func main() {
 	// Showcase API
 	mux.Handle("POST /docs/toast/demo", http.HandlerFunc(toastDemoHandler))
 	mux.Handle("POST /docs/button/htmx-loading", http.HandlerFunc(buttonHtmxLoadingHandler))
-	//
-	// Add these routes to your main.go where routes are defined
-	// mux.Handle("GET /docs/components/progress", templ.Handler(pages.Progress()))
-	mux.Handle("GET /api/progress", http.HandlerFunc(handlers.ProgressHandler))
-	mux.Handle("POST /api/progress/reset", http.HandlerFunc(handlers.ProgressResetHandler))
 
 	fmt.Println("Server is running on http://localhost:8090")
 	http.ListenAndServe(":8090", wrappedMux)

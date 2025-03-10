@@ -1,0 +1,21 @@
+package showcase
+
+import (
+	"github.com/axzilla/templui/components"
+)
+
+templ ProgressSizes() {
+	<div class="space-y-6 w-full max-w-sm">
+		@components.Progress(components.ProgressProps{
+			Value: 50,
+			Size:  components.ProgressSizeSm,
+		})
+		@components.Progress(components.ProgressProps{
+			Value: 65,
+		})
+		@components.Progress(components.ProgressProps{
+			Value: 80,
+			Size:  components.ProgressSizeLg,
+		})
+	</div>
+}
