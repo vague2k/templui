@@ -419,9 +419,6 @@
   .mt-6 {
     margin-top: calc(var(--spacing) * 6);
   }
-  .mt-12 {
-    margin-top: calc(var(--spacing) * 12);
-  }
   .mt-auto {
     margin-top: auto;
   }
@@ -607,9 +604,6 @@
   .min-h-screen {
     min-height: 100vh;
   }
-  .\!w-6 {
-    width: calc(var(--spacing) * 6) !important;
-  }
   .w-1 {
     width: calc(var(--spacing) * 1);
   }
@@ -640,14 +634,8 @@
   .w-4 {
     width: calc(var(--spacing) * 4);
   }
-  .w-4\/5 {
-    width: calc(4/5 * 100%);
-  }
   .w-5 {
     width: calc(var(--spacing) * 5);
-  }
-  .w-5\/6 {
-    width: calc(5/6 * 100%);
   }
   .w-6 {
     width: calc(var(--spacing) * 6);
@@ -673,9 +661,6 @@
   .w-24 {
     width: calc(var(--spacing) * 24);
   }
-  .w-28 {
-    width: calc(var(--spacing) * 28);
-  }
   .w-56 {
     width: calc(var(--spacing) * 56);
   }
@@ -696,6 +681,9 @@
   }
   .w-\[200px\] {
     width: 200px;
+  }
+  .w-\[230px\] {
+    width: 230px;
   }
   .w-\[250px\] {
     width: 250px;
@@ -870,9 +858,6 @@
   .grid-cols-3 {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
-  .grid-cols-4 {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
   .grid-cols-5 {
     grid-template-columns: repeat(5, minmax(0, 1fr));
   }
@@ -977,13 +962,6 @@
       --tw-space-x-reverse: 0;
       margin-inline-start: calc(calc(var(--spacing) * 2) * var(--tw-space-x-reverse));
       margin-inline-end: calc(calc(var(--spacing) * 2) * calc(1 - var(--tw-space-x-reverse)));
-    }
-  }
-  .space-x-3 {
-    :where(& > :not(:last-child)) {
-      --tw-space-x-reverse: 0;
-      margin-inline-start: calc(calc(var(--spacing) * 3) * var(--tw-space-x-reverse));
-      margin-inline-end: calc(calc(var(--spacing) * 3) * calc(1 - var(--tw-space-x-reverse)));
     }
   }
   .gap-y-2 {
@@ -1604,9 +1582,6 @@
   .select-none {
     -webkit-user-select: none;
     user-select: none;
-  }
-  .\[o��\>\@\]B3N\$�\1c ���\%B\>\"���I\10 \2 z\)���\12 ��\:w�\1e \"s\)YY\] {
-    o� >@]B3N$����%B>"���Iz)�����: w�"s)YY;
   }
   .group-hover\:block {
     &:is(:where(.group):hover *) {

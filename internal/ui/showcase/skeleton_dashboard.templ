@@ -1,0 +1,28 @@
+package showcase
+
+import (
+	"github.com/axzilla/templui/components"
+)
+
+templ SkeletonDashboard() {
+	<div>
+		<div class="grid gap-6 md:grid-cols-3">
+			<!-- Stats cards -->
+			for i := 0; i < 3; i++ {
+				<div class="p-4">
+					@components.Skeleton(components.SkeletonProps{Class: "h-4 w-20 mb-2"})
+					@components.Skeleton(components.SkeletonProps{Class: "h-8 w-24 mb-4"})
+					<div class="flex items-center gap-2">
+						@components.Skeleton(components.SkeletonProps{Class: "h-4 w-12"})
+						@components.Skeleton(components.SkeletonProps{Class: "h-4 w-4"})
+					</div>
+				</div>
+			}
+		</div>
+		<!-- Chart -->
+		<div class="mt-4 p-4">
+			@components.Skeleton(components.SkeletonProps{Class: "h-5 w-1/3 mb-6"})
+			@components.Skeleton(components.SkeletonProps{Class: "h-[240px] w-full rounded-md"})
+		</div>
+	</div>
+}

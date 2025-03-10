@@ -2,37 +2,14 @@ package components
 
 import "github.com/axzilla/templui/utils"
 
-// SkeletonProps configures the Skeleton component
 type SkeletonProps struct {
-	// Class allows additional CSS classes to be applied
-	Class string
-	// Attributes allows additional HTML attributes to be applied
-	Attributes templ.Attributes
+	Class      string           // Additional CSS classes to apply to the skeleton element
+	Attributes templ.Attributes // Additional attributes to apply to the skeleton element
 }
 
 // Skeleton creates a placeholder element that indicates content is loading
 // It's designed to be a simple building block that users can compose into
 // more complex loading UI patterns
-//
-// Usage:
-//
-//   // Basic skeleton
-//   @components.Skeleton(components.SkeletonProps{Class: "h-4 w-full"})
-//
-//   // Avatar skeleton
-//   @components.Skeleton(components.SkeletonProps{Class: "h-12 w-12 rounded-full"})
-//
-//   // Button skeleton
-//   @components.Skeleton(components.SkeletonProps{Class: "h-10 w-20 rounded-md"})
-//
-//   // Composing multiple skeletons
-//   <div class="flex items-center gap-4">
-//     @components.Skeleton(components.SkeletonProps{Class: "h-12 w-12 rounded-full"})
-//     <div class="space-y-2">
-//       @components.Skeleton(components.SkeletonProps{Class: "h-4 w-[250px]"})
-//       @components.Skeleton(components.SkeletonProps{Class: "h-4 w-[200px]"})
-//     </div>
-//   </div>
 templ Skeleton(props SkeletonProps) {
 	<div
 		class={ utils.TwMerge(

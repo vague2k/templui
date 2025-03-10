@@ -1,0 +1,15 @@
+package showcase
+
+import (
+	"github.com/axzilla/templui/components"
+)
+
+templ SkeletonProfile() {
+	<div class="flex items-center gap-4 w-full max-w-sm">
+		@components.Skeleton(components.SkeletonProps{Class: "h-12 w-12 rounded-full"})
+		<div class="space-y-2 w-full">
+			@components.Skeleton(components.SkeletonProps{Class: "h-4 w-full"})
+			@components.Skeleton(components.SkeletonProps{Class: "h-4 w-3/4"})
+		</div>
+	</div>
+}
