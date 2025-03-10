@@ -13,6 +13,9 @@ import "github.com/axzilla/templui/utils"
 // SeparatorOrientation defines the orientation of the separator
 type SeparatorOrientation string
 
+// SeparatorDecoration defines the decoration style of the separator
+type SeparatorDecoration string
+
 const (
 	// SeparatorOrientationHorizontal defines a horizontal separator
 	SeparatorOrientationHorizontal SeparatorOrientation = "horizontal"
@@ -20,10 +23,19 @@ const (
 	SeparatorOrientationVertical SeparatorOrientation = "vertical"
 )
 
+const (
+	// SeparatorDecorationNone defines no decoration style
+	SeparatorDecorationNone SeparatorDecoration = "none"
+	// SeparatorDecorationDashed defines a dashed decoration style
+	SeparatorDecorationDashed SeparatorDecoration = "dashed"
+	// SeparatorDecorationDotted defines a dotted decoration style
+	SeparatorDecorationDotted SeparatorDecoration = "dotted"
+)
+
 // SeparatorProps configures the Separator component
 type SeparatorProps struct {
 	Orientation SeparatorOrientation // Direction of the separator (horizontal or vertical)
-	Decorated   bool                 // Whether to show a decorative style
+	Decoration  SeparatorDecoration  // Decoration style (none, dashed, dotted)
 	Label       string               // Optional label text to display in the middle
 	Class       string               // Additional CSS classes
 	Attributes  templ.Attributes     // Additional HTML attributes
@@ -33,7 +45,7 @@ type SeparatorProps struct {
 //
 // Props:
 //   - Orientation: Direction of the separator ("horizontal" or "vertical"). Default: "horizontal"
-//   - Decorated: Whether to show a decorative style. Default: false
+//   - Decoration: Decoration style (none, dashed, dotted). Default: none
 //   - Label: Optional text to display in the middle of the separator
 //   - Class: Additional CSS classes to apply
 //   - Attributes: Additional HTML attributes to apply
@@ -62,10 +74,20 @@ func Separator(props SeparatorProps) templ.Component {
 			utils.TwMerge(
 				// Base styles
 				"shrink-0",
-				// Orientation-specific styles
-				getOrientationClasses(props.Orientation),
-				// Decoration styles
-				utils.TwIf("border-dashed", props.Decorated),
+
+				// For horizontal separators with label, we don't add border to the main div
+				// as the border will be added to the span element inside
+				utils.TwIf(getOrientationClasses(props.Orientation),
+					!(props.Label != "" && props.Orientation == SeparatorOrientationHorizontal)),
+
+				// We still want height/width even with label
+				utils.TwIf("h-[1px] w-full", props.Orientation == SeparatorOrientationHorizontal),
+				utils.TwIf("h-full w-[1px]", props.Orientation == SeparatorOrientationVertical),
+
+				// Decoration styles - only apply to main container if no label
+				utils.TwIf(getDecorationClasses(props.Decoration),
+					!(props.Label != "" && props.Orientation == SeparatorOrientationHorizontal)),
+
 				// Custom classes
 				props.Class,
 			),
@@ -81,7 +103,7 @@ func Separator(props SeparatorProps) templ.Component {
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(string(props.Orientation))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/separator.templ`, Line: 35, Col: 46}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/separator.templ`, Line: 47, Col: 46}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
@@ -113,25 +135,50 @@ func Separator(props SeparatorProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		if props.Label != "" && props.Orientation == SeparatorOrientationHorizontal {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<div class=\"relative flex items-center w-full\"><span class=\"absolute w-full border-t\" aria-hidden=\"true\"></span> <span class=\"relative mx-auto bg-background px-2 text-xs text-muted-foreground\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<div class=\"relative flex items-center w-full\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var5 string
-			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(props.Label)
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/separator.templ`, Line: 54, Col: 18}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
+			var templ_7745c5c3_Var5 = []any{utils.TwMerge(
+				"absolute w-full border-t",
+				getDecorationClasses(props.Decoration),
+			)}
+			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var5...)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</span></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<span class=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var6 string
+			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var5).String())
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/separator.templ`, Line: 1, Col: 0}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "\" aria-hidden=\"true\"></span> <span class=\"relative mx-auto bg-background px-2 text-xs text-muted-foreground\">")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var7 string
+			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(props.Label)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/separator.templ`, Line: 82, Col: 18}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "</span></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "</div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "</div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -142,9 +189,21 @@ func Separator(props SeparatorProps) templ.Component {
 // getOrientationClasses returns the appropriate CSS classes based on orientation
 func getOrientationClasses(orientation SeparatorOrientation) string {
 	if orientation == SeparatorOrientationVertical {
-		return "h-full w-[1px] border-l"
+		return "border-l"
 	}
-	return "h-[1px] w-full border-t"
+	return "border-t"
+}
+
+// getDecorationClasses returns the appropriate CSS classes based on decoration style
+func getDecorationClasses(decoration SeparatorDecoration) string {
+	switch decoration {
+	case SeparatorDecorationDashed:
+		return "border-dashed"
+	case SeparatorDecorationDotted:
+		return "border-dotted"
+	default:
+		return ""
+	}
 }
 
 var _ = templruntime.GeneratedTemplate

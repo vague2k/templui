@@ -1,0 +1,20 @@
+package showcase
+
+import (
+	"github.com/axzilla/templui/components"
+)
+
+templ SeparatorDecorated() {
+	<div class="flex flex-col gap-8 w-full max-w-md">
+		@components.Separator(components.SeparatorProps{
+			Orientation: components.SeparatorOrientationHorizontal,
+			Decoration:  components.SeparatorDecorationDashed,
+			Label:       "DASHED",
+		})
+		@components.Separator(components.SeparatorProps{
+			Orientation: components.SeparatorOrientationHorizontal,
+			Decoration:  components.SeparatorDecorationDotted,
+			Label:       "DOTTED",
+		})
+	</div>
+}

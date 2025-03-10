@@ -1019,6 +1019,10 @@
     --tw-border-style: dashed;
     border-style: dashed;
   }
+  .border-dotted {
+    --tw-border-style: dotted;
+    border-style: dotted;
+  }
   .border-border {
     border-color: var(--border);
   }
