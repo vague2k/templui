@@ -1,0 +1,20 @@
+package showcase
+
+import "github.com/axzilla/templui/components"
+
+templ SpinnerColors() {
+	<div class="flex flex-wrap items-end justify-center gap-8">
+		@components.Spinner(components.SpinnerProps{
+			Size:  components.SpinnerSizeMd,
+			Color: "text-red-500",
+		})
+		@components.Spinner(components.SpinnerProps{
+			Size:  components.SpinnerSizeMd,
+			Color: "text-green-500",
+		})
+		@components.Spinner(components.SpinnerProps{
+			Size:  components.SpinnerSizeMd,
+			Color: "text-blue-500",
+		})
+	</div>
+}

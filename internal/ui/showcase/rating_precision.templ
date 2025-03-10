@@ -1,0 +1,42 @@
+package showcase
+
+import "github.com/axzilla/templui/components"
+
+templ RatingPrecision() {
+	<div class="flex flex-col gap-4">
+		<div class="flex flex-col gap-2">
+			@components.Label(components.LabelProps{Text: "Integer Ratings"})
+			@components.Rating(components.RatingProps{
+				Value:       3.7,
+				MaxValue:    5,
+				ReadOnly:    false,
+				Style:       components.RatingStyleStar,
+				Precision:   1.0,
+				ShowValue:   true,
+				OnlyInteger: true,
+			})
+		</div>
+		<div class="flex flex-col gap-2">
+			@components.Label(components.LabelProps{Text: "Half-Star Ratings"})
+			@components.Rating(components.RatingProps{
+				Value:     3.7,
+				MaxValue:  5,
+				ReadOnly:  false,
+				Style:     components.RatingStyleStar,
+				Precision: 0.5,
+				ShowValue: true,
+			})
+		</div>
+		<div class="flex flex-col gap-2">
+			@components.Label(components.LabelProps{Text: "Decimal Ratings (0.1)"})
+			@components.Rating(components.RatingProps{
+				Value:     3.7,
+				MaxValue:  5,
+				ReadOnly:  false,
+				Style:     components.RatingStyleStar,
+				Precision: 0.1,
+				ShowValue: true,
+			})
+		</div>
+	</div>
+}

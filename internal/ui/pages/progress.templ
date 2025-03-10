@@ -1,0 +1,162 @@
+package pages
+
+import (
+	"github.com/axzilla/templui/internal/ui/layouts"
+	"github.com/axzilla/templui/internal/ui/modules"
+	"github.com/axzilla/templui/internal/ui/showcase"
+	"github.com/axzilla/templui/components"
+)
+
+templ Progress() {
+	@layouts.DocsLayout(
+		"Progress",
+		"Progress indicators inform users about the status of ongoing processes.",
+	) {
+		@modules.PageWrapper(modules.PageWrapperProps{
+			Name:        "Progress",
+			Description: templ.Raw("Progress indicators inform users about the status of ongoing processes."),
+			Tailwind:    true,
+		}) {
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				ShowcaseFile:      showcase.ProgressDefault(),
+				PreviewCodeFile:   "progress_default.templ",
+				ComponentCodeFile: "progress.templ",
+			})
+			@modules.Usage(modules.UsageProps{
+				ComponentName: "Progress",
+				PropsExample:  "...",
+			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Sizes",
+					ShowcaseFile:      showcase.ProgressSizes(),
+					PreviewCodeFile:   "progress_sizes.templ",
+					ComponentCodeFile: "progress.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Colors",
+					ShowcaseFile:      showcase.ProgressColors(),
+					PreviewCodeFile:   "progress_colors.templ",
+					ComponentCodeFile: "progress.templ",
+				})
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Integration Patterns"}) {
+				<div class="prose max-w-none">
+					<p>
+						The Progress component can be integrated in different ways depending on your requirements:
+					</p>
+					<h3 class="text-lg font-medium mt-6 mb-2">File Uploads</h3>
+					<p class="mb-2">
+						For file uploads, use the browser's XMLHttpRequest or fetch API with progress events:
+					</p>
+					@components.Code(components.CodeProps{
+						Language: "go",
+					}) {
+						{ exampleFileUploads }
+					}
+					<h3 class="text-lg font-medium mt-6 mb-2">Multi-step Forms</h3>
+					<p class="mb-2">
+						For multi-step forms, you can use either client-side calculations or HTMX for server-side validation between steps:
+					</p>
+					@components.Code(components.CodeProps{
+						Language: "go",
+					}) {
+						{ exampleMultiStepForms }
+					}
+					<h3 class="text-lg font-medium mt-6 mb-2">Background Processes</h3>
+					<p>
+						For tracking background processes, choose between:
+					</p>
+					<ul class="list-disc list-inside space-y-2 ml-4">
+						<li>
+							<p class="mb-2">
+								<strong>HTMX Polling</strong>: Simple approach, good for processes under a few minutes
+							</p>
+							@components.Code(components.CodeProps{
+								Language: "go",
+							}) {
+								{ exampleHTMXPolling }
+							}
+						</li>
+						<li>
+							<p class="mb-2">
+								<strong>Server-Sent Events (SSE)</strong>: For real-time updates and longer processes
+							</p>
+							@components.Code(components.CodeProps{
+								Language: "go",
+							}) {
+								{ exampleSSEHandler }
+							}
+						</li>
+					</ul>
+				</div>
+			}
+		}
+	}
+}
+
+var exampleFileUploads = `// Client-side JavaScript
+const form = document.querySelector("#upload-form");
+form.addEventListener("submit", (e) => {
+	e.preventDefault();
+	const formData = new FormData(form);
+	const xhr = new XMLHttpRequest();
+	
+	// Update progress bar with upload progress
+	xhr.upload.addEventListener("progress", (event) => {
+		if (event.lengthComputable) {
+			const percent = Math.round((event.loaded / event.total) * 100);
+			// Update progress bar width
+			document.querySelector("#progress-bar").style.width = percent + "%";
+			// Update percentage text
+			document.querySelector("#progress-value").textContent = percent + "%";
+		}
+	});
+	
+	xhr.open("POST", "/upload");
+	xhr.send(formData);
+});`
+
+var exampleMultiStepForms = `// Client-side approach
+<div data-current-step="1" data-total-steps="4">
+    @components.Progress(components.ProgressProps{
+        Value: 25, // 1 of 4 steps = 25%
+        Label: "Step 1 of 4",
+        ShowValue: true,
+    })
+    
+    // Form steps
+</div>
+
+// HTMX approach
+<button 
+    hx-get="/form/step/2" 
+    hx-target="#form-container"
+    class="px-4 py-2 bg-primary text-white rounded"
+>
+    Next
+</button>`
+
+var exampleHTMXPolling = `@components.Progress(components.ProgressProps{
+	Value: initialValue,
+	Label: "Processing...",
+	ShowValue: true,
+	HxGet: "/api/job/123/progress",
+	HxTrigger: "every 2s",
+	HxTarget: "#progress-container",
+})`
+
+var exampleSSEHandler = `// Server-side Go code
+func SSEHandler(w http.ResponseWriter, r *http.Request) {
+	// Set SSE headers
+	w.Header().Set("Content-Type", "text/event-stream")
+	w.Header().Set("Cache-Control", "no-cache")
+	w.Header().Set("Connection", "keep-alive")
+	
+	// Send progress updates
+	for i := 0; i <= 100; i += 10 {
+		fmt.Fprintf(w, "data: {\"progress\": %d}\n\n", i)
+		w.(http.Flusher).Flush()
+		time.Sleep(1 * time.Second)
+	}
+}`

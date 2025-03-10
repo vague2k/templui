@@ -122,6 +122,10 @@ var Sections = []Section{
 				Href: "/docs/components/pagination",
 			},
 			{
+				Text: "Progress",
+				Href: "/docs/components/progress",
+			},
+			{
 				Text: "Radio",
 				Href: "/docs/components/radio",
 			},
@@ -130,16 +134,33 @@ var Sections = []Section{
 				Href: "/docs/components/radio-card",
 			},
 			{
+				Text: "Rating",
+				Href: "/docs/components/rating",
+			},
+			{
 				Text: "Select",
 				Href: "/docs/components/select",
 			},
+			{
+				Text: "Separator",
+				Href: "/docs/components/separator",
+			},
+
 			{
 				Text: "Sheet",
 				Href: "/docs/components/sheet",
 			},
 			{
+				Text: "Skeleton",
+				Href: "/docs/components/skeleton",
+			},
+			{
 				Text: "Slider",
 				Href: "/docs/components/slider",
+			},
+			{
+				Text: "Spinner",
+				Href: "/docs/components/spinner",
 			},
 			{
 				Text: "Tabs",

@@ -1,0 +1,19 @@
+package showcase
+
+import "github.com/axzilla/templui/components"
+
+templ SpinnerInButton() {
+	@components.Button(components.ButtonProps{
+		Attributes: templ.Attributes{
+			"disabled": "true",
+		},
+	}) {
+		<div class="flex items-center gap-2">
+			@components.Spinner(components.SpinnerProps{
+				Size:  components.SpinnerSizeSm,
+				Color: "text-primary-foreground",
+			})
+			<span>Loading</span>
+		</div>
+	}
+}
