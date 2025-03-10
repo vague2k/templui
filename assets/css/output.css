@@ -1041,6 +1041,10 @@
     border-style: var(--tw-border-style);
     border-width: 5px;
   }
+  .border-\[32px\] {
+    border-style: var(--tw-border-style);
+    border-width: 32px;
+  }
   .border-t {
     border-top-style: var(--tw-border-style);
     border-top-width: 1px;

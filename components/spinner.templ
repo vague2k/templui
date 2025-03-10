@@ -8,27 +8,14 @@ import (
 type SpinnerSize string
 
 const (
-	SpinnerSizeXs  SpinnerSize = "xs"  // Extra small (16px)
-	SpinnerSizeSm  SpinnerSize = "sm"  // Small (24px)
-	SpinnerSizeMd  SpinnerSize = "md"  // Medium (32px) - default
-	SpinnerSizeLg  SpinnerSize = "lg"  // Large (48px)
-	SpinnerSizeXl  SpinnerSize = "xl"  // Extra large (64px)
-	SpinnerSize2xl SpinnerSize = "2xl" // 2X Large (96px)
-)
-
-// SpinnerVariant defines the visual style of the spinner
-type SpinnerVariant string
-
-const (
-	SpinnerVariantBorder SpinnerVariant = "border" // Border style spinning animation
-	SpinnerVariantDots   SpinnerVariant = "dots"   // Bouncing dots animation
-	SpinnerVariantPulse  SpinnerVariant = "pulse"  // Pulsing circle animation
+	SpinnerSizeSm SpinnerSize = "sm" // Small (24px)
+	SpinnerSizeMd SpinnerSize = "md" // Medium (32px) - default
+	SpinnerSizeLg SpinnerSize = "lg" // Large (48px)
 )
 
 // SpinnerProps configures the Spinner component
 type SpinnerProps struct {
-	Size       SpinnerSize      // Controls the size of the spinner
-	Variant    SpinnerVariant   // Visual style variant
+	Size       SpinnerSize      // Controls the size of the spinner (sm, md, lg)
 	Color      string           // Custom color - uses theme colors if empty
 	Text       string           // Optional text to display below the spinner
 	Class      string           // Additional CSS classes
@@ -38,16 +25,10 @@ type SpinnerProps struct {
 // spinnerSizeClass returns the appropriate size class based on the size prop
 func spinnerSizeClass(size SpinnerSize) string {
 	switch size {
-	case SpinnerSizeXs:
-		return "w-4 h-4"
 	case SpinnerSizeSm:
 		return "w-6 h-6"
 	case SpinnerSizeLg:
 		return "w-12 h-12"
-	case SpinnerSizeXl:
-		return "w-16 h-16"
-	case SpinnerSize2xl:
-		return "w-24 h-24"
 	default:
 		return "w-8 h-8" // Default to medium
 	}
@@ -56,11 +37,9 @@ func spinnerSizeClass(size SpinnerSize) string {
 // borderSpinnerClass returns the appropriate border-width class based on the size prop
 func borderSpinnerClass(size SpinnerSize) string {
 	switch size {
-	case SpinnerSizeXs:
-		return "border-2"
 	case SpinnerSizeSm:
 		return "border-[3px]"
-	case SpinnerSizeLg, SpinnerSizeXl, SpinnerSize2xl:
+	case SpinnerSizeLg:
 		return "border-[5px]"
 	default:
 		return "border-4" // Default to medium
@@ -70,14 +49,10 @@ func borderSpinnerClass(size SpinnerSize) string {
 // textSizeClass returns the appropriate text size class based on spinner size
 func textSizeClass(size SpinnerSize) string {
 	switch size {
-	case SpinnerSizeXs:
-		return "text-xs"
 	case SpinnerSizeSm:
 		return "text-sm"
 	case SpinnerSizeLg:
 		return "text-lg"
-	case SpinnerSizeXl, SpinnerSize2xl:
-		return "text-xl"
 	default:
 		return "text-base" // Default to medium
 	}
@@ -94,80 +69,24 @@ templ Spinner(props SpinnerProps) {
 		role="status"
 		{ props.Attributes... }
 	>
-		if props.Variant == SpinnerVariantDots {
-			<!-- Dots spinner variant -->
-			<div class="flex space-x-1">
-				<div
-					class={ utils.TwMerge(
-							"animate-bounce rounded-full",
-							spinnerSizeClass(props.Size),
-							utils.TwIfElse(
-								props.Color == "",
-								"bg-primary",
-								props.Color,
-							),
-						) }
-					style="animation-delay: 0ms;"
-				></div>
-				<div
-					class={ utils.TwMerge(
-							"animate-bounce rounded-full",
-							spinnerSizeClass(props.Size),
-							utils.TwIfElse(
-								props.Color == "",
-								"bg-primary",
-								props.Color,
-							),
-						) }
-					style="animation-delay: 150ms;"
-				></div>
-				<div
-					class={ utils.TwMerge(
-							"animate-bounce rounded-full",
-							spinnerSizeClass(props.Size),
-							utils.TwIfElse(
-								props.Color == "",
-								"bg-primary",
-								props.Color,
-							),
-						) }
-					style="animation-delay: 300ms;"
-				></div>
-			</div>
-		} else if props.Variant == SpinnerVariantPulse {
-			// Pulse spinner variant
-			<div
-				class={ utils.TwMerge(
-						"animate-pulse rounded-full",
-						spinnerSizeClass(props.Size),
-						utils.TwIfElse(
-							props.Color == "",
-							"bg-primary",
-							props.Color,
-						),
-						"opacity-75",
-					) }
-			></div>
-		} else {
-			/* <!-- Default border spinner variant --> */
-			<div
-				class={ utils.TwMerge(
-						"animate-spin rounded-full",
-						spinnerSizeClass(props.Size),
-						borderSpinnerClass(props.Size),
-						utils.TwIfElse(
-							props.Color == "",
-							"border-primary border-l-transparent border-r-transparent border-b-transparent",
-							"border-current border-l-transparent border-r-transparent border-b-transparent",
-						),
-						utils.TwIfElse(
-							props.Color != "",
-							props.Color,
-							"",
-						),
-					) }
-			></div>
-		}
+		<!-- Ring spinner animation with longer visible arc -->
+		<div
+			class={ utils.TwMerge(
+					"animate-spin rounded-full",
+					spinnerSizeClass(props.Size),
+					borderSpinnerClass(props.Size),
+					utils.TwIfElse(
+						props.Color == "",
+						"border-primary border-b-transparent", // Only bottom is transparent (75% visible)
+						"border-current border-b-transparent", // Only bottom is transparent (75% visible)
+					),
+					utils.TwIfElse(
+						props.Color != "",
+						props.Color,
+						"",
+					),
+				) }
+		></div>
 		if props.Text != "" {
 			<span
 				class={ utils.TwMerge(
