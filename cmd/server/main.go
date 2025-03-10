@@ -112,6 +112,7 @@ func main() {
 	mux.Handle("GET /docs/components/label", templ.Handler(pages.Label()))
 	mux.Handle("GET /docs/components/modal", templ.Handler(pages.Modal()))
 	mux.Handle("GET /docs/components/pagination", templ.Handler(pages.Pagination()))
+	mux.Handle("GET /docs/components/progress", templ.Handler(pages.Progress()))
 	mux.Handle("GET /docs/components/radio", templ.Handler(pages.Radio()))
 	mux.Handle("GET /docs/components/radio-card", templ.Handler(pages.RadioCard()))
 	mux.Handle("GET /docs/components/rating", templ.Handler(pages.Rating()))

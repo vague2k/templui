@@ -1,0 +1,151 @@
+package components
+
+import (
+	"fmt"
+	"github.com/axzilla/templui/utils"
+)
+
+// ProgressSize defines available sizes for the Progress component
+type ProgressSize string
+
+const (
+	ProgressSizeDefault ProgressSize = ""   // Default size
+	ProgressSizeSm      ProgressSize = "sm" // Small progress bar
+	ProgressSizeLg      ProgressSize = "lg" // Large progress bar
+)
+
+// ProgressVariant defines color variants
+type ProgressVariant string
+
+const (
+	ProgressVariantDefault ProgressVariant = "default" // Default styling
+	ProgressVariantSuccess ProgressVariant = "success" // Success state
+	ProgressVariantDanger  ProgressVariant = "danger"  // Error/danger state
+	ProgressVariantWarning ProgressVariant = "warning" // Warning state
+)
+
+// ProgressProps configures the Progress component
+type ProgressProps struct {
+	Value      int              // Current progress value (0-100)
+	Max        int              // Maximum value (default: 100)
+	Label      string           // Optional text label
+	ShowValue  bool             // Whether to show percentage
+	Size       ProgressSize     // Size variant (sm, md, lg)
+	Variant    ProgressVariant  // Color variant
+	Class      string           // Additional CSS classes
+	BarClass   string           // Additional CSS classes for the bar itself
+	HxGet      string           // HTMX endpoint for updates
+	HxTrigger  string           // HTMX trigger for updates
+	HxTarget   string           // HTMX target for updates
+	HxSwap     string           // HTMX swap method
+	Attributes templ.Attributes // Additional HTML attributes
+}
+
+// Progress renders a progress bar component
+templ Progress(props ProgressProps) {
+	<div
+		class={
+			utils.TwMerge(
+				"w-full",
+				props.Class,
+			),
+		}
+		if props.HxGet != "" {
+			hx-get={ props.HxGet }
+		}
+		if props.HxTrigger != "" {
+			hx-trigger={ props.HxTrigger }
+		}
+		if props.HxTarget != "" {
+			hx-target={ props.HxTarget }
+		}
+		if props.HxSwap != "" {
+			hx-swap={ props.HxSwap }
+		}
+		aria-valuemin="0"
+		aria-valuemax={ fmt.Sprintf("%d", getMaxValue(props.Max)) }
+		aria-valuenow={ fmt.Sprintf("%d", props.Value) }
+		role="progressbar"
+		{ props.Attributes... }
+	>
+		if props.Label != "" || props.ShowValue {
+			<div class="flex justify-between items-center mb-1">
+				if props.Label != "" {
+					<span class="text-sm font-medium">{ props.Label }</span>
+				}
+				if props.ShowValue {
+					<span class="text-sm font-medium">
+						{ fmt.Sprintf("%d%%", getProgressPercentage(props)) }
+					</span>
+				}
+			</div>
+		}
+		<div
+			class={
+				utils.TwMerge(
+					"w-full overflow-hidden rounded-full bg-secondary",
+				),
+			}
+		>
+			<div
+				class={
+					utils.TwMerge(
+						"h-full rounded-full transition-all",
+						getProgressSizeClasses(props.Size),
+						getProgressVariantClasses(props.Variant),
+						props.BarClass,
+					),
+				}
+				style={ fmt.Sprintf("width: %d%%", getProgressPercentage(props)) }
+			></div>
+		</div>
+	</div>
+}
+
+// Helper functions
+func getMaxValue(max int) int {
+	if max <= 0 {
+		return 100
+	}
+	return max
+}
+
+func getProgressPercentage(props ProgressProps) int {
+	max := getMaxValue(props.Max)
+
+	// Ensure value is within bounds
+	value := props.Value
+	if value < 0 {
+		value = 0
+	}
+	if value > max {
+		value = max
+	}
+
+	// Calculate percentage
+	return (value * 100) / max
+}
+
+func getProgressSizeClasses(size ProgressSize) string {
+	switch size {
+	case ProgressSizeSm:
+		return "h-1"
+	case ProgressSizeLg:
+		return "h-4"
+	default:
+		return "h-2.5" // Default (md) size
+	}
+}
+
+func getProgressVariantClasses(variant ProgressVariant) string {
+	switch variant {
+	case ProgressVariantSuccess:
+		return "bg-green-500"
+	case ProgressVariantDanger:
+		return "bg-destructive"
+	case ProgressVariantWarning:
+		return "bg-yellow-500"
+	default:
+		return "bg-primary" // Default to primary
+	}
+}
