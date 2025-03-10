@@ -1,0 +1,14 @@
+package showcase
+
+import "github.com/axzilla/templui/components"
+
+templ RatingDefault() {
+	@components.Rating(components.RatingProps{
+		Value:     3.5,
+		MaxValue:  5,
+		ReadOnly:  false,
+		Style:     components.RatingStyleStar,
+		Precision: 0.5,
+		ShowValue: true,
+	})
+}
