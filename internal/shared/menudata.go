@@ -122,6 +122,10 @@ var Sections = []Section{
 				Href: "/docs/components/pagination",
 			},
 			{
+				Text: "Progress",
+				Href: "/docs/components/progress",
+			},
+			{
 				Text: "Radio",
 				Href: "/docs/components/radio",
 			},
