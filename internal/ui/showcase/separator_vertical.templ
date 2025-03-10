@@ -1,0 +1,18 @@
+package showcase
+
+import (
+	"github.com/axzilla/templui/components"
+)
+
+templ SeparatorVertical() {
+	<div class="w-full max-w-md">
+		<div class="flex h-24 items-center">
+			<div class="w-1/2 text-center">Left</div>
+			@components.Separator(components.SeparatorProps{
+				Orientation: components.SeparatorOrientationVertical,
+				Class:       "mx-4",
+			})
+			<div class="w-1/2 text-center">Right</div>
+		</div>
+	</div>
+}
