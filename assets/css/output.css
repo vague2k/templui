@@ -371,9 +371,6 @@
   .left-full {
     left: 100%;
   }
-  .z-8 {
-    z-index: 8;
-  }
   .z-10 {
     z-index: 10;
   }
@@ -1176,9 +1173,6 @@
   }
   .bg-secondary {
     background-color: var(--secondary);
-  }
-  .bg-secondary\/30 {
-    background-color: color-mix(in oklab, var(--secondary) 30%, transparent);
   }
   .bg-white {
     background-color: var(--color-white);
