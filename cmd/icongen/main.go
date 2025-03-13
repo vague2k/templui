@@ -9,8 +9,8 @@ import (
 
 const (
 	iconDir        = "./lucide/icons" // Path to the Lucide SVG files
-	outputFile     = "./pkg/icons/icon_defs.go"
-	iconContentDir = "./pkg/icons/content" // Directory for individual icon contents
+	outputFile     = "./icons/icon_defs.go"
+	iconContentDir = "./icons/content" // Directory for individual icon contents
 )
 
 func main() {
