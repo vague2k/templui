@@ -8,22 +8,22 @@ package components
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-type SheetSide string
+type DrawerSide string
 
 const (
-	SheetSideTop    SheetSide = "top"
-	SheetSideRight  SheetSide = "right"
-	SheetSideBottom SheetSide = "bottom"
-	SheetSideLeft   SheetSide = "left"
+	DrawerSideTop    DrawerSide = "top"
+	DrawerSideRight  DrawerSide = "right"
+	DrawerSideBottom DrawerSide = "bottom"
+	DrawerSideLeft   DrawerSide = "left"
 )
 
-type SheetProps struct {
-	Title       string    // Header text
-	Description string    // Subheading text
-	Side        SheetSide // Slide-in direction
+type DrawerProps struct {
+	Title       string     // Header text
+	Description string     // Subheading text
+	Side        DrawerSide // Slide-in direction
 }
 
-func SheetScript() templ.Component {
+func DrawerScript() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -64,13 +64,13 @@ func SheetScript() templ.Component {
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/sheet.templ`, Line: 21, Col: 37}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/drawer.templ`, Line: 21, Col: 37}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\">\n\t\t\tdocument.addEventListener('alpine:init', () => {\n\t\t\t\tAlpine.data('sheet', () => ({\n\t\t\t\t\tisOpen: false,\n\t\t\t\t\topen() {\n\t\t\t\t\t\tthis.isOpen = true\n\t\t\t\t\t},\n\t\t\t\t\tclose() {\n\t\t\t\t\t\tthis.isOpen = false\n\t\t\t\t\t},\n\t\t\t\t}))\n\t\t\t})\n\t\t</script>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\">\n\t\t\tdocument.addEventListener('alpine:init', () => {\n\t\t\t\tAlpine.data('drawer', () => ({\n\t\t\t\t\tisOpen: false,\n\t\t\t\t\topen() {\n\t\t\t\t\t\tthis.isOpen = true\n\t\t\t\t\t},\n\t\t\t\t\tclose() {\n\t\t\t\t\t\tthis.isOpen = false\n\t\t\t\t\t},\n\t\t\t\t}))\n\t\t\t})\n\t\t</script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -84,9 +84,9 @@ func SheetScript() templ.Component {
 	})
 }
 
-// SheetRoot initializes Alpine.js state and event handlers
-// Must wrap Sheet components and triggers
-func SheetRoot() templ.Component {
+// DrawerRoot initializes Alpine.js state and event handlers
+// Must wrap Drawer components and triggers
+func DrawerRoot() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -107,7 +107,7 @@ func SheetRoot() templ.Component {
 			templ_7745c5c3_Var4 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<div x-data=\"sheet\" @keydown.escape.window=\"close\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<div x-data=\"drawer\" @keydown.escape.window=\"close\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -124,7 +124,7 @@ func SheetRoot() templ.Component {
 }
 
 // Side-anchored panel that slides in from screen edges.
-func Sheet(props SheetProps) templ.Component {
+func Drawer(props DrawerProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -145,16 +145,16 @@ func Sheet(props SheetProps) templ.Component {
 			templ_7745c5c3_Var5 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<!-- Backdrop --><div x-show=\"isOpen\" class=\"fixed inset-0 bg-background/80 backdrop-blur-xs\" @click=\"close\" x-transition:enter=\"transition ease-out duration-300\" x-transition:enter-start=\"opacity-0\" x-transition:enter-end=\"opacity-100\" x-transition:leave=\"transition ease-in duration-300\" x-transition:leave-start=\"opacity-100\" x-transition:leave-end=\"opacity-0\"></div><!-- Sheet -->")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<!-- Backdrop --><div x-show=\"isOpen\" class=\"fixed inset-0 bg-background/80 backdrop-blur-xs\" @click=\"close\" x-transition:enter=\"transition ease-out duration-300\" x-transition:enter-start=\"opacity-0\" x-transition:enter-end=\"opacity-100\" x-transition:leave=\"transition ease-in duration-300\" x-transition:leave-start=\"opacity-100\" x-transition:leave-end=\"opacity-0\"></div><!-- Drawer -->")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var6 = []any{
 			"z-50",
-			templ.KV("fixed inset-y-0 right-0 w-3/4 md:w-1/2 lg:w-1/3", props.Side == SheetSideRight),
-			templ.KV("fixed inset-y-0 left-0 w-3/4 md:w-1/2 lg:w-1/3", props.Side == SheetSideLeft),
-			templ.KV("fixed inset-x-0 top-0 h-auto sm:h-1/2", props.Side == SheetSideTop),
-			templ.KV("fixed inset-x-0 bottom-0 h-auto sm:h-1/2", props.Side == SheetSideBottom),
+			templ.KV("fixed inset-y-0 right-0 w-3/4 md:w-1/2 lg:w-1/3", props.Side == DrawerSideRight),
+			templ.KV("fixed inset-y-0 left-0 w-3/4 md:w-1/2 lg:w-1/3", props.Side == DrawerSideLeft),
+			templ.KV("fixed inset-x-0 top-0 h-auto sm:h-1/2", props.Side == DrawerSideTop),
+			templ.KV("fixed inset-x-0 bottom-0 h-auto sm:h-1/2", props.Side == DrawerSideBottom),
 		}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var6...)
 		if templ_7745c5c3_Err != nil {
@@ -167,7 +167,7 @@ func Sheet(props SheetProps) templ.Component {
 		var templ_7745c5c3_Var7 string
 		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var6).String())
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/sheet.templ`, Line: 1, Col: 0}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/drawer.templ`, Line: 1, Col: 0}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
@@ -177,25 +177,25 @@ func Sheet(props SheetProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		if props.Side == SheetSideLeft {
+		if props.Side == DrawerSideLeft {
 			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, " x-transition:enter-start=\"opacity-0 transform -translate-x-full\" x-transition:enter-end=\"opacity-100 transform translate-x-0\" x-transition:leave-start=\"opacity-100 transform translate-x-0\" x-transition:leave-end=\"opacity-0 transform -translate-x-full\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		if props.Side == SheetSideRight {
+		if props.Side == DrawerSideRight {
 			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, " x-transition:enter-start=\"opacity-0 transform translate-x-full\" x-transition:enter-end=\"opacity-100 transform translate-x-0\" x-transition:leave-start=\"opacity-100 transform translate-x-0\" x-transition:leave-end=\"opacity-0 transform translate-x-full\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		if props.Side == SheetSideTop {
+		if props.Side == DrawerSideTop {
 			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, " x-transition:enter-start=\"opacity-0 transform -translate-y-full\" x-transition:enter-end=\"opacity-100 transform translate-y-0\" x-transition:leave-start=\"opacity-100 transform translate-y-0\" x-transition:leave-end=\"opacity-0 transform -translate-y-full\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		if props.Side == SheetSideBottom {
+		if props.Side == DrawerSideBottom {
 			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, " x-transition:enter-start=\"opacity-0 transform translate-y-full\" x-transition:enter-end=\"opacity-100 transform translate-y-0\" x-transition:leave-start=\"opacity-100 transform translate-y-0\" x-transition:leave-end=\"opacity-0 transform translate-y-full\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -206,10 +206,10 @@ func Sheet(props SheetProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var8 = []any{"h-full overflow-y-auto bg-background p-6 shadow-lg",
-			templ.KV("border-l", props.Side == SheetSideRight),
-			templ.KV("border-r", props.Side == SheetSideLeft),
-			templ.KV("border-t", props.Side == SheetSideBottom),
-			templ.KV("border-b", props.Side == SheetSideTop)}
+			templ.KV("border-l", props.Side == DrawerSideRight),
+			templ.KV("border-r", props.Side == DrawerSideLeft),
+			templ.KV("border-t", props.Side == DrawerSideBottom),
+			templ.KV("border-b", props.Side == DrawerSideTop)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var8...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -221,7 +221,7 @@ func Sheet(props SheetProps) templ.Component {
 		var templ_7745c5c3_Var9 string
 		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var8).String())
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/sheet.templ`, Line: 1, Col: 0}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/drawer.templ`, Line: 1, Col: 0}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {
@@ -234,7 +234,7 @@ func Sheet(props SheetProps) templ.Component {
 		var templ_7745c5c3_Var10 string
 		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(props.Title)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/sheet.templ`, Line: 107, Col: 51}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/drawer.templ`, Line: 107, Col: 51}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 		if templ_7745c5c3_Err != nil {
@@ -247,7 +247,7 @@ func Sheet(props SheetProps) templ.Component {
 		var templ_7745c5c3_Var11 string
 		templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(props.Description)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/sheet.templ`, Line: 108, Col: 64}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/drawer.templ`, Line: 108, Col: 64}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 		if templ_7745c5c3_Err != nil {
@@ -269,9 +269,9 @@ func Sheet(props SheetProps) templ.Component {
 	})
 }
 
-// SheetTrigger creates elements that open the sheet
-// Must be used within SheetRoot
-func SheetTrigger(text string, side SheetSide) templ.Component {
+// DrawerTrigger creates elements that open the drawer
+// Must be used within DrawerRoot
+func DrawerTrigger(text string, side DrawerSide) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -308,9 +308,9 @@ func SheetTrigger(text string, side SheetSide) templ.Component {
 	})
 }
 
-// SheetClose creates a button that closes the sheet
-// Must be used within Sheet
-func SheetClose(text string) templ.Component {
+// DrawerClose creates a button that closes the drawer
+// Must be used within Drawer
+func DrawerClose(text string) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -346,7 +346,7 @@ func SheetClose(text string) templ.Component {
 		var templ_7745c5c3_Var15 string
 		templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var14).String())
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/sheet.templ`, Line: 1, Col: 0}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/drawer.templ`, Line: 1, Col: 0}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var15))
 		if templ_7745c5c3_Err != nil {
@@ -359,7 +359,7 @@ func SheetClose(text string) templ.Component {
 		var templ_7745c5c3_Var16 string
 		templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs(text)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/sheet.templ`, Line: 135, Col: 8}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/drawer.templ`, Line: 135, Col: 8}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
 		if templ_7745c5c3_Err != nil {
