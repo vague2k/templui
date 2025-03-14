@@ -12,12 +12,11 @@ const (
 )
 
 type CardProps struct {
-	Horizontal bool             // Enables horizontal layout for side images
-	Class      string           // Additional CSS classes
-	Attributes templ.Attributes // Additional HTML attributes
+	Horizontal bool
+	Class      string
+	Attributes templ.Attributes
 }
 
-// Container for organizing related content and
 templ Card(props CardProps) {
 	<div
 		class={
@@ -34,12 +33,12 @@ templ Card(props CardProps) {
 }
 
 type CardImageProps struct {
-	Src         string            // Image URL
-	Alt         string            // Image alt text
-	Class       string            // Additional CSS classes
-	AspectRatio string            // Aspect ratio for image
-	Position    CardImagePosition // Image position
-	Width       string            // Image width
+	Src         string
+	Alt         string
+	Class       string
+	AspectRatio string
+	Position    CardImagePosition
+	Width       string
 }
 
 func imageWidth(width string) string {
@@ -49,7 +48,6 @@ func imageWidth(width string) string {
 	return "w-" + width
 }
 
-// CardImage renders an image section within the card
 templ CardImage(props CardImageProps) {
 	<div
 		class={
@@ -57,12 +55,10 @@ templ CardImage(props CardImageProps) {
 				"overflow-hidden",
 				props.Class,
 			),
-			// Border radius based on position
 			templ.KV("rounded-t-lg", props.Position == CardImageTop),
 			templ.KV("rounded-b-lg", props.Position == CardImageBottom),
 			templ.KV("rounded-l-lg", props.Position == CardImageLeft),
 			templ.KV("rounded-r-lg", props.Position == CardImageRight),
-			// Width for side images
 			templ.KV("shrink-0", props.Position == CardImageLeft || props.Position == CardImageRight),
 			templ.KV(imageWidth(props.Width), props.Position == CardImageLeft || props.Position == CardImageRight),
 		}
@@ -78,35 +74,30 @@ templ CardImage(props CardImageProps) {
 	</div>
 }
 
-// CardHeader renders the header section of a card.
 templ CardHeader() {
 	<div class="flex flex-col space-y-1.5 p-6 pb-0">
 		{ children... }
 	</div>
 }
 
-// CardTitle renders the title of a card.
 templ CardTitle() {
 	<h3 class="text-lg font-semibold leading-none tracking-tight">
 		{ children... }
 	</h3>
 }
 
-// CardDescription renders the description of a card.
 templ CardDescription() {
 	<p class="text-sm text-muted-foreground">
 		{ children... }
 	</p>
 }
 
-// CardContent renders the main content area of a card.
 templ CardContent() {
 	<div class="p-6">
 		{ children... }
 	</div>
 }
 
-// CardFooter renders the footer section of a card.
 templ CardFooter() {
 	<div class="flex items-center p-6 pt-0">
 		{ children... }

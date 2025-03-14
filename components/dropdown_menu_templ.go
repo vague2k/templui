@@ -16,22 +16,22 @@ import (
 )
 
 type DropdownMenuItem struct {
-	Label      string             // Display text
-	Value      string             // Optional value
-	Href       string             // Optional link URL
-	Target     string             // Optional link target
-	IconLeft   templ.Component    // Optional icon on the left
-	IconRight  templ.Component    // Optional icon on the right
-	SubItems   []DropdownMenuItem // Nested submenu items
-	Disabled   bool               // Disables the item
-	Attributes templ.Attributes   // Additional HTML attributesß
+	Label      string
+	Value      string
+	Href       string
+	Target     string
+	IconLeft   templ.Component
+	IconRight  templ.Component
+	SubItems   []DropdownMenuItem
+	Disabled   bool
+	Attributes templ.Attributes
 }
 
 type DropdownMenuProps struct {
-	Items    []DropdownMenuItem // Menu items
-	Trigger  templ.Component    // Custom trigger element
-	Class    string             // Additional CSS classes
-	Position string             // Preferred placement
+	Items    []DropdownMenuItem
+	Trigger  templ.Component
+	Class    string
+	Position string
 }
 
 func (d DropdownMenuItem) modifierClasses() string {
@@ -420,7 +420,7 @@ func DropdownMenuScript() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 30, "\">\n            document.addEventListener('alpine:init', () => {\n\t\t\t\tAlpine.data('dropdown', () => ({\n\t\t\t\t\tisOpen: false,\n\t\t\t\t\tposition: null,\n\t\t\t\t\tverticalPosition: 'bottom',\n\n\t\t\t\t\tinit() {\n\t\t\t\t\t\tthis.position = this.$el.dataset.position;\n\t\t\t\t\t},\n\n\t\t\t\t\tupdatePosition() {\n\t\t\t\t\t\tif (!this.isOpen) return;\n\n\t\t\t\t\t\tconst menu = this.$refs.menu;\n\t\t\t\t\t\tconst rect = menu.getBoundingClientRect();\n\t\t\t\t\t\tconst viewportWidth = window.innerWidth || document.documentElement.clientWidth;\n\t\t\t\t\t\tconst viewportHeight = window.innerHeight || document.documentElement.clientHeight;\n\n\t\t\t\t\t\tif (this.position === 'left' && rect.left < 0) {\n\t\t\t\t\t\t\tthis.position = 'right';\n\t\t\t\t\t\t} else if (this.position !== 'left' && rect.right > viewportWidth) {\n\t\t\t\t\t\t\tthis.position = 'left';\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\tif (this.verticalPosition === 'bottom' && rect.bottom > viewportHeight) {\n\t\t\t\t\t\t\tthis.verticalPosition = 'top';\n\t\t\t\t\t\t} else if (this.verticalPosition === 'top' && rect.top < 0) {\n\t\t\t\t\t\t\tthis.verticalPosition = 'bottom';\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\n\t\t\t\t\tgetPositionClass() {\n\t\t\t\t\t\tconst classes = [];\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (this.position === 'left') {\n\t\t\t\t\t\t\tclasses.push('right-0');\n\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\tclasses.push('left-0');\n\t\t\t\t\t\t}\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (this.verticalPosition === 'top') {\n\t\t\t\t\t\t\tclasses.push('bottom-full mb-2');\n\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\tclasses.push('top-full mt-2');\n\t\t\t\t\t\t}\n\t\t\t\t\t\t\n\t\t\t\t\t\treturn classes.join(' ');\n\t\t\t\t\t},\n\n\t\t\t\t\tsetClose() {\n\t\t\t\t\t\tthis.isOpen = false;\n\t\t\t\t\t},\n\n\t\t\t\t\tsetOpen() {\n\t\t\t\t\t\tthis.isOpen = true;\n\t\t\t\t\t},\n\n\t\t\t\t\topenMenu() {\n\t\t\t\t\t\tthis.isOpen = !this.isOpen;\n\t\t\t\t\t\tif(this.isOpen) this.$nextTick(() => this.updatePosition());\n\t\t\t\t\t}\n\t\t\t\t}))\n\t\t\t});\n        </script>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 30, "\">\n\t\t\tdocument.addEventListener('alpine:init', () => {\n\t\t\t\tAlpine.data('dropdown', () => ({\n\t\t\t\t\tisOpen: false,\n\t\t\t\t\tposition: null,\n\t\t\t\t\tverticalPosition: 'bottom',\n\n\t\t\t\t\tinit() {\n\t\t\t\t\t\tthis.position = this.$el.dataset.position;\n\t\t\t\t\t},\n\n\t\t\t\t\tupdatePosition() {\n\t\t\t\t\t\tif (!this.isOpen) return;\n\n\t\t\t\t\t\tconst menu = this.$refs.menu;\n\t\t\t\t\t\tconst rect = menu.getBoundingClientRect();\n\t\t\t\t\t\tconst viewportWidth = window.innerWidth || document.documentElement.clientWidth;\n\t\t\t\t\t\tconst viewportHeight = window.innerHeight || document.documentElement.clientHeight;\n\n\t\t\t\t\t\tif (this.position === 'left' && rect.left < 0) {\n\t\t\t\t\t\t\tthis.position = 'right';\n\t\t\t\t\t\t} else if (this.position !== 'left' && rect.right > viewportWidth) {\n\t\t\t\t\t\t\tthis.position = 'left';\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\tif (this.verticalPosition === 'bottom' && rect.bottom > viewportHeight) {\n\t\t\t\t\t\t\tthis.verticalPosition = 'top';\n\t\t\t\t\t\t} else if (this.verticalPosition === 'top' && rect.top < 0) {\n\t\t\t\t\t\t\tthis.verticalPosition = 'bottom';\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\n\t\t\t\t\tgetPositionClass() {\n\t\t\t\t\t\tconst classes = [];\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (this.position === 'left') {\n\t\t\t\t\t\t\tclasses.push('right-0');\n\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\tclasses.push('left-0');\n\t\t\t\t\t\t}\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (this.verticalPosition === 'top') {\n\t\t\t\t\t\t\tclasses.push('bottom-full mb-2');\n\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\tclasses.push('top-full mt-2');\n\t\t\t\t\t\t}\n\t\t\t\t\t\t\n\t\t\t\t\t\treturn classes.join(' ');\n\t\t\t\t\t},\n\n\t\t\t\t\tsetClose() {\n\t\t\t\t\t\tthis.isOpen = false;\n\t\t\t\t\t},\n\n\t\t\t\t\tsetOpen() {\n\t\t\t\t\t\tthis.isOpen = true;\n\t\t\t\t\t},\n\n\t\t\t\t\topenMenu() {\n\t\t\t\t\t\tthis.isOpen = !this.isOpen;\n\t\t\t\t\t\tif(this.isOpen) this.$nextTick(() => this.updatePosition());\n\t\t\t\t\t}\n\t\t\t\t}))\n\t\t\t});\n\t\t</script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -434,7 +434,6 @@ func DropdownMenuScript() templ.Component {
 	})
 }
 
-// Floating menu for displaying a list of actions or options.
 func DropdownMenu(props DropdownMenuProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -481,7 +480,7 @@ func DropdownMenu(props DropdownMenuProps) templ.Component {
 		var templ_7745c5c3_Var22 string
 		templ_7745c5c3_Var22, templ_7745c5c3_Err = templ.JoinStringErrs(props.Position)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/dropdown_menu.templ`, Line: 208, Col: 32}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/dropdown_menu.templ`, Line: 207, Col: 32}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var22))
 		if templ_7745c5c3_Err != nil {
@@ -510,10 +509,8 @@ func DropdownMenu(props DropdownMenuProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var23 = []any{
-			"absolute z-50 mt-2 w-56 rounded-md shadow-lg bg-popover focus:outline-hidden",
-			"border border-border",
-		}
+		var templ_7745c5c3_Var23 = []any{"absolute z-50 mt-2 w-56 rounded-md shadow-lg bg-popover focus:outline-hidden",
+			"border border-border"}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var23...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err

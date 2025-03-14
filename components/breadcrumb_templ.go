@@ -13,24 +13,21 @@ import (
 	"github.com/axzilla/templui/utils"
 )
 
-// BreadcrumbItem represents a single item in the breadcrumb trail
 type BreadcrumbItem struct {
-	Label      string           // Display text for the breadcrumb item
-	Href       string           // URL to navigate to when clicked
-	Icon       templ.Component  // Optional icon to display before the label
-	Current    bool             // Whether this item represents the current page
-	Attributes templ.Attributes // Additional HTML attributes
+	Label      string
+	Href       string
+	Icon       templ.Component
+	Current    bool
+	Attributes templ.Attributes
 }
 
-// BreadcrumbProps configures the Breadcrumb component
 type BreadcrumbProps struct {
-	Items      []BreadcrumbItem // Array of breadcrumb items to display
-	Separator  templ.Component  // Custom separator between items (defaults to chevron)
-	Class      string           // Additional CSS classes
-	Attributes templ.Attributes // Additional HTML attributes
+	Items      []BreadcrumbItem
+	Separator  templ.Component
+	Class      string
+	Attributes templ.Attributes
 }
 
-// Navigation component that helps users understand their location within a website's hierarchy.
 func Breadcrumb(props BreadcrumbProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -133,7 +130,7 @@ func Breadcrumb(props BreadcrumbProps) templ.Component {
 				var templ_7745c5c3_Var4 string
 				templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(item.Label)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/breadcrumb.templ`, Line: 56, Col: 19}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/breadcrumb.templ`, Line: 53, Col: 19}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 				if templ_7745c5c3_Err != nil {
@@ -174,7 +171,7 @@ func Breadcrumb(props BreadcrumbProps) templ.Component {
 				var templ_7745c5c3_Var6 string
 				templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(item.Label)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/breadcrumb.templ`, Line: 67, Col: 19}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/breadcrumb.templ`, Line: 64, Col: 19}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 				if templ_7745c5c3_Err != nil {

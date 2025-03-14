@@ -11,13 +11,10 @@ import templruntime "github.com/a-h/templ/runtime"
 import "github.com/axzilla/templui/utils"
 
 type SkeletonProps struct {
-	Class      string           // Additional CSS classes to apply to the skeleton element
-	Attributes templ.Attributes // Additional attributes to apply to the skeleton element
+	Class      string
+	Attributes templ.Attributes
 }
 
-// Skeleton creates a placeholder element that indicates content is loading
-// It's designed to be a simple building block that users can compose into
-// more complex loading UI patterns
 func Skeleton(props SkeletonProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context

@@ -10,33 +10,28 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import "github.com/axzilla/templui/utils"
 
-// FormItemProps represents form item properties
 type FormItemProps struct {
-	ID    string // Optional container ID
-	Class string // Additional CSS classes
+	ID    string
+	Class string
 }
 
-// FormLabelProps represents form label properties
 type FormLabelProps struct {
-	For           string // Target form element ID
-	Text          string // Label text
-	Class         string // Additional CSS classes
-	DisabledClass string // Additional CSS classes when the form element is disabled
+	For           string
+	Text          string
+	Class         string
+	DisabledClass string
 }
 
-// FormDescriptionProps represents helper text properties
 type FormDescriptionProps struct {
-	Class string // Additional CSS classes
+	Class string
 }
 
-// FormMessageProps represents feedback message properties
 type FormMessageProps struct {
-	Type    string // error, success, warning, info
-	Message string // Message text
-	Class   string // Additional CSS classes
+	Type    string
+	Message string
+	Class   string
 }
 
-// FormItem wraps form elements in a vertical layout
 func FormItem(props FormItemProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -92,7 +87,6 @@ func FormItem(props FormItemProps) templ.Component {
 	})
 }
 
-// FormItemFlex wraps form elements in a horizontal layout
 func FormItemFlex(props FormItemProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -148,7 +142,6 @@ func FormItemFlex(props FormItemProps) templ.Component {
 	})
 }
 
-// FormLabel renders a form label
 func FormLabel(props FormLabelProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -183,7 +176,6 @@ func FormLabel(props FormLabelProps) templ.Component {
 	})
 }
 
-// FormDescription renders helper text below form elements
 func FormDescription(props FormDescriptionProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -239,7 +231,6 @@ func FormDescription(props FormDescriptionProps) templ.Component {
 	})
 }
 
-// FormMessage renders feedback messages
 func FormMessage(props FormMessageProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -289,7 +280,7 @@ func FormMessage(props FormMessageProps) templ.Component {
 		var templ_7745c5c3_Var14 string
 		templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(props.Message)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/form.templ`, Line: 70, Col: 17}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/form.templ`, Line: 61, Col: 17}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 		if templ_7745c5c3_Err != nil {

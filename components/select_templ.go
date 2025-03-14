@@ -14,25 +14,24 @@ import (
 )
 
 type SelectProps struct {
-	ID          string           // DOM identifier
-	Name        string           // Form field name
-	Placeholder string           // Helper text shown when empty
-	Options     []SelectOption   // Available choices
-	Disabled    bool             // Prevents interaction
-	Required    bool             // Required
-	HasError    bool             // Error state styling
-	Class       string           // Additional CSS classes
-	Attributes  templ.Attributes // Additional HTML attributes
+	ID          string
+	Name        string
+	Placeholder string
+	Options     []SelectOption
+	Disabled    bool
+	Required    bool
+	HasError    bool
+	Class       string
+	Attributes  templ.Attributes
 }
 
 type SelectOption struct {
-	Label      string           // Display text
-	Value      string           // Form value
-	Selected   bool             // Default selection
-	Attributes templ.Attributes // Additional HTML attributes
+	Label      string
+	Value      string
+	Selected   bool
+	Attributes templ.Attributes
 }
 
-// Select renders a styled dropdown selection input
 func Select(props SelectProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -78,19 +77,12 @@ func Select(props SelectProps) templ.Component {
 		}
 		var templ_7745c5c3_Var4 = []any{
 			utils.TwMerge(
-				// Layout
 				"peer h-10 w-full px-3 py-2",
-
-				// Styling
 				"rounded-md border border-input bg-background text-sm",
 				"appearance-none ring-offset-background",
 				"placeholder:text-muted-foreground",
-
-				// States
 				"focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2",
 				"disabled:cursor-not-allowed disabled:opacity-50",
-
-				// Conditional
 				utils.TwIf("border-destructive ring-destructive", props.HasError),
 			),
 		}
@@ -105,7 +97,7 @@ func Select(props SelectProps) templ.Component {
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 31, Col: 19}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 30, Col: 19}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
@@ -118,7 +110,7 @@ func Select(props SelectProps) templ.Component {
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 32, Col: 16}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 31, Col: 16}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -131,7 +123,7 @@ func Select(props SelectProps) templ.Component {
 		var templ_7745c5c3_Var7 string
 		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(props.Name)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 33, Col: 20}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 32, Col: 20}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
@@ -186,7 +178,7 @@ func Select(props SelectProps) templ.Component {
 			var templ_7745c5c3_Var9 string
 			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(props.Placeholder)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 57, Col: 65}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 49, Col: 65}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 			if templ_7745c5c3_Err != nil {
@@ -205,7 +197,7 @@ func Select(props SelectProps) templ.Component {
 			var templ_7745c5c3_Var10 string
 			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(option.Value)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 61, Col: 25}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 53, Col: 25}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {
@@ -232,7 +224,7 @@ func Select(props SelectProps) templ.Component {
 			var templ_7745c5c3_Var11 string
 			templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(option.Label)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 65, Col: 19}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 57, Col: 19}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 			if templ_7745c5c3_Err != nil {
@@ -249,13 +241,8 @@ func Select(props SelectProps) templ.Component {
 		}
 		var templ_7745c5c3_Var12 = []any{
 			utils.TwMerge(
-				// Layout
 				"absolute right-3 top-3",
-
-				// Styling
 				"pointer-events-none",
-
-				// States
 				"peer-disabled:opacity-50",
 			),
 		}

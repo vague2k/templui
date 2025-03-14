@@ -3,11 +3,10 @@ package components
 import "github.com/axzilla/templui/utils"
 
 type ModalProps struct {
-	ID    string // Unique identifier for control
-	Class string // Additional CSS classes
+	ID    string
+	Class string
 }
 
-// Dialog overlay that requires user attention or interaction.
 templ Modal(props ModalProps) {
 	<div
 		x-data="modal"
@@ -40,7 +39,6 @@ templ Modal(props ModalProps) {
 	</div>
 }
 
-// ModalTrigger creates clickable elements that open a modal
 templ ModalTrigger(id string) {
 	<span
 		x-data="modalTriggers"
@@ -51,7 +49,6 @@ templ ModalTrigger(id string) {
 	</span>
 }
 
-// ModalClose creates clickable elements that close a modal
 templ ModalClose(id string) {
 	<span
 		x-data="modalTriggers"
@@ -62,7 +59,6 @@ templ ModalClose(id string) {
 	</span>
 }
 
-// ModalHeader renders the modal title section
 templ ModalHeader() {
 	<div class="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
 		<h3 class="text-lg leading-6 font-medium text-foreground" id="modal-title">
@@ -71,14 +67,12 @@ templ ModalHeader() {
 	</div>
 }
 
-/// ModalBody renders the main modal content area
 templ ModalBody() {
 	<div class="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
 		{ children... }
 	</div>
 }
 
-// ModalFooter renders the modal action buttons section
 templ ModalFooter() {
 	<div class="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
 		{ children... }

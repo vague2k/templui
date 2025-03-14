@@ -5,13 +5,10 @@ import (
 	"strings"
 )
 
-// ButtonVariant defines the visual style of the button
 type ButtonVariant string
 
-// ButtonSize defines the dimensions of the button
 type ButtonSize string
 
-// Button variants
 const (
 	ButtonVariantDefault     ButtonVariant = "default"
 	ButtonVariantDestructive ButtonVariant = "destructive"
@@ -21,7 +18,6 @@ const (
 	ButtonVariantLink        ButtonVariant = "link"
 )
 
-// Button sizes
 const (
 	ButtonSizeMd   ButtonSize = "md"
 	ButtonSizeSm   ButtonSize = "sm"
@@ -29,31 +25,29 @@ const (
 	ButtonSizeIcon ButtonSize = "icon"
 )
 
-// ButtonProps configures the Button component
 type ButtonProps struct {
-	Class        string           // Additional CSS classes
-	Text         string           // Button label text
-	Variant      ButtonVariant    // Visual style
-	Size         ButtonSize       // Button dimensions
-	FullWidth    bool             // Expand to fill container
-	Href         string           // URL for link buttons
-	Target       string           // Link target attribute
-	Disabled     bool             // Interactivity state
-	Type         string           // Button type attribute
-	IconLeft     templ.Component  // Icon component before text
-	IconRight    templ.Component  // Icon component after text
-	HxGet        string           // HTMX: URL for GET requests
-	HxPost       string           // HTMX: URL for POST requests
-	HxPut        string           // HTMX: URL for PUT requests
-	HxDelete     string           // HTMX: URL for DELETE requests
-	HxTrigger    string           // HTMX: Trigger event
-	HxTarget     string           // HTMX: Target for response
-	HxSwap       string           // HTMX: Method for inserting response
-	HxReplaceUrl string           // HTMX: Replace the URL to - (alternative to using Href, to void reloading the page)
-	Attributes   templ.Attributes // Additional HTML attributes
+	Class        string
+	Text         string
+	Variant      ButtonVariant
+	Size         ButtonSize
+	FullWidth    bool
+	Href         string
+	Target       string
+	Disabled     bool
+	Type         string
+	IconLeft     templ.Component
+	IconRight    templ.Component
+	HxGet        string
+	HxPost       string
+	HxPut        string
+	HxDelete     string
+	HxTrigger    string
+	HxTarget     string
+	HxSwap       string
+	HxReplaceUrl string
+	Attributes   templ.Attributes
 }
 
-// variantClasses returns CSS classes based on button variant
 func (b ButtonProps) variantClasses() string {
 	switch b.Variant {
 	case ButtonVariantDestructive:
@@ -71,7 +65,6 @@ func (b ButtonProps) variantClasses() string {
 	}
 }
 
-// sizeClasses returns CSS classes based on button size
 func (b ButtonProps) sizeClasses() string {
 	switch b.Size {
 	case ButtonSizeSm:
@@ -85,7 +78,6 @@ func (b ButtonProps) sizeClasses() string {
 	}
 }
 
-// modifierClasses returns additional CSS classes for modifiers
 func (b ButtonProps) modifierClasses() string {
 	classes := []string{}
 	if b.FullWidth {
@@ -94,7 +86,6 @@ func (b ButtonProps) modifierClasses() string {
 	return strings.Join(classes, " ")
 }
 
-// Button renders an interactive element for triggering actions
 templ Button(props ButtonProps) {
 	if props.Href != "" {
 		<a
@@ -190,7 +181,6 @@ templ Button(props ButtonProps) {
 	}
 }
 
-// renderButtonContent displays the button's text and icons
 templ renderButtonContent(props ButtonProps) {
 	<span class="flex gap-2 items-center">
 		if props.IconLeft != nil {

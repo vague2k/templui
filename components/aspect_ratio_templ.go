@@ -10,15 +10,14 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import "github.com/axzilla/templui/utils"
 
-// AspectRatioType defines the available aspect ratio types as an enum
 type AspectRatioType int
 
 const (
-	AspectRatioAuto     AspectRatioType = iota // Determined by content
-	AspectRatioSquare                          // 1:1 ratio
-	AspectRatioVideo                           // 16:9 ratio
-	AspectRatioPortrait                        // 3:4 ratio
-	AspectRatioWide                            // 2:1 ratio
+	AspectRatioAuto AspectRatioType = iota
+	AspectRatioSquare
+	AspectRatioVideo
+	AspectRatioPortrait
+	AspectRatioWide
 )
 
 type AspectRatioProps struct {
@@ -27,7 +26,6 @@ type AspectRatioProps struct {
 	Attributes templ.Attributes
 }
 
-// A component for maintaining consistent width-to-height ratios across different screen sizes.
 func AspectRatio(props AspectRatioProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -98,15 +96,15 @@ func AspectRatio(props AspectRatioProps) templ.Component {
 func getAspectRatioClass(ratio AspectRatioType) string {
 	switch ratio {
 	case AspectRatioSquare:
-		return "aspect-square" // 1:1 ratio
+		return "aspect-square"
 	case AspectRatioVideo:
-		return "aspect-video" // 16:9 ratio
+		return "aspect-video"
 	case AspectRatioPortrait:
-		return "aspect-[3/4]" // 3:4 ratio
+		return "aspect-[3/4]"
 	case AspectRatioWide:
-		return "aspect-[2/1]" // 2:1 ratio
+		return "aspect-[2/1]"
 	default:
-		return "aspect-auto" // Let the content determine the aspect ratio
+		return "aspect-auto"
 	}
 }
 

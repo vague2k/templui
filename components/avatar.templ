@@ -15,27 +15,21 @@ const (
 )
 
 type AvatarProps struct {
-	ImageSrc   string           // URL of avatar image
-	Name       string           // Name for generating initials
-	Size       AvatarSize       // Size variant
-	Class      string           // Additional CSS classes
-	Attributes templ.Attributes // Additional HTML attributes
+	ImageSrc   string
+	Name       string
+	Size       AvatarSize
+	Class      string
+	Attributes templ.Attributes
 }
 
-// Avatar renders a user avatar image or initials
 templ Avatar(props AvatarProps) {
 	<div
 		class={ utils.TwMerge(
-           // Layout
-           "inline-flex items-center justify-center",
-           avatarSizeClasses(props.Size),
-           
-           // Styling
-           "rounded-full bg-muted",
-           
-           // Custom
-           props.Class,
-       ) }
+			"inline-flex items-center justify-center",
+			avatarSizeClasses(props.Size),
+			"rounded-full bg-muted",
+			props.Class,
+		) }
 		{ props.Attributes... }
 	>
 		if props.ImageSrc != "" {
@@ -43,19 +37,15 @@ templ Avatar(props AvatarProps) {
 				src={ props.ImageSrc }
 				alt={ fmt.Sprintf("%s's avatar", props.Name) }
 				class={ utils.TwMerge(
-                   // Layout
-                   "w-full h-full",
-                   
-                   // Styling
-                   "rounded-full object-cover",
-               ) }
+					"w-full h-full",
+					"rounded-full object-cover",
+				) }
 			/>
 		} else {
 			<span
 				class={ utils.TwMerge(
-               // Styling
-               "font-medium text-muted-foreground",
-           ) }
+					"font-medium text-muted-foreground",
+				) }
 			>
 				{ avatarInitials(props.Name) }
 			</span>

@@ -1,45 +1,39 @@
 package components
 
 type LabelProps struct {
-	ID            string // Optional label ID
-	For           string // Target input ID
-	Text          string // Label text
-	Error         string // Error message
-	Class         string // Additional CSS classes
-	DisabledClass string // Additional CSS classes when the input is disabled
+	ID            string
+	For           string
+	Text          string
+	Error         string
+	Class         string
+	DisabledClass string
 }
 
 templ LabelScript() {
 	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
-            document.addEventListener('alpine:init', () => {
-                Alpine.data('label', () => ({
+			document.addEventListener('alpine:init', () => {
+				Alpine.data('label', () => ({
 					getClass() {
 						if (this.$refs[this.$el.getAttribute('for')]?.disabled ) {
 							return this.$el.dataset.disabledStyle
 						}
 					}
-                }));
-            });
-        </script>
+				}));
+			});
+		</script>
 	}
 }
 
-// Label renders a form label with error and disabled states
 templ Label(props LabelProps) {
 	<label
 		x-data="label"
 		id={ props.ID }
 		for={ props.For }
 		class={
-			// Styling
 			"text-sm font-medium leading-none inline-block",
-		
-			// Utility
 			templ.KV("text-destructive", len(props.Error) > 0),
-		
-			// Custom
 			props.Class,
 		}
 		if props.DisabledClass != "" {

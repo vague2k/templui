@@ -10,9 +10,9 @@ const (
 )
 
 type DrawerProps struct {
-	Title       string     // Header text
-	Description string     // Subheading text
-	Side        DrawerSide // Slide-in direction
+	Title       string
+	Description string
+	Side        DrawerSide
 }
 
 templ DrawerScript() {
@@ -34,8 +34,6 @@ templ DrawerScript() {
 	}
 }
 
-// DrawerRoot initializes Alpine.js state and event handlers
-// Must wrap Drawer components and triggers
 templ DrawerRoot() {
 	<div
 		x-data="drawer"
@@ -45,9 +43,7 @@ templ DrawerRoot() {
 	</div>
 }
 
-// Side-anchored panel that slides in from screen edges.
 templ Drawer(props DrawerProps) {
-	<!-- Backdrop -->
 	<div
 		x-show="isOpen"
 		class="fixed inset-0 bg-background/80 backdrop-blur-xs"
@@ -59,7 +55,6 @@ templ Drawer(props DrawerProps) {
 		x-transition:leave-start="opacity-100"
 		x-transition:leave-end="opacity-0"
 	></div>
-	<!-- Drawer -->
 	<div
 		x-show="isOpen"
 		class={
@@ -98,10 +93,10 @@ templ Drawer(props DrawerProps) {
 	>
 		<div
 			class={ "h-full overflow-y-auto bg-background p-6 shadow-lg",
-            templ.KV("border-l", props.Side == DrawerSideRight),
-            templ.KV("border-r", props.Side == DrawerSideLeft),
-            templ.KV("border-t", props.Side == DrawerSideBottom),
-            templ.KV("border-b", props.Side == DrawerSideTop) }
+			templ.KV("border-l", props.Side == DrawerSideRight),
+			templ.KV("border-r", props.Side == DrawerSideLeft),
+			templ.KV("border-t", props.Side == DrawerSideBottom),
+			templ.KV("border-b", props.Side == DrawerSideTop) }
 		>
 			<div class="flex flex-col space-y-2">
 				<h2 class="text-lg font-semibold">{ props.Title }</h2>
@@ -114,23 +109,19 @@ templ Drawer(props DrawerProps) {
 	</div>
 }
 
-// DrawerTrigger creates elements that open the drawer
-// Must be used within DrawerRoot
 templ DrawerTrigger(text string, side DrawerSide) {
 	<span @click="open">
 		{ children... }
 	</span>
 }
 
-// DrawerClose creates a button that closes the drawer
-// Must be used within Drawer
 templ DrawerClose(text string) {
 	<button
 		@click="close"
 		class={ "inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background",
-        "transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-        "disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent",
-        "hover:text-accent-foreground h-10 px-4 py-2" }
+		"transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+		"disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent",
+		"hover:text-accent-foreground h-10 px-4 py-2" }
 	>
 		{ text }
 	</button>

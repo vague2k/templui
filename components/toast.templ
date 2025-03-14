@@ -6,13 +6,13 @@ import (
 )
 
 type ToastProps struct {
-	Message     string // Message to display
-	Type        string // Type of the toast
-	Position    string // Position of the toast
-	Duration    int    // Duration in milliseconds
-	Dismissible bool   // Show dismiss button
-	Size        string // Size of the toast
-	Icon        bool   // Show icon
+	Message     string
+	Type        string
+	Position    string
+	Duration    int
+	Dismissible bool
+	Size        string
+	Icon        bool
 }
 
 func (p ToastProps) withDefaults() ToastProps {
@@ -34,72 +34,70 @@ func (p ToastProps) withDefaults() ToastProps {
 	return p
 }
 
-// Flexible toast component for notifications and feedback.
 templ ToastScript() {
 	{{ handler := templ.NewOnceHandle() }}
 	@handler.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>	
-            document.addEventListener('alpine:init', () => {
-                Alpine.data('toast', () => ({
-                    show: true,
-                    duration: 0,
-                    timer: null,
+			document.addEventListener('alpine:init', () => {
+				Alpine.data('toast', () => ({
+					show: true,
+					duration: 0,
+					timer: null,
 
-                    init() {
-                        this.duration = parseInt(this.$el.dataset.duration || 0);
-                        this.startTimer();
+					init() {
+						this.duration = parseInt(this.$el.dataset.duration || 0);
+						this.startTimer();
 
-                        if (this.duration > 0) {
-                            const progress = this.$refs.progress;
-                            if (progress) {
-                                progress.style.transition = `width ${this.duration}ms linear`;
-                                progress.style.width = '100%';
-                                setTimeout(() => {
-                                    progress.style.width = '0%';
-                                }, 10);
-                            }
-                        }
-                    },
+						if (this.duration > 0) {
+							const progress = this.$refs.progress;
+							if (progress) {
+								progress.style.transition = `width ${this.duration}ms linear`;
+								progress.style.width = '100%';
+								setTimeout(() => {
+									progress.style.width = '0%';
+								}, 10);
+							}
+						}
+					},
 
-                    startTimer() {
-                        if (this.duration <= 0) return;
-                        this.timer = setTimeout(() => {
-                            this.show = false;
-                        }, this.duration);
-                    },
+					startTimer() {
+						if (this.duration <= 0) return;
+						this.timer = setTimeout(() => {
+							this.show = false;
+						}, this.duration);
+					},
 
-                    pauseTimer() {
-                        if (this.timer) clearTimeout(this.timer);
-                        const progress = this.$refs.progress;
-                        if (progress) {
-                            const width = progress.getBoundingClientRect().width;
-                            const total = progress.parentElement.getBoundingClientRect().width;
-                            this.duration = (width / total) * this.duration;
-                            progress.style.transition = "none";
-                            progress.style.width = width + "px";
-                        }
-                    },
+					pauseTimer() {
+						if (this.timer) clearTimeout(this.timer);
+						const progress = this.$refs.progress;
+						if (progress) {
+							const width = progress.getBoundingClientRect().width;
+							const total = progress.parentElement.getBoundingClientRect().width;
+							this.duration = (width / total) * this.duration;
+							progress.style.transition = "none";
+							progress.style.width = width + "px";
+						}
+					},
 
-                    resumeTimer() {
-                        const progress = this.$refs.progress;
-                        if (progress) {
-                            progress.style.transition = "width " + this.duration + "ms linear";
-                            progress.style.width = "0";
-                            this.startTimer();
-                        }
-                    },
+					resumeTimer() {
+						const progress = this.$refs.progress;
+						if (progress) {
+							progress.style.transition = "width " + this.duration + "ms linear";
+							progress.style.width = "0";
+							this.startTimer();
+						}
+					},
 
-                    dismissToast() {
-                        this.show = false;
-                    }
-                }))
-            })
-        </script>
+					dismissToast() {
+						this.show = false;
+					}
+				}))
+			})
+		</script>
 	}
 }
 
 templ Toast(props ToastProps) {
-	// Apply defaults before rendering
 	{{ props = props.withDefaults() }}
 	<div
 		data-duration={ strconv.Itoa(props.Duration) }

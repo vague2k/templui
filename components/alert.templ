@@ -10,57 +10,43 @@ const (
 )
 
 type AlertProps struct {
-	Variant AlertVariant // Visual style variant
-	Class   string       // Additional CSS classes
+	Variant AlertVariant
+	Class   string
 }
 
-// Alert renders a status message component
 templ Alert(props AlertProps) {
 	<div
 		class={ utils.TwMerge(
-           // Layout 
-           "relative w-full p-4",
-           "[&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4",
-           "[&>svg+div]:translate-y-[-3px] [&:has(svg)]:pl-11",
-           
-           // Styling
-           "rounded-lg border",
-           getAlertVariantClasses(props.Variant),
-           
-           // Custom
-           props.Class,
-       ) }
+		   "relative w-full p-4",
+		   "[&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4",
+		   "[&>svg+div]:translate-y-[-3px] [&:has(svg)]:pl-11",
+		   "rounded-lg border",
+		   getAlertVariantClasses(props.Variant),
+		   props.Class,
+	   ) }
 		role="alert"
 	>
 		{ children... }
 	</div>
 }
 
-// AlertTitle renders the heading section
 templ AlertTitle() {
 	<h5
 		class={ utils.TwMerge(
-           // Layout
-           "mb-1",
-
-           // Styling  
-           "font-medium leading-none tracking-tight",
-       ) }
+		   "mb-1",
+		   "font-medium leading-none tracking-tight",
+	   ) }
 	>
 		{ children... }
 	</h5>
 }
 
-// AlertDescription renders the body content
 templ AlertDescription() {
 	<div
 		class={ utils.TwMerge(
-           // Layout
-           "[&_p]:leading-relaxed",
-
-           // Styling
-           "text-sm",
-       ) }
+		   "[&_p]:leading-relaxed",
+		   "text-sm",
+	   ) }
 	>
 		{ children... }
 	</div>

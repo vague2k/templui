@@ -16,43 +16,32 @@ import (
 	"strings"
 )
 
-// PaginationType defines the visual style of pagination
 type PaginationType string
 
 const (
-	// PaginationTypeDefault shows numbered pages with first/last and next/previous controls
 	PaginationTypeDefault PaginationType = "default"
-
-	// PaginationTypeSimple shows only next/previous controls
-	PaginationTypeSimple PaginationType = "simple"
-
-	// PaginationTypeMinimal shows compact numbered pages with next/previous
+	PaginationTypeSimple  PaginationType = "simple"
 	PaginationTypeMinimal PaginationType = "minimal"
-
-	// PaginationTypeOutline uses outlined styling
 	PaginationTypeOutline PaginationType = "outline"
 )
 
-// PaginationProps configures the Pagination component
 type PaginationProps struct {
-	CurrentPage  int              // Current active page (1-based index)
-	TotalPages   int              // Total number of pages
-	PageSize     int              // Number of items per page
-	TotalItems   int              // Total number of items (alternative to TotalPages)
-	MaxVisible   int              // Maximum number of page buttons to show
-	Type         PaginationType   // Visual style variation
-	ShowNumbers  bool             // Whether to show page numbers
-	ShowControls bool             // Whether to show next/previous buttons
-	UrlPattern   string           // URL pattern for links, use {page} placeholder, e.g. "/products?page={page}"
-	HxGet        bool             // Whether to use hx-get instead of href for HTMX integration
-	HxTarget     string           // Target element for HTMX updates
-	HxSwap       string           // Swap method for HTMX updates
-	Class        string           // Additional CSS classes
-	Attributes   templ.Attributes // Additional HTML attributes
+	CurrentPage  int
+	TotalPages   int
+	PageSize     int
+	TotalItems   int
+	MaxVisible   int
+	Type         PaginationType
+	ShowNumbers  bool
+	ShowControls bool
+	UrlPattern   string
+	HxGet        bool
+	HxTarget     string
+	HxSwap       string
+	Class        string
+	Attributes   templ.Attributes
 }
 
-// calculateTotalPages determines the total number of pages based on either
-// directly provided TotalPages or calculated from TotalItems and PageSize
 func calculateTotalPages(props PaginationProps) int {
 	if props.TotalPages > 0 {
 		return props.TotalPages
@@ -62,21 +51,17 @@ func calculateTotalPages(props PaginationProps) int {
 		return int(math.Ceil(float64(props.TotalItems) / float64(props.PageSize)))
 	}
 
-	return 1 // Default to at least 1 page
+	return 1
 }
 
-// getPageUrl generates a URL for a specific page
 func getPageUrl(urlPattern string, page int) string {
 	if urlPattern == "" {
 		return "?page=" + strconv.Itoa(page)
 	}
 
-	// Replace {page} placeholder with actual page number
 	return strings.Replace(urlPattern, "{page}", strconv.Itoa(page), 1)
 }
 
-// Pagination provides navigation through multiple pages of content
-// with various layout and styling options.
 func Pagination(props PaginationProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -174,7 +159,6 @@ func Pagination(props PaginationProps) templ.Component {
 	})
 }
 
-// renderPrevButton creates the "Previous" navigation button
 func renderPrevButton(props PaginationProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -233,10 +217,6 @@ func renderPrevButton(props PaginationProps) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, " ")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
 			if props.HxGet {
 				templ_7745c5c3_Var6 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 					templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -254,12 +234,12 @@ func renderPrevButton(props PaginationProps) templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, " ")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, " ")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
 					if props.Type != PaginationTypeMinimal {
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<span>Previous</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "<span>Previous</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -292,12 +272,12 @@ func renderPrevButton(props PaginationProps) templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, " ")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, " ")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
 					if props.Type != PaginationTypeMinimal {
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<span>Previous</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<span>Previous</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
@@ -317,7 +297,6 @@ func renderPrevButton(props PaginationProps) templ.Component {
 	})
 }
 
-// renderNextButton creates the "Next" navigation button
 func renderNextButton(props PaginationProps, totalPages int) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -340,10 +319,6 @@ func renderNextButton(props PaginationProps, totalPages int) templ.Component {
 		}
 		ctx = templ.ClearChildren(ctx)
 		if props.CurrentPage >= totalPages {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, " ")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
 			templ_7745c5c3_Var9 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 				templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 				templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
@@ -357,12 +332,12 @@ func renderNextButton(props PaginationProps, totalPages int) templ.Component {
 				}
 				ctx = templ.InitializeContext(ctx)
 				if props.Type != PaginationTypeMinimal {
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "<span>Next</span>")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<span>Next</span>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, " ")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, " ")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -380,10 +355,6 @@ func renderNextButton(props PaginationProps, totalPages int) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, " ")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
 			if props.HxGet {
 				templ_7745c5c3_Var10 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 					templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -398,12 +369,12 @@ func renderNextButton(props PaginationProps, totalPages int) templ.Component {
 					}
 					ctx = templ.InitializeContext(ctx)
 					if props.Type != PaginationTypeMinimal {
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "<span>Next</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "<span>Next</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, " ")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, " ")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -436,12 +407,12 @@ func renderNextButton(props PaginationProps, totalPages int) templ.Component {
 					}
 					ctx = templ.InitializeContext(ctx)
 					if props.Type != PaginationTypeMinimal {
-						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "<span>Next</span>")
+						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "<span>Next</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
 						}
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, " ")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, " ")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
@@ -464,7 +435,6 @@ func renderNextButton(props PaginationProps, totalPages int) templ.Component {
 	})
 }
 
-// renderPageNumbers creates the numbered pagination buttons with ellipsis for large ranges
 func renderPageNumbers(props PaginationProps, totalPages int) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -491,19 +461,18 @@ func renderPageNumbers(props PaginationProps, totalPages int) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "  ")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, " ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			if props.CurrentPage > 4 {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, "<span class=\"flex h-10 w-10 items-center justify-center text-sm\">...</span>")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "<span class=\"flex h-10 w-10 items-center justify-center text-sm\">...</span>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 			}
 		}
 
-		// Calculate visible page range
 		start, end := calculateVisibleRange(props.CurrentPage, totalPages, props.MaxVisible)
 		for i := start; i <= end; i++ {
 			templ_7745c5c3_Err = renderPageButton(props, i).Render(ctx, templ_7745c5c3_Buffer)
@@ -512,17 +481,13 @@ func renderPageNumbers(props PaginationProps, totalPages int) templ.Component {
 			}
 		}
 		if props.Type != PaginationTypeMinimal && props.CurrentPage < totalPages-2 && props.MaxVisible < totalPages {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, " ")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
 			if props.CurrentPage < totalPages-3 {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 23, "<span class=\"flex h-10 w-10 items-center justify-center text-sm\">...</span>")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "<span class=\"flex h-10 w-10 items-center justify-center text-sm\">...</span>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 24, " ")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, " ")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -535,7 +500,6 @@ func renderPageNumbers(props PaginationProps, totalPages int) templ.Component {
 	})
 }
 
-// renderPageButton creates an individual page number button
 func renderPageButton(props PaginationProps, page int) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -558,10 +522,6 @@ func renderPageButton(props PaginationProps, page int) templ.Component {
 		}
 		ctx = templ.ClearChildren(ctx)
 		if page == props.CurrentPage {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 25, " ")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
 			templ_7745c5c3_Err = Button(ButtonProps{
 				Variant: getButtonVariant(props.Type),
 				Text:    strconv.Itoa(page),
@@ -571,10 +531,6 @@ func renderPageButton(props PaginationProps, page int) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 26, " ")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
 			if props.HxGet {
 				templ_7745c5c3_Err = Button(ButtonProps{
 					Variant:  ButtonVariantGhost,
@@ -603,20 +559,15 @@ func renderPageButton(props PaginationProps, page int) templ.Component {
 	})
 }
 
-// calculateVisibleRange determines which page numbers should be visible
 func calculateVisibleRange(currentPage, totalPages, maxVisible int) (int, int) {
 	if totalPages <= maxVisible {
 		return 1, totalPages
 	}
 
-	// Calculate half of the max visible pages
 	half := maxVisible / 2
-
-	// Calculate start and end
 	start := currentPage - half
 	end := currentPage + half
 
-	// Adjust if out of bounds
 	if start < 1 {
 		end += (1 - start)
 		start = 1
@@ -633,7 +584,6 @@ func calculateVisibleRange(currentPage, totalPages, maxVisible int) (int, int) {
 	return start, end
 }
 
-// Get the appropriate button variant based on pagination type
 func getButtonVariant(paginationType PaginationType) ButtonVariant {
 	switch paginationType {
 	case PaginationTypeOutline:

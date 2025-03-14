@@ -20,12 +20,11 @@ const (
 )
 
 type CardProps struct {
-	Horizontal bool             // Enables horizontal layout for side images
-	Class      string           // Additional CSS classes
-	Attributes templ.Attributes // Additional HTML attributes
+	Horizontal bool
+	Class      string
+	Attributes templ.Attributes
 }
 
-// Container for organizing related content and
 func Card(props CardProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -96,12 +95,12 @@ func Card(props CardProps) templ.Component {
 }
 
 type CardImageProps struct {
-	Src         string            // Image URL
-	Alt         string            // Image alt text
-	Class       string            // Additional CSS classes
-	AspectRatio string            // Aspect ratio for image
-	Position    CardImagePosition // Image position
-	Width       string            // Image width
+	Src         string
+	Alt         string
+	Class       string
+	AspectRatio string
+	Position    CardImagePosition
+	Width       string
 }
 
 func imageWidth(width string) string {
@@ -111,7 +110,6 @@ func imageWidth(width string) string {
 	return "w-" + width
 }
 
-// CardImage renders an image section within the card
 func CardImage(props CardImageProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -138,12 +136,10 @@ func CardImage(props CardImageProps) templ.Component {
 				"overflow-hidden",
 				props.Class,
 			),
-			// Border radius based on position
 			templ.KV("rounded-t-lg", props.Position == CardImageTop),
 			templ.KV("rounded-b-lg", props.Position == CardImageBottom),
 			templ.KV("rounded-l-lg", props.Position == CardImageLeft),
 			templ.KV("rounded-r-lg", props.Position == CardImageRight),
-			// Width for side images
 			templ.KV("shrink-0", props.Position == CardImageLeft || props.Position == CardImageRight),
 			templ.KV(imageWidth(props.Width), props.Position == CardImageLeft || props.Position == CardImageRight),
 		}
@@ -176,7 +172,7 @@ func CardImage(props CardImageProps) templ.Component {
 			var templ_7745c5c3_Var7 string
 			templ_7745c5c3_Var7, templ_7745c5c3_Err = templruntime.SanitizeStyleAttributeValues("aspect-ratio: " + props.AspectRatio)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/card.templ`, Line: 70, Col: 47}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/card.templ`, Line: 66, Col: 47}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {
@@ -194,7 +190,7 @@ func CardImage(props CardImageProps) templ.Component {
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(props.Src)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/card.templ`, Line: 74, Col: 18}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/card.templ`, Line: 70, Col: 18}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
@@ -207,7 +203,7 @@ func CardImage(props CardImageProps) templ.Component {
 		var templ_7745c5c3_Var9 string
 		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(props.Alt)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/card.templ`, Line: 75, Col: 18}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/card.templ`, Line: 71, Col: 18}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {
@@ -221,7 +217,6 @@ func CardImage(props CardImageProps) templ.Component {
 	})
 }
 
-// CardHeader renders the header section of a card.
 func CardHeader() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -259,7 +254,6 @@ func CardHeader() templ.Component {
 	})
 }
 
-// CardTitle renders the title of a card.
 func CardTitle() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -297,7 +291,6 @@ func CardTitle() templ.Component {
 	})
 }
 
-// CardDescription renders the description of a card.
 func CardDescription() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -335,7 +328,6 @@ func CardDescription() templ.Component {
 	})
 }
 
-// CardContent renders the main content area of a card.
 func CardContent() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -373,7 +365,6 @@ func CardContent() templ.Component {
 	})
 }
 
-// CardFooter renders the footer section of a card.
 func CardFooter() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context

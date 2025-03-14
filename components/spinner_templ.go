@@ -8,29 +8,24 @@ package components
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import (
-	"github.com/axzilla/templui/utils"
-)
+import "github.com/axzilla/templui/utils"
 
-// SpinnerSize represents the available sizes for the Spinner component
 type SpinnerSize string
 
 const (
-	SpinnerSizeSm SpinnerSize = "sm" // Small (24px)
-	SpinnerSizeMd SpinnerSize = "md" // Medium (32px) - default
-	SpinnerSizeLg SpinnerSize = "lg" // Large (48px)
+	SpinnerSizeSm SpinnerSize = "sm"
+	SpinnerSizeMd SpinnerSize = "md"
+	SpinnerSizeLg SpinnerSize = "lg"
 )
 
-// SpinnerProps configures the Spinner component
 type SpinnerProps struct {
-	Size       SpinnerSize      // Controls the size of the spinner (sm, md, lg)
-	Color      string           // Custom color - uses theme colors if empty
-	Text       string           // Optional text to display below the spinner
-	Class      string           // Additional CSS classes
-	Attributes templ.Attributes // Additional HTML attributes
+	Size       SpinnerSize
+	Color      string
+	Text       string
+	Class      string
+	Attributes templ.Attributes
 }
 
-// spinnerSizeClass returns the appropriate size class based on the size prop
 func spinnerSizeClass(size SpinnerSize) string {
 	switch size {
 	case SpinnerSizeSm:
@@ -38,11 +33,10 @@ func spinnerSizeClass(size SpinnerSize) string {
 	case SpinnerSizeLg:
 		return "w-12 h-12"
 	default:
-		return "w-8 h-8" // Default to medium
+		return "w-8 h-8"
 	}
 }
 
-// borderSpinnerClass returns the appropriate border-width class based on the size prop
 func borderSpinnerClass(size SpinnerSize) string {
 	switch size {
 	case SpinnerSizeSm:
@@ -50,11 +44,10 @@ func borderSpinnerClass(size SpinnerSize) string {
 	case SpinnerSizeLg:
 		return "border-[5px]"
 	default:
-		return "border-4" // Default to medium
+		return "border-4"
 	}
 }
 
-// textSizeClass returns the appropriate text size class based on spinner size
 func textSizeClass(size SpinnerSize) string {
 	switch size {
 	case SpinnerSizeSm:
@@ -62,11 +55,10 @@ func textSizeClass(size SpinnerSize) string {
 	case SpinnerSizeLg:
 		return "text-lg"
 	default:
-		return "text-base" // Default to medium
+		return "text-base"
 	}
 }
 
-// Spinner component for indicating loading states with customizable options
 func Spinner(props SpinnerProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -117,7 +109,7 @@ func Spinner(props SpinnerProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "><!-- Ring spinner animation with longer visible arc -->")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, ">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -127,8 +119,8 @@ func Spinner(props SpinnerProps) templ.Component {
 			borderSpinnerClass(props.Size),
 			utils.TwIfElse(
 				props.Color == "",
-				"border-primary border-b-transparent", // Only bottom is transparent (75% visible)
-				"border-current border-b-transparent", // Only bottom is transparent (75% visible)
+				"border-primary border-b-transparent",
+				"border-current border-b-transparent",
 			),
 			utils.TwIfElse(
 				props.Color != "",
@@ -187,7 +179,7 @@ func Spinner(props SpinnerProps) templ.Component {
 			var templ_7745c5c3_Var8 string
 			templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(props.Text)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/spinner.templ`, Line: 97, Col: 16}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/spinner.templ`, Line: 88, Col: 16}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 			if templ_7745c5c3_Err != nil {

@@ -14,18 +14,18 @@ import (
 )
 
 type SliderProps struct {
-	ID          string           // Unique identifier for the slider
-	Name        string           // Input name attribute
-	Min         int              // Minimum value
-	Max         int              // Maximum value
-	Step        int              // Value increment
-	Value       int              // Initial value
-	Label       string           // Optional label text
-	ShowValue   bool             // Show current value
-	ValueFormat string           // Optional format suffix
-	Disabled    bool             // Disables the slider
-	Class       string           // Additional CSS classes
-	Attributes  templ.Attributes // Additional HTML attributes
+	ID          string
+	Name        string
+	Min         int
+	Max         int
+	Step        int
+	Value       int
+	Label       string
+	ShowValue   bool
+	ValueFormat string
+	Disabled    bool
+	Class       string
+	Attributes  templ.Attributes
 }
 
 func SliderScript() templ.Component {
@@ -75,7 +75,7 @@ func SliderScript() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\">\n            document.addEventListener('alpine:init', () => {\n                Alpine.data('slider', () => ({\n                    value: null,\n\n\t\t\t\t\tinit() {\n\t\t\t\t\t\tthis.value = this.$el.dataset.value;\n\t\t\t\t\t},   \n\n                    handleInput(event) {\n                        this.value = event.target.value;\n                    }\n                }))\n            })\n        </script>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\">\n\t\t\tdocument.addEventListener('alpine:init', () => {\n\t\t\t\tAlpine.data('slider', () => ({\n\t\t\t\t\tvalue: null,\n\n\t\t\t\t\tinit() {\n\t\t\t\t\t\tthis.value = this.$el.dataset.value;\n\t\t\t\t\t},\n\n\t\t\t\t\thandleInput(event) {\n\t\t\t\t\t\tthis.value = event.target.value;\n\t\t\t\t\t}\n\t\t\t\t}))\n\t\t\t})\n\t\t</script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -89,7 +89,6 @@ func SliderScript() templ.Component {
 	})
 }
 
-// Control for selecting a numeric value within a range.
 func Slider(props SliderProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -118,7 +117,7 @@ func Slider(props SliderProps) templ.Component {
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d", props.Value))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/slider.templ`, Line: 48, Col: 45}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/slider.templ`, Line: 47, Col: 45}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
@@ -141,7 +140,7 @@ func Slider(props SliderProps) templ.Component {
 				var templ_7745c5c3_Var6 string
 				templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/slider.templ`, Line: 54, Col: 26}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/slider.templ`, Line: 53, Col: 26}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 				if templ_7745c5c3_Err != nil {
@@ -154,7 +153,7 @@ func Slider(props SliderProps) templ.Component {
 				var templ_7745c5c3_Var7 string
 				templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(props.Label)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/slider.templ`, Line: 55, Col: 19}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/slider.templ`, Line: 54, Col: 19}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 				if templ_7745c5c3_Err != nil {
@@ -174,7 +173,7 @@ func Slider(props SliderProps) templ.Component {
 					var templ_7745c5c3_Var8 string
 					templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(props.ValueFormat)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/slider.templ`, Line: 62, Col: 26}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/slider.templ`, Line: 61, Col: 26}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 					if templ_7745c5c3_Err != nil {
@@ -214,7 +213,7 @@ func Slider(props SliderProps) templ.Component {
 		var templ_7745c5c3_Var10 string
 		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/slider.templ`, Line: 71, Col: 16}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/slider.templ`, Line: 70, Col: 16}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 		if templ_7745c5c3_Err != nil {
@@ -227,7 +226,7 @@ func Slider(props SliderProps) templ.Component {
 		var templ_7745c5c3_Var11 string
 		templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(props.Name)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/slider.templ`, Line: 72, Col: 20}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/slider.templ`, Line: 71, Col: 20}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 		if templ_7745c5c3_Err != nil {
@@ -245,7 +244,7 @@ func Slider(props SliderProps) templ.Component {
 			var templ_7745c5c3_Var12 string
 			templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d", props.Value))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/slider.templ`, Line: 74, Col: 42}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/slider.templ`, Line: 73, Col: 42}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
 			if templ_7745c5c3_Err != nil {
@@ -264,7 +263,7 @@ func Slider(props SliderProps) templ.Component {
 			var templ_7745c5c3_Var13 string
 			templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d", props.Min))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/slider.templ`, Line: 77, Col: 38}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/slider.templ`, Line: 76, Col: 38}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 			if templ_7745c5c3_Err != nil {
@@ -283,7 +282,7 @@ func Slider(props SliderProps) templ.Component {
 			var templ_7745c5c3_Var14 string
 			templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d", props.Max))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/slider.templ`, Line: 80, Col: 38}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/slider.templ`, Line: 79, Col: 38}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 			if templ_7745c5c3_Err != nil {
@@ -302,7 +301,7 @@ func Slider(props SliderProps) templ.Component {
 			var templ_7745c5c3_Var15 string
 			templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d", props.Step))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/slider.templ`, Line: 83, Col: 40}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/slider.templ`, Line: 82, Col: 40}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var15))
 			if templ_7745c5c3_Err != nil {

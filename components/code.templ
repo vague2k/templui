@@ -11,21 +11,17 @@ templ CodeScript() {
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/pojoaque.min.css"/>
 		<script nonce={ templ.GetNonce(ctx) } src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 		<script nonce={ templ.GetNonce(ctx) }>
-            document.addEventListener('alpine:init', () => {
-                // Highlight.js init
-                hljs.highlightAll();
+			document.addEventListener('alpine:init', () => {
+				hljs.highlightAll();
 
-                // Copy functionality
-                Alpine.data('code', () => ({
-                    isCopied: false,
-                    isNotCopied: true,
+				Alpine.data('code', () => ({
+					isCopied: false,
+					isNotCopied: true,
 					copyCode() {
 						try {
-							// Moderne Methode (HTTPS)
 							if (navigator.clipboard && window.isSecureContext) {
 								navigator.clipboard.writeText(this.$refs.code.textContent);
 							} else {
-								// Fallback für HTTP
 								const textArea = document.createElement('textarea');
 								textArea.value = this.$refs.code.textContent;
 								document.body.appendChild(textArea);
@@ -44,31 +40,29 @@ templ CodeScript() {
 							console.error('Copy failed', err);
 						}
 					}
-                }))
-            })
-        </script>
+				}))
+			})
+		</script>
 	}
 }
 
-// CodeSize represents the available sizes for the Code component
 type CodeSize string
 
 const (
-	CodeSizeDefault CodeSize = ""     // ~20 lines (default)
-	CodeSizeSm      CodeSize = "sm"   // ~10 lines (for short examples)
-	CodeSizeLg      CodeSize = "lg"   // ~40 lines (for long examples)
-	CodeSizeFull    CodeSize = "full" // Full height (no max-height)
+	CodeSizeDefault CodeSize = ""
+	CodeSizeSm      CodeSize = "sm"
+	CodeSizeLg      CodeSize = "lg"
+	CodeSizeFull    CodeSize = "full"
 )
 
 type CodeProps struct {
-	Language       string   // Programming language for syntax highlighting
-	ShowCopyButton bool     // Whether to show the copy button
-	Size           CodeSize // Size of the code block
-	Class          string   // Additional classes for the wrapper div
-	CodeClass      string   // Additional classes for the code element
+	Language       string
+	ShowCopyButton bool
+	Size           CodeSize
+	Class          string
+	CodeClass      string
 }
 
-// Code displays a code block with optional syntax highlighting and copy functionality
 templ Code(p CodeProps) {
 	<div
 		class={
