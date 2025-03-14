@@ -3,15 +3,14 @@ package components
 import "github.com/axzilla/templui/utils"
 
 type ToggleProps struct {
-	ID         string           // DOM identifier
-	Name       string           // Form field name
-	Disabled   bool             // Prevents interaction
-	Checked    bool             // Toggled state
-	Class      string           // Additional CSS classes
-	Attributes templ.Attributes // Additional HTML attributes
+	ID         string
+	Name       string
+	Disabled   bool
+	Checked    bool
+	Class      string
+	Attributes templ.Attributes
 }
 
-// Toggle renders a styled switch input
 templ Toggle(props ToggleProps) {
 	if props.ID == "" {
 		{{ props.ID = utils.RandomID() }}
@@ -31,25 +30,18 @@ templ Toggle(props ToggleProps) {
 		<div
 			class={
 				utils.TwMerge(
-					// Layout
 					"relative h-6 w-10",
 					"after:absolute after:left-0.5 after:top-0.5",
 					"after:h-5 after:w-5",
-			
-					// Styling
 					"rounded-full bg-neutral-200",
 					"after:rounded-full after:bg-muted-foreground",
 					"after:content-['']",
-			
-					// States
 					"after:transition-all",
 					"peer-checked:bg-primary",
 					"peer-checked:after:translate-x-[16px]",
 					"peer-checked:after:bg-secondary",
 					"peer-disabled:opacity-50",
 					"peer-disabled:cursor-not-allowed",
-			
-					// Custom
 					props.Class,
 				),
 			}

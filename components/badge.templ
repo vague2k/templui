@@ -12,12 +12,12 @@ const (
 )
 
 type BadgeProps struct {
-	Class      string           // Additional CSS classes
-	Text       string           // Badge text content
-	Variant    BadgeVariant     // Visual style variant
-	IconBefore templ.Component  // Icon to display before the text
-	IconAfter  templ.Component  // Icon to display after the text
-	Attributes templ.Attributes // Additional HTML attributes
+	Class      string
+	Text       string
+	Variant    BadgeVariant
+	IconBefore templ.Component
+	IconAfter  templ.Component
+	Attributes templ.Attributes
 }
 
 func (b BadgeProps) variantClasses() string {
@@ -37,15 +37,10 @@ templ Badge(props BadgeProps) {
 	<div
 		class={
 			utils.TwMerge(
-				// Layout
 				"inline-flex items-center gap-2",
-				// Style
 				"rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors",
-				// State
 				"focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2",
-				// Variants
 				props.variantClasses(),
-				// Custom
 				props.Class,
 			),
 		}

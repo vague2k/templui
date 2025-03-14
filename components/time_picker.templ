@@ -8,41 +8,39 @@ import (
 )
 
 type TimePickerProps struct {
-	ID          string           // Unique identifier
-	Name        string           // Form input name
-	Value       time.Time        // Initial time value
-	Use12Hours  bool             // Enable 12-hour format with AM/PM
-	AMLabel     string           // AM label for 12-hour format
-	PMLabel     string           // PM label for 12-hour format
-	Placeholder string           // Input placeholder text
-	Required    bool             // Required form field
-	Disabled    bool             // Disable interactivity
-	HasError    bool             // Error state styling
-	Class       string           // Additional CSS classes
-	Attributes  templ.Attributes // Additional HTML attributes
+	ID          string
+	Name        string
+	Value       time.Time
+	Use12Hours  bool
+	AMLabel     string
+	PMLabel     string
+	Placeholder string
+	Required    bool
+	Disabled    bool
+	HasError    bool
+	Class       string
+	Attributes  templ.Attributes
 }
 
 templ TimePickerScript() {
 	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
-            document.addEventListener('alpine:init', () => {
-                Alpine.data('timePicker', () => ({
+			document.addEventListener('alpine:init', () => {
+				Alpine.data('timePicker', () => ({
 					open: false,
-					formValue: null,     // 24h Format for Form submission
-					displayValue: null,  // 12h/24h Format for Display
+					formValue: null,
+					displayValue: null,
 					selectedHour: 0,
 					selectedMinute: 0,
 					isPM: false,
 					hours: [],
 					minutes: [],
 					use12Hours: false,
-    				position: 'bottom',
+					position: 'bottom',
 
 					init() {
 						this.use12Hours = this.$el.dataset.use12hours === 'true';
-
-						// Initialize from dataset value
 						if (this.$el.dataset?.value) {
 							const [hours, minutes] = this.$el.dataset.value.split(':').map(Number);
 							this.selectedMinute = minutes;
@@ -53,7 +51,6 @@ templ TimePickerScript() {
 							} else {
 								this.selectedHour = hours;
 							}
-							// Set initial values
 							this.updateValues();
 						}
 					},
@@ -87,22 +84,17 @@ templ TimePickerScript() {
 						return this.position === 'bottom' ? 'top-full mt-1' : 'bottom-full mb-1';
 					},
 
-                    closeTimePicker() {
-                        this.open = false;
-                    },
+					closeTimePicker() {
+						this.open = false;
+					},
 
 					updateValues() {
-						// Calculate 24h time for form
 						let hour24 = this.selectedHour;
 						if (this.use12Hours) {
 							if (this.isPM && hour24 !== 12) hour24 += 12;
 							if (!this.isPM && hour24 === 12) hour24 = 0;
 						}
-						
-						// Always set 24h format for form submission
 						this.formValue = `${String(hour24).padStart(2, '0')}:${String(this.selectedMinute).padStart(2, '0')}`;
-
-						// Set display format based on mode
 						if (this.use12Hours) {
 							this.displayValue = `${String(this.selectedHour).padStart(2, '0')}:${String(this.selectedMinute).padStart(2, '0')} ${this.isPM ? 'PM' : 'AM'}`;
 						} else {
@@ -132,16 +124,15 @@ templ TimePickerScript() {
 						const period = this.$el.getAttribute('data-period');
 						return period === 'PM' === this.isPM ? 'bg-primary text-primary-foreground' : '';
 					}
-                }));
-            });
-        </script>
+				}));
+			});
+		</script>
 	}
 }
 
 func generateHourOptions(use12Hours bool) []SelectOption {
 	options := make([]SelectOption, 0)
 	if use12Hours {
-		// Start with 12, then 1 through 11
 		options = append(options, SelectOption{
 			Label: "12",
 			Value: "12",
@@ -153,7 +144,6 @@ func generateHourOptions(use12Hours bool) []SelectOption {
 			})
 		}
 	} else {
-		// 24-hour format: 0 through 23
 		for i := 0; i <= 23; i++ {
 			options = append(options, SelectOption{
 				Label: fmt.Sprintf("%02d", i),
@@ -175,7 +165,6 @@ func generateMinuteOptions() []SelectOption {
 	return options
 }
 
-// A native time selector with support for 12/24 hour formats.
 templ TimePicker(props TimePickerProps) {
 	if props.ID == "" {
 		{{ props.ID = utils.RandomID() }}
@@ -205,8 +194,7 @@ templ TimePicker(props TimePickerProps) {
 				x-bind:value="formValue"
 			/>
 			@Input(InputProps{
-				ID: props.ID,
-				// No Name attribute here because thats what the hidden input has
+				ID:          props.ID,
 				Value:       props.Value.Format("15:04"),
 				Placeholder: props.Placeholder,
 				Disabled:    props.Disabled,
@@ -217,7 +205,7 @@ templ TimePicker(props TimePickerProps) {
 				Attributes: utils.MergeAttributes(
 					templ.Attributes{
 						"x-ref":  "timePickerInput",
-						":value": "displayValue", // Only the display value
+						":value": "displayValue",
 						"@click": "toggleTimePicker",
 					},
 					props.Attributes,

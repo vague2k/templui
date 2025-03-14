@@ -6,25 +6,24 @@ import (
 )
 
 type SelectProps struct {
-	ID          string           // DOM identifier
-	Name        string           // Form field name
-	Placeholder string           // Helper text shown when empty
-	Options     []SelectOption   // Available choices
-	Disabled    bool             // Prevents interaction
-	Required    bool             // Required
-	HasError    bool             // Error state styling
-	Class       string           // Additional CSS classes
-	Attributes  templ.Attributes // Additional HTML attributes
+	ID          string
+	Name        string
+	Placeholder string
+	Options     []SelectOption
+	Disabled    bool
+	Required    bool
+	HasError    bool
+	Class       string
+	Attributes  templ.Attributes
 }
 
 type SelectOption struct {
-	Label      string           // Display text
-	Value      string           // Form value
-	Selected   bool             // Default selection
-	Attributes templ.Attributes // Additional HTML attributes
+	Label      string
+	Value      string
+	Selected   bool
+	Attributes templ.Attributes
 }
 
-// Select renders a styled dropdown selection input
 templ Select(props SelectProps) {
 	<div class={ utils.TwMerge("relative w-full", props.Class) }>
 		<select
@@ -35,19 +34,12 @@ templ Select(props SelectProps) {
 			required?={ props.Required }
 			class={
 				utils.TwMerge(
-					// Layout
 					"peer h-10 w-full px-3 py-2",
-			
-					// Styling
 					"rounded-md border border-input bg-background text-sm",
 					"appearance-none ring-offset-background",
 					"placeholder:text-muted-foreground",
-			
-					// States
 					"focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2",
 					"disabled:cursor-not-allowed disabled:opacity-50",
-			
-					// Conditional
 					utils.TwIf("border-destructive ring-destructive", props.HasError),
 				),
 			}
@@ -69,13 +61,8 @@ templ Select(props SelectProps) {
 		<div
 			class={
 				utils.TwMerge(
-					// Layout
 					"absolute right-3 top-3",
-			
-					// Styling
 					"pointer-events-none",
-			
-					// States
 					"peer-disabled:opacity-50",
 				),
 			}

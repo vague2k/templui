@@ -20,12 +20,12 @@ const (
 )
 
 type BadgeProps struct {
-	Class      string           // Additional CSS classes
-	Text       string           // Badge text content
-	Variant    BadgeVariant     // Visual style variant
-	IconBefore templ.Component  // Icon to display before the text
-	IconAfter  templ.Component  // Icon to display after the text
-	Attributes templ.Attributes // Additional HTML attributes
+	Class      string
+	Text       string
+	Variant    BadgeVariant
+	IconBefore templ.Component
+	IconAfter  templ.Component
+	Attributes templ.Attributes
 }
 
 func (b BadgeProps) variantClasses() string {
@@ -64,15 +64,10 @@ func Badge(props BadgeProps) templ.Component {
 		ctx = templ.ClearChildren(ctx)
 		var templ_7745c5c3_Var2 = []any{
 			utils.TwMerge(
-				// Layout
 				"inline-flex items-center gap-2",
-				// Style
 				"rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors",
-				// State
 				"focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2",
-				// Variants
 				props.variantClasses(),
-				// Custom
 				props.Class,
 			),
 		}
@@ -114,7 +109,7 @@ func Badge(props BadgeProps) templ.Component {
 		var templ_7745c5c3_Var4 string
 		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(props.Text)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/badge.templ`, Line: 57, Col: 14}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/badge.templ`, Line: 52, Col: 14}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {

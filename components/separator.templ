@@ -2,68 +2,42 @@ package components
 
 import "github.com/axzilla/templui/utils"
 
-// SeparatorOrientation defines the orientation of the separator
 type SeparatorOrientation string
 
-// SeparatorDecoration defines the decoration style of the separator
 type SeparatorDecoration string
 
 const (
-	// SeparatorOrientationHorizontal defines a horizontal separator
 	SeparatorOrientationHorizontal SeparatorOrientation = "horizontal"
-	// SeparatorOrientationVertical defines a vertical separator
-	SeparatorOrientationVertical SeparatorOrientation = "vertical"
+	SeparatorOrientationVertical   SeparatorOrientation = "vertical"
 )
 
 const (
-	// SeparatorDecorationNone defines no decoration style
-	SeparatorDecorationNone SeparatorDecoration = "none"
-	// SeparatorDecorationDashed defines a dashed decoration style
+	SeparatorDecorationNone   SeparatorDecoration = "none"
 	SeparatorDecorationDashed SeparatorDecoration = "dashed"
-	// SeparatorDecorationDotted defines a dotted decoration style
 	SeparatorDecorationDotted SeparatorDecoration = "dotted"
 )
 
-// SeparatorProps configures the Separator component
 type SeparatorProps struct {
-	Orientation SeparatorOrientation // Direction of the separator (horizontal or vertical)
-	Decoration  SeparatorDecoration  // Decoration style (none, dashed, dotted)
-	Label       string               // Optional label text to display in the middle
-	Class       string               // Additional CSS classes
-	Attributes  templ.Attributes     // Additional HTML attributes
+	Orientation SeparatorOrientation
+	Decoration  SeparatorDecoration
+	Label       string
+	Class       string
+	Attributes  templ.Attributes
 }
 
-// Separator creates a visual divider between content with optional label
-//
-// Props:
-//   - Orientation: Direction of the separator ("horizontal" or "vertical"). Default: "horizontal"
-//   - Decoration: Decoration style (none, dashed, dotted). Default: none
-//   - Label: Optional text to display in the middle of the separator
-//   - Class: Additional CSS classes to apply
-//   - Attributes: Additional HTML attributes to apply
 templ Separator(props SeparatorProps) {
 	<div
 		role="separator"
 		aria-orientation={ string(props.Orientation) }
 		class={
 			utils.TwMerge(
-				// Base styles
 				"shrink-0",
-		
-				// For horizontal separators with label, we don't add border to the main div
-				// as the border will be added to the span element inside
 				utils.TwIf(getOrientationClasses(props.Orientation),
 					!(props.Label != "" && props.Orientation == SeparatorOrientationHorizontal)),
-		
-				// We still want height/width even with label
 				utils.TwIf("h-[1px] w-full", props.Orientation == SeparatorOrientationHorizontal),
 				utils.TwIf("h-full w-[1px]", props.Orientation == SeparatorOrientationVertical),
-		
-				// Decoration styles - only apply to main container if no label
 				utils.TwIf(getDecorationClasses(props.Decoration),
 					!(props.Label != "" && props.Orientation == SeparatorOrientationHorizontal)),
-		
-				// Custom classes
 				props.Class,
 			),
 		}
@@ -86,7 +60,6 @@ templ Separator(props SeparatorProps) {
 	</div>
 }
 
-// getOrientationClasses returns the appropriate CSS classes based on orientation
 func getOrientationClasses(orientation SeparatorOrientation) string {
 	if orientation == SeparatorOrientationVertical {
 		return "border-l"
@@ -94,7 +67,6 @@ func getOrientationClasses(orientation SeparatorOrientation) string {
 	return "border-t"
 }
 
-// getDecorationClasses returns the appropriate CSS classes based on decoration style
 func getDecorationClasses(decoration SeparatorDecoration) string {
 	switch decoration {
 	case SeparatorDecorationDashed:

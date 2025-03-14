@@ -8,22 +8,22 @@ import (
 )
 
 type DropdownMenuItem struct {
-	Label      string             // Display text
-	Value      string             // Optional value
-	Href       string             // Optional link URL
-	Target     string             // Optional link target
-	IconLeft   templ.Component    // Optional icon on the left
-	IconRight  templ.Component    // Optional icon on the right
-	SubItems   []DropdownMenuItem // Nested submenu items
-	Disabled   bool               // Disables the item
-	Attributes templ.Attributes   // Additional HTML attributesß
+	Label      string
+	Value      string
+	Href       string
+	Target     string
+	IconLeft   templ.Component
+	IconRight  templ.Component
+	SubItems   []DropdownMenuItem
+	Disabled   bool
+	Attributes templ.Attributes
 }
 
 type DropdownMenuProps struct {
-	Items    []DropdownMenuItem // Menu items
-	Trigger  templ.Component    // Custom trigger element
-	Class    string             // Additional CSS classes
-	Position string             // Preferred placement
+	Items    []DropdownMenuItem
+	Trigger  templ.Component
+	Class    string
+	Position string
 }
 
 func (d DropdownMenuItem) modifierClasses() string {
@@ -132,7 +132,7 @@ templ DropdownMenuScript() {
 	{{ handler := templ.NewOnceHandle() }}
 	@handler.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
-            document.addEventListener('alpine:init', () => {
+			document.addEventListener('alpine:init', () => {
 				Alpine.data('dropdown', () => ({
 					isOpen: false,
 					position: null,
@@ -195,11 +195,10 @@ templ DropdownMenuScript() {
 					}
 				}))
 			});
-        </script>
+		</script>
 	}
 }
 
-// Floating menu for displaying a list of actions or options.
 templ DropdownMenu(props DropdownMenuProps) {
 	<div
 		x-data="dropdown"
@@ -229,10 +228,8 @@ templ DropdownMenu(props DropdownMenuProps) {
 			x-transition:leave="transition ease-in duration-75"
 			x-transition:leave-start="transform opacity-100 scale-100"
 			x-transition:leave-end="transform opacity-0 scale-95"
-			class={
-				"absolute z-50 mt-2 w-56 rounded-md shadow-lg bg-popover focus:outline-hidden",
-				"border border-border",
-			}
+			class={ "absolute z-50 mt-2 w-56 rounded-md shadow-lg bg-popover focus:outline-hidden",
+				"border border-border" }
 			x-bind:class="getPositionClass"
 			role="menu"
 			aria-orientation="vertical"

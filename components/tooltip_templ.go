@@ -10,7 +10,6 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import "github.com/axzilla/templui/utils"
 
-// TooltipSide definiert die Position des Tooltips relativ zum Trigger
 type TooltipSide string
 
 const (
@@ -28,15 +27,14 @@ const (
 	TooltipDestructive TooltipVariant = "destructive"
 )
 
-// TooltipProps configures the Tooltip component
 type TooltipProps struct {
-	Trigger    templ.Component  // The element that triggers the tooltip
-	Content    templ.Component  // The tooltip content
-	Side       TooltipSide      // Tooltip position relative to trigger
-	ShowArrow  bool             // Whether to show the arrow pointer
-	Variant    TooltipVariant   // Visual style variant
-	Class      string           // Additional CSS classes
-	Attributes templ.Attributes // Additional HTML attributes
+	Trigger    templ.Component
+	Content    templ.Component
+	Side       TooltipSide
+	ShowArrow  bool
+	Variant    TooltipVariant
+	Class      string
+	Attributes templ.Attributes
 }
 
 func getTooltipSideClass(side TooltipSide) string {
@@ -50,7 +48,7 @@ func getTooltipSideClass(side TooltipSide) string {
 	case TooltipLeft:
 		return "right-full top-1/2 -translate-y-1/2 mr-2"
 	default:
-		return "bottom-full left-1/2 -translate-x-1/2 mb-2" // Top
+		return "bottom-full left-1/2 -translate-x-1/2 mb-2"
 	}
 }
 
@@ -78,7 +76,7 @@ func getArrowClass(side TooltipSide) string {
 	case TooltipLeft:
 		return "right-[-4px] top-1/2 -translate-y-1/2"
 	default:
-		return "bottom-[-4px] left-1/2 -translate-x-1/2" // Top
+		return "bottom-[-4px] left-1/2 -translate-x-1/2"
 	}
 }
 
@@ -95,7 +93,6 @@ func getArrowColor(variant TooltipVariant) string {
 	}
 }
 
-// A small pop-up box that appears when a user hovers over an element
 func Tooltip(props TooltipProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context

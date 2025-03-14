@@ -6,42 +6,41 @@ import (
 )
 
 type SliderProps struct {
-	ID          string           // Unique identifier for the slider
-	Name        string           // Input name attribute
-	Min         int              // Minimum value
-	Max         int              // Maximum value
-	Step        int              // Value increment
-	Value       int              // Initial value
-	Label       string           // Optional label text
-	ShowValue   bool             // Show current value
-	ValueFormat string           // Optional format suffix
-	Disabled    bool             // Disables the slider
-	Class       string           // Additional CSS classes
-	Attributes  templ.Attributes // Additional HTML attributes
+	ID          string
+	Name        string
+	Min         int
+	Max         int
+	Step        int
+	Value       int
+	Label       string
+	ShowValue   bool
+	ValueFormat string
+	Disabled    bool
+	Class       string
+	Attributes  templ.Attributes
 }
 
 templ SliderScript() {
 	{{ handler := templ.NewOnceHandle() }}
 	@handler.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
-            document.addEventListener('alpine:init', () => {
-                Alpine.data('slider', () => ({
-                    value: null,
+			document.addEventListener('alpine:init', () => {
+				Alpine.data('slider', () => ({
+					value: null,
 
 					init() {
 						this.value = this.$el.dataset.value;
-					},   
+					},
 
-                    handleInput(event) {
-                        this.value = event.target.value;
-                    }
-                }))
-            })
-        </script>
+					handleInput(event) {
+						this.value = event.target.value;
+					}
+				}))
+			})
+		</script>
 	}
 }
 
-// Control for selecting a numeric value within a range.
 templ Slider(props SliderProps) {
 	<div
 		class="space-y-2"
@@ -83,17 +82,17 @@ templ Slider(props SliderProps) {
 				step={ fmt.Sprintf("%d", props.Step) }
 			}
 			class={ utils.TwMerge(
-                "w-full h-2 rounded-full bg-secondary appearance-none cursor-pointer",
-                "focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-                "[&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4",
-                "[&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-primary",
-                "[&::-webkit-slider-thumb]:hover:bg-primary/90",
-                "[&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:border-0",
-                "[&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-primary",
-                "[&::-moz-range-thumb]:hover:bg-primary/90",
-                "disabled:opacity-50 disabled:cursor-not-allowed",
-                props.Class,
-            ) }
+				"w-full h-2 rounded-full bg-secondary appearance-none cursor-pointer",
+				"focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+				"[&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4",
+				"[&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-primary",
+				"[&::-webkit-slider-thumb]:hover:bg-primary/90",
+				"[&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:border-0",
+				"[&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-primary",
+				"[&::-moz-range-thumb]:hover:bg-primary/90",
+				"disabled:opacity-50 disabled:cursor-not-allowed",
+				props.Class,
+			) }
 			disabled?={ props.Disabled }
 			{ props.Attributes... }
 		/>

@@ -5,19 +5,18 @@ import (
 	"strconv"
 )
 
-// InputOTPProps configures the OTP input component
 type InputOTPProps struct {
-	ID          string           // DOM identifier
-	Name        string           // Form field name
-	Value       string           // Current OTP value
-	Length      int              // Number of digits in the OTP (default: 6)
-	Type        string           // Input type (default: "text", can also be "number", "password", etc.)
-	Placeholder string           // Character to show in empty fields (default: "•")
-	Disabled    bool             // Prevents interaction
-	Required    bool             // Required form field
-	HasError    bool             // Error state styling
-	Class       string           // Additional CSS classes
-	Attributes  templ.Attributes // Additional HTML attributes
+	ID          string
+	Name        string
+	Value       string
+	Length      int
+	Type        string
+	Placeholder string
+	Disabled    bool
+	Required    bool
+	HasError    bool
+	Class       string
+	Attributes  templ.Attributes
 }
 
 templ InputOTPScript() {
@@ -30,14 +29,12 @@ templ InputOTPScript() {
 					inputRefs: [],
 					
 					init() {
-						// Set initial value if provided
 						if (this.$el.dataset.value) {
 							this.otpValue = this.$el.dataset.value;
 							this.fillInputsFromValue();
 						}
 					},
 					
-					// Get all input refs
 					getInputRefs() {
 						const length = parseInt(this.$el.dataset.length || '6');
 						this.inputRefs = [];
@@ -48,7 +45,6 @@ templ InputOTPScript() {
 						return this.inputRefs;
 					},
 					
-					// Focus the first empty input
 					focusFirstEmptyInput() {
 						const inputs = this.getInputRefs();
 						for (let i = 0; i < inputs.length; i++) {
@@ -59,7 +55,6 @@ templ InputOTPScript() {
 						}
 					},
 					
-					// Fill inputs from value
 					fillInputsFromValue() {
 						const inputs = this.getInputRefs();
 						const valueStr = this.otpValue.toString();
@@ -73,7 +68,6 @@ templ InputOTPScript() {
 						}
 					},
 					
-					// Update the hidden input with the current OTP value
 					updateValue() {
 						const inputs = this.getInputRefs();
 						let value = '';
@@ -85,19 +79,15 @@ templ InputOTPScript() {
 						this.otpValue = value;
 					},
 					
-					// Handle input events
-					// Handle input events
 					handleInput(event) {
 						const input = event.target;
 						const index = parseInt(input.dataset.inputIndex || 0);
 						const inputs = this.getInputRefs();
 						
-						// Allow only a single character
 						if (input.value.length > 1) {
 							input.value = input.value.slice(-1);
 						}
 						
-						// If we have a value and there's a next input, focus it
 						if (input.value && index < inputs.length - 1) {
 							inputs[index + 1].focus();
 						}
@@ -105,17 +95,14 @@ templ InputOTPScript() {
 						this.updateValue();
 					},
 					
-					// Handle keydown events
 					handleKeydown(event) {
 						const input = event.target;
 						const index = parseInt(input.dataset.inputIndex || 0);
 						const inputs = this.getInputRefs();
 						
-						// Handle backspace
 						if (event.key === 'Backspace') {
 							const input = event.target;
 							
-							// If current input is empty and there's a previous input, focus it
 							if (!input.value && index > 0) {
 								inputs[index - 1].focus();
 								inputs[index - 1].value = '';
@@ -123,13 +110,11 @@ templ InputOTPScript() {
 							}
 						}
 						
-						// Handle left arrow key
 						if (event.key === 'ArrowLeft' && index > 0) {
 							inputs[index - 1].focus();
 							event.preventDefault();
 						}
 						
-						// Handle right arrow key
 						if (event.key === 'ArrowRight' && index < inputs.length - 1) {
 							inputs[index + 1].focus();
 							event.preventDefault();
@@ -138,21 +123,17 @@ templ InputOTPScript() {
 						this.updateValue();
 					},
 					
-					// Handle paste events
 					handlePaste(event) {
 						event.preventDefault();
 						const inputs = this.getInputRefs();
 						
-						// Get pasted data
 						const pastedData = (event.clipboardData || window.clipboardData).getData('text');
 						const pastedChars = pastedData.trim().split('');
 						
-						// Fill inputs with pasted data
 						for (let i = 0; i < inputs.length && i < pastedChars.length; i++) {
 							inputs[i].value = pastedChars[i];
 						}
 						
-						// Focus next empty input or last input
 						this.focusFirstEmptyInput();
 						this.updateValue();
 					}
@@ -162,7 +143,6 @@ templ InputOTPScript() {
 	}
 }
 
-// InputOTP renders a one-time password input field divided into individual digit inputs
 templ InputOTP(props InputOTPProps) {
 	if props.ID == "" {
 		{{ props.ID = utils.RandomID() }}
@@ -180,10 +160,7 @@ templ InputOTP(props InputOTPProps) {
 	<div
 		id={ props.ID + "-container" }
 		class={ utils.TwMerge(
-			// Layout
 			"flex flex-row gap-2 w-fit",
-			
-			// Custom
 			props.Class,
 		) }
 		x-data="inputOTP"
@@ -207,24 +184,15 @@ templ InputOTP(props InputOTPProps) {
 				inputmode="numeric"
 				placeholder={ props.Placeholder }
 				maxlength="1"
-				class={
-					utils.TwMerge(
-						// Layout
+				class={ utils.TwMerge(
 						"w-10 h-12 text-center",
-				
-						// Styling
 						"rounded-md border border-input bg-background text-sm",
 						"file:border-0 file:bg-transparent file:text-sm file:font-medium",
 						"placeholder:text-muted-foreground",
-				
-						// States
 						"focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
 						"disabled:cursor-not-allowed disabled:opacity-50",
-				
-						// Conditional
 						utils.TwIf("border-destructive ring-destructive", props.HasError),
-					),
-				}
+					) }
 				disabled?={ props.Disabled }
 				data-input-index={ strconv.Itoa(i) }
 				x-on:input="handleInput"

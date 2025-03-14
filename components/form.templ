@@ -2,47 +2,40 @@ package components
 
 import "github.com/axzilla/templui/utils"
 
-// FormItemProps represents form item properties
 type FormItemProps struct {
-	ID    string // Optional container ID
-	Class string // Additional CSS classes
+	ID    string
+	Class string
 }
 
-// FormLabelProps represents form label properties
 type FormLabelProps struct {
-	For           string // Target form element ID
-	Text          string // Label text
-	Class         string // Additional CSS classes
-	DisabledClass string // Additional CSS classes when the form element is disabled
+	For           string
+	Text          string
+	Class         string
+	DisabledClass string
 }
 
-// FormDescriptionProps represents helper text properties
 type FormDescriptionProps struct {
-	Class string // Additional CSS classes
+	Class string
 }
 
-// FormMessageProps represents feedback message properties
 type FormMessageProps struct {
-	Type    string // error, success, warning, info
-	Message string // Message text
-	Class   string // Additional CSS classes
+	Type    string
+	Message string
+	Class   string
 }
 
-// FormItem wraps form elements in a vertical layout
 templ FormItem(props FormItemProps) {
 	<div class={ utils.TwMerge("space-y-2", props.Class) }>
 		{ children... }
 	</div>
 }
 
-// FormItemFlex wraps form elements in a horizontal layout
 templ FormItemFlex(props FormItemProps) {
 	<div class={ utils.TwMerge("items-center flex space-x-2", props.Class) }>
 		{ children... }
 	</div>
 }
 
-// FormLabel renders a form label
 templ FormLabel(props FormLabelProps) {
 	@Label(LabelProps{
 		For:           props.For,
@@ -52,14 +45,12 @@ templ FormLabel(props FormLabelProps) {
 	})
 }
 
-// FormDescription renders helper text below form elements
 templ FormDescription(props FormDescriptionProps) {
 	<p class={ utils.TwMerge("text-sm text-muted-foreground", props.Class) }>
 		{ children... }
 	</p>
 }
 
-// FormMessage renders feedback messages
 templ FormMessage(props FormMessageProps) {
 	<p
 		class={

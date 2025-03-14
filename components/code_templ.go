@@ -73,7 +73,7 @@ func CodeScript() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\">\n            document.addEventListener('alpine:init', () => {\n                // Highlight.js init\n                hljs.highlightAll();\n\n                // Copy functionality\n                Alpine.data('code', () => ({\n                    isCopied: false,\n                    isNotCopied: true,\n\t\t\t\t\tcopyCode() {\n\t\t\t\t\t\ttry {\n\t\t\t\t\t\t\t// Moderne Methode (HTTPS)\n\t\t\t\t\t\t\tif (navigator.clipboard && window.isSecureContext) {\n\t\t\t\t\t\t\t\tnavigator.clipboard.writeText(this.$refs.code.textContent);\n\t\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\t\t// Fallback für HTTP\n\t\t\t\t\t\t\t\tconst textArea = document.createElement('textarea');\n\t\t\t\t\t\t\t\ttextArea.value = this.$refs.code.textContent;\n\t\t\t\t\t\t\t\tdocument.body.appendChild(textArea);\n\t\t\t\t\t\t\t\ttextArea.select();\n\t\t\t\t\t\t\t\tdocument.execCommand('copy');\n\t\t\t\t\t\t\t\tdocument.body.removeChild(textArea);\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\tthis.isCopied = true;\n\t\t\t\t\t\t\tthis.isNotCopied = false;\n\t\t\t\t\t\t\tsetTimeout(() => {\n\t\t\t\t\t\t\t\tthis.isCopied = false;\n\t\t\t\t\t\t\t\tthis.isNotCopied = true;\n\t\t\t\t\t\t\t}, 2000);\n\t\t\t\t\t\t} catch (err) {\n\t\t\t\t\t\t\tconsole.error('Copy failed', err);\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n                }))\n            })\n        </script>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\">\n\t\t\tdocument.addEventListener('alpine:init', () => {\n\t\t\t\thljs.highlightAll();\n\n\t\t\t\tAlpine.data('code', () => ({\n\t\t\t\t\tisCopied: false,\n\t\t\t\t\tisNotCopied: true,\n\t\t\t\t\tcopyCode() {\n\t\t\t\t\t\ttry {\n\t\t\t\t\t\t\tif (navigator.clipboard && window.isSecureContext) {\n\t\t\t\t\t\t\t\tnavigator.clipboard.writeText(this.$refs.code.textContent);\n\t\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\t\tconst textArea = document.createElement('textarea');\n\t\t\t\t\t\t\t\ttextArea.value = this.$refs.code.textContent;\n\t\t\t\t\t\t\t\tdocument.body.appendChild(textArea);\n\t\t\t\t\t\t\t\ttextArea.select();\n\t\t\t\t\t\t\t\tdocument.execCommand('copy');\n\t\t\t\t\t\t\t\tdocument.body.removeChild(textArea);\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\tthis.isCopied = true;\n\t\t\t\t\t\t\tthis.isNotCopied = false;\n\t\t\t\t\t\t\tsetTimeout(() => {\n\t\t\t\t\t\t\t\tthis.isCopied = false;\n\t\t\t\t\t\t\t\tthis.isNotCopied = true;\n\t\t\t\t\t\t\t}, 2000);\n\t\t\t\t\t\t} catch (err) {\n\t\t\t\t\t\t\tconsole.error('Copy failed', err);\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}))\n\t\t\t})\n\t\t</script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -87,25 +87,23 @@ func CodeScript() templ.Component {
 	})
 }
 
-// CodeSize represents the available sizes for the Code component
 type CodeSize string
 
 const (
-	CodeSizeDefault CodeSize = ""     // ~20 lines (default)
-	CodeSizeSm      CodeSize = "sm"   // ~10 lines (for short examples)
-	CodeSizeLg      CodeSize = "lg"   // ~40 lines (for long examples)
-	CodeSizeFull    CodeSize = "full" // Full height (no max-height)
+	CodeSizeDefault CodeSize = ""
+	CodeSizeSm      CodeSize = "sm"
+	CodeSizeLg      CodeSize = "lg"
+	CodeSizeFull    CodeSize = "full"
 )
 
 type CodeProps struct {
-	Language       string   // Programming language for syntax highlighting
-	ShowCopyButton bool     // Whether to show the copy button
-	Size           CodeSize // Size of the code block
-	Class          string   // Additional classes for the wrapper div
-	CodeClass      string   // Additional classes for the code element
+	Language       string
+	ShowCopyButton bool
+	Size           CodeSize
+	Class          string
+	CodeClass      string
 }
 
-// Code displays a code block with optional syntax highlighting and copy functionality
 func Code(p CodeProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context

@@ -14,16 +14,15 @@ import (
 )
 
 type AccordionItem struct {
-	ID      string          // Unique identifier for state management
-	Trigger templ.Component // Header content that toggles section
-	Content templ.Component // Expandable section content
+	ID      string
+	Trigger templ.Component
+	Content templ.Component
 }
 
-// AccordionProps configures the Accordion component
 type AccordionProps struct {
-	Items      []AccordionItem  // Array of accordion sections
-	Class      string           // Additional CSS classes
-	Attributes templ.Attributes // Additional HTML attributes
+	Items      []AccordionItem
+	Class      string
+	Attributes templ.Attributes
 }
 
 func Accordion(props AccordionProps) templ.Component {

@@ -5,24 +5,21 @@ import (
 	"github.com/axzilla/templui/utils"
 )
 
-// BreadcrumbItem represents a single item in the breadcrumb trail
 type BreadcrumbItem struct {
-	Label      string           // Display text for the breadcrumb item
-	Href       string           // URL to navigate to when clicked
-	Icon       templ.Component  // Optional icon to display before the label
-	Current    bool             // Whether this item represents the current page
-	Attributes templ.Attributes // Additional HTML attributes
+	Label      string
+	Href       string
+	Icon       templ.Component
+	Current    bool
+	Attributes templ.Attributes
 }
 
-// BreadcrumbProps configures the Breadcrumb component
 type BreadcrumbProps struct {
-	Items      []BreadcrumbItem // Array of breadcrumb items to display
-	Separator  templ.Component  // Custom separator between items (defaults to chevron)
-	Class      string           // Additional CSS classes
-	Attributes templ.Attributes // Additional HTML attributes
+	Items      []BreadcrumbItem
+	Separator  templ.Component
+	Class      string
+	Attributes templ.Attributes
 }
 
-// Navigation component that helps users understand their location within a website's hierarchy.
 templ Breadcrumb(props BreadcrumbProps) {
 	<nav
 		class={ utils.TwMerge(

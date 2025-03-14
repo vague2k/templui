@@ -16,33 +16,33 @@ type TabsProps struct {
 
 templ TabsScript() {
 	<script nonce={ templ.GetNonce(ctx) }>
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('.tabs-component').forEach(tabs => {
-                const tabID = tabs.dataset.tabs;
-                const buttons = tabs.querySelectorAll(`[data-tab-button="${tabID}"]`);
-                const contents = tabs.querySelectorAll(`[data-tab-content="${tabID}"]`);
-                const marker = tabs.querySelector(`[data-tab-marker="${tabID}"]`);
+		document.addEventListener('DOMContentLoaded', () => {
+			document.querySelectorAll('.tabs-component').forEach(tabs => {
+				const tabID = tabs.dataset.tabs;
+				const buttons = tabs.querySelectorAll(`[data-tab-button="${tabID}"]`);
+				const contents = tabs.querySelectorAll(`[data-tab-content="${tabID}"]`);
+				const marker = tabs.querySelector(`[data-tab-marker="${tabID}"]`);
 
-                if (marker) {
-                    marker.style.width = buttons[0].offsetWidth + 'px';
-                    marker.style.height = buttons[0].offsetHeight + 'px';
-                    marker.style.left = buttons[0].offsetLeft + 'px';
-                }
+				if (marker) {
+					marker.style.width = buttons[0].offsetWidth + 'px';
+					marker.style.height = buttons[0].offsetHeight + 'px';
+					marker.style.left = buttons[0].offsetLeft + 'px';
+				}
 
-                buttons.forEach((btn, idx) => {
-                    btn.onclick = () => {
-                        buttons.forEach(b => b.classList.remove('text-foreground', 'bg-background', 'shadow-xs'));
-                        btn.classList.add('text-foreground', 'bg-background', 'shadow-xs');
-                        contents.forEach(c => c.classList.add('hidden'));
-                        contents[idx].classList.remove('hidden');
-                        marker.style.width = btn.offsetWidth + 'px';
-                        marker.style.height = btn.offsetHeight + 'px';
-                        marker.style.left = btn.offsetLeft + 'px';
-                    };
-                });
-            });
-        });
-    </script>
+				buttons.forEach((btn, idx) => {
+					btn.onclick = () => {
+						buttons.forEach(b => b.classList.remove('text-foreground', 'bg-background', 'shadow-xs'));
+						btn.classList.add('text-foreground', 'bg-background', 'shadow-xs');
+						contents.forEach(c => c.classList.add('hidden'));
+						contents[idx].classList.remove('hidden');
+						marker.style.width = btn.offsetWidth + 'px';
+						marker.style.height = btn.offsetHeight + 'px';
+						marker.style.left = btn.offsetLeft + 'px';
+					};
+				});
+			});
+		});
+	</script>
 }
 
 templ Tabs(props TabsProps) {
@@ -54,7 +54,7 @@ templ Tabs(props TabsProps) {
 					type="button"
 					data-tab-button={ tabID }
 					class={ "relative z-20 flex-1 inline-flex items-center justify-center h-8 px-3 text-sm font-medium transition-all rounded-md cursor-pointer whitespace-nowrap hover:text-foreground" ,
-                        templ.KV(" text-foreground bg-background shadow-xs", i == 0) }
+						templ.KV(" text-foreground bg-background shadow-xs", i == 0) }
 				>
 					{ tab.Title }
 				</button>
