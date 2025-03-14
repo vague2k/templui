@@ -25,11 +25,12 @@ var iconFS embed.FS
 
 // IconProps defines the properties that can be set for an icon.
 type IconProps struct {
-	Size   string
-	Color  string
-	Fill   string
-	Stroke string
-	Class  string
+	Size        string
+	Color       string
+	Fill        string
+	Stroke      string
+	StrokeWidth string // Stroke Width of Icon, Usage: "2.5"
+	Class       string
 }
 
 // Icon returns a function that generates a templ.Component for the specified icon.
@@ -71,8 +72,13 @@ func generateSVG(name string, props IconProps) (string, error) {
 		stroke = "currentColor"
 	}
 
-	return fmt.Sprintf(`<svg xmlns="http://www.w3.org/2000/svg" width="%s" height="%s" viewBox="0 0 24 24" fill="%s" stroke="%s" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="%s" data-lucide="icon">%s</svg>`,
-		size, size, fill, stroke, props.Class, content), nil
+	strokeWidth := props.StrokeWidth
+	if strokeWidth == "" {
+		strokeWidth = "2"
+	}
+
+	return fmt.Sprintf(`<svg xmlns="http://www.w3.org/2000/svg" width="%s" height="%s" viewBox="0 0 24 24" fill="%s" stroke="%s" stroke-width="%s" stroke-linecap="round" stroke-linejoin="round" class="%s" data-lucide="icon">%s</svg>`,
+		size, size, fill, stroke, strokeWidth, props.Class, content), nil
 }
 
 // getIconContent retrieves the content of an icon, loading it if necessary.
