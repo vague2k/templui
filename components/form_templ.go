@@ -10,6 +10,13 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import "github.com/axzilla/templui/utils"
 
+type FormMessageVariant string
+
+const (
+	FormMessageVariantError FormMessageVariant = "error"
+	FormMessageVariantInfo  FormMessageVariant = "info"
+)
+
 type FormItemProps struct {
 	ID    string
 	Class string
@@ -27,7 +34,7 @@ type FormDescriptionProps struct {
 }
 
 type FormMessageProps struct {
-	Type    string
+	Variant FormMessageVariant
 	Message string
 	Class   string
 }
@@ -254,7 +261,7 @@ func FormMessage(props FormMessageProps) templ.Component {
 		ctx = templ.ClearChildren(ctx)
 		var templ_7745c5c3_Var12 = []any{
 			utils.TwMerge("text-[0.8rem] font-medium", props.Class),
-			templ.KV("text-destructive", props.Type == "error"),
+			formMessageVariantClass(props.Variant),
 		}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var12...)
 		if templ_7745c5c3_Err != nil {
@@ -280,7 +287,7 @@ func FormMessage(props FormMessageProps) templ.Component {
 		var templ_7745c5c3_Var14 string
 		templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(props.Message)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/form.templ`, Line: 61, Col: 17}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/form.templ`, Line: 68, Col: 17}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 		if templ_7745c5c3_Err != nil {
@@ -292,6 +299,17 @@ func FormMessage(props FormMessageProps) templ.Component {
 		}
 		return nil
 	})
+}
+
+func formMessageVariantClass(variant FormMessageVariant) string {
+	switch variant {
+	case FormMessageVariantError:
+		return "text-red-500"
+	case FormMessageVariantInfo:
+		return "text-blue-500"
+	default:
+		return ""
+	}
 }
 
 var _ = templruntime.GeneratedTemplate

@@ -10,14 +10,14 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import "github.com/axzilla/templui/utils"
 
-type ChartType string
+type ChartVariant string
 
 const (
-	ChartTypeBar      ChartType = "bar"
-	ChartTypeLine     ChartType = "line"
-	ChartTypePie      ChartType = "pie"
-	ChartTypeDoughnut ChartType = "doughnut"
-	ChartTypeRadar    ChartType = "radar"
+	ChartVariantBar      ChartVariant = "bar"
+	ChartVariantLine     ChartVariant = "line"
+	ChartVariantPie      ChartVariant = "pie"
+	ChartVariantDoughnut ChartVariant = "doughnut"
+	ChartVariantRadar    ChartVariant = "radar"
 )
 
 type ChartDataset struct {
@@ -42,7 +42,7 @@ type ChartData struct {
 }
 
 type ChartConfig struct {
-	Type        ChartType    `json:"type"`
+	Type        ChartVariant `json:"type"`
 	Data        ChartData    `json:"data"`
 	Options     ChartOptions `json:"options,omitempty"`
 	ShowLegend  bool         `json:"showLegend,omitempty"`
@@ -57,7 +57,7 @@ type ChartConfig struct {
 }
 
 type ChartProps struct {
-	Type        ChartType
+	Variant     ChartVariant
 	Data        ChartData
 	Options     ChartOptions
 	ShowLegend  bool
@@ -219,7 +219,7 @@ func Chart(props ChartProps) templ.Component {
 		}
 
 		chartConfig := ChartConfig{
-			Type:        props.Type,
+			Type:        props.Variant,
 			Data:        props.Data,
 			Options:     props.Options,
 			ShowLegend:  props.ShowLegend,

@@ -2,10 +2,10 @@ package components
 
 import "github.com/axzilla/templui/utils"
 
-type AspectRatioType int
+type AspectRatioVariant int
 
 const (
-	AspectRatioAuto AspectRatioType = iota
+	AspectRatioAuto AspectRatioVariant = iota
 	AspectRatioSquare
 	AspectRatioVideo
 	AspectRatioPortrait
@@ -13,7 +13,7 @@ const (
 )
 
 type AspectRatioProps struct {
-	Ratio      AspectRatioType
+	Ratio      AspectRatioVariant
 	Class      string
 	Attributes templ.Attributes
 }
@@ -33,7 +33,7 @@ templ AspectRatio(props AspectRatioProps) {
 	</div>
 }
 
-func getAspectRatioClass(ratio AspectRatioType) string {
+func getAspectRatioClass(ratio AspectRatioVariant) string {
 	switch ratio {
 	case AspectRatioSquare:
 		return "aspect-square"

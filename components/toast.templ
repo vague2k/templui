@@ -5,19 +5,19 @@ import (
 	"strconv"
 )
 
-type ToastType string
+type ToastVariant string
 
 const (
-	ToastTypeDefault ToastType = "default"
-	ToastTypeSuccess ToastType = "success"
-	ToastTypeError   ToastType = "error"
-	ToastTypeWarning ToastType = "warning"
-	ToastTypeInfo    ToastType = "info"
+	ToastVariantDefault ToastVariant = "default"
+	ToastVariantSuccess ToastVariant = "success"
+	ToastVariantError   ToastVariant = "error"
+	ToastVariantWarning ToastVariant = "warning"
+	ToastVariantInfo    ToastVariant = "info"
 )
 
 type ToastProps struct {
 	Message     string
-	Type        ToastType
+	Variant     ToastVariant
 	Position    string
 	Duration    int
 	Dismissible bool
@@ -29,8 +29,8 @@ func (p ToastProps) withDefaults() ToastProps {
 	if p.Message == "" {
 		p.Message = "Notification"
 	}
-	if p.Type == "" {
-		p.Type = ToastTypeDefault
+	if p.Variant == "" {
+		p.Variant = ToastVariantDefault
 	}
 	if p.Position == "" {
 		p.Position = "bottom-right"
@@ -141,22 +141,22 @@ templ Toast(props ToastProps) {
 						x-ref="progress"
 						class={
 							"absolute inset-0",
-							toastTypeClass(props.Type),
+							toastTypeClass(props.Variant),
 						}
 					></div>
 				</div>
 			}
 			if props.Icon {
-				if props.Type == ToastTypeSuccess {
+				if props.Variant == ToastVariantSuccess {
 					@icons.CircleCheck(icons.IconProps{Size: "18", Class: "text-green-500 mr-3"})
 				}
-				if props.Type == ToastTypeError {
+				if props.Variant == ToastVariantError {
 					@icons.CircleX(icons.IconProps{Size: "18", Class: "text-red-500 mr-3"})
 				}
-				if props.Type == ToastTypeWarning {
+				if props.Variant == ToastVariantWarning {
 					@icons.TriangleAlert(icons.IconProps{Size: "18", Class: "text-yellow-500 mr-3"})
 				}
-				if props.Type == ToastTypeInfo {
+				if props.Variant == ToastVariantInfo {
 					@icons.Info(icons.IconProps{Size: "18", Class: "text-blue-500 mr-3"})
 				}
 			}
@@ -173,17 +173,17 @@ templ Toast(props ToastProps) {
 	</div>
 }
 
-func toastTypeClass(t ToastType) string {
+func toastTypeClass(t ToastVariant) string {
 	switch t {
-	case ToastTypeDefault:
+	case ToastVariantDefault:
 		return "bg-gray-500"
-	case ToastTypeSuccess:
+	case ToastVariantSuccess:
 		return "bg-green-500"
-	case ToastTypeError:
+	case ToastVariantError:
 		return "bg-red-500"
-	case ToastTypeWarning:
+	case ToastVariantWarning:
 		return "bg-yellow-500"
-	case ToastTypeInfo:
+	case ToastVariantInfo:
 		return "bg-blue-500"
 	default:
 		return ""

@@ -1,14 +1,12 @@
 package showcase
 
-import (
-	"github.com/axzilla/templui/components"
-)
+import "github.com/axzilla/templui/components"
 
 templ ChartBarHorizontal() {
 	@components.Card(components.CardProps{Class: "max-w-sm"}) {
 		@components.CardContent() {
 			@components.Chart(components.ChartProps{
-				Type:        components.ChartTypeBar,
+				Variant:     components.ChartVariantBar,
 				Horizontal:  true,
 				ShowXGrid:   true,
 				ShowYLabels: true,

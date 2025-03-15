@@ -16,13 +16,13 @@ import (
 	"strings"
 )
 
-type PaginationType string
+type PaginationVariant string
 
 const (
-	PaginationTypeDefault PaginationType = "default"
-	PaginationTypeSimple  PaginationType = "simple"
-	PaginationTypeMinimal PaginationType = "minimal"
-	PaginationTypeOutline PaginationType = "outline"
+	PaginationVariantDefault PaginationVariant = "default"
+	PaginationVariantSimple  PaginationVariant = "simple"
+	PaginationVariantMinimal PaginationVariant = "minimal"
+	PaginationVariantOutline PaginationVariant = "outline"
 )
 
 type PaginationProps struct {
@@ -31,7 +31,7 @@ type PaginationProps struct {
 	PageSize     int
 	TotalItems   int
 	MaxVisible   int
-	Type         PaginationType
+	Variant      PaginationVariant
 	ShowNumbers  bool
 	ShowControls bool
 	UrlPattern   string
@@ -89,8 +89,8 @@ func Pagination(props PaginationProps) templ.Component {
 		if props.CurrentPage <= 0 {
 			props.CurrentPage = 1
 		}
-		if props.Type == "" {
-			props.Type = PaginationTypeDefault
+		if props.Variant == "" {
+			props.Variant = PaginationVariantDefault
 		}
 		if !props.ShowNumbers && !props.ShowControls {
 			props.ShowNumbers = true
@@ -139,7 +139,7 @@ func Pagination(props PaginationProps) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		if props.ShowNumbers && props.Type != PaginationTypeSimple {
+		if props.ShowNumbers && props.Variant != PaginationVariantSimple {
 			templ_7745c5c3_Err = renderPageNumbers(props, totalPages).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -201,7 +201,7 @@ func renderPrevButton(props PaginationProps) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				if props.Type != PaginationTypeMinimal {
+				if props.Variant != PaginationVariantMinimal {
 					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<span>Previous</span>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
@@ -238,7 +238,7 @@ func renderPrevButton(props PaginationProps) templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					if props.Type != PaginationTypeMinimal {
+					if props.Variant != PaginationVariantMinimal {
 						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "<span>Previous</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
@@ -276,7 +276,7 @@ func renderPrevButton(props PaginationProps) templ.Component {
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					if props.Type != PaginationTypeMinimal {
+					if props.Variant != PaginationVariantMinimal {
 						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<span>Previous</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
@@ -331,7 +331,7 @@ func renderNextButton(props PaginationProps, totalPages int) templ.Component {
 					}()
 				}
 				ctx = templ.InitializeContext(ctx)
-				if props.Type != PaginationTypeMinimal {
+				if props.Variant != PaginationVariantMinimal {
 					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<span>Next</span>")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
@@ -368,7 +368,7 @@ func renderNextButton(props PaginationProps, totalPages int) templ.Component {
 						}()
 					}
 					ctx = templ.InitializeContext(ctx)
-					if props.Type != PaginationTypeMinimal {
+					if props.Variant != PaginationVariantMinimal {
 						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "<span>Next</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
@@ -406,7 +406,7 @@ func renderNextButton(props PaginationProps, totalPages int) templ.Component {
 						}()
 					}
 					ctx = templ.InitializeContext(ctx)
-					if props.Type != PaginationTypeMinimal {
+					if props.Variant != PaginationVariantMinimal {
 						templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "<span>Next</span>")
 						if templ_7745c5c3_Err != nil {
 							return templ_7745c5c3_Err
@@ -456,7 +456,7 @@ func renderPageNumbers(props PaginationProps, totalPages int) templ.Component {
 			templ_7745c5c3_Var12 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		if props.Type != PaginationTypeMinimal && props.CurrentPage > 3 && props.MaxVisible < totalPages {
+		if props.Variant != PaginationVariantMinimal && props.CurrentPage > 3 && props.MaxVisible < totalPages {
 			templ_7745c5c3_Err = renderPageButton(props, 1).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -480,7 +480,7 @@ func renderPageNumbers(props PaginationProps, totalPages int) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		if props.Type != PaginationTypeMinimal && props.CurrentPage < totalPages-2 && props.MaxVisible < totalPages {
+		if props.Variant != PaginationVariantMinimal && props.CurrentPage < totalPages-2 && props.MaxVisible < totalPages {
 			if props.CurrentPage < totalPages-3 {
 				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "<span class=\"flex h-10 w-10 items-center justify-center text-sm\">...</span>")
 				if templ_7745c5c3_Err != nil {
@@ -523,7 +523,7 @@ func renderPageButton(props PaginationProps, page int) templ.Component {
 		ctx = templ.ClearChildren(ctx)
 		if page == props.CurrentPage {
 			templ_7745c5c3_Err = Button(ButtonProps{
-				Variant: getButtonVariant(props.Type),
+				Variant: getButtonVariant(props.Variant),
 				Text:    strconv.Itoa(page),
 				Size:    ButtonSizeIcon,
 			}).Render(ctx, templ_7745c5c3_Buffer)
@@ -584,9 +584,9 @@ func calculateVisibleRange(currentPage, totalPages, maxVisible int) (int, int) {
 	return start, end
 }
 
-func getButtonVariant(paginationType PaginationType) ButtonVariant {
+func getButtonVariant(paginationType PaginationVariant) ButtonVariant {
 	switch paginationType {
-	case PaginationTypeOutline:
+	case PaginationVariantOutline:
 		return ButtonVariantOutline
 	default:
 		return ButtonVariantDefault

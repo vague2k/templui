@@ -8,13 +8,13 @@ import (
 	"strings"
 )
 
-type PaginationType string
+type PaginationVariant string
 
 const (
-	PaginationTypeDefault PaginationType = "default"
-	PaginationTypeSimple  PaginationType = "simple"
-	PaginationTypeMinimal PaginationType = "minimal"
-	PaginationTypeOutline PaginationType = "outline"
+	PaginationVariantDefault PaginationVariant = "default"
+	PaginationVariantSimple  PaginationVariant = "simple"
+	PaginationVariantMinimal PaginationVariant = "minimal"
+	PaginationVariantOutline PaginationVariant = "outline"
 )
 
 type PaginationProps struct {
@@ -23,7 +23,7 @@ type PaginationProps struct {
 	PageSize     int
 	TotalItems   int
 	MaxVisible   int
-	Type         PaginationType
+	Variant      PaginationVariant
 	ShowNumbers  bool
 	ShowControls bool
 	UrlPattern   string
@@ -61,8 +61,8 @@ templ Pagination(props PaginationProps) {
 	if props.CurrentPage <= 0 {
 		{{ props.CurrentPage = 1 }}
 	}
-	if props.Type == "" {
-		{{ props.Type = PaginationTypeDefault }}
+	if props.Variant == "" {
+		{{ props.Variant = PaginationVariantDefault }}
 	}
 	if !props.ShowNumbers && !props.ShowControls {
 		{{ props.ShowNumbers = true }}
@@ -84,7 +84,7 @@ templ Pagination(props PaginationProps) {
 		if props.ShowControls {
 			@renderPrevButton(props)
 		}
-		if props.ShowNumbers && props.Type != PaginationTypeSimple {
+		if props.ShowNumbers && props.Variant != PaginationVariantSimple {
 			@renderPageNumbers(props, totalPages)
 		}
 		if props.ShowControls {
@@ -100,7 +100,7 @@ templ renderPrevButton(props PaginationProps) {
 			Disabled: true,
 		}) {
 			@icons.ChevronLeft(icons.IconProps{Size: "16"})
-			if props.Type != PaginationTypeMinimal {
+			if props.Variant != PaginationVariantMinimal {
 				<span>Previous</span>
 			}
 		}
@@ -113,7 +113,7 @@ templ renderPrevButton(props PaginationProps) {
 				HxSwap:   props.HxSwap,
 			}) {
 				@icons.ChevronLeft(icons.IconProps{Size: "16"})
-				if props.Type != PaginationTypeMinimal {
+				if props.Variant != PaginationVariantMinimal {
 					<span>Previous</span>
 				}
 			}
@@ -123,7 +123,7 @@ templ renderPrevButton(props PaginationProps) {
 				Href:    getPageUrl(props.UrlPattern, props.CurrentPage-1),
 			}) {
 				@icons.ChevronLeft(icons.IconProps{Size: "16", Class: "mr-1"})
-				if props.Type != PaginationTypeMinimal {
+				if props.Variant != PaginationVariantMinimal {
 					<span>Previous</span>
 				}
 			}
@@ -137,7 +137,7 @@ templ renderNextButton(props PaginationProps, totalPages int) {
 			Variant:  ButtonVariantGhost,
 			Disabled: true,
 		}) {
-			if props.Type != PaginationTypeMinimal {
+			if props.Variant != PaginationVariantMinimal {
 				<span>Next</span>
 			}
 			@icons.ChevronRight(icons.IconProps{Size: "16", Class: "ml-1"})
@@ -150,7 +150,7 @@ templ renderNextButton(props PaginationProps, totalPages int) {
 				HxTarget: props.HxTarget,
 				HxSwap:   props.HxSwap,
 			}) {
-				if props.Type != PaginationTypeMinimal {
+				if props.Variant != PaginationVariantMinimal {
 					<span>Next</span>
 				}
 				@icons.ChevronRight(icons.IconProps{Size: "16", Class: "ml-1"})
@@ -160,7 +160,7 @@ templ renderNextButton(props PaginationProps, totalPages int) {
 				Variant: ButtonVariantGhost,
 				Href:    getPageUrl(props.UrlPattern, props.CurrentPage+1),
 			}) {
-				if props.Type != PaginationTypeMinimal {
+				if props.Variant != PaginationVariantMinimal {
 					<span>Next</span>
 				}
 				@icons.ChevronRight(icons.IconProps{Size: "16", Class: "ml-1"})
@@ -170,7 +170,7 @@ templ renderNextButton(props PaginationProps, totalPages int) {
 }
 
 templ renderPageNumbers(props PaginationProps, totalPages int) {
-	if props.Type != PaginationTypeMinimal && props.CurrentPage > 3 && props.MaxVisible < totalPages {
+	if props.Variant != PaginationVariantMinimal && props.CurrentPage > 3 && props.MaxVisible < totalPages {
 		@renderPageButton(props, 1)
 		if props.CurrentPage > 4 {
 			<span class="flex h-10 w-10 items-center justify-center text-sm">...</span>
@@ -182,7 +182,7 @@ templ renderPageNumbers(props PaginationProps, totalPages int) {
 	for i := start; i <= end; i++ {
 		@renderPageButton(props, i)
 	}
-	if props.Type != PaginationTypeMinimal && props.CurrentPage < totalPages - 2 && props.MaxVisible < totalPages {
+	if props.Variant != PaginationVariantMinimal && props.CurrentPage < totalPages - 2 && props.MaxVisible < totalPages {
 		if props.CurrentPage < totalPages - 3 {
 			<span class="flex h-10 w-10 items-center justify-center text-sm">...</span>
 		}
@@ -193,7 +193,7 @@ templ renderPageNumbers(props PaginationProps, totalPages int) {
 templ renderPageButton(props PaginationProps, page int) {
 	if page == props.CurrentPage {
 		@Button(ButtonProps{
-			Variant: getButtonVariant(props.Type),
+			Variant: getButtonVariant(props.Variant),
 			Text:    strconv.Itoa(page),
 			Size:    ButtonSizeIcon,
 		})
@@ -243,9 +243,9 @@ func calculateVisibleRange(currentPage, totalPages, maxVisible int) (int, int) {
 	return start, end
 }
 
-func getButtonVariant(paginationType PaginationType) ButtonVariant {
+func getButtonVariant(paginationType PaginationVariant) ButtonVariant {
 	switch paginationType {
-	case PaginationTypeOutline:
+	case PaginationVariantOutline:
 		return ButtonVariantOutline
 	default:
 		return ButtonVariantDefault

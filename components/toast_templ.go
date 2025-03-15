@@ -13,19 +13,19 @@ import (
 	"strconv"
 )
 
-type ToastType string
+type ToastVariant string
 
 const (
-	ToastTypeDefault ToastType = "default"
-	ToastTypeSuccess ToastType = "success"
-	ToastTypeError   ToastType = "error"
-	ToastTypeWarning ToastType = "warning"
-	ToastTypeInfo    ToastType = "info"
+	ToastVariantDefault ToastVariant = "default"
+	ToastVariantSuccess ToastVariant = "success"
+	ToastVariantError   ToastVariant = "error"
+	ToastVariantWarning ToastVariant = "warning"
+	ToastVariantInfo    ToastVariant = "info"
 )
 
 type ToastProps struct {
 	Message     string
-	Type        ToastType
+	Variant     ToastVariant
 	Position    string
 	Duration    int
 	Dismissible bool
@@ -37,8 +37,8 @@ func (p ToastProps) withDefaults() ToastProps {
 	if p.Message == "" {
 		p.Message = "Notification"
 	}
-	if p.Type == "" {
-		p.Type = ToastTypeDefault
+	if p.Variant == "" {
+		p.Variant = ToastVariantDefault
 	}
 	if p.Position == "" {
 		p.Position = "bottom-right"
@@ -188,7 +188,7 @@ func Toast(props ToastProps) templ.Component {
 			}
 			var templ_7745c5c3_Var8 = []any{
 				"absolute inset-0",
-				toastTypeClass(props.Type),
+				toastTypeClass(props.Variant),
 			}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var8...)
 			if templ_7745c5c3_Err != nil {
@@ -213,7 +213,7 @@ func Toast(props ToastProps) templ.Component {
 			}
 		}
 		if props.Icon {
-			if props.Type == ToastTypeSuccess {
+			if props.Variant == ToastVariantSuccess {
 				templ_7745c5c3_Err = icons.CircleCheck(icons.IconProps{Size: "18", Class: "text-green-500 mr-3"}).Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
@@ -223,7 +223,7 @@ func Toast(props ToastProps) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			if props.Type == ToastTypeError {
+			if props.Variant == ToastVariantError {
 				templ_7745c5c3_Err = icons.CircleX(icons.IconProps{Size: "18", Class: "text-red-500 mr-3"}).Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
@@ -233,7 +233,7 @@ func Toast(props ToastProps) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			if props.Type == ToastTypeWarning {
+			if props.Variant == ToastVariantWarning {
 				templ_7745c5c3_Err = icons.TriangleAlert(icons.IconProps{Size: "18", Class: "text-yellow-500 mr-3"}).Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
@@ -243,7 +243,7 @@ func Toast(props ToastProps) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			if props.Type == ToastTypeInfo {
+			if props.Variant == ToastVariantInfo {
 				templ_7745c5c3_Err = icons.Info(icons.IconProps{Size: "18", Class: "text-blue-500 mr-3"}).Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
@@ -292,17 +292,17 @@ func Toast(props ToastProps) templ.Component {
 	})
 }
 
-func toastTypeClass(t ToastType) string {
+func toastTypeClass(t ToastVariant) string {
 	switch t {
-	case ToastTypeDefault:
+	case ToastVariantDefault:
 		return "bg-gray-500"
-	case ToastTypeSuccess:
+	case ToastVariantSuccess:
 		return "bg-green-500"
-	case ToastTypeError:
+	case ToastVariantError:
 		return "bg-red-500"
-	case ToastTypeWarning:
+	case ToastVariantWarning:
 		return "bg-yellow-500"
-	case ToastTypeInfo:
+	case ToastVariantInfo:
 		return "bg-blue-500"
 	default:
 		return ""

@@ -2,6 +2,13 @@ package components
 
 import "github.com/axzilla/templui/utils"
 
+type FormMessageVariant string
+
+const (
+	FormMessageVariantError FormMessageVariant = "error"
+	FormMessageVariantInfo  FormMessageVariant = "info"
+)
+
 type FormItemProps struct {
 	ID    string
 	Class string
@@ -19,7 +26,7 @@ type FormDescriptionProps struct {
 }
 
 type FormMessageProps struct {
-	Type    string
+	Variant FormMessageVariant
 	Message string
 	Class   string
 }
@@ -55,9 +62,20 @@ templ FormMessage(props FormMessageProps) {
 	<p
 		class={
 			utils.TwMerge("text-[0.8rem] font-medium", props.Class),
-			templ.KV("text-destructive", props.Type == "error"),
+			formMessageVariantClass(props.Variant),
 		}
 	>
 		{ props.Message }
 	</p>
+}
+
+func formMessageVariantClass(variant FormMessageVariant) string {
+	switch variant {
+	case FormMessageVariantError:
+		return "text-red-500"
+	case FormMessageVariantInfo:
+		return "text-blue-500"
+	default:
+		return ""
+	}
 }
