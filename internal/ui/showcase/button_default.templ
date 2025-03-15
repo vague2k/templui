@@ -2,7 +2,7 @@ package showcase
 
 import "github.com/axzilla/templui/components"
 
-templ ButtonVariants() {
+templ ButtonDefault() {
 	<div class="flex flex-wrap gap-2">
 		@components.Button(components.ButtonProps{Text: "Default"})
 		@components.Button(components.ButtonProps{Text: "Secondary", Variant: components.ButtonVariantSecondary})

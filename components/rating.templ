@@ -6,7 +6,6 @@ import (
 	"strconv"
 )
 
-type RatingSize string
 type RatingStyle string
 
 const (
@@ -21,7 +20,6 @@ type RatingProps struct {
 	MaxValue    int
 	ReadOnly    bool
 	Style       RatingStyle
-	Size        RatingSize
 	Precision   float64
 	Name        string
 	ShowValue   bool

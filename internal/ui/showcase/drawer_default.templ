@@ -9,7 +9,7 @@ var sides = []components.DrawerSide{
 	components.DrawerSideBottom,
 }
 
-templ Drawer() {
+templ DrawerDefault() {
 	<div class="flex gap-2">
 		for _, side := range sides {
 			@components.DrawerRoot() {

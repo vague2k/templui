@@ -18,9 +18,9 @@ templ Drawer() {
 			Alpine:      true,
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				ShowcaseFile:      showcase.Drawer(),
-				PreviewCodeFile:   "sheet.templ",
-				ComponentCodeFile: "sheet.templ",
+				ShowcaseFile:      showcase.DrawerDefault(),
+				PreviewCodeFile:   "drawer_default.templ",
+				ComponentCodeFile: "drawer.templ",
 			})
 			@modules.Usage(modules.UsageProps{
 				ComponentName: "Drawer",
