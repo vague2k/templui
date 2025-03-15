@@ -2265,6 +2265,11 @@
       line-height: var(--leading-relaxed);
     }
   }
+  .\[\&\.htmx-request\]\:inline-flex {
+    &.htmx-request {
+      display: inline-flex;
+    }
+  }
   .\[\&\:\:-moz-range-thumb\]\:h-4 {
     &::-moz-range-thumb {
       height: calc(var(--spacing) * 4);
@@ -2379,6 +2384,11 @@
     &>svg+div {
       --tw-translate-y: -3px;
       translate: var(--tw-translate-x) var(--tw-translate-y);
+    }
+  }
+  .\[\&amp\;\.htmx-request\]\:inline-flex {
+    &amp;.htmx-request {
+      display: inline-flex;
     }
   }
   .\[\&amp\;\:not\(\.bg-primary\)\]\:hover\:bg-muted {

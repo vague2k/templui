@@ -67,7 +67,9 @@ type ChartProps struct {
 templ ChartScripts() {
 	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
-		<script defer nonce={ templ.GetNonce(ctx) } src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+		<!-- Load Chart.js library -->
+		<script defer nonce={ templ.GetNonce(ctx) } src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+		<!-- Initialize charts -->
 		<script nonce={ templ.GetNonce(ctx) }>
 			document.addEventListener('DOMContentLoaded', function() {
 				const chartInstances = {};
