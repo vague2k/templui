@@ -27,7 +27,7 @@ type FormDescriptionProps struct {
 
 type FormMessageProps struct {
 	Variant FormMessageVariant
-	Message string
+	Text    string
 	Class   string
 }
 
@@ -65,7 +65,7 @@ templ FormMessage(props FormMessageProps) {
 			formMessageVariantClass(props.Variant),
 		}
 	>
-		{ props.Message }
+		{ props.Text }
 	</p>
 }
 

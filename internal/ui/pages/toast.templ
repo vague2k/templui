@@ -72,7 +72,7 @@ var withHtmxCode = fmt.Sprintf(`// Template
 func Save(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		components.Toast(components.ToastProps{
-			Message: err.Error(),
+			Text: err.Error(),
 			Variant: components.ToastVariantError,
 		}).Render(r.Context(), w)
 	}
@@ -88,7 +88,7 @@ var fullPageFormCode = fmt.Sprintf(`// Template
 %s UserForm(error string) {
     if error != "" {
         @components.Toast(components.ToastProps{
-            Message: error,
+            Text: error,
             Variant:    components.ToastVariantError,
         })
     }

@@ -16,7 +16,7 @@ const (
 )
 
 type ToastProps struct {
-	Message     string
+	Text        string
 	Variant     ToastVariant
 	Position    string
 	Duration    int
@@ -26,8 +26,8 @@ type ToastProps struct {
 }
 
 func (p ToastProps) withDefaults() ToastProps {
-	if p.Message == "" {
-		p.Message = "Notification"
+	if p.Text == "" {
+		p.Text = "Notification"
 	}
 	if p.Variant == "" {
 		p.Variant = ToastVariantDefault
@@ -160,7 +160,7 @@ templ Toast(props ToastProps) {
 					@icons.Info(icons.IconProps{Size: "18", Class: "text-blue-500 mr-3"})
 				}
 			}
-			<div class="flex-1">{ props.Message }</div>
+			<div class="flex-1">{ props.Text }</div>
 			if props.Dismissible {
 				<button @click.stop="dismissToast">
 					@icons.X(icons.IconProps{

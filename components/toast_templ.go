@@ -24,7 +24,7 @@ const (
 )
 
 type ToastProps struct {
-	Message     string
+	Text        string
 	Variant     ToastVariant
 	Position    string
 	Duration    int
@@ -34,8 +34,8 @@ type ToastProps struct {
 }
 
 func (p ToastProps) withDefaults() ToastProps {
-	if p.Message == "" {
-		p.Message = "Notification"
+	if p.Text == "" {
+		p.Text = "Notification"
 	}
 	if p.Variant == "" {
 		p.Variant = ToastVariantDefault
@@ -255,9 +255,9 @@ func Toast(props ToastProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var10 string
-		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(props.Message)
+		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(props.Text)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/toast.templ`, Line: 163, Col: 38}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/toast.templ`, Line: 163, Col: 35}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 		if templ_7745c5c3_Err != nil {
