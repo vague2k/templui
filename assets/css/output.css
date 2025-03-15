@@ -1222,6 +1222,9 @@
   .p-8 {
     padding: calc(var(--spacing) * 8);
   }
+  .p-\[���\1e ���Ԯ\] {
+    padding: ������Ԯ;
+  }
   .px-2 {
     padding-inline: calc(var(--spacing) * 2);
   }

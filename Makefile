@@ -30,3 +30,6 @@ generate-sitemap:
 
 generate-icons:
 	go run cmd/icongen/main.go
+
+install-compinstall:
+	go install ./cmd/compinstall

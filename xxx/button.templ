@@ -1,0 +1,194 @@
+package components
+
+import (
+	"github.com/axzilla/templui/utils"
+	"strings"
+)
+
+type ButtonVariant string
+
+type ButtonSize string
+
+const (
+	ButtonVariantDefault     ButtonVariant = "default"
+	ButtonVariantDestructive ButtonVariant = "destructive"
+	ButtonVariantOutline     ButtonVariant = "outline"
+	ButtonVariantSecondary   ButtonVariant = "secondary"
+	ButtonVariantGhost       ButtonVariant = "ghost"
+	ButtonVariantLink        ButtonVariant = "link"
+)
+
+const (
+	ButtonSizeMd   ButtonSize = "md"
+	ButtonSizeSm   ButtonSize = "sm"
+	ButtonSizeLg   ButtonSize = "lg"
+	ButtonSizeIcon ButtonSize = "icon"
+)
+
+type ButtonProps struct {
+	Class        string
+	Text         string
+	Variant      ButtonVariant
+	Size         ButtonSize
+	FullWidth    bool
+	Href         string
+	Target       string
+	Disabled     bool
+	Type         string
+	IconLeft     templ.Component
+	IconRight    templ.Component
+	HxGet        string
+	HxPost       string
+	HxPut        string
+	HxDelete     string
+	HxTrigger    string
+	HxTarget     string
+	HxSwap       string
+	HxReplaceUrl string
+	Attributes   templ.Attributes
+}
+
+func (b ButtonProps) variantClasses() string {
+	switch b.Variant {
+	case ButtonVariantDestructive:
+		return "bg-destructive text-destructive-foreground hover:bg-destructive/90"
+	case ButtonVariantOutline:
+		return "border border-input bg-background hover:bg-accent hover:text-accent-foreground"
+	case ButtonVariantSecondary:
+		return "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+	case ButtonVariantGhost:
+		return "hover:bg-accent hover:text-accent-foreground"
+	case ButtonVariantLink:
+		return "text-primary underline-offset-4 hover:underline"
+	default:
+		return "bg-primary text-primary-foreground hover:bg-primary/90"
+	}
+}
+
+func (b ButtonProps) sizeClasses() string {
+	switch b.Size {
+	case ButtonSizeSm:
+		return "h-9 px-3 rounded-md"
+	case ButtonSizeLg:
+		return "h-11 px-8 rounded-md"
+	case ButtonSizeIcon:
+		return "h-10 w-10"
+	default:
+		return "h-10 px-4 py-2 rounded-md"
+	}
+}
+
+func (b ButtonProps) modifierClasses() string {
+	classes := []string{}
+	if b.FullWidth {
+		classes = append(classes, "w-full")
+	}
+	return strings.Join(classes, " ")
+}
+
+templ Button(props ButtonProps) {
+	if props.Href != "" {
+		<a
+			{ props.Attributes... }
+			href={ templ.SafeURL(props.Href) }
+			target={ props.Target }
+			class={
+				utils.TwMerge(
+					"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors",
+					"focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+					"cursor-pointer disabled:cursor-not-allowed",
+					props.variantClasses(),
+					props.sizeClasses(),
+					props.modifierClasses(),
+					props.Class,
+				),
+			}
+			if props.Disabled {
+				disabled
+			}
+			if props.HxGet != "" {
+				hx-get={ props.HxGet }
+			}
+			if props.HxPost != "" {
+				hx-post={ props.HxPost }
+			}
+			if props.HxPut != "" {
+				hx-put={ props.HxPut }
+			}
+			if props.HxDelete != "" {
+				hx-delete={ props.HxDelete }
+			}
+			if props.HxTrigger != "" {
+				hx-trigger={ props.HxTrigger }
+			}
+			if props.HxTarget != "" {
+				hx-target={ props.HxTarget }
+			}
+			if props.HxSwap != "" {
+				hx-swap={ props.HxSwap }
+			}
+		>
+			{ children... }
+			@renderButtonContent(props)
+		</a>
+	} else {
+		<button
+			{ props.Attributes... }
+			class={
+				utils.TwMerge(
+					"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors",
+					"focus-visible:outline-hidden focus-visible:ring-2 focus:ring-ring focus-visible:ring-offset-2",
+					"disabled:opacity-50 disabled:cursor-not-allowed",
+					"cursor-pointer",
+					props.variantClasses(),
+					props.sizeClasses(),
+					props.modifierClasses(),
+					props.Class,
+				),
+			}
+			if props.Type != "" {
+				type={ props.Type }
+			}
+			disabled?={ props.Disabled }
+			if props.HxGet != "" {
+				hx-get={ props.HxGet }
+			}
+			if props.HxPost != "" {
+				hx-post={ props.HxPost }
+			}
+			if props.HxPut != "" {
+				hx-put={ props.HxPut }
+			}
+			if props.HxDelete != "" {
+				hx-delete={ props.HxDelete }
+			}
+			if props.HxTrigger != "" {
+				hx-trigger={ props.HxTrigger }
+			}
+			if props.HxTarget != "" {
+				hx-target={ props.HxTarget }
+			}
+			if props.HxSwap != "" {
+				hx-swap={ props.HxSwap }
+			}
+			if props.HxReplaceUrl != "" {
+				hx-replace-url={ props.HxReplaceUrl }
+			}
+		>
+			{ children... }
+			@renderButtonContent(props)
+		</button>
+	}
+}
+
+templ renderButtonContent(props ButtonProps) {
+	<span class="flex gap-2 items-center">
+		if props.IconLeft != nil {
+			@props.IconLeft
+		}
+		{ props.Text }
+		if props.IconRight != nil {
+			@props.IconRight
+		}
+	</span>
+}
