@@ -16,7 +16,7 @@ templ ButtonHtmxLoading() {
 				Text:  "Submit",
 				Class: "flex items-center gap-2",
 			}) {
-				<span id="spinner" class="htmx-indicator">
+				<span id="spinner" class="htmx-indicator hidden [&.htmx-request]:inline-flex">
 					@components.Spinner(components.SpinnerProps{
 						Size:  components.SpinnerSizeSm,
 						Color: "text-primary-foreground",
@@ -26,13 +26,4 @@ templ ButtonHtmxLoading() {
 		</form>
 		<div id="toast-container"></div>
 	</div>
-	<style type="text/css">
-        .htmx-indicator {
-            display: none;
-        }
-        .htmx-request .htmx-indicator,
-        .htmx-request.htmx-indicator {
-            display: inline-flex
-        }
-    </style>
 }
