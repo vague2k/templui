@@ -23,7 +23,7 @@ templ SelectForm() {
 				Select your favorite fruit from the dropdown menu.
 			}
 			@components.FormMessage(components.FormMessageProps{
-				Type:    "error",
+				Type:    components.FormMessageTypeError,
 				Message: "A fruit selection is required.",
 			})
 		}

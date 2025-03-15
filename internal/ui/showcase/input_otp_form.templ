@@ -18,7 +18,7 @@ templ InputOTPForm() {
 		}
 		@components.FormMessage(components.FormMessageProps{
 			Message: "Invalid verification code.",
-			Type:    "error",
+			Type:    components.FormMessageTypeError,
 		})
 	}
 }

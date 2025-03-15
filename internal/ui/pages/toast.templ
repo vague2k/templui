@@ -73,7 +73,7 @@ func Save(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		components.Toast(components.ToastProps{
 			Message: err.Error(),
-			Type: "error",
+			Type: components.FormMessageTypeError,
 		}).Render(r.Context(), w)
 	}
 }`, "templ")
@@ -89,7 +89,7 @@ var fullPageFormCode = fmt.Sprintf(`// Template
     if error != "" {
         @components.Toast(components.ToastProps{
             Message: error,
-            Type:    "error",
+            Type:    components.FormMessageTypeError,
         })
     }
     <form method="POST">

@@ -13,9 +13,19 @@ import (
 	"strconv"
 )
 
+type ToastType string
+
+const (
+	ToastTypeDefault ToastType = "default"
+	ToastTypeSuccess ToastType = "success"
+	ToastTypeError   ToastType = "error"
+	ToastTypeWarning ToastType = "warning"
+	ToastTypeInfo    ToastType = "info"
+)
+
 type ToastProps struct {
 	Message     string
-	Type        string
+	Type        ToastType
 	Position    string
 	Duration    int
 	Dismissible bool
@@ -28,7 +38,7 @@ func (p ToastProps) withDefaults() ToastProps {
 		p.Message = "Notification"
 	}
 	if p.Type == "" {
-		p.Type = "default"
+		p.Type = ToastTypeDefault
 	}
 	if p.Position == "" {
 		p.Position = "bottom-right"
@@ -83,7 +93,7 @@ func ToastScript() templ.Component {
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/toast.templ`, Line: 40, Col: 43}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/toast.templ`, Line: 50, Col: 43}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -148,7 +158,7 @@ func Toast(props ToastProps) templ.Component {
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(props.Duration))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/toast.templ`, Line: 103, Col: 46}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/toast.templ`, Line: 113, Col: 46}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -178,11 +188,7 @@ func Toast(props ToastProps) templ.Component {
 			}
 			var templ_7745c5c3_Var8 = []any{
 				"absolute inset-0",
-				templ.KV("bg-gray-500", props.Type == "default"),
-				templ.KV("bg-green-500", props.Type == "success"),
-				templ.KV("bg-red-500", props.Type == "error"),
-				templ.KV("bg-yellow-500", props.Type == "warning"),
-				templ.KV("bg-blue-500", props.Type == "info"),
+				toastTypeClass(props.Type),
 			}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var8...)
 			if templ_7745c5c3_Err != nil {
@@ -207,7 +213,7 @@ func Toast(props ToastProps) templ.Component {
 			}
 		}
 		if props.Icon {
-			if props.Type == "success" {
+			if props.Type == ToastTypeSuccess {
 				templ_7745c5c3_Err = icons.CircleCheck(icons.IconProps{Size: "18", Class: "text-green-500 mr-3"}).Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
@@ -217,7 +223,7 @@ func Toast(props ToastProps) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			if props.Type == "error" {
+			if props.Type == ToastTypeError {
 				templ_7745c5c3_Err = icons.CircleX(icons.IconProps{Size: "18", Class: "text-red-500 mr-3"}).Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
@@ -227,7 +233,7 @@ func Toast(props ToastProps) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			if props.Type == "warning" {
+			if props.Type == ToastTypeWarning {
 				templ_7745c5c3_Err = icons.TriangleAlert(icons.IconProps{Size: "18", Class: "text-yellow-500 mr-3"}).Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
@@ -237,7 +243,7 @@ func Toast(props ToastProps) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			if props.Type == "info" {
+			if props.Type == ToastTypeInfo {
 				templ_7745c5c3_Err = icons.Info(icons.IconProps{Size: "18", Class: "text-blue-500 mr-3"}).Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
@@ -251,7 +257,7 @@ func Toast(props ToastProps) templ.Component {
 		var templ_7745c5c3_Var10 string
 		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(props.Message)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/toast.templ`, Line: 157, Col: 38}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/toast.templ`, Line: 163, Col: 38}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 		if templ_7745c5c3_Err != nil {
@@ -284,6 +290,23 @@ func Toast(props ToastProps) templ.Component {
 		}
 		return nil
 	})
+}
+
+func toastTypeClass(t ToastType) string {
+	switch t {
+	case ToastTypeDefault:
+		return "bg-gray-500"
+	case ToastTypeSuccess:
+		return "bg-green-500"
+	case ToastTypeError:
+		return "bg-red-500"
+	case ToastTypeWarning:
+		return "bg-yellow-500"
+	case ToastTypeInfo:
+		return "bg-blue-500"
+	default:
+		return ""
+	}
 }
 
 var _ = templruntime.GeneratedTemplate

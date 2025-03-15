@@ -5,9 +5,19 @@ import (
 	"strconv"
 )
 
+type ToastType string
+
+const (
+	ToastTypeDefault ToastType = "default"
+	ToastTypeSuccess ToastType = "success"
+	ToastTypeError   ToastType = "error"
+	ToastTypeWarning ToastType = "warning"
+	ToastTypeInfo    ToastType = "info"
+)
+
 type ToastProps struct {
 	Message     string
-	Type        string
+	Type        ToastType
 	Position    string
 	Duration    int
 	Dismissible bool
@@ -20,7 +30,7 @@ func (p ToastProps) withDefaults() ToastProps {
 		p.Message = "Notification"
 	}
 	if p.Type == "" {
-		p.Type = "default"
+		p.Type = ToastTypeDefault
 	}
 	if p.Position == "" {
 		p.Position = "bottom-right"
@@ -131,26 +141,22 @@ templ Toast(props ToastProps) {
 						x-ref="progress"
 						class={
 							"absolute inset-0",
-							templ.KV("bg-gray-500", props.Type == "default"),
-							templ.KV("bg-green-500", props.Type == "success"),
-							templ.KV("bg-red-500", props.Type == "error"),
-							templ.KV("bg-yellow-500", props.Type == "warning"),
-							templ.KV("bg-blue-500", props.Type == "info"),
+							toastTypeClass(props.Type),
 						}
 					></div>
 				</div>
 			}
 			if props.Icon {
-				if props.Type == "success" {
+				if props.Type == ToastTypeSuccess {
 					@icons.CircleCheck(icons.IconProps{Size: "18", Class: "text-green-500 mr-3"})
 				}
-				if props.Type == "error" {
+				if props.Type == ToastTypeError {
 					@icons.CircleX(icons.IconProps{Size: "18", Class: "text-red-500 mr-3"})
 				}
-				if props.Type == "warning" {
+				if props.Type == ToastTypeWarning {
 					@icons.TriangleAlert(icons.IconProps{Size: "18", Class: "text-yellow-500 mr-3"})
 				}
-				if props.Type == "info" {
+				if props.Type == ToastTypeInfo {
 					@icons.Info(icons.IconProps{Size: "18", Class: "text-blue-500 mr-3"})
 				}
 			}
@@ -165,4 +171,21 @@ templ Toast(props ToastProps) {
 			}
 		</div>
 	</div>
+}
+
+func toastTypeClass(t ToastType) string {
+	switch t {
+	case ToastTypeDefault:
+		return "bg-gray-500"
+	case ToastTypeSuccess:
+		return "bg-green-500"
+	case ToastTypeError:
+		return "bg-red-500"
+	case ToastTypeWarning:
+		return "bg-yellow-500"
+	case ToastTypeInfo:
+		return "bg-blue-500"
+	default:
+		return ""
+	}
 }
