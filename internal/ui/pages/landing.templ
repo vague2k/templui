@@ -23,17 +23,19 @@ templ Landing() {
 					<div class="flex flex-wrap justify-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
 						<span class="flex items-center gap-1">
 							@components.Badge(components.BadgeProps{
-								IconBefore: wrappedicons.Tailwind(16),
-								Text:       "TailwindCSS",
-								Variant:    components.BadgeVariantSecondary,
-							})
+								Variant: components.BadgeVariantSecondary,
+							}) {
+								@wrappedicons.Tailwind(16)
+								TailwindCSS
+							}
 						</span>
 						<span class="flex items-center gap-1">
 							@components.Badge(components.BadgeProps{
-								IconBefore: wrappedicons.Alpine(16),
-								Text:       "Alpine.js",
-								Variant:    components.BadgeVariantSecondary,
-							})
+								Variant: components.BadgeVariantSecondary,
+							}) {
+								@wrappedicons.Alpine(16)
+								Alpine.js
+							}
 						</span>
 					</div>
 				</div>

@@ -7,13 +7,16 @@ import (
 
 templ BadgeIcons() {
 	<div class="flex flex-wrap gap-2">
-		@components.Badge(components.BadgeProps{
-			Text:       "Icon Left",
-			IconBefore: icons.Rocket(icons.IconProps{Size: "14"}),
-		})
-		@components.Badge(components.BadgeProps{
-			Text:      "Icon Right",
-			IconAfter: icons.Rocket(icons.IconProps{Size: "14"}),
-		})
+		@components.Badge(components.BadgeProps{}) {
+			@icons.Rocket(icons.IconProps{Size: "14"})
+			Icon Left
+		}
+		@components.Badge(components.BadgeProps{}) {
+			@icons.Rocket(icons.IconProps{Size: "14"})
+		}
+		@components.Badge(components.BadgeProps{}) {
+			Icon Right
+			@icons.Rocket(icons.IconProps{Size: "14"})
+		}
 	</div>
 }
