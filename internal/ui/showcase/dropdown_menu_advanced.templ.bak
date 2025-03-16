@@ -5,13 +5,22 @@ import (
 	"github.com/axzilla/templui/icons"
 )
 
+// First, create the trigger component separately
+templ advancedMenuTrigger() {
+	@components.Button(components.ButtonProps{
+		Variant: "outline",
+	}) {
+		<span class="flex items-center gap-2">
+			@icons.Menu(icons.IconProps{Size: "16"})
+			Advanced Menu
+		</span>
+	}
+}
+
+// Then use it in the dropdown menu
 templ DropdownMenuAdvanced() {
 	@components.DropdownMenu(components.DropdownMenuProps{
-		Trigger: components.Button(components.ButtonProps{
-			Text:     "Advanced Menu",
-			Variant:  "outline",
-			IconLeft: icons.Menu(icons.IconProps{Size: "16"}),
-		}),
+		Trigger:  advancedMenuTrigger(),
 		Position: "left",
 		Items: []components.DropdownMenuItem{
 			{Label: "File", SubItems: []components.DropdownMenuItem{

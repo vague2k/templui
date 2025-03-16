@@ -3,11 +3,73 @@ package showcase
 import "github.com/axzilla/templui/components"
 
 templ DropdownMenuDefault() {
-	@components.DropdownMenu(components.DropdownMenuProps{
-		Items: []components.DropdownMenuItem{
-			{Label: "Profile", Value: "profile"},
-			{Label: "Settings", Value: "settings"},
-			{Label: "Logout", Value: "logout"},
-		},
-	})
+	@components.DropdownMenu(components.DropdownMenuProps{}) {
+		@components.DropdownMenuTrigger(components.DropdownMenuTriggerProps{}) {
+			@components.Button(components.ButtonProps{
+				Variant: components.ButtonVariantOutline,
+			}) {
+				Open
+			}
+		}
+		@components.DropdownMenuContent(components.DropdownMenuContentProps{}) {
+			@components.DropdownMenuLabel(components.DropdownMenuLabelProps{}) {
+				My Account
+			}
+			@components.DropdownMenuSeparator(components.DropdownMenuSeparatorProps{})
+			@components.DropdownMenuGroup(components.DropdownMenuGroupProps{}) {
+				@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
+					Profile
+					@components.DropdownMenuShortcut(components.DropdownMenuShortcutProps{}) {
+						⇧⌘P
+					}
+				}
+				@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
+					Billing
+					@components.DropdownMenuShortcut(components.DropdownMenuShortcutProps{}) {
+						⌘B
+					}
+				}
+				@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
+					Settings
+					@components.DropdownMenuShortcut(components.DropdownMenuShortcutProps{}) {
+						⌘S
+					}
+				}
+			}
+			@components.DropdownMenuSeparator(components.DropdownMenuSeparatorProps{})
+			@components.DropdownMenuGroup(components.DropdownMenuGroupProps{}) {
+				@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
+					Team
+				}
+				@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
+					New Team
+					@components.DropdownMenuShortcut(components.DropdownMenuShortcutProps{}) {
+						⌘+T
+					}
+				}
+			}
+			@components.DropdownMenuSeparator(components.DropdownMenuSeparatorProps{})
+			@components.DropdownMenuItemLink(components.DropdownMenuItemLinkProps{
+				Href:   "https://github.com/axzilla/templui",
+				Target: "_blank",
+			}) {
+				GitHub
+			}
+			@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
+				Support
+			}
+			@components.DropdownMenuItem(components.DropdownMenuItemProps{
+				Disabled: true,
+			}) {
+				API
+			}
+			@components.DropdownMenuSeparator(components.DropdownMenuSeparatorProps{})
+			@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
+				Log out
+				@components.DropdownMenuShortcut(components.DropdownMenuShortcutProps{}) {
+					⇧⌘Q
+				}
+			}
+		}
+	}
 }

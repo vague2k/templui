@@ -1,246 +1,268 @@
 package components
 
 import (
-	"fmt"
-	"github.com/axzilla/templui/icons"
 	"github.com/axzilla/templui/utils"
-	"strings"
 )
 
-type DropdownMenuItem struct {
-	Label      string
-	Value      string
-	Href       string
-	Target     string
-	IconLeft   templ.Component
-	IconRight  templ.Component
-	SubItems   []DropdownMenuItem
-	Disabled   bool
+// Base component props
+type DropdownMenuProps struct {
+	Class      string
 	Attributes templ.Attributes
 }
 
-type DropdownMenuProps struct {
-	Items    []DropdownMenuItem
-	Trigger  templ.Component
-	Class    string
-	Position string
-}
-
-func (d DropdownMenuItem) modifierClasses() string {
-	classes := []string{}
-	if d.Disabled {
-		classes = append(classes, "text-muted-foreground cursor-not-allowed")
-	} else {
-		classes = append(classes, "text-foreground hover:bg-accent hover:text-accent-foreground")
-	}
-	return strings.Join(classes, " ")
-}
-
-templ renderMenuItem(item DropdownMenuItem, index int, depth int) {
-	if len(item.SubItems) > 0 {
-		<div class="relative group">
-			<button
-				class={
-					utils.TwMerge(
-						"w-full text-left flex items-center justify-between px-4 py-2 text-sm",
-						item.modifierClasses(),
-					),
-				}
-				role="menuitem"
-				tabindex="-1"
-				id={ fmt.Sprintf("menu-item-%d", index) }
-				aria-haspopup="true"
-				aria-expanded="false"
-				disabled?={ item.Disabled }
-				{ item.Attributes... }
-			>
-				<span class="flex items-center gap-2">
-					if item.IconLeft != nil {
-						@item.IconLeft
-					}
-					{ item.Label }
-				</span>
-				if item.IconRight != nil {
-					@item.IconRight
-				} else {
-					@icons.ChevronRight(icons.IconProps{Size: "16"})
-				}
-			</button>
-			if depth < 3 {
-				<div class="absolute left-full top-0 hidden group-hover:block">
-					<div class="py-1 bg-popover rounded-md shadow-lg border border-border">
-						for subIndex, subItem := range item.SubItems {
-							@renderMenuItem(subItem, subIndex, depth+1)
-						}
-					</div>
-				</div>
-			}
-		</div>
-	} else if item.Href != "" {
-		<a
-			href={ templ.SafeURL(item.Href) }
-			target={ item.Target }
-			class={
-				"px-4 py-2 text-sm flex items-center",
-				templ.KV("text-foreground hover:bg-accent hover:text-accent-foreground", !item.Disabled),
-				templ.KV("text-muted-foreground cursor-not-allowed", item.Disabled),
-			}
-			role="menuitem"
-			tabindex="-1"
-			id={ fmt.Sprintf("menu-item-%d", index) }
-			{ item.Attributes... }
-		>
-			<span class="flex items-center gap-2">
-				if item.IconLeft != nil {
-					@item.IconLeft
-				}
-				{ item.Label }
-			</span>
-			if item.IconRight != nil {
-				<span class="ml-auto">
-					@item.IconRight
-				</span>
-			}
-		</a>
-	} else {
-		<button
-			class={
-				"w-full text-left flex items-center justify-between px-4 py-2 text-sm",
-				templ.KV("text-foreground hover:bg-accent hover:text-accent-foreground", !item.Disabled),
-				templ.KV("text-muted-foreground cursor-not-allowed", item.Disabled),
-			}
-			role="menuitem"
-			tabindex="-1"
-			id={ fmt.Sprintf("menu-item-%d", index) }
-			disabled?={ item.Disabled }
-			{ item.Attributes... }
-		>
-			<span class="flex items-center gap-2">
-				if item.IconLeft != nil {
-					@item.IconLeft
-				}
-				{ item.Label }
-			</span>
-			if item.IconRight != nil {
-				@item.IconRight
-			}
-		</button>
-	}
-}
-
-templ DropdownMenuScript() {
-	{{ handler := templ.NewOnceHandle() }}
-	@handler.Once() {
-		<script defer nonce={ templ.GetNonce(ctx) }>
-			document.addEventListener('alpine:init', () => {
-				Alpine.data('dropdown', () => ({
-					isOpen: false,
-					position: null,
-					verticalPosition: 'bottom',
-
-					init() {
-						this.position = this.$el.dataset.position;
-					},
-
-					updatePosition() {
-						if (!this.isOpen) return;
-
-						const menu = this.$refs.menu;
-						const rect = menu.getBoundingClientRect();
-						const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
-						const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
-
-						if (this.position === 'left' && rect.left < 0) {
-							this.position = 'right';
-						} else if (this.position !== 'left' && rect.right > viewportWidth) {
-							this.position = 'left';
-						}
-
-						if (this.verticalPosition === 'bottom' && rect.bottom > viewportHeight) {
-							this.verticalPosition = 'top';
-						} else if (this.verticalPosition === 'top' && rect.top < 0) {
-							this.verticalPosition = 'bottom';
-						}
-					},
-
-					getPositionClass() {
-						const classes = [];
-						
-						if (this.position === 'left') {
-							classes.push('right-0');
-						} else {
-							classes.push('left-0');
-						}
-						
-						if (this.verticalPosition === 'top') {
-							classes.push('bottom-full mb-2');
-						} else {
-							classes.push('top-full mt-2');
-						}
-						
-						return classes.join(' ');
-					},
-
-					setClose() {
-						this.isOpen = false;
-					},
-
-					setOpen() {
-						this.isOpen = true;
-					},
-
-					openMenu() {
-						this.isOpen = !this.isOpen;
-						if(this.isOpen) this.$nextTick(() => this.updatePosition());
-					}
-				}))
-			});
-		</script>
-	}
-}
-
+// Root container for a dropdown menu
 templ DropdownMenu(props DropdownMenuProps) {
 	<div
 		x-data="dropdown"
 		@resize.window="updatePosition"
 		class={ utils.TwMerge("relative inline-block text-left", props.Class) }
-		data-position={ props.Position }
+		{ props.Attributes... }
 	>
-		<div @click="openMenu">
-			if props.Trigger != nil {
-				@props.Trigger
-			} else {
-				@Button(ButtonProps{
-					Text:      "Options",
-					Variant:   "outline",
-					IconRight: icons.ChevronDown(icons.IconProps{Size: "16"}),
-				})
-			}
-		</div>
-		<div
-			x-ref="menu"
-			x-show="isOpen"
-			@click.away="setClose"
-			@keydown.escape.window="setClose"
-			x-transition:enter="transition ease-out duration-100"
-			x-transition:enter-start="transform opacity-0 scale-95"
-			x-transition:enter-end="transform opacity-100 scale-100"
-			x-transition:leave="transition ease-in duration-75"
-			x-transition:leave-start="transform opacity-100 scale-100"
-			x-transition:leave-end="transform opacity-0 scale-95"
-			class={ "absolute z-50 mt-2 w-56 rounded-md shadow-lg bg-popover focus:outline-hidden",
-				"border border-border" }
-			x-bind:class="getPositionClass"
-			role="menu"
-			aria-orientation="vertical"
-			aria-labelledby="dropdown-menu-button"
-			tabindex="-1"
-		>
-			<div class="py-1" role="none">
-				for index, item := range props.Items {
-					@renderMenuItem(item, index, 0)
-				}
-			</div>
-		</div>
+		{ children... }
 	</div>
+}
+
+// Trigger props
+type DropdownMenuTriggerProps struct {
+	Class      string
+	Attributes templ.Attributes
+}
+
+// Element that toggles the dropdown
+templ DropdownMenuTrigger(props DropdownMenuTriggerProps) {
+	<div
+		@click="openMenu"
+		class={ utils.TwMerge("inline-block", props.Class) }
+		{ props.Attributes... }
+	>
+		{ children... }
+	</div>
+}
+
+// Content props
+type DropdownMenuContentProps struct {
+	Width      string
+	Class      string
+	Attributes templ.Attributes
+}
+
+// The dropdown panel containing the menu items
+templ DropdownMenuContent(props DropdownMenuContentProps) {
+	<div
+		x-ref="menu"
+		x-show="isOpen"
+		@click.away="setClose"
+		@keydown.escape.window="setClose"
+		x-transition:enter="transition ease-out duration-100"
+		x-transition:enter-start="transform opacity-0 scale-95"
+		x-transition:enter-end="transform opacity-100 scale-100"
+		x-transition:leave="transition ease-in duration-75"
+		x-transition:leave-start="transform opacity-100 scale-100"
+		x-transition:leave-end="transform opacity-0 scale-95"
+		class={ utils.TwMerge(
+				"absolute z-50 mt-2 rounded-md shadow-lg bg-popover focus:outline-hidden",
+				"border border-border",
+				utils.TwIfElse(
+					props.Width == "",
+					"w-56",
+				props.Width,
+				),
+				props.Class,
+			) }
+		x-bind:class="getPositionClass"
+		role="menu"
+		aria-orientation="vertical"
+		tabindex="-1"
+		{ props.Attributes... }
+	>
+		{ children... }
+	</div>
+}
+
+// Group props
+type DropdownMenuGroupProps struct {
+	Class      string
+	Attributes templ.Attributes
+}
+
+// Groups related menu items
+templ DropdownMenuGroup(props DropdownMenuGroupProps) {
+	<div
+		class={ utils.TwMerge("py-1", props.Class) }
+		role="group"
+		{ props.Attributes... }
+	>
+		{ children... }
+	</div>
+}
+
+// Label props
+type DropdownMenuLabelProps struct {
+	Class      string
+	Attributes templ.Attributes
+}
+
+// Label for a section of items
+templ DropdownMenuLabel(props DropdownMenuLabelProps) {
+	<div
+		class={ utils.TwMerge("px-3 py-2 text-sm font-semibold", props.Class) }
+		{ props.Attributes... }
+	>
+		{ children... }
+	</div>
+}
+
+// Item props
+type DropdownMenuItemProps struct {
+	Disabled   bool
+	Class      string
+	Attributes templ.Attributes
+}
+
+// Individual selectable menu item
+templ DropdownMenuItem(props DropdownMenuItemProps) {
+	<button
+		class={ utils.TwMerge(
+				"w-full text-left flex items-center justify-between px-3 py-2 text-sm",
+				"text-foreground hover:bg-accent hover:text-accent-foreground",
+				utils.TwIf(
+					"text-muted-foreground cursor-not-allowed",
+					props.Disabled,
+				),
+				props.Class,
+			) }
+		role="menuitem"
+		disabled?={ props.Disabled }
+		{ props.Attributes... }
+	>
+		{ children... }
+	</button>
+}
+
+// Link items have href
+type DropdownMenuItemLinkProps struct {
+	Href       string
+	Target     string
+	Disabled   bool
+	Class      string
+	Attributes templ.Attributes
+}
+
+// Menu item that acts as a link
+templ DropdownMenuItemLink(props DropdownMenuItemLinkProps) {
+	<a
+		href={ templ.SafeURL(props.Href) }
+		target={ props.Target }
+		class={ utils.TwMerge(
+				"block text-left flex items-center px-3 py-2 text-sm",
+				"text-foreground hover:bg-accent hover:text-accent-foreground",
+				utils.TwIf(
+					"text-muted-foreground cursor-not-allowed",
+					props.Disabled,
+				),
+				props.Class,
+			) }
+		role="menuitem"
+		{ props.Attributes... }
+	>
+		{ children... }
+	</a>
+}
+
+// Separator props
+type DropdownMenuSeparatorProps struct {
+	Class      string
+	Attributes templ.Attributes
+}
+
+// Visual separator between items
+templ DropdownMenuSeparator(props DropdownMenuSeparatorProps) {
+	<div
+		class={ utils.TwMerge("mx-1 my-1 h-px bg-border", props.Class) }
+		role="separator"
+		{ props.Attributes... }
+	></div>
+}
+
+// Shortcut props
+type DropdownMenuShortcutProps struct {
+	Class      string
+	Attributes templ.Attributes
+}
+
+// Keyboard shortcut display
+templ DropdownMenuShortcut(props DropdownMenuShortcutProps) {
+	<span
+		class={ utils.TwMerge("ml-auto text-xs tracking-widest text-muted-foreground", props.Class) }
+		{ props.Attributes... }
+	>
+		{ children... }
+	</span>
+}
+
+// Add the Alpine.js script for dropdown functionality
+templ DropdownMenuScript() {
+	<script defer nonce={ templ.GetNonce(ctx) }>
+		document.addEventListener('alpine:init', () => {
+			Alpine.data('dropdown', () => ({
+				isOpen: false,
+				position: 'bottom-start',
+				verticalPosition: 'bottom',
+
+				updatePosition() {
+					if (!this.isOpen) return;
+
+					const menu = this.$refs.menu;
+					const rect = menu.getBoundingClientRect();
+					const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+					const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+
+					if (rect.right > viewportWidth) {
+						this.position = 'bottom-end';
+					} else {
+						this.position = 'bottom-start';
+					}
+
+					if (rect.bottom > viewportHeight) {
+						this.verticalPosition = 'top';
+					} else {
+						this.verticalPosition = 'bottom';
+					}
+				},
+
+				getPositionClass() {
+					const classes = [];
+					
+					if (this.position === 'bottom-end') {
+						classes.push('right-0');
+					} else {
+						classes.push('left-0');
+					}
+					
+					if (this.verticalPosition === 'top') {
+						classes.push('bottom-full mb-2');
+					} else {
+						classes.push('top-full mt-2');
+					}
+					
+					return classes.join(' ');
+				},
+
+				setClose() {
+					this.isOpen = false;
+				},
+
+				setOpen() {
+					this.isOpen = true;
+				},
+
+				openMenu() {
+					this.isOpen = !this.isOpen;
+					if (this.isOpen) {
+						this.$nextTick(() => this.updatePosition());
+					}
+				}
+			}));
+		});
+	</script>
 }
