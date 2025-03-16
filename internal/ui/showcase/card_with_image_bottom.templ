@@ -16,7 +16,9 @@ templ CardWithImageBottom() {
 			<p>This card shows top image usage.</p>
 		}
 		@components.CardFooter() {
-			@components.Button(components.ButtonProps{Text: "Learn More"})
+			@components.Button(components.ButtonProps{}) {
+				Learn more
+			}
 		}
 		@components.CardImage(components.CardImageProps{
 			Src:         "/assets/img/card_placeholder.jpeg",

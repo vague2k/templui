@@ -50,7 +50,9 @@ templ AccountTab() {
 			</div>
 		}
 		@components.CardFooter() {
-			@components.Button(components.ButtonProps{Text: "Save changes"})
+			@components.Button(components.ButtonProps{}) {
+				Save changes
+			}
 		}
 	}
 }
@@ -82,7 +84,9 @@ templ PasswordTab() {
 			</div>
 		}
 		@components.CardFooter() {
-			@components.Button(components.ButtonProps{Text: "Save password"})
+			@components.Button(components.ButtonProps{}) {
+				Save password
+			}
 		}
 	}
 }

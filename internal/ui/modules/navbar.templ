@@ -23,19 +23,21 @@ templ Navbar() {
 			</div>
 			<div class="flex items-center">
 				@components.Button(components.ButtonProps{
-					Size:     components.ButtonSizeIcon,
-					IconLeft: wrappedicons.GitHub(24),
-					Variant:  "ghost",
-					Href:     "https://github.com/axzilla/templui",
-					Target:   "_blank",
-				})
+					Size:    components.ButtonSizeIcon,
+					Variant: components.ButtonVariantGhost,
+					Href:    "https://github.com/axzilla/templui",
+					Target:  "_blank",
+				}) {
+					@wrappedicons.GitHub(24)
+				}
 				@components.Button(components.ButtonProps{
-					Size:     components.ButtonSizeIcon,
-					IconLeft: wrappedicons.X(16),
-					Variant:  "ghost",
-					Href:     "https://x.com/_axzilla/",
-					Target:   "_blank",
-				})
+					Size:    components.ButtonSizeIcon,
+					Variant: components.ButtonVariantGhost,
+					Href:    "https://x.com/_axzilla/",
+					Target:  "_blank",
+				}) {
+					@wrappedicons.X(16)
+				}
 				@ThemeSwitcher(ThemeSwitcherProps{})
 			</div>
 		</div>

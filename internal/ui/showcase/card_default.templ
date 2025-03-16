@@ -16,7 +16,9 @@ templ CardDefault() {
 			<p>Card Content</p>
 		}
 		@components.CardFooter() {
-			@components.Button(components.ButtonProps{Text: "Action"})
+			@components.Button(components.ButtonProps{}) {
+				Action
+			}
 		}
 	}
 }

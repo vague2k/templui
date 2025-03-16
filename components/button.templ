@@ -6,7 +6,6 @@ import (
 )
 
 type ButtonVariant string
-
 type ButtonSize string
 
 const (
@@ -16,9 +15,7 @@ const (
 	ButtonVariantSecondary   ButtonVariant = "secondary"
 	ButtonVariantGhost       ButtonVariant = "ghost"
 	ButtonVariantLink        ButtonVariant = "link"
-)
 
-const (
 	ButtonSizeMd   ButtonSize = "md"
 	ButtonSizeSm   ButtonSize = "sm"
 	ButtonSizeLg   ButtonSize = "lg"
@@ -26,17 +23,21 @@ const (
 )
 
 type ButtonProps struct {
-	Class        string
-	Text         string
-	Variant      ButtonVariant
-	Size         ButtonSize
-	FullWidth    bool
-	Href         string
-	Target       string
-	Disabled     bool
-	Type         string
-	IconLeft     templ.Component
-	IconRight    templ.Component
+	// Style and appearance
+	Variant   ButtonVariant
+	Size      ButtonSize
+	FullWidth bool
+	Class     string
+
+	// Link behavior
+	Href   string
+	Target string
+
+	// Button state and behavior
+	Disabled bool
+	Type     string
+
+	// HTMX attributes
 	HxGet        string
 	HxPost       string
 	HxPut        string
@@ -45,7 +46,9 @@ type ButtonProps struct {
 	HxTarget     string
 	HxSwap       string
 	HxReplaceUrl string
-	Attributes   templ.Attributes
+
+	// Additional attributes
+	Attributes templ.Attributes
 }
 
 func (b ButtonProps) variantClasses() string {
@@ -89,7 +92,6 @@ func (b ButtonProps) modifierClasses() string {
 templ Button(props ButtonProps) {
 	if props.Href != "" {
 		<a
-			{ props.Attributes... }
 			href={ templ.SafeURL(props.Href) }
 			target={ props.Target }
 			class={
@@ -127,13 +129,15 @@ templ Button(props ButtonProps) {
 			if props.HxSwap != "" {
 				hx-swap={ props.HxSwap }
 			}
+			if props.HxReplaceUrl != "" {
+				hx-replace-url={ props.HxReplaceUrl }
+			}
+			{ props.Attributes... }
 		>
 			{ children... }
-			@renderButtonContent(props)
 		</a>
 	} else {
 		<button
-			{ props.Attributes... }
 			class={
 				utils.TwMerge(
 					"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors",
@@ -174,21 +178,9 @@ templ Button(props ButtonProps) {
 			if props.HxReplaceUrl != "" {
 				hx-replace-url={ props.HxReplaceUrl }
 			}
+			{ props.Attributes... }
 		>
 			{ children... }
-			@renderButtonContent(props)
 		</button>
 	}
-}
-
-templ renderButtonContent(props ButtonProps) {
-	<span class="flex gap-2 items-center">
-		if props.IconLeft != nil {
-			@props.IconLeft
-		}
-		{ props.Text }
-		if props.IconRight != nil {
-			@props.IconRight
-		}
-	</span>
 }

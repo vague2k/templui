@@ -194,26 +194,29 @@ templ renderPageButton(props PaginationProps, page int) {
 	if page == props.CurrentPage {
 		@Button(ButtonProps{
 			Variant: getButtonVariant(props.Variant),
-			Text:    strconv.Itoa(page),
 			Size:    ButtonSizeIcon,
-		})
+		}) {
+			{ strconv.Itoa(page) }
+		}
 	} else {
 		if props.HxGet {
 			@Button(ButtonProps{
 				Variant:  ButtonVariantGhost,
-				Text:     strconv.Itoa(page),
 				HxGet:    getPageUrl(props.UrlPattern, page),
 				HxTarget: props.HxTarget,
 				HxSwap:   props.HxSwap,
 				Size:     ButtonSizeIcon,
-			})
+			}) {
+				{ strconv.Itoa(page) }
+			}
 		} else {
 			@Button(ButtonProps{
 				Variant: ButtonVariantGhost,
-				Text:    strconv.Itoa(page),
 				Size:    ButtonSizeIcon,
 				Href:    getPageUrl(props.UrlPattern, page),
-			})
+			}) {
+				{ strconv.Itoa(page) }
+			}
 		}
 	}
 }

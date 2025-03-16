@@ -283,13 +283,14 @@ templ TimePicker(props TimePickerProps) {
 				</div>
 				@Button(ButtonProps{
 					Type:    "button",
-					Text:    "Done",
 					Size:    ButtonSizeSm,
 					Variant: ButtonVariantSecondary,
 					Attributes: templ.Attributes{
 						"@click": "closeTimePicker",
 					},
-				})
+				}) {
+					Done
+				}
 			</div>
 		</div>
 	</div>

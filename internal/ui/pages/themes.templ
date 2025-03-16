@@ -659,13 +659,14 @@ templ Themes() {
 							<div class="text-xs text-muted-foreground">Pick a style and color for your components.</div>
 						</div>
 						@components.Button(components.ButtonProps{
-							Size:     "icon",
-							Variant:  "ghost",
-							IconLeft: icons.RotateCcw(icons.IconProps{Size: "14"}),
+							Size:    components.ButtonSizeIcon,
+							Variant: components.ButtonVariantOutline,
 							Attributes: templ.Attributes{
 								"@click": "resetTheme",
 							},
-						})
+						}) {
+							@icons.RotateCcw(icons.IconProps{Size: "14"})
+						}
 					</div>
 					@ThemeCustomizer(ThemeCustomizerProps{
 						CurrentTheme:  "orange",
@@ -835,13 +836,13 @@ templ ThemePreview() {
 			@components.CardFooter() {
 				<div class="flex justify-between w-full">
 					@components.Button(components.ButtonProps{
-						Text:    "Cancel",
-						Variant: "secondary",
-					})
-					@components.Button(components.ButtonProps{
-						Text:    "Register",
-						Variant: "primary",
-					})
+						Variant: components.ButtonVariantSecondary,
+					}) {
+						Cancel
+					}
+					@components.Button(components.ButtonProps{}) {
+						Register
+					}
 				</div>
 			}
 		}
@@ -863,9 +864,14 @@ templ ThemeCustomizer(props ThemeCustomizerProps) {
 			@ModeSelector()
 		</div>
 		@components.ModalTrigger("css-modal") {
-			@components.Button(components.ButtonProps{Text: "Generate and Copy CSS", FullWidth: true, Attributes: templ.Attributes{
-				"@click": "getGeneratedCSS",
-			}})
+			@components.Button(components.ButtonProps{
+				FullWidth: true,
+				Attributes: templ.Attributes{
+					"@click": "getGeneratedCSS",
+				},
+			}) {
+				Generate and Copy CSS
+			}
 		}
 		@components.Modal(components.ModalProps{ID: "css-modal", Class: "max-w-xl"}) {
 			@components.ModalHeader() {
@@ -877,15 +883,17 @@ templ ThemeCustomizer(props ThemeCustomizerProps) {
 			@components.ModalFooter() {
 				<div class="flex gap-2">
 					@components.Button(components.ButtonProps{
-						Text:       "Copy to Clipboard",
 						Variant:    "primary",
 						Attributes: templ.Attributes{"@click": "copyToClipboard"},
-					})
+					}) {
+						Copy to Clipboard
+					}
 					@components.ModalClose("css-modal") {
 						@components.Button(components.ButtonProps{
-							Text:    "Close",
 							Variant: "secondary",
-						})
+						}) {
+							Close
+						}
 					}
 				</div>
 			}
