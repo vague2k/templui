@@ -40,13 +40,12 @@ type TooltipTriggerProps struct {
 
 type TooltipContentProps struct {
 	ShowArrow  bool
-	Side       TooltipSide    // Override parent side if needed
-	Variant    TooltipVariant // Override parent variant if needed
+	Side       TooltipSide
+	Variant    TooltipVariant
 	Class      string
 	Attributes templ.Attributes
 }
 
-// Main tooltip container that creates the hover effect
 func Tooltip(props TooltipProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -110,7 +109,6 @@ func Tooltip(props TooltipProps) templ.Component {
 	})
 }
 
-// Element that triggers the tooltip
 func TooltipTrigger(props TooltipTriggerProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -174,7 +172,6 @@ func TooltipTrigger(props TooltipTriggerProps) templ.Component {
 	})
 }
 
-// The actual tooltip content
 func TooltipContent(props TooltipContentProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -274,7 +271,6 @@ func TooltipContent(props TooltipContentProps) templ.Component {
 	})
 }
 
-// Helper functions for class generation
 func getTooltipSideClass(side TooltipSide) string {
 	switch side {
 	case TooltipTop:
@@ -286,7 +282,7 @@ func getTooltipSideClass(side TooltipSide) string {
 	case TooltipLeft:
 		return "right-full top-1/2 -translate-y-1/2 mr-2"
 	default:
-		return "bottom-full left-1/2 -translate-x-1/2 mb-2" // Default to top
+		return "bottom-full left-1/2 -translate-x-1/2 mb-2"
 	}
 }
 
@@ -299,7 +295,7 @@ func getTooltipVariantClass(variant TooltipVariant) string {
 	case TooltipDestructive:
 		return "bg-destructive text-destructive-foreground"
 	default:
-		return "bg-foreground text-background" // Default
+		return "bg-foreground text-background"
 	}
 }
 
@@ -314,7 +310,7 @@ func getArrowClass(side TooltipSide) string {
 	case TooltipLeft:
 		return "right-[-4px] top-1/2 -translate-y-1/2"
 	default:
-		return "bottom-[-4px] left-1/2 -translate-x-1/2" // Default to top
+		return "bottom-[-4px] left-1/2 -translate-x-1/2"
 	}
 }
 
@@ -327,7 +323,7 @@ func getArrowColor(variant TooltipVariant) string {
 	case TooltipDestructive:
 		return "bg-destructive"
 	default:
-		return "bg-foreground" // Default
+		return "bg-foreground"
 	}
 }
 
