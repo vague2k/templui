@@ -1,7 +1,6 @@
 package components
 
 import (
-	"fmt"
 	"github.com/axzilla/templui/utils"
 	"strings"
 )
@@ -15,9 +14,20 @@ const (
 )
 
 type AvatarProps struct {
-	ImageSrc   string
-	Name       string
 	Size       AvatarSize
+	Class      string
+	Attributes templ.Attributes
+}
+
+type AvatarImageProps struct {
+	Src        string
+	Alt        string
+	Class      string
+	Attributes templ.Attributes
+}
+
+type AvatarFallbackProps struct {
+	DelayMs    int
 	Class      string
 	Attributes templ.Attributes
 }
@@ -32,39 +42,33 @@ templ Avatar(props AvatarProps) {
 		) }
 		{ props.Attributes... }
 	>
-		if props.ImageSrc != "" {
-			<img
-				src={ props.ImageSrc }
-				alt={ fmt.Sprintf("%s's avatar", props.Name) }
-				class={ utils.TwMerge(
-					"w-full h-full",
-					"rounded-full object-cover",
-				) }
-			/>
-		} else {
-			<span
-				class={ utils.TwMerge(
-					"font-medium text-muted-foreground",
-				) }
-			>
-				{ avatarInitials(props.Name) }
-			</span>
-		}
+		{ children... }
 	</div>
 }
 
-func avatarInitials(name string) string {
-	parts := strings.Fields(name)
-	initials := ""
-	for i, part := range parts {
-		if i > 1 {
-			break
-		}
-		if len(part) > 0 {
-			initials += string(part[0])
-		}
-	}
-	return strings.ToUpper(initials)
+templ AvatarImage(props AvatarImageProps) {
+	<img
+		src={ props.Src }
+		alt={ props.Alt }
+		class={ utils.TwMerge(
+			"w-full h-full",
+			"rounded-full object-cover",
+			props.Class,
+		) }
+		{ props.Attributes... }
+	/>
+}
+
+templ AvatarFallback(props AvatarFallbackProps) {
+	<span
+		class={ utils.TwMerge(
+			"font-medium text-muted-foreground",
+			props.Class,
+		) }
+		{ props.Attributes... }
+	>
+		{ children... }
+	</span>
 }
 
 func avatarSizeClasses(size AvatarSize) string {
@@ -76,4 +80,18 @@ func avatarSizeClasses(size AvatarSize) string {
 	default:
 		return "w-12 h-12 text-base"
 	}
+}
+
+func AvatarInitials(name string) string {
+	parts := strings.Fields(name)
+	initials := ""
+	for i, part := range parts {
+		if i > 1 {
+			break
+		}
+		if len(part) > 0 {
+			initials += string(part[0])
+		}
+	}
+	return strings.ToUpper(initials)
 }

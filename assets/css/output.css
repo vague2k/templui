@@ -401,6 +401,12 @@
       max-width: 96rem;
     }
   }
+  .m-4 {
+    margin: calc(var(--spacing) * 4);
+  }
+  .m-\[Vz\:�p�\13 �7�gk���b�\2 \] {
+    margin: Vz:�p��7�gk���b�;
+  }
   .mx-2 {
     margin-inline: calc(var(--spacing) * 2);
   }
@@ -1588,6 +1594,9 @@
   .select-none {
     -webkit-user-select: none;
     user-select: none;
+  }
+  .\[xy4\:�\;������\7f �C��Ec\~����\1c ՜��ꙃ�\1a �Y�9�\1a ��0\6 \] {
+    xy4: �;�������C��Ec~����՜��ꙃ��Y�9���0;
   }
   .group-hover\:block {
     &:is(:where(.group):hover *) {
