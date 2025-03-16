@@ -5,17 +5,30 @@ import (
 	"github.com/axzilla/templui/utils"
 )
 
-type BreadcrumbItem struct {
-	Label      string
-	Href       string
-	Icon       templ.Component
-	Current    bool
+type BreadcrumbProps struct {
+	Class      string
 	Attributes templ.Attributes
 }
 
-type BreadcrumbProps struct {
-	Items      []BreadcrumbItem
-	Separator  templ.Component
+type BreadcrumbListProps struct {
+	Class      string
+	Attributes templ.Attributes
+}
+
+type BreadcrumbItemProps struct {
+	Current    bool
+	Class      string
+	Attributes templ.Attributes
+}
+
+type BreadcrumbLinkProps struct {
+	Href       string
+	Class      string
+	Attributes templ.Attributes
+}
+
+type BreadcrumbSeparatorProps struct {
+	UseCustom  bool
 	Class      string
 	Attributes templ.Attributes
 }
@@ -29,43 +42,72 @@ templ Breadcrumb(props BreadcrumbProps) {
 		aria-label="Breadcrumb"
 		{ props.Attributes... }
 	>
-		<ol class="flex items-center flex-wrap gap-1 text-sm">
-			for i, item := range props.Items {
-				<li class="flex items-center">
-					if i > 0 {
-						<span class="mx-2 text-muted-foreground">
-							if props.Separator != nil {
-								@props.Separator
-							} else {
-								@icons.ChevronRight(icons.IconProps{Size: "14", Class: "text-muted-foreground"})
-							}
-						</span>
-					}
-					if item.Current {
-						<span
-							class="font-medium text-foreground flex items-center gap-1.5"
-							aria-current="page"
-							{ item.Attributes... }
-						>
-							if item.Icon != nil {
-								@item.Icon
-							}
-							{ item.Label }
-						</span>
-					} else {
-						<a
-							href={ templ.SafeURL(item.Href) }
-							class="text-muted-foreground hover:text-foreground hover:underline flex items-center gap-1.5 transition-colors"
-							{ item.Attributes... }
-						>
-							if item.Icon != nil {
-								@item.Icon
-							}
-							{ item.Label }
-						</a>
-					}
-				</li>
-			}
-		</ol>
+		{ children... }
 	</nav>
+}
+
+templ BreadcrumbList(props BreadcrumbListProps) {
+	<ol
+		class={ utils.TwMerge(
+			"flex items-center flex-wrap gap-1 text-sm",
+			props.Class,
+		) }
+		{ props.Attributes... }
+	>
+		{ children... }
+	</ol>
+}
+
+templ BreadcrumbItem(props BreadcrumbItemProps) {
+	<li
+		class={ utils.TwMerge(
+			"flex items-center",
+			props.Class,
+		) }
+		{ props.Attributes... }
+	>
+		{ children... }
+	</li>
+}
+
+templ BreadcrumbLink(props BreadcrumbLinkProps) {
+	<a
+		href={ templ.SafeURL(props.Href) }
+		class={ utils.TwMerge(
+			"text-muted-foreground hover:text-foreground hover:underline flex items-center gap-1.5 transition-colors",
+			props.Class,
+		) }
+		{ props.Attributes... }
+	>
+		{ children... }
+	</a>
+}
+
+templ BreadcrumbSeparator(props BreadcrumbSeparatorProps) {
+	<span
+		class={ utils.TwMerge(
+			"mx-2 text-muted-foreground",
+			props.Class,
+		) }
+		{ props.Attributes... }
+	>
+		if props.UseCustom {
+			{ children... }
+		} else {
+			@icons.ChevronRight(icons.IconProps{Size: "14", Class: "text-muted-foreground"})
+		}
+	</span>
+}
+
+templ BreadcrumbPage(props BreadcrumbItemProps) {
+	<span
+		class={ utils.TwMerge(
+			"font-medium text-foreground flex items-center gap-1.5",
+			props.Class,
+		) }
+		aria-current="page"
+		{ props.Attributes... }
+	>
+		{ children... }
+	</span>
 }
