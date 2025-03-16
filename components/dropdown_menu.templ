@@ -2,13 +2,76 @@ package components
 
 import "github.com/axzilla/templui/utils"
 
-// Base component props
+// Props structures moved to the top
 type DropdownMenuProps struct {
 	Class      string
 	Attributes templ.Attributes
 }
 
-// Root container for a dropdown menu
+type DropdownMenuTriggerProps struct {
+	Class      string
+	Attributes templ.Attributes
+}
+
+type DropdownMenuContentProps struct {
+	Width      string
+	MaxHeight  string
+	Align      string
+	Side       string
+	Class      string
+	Attributes templ.Attributes
+}
+
+type DropdownMenuGroupProps struct {
+	Class      string
+	Attributes templ.Attributes
+}
+
+type DropdownMenuLabelProps struct {
+	Class      string
+	Attributes templ.Attributes
+}
+
+type DropdownMenuItemProps struct {
+	Disabled   bool
+	Class      string
+	Attributes templ.Attributes
+}
+
+type DropdownMenuItemLinkProps struct {
+	Href       string
+	Target     string
+	Disabled   bool
+	Class      string
+	Attributes templ.Attributes
+}
+
+type DropdownMenuSeparatorProps struct {
+	Class      string
+	Attributes templ.Attributes
+}
+
+type DropdownMenuShortcutProps struct {
+	Class      string
+	Attributes templ.Attributes
+}
+
+type DropdownMenuSubProps struct {
+	Class      string
+	Attributes templ.Attributes
+}
+
+type DropdownMenuSubTriggerProps struct {
+	Class      string
+	Attributes templ.Attributes
+}
+
+type DropdownMenuSubContentProps struct {
+	Class      string
+	Attributes templ.Attributes
+}
+
+// Template implementations follow
 templ DropdownMenu(props DropdownMenuProps) {
 	<div
 		x-data="dropdown"
@@ -19,34 +82,17 @@ templ DropdownMenu(props DropdownMenuProps) {
 	</div>
 }
 
-// Trigger props
-type DropdownMenuTriggerProps struct {
-	Class      string
-	Attributes templ.Attributes
-}
-
-// Element that toggles the dropdown
 templ DropdownMenuTrigger(props DropdownMenuTriggerProps) {
 	<div
 		@click="toggleMenu"
 		class={ utils.TwMerge("inline-block", props.Class) }
+		data-trigger
 		{ props.Attributes... }
 	>
 		{ children... }
 	</div>
 }
 
-// Content props
-type DropdownMenuContentProps struct {
-	Width      string           // Custom width (e.g., "w-56")
-	MaxHeight  string           // Max height before scrolling (e.g., "200px")
-	Align      string           // Alignment: "start", "end", "center"
-	Side       string           // Side: "top", "bottom"
-	Class      string           // Additional classes
-	Attributes templ.Attributes // Additional attributes
-}
-
-// The dropdown panel containing the menu items
 templ DropdownMenuContent(props DropdownMenuContentProps) {
 	<div
 		x-ref="panel"
@@ -62,39 +108,17 @@ templ DropdownMenuContent(props DropdownMenuContentProps) {
 		class={ utils.TwMerge(
 				"absolute z-50 rounded-md bg-popover p-1 shadow-md focus:outline-none overflow-auto",
 				"border border-border",
-				"w-56", // Default width
-				
-				// Set default max-height to prevent overflow beyond viewport
-				"max-h-[var(--radix-dropdown-menu-content-available-height)]", 
-				
-				// Position - side
-				utils.TwIf("top-0 mt-1", props.Side == "bottom" || props.Side == ""),
-				utils.TwIf("bottom-0 mb-1", props.Side == "top"),
-				
-				// Position - alignment
-				utils.TwIf("left-0", props.Align == "start" || props.Align == ""),
-				utils.TwIf("right-0", props.Align == "end"),
-				utils.TwIf("left-1/2 -translate-x-1/2", props.Align == "center"),
-				
-				props.Width, // Custom width
+				"min-w-[8rem]",
+				props.Width,
 				props.Class,
 			) }
-		data-side={ props.Side }
-		data-align={ props.Align }
-		data-state="open"
+		style="top: 100%; margin-top: 0.25rem; left: 0;"
 		{ props.Attributes... }
 	>
 		{ children... }
 	</div>
 }
 
-// Group props
-type DropdownMenuGroupProps struct {
-	Class      string
-	Attributes templ.Attributes
-}
-
-// Groups related menu items
 templ DropdownMenuGroup(props DropdownMenuGroupProps) {
 	<div
 		class={ utils.TwMerge("py-1", props.Class) }
@@ -105,13 +129,6 @@ templ DropdownMenuGroup(props DropdownMenuGroupProps) {
 	</div>
 }
 
-// Label props
-type DropdownMenuLabelProps struct {
-	Class      string
-	Attributes templ.Attributes
-}
-
-// Label for a section of items
 templ DropdownMenuLabel(props DropdownMenuLabelProps) {
 	<div
 		class={ utils.TwMerge("px-2 py-1.5 text-sm font-semibold", props.Class) }
@@ -121,14 +138,6 @@ templ DropdownMenuLabel(props DropdownMenuLabelProps) {
 	</div>
 }
 
-// Item props
-type DropdownMenuItemProps struct {
-	Disabled   bool
-	Class      string
-	Attributes templ.Attributes
-}
-
-// Individual selectable menu item
 templ DropdownMenuItem(props DropdownMenuItemProps) {
 	<button
 		class={ utils.TwMerge(
@@ -145,22 +154,12 @@ templ DropdownMenuItem(props DropdownMenuItemProps) {
 	</button>
 }
 
-// Link items have href
-type DropdownMenuItemLinkProps struct {
-	Href       string
-	Target     string
-	Disabled   bool
-	Class      string
-	Attributes templ.Attributes
-}
-
-// Menu item that acts as a link
 templ DropdownMenuItemLink(props DropdownMenuItemLinkProps) {
 	<a
 		href={ templ.SafeURL(props.Href) }
 		target={ props.Target }
 		class={ utils.TwMerge(
-				"block text-left flex items-center px-2 py-1.5 text-sm rounded-sm",
+				"flex text-left items-center px-2 py-1.5 text-sm rounded-sm",
 				utils.TwIf("focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground cursor-default", !props.Disabled),
 				utils.TwIf("opacity-50 pointer-events-none", props.Disabled),
 				props.Class,
@@ -172,13 +171,6 @@ templ DropdownMenuItemLink(props DropdownMenuItemLinkProps) {
 	</a>
 }
 
-// Separator props
-type DropdownMenuSeparatorProps struct {
-	Class      string
-	Attributes templ.Attributes
-}
-
-// Visual separator between items
 templ DropdownMenuSeparator(props DropdownMenuSeparatorProps) {
 	<div
 		class={ utils.TwMerge("h-px my-1 bg-muted", props.Class) }
@@ -187,13 +179,6 @@ templ DropdownMenuSeparator(props DropdownMenuSeparatorProps) {
 	></div>
 }
 
-// Shortcut props
-type DropdownMenuShortcutProps struct {
-	Class      string
-	Attributes templ.Attributes
-}
-
-// Keyboard shortcut display
 templ DropdownMenuShortcut(props DropdownMenuShortcutProps) {
 	<span
 		class={ utils.TwMerge("ml-auto text-xs tracking-widest opacity-60", props.Class) }
@@ -201,12 +186,6 @@ templ DropdownMenuShortcut(props DropdownMenuShortcutProps) {
 	>
 		{ children... }
 	</span>
-}
-
-// Submenu components
-type DropdownMenuSubProps struct {
-	Class      string
-	Attributes templ.Attributes
 }
 
 templ DropdownMenuSub(props DropdownMenuSubProps) {
@@ -217,11 +196,6 @@ templ DropdownMenuSub(props DropdownMenuSubProps) {
 	>
 		{ children... }
 	</div>
-}
-
-type DropdownMenuSubTriggerProps struct {
-	Class      string
-	Attributes templ.Attributes
 }
 
 templ DropdownMenuSubTrigger(props DropdownMenuSubTriggerProps) {
@@ -239,17 +213,13 @@ templ DropdownMenuSubTrigger(props DropdownMenuSubTriggerProps) {
 			) }
 		{ props.Attributes... }
 	>
-		<span>{ children... }
-</span>
+		<span>
+			{ children... }
+		</span>
 		<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-auto">
 			<path d="M6.5 3L11.5 8L6.5 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
 		</svg>
 	</button>
-}
-
-type DropdownMenuSubContentProps struct {
-	Class      string
-	Attributes templ.Attributes
 }
 
 templ DropdownMenuSubContent(props DropdownMenuSubContentProps) {
@@ -275,143 +245,73 @@ templ DropdownMenuSubContent(props DropdownMenuSubContentProps) {
 	</div>
 }
 
-// Add the Alpine.js script for dropdown functionality
 templ DropdownMenuScript() {
 	<script defer nonce={ templ.GetNonce(ctx) }>
 		document.addEventListener('alpine:init', () => {
-			// Main dropdown functionality
 			Alpine.data('dropdown', () => ({
 				isMenuOpen: false,
-				originalSide: null,
-				originalAlign: null,
 				
 				toggleMenu() {
 					this.isMenuOpen = !this.isMenuOpen;
 					
 					if (this.isMenuOpen) {
 						this.$nextTick(() => {
-							this.saveOriginalPosition();
-							this.adjustMenuPosition();
-							
-							// Set up resize listener to readjust if window size changes
-							window.addEventListener('resize', this.handleResize);
+							this.adjustPosition();
+							window.addEventListener('resize', this.adjustPosition.bind(this));
 						});
 					} else {
-						// Cleanup on close
-						window.removeEventListener('resize', this.handleResize);
-						this.resetToOriginalPosition();
+						window.removeEventListener('resize', this.adjustPosition.bind(this));
 					}
 				},
 				
 				closeMenu() {
-					if (this.isMenuOpen) {
-						this.isMenuOpen = false;
-						window.removeEventListener('resize', this.handleResize);
-						this.resetToOriginalPosition();
-					}
+					this.isMenuOpen = false;
+					window.removeEventListener('resize', this.adjustPosition.bind(this));
 				},
 				
-				saveOriginalPosition() {
+				adjustPosition() {
 					const panel = this.$refs.panel;
 					if (!panel) return;
 					
-					// Store the original positioning
-					this.originalSide = panel.dataset.side || 'bottom';
-					this.originalAlign = panel.dataset.align || 'start';
-				},
-				
-				resetToOriginalPosition() {
-					// Only restore if we have changed from original
-					if (!this.originalSide || !this.originalAlign) return;
-					
-					const panel = this.$refs.panel;
-					if (!panel) return;
-					
-					// Reset to original side position
-					if (this.originalSide === 'bottom' || this.originalSide === '') {
-						panel.classList.add('top-0', 'mt-1');
-						panel.classList.remove('bottom-0', 'mb-1');
-					} else {
-						panel.classList.add('bottom-0', 'mb-1');
-						panel.classList.remove('top-0', 'mt-1');
-					}
-					
-					// Reset to original alignment
-					panel.classList.remove('right-0', 'left-0', 'left-1/2', '-translate-x-1/2');
-					if (this.originalAlign === 'end') {
-						panel.classList.add('right-0');
-					} else if (this.originalAlign === 'center') {
-						panel.classList.add('left-1/2', '-translate-x-1/2');
-					} else {
-						panel.classList.add('left-0');
-					}
-				},
-				
-				handleResize() {
-					this.adjustMenuPosition();
-				},
-				
-				adjustMenuPosition() {
-					const panel = this.$refs.panel;
-					if (!panel) return;
-					
-					// Calculate available space
 					const viewportHeight = window.innerHeight;
 					const viewportWidth = window.innerWidth;
+					
 					const triggerRect = this.$el.getBoundingClientRect();
 					const panelRect = panel.getBoundingClientRect();
 					
-					// Calculate available height and set CSS variable
-					let availableHeight;
-					const isSideTop = panel.classList.contains('bottom-0');
+					panel.style.maxHeight = `${Math.max(100, viewportHeight - triggerRect.bottom - 10)}px`;
 					
-					if (isSideTop) {
-						availableHeight = triggerRect.top - 10; // 10px buffer
+					if (triggerRect.bottom + panelRect.height > viewportHeight && 
+						triggerRect.top > panelRect.height) {
+						panel.style.top = 'auto';
+						panel.style.bottom = '100%';
+						panel.style.marginTop = '0';
+						panel.style.marginBottom = '0.25rem';
+						
+						panel.style.maxHeight = `${Math.max(100, triggerRect.top - 10)}px`;
 					} else {
-						availableHeight = viewportHeight - triggerRect.bottom - 10; // 10px buffer
+						panel.style.top = '100%';
+						panel.style.bottom = 'auto';
+						panel.style.marginTop = '0.25rem';
+						panel.style.marginBottom = '0';
 					}
 					
-					// Set the max-height CSS variable
-					panel.style.setProperty('--radix-dropdown-menu-content-available-height', `${availableHeight}px`);
-					
-					// Check vertical positioning (top/bottom)
-					if (!isSideTop && triggerRect.bottom + panelRect.height > viewportHeight) {
-						// Not enough room below, switch to top if there's more room there
-						if (triggerRect.top > (viewportHeight - triggerRect.bottom)) {
-							panel.classList.add('bottom-0', 'mb-1');
-							panel.classList.remove('top-0', 'mt-1');
-						}
-					} else if (isSideTop && triggerRect.top < panelRect.height) {
-						// Not enough room above, switch to bottom if there's more room there
-						if ((viewportHeight - triggerRect.bottom) > triggerRect.top) {
-							panel.classList.add('top-0', 'mt-1');
-							panel.classList.remove('bottom-0', 'mb-1');
-						}
-					}
-					
-					// Check horizontal positioning (left/right/center)
-					const isAlignLeft = panel.classList.contains('left-0');
-					const isAlignCenter = panel.classList.contains('left-1/2');
-					
-					if ((isAlignLeft || isAlignCenter) && triggerRect.left + panelRect.width > viewportWidth) {
-						// Not enough room to the right, align to right edge
-						panel.classList.add('right-0');
-						panel.classList.remove('left-0', 'left-1/2', '-translate-x-1/2');
-					} else if (!isAlignLeft && !isAlignCenter && triggerRect.right - panelRect.width < 0) {
-						// Not enough room to the left, align to left edge
-						panel.classList.add('left-0');
-						panel.classList.remove('right-0');
+					if (triggerRect.left + panelRect.width > viewportWidth) {
+						panel.style.left = 'auto';
+						panel.style.right = '0';
+					} else {
+						panel.style.left = '0';
+						panel.style.right = 'auto';
 					}
 				}
 			}));
 			
-			// Submenu functionality
 			Alpine.data('dropdownSubmenu', () => ({
 				isSubmenuOpen: false,
-				closeTimer: null,
+				hoverTimer: null,
 				
 				openSubmenu() {
-					clearTimeout(this.closeTimer);
+					clearTimeout(this.hoverTimer);
 					this.isSubmenuOpen = true;
 					
 					this.$nextTick(() => {
@@ -420,30 +320,32 @@ templ DropdownMenuScript() {
 				},
 				
 				closeSubmenu() {
-					// Use timer to prevent flicker when moving between trigger and submenu
-					this.closeTimer = setTimeout(() => {
+					this.hoverTimer = setTimeout(() => {
 						this.isSubmenuOpen = false;
-					}, 100);
+					}, 150);
 				},
 				
 				adjustSubmenuPosition() {
 					const submenu = this.$el.querySelector('[data-submenu]');
 					if (!submenu) return;
 					
-					const rect = submenu.getBoundingClientRect();
 					const viewportHeight = window.innerHeight;
 					const viewportWidth = window.innerWidth;
+					const triggerRect = this.$el.getBoundingClientRect();
+					const submenuRect = submenu.getBoundingClientRect();
 					
-					// Adjust vertical position if needed
-					if (rect.bottom > viewportHeight) {
-						const overflowAmount = rect.bottom - viewportHeight;
-						submenu.style.top = `-${overflowAmount}px`;
-					}
+					submenu.style.maxHeight = `${Math.max(100, viewportHeight - submenuRect.top - 10)}px`;
 					
-					// If not enough space on right, show on left
-					if (rect.right > viewportWidth) {
-						submenu.classList.remove('left-full', 'ml-1');
-						submenu.classList.add('right-full', 'mr-1');
+					if (triggerRect.right + submenuRect.width > viewportWidth) {
+						submenu.style.left = 'auto';
+						submenu.style.right = '100%';
+						submenu.style.marginLeft = '0';
+						submenu.style.marginRight = '0.25rem';
+					} else {
+						submenu.style.left = '100%';
+						submenu.style.right = 'auto'; 
+						submenu.style.marginLeft = '0.25rem';
+						submenu.style.marginRight = '0';
 					}
 				}
 			}));
