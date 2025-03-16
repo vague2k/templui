@@ -371,6 +371,9 @@
   .left-full {
     left: 100%;
   }
+  .z-2 {
+    z-index: 2;
+  }
   .z-10 {
     z-index: 10;
   }
@@ -2110,11 +2113,6 @@
   .sm\:h-1\/2 {
     @media (width >= 40rem) {
       height: calc(1/2 * 100%);
-    }
-  }
-  .sm\:max-w-\[70\%\] {
-    @media (width >= 40rem) {
-      max-width: 70%;
     }
   }
   .sm\:flex-row-reverse {
