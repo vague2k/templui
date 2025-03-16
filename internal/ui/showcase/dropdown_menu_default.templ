@@ -1,9 +1,12 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
-import "github.com/axzilla/templui/icons"
+import (
+	"github.com/axzilla/templui/components"
+	"github.com/axzilla/templui/icons"
+)
 
 templ DropdownMenuDefault() {
+	@components.DropdownMenuScript()
 	@components.DropdownMenu(components.DropdownMenuProps{}) {
 		@components.DropdownMenuTrigger(components.DropdownMenuTriggerProps{}) {
 			@components.Button(components.ButtonProps{
@@ -50,31 +53,31 @@ templ DropdownMenuDefault() {
 				@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
 					Team
 				}
-				@components.DropdownMenuSubTrigger(components.DropdownMenuSubTriggerProps{}) {
-					<span class="flex items-center">
-						@icons.Users(icons.IconProps{Size: "16", Class: "mr-2"})
-						Invite users
-					</span>
-					<template x-slot:submenu>
-						@components.DropdownMenuGroup(components.DropdownMenuGroupProps{}) {
-							@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
-								<span class="flex items-center">
-									@icons.Mail(icons.IconProps{Size: "16", Class: "mr-2"})
-									Email
-								</span>
-							}
-							@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
-								<span class="flex items-center">
-									@icons.MessageSquare(icons.IconProps{Size: "16", Class: "mr-2"})
-									Message
-								</span>
-							}
-							@components.DropdownMenuSeparator(components.DropdownMenuSeparatorProps{})
-							@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
-								More...
-							}
+				@components.DropdownMenuSub(components.DropdownMenuSubProps{}) {
+					@components.DropdownMenuSubTrigger(components.DropdownMenuSubTriggerProps{}) {
+						<span class="flex items-center">
+							@icons.Users(icons.IconProps{Size: "16", Class: "mr-2"})
+							Invite users
+						</span>
+					}
+					@components.DropdownMenuSubContent(components.DropdownMenuSubContentProps{}) {
+						@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
+							<span class="flex items-center">
+								@icons.Mail(icons.IconProps{Size: "16", Class: "mr-2"})
+								Email
+							</span>
 						}
-					</template>
+						@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
+							<span class="flex items-center">
+								@icons.MessageSquare(icons.IconProps{Size: "16", Class: "mr-2"})
+								Message
+							</span>
+						}
+						@components.DropdownMenuSeparator(components.DropdownMenuSeparatorProps{})
+						@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
+							More...
+						}
+					}
 				}
 				@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
 					New Team

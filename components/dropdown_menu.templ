@@ -38,48 +38,50 @@ templ DropdownMenuTrigger(props DropdownMenuTriggerProps) {
 
 // Content props
 type DropdownMenuContentProps struct {
-	Width      string
-	MaxHeight  string
-	Align      string // start, end, center
-	Class      string
-	Attributes templ.Attributes
+	Width      string           // Custom width (e.g., "w-56")
+	MaxHeight  string           // Max height before scrolling (e.g., "200px")
+	Align      string           // Alignment: "start", "end", "center"
+	Side       string           // Side: "top", "bottom"
+	Class      string           // Additional classes
+	Attributes templ.Attributes // Additional attributes
 }
 
 // The dropdown panel containing the menu items
 templ DropdownMenuContent(props DropdownMenuContentProps) {
 	<div
-		x-ref="menu"
-		x-show="isOpen"
-		@click.away="closeMenu"
+		x-ref="panel"
+		x-show="isMenuOpen"
+		@click.outside="closeMenu"
 		@keydown.escape.window="closeMenu"
 		x-transition:enter="transition ease-out duration-100"
-		x-transition:enter-start="transform opacity-0 scale-95"
-		x-transition:enter-end="transform opacity-100 scale-100"
+		x-transition:enter-start="opacity-0 scale-95"
+		x-transition:enter-end="opacity-100 scale-100"
 		x-transition:leave="transition ease-in duration-75"
-		x-transition:leave-start="transform opacity-100 scale-100"
-		x-transition:leave-end="transform opacity-0 scale-95"
+		x-transition:leave-start="opacity-100 scale-100"
+		x-transition:leave-end="opacity-0 scale-95"
 		class={ utils.TwMerge(
-				"absolute z-50 mt-2 rounded-md shadow-lg bg-popover focus:outline-hidden",
+				"absolute z-50 rounded-md bg-popover p-1 shadow-md focus:outline-none overflow-auto",
 				"border border-border",
-				utils.TwIf("overflow-y-auto", props.MaxHeight != ""),
-				utils.TwIf("w-56", props.Width == ""),
-				utils.TwIf("max-h-[200px]", props.MaxHeight == "200px"),
-				utils.TwIf("max-h-[300px]", props.MaxHeight == "300px"),
-				utils.TwIf("max-h-[400px]", props.MaxHeight == "400px"),
-				utils.TwIf("max-h-[500px]", props.MaxHeight == "500px"),
-				utils.TwIf("bottom-full mb-2", props.Align == "top"),
-				utils.TwIf("top-full mt-2", props.Align != "top"),
+				"w-56", // Default width
+				
+				// Set default max-height to prevent overflow beyond viewport
+				"max-h-[var(--radix-dropdown-menu-content-available-height)]", 
+				
+				// Position - side
+				utils.TwIf("top-0 mt-1", props.Side == "bottom" || props.Side == ""),
+				utils.TwIf("bottom-0 mb-1", props.Side == "top"),
+				
+				// Position - alignment
+				utils.TwIf("left-0", props.Align == "start" || props.Align == ""),
 				utils.TwIf("right-0", props.Align == "end"),
 				utils.TwIf("left-1/2 -translate-x-1/2", props.Align == "center"),
-				utils.TwIf("left-0", props.Align == "start" || props.Align == ""),
-				props.Width,
+				
+				props.Width, // Custom width
 				props.Class,
 			) }
+		data-side={ props.Side }
 		data-align={ props.Align }
-		data-max-height={ props.MaxHeight }
-		role="menu"
-		aria-orientation="vertical"
-		tabindex="-1"
+		data-state="open"
 		{ props.Attributes... }
 	>
 		{ children... }
@@ -112,7 +114,7 @@ type DropdownMenuLabelProps struct {
 // Label for a section of items
 templ DropdownMenuLabel(props DropdownMenuLabelProps) {
 	<div
-		class={ utils.TwMerge("px-3 py-2 text-sm font-semibold", props.Class) }
+		class={ utils.TwMerge("px-2 py-1.5 text-sm font-semibold", props.Class) }
 		{ props.Attributes... }
 	>
 		{ children... }
@@ -130,9 +132,9 @@ type DropdownMenuItemProps struct {
 templ DropdownMenuItem(props DropdownMenuItemProps) {
 	<button
 		class={ utils.TwMerge(
-				"w-full text-left flex items-center justify-between px-3 py-2 text-sm",
-				utils.TwIf("text-foreground hover:bg-accent hover:text-accent-foreground", !props.Disabled),
-				utils.TwIf("text-muted-foreground cursor-not-allowed", props.Disabled),
+				"w-full text-left flex items-center justify-between px-2 py-1.5 text-sm rounded-sm",
+				utils.TwIf("focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground cursor-default", !props.Disabled),
+				utils.TwIf("opacity-50 pointer-events-none", props.Disabled),
 				props.Class,
 			) }
 		role="menuitem"
@@ -158,9 +160,9 @@ templ DropdownMenuItemLink(props DropdownMenuItemLinkProps) {
 		href={ templ.SafeURL(props.Href) }
 		target={ props.Target }
 		class={ utils.TwMerge(
-				"block text-left flex items-center px-3 py-2 text-sm",
-				utils.TwIf("text-foreground hover:bg-accent hover:text-accent-foreground", !props.Disabled),
-				utils.TwIf("text-muted-foreground cursor-not-allowed", props.Disabled),
+				"block text-left flex items-center px-2 py-1.5 text-sm rounded-sm",
+				utils.TwIf("focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground cursor-default", !props.Disabled),
+				utils.TwIf("opacity-50 pointer-events-none", props.Disabled),
 				props.Class,
 			) }
 		role="menuitem"
@@ -179,7 +181,7 @@ type DropdownMenuSeparatorProps struct {
 // Visual separator between items
 templ DropdownMenuSeparator(props DropdownMenuSeparatorProps) {
 	<div
-		class={ utils.TwMerge("mx-1 my-1 h-px bg-border", props.Class) }
+		class={ utils.TwMerge("h-px my-1 bg-muted", props.Class) }
 		role="separator"
 		{ props.Attributes... }
 	></div>
@@ -194,52 +196,82 @@ type DropdownMenuShortcutProps struct {
 // Keyboard shortcut display
 templ DropdownMenuShortcut(props DropdownMenuShortcutProps) {
 	<span
-		class={ utils.TwMerge("ml-auto text-xs tracking-widest text-muted-foreground", props.Class) }
+		class={ utils.TwMerge("ml-auto text-xs tracking-widest opacity-60", props.Class) }
 		{ props.Attributes... }
 	>
 		{ children... }
 	</span>
 }
 
-// Sub-menu components
+// Submenu components
+type DropdownMenuSubProps struct {
+	Class      string
+	Attributes templ.Attributes
+}
+
+templ DropdownMenuSub(props DropdownMenuSubProps) {
+	<div
+		x-data="dropdownSubmenu"
+		class={ utils.TwMerge("relative", props.Class) }
+		{ props.Attributes... }
+	>
+		{ children... }
+	</div>
+}
+
 type DropdownMenuSubTriggerProps struct {
 	Class      string
 	Attributes templ.Attributes
 }
 
 templ DropdownMenuSubTrigger(props DropdownMenuSubTriggerProps) {
-	<div
+	<button
+		type="button"
+		@mouseenter="openSubmenu"
+		@focus="openSubmenu"
+		@mouseleave="closeSubmenu"
+		@blur="closeSubmenu"
 		class={ utils.TwMerge(
-				"w-full text-left flex items-center justify-between px-3 py-2 text-sm",
-				"text-foreground hover:bg-accent hover:text-accent-foreground",
-				"cursor-pointer",
+				"w-full text-left flex items-center justify-between px-2 py-1.5 text-sm rounded-sm",
+				"focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground cursor-default",
+				"data-[state=open]:bg-accent data-[state=open]:text-accent-foreground",
 				props.Class,
 			) }
-		x-data="submenu"
-		@click="toggleSubmenu"
-		@mouseenter="openSubmenu"
-		@mouseleave="closeSubmenu"
-		role="menuitem"
-		aria-haspopup="true"
-		aria-expanded="false"
 		{ props.Attributes... }
 	>
-		<span>
-			{ children... }
-		</span>
-		<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-auto h-4 w-4"><path d="m9 18 6-6-6-6"></path></svg>
-		<div
-			x-show="isOpen"
-			x-transition:enter="transition ease-out duration-100"
-			x-transition:enter-start="transform opacity-0 scale-95"
-			x-transition:enter-end="transform opacity-100 scale-100"
-			x-transition:leave="transition ease-in duration-75"
-			x-transition:leave-start="transform opacity-100 scale-100"
-			x-transition:leave-end="transform opacity-0 scale-95"
-			class="absolute left-full top-0 z-50 min-w-[8rem] rounded-md border border-border bg-popover p-1 shadow-md ml-[1px]"
-		>
-			<slot name="submenu"></slot>
-		</div>
+		<span>{ children... }
+</span>
+		<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-auto">
+			<path d="M6.5 3L11.5 8L6.5 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+		</svg>
+	</button>
+}
+
+type DropdownMenuSubContentProps struct {
+	Class      string
+	Attributes templ.Attributes
+}
+
+templ DropdownMenuSubContent(props DropdownMenuSubContentProps) {
+	<div
+		x-show="isSubmenuOpen"
+		@mouseenter="openSubmenu"
+		@mouseleave="closeSubmenu"
+		x-transition:enter="transition ease-out duration-100"
+		x-transition:enter-start="opacity-0 -translate-x-2"
+		x-transition:enter-end="opacity-100 translate-x-0"
+		x-transition:leave="transition ease-in duration-75"
+		x-transition:leave-start="opacity-100 translate-x-0"
+		x-transition:leave-end="opacity-0 -translate-x-2"
+		class={ utils.TwMerge(
+				"absolute left-full top-0 z-50 min-w-[8rem] overflow-hidden rounded-md border bg-popover p-1 shadow-lg",
+				"ml-1 mt-0 max-h-[var(--radix-dropdown-submenu-content-available-height)]",
+				props.Class,
+			) }
+		data-submenu
+		{ props.Attributes... }
+	>
+		{ children... }
 	</div>
 }
 
@@ -249,31 +281,170 @@ templ DropdownMenuScript() {
 		document.addEventListener('alpine:init', () => {
 			// Main dropdown functionality
 			Alpine.data('dropdown', () => ({
-				isOpen: false,
+				isMenuOpen: false,
+				originalSide: null,
+				originalAlign: null,
 				
 				toggleMenu() {
-					this.isOpen = !this.isOpen;
+					this.isMenuOpen = !this.isMenuOpen;
+					
+					if (this.isMenuOpen) {
+						this.$nextTick(() => {
+							this.saveOriginalPosition();
+							this.adjustMenuPosition();
+							
+							// Set up resize listener to readjust if window size changes
+							window.addEventListener('resize', this.handleResize);
+						});
+					} else {
+						// Cleanup on close
+						window.removeEventListener('resize', this.handleResize);
+						this.resetToOriginalPosition();
+					}
 				},
-
+				
 				closeMenu() {
-					this.isOpen = false;
+					if (this.isMenuOpen) {
+						this.isMenuOpen = false;
+						window.removeEventListener('resize', this.handleResize);
+						this.resetToOriginalPosition();
+					}
+				},
+				
+				saveOriginalPosition() {
+					const panel = this.$refs.panel;
+					if (!panel) return;
+					
+					// Store the original positioning
+					this.originalSide = panel.dataset.side || 'bottom';
+					this.originalAlign = panel.dataset.align || 'start';
+				},
+				
+				resetToOriginalPosition() {
+					// Only restore if we have changed from original
+					if (!this.originalSide || !this.originalAlign) return;
+					
+					const panel = this.$refs.panel;
+					if (!panel) return;
+					
+					// Reset to original side position
+					if (this.originalSide === 'bottom' || this.originalSide === '') {
+						panel.classList.add('top-0', 'mt-1');
+						panel.classList.remove('bottom-0', 'mb-1');
+					} else {
+						panel.classList.add('bottom-0', 'mb-1');
+						panel.classList.remove('top-0', 'mt-1');
+					}
+					
+					// Reset to original alignment
+					panel.classList.remove('right-0', 'left-0', 'left-1/2', '-translate-x-1/2');
+					if (this.originalAlign === 'end') {
+						panel.classList.add('right-0');
+					} else if (this.originalAlign === 'center') {
+						panel.classList.add('left-1/2', '-translate-x-1/2');
+					} else {
+						panel.classList.add('left-0');
+					}
+				},
+				
+				handleResize() {
+					this.adjustMenuPosition();
+				},
+				
+				adjustMenuPosition() {
+					const panel = this.$refs.panel;
+					if (!panel) return;
+					
+					// Calculate available space
+					const viewportHeight = window.innerHeight;
+					const viewportWidth = window.innerWidth;
+					const triggerRect = this.$el.getBoundingClientRect();
+					const panelRect = panel.getBoundingClientRect();
+					
+					// Calculate available height and set CSS variable
+					let availableHeight;
+					const isSideTop = panel.classList.contains('bottom-0');
+					
+					if (isSideTop) {
+						availableHeight = triggerRect.top - 10; // 10px buffer
+					} else {
+						availableHeight = viewportHeight - triggerRect.bottom - 10; // 10px buffer
+					}
+					
+					// Set the max-height CSS variable
+					panel.style.setProperty('--radix-dropdown-menu-content-available-height', `${availableHeight}px`);
+					
+					// Check vertical positioning (top/bottom)
+					if (!isSideTop && triggerRect.bottom + panelRect.height > viewportHeight) {
+						// Not enough room below, switch to top if there's more room there
+						if (triggerRect.top > (viewportHeight - triggerRect.bottom)) {
+							panel.classList.add('bottom-0', 'mb-1');
+							panel.classList.remove('top-0', 'mt-1');
+						}
+					} else if (isSideTop && triggerRect.top < panelRect.height) {
+						// Not enough room above, switch to bottom if there's more room there
+						if ((viewportHeight - triggerRect.bottom) > triggerRect.top) {
+							panel.classList.add('top-0', 'mt-1');
+							panel.classList.remove('bottom-0', 'mb-1');
+						}
+					}
+					
+					// Check horizontal positioning (left/right/center)
+					const isAlignLeft = panel.classList.contains('left-0');
+					const isAlignCenter = panel.classList.contains('left-1/2');
+					
+					if ((isAlignLeft || isAlignCenter) && triggerRect.left + panelRect.width > viewportWidth) {
+						// Not enough room to the right, align to right edge
+						panel.classList.add('right-0');
+						panel.classList.remove('left-0', 'left-1/2', '-translate-x-1/2');
+					} else if (!isAlignLeft && !isAlignCenter && triggerRect.right - panelRect.width < 0) {
+						// Not enough room to the left, align to left edge
+						panel.classList.add('left-0');
+						panel.classList.remove('right-0');
+					}
 				}
 			}));
 			
 			// Submenu functionality
-			Alpine.data('submenu', () => ({
-				isOpen: false,
-				
-				toggleSubmenu() {
-					this.isOpen = !this.isOpen;
-				},
+			Alpine.data('dropdownSubmenu', () => ({
+				isSubmenuOpen: false,
+				closeTimer: null,
 				
 				openSubmenu() {
-					this.isOpen = true;
+					clearTimeout(this.closeTimer);
+					this.isSubmenuOpen = true;
+					
+					this.$nextTick(() => {
+						this.adjustSubmenuPosition();
+					});
 				},
 				
 				closeSubmenu() {
-					this.isOpen = false;
+					// Use timer to prevent flicker when moving between trigger and submenu
+					this.closeTimer = setTimeout(() => {
+						this.isSubmenuOpen = false;
+					}, 100);
+				},
+				
+				adjustSubmenuPosition() {
+					const submenu = this.$el.querySelector('[data-submenu]');
+					if (!submenu) return;
+					
+					const rect = submenu.getBoundingClientRect();
+					const viewportHeight = window.innerHeight;
+					const viewportWidth = window.innerWidth;
+					
+					// Adjust vertical position if needed
+					if (rect.bottom > viewportHeight) {
+						const overflowAmount = rect.bottom - viewportHeight;
+						submenu.style.top = `-${overflowAmount}px`;
+					}
+					
+					// If not enough space on right, show on left
+					if (rect.right > viewportWidth) {
+						submenu.classList.remove('left-full', 'ml-1');
+						submenu.classList.add('right-full', 'mr-1');
+					}
 				}
 			}));
 		});
