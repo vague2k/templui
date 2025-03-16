@@ -3,16 +3,7 @@ package showcase
 import "github.com/axzilla/templui/components"
 
 templ TooltipDefault() {
-	<!-- @components.Tooltip(components.TooltipProps{ -->
-	<!-- 	Trigger: components.Button(components.ButtonProps{ -->
-	<!-- 		Text:    "Hover me", -->
-	<!-- 		Variant: components.ButtonVariantOutline, -->
-	<!-- 	}), -->
-	<!-- 	Content: templ.Raw("Default"), -->
-	<!-- }) -->
-	@components.Tooltip(components.TooltipProps{
-		Side: components.TooltipTop,
-	}) {
+	@components.Tooltip(components.TooltipProps{}) {
 		@components.TooltipTrigger(components.TooltipTriggerProps{}) {
 			@components.Button(components.ButtonProps{
 				Variant: components.ButtonVariantOutline,
@@ -21,7 +12,8 @@ templ TooltipDefault() {
 			}
 		}
 		@components.TooltipContent(components.TooltipContentProps{
-			ShowArrow: true,
+			Side:    components.TooltipTop,
+			Variant: components.TooltipDefault,
 		}) {
 			Add to cart
 		}
