@@ -1,6 +1,7 @@
 package showcase
 
 import "github.com/axzilla/templui/components"
+import "github.com/axzilla/templui/icons"
 
 templ DropdownMenuDefault() {
 	@components.DropdownMenu(components.DropdownMenuProps{}) {
@@ -11,7 +12,9 @@ templ DropdownMenuDefault() {
 				Open
 			}
 		}
-		@components.DropdownMenuContent(components.DropdownMenuContentProps{}) {
+		@components.DropdownMenuContent(components.DropdownMenuContentProps{
+			Width: "w-56",
+		}) {
 			@components.DropdownMenuLabel(components.DropdownMenuLabelProps{}) {
 				My Account
 			}
@@ -35,11 +38,43 @@ templ DropdownMenuDefault() {
 						⌘S
 					}
 				}
+				@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
+					Keyboard shortcuts
+					@components.DropdownMenuShortcut(components.DropdownMenuShortcutProps{}) {
+						⌘K
+					}
+				}
 			}
 			@components.DropdownMenuSeparator(components.DropdownMenuSeparatorProps{})
 			@components.DropdownMenuGroup(components.DropdownMenuGroupProps{}) {
 				@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
 					Team
+				}
+				@components.DropdownMenuSubTrigger(components.DropdownMenuSubTriggerProps{}) {
+					<span class="flex items-center">
+						@icons.Users(icons.IconProps{Size: "16", Class: "mr-2"})
+						Invite users
+					</span>
+					<template x-slot:submenu>
+						@components.DropdownMenuGroup(components.DropdownMenuGroupProps{}) {
+							@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
+								<span class="flex items-center">
+									@icons.Mail(icons.IconProps{Size: "16", Class: "mr-2"})
+									Email
+								</span>
+							}
+							@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
+								<span class="flex items-center">
+									@icons.MessageSquare(icons.IconProps{Size: "16", Class: "mr-2"})
+									Message
+								</span>
+							}
+							@components.DropdownMenuSeparator(components.DropdownMenuSeparatorProps{})
+							@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
+								More...
+							}
+						}
+					</template>
 				}
 				@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
 					New Team
@@ -50,22 +85,34 @@ templ DropdownMenuDefault() {
 			}
 			@components.DropdownMenuSeparator(components.DropdownMenuSeparatorProps{})
 			@components.DropdownMenuItemLink(components.DropdownMenuItemLinkProps{
-				Href:   "https://github.com/axzilla/templui",
+				Href:   "https://github.com",
 				Target: "_blank",
 			}) {
-				GitHub
+				<span class="flex items-center">
+					@icons.Github(icons.IconProps{Size: "16", Class: "mr-2"})
+					GitHub
+				</span>
 			}
 			@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
-				Support
+				<span class="flex items-center">
+					@icons.LifeBuoy(icons.IconProps{Size: "16", Class: "mr-2"})
+					Support
+				</span>
 			}
 			@components.DropdownMenuItem(components.DropdownMenuItemProps{
 				Disabled: true,
 			}) {
-				API
+				<span class="flex items-center">
+					@icons.Code(icons.IconProps{Size: "16", Class: "mr-2"})
+					API
+				</span>
 			}
 			@components.DropdownMenuSeparator(components.DropdownMenuSeparatorProps{})
 			@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
-				Log out
+				<span class="flex items-center">
+					@icons.LogOut(icons.IconProps{Size: "16", Class: "mr-2"})
+					Log out
+				</span>
 				@components.DropdownMenuShortcut(components.DropdownMenuShortcutProps{}) {
 					⇧⌘Q
 				}

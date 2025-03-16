@@ -1,8 +1,6 @@
 package components
 
-import (
-	"github.com/axzilla/templui/utils"
-)
+import "github.com/axzilla/templui/utils"
 
 // Base component props
 type DropdownMenuProps struct {
@@ -14,7 +12,6 @@ type DropdownMenuProps struct {
 templ DropdownMenu(props DropdownMenuProps) {
 	<div
 		x-data="dropdown"
-		@resize.window="updatePosition"
 		class={ utils.TwMerge("relative inline-block text-left", props.Class) }
 		{ props.Attributes... }
 	>
@@ -31,7 +28,7 @@ type DropdownMenuTriggerProps struct {
 // Element that toggles the dropdown
 templ DropdownMenuTrigger(props DropdownMenuTriggerProps) {
 	<div
-		@click="openMenu"
+		@click="toggleMenu"
 		class={ utils.TwMerge("inline-block", props.Class) }
 		{ props.Attributes... }
 	>
@@ -42,6 +39,8 @@ templ DropdownMenuTrigger(props DropdownMenuTriggerProps) {
 // Content props
 type DropdownMenuContentProps struct {
 	Width      string
+	MaxHeight  string
+	Align      string // start, end, center
 	Class      string
 	Attributes templ.Attributes
 }
@@ -51,8 +50,8 @@ templ DropdownMenuContent(props DropdownMenuContentProps) {
 	<div
 		x-ref="menu"
 		x-show="isOpen"
-		@click.away="setClose"
-		@keydown.escape.window="setClose"
+		@click.away="closeMenu"
+		@keydown.escape.window="closeMenu"
 		x-transition:enter="transition ease-out duration-100"
 		x-transition:enter-start="transform opacity-0 scale-95"
 		x-transition:enter-end="transform opacity-100 scale-100"
@@ -62,14 +61,22 @@ templ DropdownMenuContent(props DropdownMenuContentProps) {
 		class={ utils.TwMerge(
 				"absolute z-50 mt-2 rounded-md shadow-lg bg-popover focus:outline-hidden",
 				"border border-border",
-				utils.TwIfElse(
-					props.Width == "",
-					"w-56",
+				utils.TwIf("overflow-y-auto", props.MaxHeight != ""),
+				utils.TwIf("w-56", props.Width == ""),
+				utils.TwIf("max-h-[200px]", props.MaxHeight == "200px"),
+				utils.TwIf("max-h-[300px]", props.MaxHeight == "300px"),
+				utils.TwIf("max-h-[400px]", props.MaxHeight == "400px"),
+				utils.TwIf("max-h-[500px]", props.MaxHeight == "500px"),
+				utils.TwIf("bottom-full mb-2", props.Align == "top"),
+				utils.TwIf("top-full mt-2", props.Align != "top"),
+				utils.TwIf("right-0", props.Align == "end"),
+				utils.TwIf("left-1/2 -translate-x-1/2", props.Align == "center"),
+				utils.TwIf("left-0", props.Align == "start" || props.Align == ""),
 				props.Width,
-				),
 				props.Class,
 			) }
-		x-bind:class="getPositionClass"
+		data-align={ props.Align }
+		data-max-height={ props.MaxHeight }
 		role="menu"
 		aria-orientation="vertical"
 		tabindex="-1"
@@ -124,11 +131,8 @@ templ DropdownMenuItem(props DropdownMenuItemProps) {
 	<button
 		class={ utils.TwMerge(
 				"w-full text-left flex items-center justify-between px-3 py-2 text-sm",
-				"text-foreground hover:bg-accent hover:text-accent-foreground",
-				utils.TwIf(
-					"text-muted-foreground cursor-not-allowed",
-					props.Disabled,
-				),
+				utils.TwIf("text-foreground hover:bg-accent hover:text-accent-foreground", !props.Disabled),
+				utils.TwIf("text-muted-foreground cursor-not-allowed", props.Disabled),
 				props.Class,
 			) }
 		role="menuitem"
@@ -155,11 +159,8 @@ templ DropdownMenuItemLink(props DropdownMenuItemLinkProps) {
 		target={ props.Target }
 		class={ utils.TwMerge(
 				"block text-left flex items-center px-3 py-2 text-sm",
-				"text-foreground hover:bg-accent hover:text-accent-foreground",
-				utils.TwIf(
-					"text-muted-foreground cursor-not-allowed",
-					props.Disabled,
-				),
+				utils.TwIf("text-foreground hover:bg-accent hover:text-accent-foreground", !props.Disabled),
+				utils.TwIf("text-muted-foreground cursor-not-allowed", props.Disabled),
 				props.Class,
 			) }
 		role="menuitem"
@@ -200,67 +201,79 @@ templ DropdownMenuShortcut(props DropdownMenuShortcutProps) {
 	</span>
 }
 
+// Sub-menu components
+type DropdownMenuSubTriggerProps struct {
+	Class      string
+	Attributes templ.Attributes
+}
+
+templ DropdownMenuSubTrigger(props DropdownMenuSubTriggerProps) {
+	<div
+		class={ utils.TwMerge(
+				"w-full text-left flex items-center justify-between px-3 py-2 text-sm",
+				"text-foreground hover:bg-accent hover:text-accent-foreground",
+				"cursor-pointer",
+				props.Class,
+			) }
+		x-data="submenu"
+		@click="toggleSubmenu"
+		@mouseenter="openSubmenu"
+		@mouseleave="closeSubmenu"
+		role="menuitem"
+		aria-haspopup="true"
+		aria-expanded="false"
+		{ props.Attributes... }
+	>
+		<span>
+			{ children... }
+		</span>
+		<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-auto h-4 w-4"><path d="m9 18 6-6-6-6"></path></svg>
+		<div
+			x-show="isOpen"
+			x-transition:enter="transition ease-out duration-100"
+			x-transition:enter-start="transform opacity-0 scale-95"
+			x-transition:enter-end="transform opacity-100 scale-100"
+			x-transition:leave="transition ease-in duration-75"
+			x-transition:leave-start="transform opacity-100 scale-100"
+			x-transition:leave-end="transform opacity-0 scale-95"
+			class="absolute left-full top-0 z-50 min-w-[8rem] rounded-md border border-border bg-popover p-1 shadow-md ml-[1px]"
+		>
+			<slot name="submenu"></slot>
+		</div>
+	</div>
+}
+
 // Add the Alpine.js script for dropdown functionality
 templ DropdownMenuScript() {
 	<script defer nonce={ templ.GetNonce(ctx) }>
 		document.addEventListener('alpine:init', () => {
+			// Main dropdown functionality
 			Alpine.data('dropdown', () => ({
 				isOpen: false,
-				position: 'bottom-start',
-				verticalPosition: 'bottom',
-
-				updatePosition() {
-					if (!this.isOpen) return;
-
-					const menu = this.$refs.menu;
-					const rect = menu.getBoundingClientRect();
-					const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
-					const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
-
-					if (rect.right > viewportWidth) {
-						this.position = 'bottom-end';
-					} else {
-						this.position = 'bottom-start';
-					}
-
-					if (rect.bottom > viewportHeight) {
-						this.verticalPosition = 'top';
-					} else {
-						this.verticalPosition = 'bottom';
-					}
+				
+				toggleMenu() {
+					this.isOpen = !this.isOpen;
 				},
 
-				getPositionClass() {
-					const classes = [];
-					
-					if (this.position === 'bottom-end') {
-						classes.push('right-0');
-					} else {
-						classes.push('left-0');
-					}
-					
-					if (this.verticalPosition === 'top') {
-						classes.push('bottom-full mb-2');
-					} else {
-						classes.push('top-full mt-2');
-					}
-					
-					return classes.join(' ');
-				},
-
-				setClose() {
+				closeMenu() {
 					this.isOpen = false;
+				}
+			}));
+			
+			// Submenu functionality
+			Alpine.data('submenu', () => ({
+				isOpen: false,
+				
+				toggleSubmenu() {
+					this.isOpen = !this.isOpen;
 				},
-
-				setOpen() {
+				
+				openSubmenu() {
 					this.isOpen = true;
 				},
-
-				openMenu() {
-					this.isOpen = !this.isOpen;
-					if (this.isOpen) {
-						this.$nextTick(() => this.updatePosition());
-					}
+				
+				closeSubmenu() {
+					this.isOpen = false;
 				}
 			}));
 		});
