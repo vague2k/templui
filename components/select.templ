@@ -5,72 +5,262 @@ import (
 	"github.com/axzilla/templui/utils"
 )
 
+// Just keep the basic types needed for the components
 type SelectProps struct {
-	ID          string
-	Name        string
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+}
+
+type SelectTriggerProps struct {
+	ID         string
+	Name       string
+	Required   bool
+	Disabled   bool
+	HasError   bool
+	Class      string
+	Attributes templ.Attributes
+}
+
+type SelectValueProps struct {
 	Placeholder string
-	Options     []SelectOption
-	Disabled    bool
-	Required    bool
-	HasError    bool
 	Class       string
 	Attributes  templ.Attributes
 }
 
-type SelectOption struct {
-	Label      string
-	Value      string
-	Selected   bool
+type SelectContentProps struct {
+	Class      string
 	Attributes templ.Attributes
 }
 
+type SelectGroupProps struct {
+	Class      string
+	Attributes templ.Attributes
+}
+
+type SelectLabelProps struct {
+	Class      string
+	Attributes templ.Attributes
+}
+
+type SelectItemProps struct {
+	Value      string
+	Selected   bool
+	Disabled   bool
+	Class      string
+	Attributes templ.Attributes
+}
+
+// A very simple script that uses DOM APIs instead of inline expressions
+templ SelectScript() {
+	{{ handle := templ.NewOnceHandle() }}
+	@handle.Once() {
+		<script defer nonce={ templ.GetNonce(ctx) }>
+			document.addEventListener('DOMContentLoaded', function() {
+				// Finde alle Select-Container
+				document.querySelectorAll('.select-container').forEach(function(selectContainer) {
+					const trigger = selectContainer.querySelector('.select-trigger');
+					const content = selectContainer.querySelector('.select-content');
+					const valueEl = selectContainer.querySelector('.select-value');
+					const hiddenInput = selectContainer.querySelector('input[type="hidden"]');
+					let isOpen = false;
+					
+					// Event-Listener für den Trigger-Button
+					if (trigger) {
+						trigger.addEventListener('click', function() {
+							isOpen = !isOpen;
+							
+							// Toggle Dropdown-Anzeige
+							if (content) {
+								content.style.display = isOpen ? 'block' : 'none';
+							}
+							
+							// Aria-Attribute aktualisieren
+							trigger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+						});
+					}
+					
+					// Event-Listener für alle Select-Items
+					selectContainer.querySelectorAll('.select-item').forEach(function(item) {
+						item.addEventListener('click', function() {
+							if (item.getAttribute('data-disabled') === 'true') return;
+							
+							// Wert holen
+							const value = item.getAttribute('data-value');
+							const itemText = item.querySelector('.select-item-text');
+							
+							// Alle Items zurücksetzen
+							selectContainer.querySelectorAll('.select-item').forEach(function(el) {
+								el.setAttribute('data-selected', 'false');
+								el.classList.remove('bg-accent', 'text-accent-foreground');
+								
+								const check = el.querySelector('.select-check');
+								if (check) {
+									check.classList.add('opacity-0');
+									check.classList.remove('opacity-100');
+								}
+							});
+							
+							// Aktuelles Item als ausgewählt markieren
+							item.setAttribute('data-selected', 'true');
+							item.classList.add('bg-accent', 'text-accent-foreground');
+							
+							const check = item.querySelector('.select-check');
+							if (check) {
+								check.classList.remove('opacity-0');
+								check.classList.add('opacity-100');
+							}
+							
+							// Hidden input und sichtbaren Text aktualisieren
+							if (hiddenInput && value) {
+								hiddenInput.value = value;
+							}
+							
+							if (valueEl && itemText) {
+								valueEl.textContent = itemText.textContent;
+								valueEl.classList.remove('text-muted-foreground');
+							}
+							
+							// Dropdown schließen
+							isOpen = false;
+							if (content) {
+								content.style.display = 'none';
+							}
+							
+							// Aria-Attribute aktualisieren
+							if (trigger) {
+								trigger.setAttribute('aria-expanded', 'false');
+							}
+						});
+					});
+					
+					// Klick außerhalb schließt Dropdown
+					document.addEventListener('click', function(event) {
+						if (isOpen && !selectContainer.contains(event.target)) {
+							isOpen = false;
+							if (content) {
+								content.style.display = 'none';
+							}
+							
+							if (trigger) {
+								trigger.setAttribute('aria-expanded', 'false');
+							}
+						}
+					});
+				});
+			});
+		</script>
+	}
+}
+
 templ Select(props SelectProps) {
-	<div class={ utils.TwMerge("relative w-full", props.Class) }>
-		<select
-			x-ref={ props.ID }
-			id={ props.ID }
-			name={ props.Name }
-			disabled?={ props.Disabled }
-			required?={ props.Required }
-			class={
-				utils.TwMerge(
-					"peer h-10 w-full px-3 py-2",
-					"rounded-md border border-input bg-background text-sm",
-					"appearance-none ring-offset-background",
-					"placeholder:text-muted-foreground",
-					"focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2",
-					"disabled:cursor-not-allowed disabled:opacity-50",
-					utils.TwIf("border-destructive ring-destructive", props.HasError),
-				),
-			}
-			{ props.Attributes... }
-		>
-			if props.Placeholder != "" {
-				<option value="" disabled selected hidden>{ props.Placeholder }</option>
-			}
-			for _, option := range props.Options {
-				<option
-					value={ option.Value }
-					selected?={ option.Selected }
-					{ option.Attributes... }
-				>
-					{ option.Label }
-				</option>
-			}
-		</select>
-		<div
-			class={
-				utils.TwMerge(
-					"absolute right-3 top-3",
-					"pointer-events-none",
-					"peer-disabled:opacity-50",
-				),
-			}
-		>
+	<div
+		class={ utils.TwMerge("w-full select-container relative", props.Class) }
+		{ props.Attributes... }
+	>
+		{ children... }
+	</div>
+}
+
+templ SelectTrigger(props SelectTriggerProps) {
+	<button
+		type="button"
+		id={ props.ID }
+		class={ utils.TwMerge(
+		"select-trigger flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background",
+		"placeholder:text-muted-foreground",
+		"focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
+		"disabled:cursor-not-allowed disabled:opacity-50",
+		utils.TwIf("border-destructive ring-destructive", props.HasError),
+		props.Class,
+	) }
+		aria-haspopup="listbox"
+		aria-expanded="false"
+		required?={ props.Required }
+		disabled?={ props.Disabled }
+		{ props.Attributes... }
+	>
+		<input type="hidden" name={ props.Name }/>
+		{ children... }
+		<span class="pointer-events-none ml-1">
 			@icons.ChevronDown(icons.IconProps{
 				Size:  "16",
 				Class: "text-muted-foreground",
 			})
-		</div>
+		</span>
+	</button>
+}
+
+templ SelectValue(props SelectValueProps) {
+	<span
+		class={ utils.TwMerge("block truncate select-value text-muted-foreground", props.Class) }
+		{ props.Attributes... }
+	>
+		{ props.Placeholder }
+		{ children... }
+	</span>
+}
+
+templ SelectContent(props SelectContentProps) {
+	<div
+		class={ utils.TwMerge(
+			"p-1 select-content absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-md border bg-popover text-popover-foreground shadow-md",
+			props.Class,
+		) }
+		style="display: none;"
+		role="listbox"
+		tabindex="-1"
+		{ props.Attributes... }
+	>
+		{ children... }
+	</div>
+}
+
+templ SelectGroup(props SelectGroupProps) {
+	<div
+		class={ utils.TwMerge("p-1", props.Class) }
+		role="group"
+		{ props.Attributes... }
+	>
+		{ children... }
+	</div>
+}
+
+templ SelectLabel(props SelectLabelProps) {
+	<span
+		class={ utils.TwMerge("px-2 py-1.5 text-sm font-medium", props.Class) }
+		{ props.Attributes... }
+	>
+		{ children... }
+	</span>
+}
+
+templ SelectItem(props SelectItemProps) {
+	<div
+		class={ utils.TwMerge(
+			"select-item relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 px-2 text-sm font-light outline-none",
+			"hover:bg-accent hover:text-accent-foreground",
+			utils.TwIf("bg-accent text-accent-foreground", props.Selected),
+			utils.TwIf("pointer-events-none opacity-50", props.Disabled),
+			props.Class,
+		) }
+		role="option"
+		data-value={ props.Value }
+		data-selected?={ props.Selected }
+		data-disabled?={ props.Disabled }
+		tabindex="0"
+		{ props.Attributes... }
+	>
+		<span class="truncate select-item-text">
+			{ children... }
+		</span>
+		<span
+			class={ utils.TwMerge(
+					"select-check absolute right-2 flex h-3.5 w-3.5 items-center justify-center",
+					utils.TwIfElse(props.Selected, "opacity-100", "opacity-0"),
+					) }
+		>
+			@icons.Check(icons.IconProps{Size: "16"})
+		</span>
 	</div>
 }

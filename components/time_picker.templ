@@ -130,41 +130,40 @@ templ TimePickerScript() {
 	}
 }
 
-func generateHourOptions(use12Hours bool) []SelectOption {
-	options := make([]SelectOption, 0)
-	if use12Hours {
-		options = append(options, SelectOption{
-			Label: "12",
-			Value: "12",
-		})
-		for i := 1; i <= 11; i++ {
-			options = append(options, SelectOption{
-				Label: fmt.Sprintf("%02d", i),
-				Value: fmt.Sprintf("%d", i),
-			})
-		}
-	} else {
-		for i := 0; i <= 23; i++ {
-			options = append(options, SelectOption{
-				Label: fmt.Sprintf("%02d", i),
-				Value: fmt.Sprintf("%d", i),
-			})
-		}
-	}
-	return options
-}
-
-func generateMinuteOptions() []SelectOption {
-	options := make([]SelectOption, 60)
-	for i := 0; i < 60; i++ {
-		options[i] = SelectOption{
-			Label: fmt.Sprintf("%02d", i),
-			Value: fmt.Sprintf("%d", i),
-		}
-	}
-	return options
-}
-
+// func generateHourOptions(use12Hours bool) []SelectOption {
+// 	options := make([]SelectOption, 0)
+// 	if use12Hours {
+// 		options = append(options, SelectOption{
+// 			Label: "12",
+// 			Value: "12",
+// 		})
+// 		for i := 1; i <= 11; i++ {
+// 			options = append(options, SelectOption{
+// 				Label: fmt.Sprintf("%02d", i),
+// 				Value: fmt.Sprintf("%d", i),
+// 			})
+// 		}
+// 	} else {
+// 		for i := 0; i <= 23; i++ {
+// 			options = append(options, SelectOption{
+// 				Label: fmt.Sprintf("%02d", i),
+// 				Value: fmt.Sprintf("%d", i),
+// 			})
+// 		}
+// 	}
+// 	return options
+// }
+//
+// func generateMinuteOptions() []SelectOption {
+// 	options := make([]SelectOption, 60)
+// 	for i := 0; i < 60; i++ {
+// 		options[i] = SelectOption{
+// 			Label: fmt.Sprintf("%02d", i),
+// 			Value: fmt.Sprintf("%d", i),
+// 		}
+// 	}
+// 	return options
+// }
 templ TimePicker(props TimePickerProps) {
 	if props.ID == "" {
 		{{ props.ID = utils.RandomID() }}
@@ -238,26 +237,26 @@ templ TimePicker(props TimePickerProps) {
 		>
 			<div class="grid grid-cols-2 gap-2 flex-1">
 				<div>
-					@Select(SelectProps{
-						ID:   "hour-select",
-						Name: "hour",
-						Attributes: templ.Attributes{
-							"x-bind:value": "selectedHour",
-							"@change":      "selectHour",
-						},
-						Options: generateHourOptions(props.Use12Hours),
-					})
+					<!-- @Select(SelectProps{ -->
+					<!-- 	ID:   "hour-select", -->
+					<!-- 	Name: "hour", -->
+					<!-- 	Attributes: templ.Attributes{ -->
+					<!-- 		"x-bind:value": "selectedHour", -->
+					<!-- 		"@change":      "selectHour", -->
+					<!-- 	}, -->
+					<!-- 	Options: generateHourOptions(props.Use12Hours), -->
+					<!-- }) -->
 				</div>
 				<div>
-					@Select(SelectProps{
-						ID:   "minute-select",
-						Name: "minute",
-						Attributes: templ.Attributes{
-							"x-bind:value": "selectedMinute",
-							"@change":      "selectMinute",
-						},
-						Options: generateMinuteOptions(),
-					})
+					<!-- @Select(SelectProps{ -->
+					<!-- 	ID:   "minute-select", -->
+					<!-- 	Name: "minute", -->
+					<!-- 	Attributes: templ.Attributes{ -->
+					<!-- 		"x-bind:value": "selectedMinute", -->
+					<!-- 		"@change":      "selectMinute", -->
+					<!-- 	}, -->
+					<!-- 	Options: generateMinuteOptions(), -->
+					<!-- }) -->
 				</div>
 			</div>
 			<div class="flex justify-between mt-4 gap-2">

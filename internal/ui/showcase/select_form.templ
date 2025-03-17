@@ -5,22 +5,52 @@ import "github.com/axzilla/templui/components"
 templ SelectForm() {
 	<div class="w-full max-w-sm">
 		@components.FormItem(components.FormItemProps{}) {
-			@components.Label(components.LabelProps{
-				Text: "Choose a Fruit",
-				For:  "fruit-form",
+			@components.FormLabel(components.FormLabelProps{
+				For:  "fruit",
+				Text: "Fruit",
 			})
-			@components.Select(components.SelectProps{
-				Name:        "fruit",
-				ID:          "fruit-form",
-				Placeholder: "Pick a fruit",
-				HasError:    true,
-				Options: []components.SelectOption{
-					{Label: "Apple", Value: "apple"},
-					{Label: "Banana", Value: "banana"},
-				},
-			})
+			@components.Select(components.SelectProps{}) {
+				@components.SelectTrigger(components.SelectTriggerProps{
+					ID:       "fruit",
+					Name:     "fruit",
+					Required: true,
+				}) {
+					@components.SelectValue(components.SelectValueProps{
+						Placeholder: "Select a fruit",
+					})
+				}
+				@components.SelectContent(components.SelectContentProps{}) {
+					@components.SelectItem(components.SelectItemProps{
+						Value: "apple",
+					}) {
+						Apple
+					}
+					@components.SelectItem(components.SelectItemProps{
+						Value: "banana",
+					}) {
+						Banana
+					}
+					@components.SelectItem(components.SelectItemProps{
+						Value:    "blueberry",
+						Selected: true,
+					}) {
+						Blueberry 
+					}
+					@components.SelectItem(components.SelectItemProps{
+						Value: "grapes",
+					}) {
+						Grapes
+					}
+					@components.SelectItem(components.SelectItemProps{
+						Value:    "pineapple",
+						Disabled: true,
+					}) {
+						Pineapple (out of stock)
+					}
+				}
+			}
 			@components.FormDescription(components.FormDescriptionProps{}) {
-				Select your favorite fruit from the dropdown menu.
+				Select a fruit category.
 			}
 			@components.FormMessage(components.FormMessageProps{
 				Variant: components.FormMessageVariantError,

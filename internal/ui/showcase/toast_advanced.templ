@@ -24,31 +24,31 @@ templ ToastAdvanced() {
 						// Type
 						@components.FormItem(components.FormItemProps{}) {
 							@components.Label(components.LabelProps{Text: "Type"})
-							@components.Select(components.SelectProps{
-								Name: "type",
-								Options: []components.SelectOption{
-									{Value: "default", Label: "Default"},
-									{Value: "success", Label: "Success"},
-									{Value: "error", Label: "Error"},
-									{Value: "warning", Label: "Warning"},
-									{Value: "info", Label: "Info"},
-								},
-							})
+							<!-- @components.Select(components.SelectProps{ -->
+							<!-- 	Name: "type", -->
+							<!-- 	Options: []components.SelectOption{ -->
+							<!-- 		{Value: "default", Label: "Default"}, -->
+							<!-- 		{Value: "success", Label: "Success"}, -->
+							<!-- 		{Value: "error", Label: "Error"}, -->
+							<!-- 		{Value: "warning", Label: "Warning"}, -->
+							<!-- 		{Value: "info", Label: "Info"}, -->
+							<!-- 	}, -->
+							<!-- }) -->
 						}
 						// Position
 						@components.FormItem(components.FormItemProps{}) {
 							@components.Label(components.LabelProps{Text: "Position"})
-							@components.Select(components.SelectProps{
-								Name: "position",
-								Options: []components.SelectOption{
-									{Value: "top-right", Label: "Top Right"},
-									{Value: "top-left", Label: "Top Left"},
-									{Value: "top-center", Label: "Top Center"},
-									{Value: "bottom-right", Label: "Bottom Right", Selected: true},
-									{Value: "bottom-left", Label: "Bottom Left"},
-									{Value: "bottom-center", Label: "Bottom Center"},
-								},
-							})
+							<!-- @components.Select(components.SelectProps{ -->
+							<!-- 	Name: "position", -->
+							<!-- 	Options: []components.SelectOption{ -->
+							<!-- 		{Value: "top-right", Label: "Top Right"}, -->
+							<!-- 		{Value: "top-left", Label: "Top Left"}, -->
+							<!-- 		{Value: "top-center", Label: "Top Center"}, -->
+							<!-- 		{Value: "bottom-right", Label: "Bottom Right", Selected: true}, -->
+							<!-- 		{Value: "bottom-left", Label: "Bottom Left"}, -->
+							<!-- 		{Value: "bottom-center", Label: "Bottom Center"}, -->
+							<!-- 	}, -->
+							<!-- }) -->
 						}
 						// Duration
 						@components.FormItem(components.FormItemProps{}) {
@@ -62,14 +62,14 @@ templ ToastAdvanced() {
 						// Size
 						@components.FormItem(components.FormItemProps{}) {
 							@components.Label(components.LabelProps{Text: "Size"})
-							@components.Select(components.SelectProps{
-								Name: "size",
-								Options: []components.SelectOption{
-									{Value: "sm", Label: "Small"},
-									{Value: "md", Label: "Medium"},
-									{Value: "lg", Label: "Large"},
-								},
-							})
+							<!-- @components.Select(components.SelectProps{ -->
+							<!-- 	Name: "size", -->
+							<!-- 	Options: []components.SelectOption{ -->
+							<!-- 		{Value: "sm", Label: "Small"}, -->
+							<!-- 		{Value: "md", Label: "Medium"}, -->
+							<!-- 		{Value: "lg", Label: "Large"}, -->
+							<!-- 	}, -->
+							<!-- }) -->
 						}
 						// Options
 						@components.FormItem(components.FormItemProps{}) {
