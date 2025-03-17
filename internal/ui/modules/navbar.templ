@@ -9,12 +9,12 @@ import (
 )
 
 templ Navbar() {
-	<nav class="border-b py-3">
+	<nav class="border-b py-1">
 		<div class="container mx-auto px-4 flex justify-between items-center">
 			<div class="flex items-center">
 				@NavbarMobileMenu()
 				<a href="/">
-					@wrappedicons.TemplUI("w-auto h-12")
+					@wrappedicons.TemplUI("w-auto h-8")
 				</a>
 			</div>
 			<div class="hidden md:flex gap-4 items-center">
