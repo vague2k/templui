@@ -60,22 +60,24 @@ templ DropdownMenuDefault() {
 							Invite users
 						</span>
 					}
-					@components.DropdownMenuSubContent(components.DropdownMenuSubContentProps{}) {
-						@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
-							<span class="flex items-center">
-								@icons.Mail(icons.IconProps{Size: "16", Class: "mr-2"})
-								Email
-							</span>
-						}
-						@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
-							<span class="flex items-center">
-								@icons.MessageSquare(icons.IconProps{Size: "16", Class: "mr-2"})
-								Message
-							</span>
-						}
-						@components.DropdownMenuSeparator(components.DropdownMenuSeparatorProps{})
-						@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
-							More...
+					@components.DropdownMenuPortal(components.DropdownMenuPortalProps{}) {
+						@components.DropdownMenuSubContent(components.DropdownMenuSubContentProps{}) {
+							@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
+								<span class="flex items-center">
+									@icons.Mail(icons.IconProps{Size: "16", Class: "mr-2"})
+									Email
+								</span>
+							}
+							@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
+								<span class="flex items-center">
+									@icons.MessageSquare(icons.IconProps{Size: "16", Class: "mr-2"})
+									Message
+								</span>
+							}
+							@components.DropdownMenuSeparator(components.DropdownMenuSeparatorProps{})
+							@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
+								More...
+							}
 						}
 					}
 				}
