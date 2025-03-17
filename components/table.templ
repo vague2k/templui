@@ -1,0 +1,108 @@
+package components
+
+import "github.com/axzilla/templui/utils"
+
+// TableProps represents table properties
+type TableProps struct {
+	ID    string // Optional container ID
+	Class string // Additional CSS classes
+}
+
+// TableHeaderProps represents table header properties
+type TableHeaderProps struct {
+	Class string // Additional CSS classes
+}
+
+// TableBodyProps represents table body properties
+type TableBodyProps struct {
+	Class string // Additional CSS classes
+}
+
+// TableFooterProps represents table footer properties
+type TableFooterProps struct {
+	Class string // Additional CSS classes
+}
+
+// TableRowProps represents table row properties
+type TableRowProps struct {
+	Selected bool   // Whether the row is selected
+	Class    string // Additional CSS classes
+}
+
+// TableHeadProps represents table head cell properties
+type TableHeadProps struct {
+	Class string // Additional CSS classes
+}
+
+// TableCellProps represents table cell properties
+type TableCellProps struct {
+	Class string // Additional CSS classes
+}
+
+// TableCaptionProps represents table caption properties
+type TableCaptionProps struct {
+	Class string // Additional CSS classes
+}
+
+// Table renders a table with a wrapper for overflow handling
+templ Table(props TableProps) {
+	<div class="relative w-full overflow-auto">
+		<table id={ props.ID } class={ utils.TwMerge("w-full caption-bottom text-sm", props.Class) }>
+			{ children... }
+		</table>
+	</div>
+}
+
+// TableHeader renders the table header section
+templ TableHeader(props TableHeaderProps) {
+	<thead class={ utils.TwMerge("[&_tr]:border-b", props.Class) }>
+		{ children... }
+	</thead>
+}
+
+// TableBody renders the table body section
+templ TableBody(props TableBodyProps) {
+	<tbody class={ utils.TwMerge("[&_tr:last-child]:border-0", props.Class) }>
+		{ children... }
+	</tbody>
+}
+
+// TableFooter renders the table footer section
+templ TableFooter(props TableFooterProps) {
+	<tfoot class={ utils.TwMerge("border-t bg-muted/50 font-medium [&>tr]:last:border-b-0", props.Class) }>
+		{ children... }
+	</tfoot>
+}
+
+// TableRow renders a table row
+templ TableRow(props TableRowProps) {
+	<tr
+		class={
+			utils.TwMerge("border-b transition-colors hover:bg-muted/50", props.Class),
+			templ.KV("data-[state=selected]:bg-muted", props.Selected),
+		}
+	>
+		{ children... }
+	</tr>
+}
+
+// TableHead renders a table header cell
+templ TableHead(props TableHeadProps) {
+	<th class={ utils.TwMerge("h-10 px-2 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]", props.Class) }>
+		{ children... }
+	</th>
+}
+
+// TableCell renders a table data cell
+templ TableCell(props TableCellProps) {
+	<td class={ utils.TwMerge("p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]", props.Class) }>
+		{ children... }
+	</td>
+}
+
+// TableCaption renders a table caption
+templ TableCaption(props TableCaptionProps) {
+	<caption class={ utils.TwMerge("mt-4 text-sm text-muted-foreground", props.Class) }>
+		{ children... }
+	</caption>
+}
