@@ -3,8 +3,10 @@ package components
 import "github.com/axzilla/templui/utils"
 
 type ModalProps struct {
-	ID    string // Unique identifier for control
-	Class string // Additional CSS classes
+	ID               string // Unique identifier for control
+	Class            string // Additional CSS classes
+    DisableClickAway bool   // Do not close modal on click away
+    DisableESC       bool   // Do not close modal on ESC key
 }
 
 // Dialog overlay that requires user attention or interaction.
@@ -33,7 +35,12 @@ templ Modal(props ModalProps) {
 					"relative bg-background rounded-lg border text-left overflow-hidden shadow-xl transform transition-all sm:my-8 w-full",
 					props.Class),
 			}
-			@click.away="handleClickAway"
+			if !props.DisableClickAway {
+				@click.outside="handleClickAway"
+			}
+			if !props.DisableESC {
+				x-on:keydown.esc.window="handleClickAway"
+			}
 		>
 			{ children... }
 		</div>
