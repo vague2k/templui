@@ -1,0 +1,36 @@
+package showcase
+
+import "github.com/axzilla/templui/components"
+
+templ Table() {
+	@components.Table(components.TableProps{}) {
+		@components.TableHeader(components.TableHeaderProps{}) {
+			@components.TableRow(components.TableRowProps{}) {
+				@components.TableHead(components.TableHeadProps{}) { Name }
+				@components.TableHead(components.TableHeadProps{}) { Role }
+				@components.TableHead(components.TableHeadProps{}) { Status }
+				@components.TableHead(components.TableHeadProps{}) { Actions }
+			}
+		}
+		@components.TableBody(components.TableBodyProps{}) {
+			@components.TableRow(components.TableRowProps{}) {
+				@components.TableCell(components.TableCellProps{}) { John Doe }
+				@components.TableCell(components.TableCellProps{}) { Software Engineer }
+				@components.TableCell(components.TableCellProps{}) { Active }
+				@components.TableCell(components.TableCellProps{}) { Edit }
+			}
+			@components.TableRow(components.TableRowProps{}) {
+				@components.TableCell(components.TableCellProps{}) { Jane Smith }
+				@components.TableCell(components.TableCellProps{}) { Designer }
+				@components.TableCell(components.TableCellProps{}) { Active }
+				@components.TableCell(components.TableCellProps{}) { Edit }
+			}
+			@components.TableRow(components.TableRowProps{}) {
+				@components.TableCell(components.TableCellProps{}) { Bob Johnson }
+				@components.TableCell(components.TableCellProps{}) { Product Manager }
+				@components.TableCell(components.TableCellProps{}) { Inactive }
+				@components.TableCell(components.TableCellProps{}) { Edit }
+			}
+		}
+	}
+}

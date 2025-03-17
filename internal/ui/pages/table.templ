@@ -1,0 +1,30 @@
+package pages
+
+import (
+	"github.com/axzilla/templui/internal/ui/layouts"
+	"github.com/axzilla/templui/internal/ui/modules"
+	"github.com/axzilla/templui/internal/ui/showcase"
+)
+
+templ Table() {
+	@layouts.DocsLayout(
+		"Table",
+		"Display tabular data with rich formatting and interaction options",
+	) {
+		@modules.PageWrapper(modules.PageWrapperProps{
+			Name:        "Table",
+			Description: templ.Raw("Display tabular data with rich formatting and interaction options"),
+			Tailwind:    true,
+		}) {
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				ShowcaseFile:      showcase.Table(),
+				PreviewCodeFile:   "table.templ",
+				ComponentCodeFile: "table.templ",
+			})
+			@modules.Usage(modules.UsageProps{
+				ComponentName: "Table",
+				PropsExample:  "TableProps{Class: \"border\"}",
+			})
+		}
+	}
+}
