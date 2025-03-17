@@ -389,7 +389,6 @@ func TimePicker(props TimePickerProps) templ.Component {
 		})
 		templ_7745c5c3_Err = Button(ButtonProps{
 			Type:    "button",
-			Size:    ButtonSizeSm,
 			Variant: ButtonVariantSecondary,
 			Attributes: templ.Attributes{
 				"@click": "closeTimePicker",
