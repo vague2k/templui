@@ -16,9 +16,6 @@ const (
 	ButtonVariantGhost       ButtonVariant = "ghost"
 	ButtonVariantLink        ButtonVariant = "link"
 
-	ButtonSizeMd   ButtonSize = "md"
-	ButtonSizeSm   ButtonSize = "sm"
-	ButtonSizeLg   ButtonSize = "lg"
 	ButtonSizeIcon ButtonSize = "icon"
 )
 
@@ -70,10 +67,6 @@ func (b ButtonProps) variantClasses() string {
 
 func (b ButtonProps) sizeClasses() string {
 	switch b.Size {
-	case ButtonSizeSm:
-		return "h-9 px-3 rounded-md"
-	case ButtonSizeLg:
-		return "h-11 px-8 rounded-md"
 	case ButtonSizeIcon:
 		return "h-10 w-10"
 	default:
@@ -94,17 +87,6 @@ templ Button(props ButtonProps) {
 		<a
 			href={ templ.SafeURL(props.Href) }
 			target={ props.Target }
-			class={
-				utils.TwMerge(
-					"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors",
-					"focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-					"cursor-pointer disabled:cursor-not-allowed",
-					props.variantClasses(),
-					props.sizeClasses(),
-					props.modifierClasses(),
-					props.Class,
-				),
-			}
 			if props.Disabled {
 				disabled
 			}
@@ -134,7 +116,27 @@ templ Button(props ButtonProps) {
 			}
 			{ props.Attributes... }
 		>
-			{ children... }
+			<button
+				class={
+					utils.TwMerge(
+						"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors",
+						"focus-visible:outline-hidden focus-visible:ring-2 focus:ring-ring focus-visible:ring-offset-2",
+						"disabled:opacity-50 disabled:cursor-not-allowed",
+						"cursor-pointer",
+						props.variantClasses(),
+						props.sizeClasses(),
+						props.modifierClasses(),
+						props.Class,
+					),
+				}
+				if props.Type != "" {
+					type={ props.Type }
+				}
+				disabled?={ props.Disabled }
+				{ props.Attributes... }
+			>
+				{ children... }
+			</button>
 		</a>
 	} else {
 		<button
