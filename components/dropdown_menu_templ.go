@@ -228,7 +228,7 @@ func DropdownMenuContent(props DropdownMenuContentProps) templ.Component {
 		}
 		ctx = templ.ClearChildren(ctx)
 		var templ_7745c5c3_Var8 = []any{utils.TwMerge(
-			"absolute z-50 rounded-md bg-popover p-1 shadow-md focus:outline-none overflow-auto",
+			"absolute z-50 rounded-md bg-popover p-1 shadow-md focus:outline-none overflow-visible",
 			"border border-border",
 			"min-w-[8rem]",
 			props.Width,

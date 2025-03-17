@@ -106,7 +106,7 @@ templ DropdownMenuContent(props DropdownMenuContentProps) {
 		x-transition:leave-start="opacity-100 scale-100"
 		x-transition:leave-end="opacity-0 scale-95"
 		class={ utils.TwMerge(
-				"absolute z-50 rounded-md bg-popover p-1 shadow-md focus:outline-none overflow-auto",
+				"absolute z-50 rounded-md bg-popover p-1 shadow-md focus:outline-none overflow-visible",
 				"border border-border",
 				"min-w-[8rem]",
 				props.Width,
