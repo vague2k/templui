@@ -15,7 +15,9 @@ templ ToastAdvanced() {
 					>
 						// Message
 						@components.FormItem(components.FormItemProps{}) {
-							@components.Label(components.LabelProps{Text: "Message"})
+							@components.Label(components.LabelProps{}) {
+								Message
+							}
 							@components.Input(components.InputProps{
 								Value: "Test Notification",
 								Name:  "text",
@@ -23,7 +25,9 @@ templ ToastAdvanced() {
 						}
 						// Type
 						@components.FormItem(components.FormItemProps{}) {
-							@components.Label(components.LabelProps{Text: "Type"})
+							@components.Label(components.LabelProps{}) {
+								Type
+							}
 							<!-- @components.Select(components.SelectProps{ -->
 							<!-- 	Name: "type", -->
 							<!-- 	Options: []components.SelectOption{ -->
@@ -37,7 +41,9 @@ templ ToastAdvanced() {
 						}
 						// Position
 						@components.FormItem(components.FormItemProps{}) {
-							@components.Label(components.LabelProps{Text: "Position"})
+							@components.Label(components.LabelProps{}) {
+								Position
+							}
 							<!-- @components.Select(components.SelectProps{ -->
 							<!-- 	Name: "position", -->
 							<!-- 	Options: []components.SelectOption{ -->
@@ -52,7 +58,9 @@ templ ToastAdvanced() {
 						}
 						// Duration
 						@components.FormItem(components.FormItemProps{}) {
-							@components.Label(components.LabelProps{Text: "Duration (ms)"})
+							@components.Label(components.LabelProps{}) {
+								Duration (ms)
+							}
 							@components.Input(components.InputProps{
 								Type:  "number",
 								Name:  "duration",
@@ -61,7 +69,9 @@ templ ToastAdvanced() {
 						}
 						// Size
 						@components.FormItem(components.FormItemProps{}) {
-							@components.Label(components.LabelProps{Text: "Size"})
+							@components.Label(components.LabelProps{}) {
+								Size
+							}
 							<!-- @components.Select(components.SelectProps{ -->
 							<!-- 	Name: "size", -->
 							<!-- 	Options: []components.SelectOption{ -->
@@ -73,20 +83,26 @@ templ ToastAdvanced() {
 						}
 						// Options
 						@components.FormItem(components.FormItemProps{}) {
-							@components.Label(components.LabelProps{Text: "Options"})
+							@components.Label(components.LabelProps{}) {
+								Options
+							}
 							@components.FormItemFlex(components.FormItemProps{}) {
 								@components.Toggle(components.ToggleProps{
 									Name:    "dismissible",
 									Checked: true,
 								})
-								@components.Label(components.LabelProps{Text: "Dismissible"})
+								@components.Label(components.LabelProps{}) {
+									Dimissible
+								}
 							}
 							@components.FormItemFlex(components.FormItemProps{}) {
 								@components.Toggle(components.ToggleProps{
 									Name:    "icon",
 									Checked: true,
 								})
-								@components.Label(components.LabelProps{Text: "Show Icon"})
+								@components.Label(components.LabelProps{}) {
+									Show Icon
+								}
 							}
 						}
 						// Submit

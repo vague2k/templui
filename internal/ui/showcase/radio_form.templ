@@ -6,9 +6,9 @@ templ RadioForm() {
 	<div class="w-full max-w-sm">
 		@components.FormItem(components.FormItemProps{}) {
 			// Group Label
-			@components.FormLabel(components.FormLabelProps{
-				Text: "Notify me about new products",
-			})
+			@components.FormLabel(components.FormLabelProps{}) {
+				Nofity me about new products
+			}
 			// Option 1
 			@components.FormItemFlex(components.FormItemProps{}) {
 				@components.Radio(components.RadioProps{
@@ -18,9 +18,10 @@ templ RadioForm() {
 					Checked: true,
 				})
 				@components.FormLabel(components.FormLabelProps{
-					For:  "r1",
-					Text: "All new products",
-				})
+					For: "r1",
+				}) {
+					All new products
+				}
 			}
 			// Option 2
 			@components.FormItemFlex(components.FormItemProps{}) {
@@ -31,9 +32,10 @@ templ RadioForm() {
 					Disabled: true,
 				})
 				@components.FormLabel(components.FormLabelProps{
-					For:  "r2",
-					Text: "Create a wishlist (Coming Soon)",
-				})
+					For: "r2",
+				}) {
+					Create a wishlist (Coming Soon)
+				}
 			}
 			// Option 3
 			@components.FormItemFlex(components.FormItemProps{}) {
@@ -43,9 +45,10 @@ templ RadioForm() {
 					Value: "none",
 				})
 				@components.FormLabel(components.FormLabelProps{
-					For:  "r3",
-					Text: "No notifications",
-				})
+					For: "r3",
+				}) {
+					No notifications
+				}
 			}
 			// Description
 			@components.FormDescription(components.FormDescriptionProps{}) {

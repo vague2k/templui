@@ -6,9 +6,10 @@ templ SelectForm() {
 	<div class="w-full max-w-sm">
 		@components.FormItem(components.FormItemProps{}) {
 			@components.FormLabel(components.FormLabelProps{
-				For:  "select-with-label",
-				Text: "Fruit",
-			})
+				For: "select-with-label",
+			}) {
+				Fruit
+			}
 			@components.Select(components.SelectProps{}) {
 				@components.SelectTrigger(components.SelectTriggerProps{
 					ID:       "select-with-label",

@@ -6,9 +6,10 @@ templ TextareaForm() {
 	<div class="w-full max-w-md">
 		@components.FormItem(components.FormItemProps{}) {
 			@components.Label(components.LabelProps{
-				Text: "Your Message",
-				For:  "textarea-form",
-			})
+				For: "textarea-form",
+			}) {
+				Your Message
+			}
 			@components.Textarea(components.TextareaProps{
 				ID:          "textarea-form",
 				Name:        "message",

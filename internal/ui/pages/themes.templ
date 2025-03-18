@@ -700,7 +700,11 @@ templ ThemePreview() {
 			@components.CardContent() {
 				<form class="space-y-4">
 					@components.FormItem(components.FormItemProps{}) {
-						@components.FormLabel(components.FormLabelProps{For: "username", Text: "Username"})
+						@components.FormLabel(components.FormLabelProps{
+							For: "username",
+						}) {
+							Username
+						}
 						@components.Input(components.InputProps{
 							ID:          "username",
 							Name:        "username",
@@ -709,7 +713,11 @@ templ ThemePreview() {
 						})
 					}
 					@components.FormItem(components.FormItemProps{}) {
-						@components.FormLabel(components.FormLabelProps{For: "email", Text: "Email"})
+						@components.FormLabel(components.FormLabelProps{
+							For: "email",
+						}) {
+							Email
+						}
 						@components.Input(components.InputProps{
 							ID:          "email",
 							Name:        "email",
@@ -718,7 +726,11 @@ templ ThemePreview() {
 						})
 					}
 					@components.FormItem(components.FormItemProps{}) {
-						@components.FormLabel(components.FormLabelProps{For: "password", Text: "Password"})
+						@components.FormLabel(components.FormLabelProps{
+							For: "password",
+						}) {
+							Password
+						}
 						@components.Input(components.InputProps{
 							ID:          "password",
 							Name:        "password",
@@ -727,7 +739,11 @@ templ ThemePreview() {
 						})
 					}
 					@components.FormItem(components.FormItemProps{}) {
-						@components.FormLabel(components.FormLabelProps{For: "birthdate", Text: "Birth Date"})
+						@components.FormLabel(components.FormLabelProps{
+							For: "birthdate",
+						}) {
+							Birth Date
+						}
 						@components.DatePicker(components.DatePickerProps{
 							ID:          "birthdate",
 							Name:        "birthdate",
@@ -735,7 +751,11 @@ templ ThemePreview() {
 						})
 					}
 					@components.FormItem(components.FormItemProps{}) {
-						@components.FormLabel(components.FormLabelProps{For: "contact-method", Text: "Contact Method"})
+						@components.FormLabel(components.FormLabelProps{
+							For: "contact-method",
+						}) {
+							Contact Method
+						}
 						@components.FormItemFlex(components.FormItemProps{}) {
 							@components.Radio(components.RadioProps{
 								Value: "email",
@@ -743,9 +763,10 @@ templ ThemePreview() {
 								Name:  "contact-method",
 							})
 							@components.FormLabel(components.FormLabelProps{
-								For:  "contact-email",
-								Text: "Email",
-							})
+								For: "contact-email",
+							}) {
+								Email
+							}
 						}
 						@components.FormItemFlex(components.FormItemProps{}) {
 							@components.Radio(components.RadioProps{
@@ -754,9 +775,10 @@ templ ThemePreview() {
 								Name:  "contact-method",
 							})
 							@components.FormLabel(components.FormLabelProps{
-								For:  "contact-phone",
-								Text: "Phone",
-							})
+								For: "contact-phone",
+							}) {
+								Phone
+							}
 						}
 						@components.FormItemFlex(components.FormItemProps{}) {
 							@components.Radio(components.RadioProps{
@@ -766,22 +788,26 @@ templ ThemePreview() {
 								Attributes: templ.Attributes{"disabled": "true"},
 							})
 							@components.FormLabel(components.FormLabelProps{
-								For:  "contact-mail",
-								Text: "Physical Mail",
-							})
+								For: "contact-mail",
+							}) {
+								Physical Mail
+							}
 						}
 					}
 					@components.FormItem(components.FormItemProps{}) {
-						@components.FormLabel(components.FormLabelProps{Text: "Preferences"})
+						@components.FormLabel(components.FormLabelProps{}) {
+							Preferences
+						}
 						@components.FormItemFlex(components.FormItemProps{}) {
 							@components.Toggle(components.ToggleProps{
 								ID:   "marketing",
 								Name: "marketing",
 							})
 							@components.FormLabel(components.FormLabelProps{
-								For:  "marketing",
-								Text: "Receive marketing emails",
-							})
+								For: "marketing",
+							}) {
+								Receive marketing emails
+							}
 						}
 						@components.FormItemFlex(components.FormItemProps{}) {
 							@components.Toggle(components.ToggleProps{
@@ -790,9 +816,10 @@ templ ThemePreview() {
 								Attributes: templ.Attributes{"checked": "true"},
 							})
 							@components.FormLabel(components.FormLabelProps{
-								For:  "notifications",
-								Text: "Enable notifications",
-							})
+								For: "notifications",
+							}) {
+								Enable notifications
+							}
 						}
 						@components.FormItemFlex(components.FormItemProps{}) {
 							@components.Toggle(components.ToggleProps{
@@ -801,13 +828,16 @@ templ ThemePreview() {
 								Attributes: templ.Attributes{"disabled": "true"},
 							})
 							@components.FormLabel(components.FormLabelProps{
-								For:  "beta",
-								Text: "Join beta program",
-							})
+								For: "beta",
+							}) {
+								Join beta program
+							}
 						}
 					}
 					@components.FormItem(components.FormItemProps{}) {
-						@components.FormLabel(components.FormLabelProps{Text: "Terms and Conditions"})
+						@components.FormLabel(components.FormLabelProps{}) {
+							Terms and Conditions
+						}
 						@components.FormItemFlex(components.FormItemProps{}) {
 							@components.Checkbox(components.CheckboxProps{
 								ID:    "terms",
@@ -815,9 +845,10 @@ templ ThemePreview() {
 								Value: "accepted",
 							})
 							@components.FormLabel(components.FormLabelProps{
-								For:  "terms",
-								Text: "I accept the terms and conditions",
-							})
+								For: "terms",
+							}) {
+								I accept the terms and conditions
+							}
 						}
 						@components.FormItemFlex(components.FormItemProps{}) {
 							@components.Checkbox(components.CheckboxProps{
@@ -826,9 +857,10 @@ templ ThemePreview() {
 								Value: "subscribed",
 							})
 							@components.FormLabel(components.FormLabelProps{
-								For:  "newsletter",
-								Text: "Subscribe to newsletter",
-							})
+								For: "newsletter",
+							}) {
+								Subscribe to newsletter
+							}
 						}
 					}
 				</form>

@@ -16,7 +16,6 @@ type FormItemProps struct {
 
 type FormLabelProps struct {
 	For           string
-	Text          string
 	Class         string
 	DisabledClass string
 }
@@ -47,9 +46,10 @@ templ FormLabel(props FormLabelProps) {
 	@Label(LabelProps{
 		For:           props.For,
 		Class:         props.Class,
-		Text:          props.Text,
 		DisabledClass: props.DisabledClass,
-	})
+	}) {
+		{ children... }
+	}
 }
 
 templ FormDescription(props FormDescriptionProps) {

@@ -5,7 +5,9 @@ import "github.com/axzilla/templui/components"
 templ RatingMaxValues() {
 	<div class="flex flex-col gap-4">
 		<div class="flex flex-col gap-2">
-			@components.Label(components.LabelProps{Text: "5-Star Rating"})
+			@components.Label(components.LabelProps{}) {
+				5-Star Rating
+			}
 			@components.Rating(components.RatingProps{
 				Value:    3,
 				MaxValue: 3,
@@ -14,7 +16,9 @@ templ RatingMaxValues() {
 			})
 		</div>
 		<div class="flex flex-col gap-2">
-			@components.Label(components.LabelProps{Text: "10-Star Rating"})
+			@components.Label(components.LabelProps{}) {
+				10-Star Rating
+			}
 			@components.Rating(components.RatingProps{
 				Value:     7,
 				MaxValue:  10,
