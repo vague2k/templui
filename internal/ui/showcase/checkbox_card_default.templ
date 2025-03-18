@@ -6,40 +6,65 @@ import "github.com/axzilla/templui/icons"
 templ CheckboxCardDefault() {
 	<div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
 		@components.CheckboxCard(components.CheckboxCardProps{
-			ID:          "feature-analytics",
-			Name:        "features",
-			Value:       "analytics",
-			Title:       "Analytics",
-			Description: "Real-time data analytics and reporting tools",
-			Icon:        icons.ChartBar(icons.IconProps{Size: "20"}),
-			Footer:      checkboxCardPriceFooter("$5/month"),
-		})
+			ID:    "feature-analytics",
+			Name:  "features",
+			Value: "analytics",
+		}) {
+			@components.CheckboxCardHeader(components.CheckboxCardHeaderProps{}) {
+				<div class="flex items-center gap-2">
+					<div class="text-primary">
+						@icons.ChartBar(icons.IconProps{Size: "20"})
+					</div>
+					<h3>Analytics</h3>
+				</div>
+			}
+			@components.CheckboxCardDescription(components.CheckboxCardDescriptionProps{}) {
+				Real-time data analytics and reporting tools
+			}
+			@components.CheckboxCardFooter(components.CheckboxCardFooterProps{}) {
+				@radioCardPriceFooter("$5/month")
+			}
+		}
 		@components.CheckboxCard(components.CheckboxCardProps{
-			ID:          "feature-storage",
-			Name:        "features",
-			Value:       "storage",
-			Checked:     true,
-			Title:       "Cloud Storage",
-			Description: "Secure file storage with 100GB capacity",
-			Icon:        icons.Cloud(icons.IconProps{Size: "20"}),
-			Footer:      checkboxCardPriceFooter("$3/month"),
-		})
+			ID:    "feature-storage",
+			Name:  "features",
+			Value: "storage",
+		}) {
+			@components.CheckboxCardHeader(components.CheckboxCardHeaderProps{}) {
+				<div class="flex items-center gap-2">
+					<div class="text-primary">
+						@icons.Cloud(icons.IconProps{Size: "20"})
+					</div>
+					<h3>Cloud Storage</h3>
+				</div>
+			}
+			@components.CheckboxCardDescription(components.CheckboxCardDescriptionProps{}) {
+				Secure file storage with 100GB capacity
+			}
+			@components.CheckboxCardFooter(components.CheckboxCardFooterProps{}) {
+				@radioCardPriceFooter("$3/month")
+			}
+		}
 		@components.CheckboxCard(components.CheckboxCardProps{
-			ID:          "feature-api",
-			Name:        "features",
-			Value:       "api",
-			Title:       "API Access",
-			Description: "Full access to our developer API endpoints",
-			Icon:        icons.Code(icons.IconProps{Size: "20"}),
-			Disabled:    true,
-			Footer:      checkboxCardPriceFooter("$8/month"),
-		})
-	</div>
-}
-
-templ checkboxCardPriceFooter(price string) {
-	<div class="flex justify-between items-center border-t border-border pt-2 mt-2 text-sm">
-		<span class="text-muted-foreground">Price</span>
-		<span class="font-medium">{ price }</span>
+			ID:       "feature-api",
+			Name:     "features",
+			Value:    "api",
+			Disabled: true,
+		}) {
+			@components.CheckboxCardHeader(components.CheckboxCardHeaderProps{}) {
+				<div class="flex items-center gap-2">
+					<div class="text-primary">
+						@icons.Code(icons.IconProps{Size: "20"})
+					</div>
+					<h3>API Access</h3>
+				</div>
+			}
+			@components.CheckboxCardDescription(components.CheckboxCardDescriptionProps{}) {
+				Full access to our developer API endpoints
+			}
+			@components.CheckboxCardFooter(components.CheckboxCardFooterProps{}) {
+				@radioCardPriceFooter("$8/month")
+			}
+		}
 	</div>
 }
