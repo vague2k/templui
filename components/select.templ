@@ -108,6 +108,8 @@ templ SelectContent(props SelectContentProps) {
 	<div
 		class={ utils.TwMerge(
 			"p-1 select-content absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-md border bg-popover text-popover-foreground shadow-md",
+			"transition-all ease-out duration-100",
+			"transform opacity-0 -translate-y-1 scale-95", // Start-Zustand
 			props.Class,
 		) }
 		style="display: none;"
@@ -174,7 +176,7 @@ templ SelectScript() {
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
 			document.addEventListener('DOMContentLoaded', function() {
-				// Find all select containers
+				// Find all Select containers
 				document.querySelectorAll('.select-container').forEach(function(selectContainer) {
 					const id = selectContainer.getAttribute('data-select-id');
 					const trigger = selectContainer.querySelector('.select-trigger');
@@ -191,7 +193,6 @@ templ SelectScript() {
 						const firstItem = selectContainer.querySelector('.select-item');
 						if (firstItem) {
 							firstItem.classList.add('bg-muted'); // Add a subtle gray background
-							// Note: We don't set data-selected="true" to avoid affecting the hidden input
 						}
 					}
 					
@@ -207,25 +208,30 @@ templ SelectScript() {
 						}
 					}
 					
-					// Handle label click
+					// Connect label click to the correct select
 					if (id) {
 						document.querySelectorAll(`label[for="${id}"]`).forEach(label => {
 							label.addEventListener('click', function(e) {
 								e.preventDefault();
-								const targetSelect = document.querySelector(`.select-container[data-select-id="${id}"] .select-trigger`);
-								if (targetSelect && !targetSelect.disabled) {
-									targetSelect.click();
+								const targetContainer = document.querySelector(`.select-container[data-select-id="${id}"]`);
+								if (targetContainer) {
+									const targetTrigger = targetContainer.querySelector('.select-trigger');
+									if (targetTrigger && !targetTrigger.disabled) {
+										targetTrigger.click();
+										targetTrigger.focus();
+									}
 								}
 							});
 						});
 					}
 					
-					// Toggle dropdown
+					// Toggle dropdown with elegant transitions
 					if (trigger) {
+						// Prevent focus ring on mousedown
 						trigger.addEventListener('mousedown', function(e) {
-							// Prevent focus ring on mousedown
 							if (e.button === 0) {
-								this.style.cssText = "outline: none !important; box-shadow: none !important;";
+								this.style.outline = 'none';
+								this.style.boxShadow = 'none';
 							}
 						});
 						
@@ -233,13 +239,31 @@ templ SelectScript() {
 							if (this.disabled) return;
 							
 							isOpen = !isOpen;
-							content.style.display = isOpen ? 'block' : 'none';
 							this.setAttribute('aria-expanded', isOpen.toString());
 							
-							// We use cssText to set multiple style properties efficiently
-							if (!isOpen) {
-								// Reset styles and focus when closing
-								this.style.cssText = "";
+							if (isOpen) {
+								// Show dropdown
+								content.style.display = 'block';
+								// Force reflow
+								void content.offsetHeight;
+								// Apply animation end state
+								content.classList.remove('opacity-0', '-translate-y-1', 'scale-95');
+								content.classList.add('opacity-100', 'translate-y-0', 'scale-100');
+							} else {
+								// Start closing animation
+								content.classList.remove('opacity-100', 'translate-y-0', 'scale-100');
+								content.classList.add('opacity-0', '-translate-y-1', 'scale-95');
+								
+								// Hide after animation completes
+								setTimeout(function() {
+									if (!isOpen) { // Double-check state hasn't changed
+										content.style.display = 'none';
+									}
+								}, 100); // Match duration from CSS
+								
+								// Reset focus styles
+								this.style.outline = '';
+								this.style.boxShadow = '';
 								this.focus();
 							}
 						});
@@ -250,10 +274,8 @@ templ SelectScript() {
 								e.preventDefault();
 								this.click();
 							} else if ((e.key === 'Escape' || e.key === 'Tab') && isOpen) {
-								isOpen = false;
-								content.style.display = 'none';
-								this.setAttribute('aria-expanded', 'false');
-								this.style.cssText = "";
+								e.preventDefault();
+								this.click(); // Close dropdown
 							}
 						});
 					}
@@ -293,11 +315,20 @@ templ SelectScript() {
 								hiddenInput.dispatchEvent(new Event('change', {bubbles: true}));
 							}
 							
-							// Close dropdown
+							// Close dropdown elegantly
 							isOpen = false;
-							content.style.display = 'none';
+							content.classList.remove('opacity-100', 'translate-y-0', 'scale-100');
+							content.classList.add('opacity-0', '-translate-y-1', 'scale-95');
+							
+							setTimeout(function() {
+								if (!isOpen) {
+									content.style.display = 'none';
+								}
+							}, 100);
+							
 							trigger.setAttribute('aria-expanded', 'false');
-							trigger.style.cssText = "";
+							trigger.style.outline = '';
+							trigger.style.boxShadow = '';
 							trigger.focus();
 						});
 						
@@ -314,9 +345,20 @@ templ SelectScript() {
 					document.addEventListener('click', function(e) {
 						if (isOpen && !selectContainer.contains(e.target)) {
 							isOpen = false;
-							content.style.display = 'none';
+							
+							// Close with animation
+							content.classList.remove('opacity-100', 'translate-y-0', 'scale-100');
+							content.classList.add('opacity-0', '-translate-y-1', 'scale-95');
+							
+							setTimeout(function() {
+								if (!isOpen) {
+									content.style.display = 'none';
+								}
+							}, 100);
+							
 							trigger.setAttribute('aria-expanded', 'false');
-							trigger.style.cssText = "";
+							trigger.style.outline = '';
+							trigger.style.boxShadow = '';
 						}
 					});
 				});
