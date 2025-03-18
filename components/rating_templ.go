@@ -24,7 +24,6 @@ const (
 
 type RatingRootProps struct {
 	Value       float64
-	MaxValue    int
 	ReadOnly    bool
 	Precision   float64
 	Name        string
@@ -96,91 +95,78 @@ func RatingRoot(props RatingRootProps) templ.Component {
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.FormatFloat(props.Value, 'f', -1, 64))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/rating.templ`, Line: 55, Col: 60}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/rating.templ`, Line: 54, Col: 60}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\" data-maxvalue=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\" data-precision=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var4 string
-		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(props.MaxValue))
+		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.FormatFloat(props.Precision, 'f', -1, 64))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/rating.templ`, Line: 56, Col: 46}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/rating.templ`, Line: 55, Col: 68}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\" data-precision=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\" data-readonly=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var5 string
-		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.FormatFloat(props.Precision, 'f', -1, 64))
+		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.FormatBool(props.ReadOnly))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/rating.templ`, Line: 57, Col: 68}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/rating.templ`, Line: 56, Col: 52}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "\" data-readonly=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "\" data-name=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var6 string
-		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.FormatBool(props.ReadOnly))
+		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(props.Name)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/rating.templ`, Line: 58, Col: 52}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/rating.templ`, Line: 57, Col: 24}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "\" data-name=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "\" data-onlyinteger=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var7 string
-		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(props.Name)
+		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.FormatBool(props.OnlyInteger))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/rating.templ`, Line: 59, Col: 24}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/rating.templ`, Line: 58, Col: 58}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "\" data-onlyinteger=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "\" class=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var8 string
-		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.FormatBool(props.OnlyInteger))
+		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var2).String())
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/rating.templ`, Line: 60, Col: 58}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/rating.templ`, Line: 1, Col: 0}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "\" class=\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var9 string
-		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var2).String())
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/rating.templ`, Line: 1, Col: 0}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -188,7 +174,7 @@ func RatingRoot(props RatingRootProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, ">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, ">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -196,20 +182,20 @@ func RatingRoot(props RatingRootProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<input type=\"hidden\" name=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "<input type=\"hidden\" name=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var10 string
-		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(props.Name)
+		var templ_7745c5c3_Var9 string
+		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(props.Name)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/rating.templ`, Line: 70, Col: 20}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/rating.templ`, Line: 68, Col: 20}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "\" x-bind:value=\"value\" x-bind:disabled=\"!name\" x-ref=\"input\"></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "\" x-bind:value=\"value\" x-bind:disabled=\"!name\" x-ref=\"input\"></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -233,30 +219,30 @@ func RatingGroup(props RatingGroupProps) templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var11 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var11 == nil {
-			templ_7745c5c3_Var11 = templ.NopComponent
+		templ_7745c5c3_Var10 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var10 == nil {
+			templ_7745c5c3_Var10 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		var templ_7745c5c3_Var12 = []any{utils.TwMerge("flex items-center gap-1", props.Class)}
-		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var12...)
+		var templ_7745c5c3_Var11 = []any{utils.TwMerge("flex items-center gap-1", props.Class)}
+		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var11...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "<div class=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "<div class=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var13 string
-		templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var12).String())
+		var templ_7745c5c3_Var12 string
+		templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var11).String())
 		if templ_7745c5c3_Err != nil {
 			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/rating.templ`, Line: 1, Col: 0}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -264,15 +250,15 @@ func RatingGroup(props RatingGroupProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, ">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, ">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ_7745c5c3_Var11.Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = templ_7745c5c3_Var10.Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "</div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "</div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -296,49 +282,49 @@ func RatingItem(props RatingItemProps) templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var14 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var14 == nil {
-			templ_7745c5c3_Var14 = templ.NopComponent
+		templ_7745c5c3_Var13 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var13 == nil {
+			templ_7745c5c3_Var13 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
 		props.setDefaults()
-		var templ_7745c5c3_Var15 = []any{utils.TwMerge(
+		var templ_7745c5c3_Var14 = []any{utils.TwMerge(
 			"relative",
 			getColorClass(props.Style),
 			"transition-opacity",
 			props.Class,
 		)}
-		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var15...)
+		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var14...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "<div class=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "<div class=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var15 string
+		templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var14).String())
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/rating.templ`, Line: 1, Col: 0}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var15))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "\" x-bind:class=\"readonly ? &#39;cursor-default&#39; : &#39;cursor-pointer&#39;\" data-rating-value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var16 string
-		templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var15).String())
+		templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(props.Value))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/rating.templ`, Line: 1, Col: 0}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/rating.templ`, Line: 95, Col: 47}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "\" x-bind:class=\"readonly ? &#39;cursor-default&#39; : &#39;cursor-pointer&#39;\" data-rating-value=\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var17 string
-		templ_7745c5c3_Var17, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(props.Value))
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/rating.templ`, Line: 97, Col: 47}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var17))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "\" @click=\"setValue\" @mouseover=\"hover\" @mouseleave=\"resetPreview\"><div class=\"opacity-30\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "\" @click=\"setValue\" @mouseover=\"hover\" @mouseleave=\"resetPreview\"><div class=\"opacity-30\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -346,20 +332,20 @@ func RatingItem(props RatingItemProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "</div><div class=\"absolute inset-0 overflow-hidden\" x-bind:style=\"getItemStyle\" data-index=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "</div><div class=\"absolute inset-0 overflow-hidden\" x-bind:style=\"getItemStyle\" data-index=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var18 string
-		templ_7745c5c3_Var18, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(props.Value))
+		var templ_7745c5c3_Var17 string
+		templ_7745c5c3_Var17, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(props.Value))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/rating.templ`, Line: 108, Col: 41}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/rating.templ`, Line: 106, Col: 41}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var18))
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var17))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -367,22 +353,13 @@ func RatingItem(props RatingItemProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, "</div></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "</div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		return nil
 	})
 }
-
-// templ RatingLabel(props RatingLabelProps) {
-// 	<span
-// 		class={ utils.TwMerge("text-sm font-medium", props.Class) }
-// 		{ props.Attributes... }
-// 	>
-// 		{ children... }
-// 	</span>
-// }
 
 func getColorClass(style RatingStyle) string {
 	switch style {
@@ -437,9 +414,6 @@ func (p *RatingItemProps) setDefaults() {
 }
 
 func (p *RatingRootProps) setDefaults() {
-	if p.MaxValue <= 0 {
-		p.MaxValue = 5
-	}
 	if p.Precision <= 0 {
 		p.Precision = 1.0
 	}
@@ -461,13 +435,13 @@ func RatingScript() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var19 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var19 == nil {
-			templ_7745c5c3_Var19 = templ.NopComponent
+		templ_7745c5c3_Var18 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var18 == nil {
+			templ_7745c5c3_Var18 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
 		handle := templ.NewOnceHandle()
-		templ_7745c5c3_Var20 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_Var19 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 			templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 			templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
 			if !templ_7745c5c3_IsBuffer {
@@ -479,26 +453,26 @@ func RatingScript() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "<script defer nonce=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, "<script defer nonce=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var21 string
-			templ_7745c5c3_Var21, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
+			var templ_7745c5c3_Var20 string
+			templ_7745c5c3_Var20, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/rating.templ`, Line: 188, Col: 43}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/rating.templ`, Line: 174, Col: 43}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var21))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var20))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 23, "\">\n\t\t\tdocument.addEventListener('alpine:init', () => {\n\t\t\t\tAlpine.data('rating', () => ({\n\t\t\t\t\tvalue: 0,\n\t\t\t\t\tmaxValue: 5,\n\t\t\t\t\tprecision: 1,\n\t\t\t\t\treadonly: false,\n\t\t\t\t\tname: '',\n\t\t\t\t\tonlyInteger: false,\n\t\t\t\t\tpreviewValue: 0,\n\t\t\t\t\t\n\t\t\t\t\tinit() {\n\t\t\t\t\t\tthis.value = parseFloat(this.$el.dataset.value) || 0;\n\t\t\t\t\t\tthis.maxValue = parseInt(this.$el.dataset.maxvalue) || 5;\n\t\t\t\t\t\tthis.precision = parseFloat(this.$el.dataset.precision) || 1;\n\t\t\t\t\t\tthis.readonly = this.$el.dataset.readonly === 'true';\n\t\t\t\t\t\tthis.name = this.$el.dataset.name || '';\n\t\t\t\t\t\tthis.onlyInteger = this.$el.dataset.onlyinteger === 'true';\n\t\t\t\t\t\tthis.value = Math.round(this.value / this.precision) * this.precision;\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Initialize the form element for proper form integration\n\t\t\t\t\t\tif (this.$refs.input) {\n\t\t\t\t\t\t\tthis.$refs.input.value = this.value;\n\t\t\t\t\t\t}\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Check if we're in a form context\n\t\t\t\t\t\tthis.form = this.$el.closest('form');\n\t\t\t\t\t\tif (this.form && this.name) {\n\t\t\t\t\t\t\t// Add validation support\n\t\t\t\t\t\t\tthis.form.addEventListener('submit', () => {\n\t\t\t\t\t\t\t\tthis.validate();\n\t\t\t\t\t\t\t});\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\tvalidate() {\n\t\t\t\t\t\t// Basic validation - can be extended as needed\n\t\t\t\t\t\tconst isValid = this.value > 0;\n\t\t\t\t\t\t// Trigger custom event for form validation\n\t\t\t\t\t\tthis.$dispatch('rating-validate', { \n\t\t\t\t\t\t\tname: this.name, \n\t\t\t\t\t\t\tvalue: this.value,\n\t\t\t\t\t\t\tvalid: isValid\n\t\t\t\t\t\t});\n\t\t\t\t\t\treturn isValid;\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\tsetValue() {\n\t\t\t\t\t\tif (this.readonly) return;\n\t\t\t\t\t\tconst item = this.$event.target.closest('[data-rating-value]');\n\t\t\t\t\t\tif (!item) return;\n\t\t\t\t\t\tconst newValue = parseInt(item.dataset.ratingValue);\n\t\t\t\t\t\tif (this.onlyInteger) {\n\t\t\t\t\t\t\tthis.value = Math.round(newValue);\n\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\tthis.value = Math.round(newValue / this.precision) * this.precision;\n\t\t\t\t\t\t}\n\t\t\t\t\t\tthis.value = Math.max(0, Math.min(this.maxValue, this.value));\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Update the hidden input value\n\t\t\t\t\t\tif (this.$refs.input) {\n\t\t\t\t\t\t\tthis.$refs.input.value = this.value;\n\t\t\t\t\t\t}\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Trigger change events for form integration\n\t\t\t\t\t\tthis.$dispatch('rating-change', { \n\t\t\t\t\t\t\tname: this.name, \n\t\t\t\t\t\t\tvalue: this.value \n\t\t\t\t\t\t});\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Trigger input event for better form integration\n\t\t\t\t\t\tif (this.$refs.input) {\n\t\t\t\t\t\t\tthis.$refs.input.dispatchEvent(new Event('input', { bubbles: true }));\n\t\t\t\t\t\t\tthis.$refs.input.dispatchEvent(new Event('change', { bubbles: true }));\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\tgetFormattedValue() {\n\t\t\t\t\t\treturn Math.round(this.value * 100) / 100;\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\tgetItemStyle() {\n\t\t\t\t\t\tconst index = parseInt(this.$el.dataset.index || '0');\n\t\t\t\t\t\tconst filled = index <= Math.floor(this.value);\n\t\t\t\t\t\tconst partial = !filled && (index - 1 < this.value && this.value < index);\n\t\t\t\t\t\tconst percentage = partial ? (this.value - Math.floor(this.value)) * 100 : 0;\n\t\t\t\t\t\treturn {\n\t\t\t\t\t\t\twidth: filled ? '100%' : (partial ? percentage + '%' : '0%')\n\t\t\t\t\t\t};\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\thover() {\n\t\t\t\t\t\tif (this.readonly) return;\n\t\t\t\t\t\tconst item = this.$event.target.closest('[data-rating-value]');\n\t\t\t\t\t\tif (!item) return;\n\t\t\t\t\t\tthis.previewValue = parseInt(item.dataset.ratingValue);\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\tresetPreview() {\n\t\t\t\t\t\tif (this.readonly) return;\n\t\t\t\t\t\tthis.previewValue = 0;\n\t\t\t\t\t}\n\t\t\t\t}));\n\t\t\t});\n\t\t</script>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "\">\n\t\t\tdocument.addEventListener('alpine:init', () => {\n\t\t\t\tAlpine.data('rating', () => ({\n\t\t\t\t\tvalue: 0,\n\t\t\t\t\tmaxValue: 5, // Default value, will be dynamically updated\n\t\t\t\t\tprecision: 1,\n\t\t\t\t\treadonly: false,\n\t\t\t\t\tname: '',\n\t\t\t\t\tonlyInteger: false,\n\t\t\t\t\tpreviewValue: 0,\n\t\t\t\t\t\n\t\t\t\t\tinit() {\n\t\t\t\t\t\tthis.value = parseFloat(this.$el.dataset.value) || 0;\n\t\t\t\t\t\tthis.precision = parseFloat(this.$el.dataset.precision) || 1;\n\t\t\t\t\t\tthis.readonly = this.$el.dataset.readonly === 'true';\n\t\t\t\t\t\tthis.name = this.$el.dataset.name || '';\n\t\t\t\t\t\tthis.onlyInteger = this.$el.dataset.onlyinteger === 'true';\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Dynamically calculate maxValue based on the items\n\t\t\t\t\t\tthis.calculateMaxValue();\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Ensure value is within valid range\n\t\t\t\t\t\tthis.value = Math.min(this.maxValue, this.value);\n\t\t\t\t\t\tthis.value = Math.round(this.value / this.precision) * this.precision;\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Initialize the form element for proper form integration\n\t\t\t\t\t\tif (this.$refs.input) {\n\t\t\t\t\t\t\tthis.$refs.input.value = this.value;\n\t\t\t\t\t\t}\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Check if we're in a form context\n\t\t\t\t\t\tthis.form = this.$el.closest('form');\n\t\t\t\t\t\tif (this.form && this.name) {\n\t\t\t\t\t\t\t// Add validation support\n\t\t\t\t\t\t\tthis.form.addEventListener('submit', () => {\n\t\t\t\t\t\t\t\tthis.validate();\n\t\t\t\t\t\t\t});\n\t\t\t\t\t\t}\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Setup mutation observer to react to DOM changes\n\t\t\t\t\t\tthis.observeDOMChanges();\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\tcalculateMaxValue() {\n\t\t\t\t\t\t// Find all rating items and determine the highest value\n\t\t\t\t\t\tconst items = this.$el.querySelectorAll('[data-rating-value]');\n\t\t\t\t\t\tlet highestValue = 0;\n\t\t\t\t\t\t\n\t\t\t\t\t\titems.forEach(item => {\n\t\t\t\t\t\t\tconst value = parseInt(item.dataset.ratingValue, 10);\n\t\t\t\t\t\t\tif (value > highestValue) {\n\t\t\t\t\t\t\t\thighestValue = value;\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t});\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Set minimum maxValue of 1\n\t\t\t\t\t\tthis.maxValue = Math.max(1, highestValue);\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\tobserveDOMChanges() {\n\t\t\t\t\t\t// Use MutationObserver to react to DOM changes\n\t\t\t\t\t\tconst observer = new MutationObserver(() => {\n\t\t\t\t\t\t\tthis.calculateMaxValue();\n\t\t\t\t\t\t});\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Watch for changes in the child node list\n\t\t\t\t\t\tobserver.observe(this.$el, { childList: true, subtree: true });\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\tvalidate() {\n\t\t\t\t\t\t// Basic validation - can be extended as needed\n\t\t\t\t\t\tconst isValid = this.value > 0;\n\t\t\t\t\t\t// Trigger custom event for form validation\n\t\t\t\t\t\tthis.$dispatch('rating-validate', { \n\t\t\t\t\t\t\tname: this.name, \n\t\t\t\t\t\t\tvalue: this.value,\n\t\t\t\t\t\t\tvalid: isValid\n\t\t\t\t\t\t});\n\t\t\t\t\t\treturn isValid;\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\tsetValue() {\n\t\t\t\t\t\tif (this.readonly) return;\n\t\t\t\t\t\tconst item = this.$event.target.closest('[data-rating-value]');\n\t\t\t\t\t\tif (!item) return;\n\t\t\t\t\t\tconst newValue = parseInt(item.dataset.ratingValue);\n\t\t\t\t\t\tif (this.onlyInteger) {\n\t\t\t\t\t\t\tthis.value = Math.round(newValue);\n\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\tthis.value = Math.round(newValue / this.precision) * this.precision;\n\t\t\t\t\t\t}\n\t\t\t\t\t\tthis.value = Math.max(0, Math.min(this.maxValue, this.value));\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Update the hidden input value\n\t\t\t\t\t\tif (this.$refs.input) {\n\t\t\t\t\t\t\tthis.$refs.input.value = this.value;\n\t\t\t\t\t\t}\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Trigger change events for form integration\n\t\t\t\t\t\tthis.$dispatch('rating-change', { \n\t\t\t\t\t\t\tname: this.name, \n\t\t\t\t\t\t\tvalue: this.value,\n\t\t\t\t\t\t\tmaxValue: this.maxValue\n\t\t\t\t\t\t});\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Trigger input event for better form integration\n\t\t\t\t\t\tif (this.$refs.input) {\n\t\t\t\t\t\t\tthis.$refs.input.dispatchEvent(new Event('input', { bubbles: true }));\n\t\t\t\t\t\t\tthis.$refs.input.dispatchEvent(new Event('change', { bubbles: true }));\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\tgetFormattedValue() {\n\t\t\t\t\t\treturn Math.round(this.value * 100) / 100;\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\tgetItemStyle() {\n\t\t\t\t\t\tconst index = parseInt(this.$el.dataset.index || '0');\n\t\t\t\t\t\tconst filled = index <= Math.floor(this.value);\n\t\t\t\t\t\tconst partial = !filled && (index - 1 < this.value && this.value < index);\n\t\t\t\t\t\tconst percentage = partial ? (this.value - Math.floor(this.value)) * 100 : 0;\n\t\t\t\t\t\treturn {\n\t\t\t\t\t\t\twidth: filled ? '100%' : (partial ? percentage + '%' : '0%')\n\t\t\t\t\t\t};\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\thover() {\n\t\t\t\t\t\tif (this.readonly) return;\n\t\t\t\t\t\tconst item = this.$event.target.closest('[data-rating-value]');\n\t\t\t\t\t\tif (!item) return;\n\t\t\t\t\t\tthis.previewValue = parseInt(item.dataset.ratingValue);\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\tresetPreview() {\n\t\t\t\t\t\tif (this.readonly) return;\n\t\t\t\t\t\tthis.previewValue = 0;\n\t\t\t\t\t}\n\t\t\t\t}));\n\t\t\t});\n\t\t</script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = handle.Once().Render(templ.WithChildren(ctx, templ_7745c5c3_Var20), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = handle.Once().Render(templ.WithChildren(ctx, templ_7745c5c3_Var19), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
