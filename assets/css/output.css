@@ -373,6 +373,9 @@
   .z-10 {
     z-index: 10;
   }
+  .z-12 {
+    z-index: 12;
+  }
   .z-20 {
     z-index: 20;
   }
@@ -381,6 +384,24 @@
   }
   .z-\[9999\] {
     z-index: 9999;
+  }
+  .\!container {
+    width: 100% !important;
+    @media (width >= 40rem) {
+      max-width: 40rem !important;
+    }
+    @media (width >= 48rem) {
+      max-width: 48rem !important;
+    }
+    @media (width >= 64rem) {
+      max-width: 64rem !important;
+    }
+    @media (width >= 80rem) {
+      max-width: 80rem !important;
+    }
+    @media (width >= 96rem) {
+      max-width: 96rem !important;
+    }
   }
   .container {
     width: 100%;
@@ -399,6 +420,9 @@
     @media (width >= 96rem) {
       max-width: 96rem;
     }
+  }
+  .m-7 {
+    margin: calc(var(--spacing) * 7);
   }
   .-mx-1 {
     margin-inline: calc(var(--spacing) * -1);
