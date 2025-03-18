@@ -20,6 +20,8 @@ const (
 )
 
 type ButtonProps struct {
+	ID string
+
 	// Style and appearance
 	Variant   ButtonVariant
 	Size      ButtonSize
@@ -85,6 +87,7 @@ func (b ButtonProps) modifierClasses() string {
 templ Button(props ButtonProps) {
 	if props.Href != "" {
 		<a
+			id={ props.ID }
 			href={ templ.SafeURL(props.Href) }
 			target={ props.Target }
 			if props.Disabled {
@@ -140,10 +143,11 @@ templ Button(props ButtonProps) {
 		</a>
 	} else {
 		<button
+			id={ props.ID }
 			class={
 				utils.TwMerge(
 					"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors",
-					"focus-visible:outline-hidden focus-visible:ring-2 focus:ring-ring focus-visible:ring-offset-2",
+					"focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
 					"disabled:opacity-50 disabled:cursor-not-allowed",
 					"cursor-pointer",
 					props.variantClasses(),
