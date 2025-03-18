@@ -257,9 +257,6 @@
   .collapse {
     visibility: collapse;
   }
-  .invisible {
-    visibility: hidden;
-  }
   .visible {
     visibility: visible;
   }
@@ -370,23 +367,8 @@
   .left-full {
     left: 100%;
   }
-  .z-2 {
-    z-index: 2;
-  }
-  .z-3 {
-    z-index: 3;
-  }
-  .z-4 {
-    z-index: 4;
-  }
-  .z-7 {
-    z-index: 7;
-  }
   .z-10 {
     z-index: 10;
-  }
-  .z-12 {
-    z-index: 12;
   }
   .z-20 {
     z-index: 20;
@@ -396,24 +378,6 @@
   }
   .z-\[9999\] {
     z-index: 9999;
-  }
-  .\!container {
-    width: 100% !important;
-    @media (width >= 40rem) {
-      max-width: 40rem !important;
-    }
-    @media (width >= 48rem) {
-      max-width: 48rem !important;
-    }
-    @media (width >= 64rem) {
-      max-width: 64rem !important;
-    }
-    @media (width >= 80rem) {
-      max-width: 80rem !important;
-    }
-    @media (width >= 96rem) {
-      max-width: 96rem !important;
-    }
   }
   .container {
     width: 100%;
@@ -432,12 +396,6 @@
     @media (width >= 96rem) {
       max-width: 96rem;
     }
-  }
-  .m-6 {
-    margin: calc(var(--spacing) * 6);
-  }
-  .m-7 {
-    margin: calc(var(--spacing) * 7);
   }
   .-mx-1 {
     margin-inline: calc(var(--spacing) * -1);
@@ -600,9 +558,6 @@
   .h-8 {
     height: calc(var(--spacing) * 8);
   }
-  .h-9 {
-    height: calc(var(--spacing) * 9);
-  }
   .h-10 {
     height: calc(var(--spacing) * 10);
   }
@@ -617,9 +572,6 @@
   }
   .h-96 {
     height: calc(var(--spacing) * 96);
-  }
-  .h-97 {
-    height: calc(var(--spacing) * 97);
   }
   .h-\[1px\] {
     height: 1px;
@@ -641,9 +593,6 @@
   }
   .h-screen {
     height: 100vh;
-  }
-  .max-h-60 {
-    max-height: calc(var(--spacing) * 60);
   }
   .max-h-96 {
     max-height: calc(var(--spacing) * 96);
@@ -713,9 +662,6 @@
   }
   .w-8 {
     width: calc(var(--spacing) * 8);
-  }
-  .w-9 {
-    width: calc(var(--spacing) * 9);
   }
   .w-10 {
     width: calc(var(--spacing) * 10);
@@ -806,9 +752,6 @@
   }
   .border-collapse {
     border-collapse: collapse;
-  }
-  .origin-top {
-    transform-origin: top;
   }
   .-translate-x-1 {
     --tw-translate-x: calc(var(--spacing) * -1);
@@ -1305,17 +1248,11 @@
   .p-4 {
     padding: calc(var(--spacing) * 4);
   }
-  .p-5 {
-    padding: calc(var(--spacing) * 5);
-  }
   .p-6 {
     padding: calc(var(--spacing) * 6);
   }
   .p-8 {
     padding: calc(var(--spacing) * 8);
-  }
-  .p-\[�\|i��\19 \|����\16 �\>\1c �����\18 �ͣ��\17 �2LBY\7 �\^��n⍿�w�-Ko���\11 �k5�\f �\#4��\17 �烫y��\6 �JV�h\\l�܃\~\8 F\16 �\] {
-    padding: �|i��|��� �>������ͣ���2LBY�^��n⍿�w�-Ko����k5��#4���烫y���JV�h\l�܃~F�;
   }
   .px-2 {
     padding-inline: calc(var(--spacing) * 2);
@@ -1698,12 +1635,6 @@
   .select-none {
     -webkit-user-select: none;
     user-select: none;
-  }
-  .\[p\:�\] {
-    p: �;
-  }
-  .\[w\:��\~_�Xw\6 �_��\=�\~��Ϻ3P\\Uw�ם�\11 ��\17 _֓�\2 ��\;q\] {
-    w: ��~ �Xw� ��=�~��Ϻ3P\Uw�ם��� ֓���;q;
   }
   .group-hover\:translate-x-0 {
     &:is(:where(.group):hover *) {
@@ -2219,11 +2150,6 @@
       height: calc(var(--spacing) * 5);
     }
   }
-  .data-select-triggertimepicker-trigger-after\:h-5 {
-    &[data-select-triggertimepicker-trigger-after] {
-      height: calc(var(--spacing) * 5);
-    }
-  }
   .data-\[state\=open\]\:bg-accent {
     &[data-state="open"] {
       background-color: var(--accent);
@@ -2480,15 +2406,6 @@
       padding-left: calc(var(--spacing) * 11);
     }
   }
-  .\[\&\:not\(\.bg-primary\)\]\:hover\:bg-muted {
-    &:not(.bg-primary) {
-      &:hover {
-        @media (hover: hover) {
-          background-color: var(--muted);
-        }
-      }
-    }
-  }
   .open\:\[\&\>summary_svg\]\:rotate-180 {
     &:is([open], :popover-open, :open) {
       &>summary svg {
@@ -2517,23 +2434,9 @@
       translate: var(--tw-translate-x) var(--tw-translate-y);
     }
   }
-  .\[\&\[data-state\=active\]\]\:bg-accent {
-    &[data-state=active] {
-      background-color: var(--accent);
-    }
-  }
   .\[\&amp\;\.htmx-request\]\:inline-flex {
     &amp;.htmx-request {
       display: inline-flex;
-    }
-  }
-  .\[\&amp\;\:not\(\.bg-primary\)\]\:hover\:bg-muted {
-    &amp;:not(.bg-primary) {
-      &:hover {
-        @media (hover: hover) {
-          background-color: var(--muted);
-        }
-      }
     }
   }
 }

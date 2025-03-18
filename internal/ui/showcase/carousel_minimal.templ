@@ -6,22 +6,23 @@ import (
 
 templ CarouselMinimal() {
 	@components.Carousel(components.CarouselProps{
-		Slides: []components.CarouselSlide{
-			{
-				Content: CarouselMinimalSlide("Slide 1", "This is the first slide", "bg-blue-500"),
-			},
-			{
-				Content: CarouselMinimalSlide("Slide 2", "This is the second slide", "bg-green-500"),
-			},
-			{
-				Content: CarouselMinimalSlide("Slide 3", "This is the third slice", "bg-purple-500"),
-			},
-		},
 		Interval: 2000,
 		Autoplay: true,
 		Loop:     true,
 		Class:    "rounded-md",
-	})
+	}) {
+		@components.CarouselContent(components.CarouselContentProps{}) {
+			@components.CarouselItem(components.CarouselItemProps{}) {
+				@CarouselMinimalSlide("Slide 1", "This is the first slide", "bg-blue-500")
+			}
+			@components.CarouselItem(components.CarouselItemProps{}) {
+				@CarouselMinimalSlide("Slide 2", "This is the second slide", "bg-green-500")
+			}
+			@components.CarouselItem(components.CarouselItemProps{}) {
+				@CarouselMinimalSlide("Slide 3", "This is the third slide", "bg-purple-500")
+			}
+		}
+	}
 }
 
 templ CarouselMinimalSlide(title, description, bg string) {
