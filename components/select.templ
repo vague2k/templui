@@ -62,26 +62,32 @@ templ Select(props SelectProps) {
 }
 
 templ SelectTrigger(props SelectTriggerProps) {
-	<button
-		type="button"
-		id={ props.ID }
-		class={ utils.TwMerge(
-		"select-trigger flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background",
-		"placeholder:text-muted-foreground",
-		"focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
-		"disabled:cursor-not-allowed disabled:opacity-50",
-		utils.TwIf("border-destructive ring-destructive", props.HasError),
-		props.Class,
-	) }
-		aria-haspopup="listbox"
-		aria-expanded="false"
-		required?={ props.Required }
-		disabled?={ props.Disabled }
-		data-select-trigger="true"
-		tabindex="0"
-		{ props.Attributes... }
-	>
-		<input type="hidden" name={ props.Name }/>
+	@Button(ButtonProps{
+		ID:      props.ID,
+		Type:    "button",
+		Variant: ButtonVariantOutline,
+		Class: utils.TwMerge(
+			"w-full select-trigger flex items-center justify-between",
+			utils.TwIf("border-destructive ring-destructive", props.HasError),
+			props.Class,
+		),
+		Disabled: props.Disabled,
+		Attributes: utils.MergeAttributes(
+			templ.Attributes{
+				"aria-haspopup":       "listbox",
+				"aria-expanded":       "false",
+				"data-select-trigger": "true",
+				"tabindex":            "0",
+				"required":            strconv.FormatBool(props.Required),
+			},
+			props.Attributes,
+		)},
+	) {
+		<input
+			type="hidden"
+			name={ props.Name }
+			required?={ props.Required }
+		/>
 		{ children... }
 		<span class="pointer-events-none ml-1">
 			@icons.ChevronDown(icons.IconProps{
@@ -89,7 +95,7 @@ templ SelectTrigger(props SelectTriggerProps) {
 				Class: "text-muted-foreground",
 			})
 		</span>
-	</button>
+	}
 }
 
 templ SelectValue(props SelectValueProps) {
@@ -107,7 +113,7 @@ templ SelectContent(props SelectContentProps) {
 		class={ utils.TwMerge(
 			"p-1 select-content absolute z-50 w-full overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md",
 			"transition-all ease-out duration-100",
-			"transform opacity-0 -translate-y-1 scale-95", // Start-Zustand
+			"transform opacity-0 -translate-y-1 scale-95", // init condition
 			props.Class,
 		) }
 		style="display: none;"
@@ -287,7 +293,7 @@ templ SelectScript() {
 							hiddenInput.value = selectedItem.getAttribute('data-value');
 						}
 					}
-					
+
 					// Toggle dropdown with elegant transitions
 					if (trigger) {
 						// Prevent focus ring on mousedown
