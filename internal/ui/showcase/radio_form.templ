@@ -5,11 +5,9 @@ import "github.com/axzilla/templui/components"
 templ RadioForm() {
 	<div class="w-full max-w-sm">
 		@components.FormItem(components.FormItemProps{}) {
-			// Group Label
 			@components.FormLabel(components.FormLabelProps{}) {
 				Nofity me about new products
 			}
-			// Option 1
 			@components.FormItemFlex(components.FormItemProps{}) {
 				@components.Radio(components.RadioProps{
 					ID:      "r1",
@@ -23,7 +21,6 @@ templ RadioForm() {
 					All new products
 				}
 			}
-			// Option 2
 			@components.FormItemFlex(components.FormItemProps{}) {
 				@components.Radio(components.RadioProps{
 					ID:       "r2",
@@ -37,7 +34,6 @@ templ RadioForm() {
 					Create a wishlist (Coming Soon)
 				}
 			}
-			// Option 3
 			@components.FormItemFlex(components.FormItemProps{}) {
 				@components.Radio(components.RadioProps{
 					ID:    "r3",
@@ -50,11 +46,9 @@ templ RadioForm() {
 					No notifications
 				}
 			}
-			// Description
 			@components.FormDescription(components.FormDescriptionProps{}) {
 				You can change your preferences at any time.
 			}
-			// Error Message
 			@components.FormMessage(components.FormMessageProps{
 				Variant: components.FormMessageVariantError,
 			}) {

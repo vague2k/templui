@@ -5,11 +5,9 @@ import "github.com/axzilla/templui/components"
 templ CheckboxForm() {
 	<div class="w-full max-w-sm">
 		@components.FormItem(components.FormItemProps{}) {
-			// Group Label
 			@components.FormLabel(components.FormLabelProps{}) {
 				Select Your Interests
 			}
-			// Option 1
 			@components.FormItemFlex(components.FormItemProps{}) {
 				@components.Checkbox(components.CheckboxProps{
 					ID:      "c1",
@@ -23,7 +21,6 @@ templ CheckboxForm() {
 					Dessign and UX
 				}
 			}
-			// Option 2
 			@components.FormItemFlex(components.FormItemProps{}) {
 				@components.Checkbox(components.CheckboxProps{
 					ID:       "c2",
@@ -37,7 +34,6 @@ templ CheckboxForm() {
 					Development (Coming Soon)
 				}
 			}
-			// Option 3
 			@components.FormItemFlex(components.FormItemProps{}) {
 				@components.Checkbox(components.CheckboxProps{
 					ID:    "c3",
@@ -50,11 +46,9 @@ templ CheckboxForm() {
 					Business and Marketing
 				}
 			}
-			// Description
 			@components.FormDescription(components.FormDescriptionProps{}) {
 				Choose all areas that interest you.
 			}
-			// Error Message
 			@components.FormMessage(components.FormMessageProps{
 				Variant: components.FormMessageVariantError,
 			}) {

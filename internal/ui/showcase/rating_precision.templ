@@ -8,41 +8,62 @@ templ RatingPrecision() {
 			@components.Label(components.LabelProps{}) {
 				Integer Ratings
 			}
-			@components.Rating(components.RatingProps{
-				Value:       3.7,
+			@components.RatingRoot(components.RatingRootProps{
+				Value:       1.7,
 				MaxValue:    5,
-				ReadOnly:    false,
-				Style:       components.RatingStyleStar,
+				ReadOnly:    true,
 				Precision:   1.0,
-				ShowValue:   true,
 				OnlyInteger: true,
-			})
+			}) {
+				@components.RatingGroup(components.RatingGroupProps{}) {
+					for i := 1; i <= 5; i++ {
+						@components.RatingItem(components.RatingItemProps{
+							Value: i,
+							Style: components.RatingStyleStar,
+						})
+					}
+				}
+			}
 		</div>
 		<div class="flex flex-col gap-2">
 			@components.Label(components.LabelProps{}) {
 				Half-Star Ratings 
 			}
-			@components.Rating(components.RatingProps{
-				Value:     3.7,
+			@components.RatingRoot(components.RatingRootProps{
+				Value:     2.7,
 				MaxValue:  5,
-				ReadOnly:  false,
-				Style:     components.RatingStyleStar,
+				ReadOnly:  true,
 				Precision: 0.5,
-				ShowValue: true,
-			})
+			}) {
+				@components.RatingGroup(components.RatingGroupProps{}) {
+					for i := 1; i <= 5; i++ {
+						@components.RatingItem(components.RatingItemProps{
+							Value: i,
+							Style: components.RatingStyleStar,
+						})
+					}
+				}
+			}
 		</div>
 		<div class="flex flex-col gap-2">
 			@components.Label(components.LabelProps{}) {
 				Decimal Ratings (0.1)
 			}
-			@components.Rating(components.RatingProps{
+			@components.RatingRoot(components.RatingRootProps{
 				Value:     3.7,
 				MaxValue:  5,
-				ReadOnly:  false,
-				Style:     components.RatingStyleStar,
+				ReadOnly:  true,
 				Precision: 0.1,
-				ShowValue: true,
-			})
+			}) {
+				@components.RatingGroup(components.RatingGroupProps{}) {
+					for i := 1; i <= 5; i++ {
+						@components.RatingItem(components.RatingItemProps{
+							Value: i,
+							Style: components.RatingStyleStar,
+						})
+					}
+				}
+			}
 		</div>
 	</div>
 }
