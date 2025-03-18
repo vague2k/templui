@@ -8,6 +8,8 @@ package components
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
+import "github.com/axzilla/templui/utils"
+
 type LabelProps struct {
 	ID            string
 	For           string
@@ -58,13 +60,13 @@ func LabelScript() templ.Component {
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/label.templ`, Line: 15, Col: 43}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/label.templ`, Line: 17, Col: 43}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\">\n\t\t\tdocument.addEventListener('alpine:init', () => {\n\t\t\t\tAlpine.data('label', () => ({\n\t\t\t\t\tgetClass() {\n\t\t\t\t\t\tif (this.$refs[this.$el.getAttribute('for')]?.disabled ) {\n\t\t\t\t\t\t\treturn this.$el.dataset.disabledStyle\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}));\n\t\t\t});\n\t\t</script>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\">\n\t\t\tdocument.addEventListener('DOMContentLoaded', function() {\n\t\t\t\tfunction updateLabelStyles() {\n\t\t\t\t\t// Find all labels that are connected to form elements\n\t\t\t\t\tdocument.querySelectorAll('label[for]').forEach(function(label) {\n\t\t\t\t\t\tconst forId = label.getAttribute('for');\n\t\t\t\t\t\tconst element = document.getElementById(forId);\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (element && element.disabled) {\n\t\t\t\t\t\t\t// Element is disabled, apply disabled style\n\t\t\t\t\t\t\tconst disabledStyle = label.getAttribute('data-disabled-style') || 'opacity-50 cursor-not-allowed';\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t// Add classes from disabled style\n\t\t\t\t\t\t\tdisabledStyle.split(' ').forEach(function(className) {\n\t\t\t\t\t\t\t\tif (className) {\n\t\t\t\t\t\t\t\t\tlabel.classList.add(className);\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t});\n\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\t// Element is not disabled, remove disabled style\n\t\t\t\t\t\t\tconst disabledStyle = label.getAttribute('data-disabled-style') || 'opacity-50 cursor-not-allowed';\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t// Remove classes from disabled style\n\t\t\t\t\t\t\tdisabledStyle.split(' ').forEach(function(className) {\n\t\t\t\t\t\t\t\tif (className) {\n\t\t\t\t\t\t\t\t\tlabel.classList.remove(className);\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t});\n\t\t\t\t\t\t}\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\t// Run once on load\n\t\t\t\tupdateLabelStyles();\n\t\t\t\t\n\t\t\t\t// Set up mutation observer to watch for disabled attribute changes\n\t\t\t\tconst observer = new MutationObserver(function(mutations) {\n\t\t\t\t\tmutations.forEach(function(mutation) {\n\t\t\t\t\t\tif (mutation.type === 'attributes' && mutation.attributeName === 'disabled') {\n\t\t\t\t\t\t\tupdateLabelStyles();\n\t\t\t\t\t\t}\n\t\t\t\t\t});\n\t\t\t\t});\n\t\t\t\t\n\t\t\t\t// Observe all form elements for disabled attribute changes\n\t\t\t\tdocument.querySelectorAll('input, select, textarea, button').forEach(function(element) {\n\t\t\t\t\tobserver.observe(element, { attributes: true });\n\t\t\t\t});\n\t\t\t\t\n\t\t\t\t// Also update on any change events in the form\n\t\t\t\tdocument.addEventListener('change', updateLabelStyles);\n\t\t\t});\n\t\t</script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -108,14 +110,14 @@ func Label(props LabelProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<label x-data=\"label\" id=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<label id=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/label.templ`, Line: 32, Col: 15}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/label.templ`, Line: 75, Col: 15}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -128,7 +130,7 @@ func Label(props LabelProps) templ.Component {
 		var templ_7745c5c3_Var7 string
 		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(props.For)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/label.templ`, Line: 33, Col: 17}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/label.templ`, Line: 76, Col: 17}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
@@ -147,48 +149,33 @@ func Label(props LabelProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "\" data-disabled-style=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		if props.DisabledClass != "" {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, " data-disabled-style=\"")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			var templ_7745c5c3_Var9 string
-			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(props.DisabledClass)
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/label.templ`, Line: 40, Col: 44}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "\"")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		} else {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, " data-disabled-style=\"opacity-50 cursor-not-allowed\"")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
+		var templ_7745c5c3_Var9 string
+		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(utils.TwIfElse(props.DisabledClass != "", props.DisabledClass, "opacity-50 cursor-not-allowed"))
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/label.templ`, Line: 82, Col: 119}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, " x-bind:class=\"getClass\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var10 string
 		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(props.Text)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/label.templ`, Line: 46, Col: 14}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/label.templ`, Line: 84, Col: 14}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "</label>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "</label>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
