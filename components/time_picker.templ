@@ -5,7 +5,6 @@ import (
 	"github.com/axzilla/templui/icons"
 	"github.com/axzilla/templui/utils"
 	"time"
-	"strconv"
 )
 
 type TimePickerProps struct {
@@ -94,33 +93,6 @@ templ TimePickerScript() {
 							}
 							this.updateValues();
 						}
-						
-						// Set up listeners for the selects
-						this.$nextTick(() => {
-                            // We handle selection by listening to click events on the select items
-                            // This is handled by the SelectScript but we need to sync the values
-                            
-                            const hourSelectId = 'hour-select-' + this.$el.dataset.inputId;
-                            const minuteSelectId = 'minute-select-' + this.$el.dataset.inputId;
-                            
-                            // Listen for changes on the hidden inputs to sync our values
-                            const hourInput = document.querySelector(`[data-select-id="${hourSelectId}"] input[type="hidden"]`);
-                            const minuteInput = document.querySelector(`[data-select-id="${minuteSelectId}"] input[type="hidden"]`);
-                            
-                            if (hourInput) {
-                                hourInput.addEventListener('change', () => {
-                                    this.selectedHour = parseInt(hourInput.value);
-                                    this.updateValues();
-                                });
-                            }
-                            
-                            if (minuteInput) {
-                                minuteInput.addEventListener('change', () => {
-                                    this.selectedMinute = parseInt(minuteInput.value);
-                                    this.updateValues();
-                                });
-                            }
-                        });
 					},
 
 					toggleTimePicker() {
@@ -168,19 +140,38 @@ templ TimePickerScript() {
 						} else {
 							this.displayValue = this.formValue;
 						}
-                        
-                        // Update the display element with the new value
-                        const displayEl = this.$el.querySelector('.timepicker-display');
-                        if (displayEl) {
-                            displayEl.textContent = this.displayValue;
-                            displayEl.classList.remove('text-muted-foreground');
-                        }
 					},
 
-					selectPeriod() {
-						const period = this.$el.getAttribute('data-period');
+					selectHour(event) {
+						const item = event.target.closest('.select-item');
+						if (item) {
+							const value = parseInt(item.getAttribute('data-value'));
+							if (!isNaN(value)) {
+								this.selectedHour = value;
+								this.updateValues();
+							}
+						}
+					},
+
+					selectMinute(event) {
+						const item = event.target.closest('.select-item');
+						if (item) {
+							const value = parseInt(item.getAttribute('data-value'));
+							if (!isNaN(value)) {
+								this.selectedMinute = value;
+								this.updateValues();
+							}
+						}
+					},
+
+					selectPeriod(event) {
+						const period = event.target.getAttribute('data-period');
 						this.isPM = period === 'PM';
 						this.updateValues();
+					},
+
+					periodButtonClass(period) {
+						return period === 'PM' === this.isPM ? 'bg-primary text-primary-foreground' : '';
 					}
 				}));
 			});
@@ -214,9 +205,11 @@ templ TimePicker(props TimePickerProps) {
 			<input
 				type="hidden"
 				name={ props.Name }
+				x-bind:value="formValue"
 				required?={ props.Required }
 			/>
 			@Button(ButtonProps{
+				ID:      props.ID,
 				Type:    "button",
 				Variant: ButtonVariantOutline,
 				Class: utils.TwMerge(
@@ -227,27 +220,23 @@ templ TimePicker(props TimePickerProps) {
 				Attributes: utils.MergeAttributes(
 					templ.Attributes{
 						"@click": "toggleTimePicker",
-						"id":     props.ID,
 					},
 					props.Attributes,
 				),
 			}) {
-				<span
-					class={ utils.TwMerge(
-					"timepicker-display truncate",
-					utils.TwIf("text-muted-foreground", props.Value == (time.Time{})),
-				) }
-				>
-					if props.Value != (time.Time{}) {
+				if props.Value != (time.Time{}) {
+					<span class="truncate" x-text="displayValue">
 						if props.Use12Hours {
 							{ props.Value.Format("03:04 PM") }
 						} else {
 							{ props.Value.Format("15:04") }
 						}
-					} else {
+					</span>
+				} else {
+					<span class="truncate text-muted-foreground" x-text="displayValue || props.Placeholder">
 						{ props.Placeholder }
-					}
-				</span>
+					</span>
+				}
 				@icons.Clock(icons.IconProps{
 					Class: "ml-2 h-4 w-4 text-muted-foreground",
 				})
@@ -259,7 +248,7 @@ templ TimePicker(props TimePickerProps) {
 			@click.away="closeTimePicker"
 			x-transition.opacity
 			class="absolute left-0 z-50 w-72 p-4 rounded-lg border bg-popover shadow-md"
-			:class="positionClass"
+			x-bind:class="positionClass"
 			@resize.window="updatePosition"
 			style="display: none;"
 		>
@@ -268,6 +257,9 @@ templ TimePicker(props TimePickerProps) {
 					@Select(SelectProps{
 						ID:    "hour-select-" + props.ID,
 						Class: "w-full",
+						Attributes: templ.Attributes{
+							"@click": "selectHour",
+						},
 					}) {
 						@SelectTrigger(SelectTriggerProps{
 							Name: "hour",
@@ -287,8 +279,6 @@ templ TimePicker(props TimePickerProps) {
 									} else {
 										{ fmt.Sprintf("%02d", props.Value.Hour()) }
 									}
-								} else {
-									Hour
 								}
 							}
 						}
@@ -314,6 +304,9 @@ templ TimePicker(props TimePickerProps) {
 					@Select(SelectProps{
 						ID:    "minute-select-" + props.ID,
 						Class: "w-full",
+						Attributes: templ.Attributes{
+							"@click": "selectMinute",
+						},
 					}) {
 						@SelectTrigger(SelectTriggerProps{
 							Name: "minute",
@@ -323,8 +316,6 @@ templ TimePicker(props TimePickerProps) {
 							}) {
 								if props.Value != (time.Time{}) {
 									{ fmt.Sprintf("%02d", props.Value.Minute()) }
-								} else {
-									Minute
 								}
 							}
 						}
@@ -350,10 +341,8 @@ templ TimePicker(props TimePickerProps) {
 							type="button"
 							data-period="AM"
 							@click="selectPeriod"
-							class={ utils.TwMerge(
-								"px-3 py-1 text-sm rounded-md hover:bg-muted",
-								utils.TwIf("bg-primary text-primary-foreground", props.Value != (time.Time{}) && props.Value.Hour() < 12),
-							) }
+							class="px-3 py-1 text-sm rounded-md [&:not(.bg-primary)]:hover:bg-muted"
+							x-bind:class="periodButtonClass('AM')"
 						>
 							{ props.AMLabel }
 						</button>
@@ -361,10 +350,8 @@ templ TimePicker(props TimePickerProps) {
 							type="button"
 							data-period="PM"
 							@click="selectPeriod"
-							class={ utils.TwMerge(
-								"px-3 py-1 text-sm rounded-md hover:bg-muted",
-								utils.TwIf("bg-primary text-primary-foreground", props.Value != (time.Time{}) && props.Value.Hour() >= 12),
-							) }
+							class="px-3 py-1 text-sm rounded-md [&:not(.bg-primary)]:hover:bg-muted"
+							x-bind:class="periodButtonClass('PM')"
 						>
 							{ props.PMLabel }
 						</button>
