@@ -288,23 +288,6 @@ templ SelectScript() {
 						}
 					}
 					
-					// Connect label click to the correct select
-					if (id) {
-						document.querySelectorAll(`label[for="${id}"]`).forEach(label => {
-							label.addEventListener('click', function(e) {
-								e.preventDefault();
-								const targetContainer = document.querySelector(`.select-container[data-select-id="${id}"]`);
-								if (targetContainer) {
-									const targetTrigger = targetContainer.querySelector('.select-trigger');
-									if (targetTrigger && !targetTrigger.disabled) {
-										targetTrigger.click();
-										targetTrigger.focus();
-									}
-								}
-							});
-						});
-					}
-					
 					// Toggle dropdown with elegant transitions
 					if (trigger) {
 						// Prevent focus ring on mousedown
