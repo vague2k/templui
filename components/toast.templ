@@ -162,7 +162,12 @@ templ Toast(props ToastProps) {
 			}
 			<div class="flex-1">{ props.Text }</div>
 			if props.Dismissible {
-				<button @click.stop="dismissToast">
+				<button
+					@click="dismissToast"
+					@mouseenter.stop
+					@mouseleave.stop
+					type="button"
+				>
 					@icons.X(icons.IconProps{
 						Size:  "18",
 						Class: "opacity-75 hover:opacity-100",
