@@ -1,11 +1,14 @@
+	
+
 package components
 
 import (
 	"github.com/axzilla/templui/icons"
 	"github.com/axzilla/templui/utils"
+	"strconv"
 )
 
-// Just keep the basic types needed for the components
+// Component props definitions
 type SelectProps struct {
 	ID         string
 	Class      string
@@ -51,111 +54,10 @@ type SelectItemProps struct {
 	Attributes templ.Attributes
 }
 
-// A very simple script that uses DOM APIs instead of inline expressions
-templ SelectScript() {
-	{{ handle := templ.NewOnceHandle() }}
-	@handle.Once() {
-		<script defer nonce={ templ.GetNonce(ctx) }>
-			document.addEventListener('DOMContentLoaded', function() {
-				// Finde alle Select-Container
-				document.querySelectorAll('.select-container').forEach(function(selectContainer) {
-					const trigger = selectContainer.querySelector('.select-trigger');
-					const content = selectContainer.querySelector('.select-content');
-					const valueEl = selectContainer.querySelector('.select-value');
-					const hiddenInput = selectContainer.querySelector('input[type="hidden"]');
-					let isOpen = false;
-					
-					// Event-Listener für den Trigger-Button
-					if (trigger) {
-						trigger.addEventListener('click', function() {
-							isOpen = !isOpen;
-							
-							// Toggle Dropdown-Anzeige
-							if (content) {
-								content.style.display = isOpen ? 'block' : 'none';
-							}
-							
-							// Aria-Attribute aktualisieren
-							trigger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-						});
-					}
-					
-					// Event-Listener für alle Select-Items
-					selectContainer.querySelectorAll('.select-item').forEach(function(item) {
-						item.addEventListener('click', function() {
-							if (item.getAttribute('data-disabled') === 'true') return;
-							
-							// Wert holen
-							const value = item.getAttribute('data-value');
-							const itemText = item.querySelector('.select-item-text');
-							
-							// Alle Items zurücksetzen
-							selectContainer.querySelectorAll('.select-item').forEach(function(el) {
-								el.setAttribute('data-selected', 'false');
-								el.classList.remove('bg-accent', 'text-accent-foreground');
-								
-								const check = el.querySelector('.select-check');
-								if (check) {
-									check.classList.add('opacity-0');
-									check.classList.remove('opacity-100');
-								}
-							});
-							
-							// Aktuelles Item als ausgewählt markieren
-							item.setAttribute('data-selected', 'true');
-							item.classList.add('bg-accent', 'text-accent-foreground');
-							
-							const check = item.querySelector('.select-check');
-							if (check) {
-								check.classList.remove('opacity-0');
-								check.classList.add('opacity-100');
-							}
-							
-							// Hidden input und sichtbaren Text aktualisieren
-							if (hiddenInput && value) {
-								hiddenInput.value = value;
-							}
-							
-							if (valueEl && itemText) {
-								valueEl.textContent = itemText.textContent;
-								valueEl.classList.remove('text-muted-foreground');
-							}
-							
-							// Dropdown schließen
-							isOpen = false;
-							if (content) {
-								content.style.display = 'none';
-							}
-							
-							// Aria-Attribute aktualisieren
-							if (trigger) {
-								trigger.setAttribute('aria-expanded', 'false');
-							}
-						});
-					});
-					
-					// Klick außerhalb schließt Dropdown
-					document.addEventListener('click', function(event) {
-						if (isOpen && !selectContainer.contains(event.target)) {
-							isOpen = false;
-							if (content) {
-								content.style.display = 'none';
-							}
-							
-							if (trigger) {
-								trigger.setAttribute('aria-expanded', 'false');
-							}
-						}
-					});
-				});
-			});
-		</script>
-	}
-}
-
 templ Select(props SelectProps) {
 	<div
 		class={ utils.TwMerge("w-full select-container relative", props.Class) }
+		data-select-id={ props.ID }
 		{ props.Attributes... }
 	>
 		{ children... }
@@ -178,6 +80,8 @@ templ SelectTrigger(props SelectTriggerProps) {
 		aria-expanded="false"
 		required?={ props.Required }
 		disabled?={ props.Disabled }
+		data-select-trigger="true"
+		tabindex="0"
 		{ props.Attributes... }
 	>
 		<input type="hidden" name={ props.Name }/>
@@ -240,14 +144,15 @@ templ SelectItem(props SelectItemProps) {
 		class={ utils.TwMerge(
 			"select-item relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 px-2 text-sm font-light outline-none",
 			"hover:bg-accent hover:text-accent-foreground",
+			"focus:bg-accent focus:text-accent-foreground",
 			utils.TwIf("bg-accent text-accent-foreground", props.Selected),
 			utils.TwIf("pointer-events-none opacity-50", props.Disabled),
 			props.Class,
 		) }
 		role="option"
 		data-value={ props.Value }
-		data-selected?={ props.Selected }
-		data-disabled?={ props.Disabled }
+		data-selected={ strconv.FormatBool(props.Selected) }
+		data-disabled={ strconv.FormatBool(props.Disabled) }
 		tabindex="0"
 		{ props.Attributes... }
 	>
@@ -263,4 +168,181 @@ templ SelectItem(props SelectItemProps) {
 			@icons.Check(icons.IconProps{Size: "16"})
 		</span>
 	</div>
+}
+
+templ SelectScript() {
+	{{ handle := templ.NewOnceHandle() }}
+	@handle.Once() {
+		<script defer nonce={ templ.GetNonce(ctx) }>
+			document.addEventListener('DOMContentLoaded', function() {
+				// Find all Select containers
+				document.querySelectorAll('.select-container').forEach(function(selectContainer) {
+					const id = selectContainer.getAttribute('data-select-id');
+					const trigger = selectContainer.querySelector('.select-trigger');
+					const content = selectContainer.querySelector('.select-content');
+					const valueEl = selectContainer.querySelector('.select-value');
+					const hiddenInput = selectContainer.querySelector('input[type="hidden"]');
+					let isOpen = false;
+					
+					// Handle initial selected value
+					initializeSelectedValue();
+					
+					// Connect label click to trigger
+					if (id) {
+						const labels = document.querySelectorAll(`label[for="${id}"]`);
+						labels.forEach(label => {
+							label.addEventListener('click', function(e) {
+								e.preventDefault();
+								if (trigger && !trigger.disabled) {
+									trigger.click();
+									trigger.focus();
+								}
+							});
+						});
+					}
+					
+					// Event listener for the trigger button
+					if (trigger) {
+						trigger.addEventListener('click', function() {
+							if (trigger.disabled) return;
+							
+							isOpen = !isOpen;
+							
+							// Toggle dropdown display
+							if (content) {
+								content.style.display = isOpen ? 'block' : 'none';
+							}
+							
+							// Update aria attributes
+							trigger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+							
+							// Ensure focus ring shows on click
+							trigger.focus();
+						});
+						
+						// Ensure keyboard navigation works
+						trigger.addEventListener('keydown', function(e) {
+							if (e.key === 'Enter' || e.key === ' ') {
+								e.preventDefault();
+								trigger.click();
+							} else if (e.key === 'Escape' && isOpen) {
+								isOpen = false;
+								if (content) {
+									content.style.display = 'none';
+								}
+								trigger.setAttribute('aria-expanded', 'false');
+							} else if (e.key === 'Tab' && isOpen) {
+								isOpen = false;
+								if (content) {
+									content.style.display = 'none';
+								}
+								trigger.setAttribute('aria-expanded', 'false');
+							}
+						});
+					}
+					
+					// Event listener for all select items
+					selectContainer.querySelectorAll('.select-item').forEach(function(item) {
+						item.addEventListener('click', function() {
+							if (item.getAttribute('data-disabled') === 'true') return;
+							
+							// Get value
+							const value = item.getAttribute('data-value');
+							const itemText = item.querySelector('.select-item-text');
+							
+							// Reset all items
+							selectContainer.querySelectorAll('.select-item').forEach(function(el) {
+								el.setAttribute('data-selected', 'false');
+								el.classList.remove('bg-accent', 'text-accent-foreground');
+								
+								const check = el.querySelector('.select-check');
+								if (check) {
+									check.classList.add('opacity-0');
+									check.classList.remove('opacity-100');
+								}
+							});
+							
+							// Mark current item as selected
+							item.setAttribute('data-selected', 'true');
+							item.classList.add('bg-accent', 'text-accent-foreground');
+							
+							const check = item.querySelector('.select-check');
+							if (check) {
+								check.classList.remove('opacity-0');
+								check.classList.add('opacity-100');
+							}
+							
+							// Update hidden input and visible text
+							if (hiddenInput && value) {
+								hiddenInput.value = value;
+								
+								// Dispatch change event
+								const event = new Event('change', {
+									bubbles: true,
+									cancelable: true,
+								});
+								hiddenInput.dispatchEvent(event);
+							}
+							
+							if (valueEl && itemText) {
+								valueEl.textContent = itemText.textContent;
+								valueEl.classList.remove('text-muted-foreground');
+							}
+							
+							// Close dropdown
+							isOpen = false;
+							if (content) {
+								content.style.display = 'none';
+							}
+							
+							// Update aria attributes
+							if (trigger) {
+								trigger.setAttribute('aria-expanded', 'false');
+								trigger.focus(); // Return focus to trigger after selection
+							}
+						});
+						
+						// Add keyboard navigation for items
+						item.addEventListener('keydown', function(e) {
+							if (e.key === 'Enter' || e.key === ' ') {
+								e.preventDefault();
+								item.click();
+							}
+						});
+					});
+					
+					// Initialize selected value on load
+					function initializeSelectedValue() {
+						const selectedItem = selectContainer.querySelector('.select-item[data-selected="true"]');
+						if (selectedItem && valueEl) {
+							const itemText = selectedItem.querySelector('.select-item-text');
+							if (itemText) {
+								valueEl.textContent = itemText.textContent;
+								valueEl.classList.remove('text-muted-foreground');
+							}
+							
+							// Set value in hidden input as well
+							if (hiddenInput) {
+								hiddenInput.value = selectedItem.getAttribute('data-value');
+							}
+						}
+					}
+					
+					// Click outside closes dropdown
+					document.addEventListener('click', function(event) {
+						if (isOpen && !selectContainer.contains(event.target)) {
+							isOpen = false;
+							if (content) {
+								content.style.display = 'none';
+							}
+							
+							if (trigger) {
+								trigger.setAttribute('aria-expanded', 'false');
+							}
+						}
+					});
+				});
+			});
+		</script>
+	}
 }

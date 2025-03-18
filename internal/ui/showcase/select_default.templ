@@ -4,12 +4,8 @@ import "github.com/axzilla/templui/components"
 
 templ SelectDefault() {
 	<div class="w-full max-w-sm">
-		@components.SelectScript()
 		@components.Select(components.SelectProps{}) {
-			@components.SelectTrigger(components.SelectTriggerProps{
-				ID:   "fruit",
-				Name: "fruit",
-			}) {
+			@components.SelectTrigger(components.SelectTriggerProps{}) {
 				@components.SelectValue(components.SelectValueProps{
 					Placeholder: "Select a fruit",
 				})
