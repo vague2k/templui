@@ -6,33 +6,66 @@ import "github.com/axzilla/templui/icons"
 templ RadioCardDefault() {
 	<div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
 		@components.RadioCard(components.RadioCardProps{
-			ID:          "plan-basic",
-			Name:        "plan",
-			Value:       "basic",
-			Title:       "Basic Plan",
-			Description: "Essential features for individuals and small teams",
-			Icon:        icons.Package(icons.IconProps{Size: "20"}),
-			Footer:      PriceFooter("$5.99"),
-		})
+			ID:    "comp-plan-basic",
+			Name:  "comp-plan",
+			Value: "basic",
+		}) {
+			@components.RadioCardHeader(components.RadioCardHeaderProps{}) {
+				<div class="flex items-center gap-2">
+					@icons.Package(icons.IconProps{Size: "20"})
+					<h3>Basic Plan</h3>
+				</div>
+			}
+			@components.RadioCardDescription(components.RadioCardDescriptionProps{}) {
+				Essential features for individuals and small teams
+			}
+			@components.RadioCardFooter(components.RadioCardFooterProps{}) {
+				@radioCardPriceFooter("$5.99")
+			}
+		}
 		@components.RadioCard(components.RadioCardProps{
-			ID:          "plan-pro",
-			Name:        "plan",
-			Value:       "pro",
-			Checked:     true,
-			Title:       "Pro Plan",
-			Description: "Enhanced capabilities for growing businesses.",
-			Icon:        icons.Star(icons.IconProps{Size: "20"}),
-			Footer:      PriceFooter("$14.99"),
-		})
+			ID:    "comp-plan-pro",
+			Name:  "comp-plan",
+			Value: "pro",
+		}) {
+			@components.RadioCardHeader(components.RadioCardHeaderProps{}) {
+				<div class="flex items-center gap-2">
+					@icons.Star(icons.IconProps{Size: "20"})
+					<h3>Pro Plan</h3>
+				</div>
+			}
+			@components.RadioCardDescription(components.RadioCardDescriptionProps{}) {
+				Enhanced capabilities for growing businesses.
+			}
+			@components.RadioCardFooter(components.RadioCardFooterProps{}) {
+				@radioCardPriceFooter("$14.99")
+			}
+		}
 		@components.RadioCard(components.RadioCardProps{
-			ID:          "plan-enterprise",
-			Name:        "plan",
-			Value:       "enterprise",
-			Title:       "Enterprise Plan",
-			Description: "Advanced features for large organizations",
-			Icon:        icons.Building(icons.IconProps{Size: "20"}),
-			Footer:      PriceFooter("$29.99"),
-			Disabled:    true,
-		})
+			ID:       "comp-plan-enterprise",
+			Name:     "comp-plan",
+			Value:    "enterprise",
+			Disabled: true,
+		}) {
+			@components.RadioCardHeader(components.RadioCardHeaderProps{}) {
+				<div class="flex items-center gap-2">
+					@icons.Building(icons.IconProps{Size: "20"})
+					<h3>Enterprise Plan</h3>
+				</div>
+			}
+			@components.RadioCardDescription(components.RadioCardDescriptionProps{}) {
+				Advanced features for large organizations
+			}
+			@components.RadioCardFooter(components.RadioCardFooterProps{}) {
+				@radioCardPriceFooter("$29.99")
+			}
+		}
+	</div>
+}
+
+templ radioCardPriceFooter(price string) {
+	<div class="flex justify-between items-center border-t border-border pt-2 mt-2 text-sm">
+		<span class="text-muted-foreground">Price</span>
+		<span class="font-medium">{ price }</span>
 	</div>
 }

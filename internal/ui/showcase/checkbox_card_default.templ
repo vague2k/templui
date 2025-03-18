@@ -12,7 +12,7 @@ templ CheckboxCardDefault() {
 			Title:       "Analytics",
 			Description: "Real-time data analytics and reporting tools",
 			Icon:        icons.ChartBar(icons.IconProps{Size: "20"}),
-			Footer:      PriceFooter("$5/month"),
+			Footer:      checkboxCardPriceFooter("$5/month"),
 		})
 		@components.CheckboxCard(components.CheckboxCardProps{
 			ID:          "feature-storage",
@@ -22,7 +22,7 @@ templ CheckboxCardDefault() {
 			Title:       "Cloud Storage",
 			Description: "Secure file storage with 100GB capacity",
 			Icon:        icons.Cloud(icons.IconProps{Size: "20"}),
-			Footer:      PriceFooter("$3/month"),
+			Footer:      checkboxCardPriceFooter("$3/month"),
 		})
 		@components.CheckboxCard(components.CheckboxCardProps{
 			ID:          "feature-api",
@@ -31,13 +31,13 @@ templ CheckboxCardDefault() {
 			Title:       "API Access",
 			Description: "Full access to our developer API endpoints",
 			Icon:        icons.Code(icons.IconProps{Size: "20"}),
-			Footer:      PriceFooter("$8/month"),
 			Disabled:    true,
+			Footer:      checkboxCardPriceFooter("$8/month"),
 		})
 	</div>
 }
 
-templ PriceFooter(price string) {
+templ checkboxCardPriceFooter(price string) {
 	<div class="flex justify-between items-center border-t border-border pt-2 mt-2 text-sm">
 		<span class="text-muted-foreground">Price</span>
 		<span class="font-medium">{ price }</span>
