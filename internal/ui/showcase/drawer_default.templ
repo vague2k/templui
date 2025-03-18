@@ -1,35 +1,51 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
-
-var sides = []components.DrawerSide{
-	components.DrawerSideLeft,
-	components.DrawerSideTop,
-	components.DrawerSideRight,
-	components.DrawerSideBottom,
-}
+import (
+	"github.com/axzilla/templui/components"
+)
 
 templ DrawerDefault() {
-	<div class="flex gap-2">
-		for _, side := range sides {
-			@components.DrawerRoot() {
-				@components.Drawer(components.DrawerProps{
-					Side: side,
-				}) {
-					<div class="py-4">
-						<h3 class="mb-2 text-lg font-medium">Drawer Content</h3>
-						<p>This is the main content of the sheet. You can put any components or text here.</p>
-					</div>
-					<div class="mt-4">
-						@components.DrawerClose("Close")
+	@components.Drawer(components.DrawerProps{}) {
+		@components.DrawerTrigger(components.DrawerTriggerProps{Class: "mb-4"}) {
+			@components.Button(components.ButtonProps{}) {
+				Open
+			}
+		}
+		@components.DrawerContent(components.DrawerContentProps{Side: components.DrawerSideRight}) {
+			@components.DrawerHeader(components.DrawerHeaderProps{}) {
+				@components.DrawerTitle(components.DrawerTitleProps{}) {
+					Account
+				}
+				@components.DrawerDescription(components.DrawerDescriptionProps{}) {
+					Make changes to your account here. Click save when you are done.
+				}
+			}
+			@components.Card(components.CardProps{}) {
+				@components.CardContent() {
+					<div class="flex flex-col gap-4">
+						@components.Input(components.InputProps{
+							Type:        components.InputTypeText,
+							Placeholder: "Name",
+							ID:          "name",
+							Value:       "John Doe",
+						})
+						@components.Input(components.InputProps{
+							Type:        components.InputTypeText,
+							Placeholder: "Username",
+							ID:          "username",
+							Value:       "@johndoe",
+						})
 					</div>
 				}
-				@components.DrawerTrigger(string(side), side) {
-					@components.Button(components.ButtonProps{}) {
-						{ string(side) }
-					}
+			}
+			@components.DrawerFooter(components.DrawerFooterProps{}) {
+				@components.DrawerClose(components.DrawerCloseProps{}) {
+					Cancel
+				}
+				@components.Button(components.ButtonProps{}) {
+					Save
 				}
 			}
 		}
-	</div>
+	}
 }
