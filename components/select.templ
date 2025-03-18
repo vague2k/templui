@@ -184,7 +184,18 @@ templ SelectScript() {
 					let isOpen = false;
 					
 					// Initialize selected value
-					const selectedItem = selectContainer.querySelector('.select-item[data-selected="true"]');
+					let selectedItem = selectContainer.querySelector('.select-item[data-selected="true"]');
+					
+					// If no item is selected, mark the first one as pre-selected (just visually)
+					if (!selectedItem) {
+						const firstItem = selectContainer.querySelector('.select-item');
+						if (firstItem) {
+							firstItem.classList.add('bg-muted'); // Add a subtle gray background
+							// Note: We don't set data-selected="true" to avoid affecting the hidden input
+						}
+					}
+					
+					// Update values if an item is actually selected
 					if (selectedItem && valueEl) {
 						const itemText = selectedItem.querySelector('.select-item-text');
 						if (itemText) {
@@ -259,7 +270,7 @@ templ SelectScript() {
 							// Reset selection state
 							selectContainer.querySelectorAll('.select-item').forEach(el => {
 								el.setAttribute('data-selected', 'false');
-								el.classList.remove('bg-accent', 'text-accent-foreground');
+								el.classList.remove('bg-accent', 'text-accent-foreground', 'bg-muted');
 								const check = el.querySelector('.select-check');
 								if (check) check.classList.replace('opacity-100', 'opacity-0');
 							});
