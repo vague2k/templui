@@ -19,9 +19,10 @@ templ TimePickerForm() {
 				Select a time from the dropdown.
 			}
 			@components.FormMessage(components.FormMessageProps{
-				Text:    "Please select a time",
 				Variant: components.FormMessageVariantError,
-			})
+			}) {
+				Please select a time
+			}
 		}
 	</div>
 }

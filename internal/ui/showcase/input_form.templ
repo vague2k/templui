@@ -21,9 +21,10 @@ templ InputForm() {
 				Enter your email address for notifications.
 			}
 			@components.FormMessage(components.FormMessageProps{
-				Text:    "Please enter a valid email address",
 				Variant: components.FormMessageVariantError,
-			})
+			}) {
+				Please enter a valid email address
+			}
 		}
 	</div>
 }

@@ -18,8 +18,9 @@ templ InputOTPForm() {
 			Enter the 6-digit code sent to your phone
 		}
 		@components.FormMessage(components.FormMessageProps{
-			Text:    "Invalid verification code.",
 			Variant: components.FormMessageVariantError,
-		})
+		}) {
+			Invalid verification code.
+		}
 	}
 }
