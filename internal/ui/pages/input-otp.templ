@@ -47,6 +47,12 @@ templ InputOtp() {
 					ComponentCodeFile: "otp_input.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "With Custom Styling",
+					ShowcaseFile:      showcase.InputOTPStyled(),
+					PreviewCodeFile:   "input_otp_styled.templ",
+					ComponentCodeFile: "otp_input.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "With Form",
 					ShowcaseFile:      showcase.InputOTPForm(),
 					PreviewCodeFile:   "input_otp_form.templ",

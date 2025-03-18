@@ -11,9 +11,20 @@ templ InputOTPForm() {
 		}
 		@components.InputOTP(components.InputOTPProps{
 			ID:       "otp-form",
+			Name:     "verification-code",
 			Required: true,
 			HasError: true,
-		})
+		}) {
+			@components.InputOTPGroup(components.InputOTPGroupProps{}) {
+				@components.InputOTPSlot(components.InputOTPSlotProps{Index: 0})
+				@components.InputOTPSlot(components.InputOTPSlotProps{Index: 1})
+				@components.InputOTPSlot(components.InputOTPSlotProps{Index: 2})
+				@components.InputOTPSeparator(components.InputOTPSeparatorProps{})
+				@components.InputOTPSlot(components.InputOTPSlotProps{Index: 3})
+				@components.InputOTPSlot(components.InputOTPSlotProps{Index: 4})
+				@components.InputOTPSlot(components.InputOTPSlotProps{Index: 5})
+			}
+		}
 		@components.FormDescription(components.FormDescriptionProps{}) {
 			Enter the 6-digit code sent to your phone
 		}
