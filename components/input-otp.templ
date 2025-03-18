@@ -52,12 +52,12 @@ templ InputOTPScript() {
 					},
 					
 					getInputRefs() {
+						const length = parseInt(this.$el.dataset.length || '6');
 						this.inputRefs = [];
-						const slots = this.$el.querySelectorAll('[data-slot]');
-						slots.forEach(slot => {
-							const input = slot.querySelector('input');
-							if (input) this.inputRefs.push(input);
-						});
+						for (let i = 0; i < length; i++) {
+							const ref = this.$refs[`otpDigit${i}`];
+							if (ref) this.inputRefs.push(ref);
+						}
 						return this.inputRefs;
 					},
 					
