@@ -273,6 +273,7 @@ templ SelectScript() {
 					
 					// Initialize selected value
 					let selectedItem = selectContainer.querySelector('.select-item[data-selected="true"]');
+					let hoverApplied = false; // Track if hover effect is applied
 					
 					// If no item is selected, mark the first one as pre-selected (just visually)
 					if (!selectedItem) {
@@ -293,6 +294,42 @@ templ SelectScript() {
 							hiddenInput.value = selectedItem.getAttribute('data-value');
 						}
 					}
+
+					// Handle hover effect on mouse movement
+					content.addEventListener('mouseover', function(e) {
+						const item = e.target.closest('.select-item');
+						if (!item) return;
+						
+						// Reset all items to normal state
+						selectContainer.querySelectorAll('.select-item').forEach(el => {
+							if (el.getAttribute('data-selected') === 'true') {
+								// For selected item, keep check mark but remove background
+								el.classList.remove('bg-accent', 'text-accent-foreground', 'bg-muted');
+							} else {
+								el.classList.remove('bg-accent', 'text-accent-foreground', 'bg-muted');
+							}
+						});
+						
+						// Apply hover effect to current item
+						if (item.getAttribute('data-disabled') !== 'true') {
+							item.classList.add('bg-accent', 'text-accent-foreground');
+							hoverApplied = true;
+						}
+					});
+					
+					// Reset hover effect when mouse leaves content area
+					content.addEventListener('mouseleave', function() {
+						// Remove hover effect
+						selectContainer.querySelectorAll('.select-item').forEach(el => {
+							if (el.getAttribute('data-selected') === 'true') {
+								// Restore background to selected item
+								el.classList.add('bg-accent', 'text-accent-foreground');
+							} else {
+								el.classList.remove('bg-accent', 'text-accent-foreground', 'bg-muted');
+							}
+						});
+						hoverApplied = false;
+					});
 
 					// Toggle dropdown with elegant transitions
 					if (trigger) {
