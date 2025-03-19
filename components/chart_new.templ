@@ -706,7 +706,7 @@ templ ChartScripts() {
 								options.plugins.tooltip.intersect = tooltipEl.getAttribute('data-intersect') === 'true';
 							}
 							
-							if (tooltipEl.hasAttribute('data-position')) {
+							if (tooltipEl.hasAttribute('data-position') && tooltipEl.getAttribute('data-position') !== "") {
 								options.plugins.tooltip.position = tooltipEl.getAttribute('data-position');
 							}
 							
