@@ -23,13 +23,14 @@ func toastDemoHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	toastProps := components.ToastProps{
-		Text:        r.FormValue("message"),
-		Variant:     components.ToastVariant(r.FormValue("type")),
-		Position:    r.FormValue("position"),
-		Duration:    duration,
-		Size:        r.FormValue("size"),
-		Dismissible: r.FormValue("dismissible") == "on",
-		Icon:        r.FormValue("icon") == "on",
+		Title:         r.FormValue("message"),
+		Description:   "This is a description",
+		Variant:       components.ToastVariant(r.FormValue("type")),
+		Position:      components.ToastPosition(r.FormValue("position")),
+		Duration:      duration,
+		Dismissible:   r.FormValue("dismissible") == "on",
+		ShowIndicator: true,
+		Icon:          r.FormValue("icon") == "on",
 	}
 
 	components.Toast(toastProps).Render(r.Context(), w)
