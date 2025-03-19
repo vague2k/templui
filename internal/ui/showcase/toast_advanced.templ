@@ -19,8 +19,18 @@ templ ToastAdvanced() {
 								Message
 							}
 							@components.Input(components.InputProps{
+								Value: "You have a new notification",
+								Name:  "title",
+							})
+						}
+						// Description
+						@components.FormItem(components.FormItemProps{}) {
+							@components.Label(components.LabelProps{}) {
+								Description
+							}
+							@components.Input(components.InputProps{
 								Value: "Test Notification",
-								Name:  "text",
+								Name:  "description",
 							})
 						}
 						// Type
@@ -129,41 +139,6 @@ templ ToastAdvanced() {
 								Value: "3000",
 							})
 						}
-						// Size
-						@components.FormItem(components.FormItemProps{}) {
-							@components.Label(components.LabelProps{}) {
-								Size
-							}
-							@components.Select(components.SelectProps{}) {
-								@components.SelectTrigger(components.SelectTriggerProps{
-									Name: "size",
-								}) {
-									@components.SelectValue(components.SelectValueProps{
-										Placeholder: "Medium",
-									})
-								}
-								@components.SelectContent(components.SelectContentProps{}) {
-									@components.SelectGroup(components.SelectGroupProps{}) {
-										@components.SelectItem(components.SelectItemProps{
-											Value: "sm",
-										}) {
-											Small
-										}
-										@components.SelectItem(components.SelectItemProps{
-											Value:    "md",
-											Selected: true,
-										}) {
-											Medium
-										}
-										@components.SelectItem(components.SelectItemProps{
-											Value: "lg",
-										}) {
-											Large
-										}
-									}
-								}
-							}
-						}
 						// Options
 						@components.FormItem(components.FormItemProps{}) {
 							@components.Label(components.LabelProps{}) {
@@ -186,6 +161,18 @@ templ ToastAdvanced() {
 								})
 								@components.Label(components.LabelProps{}) {
 									Show Icon
+								}
+							}
+							@components.FormItemFlex(components.FormItemProps{}) {
+								@components.Toggle(components.ToggleProps{
+									ID:      "indicator",
+									Name:    "indicator",
+									Checked: true,
+								})
+								@components.Label(components.LabelProps{
+									For: "indicator",
+								}) {
+									Show Indicator
 								}
 							}
 						}

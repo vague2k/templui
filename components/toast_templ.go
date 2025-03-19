@@ -105,7 +105,7 @@ func Toast(props ToastProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\"><div class=\"w-full bg-primary-foreground rounded-lg shadow-xs border pt-5 pb-4 px-4 flex items-start justify-center relative overflow-hidden\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\"><div class=\"w-full bg-primary-foreground rounded-lg shadow-xs border pt-5 pb-4 px-4 flex items-center justify-center relative overflow-hidden\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -400,9 +400,6 @@ func toastDismissButton() templ.Component {
 }
 
 func (p ToastProps) withDefaults() ToastProps {
-	if p.Title == "" {
-		p.Title = "Notification"
-	}
 	if p.Variant == "" {
 		p.Variant = ToastVariantDefault
 	}
@@ -473,13 +470,13 @@ func ToastScript() templ.Component {
 			var templ_7745c5c3_Var17 string
 			templ_7745c5c3_Var17, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/toast.templ`, Line: 172, Col: 43}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/toast.templ`, Line: 169, Col: 43}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var17))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "\">\t\n\t\t\tdocument.addEventListener('alpine:init', () => {\n\t\t\t\tAlpine.data('toast', () => ({\n\t\t\t\t\tshow: true,\n\t\t\t\t\tduration: 0,\n\t\t\t\t\ttimer: null,\n\n\t\t\t\t\tinit() {\n\t\t\t\t\t\tthis.duration = parseInt(this.$el.dataset.duration || 0);\n\t\t\t\t\t\tthis.startTimer();\n\n\t\t\t\t\t\tif (this.duration > 0) {\n\t\t\t\t\t\t\tconst progress = this.$refs.progress;\n\t\t\t\t\t\t\tif (progress) {\n\t\t\t\t\t\t\t\tprogress.style.transition = `width ${this.duration}ms linear`;\n\t\t\t\t\t\t\t\tprogress.style.width = '100%';\n\t\t\t\t\t\t\t\tsetTimeout(() => {\n\t\t\t\t\t\t\t\t\tprogress.style.width = '0%';\n\t\t\t\t\t\t\t\t}, 10);\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\n\t\t\t\t\tstartTimer() {\n\t\t\t\t\t\tif (this.duration <= 0) return;\n\t\t\t\t\t\tthis.timer = setTimeout(() => {\n\t\t\t\t\t\t\tthis.show = false;\n\t\t\t\t\t\t}, this.duration);\n\t\t\t\t\t},\n\n\t\t\t\t\tpauseTimer() {\n\t\t\t\t\t\tif (this.timer) clearTimeout(this.timer);\n\t\t\t\t\t\tconst progress = this.$refs.progress;\n\t\t\t\t\t\tif (progress) {\n\t\t\t\t\t\t\tconst width = progress.getBoundingClientRect().width;\n\t\t\t\t\t\t\tconst total = progress.parentElement.getBoundingClientRect().width;\n\t\t\t\t\t\t\tthis.duration = (width / total) * this.duration;\n\t\t\t\t\t\t\tprogress.style.transition = \"none\";\n\t\t\t\t\t\t\tprogress.style.width = width + \"px\";\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\n\t\t\t\t\tresumeTimer() {\n\t\t\t\t\t\tconst progress = this.$refs.progress;\n\t\t\t\t\t\tif (progress) {\n\t\t\t\t\t\t\tprogress.style.transition = \"width \" + this.duration + \"ms linear\";\n\t\t\t\t\t\t\tprogress.style.width = \"0\";\n\t\t\t\t\t\t\tthis.startTimer();\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\n\t\t\t\t\tdismissToast() {\n\t\t\t\t\t\tthis.show = false;\n\t\t\t\t\t}\n\t\t\t\t}))\n\t\t\t})\n\t\t</script>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "\">\t\n\t\t\tdocument.addEventListener('alpine:init', () => {\n\t\t\t\tAlpine.data('toast', () => ({\n\t\t\t\t\tshow: true,\n\t\t\t\t\tduration: 0,\n\t\t\t\t\ttimer: null,\n\n\t\t\t\t\tinit() {\n\t\t\t\t\t\tthis.duration = parseInt(this.$el.dataset.duration || 0);\n\t\t\t\t\t\tthis.startTimer();\n\n\t\t\t\t\t\tif (this.duration > 0) {\n\t\t\t\t\t\t\tconst progress = this.$refs.progress;\n\t\t\t\t\t\t\tif (progress) {\n\t\t\t\t\t\t\t\tprogress.style.transition = `width ${this.duration}ms linear`;\n\t\t\t\t\t\t\t\tprogress.style.width = '100%';\n\t\t\t\t\t\t\t\tsetTimeout(() => {\n\t\t\t\t\t\t\t\t\tprogress.style.width = '0%';\n\t\t\t\t\t\t\t\t}, 10);\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\n\t\t\t\t\tstartTimer() {\n\t\t\t\t\t\tif (this.duration <= 0) return;\n\t\t\t\t\t\tthis.timer = setTimeout(() => {\n\t\t\t\t\t\t\tthis.show = false;\n\t\t\t\t\t\t}, this.duration);\n\t\t\t\t\t},\n\n\t\t\t\t\tpauseTimer() {\n\t\t\t\t\t\tif (this.timer) clearTimeout(this.timer);\n\t\t\t\t\t\tconst progress = this.$refs.progress;\n\t\t\t\t\t\tif (progress) {\n\t\t\t\t\t\t\tconst width = progress.getBoundingClientRect().width;\n\t\t\t\t\t\t\tconst total = progress.parentElement.getBoundingClientRect().width;\n\t\t\t\t\t\t\tthis.duration = (width / total) * this.duration;\n\t\t\t\t\t\t\tprogress.style.transition = \"none\";\n\t\t\t\t\t\t\tprogress.style.width = width + \"px\";\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\n\t\t\t\t\tresumeTimer() {\n\t\t\t\t\t\tconst progress = this.$refs.progress;\n\t\t\t\t\t\tif (progress) {\n\t\t\t\t\t\t\tprogress.style.transition = \"width \" + this.duration + \"ms linear\";\n\t\t\t\t\t\t\tprogress.style.width = \"0\";\n\t\t\t\t\t\t}\n\t\t\t\t\t\tthis.startTimer();\n\t\t\t\t\t},\n\n\t\t\t\t\tdismissToast() {\n\t\t\t\t\t\tthis.show = false;\n\t\t\t\t\t}\n\t\t\t\t}))\n\t\t\t})\n\t\t</script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

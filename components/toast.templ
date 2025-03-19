@@ -60,7 +60,7 @@ templ Toast(props ToastProps) {
 			"w-full md:max-w-[420px]",
 		}
 	>
-		<div class="w-full bg-primary-foreground rounded-lg shadow-xs border pt-5 pb-4 px-4 flex items-start justify-center relative overflow-hidden">
+		<div class="w-full bg-primary-foreground rounded-lg shadow-xs border pt-5 pb-4 px-4 flex items-center justify-center relative overflow-hidden">
 			if props.ShowIndicator {
 				@toastIndicator(props)
 			}
@@ -134,9 +134,6 @@ templ toastDismissButton() {
 }
 
 func (p ToastProps) withDefaults() ToastProps {
-	if p.Title == "" {
-		p.Title = "Notification"
-	}
 	if p.Variant == "" {
 		p.Variant = ToastVariantDefault
 	}
@@ -216,8 +213,8 @@ templ ToastScript() {
 						if (progress) {
 							progress.style.transition = "width " + this.duration + "ms linear";
 							progress.style.width = "0";
-							this.startTimer();
 						}
+						this.startTimer();
 					},
 
 					dismissToast() {
