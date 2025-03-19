@@ -12,12 +12,15 @@ templ SliderWithSteps() {
 			Max:   200,
 			Step:  25,
 		}) {
-			<div class="flex justify-between items-center mb-2">
-				<label for="steps" class="text-sm font-medium">Zoom Level</label>
+			<div class="flex justify-between items-center mb-1">
+				@components.Label(components.LabelProps{
+					For: "steps",
+				}) {
+					Zoom Level
+				}
 				<div class="flex items-center">
 					@components.SliderValue(components.SliderValueProps{
-						For:    "steps",
-						Format: "%",
+						For: "steps",
 					})
 				</div>
 			</div>

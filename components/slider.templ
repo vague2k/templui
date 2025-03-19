@@ -5,7 +5,6 @@ import (
 	"github.com/axzilla/templui/utils"
 )
 
-// Slider Primitives für Component Composition
 type SliderRootProps struct {
 	ID         string
 	Name       string
@@ -20,67 +19,15 @@ type SliderRootProps struct {
 
 type SliderValueProps struct {
 	For        string
-	Format     string
 	Class      string
 	Attributes templ.Attributes
 }
 
-// SliderScript (kann als vanilla JS oder Alpine)
-templ SliderScript() {
-	{{ handler := templ.NewOnceHandle() }}
-	@handler.Once() {
-		<script defer nonce={ templ.GetNonce(ctx) }>
-			document.addEventListener('DOMContentLoaded', () => {
-				const sliders = document.querySelectorAll('[data-slider-root]');
-				
-				sliders.forEach(slider => {
-					const sliderId = slider.dataset.sliderId;
-					const input = slider.querySelector('input[type="range"]');
-					const valueElements = document.querySelectorAll(`[data-slider-value-for="${sliderId}"]`);
-					
-					if (input) {
-						// Initiales Setup
-						valueElements.forEach(el => {
-							el.textContent = input.value;
-						});
-						
-						// Event Listener
-						input.addEventListener('input', () => {
-							valueElements.forEach(el => {
-								el.textContent = input.value;
-							});
-						});
-					}
-				});
-			});
-		</script>
-	}
-}
-
-// Alpine-Version (optional)
-templ SliderAlpineScript() {
-	{{ handler := templ.NewOnceHandle() }}
-	@handler.Once() {
-		<script defer nonce={ templ.GetNonce(ctx) }>
-			document.addEventListener('alpine:init', () => {
-				Alpine.data('slider', (initialValue) => ({
-					value: initialValue,
-					handleInput(event) {
-						this.value = event.target.value;
-					}
-				}))
-			})
-		</script>
-	}
-}
-
-// Slider Komponenten
 templ SliderRoot(props SliderRootProps) {
 	<div
 		class={ utils.TwMerge("w-full", props.Class) }
 		data-slider-root
 		data-slider-id={ props.ID }
-		x-data={ fmt.Sprintf("slider(%d)", props.Value) }
 	>
 		{ children... }
 	</div>
@@ -88,7 +35,6 @@ templ SliderRoot(props SliderRootProps) {
 
 templ SliderInput(props SliderRootProps) {
 	<input
-		@input="handleInput"
 		type="range"
 		id={ props.ID }
 		name={ props.Name }
@@ -124,17 +70,37 @@ templ SliderValue(props SliderValueProps) {
 	<span
 		class={ utils.TwMerge("text-sm text-muted-foreground", props.Class) }
 		data-slider-value-for={ props.For }
-		x-text="value"
 		{ props.Attributes... }
 	></span>
-	if props.Format != "" {
-		{ props.Format }
-	}
 }
 
-// Backward-Kompatibilität: Original Slider
-// templ Slider(props SliderRootProps) {
-// 	@SliderRoot(props) {
-// 		@SliderInput(props)
-// 	}
-// }
+templ SliderScript() {
+	{{ handler := templ.NewOnceHandle() }}
+	@handler.Once() {
+		<script defer nonce={ templ.GetNonce(ctx) }>
+			document.addEventListener('DOMContentLoaded', () => {
+				const sliders = document.querySelectorAll('[data-slider-root]');
+				
+				sliders.forEach(slider => {
+					const sliderId = slider.dataset.sliderId;
+					const input = slider.querySelector('input[type="range"]');
+					const valueElements = document.querySelectorAll(`[data-slider-value-for="${sliderId}"]`);
+					
+					if (input) {
+						// Initial Setup
+						valueElements.forEach(el => {
+							el.textContent = input.value;
+						});
+						
+						// Event Listener
+						input.addEventListener('input', () => {
+							valueElements.forEach(el => {
+								el.textContent = input.value;
+							});
+						});
+					}
+				});
+			});
+		</script>
+	}
+}

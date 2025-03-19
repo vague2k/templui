@@ -13,8 +13,12 @@ templ SliderDisabled() {
 			Step:     20,
 			Disabled: true,
 		}) {
-			<div class="flex justify-between items-center mb-2">
-				<label for="disabled" class="text-sm font-medium">Disabled Slider</label>
+			<div class="flex justify-between items-center mb-1">
+				@components.Label(components.LabelProps{
+					For: "disabled",
+				}) {
+					Volume
+				}
 				@components.SliderValue(components.SliderValueProps{
 					For: "disabled",
 				})

@@ -12,10 +12,9 @@ templ SliderWithValue() {
 			Max:   100,
 			Step:  1,
 		}) {
-			<div class="flex justify-end mb-2">
+			<div class="flex justify-end mb-1">
 				@components.SliderValue(components.SliderValueProps{
-					For:    "with-value",
-					Format: "%",
+					For: "with-value",
 				})
 			</div>
 			@components.SliderInput(components.SliderRootProps{

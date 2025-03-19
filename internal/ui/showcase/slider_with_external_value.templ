@@ -3,8 +3,8 @@ package showcase
 import "github.com/axzilla/templui/components"
 
 templ SliderWithExternalValue() {
-	<div class="space-y-6">
-		<div class="w-full max-w-sm">
+	<div class="space-y-6 w-full max-w-sm">
+		<div>
 			@components.SliderRoot(components.SliderRootProps{
 				ID:    "external-value",
 				Name:  "external-value",
@@ -24,13 +24,13 @@ templ SliderWithExternalValue() {
 			}
 		</div>
 		<div class="bg-muted p-4 rounded-md">
-			<p class="text-sm text-muted-foreground mb-2">Externer Wert (verknüpft mit dem Slider):</p>
-			<div class="text-3xl font-bold">
+			<p class="text-sm text-muted-foreground mb-2">External value (linked to the slider):</p>
+			<div class="text-3xl font-bold flex gap-1">
 				@components.SliderValue(components.SliderValueProps{
-					For:    "external-value",
-					Format: "%",
-					Class:  "text-3xl font-bold text-primary",
+					For:   "external-value",
+					Class: "text-3xl font-bold text-primary",
 				})
+				%
 			</div>
 		</div>
 	</div>
