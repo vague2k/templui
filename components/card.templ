@@ -2,104 +2,232 @@ package components
 
 import "github.com/axzilla/templui/utils"
 
-type CardImagePosition string
+type CardMediaPosition int
+type CardMediaWidth int
 
 const (
-	CardImageTop    CardImagePosition = "top"
-	CardImageBottom CardImagePosition = "bottom"
-	CardImageLeft   CardImagePosition = "left"
-	CardImageRight  CardImagePosition = "right"
+	CardMediaTop CardMediaPosition = iota
+	CardMediaBottom
+	CardMediaLeft
+	CardMediaRight
+)
+
+const (
+	CardMediaWidthAuto CardMediaWidth = iota
+	CardMediaWidthFull
+	CardMediaWidthHalf
+	CardMediaWidthThird
+	CardMediaWidthQuarter
+	CardMediaWidthTwoThirds
+	CardMediaWidthThreeQuarters
 )
 
 type CardProps struct {
-	Horizontal bool
+	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
+type CardHeaderProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+}
+
+type CardTitleProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+}
+
+type CardDescriptionProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+}
+
+type CardContentProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+}
+
+type CardFooterProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+}
+
+type CardHorizontalProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+}
+
+type CardMediaProps struct {
+	ID          string
+	Src         string
+	Alt         string
+	Position    CardMediaPosition
+	Class       string
+	Width       CardMediaWidth
+	AspectRatio AspectRatioVariant
+	Attributes  templ.Attributes
+}
+
 templ Card(props CardProps) {
 	<div
-		class={
-			utils.TwMerge(
+		id={ props.ID }
+		class={ utils.TwMerge(
 				"w-full rounded-lg border bg-card text-card-foreground shadow-xs",
 				props.Class,
-			),
-			templ.KV("flex overflow-hidden", props.Horizontal),
-		}
+			) }
 		{ props.Attributes... }
 	>
 		{ children... }
 	</div>
 }
 
-type CardImageProps struct {
-	Src         string
-	Alt         string
-	Class       string
-	AspectRatio string
-	Position    CardImagePosition
-	Width       string
-}
-
-func imageWidth(width string) string {
-	if width == "" {
-		return "w-1/3"
-	}
-	return "w-" + width
-}
-
-templ CardImage(props CardImageProps) {
+templ CardHeader(props CardHeaderProps) {
 	<div
-		class={
-			utils.TwMerge(
-				"overflow-hidden",
+		id={ props.ID }
+		class={ utils.TwMerge(
+				"flex flex-col space-y-1.5 p-6 pb-0",
 				props.Class,
-			),
-			templ.KV("rounded-t-lg", props.Position == CardImageTop),
-			templ.KV("rounded-b-lg", props.Position == CardImageBottom),
-			templ.KV("rounded-l-lg", props.Position == CardImageLeft),
-			templ.KV("rounded-r-lg", props.Position == CardImageRight),
-			templ.KV("shrink-0", props.Position == CardImageLeft || props.Position == CardImageRight),
-			templ.KV(imageWidth(props.Width), props.Position == CardImageLeft || props.Position == CardImageRight),
-		}
-		if props.AspectRatio != "" {
-			style={ "aspect-ratio: " + props.AspectRatio }
-		}
+			) }
+		{ props.Attributes... }
 	>
-		<img
-			src={ props.Src }
-			alt={ props.Alt }
-			class="h-full w-full object-cover"
-		/>
-	</div>
-}
-
-templ CardHeader() {
-	<div class="flex flex-col space-y-1.5 p-6 pb-0">
 		{ children... }
 	</div>
 }
 
-templ CardTitle() {
-	<h3 class="text-lg font-semibold leading-none tracking-tight">
+templ CardTitle(props CardTitleProps) {
+	<h3
+		id={ props.ID }
+		class={ utils.TwMerge(
+				"text-lg font-semibold leading-none tracking-tight",
+				props.Class,
+			) }
+		{ props.Attributes... }
+	>
 		{ children... }
 	</h3>
 }
 
-templ CardDescription() {
-	<p class="text-sm text-muted-foreground">
+templ CardDescription(props CardDescriptionProps) {
+	<p
+		id={ props.ID }
+		class={ utils.TwMerge(
+				"text-sm text-muted-foreground",
+				props.Class,
+			) }
+		{ props.Attributes... }
+	>
 		{ children... }
 	</p>
 }
 
-templ CardContent() {
-	<div class="p-6">
+templ CardContent(props CardContentProps) {
+	<div
+		id={ props.ID }
+		class={ utils.TwMerge(
+				"p-6",
+				props.Class,
+			) }
+		{ props.Attributes... }
+	>
 		{ children... }
 	</div>
 }
 
-templ CardFooter() {
-	<div class="flex items-center p-6 pt-0">
+templ CardFooter(props CardFooterProps) {
+	<div
+		id={ props.ID }
+		class={ utils.TwMerge(
+				"flex items-center p-6 pt-0",
+				props.Class,
+			) }
+		{ props.Attributes... }
+	>
 		{ children... }
 	</div>
+}
+
+templ CardHorizontal(props CardHorizontalProps) {
+	<div
+		id={ props.ID }
+		class={ utils.TwMerge(
+				"flex overflow-hidden",
+				props.Class,
+			) }
+		{ props.Attributes... }
+	>
+		{ children... }
+	</div>
+}
+
+templ CardMedia(props CardMediaProps) {
+	<div
+		id={ props.ID }
+		class={ utils.TwMerge(
+				"overflow-hidden",
+				getCardMediaPositionClasses(props.Position, props.Width),
+				props.Class,
+			) }
+		{ props.Attributes... }
+	>
+		@AspectRatio(AspectRatioProps{
+			ID:    props.ID + "-aspect",
+			Ratio: props.AspectRatio,
+			Class: "h-full w-full",
+		}) {
+			<img
+				src={ props.Src }
+				alt={ props.Alt }
+				class="h-full w-full object-cover"
+			/>
+		}
+	</div>
+}
+
+func getCardMediaPositionClasses(position CardMediaPosition, width CardMediaWidth) string {
+	var positionClass string
+
+	switch position {
+	case CardMediaTop:
+		return "w-full rounded-t-lg"
+	case CardMediaBottom:
+		return "w-full rounded-b-lg"
+	case CardMediaLeft:
+		positionClass = "shrink-0 rounded-l-lg"
+	case CardMediaRight:
+		positionClass = "shrink-0 rounded-r-lg"
+	default:
+		positionClass = ""
+	}
+
+	if position == CardMediaLeft || position == CardMediaRight {
+		return positionClass + " " + getWidthClass(width)
+	}
+
+	return positionClass
+}
+
+func getWidthClass(width CardMediaWidth) string {
+	switch width {
+	case CardMediaWidthFull:
+		return "w-full"
+	case CardMediaWidthHalf:
+		return "w-1/2"
+	case CardMediaWidthThird:
+		return "w-1/3"
+	case CardMediaWidthQuarter:
+		return "w-1/4"
+	case CardMediaWidthTwoThirds:
+		return "w-2/3"
+	case CardMediaWidthThreeQuarters:
+		return "w-3/4"
+	default:
+		return "w-1/3"
+	}
 }

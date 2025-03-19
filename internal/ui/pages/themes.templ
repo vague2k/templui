@@ -689,15 +689,15 @@ templ Themes() {
 templ ThemePreview() {
 	<div id="theme-preview" class="theme-preview p-6 border rounded-lg">
 		@components.Card(components.CardProps{}) {
-			@components.CardHeader() {
-				@components.CardTitle() {
+			@components.CardHeader(components.CardHeaderProps{}) {
+				@components.CardTitle(components.CardTitleProps{}) {
 					User Registration 
 				}
-				@components.CardDescription() {
+				@components.CardDescription(components.CardDescriptionProps{}) {
 					Please fill out the form below to create your account. 
 				}
 			}
-			@components.CardContent() {
+			@components.CardContent(components.CardContentProps{}) {
 				<form class="space-y-4">
 					@components.FormItem(components.FormItemProps{}) {
 						@components.FormLabel(components.FormLabelProps{
@@ -865,7 +865,7 @@ templ ThemePreview() {
 					}
 				</form>
 			}
-			@components.CardFooter() {
+			@components.CardFooter(components.CardFooterProps{}) {
 				<div class="flex justify-between w-full">
 					@components.Button(components.ButtonProps{
 						Variant: components.ButtonVariantSecondary,

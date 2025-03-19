@@ -6,7 +6,7 @@ templ ToastAdvanced() {
 	<div class="w-full max-w-4xl mx-auto p-8">
 		<section class="mb-12">
 			@components.Card(components.CardProps{}) {
-				@components.CardContent() {
+				@components.CardContent(components.CardContentProps{}) {
 					<form
 						class="flex flex-col gap-2"
 						hx-post="/docs/toast/demo"
