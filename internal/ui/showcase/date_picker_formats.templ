@@ -8,7 +8,11 @@ import (
 templ DatePickerFormats() {
 	<div class="w-full max-w-sm flex flex-col gap-4">
 		<div class="space-y-2">
-			@components.Label(components.LabelProps{Text: "Default ISO", For: "date-picker-iso-format"})
+			@components.Label(components.LabelProps{
+				For: "date-picker-iso-format",
+			}) {
+				Default ISO format
+			}
 			@components.DatePicker(components.DatePickerProps{
 				ID:     "date-picker-iso-format",
 				Config: components.DatePickerISO,
@@ -16,7 +20,11 @@ templ DatePickerFormats() {
 			})
 		</div>
 		<div class="space-y-2">
-			@components.Label(components.LabelProps{Text: "Default EU", For: "date-picker-eu-format"})
+			@components.Label(components.LabelProps{
+				For: "date-picker-eu-format",
+			}) {
+				Default EU format
+			}
 			@components.DatePicker(components.DatePickerProps{
 				ID:     "date-picker-eu-format",
 				Config: components.DatePickerEU,
@@ -24,7 +32,11 @@ templ DatePickerFormats() {
 			})
 		</div>
 		<div class="space-y-2">
-			@components.Label(components.LabelProps{Text: "UK Format", For: "date-picker-uk-format"})
+			@components.Label(components.LabelProps{
+				For: "date-picker-uk-format",
+			}) {
+				UK Format
+			}
 			@components.DatePicker(components.DatePickerProps{
 				ID:     "date-picker-uk-format",
 				Config: components.DatePickerUK,
@@ -32,7 +44,11 @@ templ DatePickerFormats() {
 			})
 		</div>
 		<div class="space-y-2">
-			@components.Label(components.LabelProps{Text: "US Format", For: "date-picker-us-format"})
+			@components.Label(components.LabelProps{
+				For: "date-picker-us-format",
+			}) {
+				US Format
+			}
 			@components.DatePicker(components.DatePickerProps{
 				ID:     "date-picker-us-format",
 				Config: components.DatePickerUS,
@@ -40,7 +56,11 @@ templ DatePickerFormats() {
 			})
 		</div>
 		<div class="space-y-2">
-			@components.Label(components.LabelProps{Text: "LONG Format", For: "date-long-format"})
+			@components.Label(components.LabelProps{
+				For: "date-long-format",
+			}) {
+				LONG Format
+			}
 			@components.DatePicker(components.DatePickerProps{
 				ID:     "date-long-format",
 				Config: components.DatePickerLONG,
@@ -48,7 +68,11 @@ templ DatePickerFormats() {
 			})
 		</div>
 		<div class="space-y-2">
-			@components.Label(components.LabelProps{Text: "LONG Format (Spanish)", For: "date-es-long-format"})
+			@components.Label(components.LabelProps{
+				For: "date-es-long-format",
+			}) {
+				LONG Format (Spanish)
+			}
 			@components.DatePicker(components.DatePickerProps{
 				ID: "date-es-custom-config",
 				Config: components.NewDatePickerConfig(

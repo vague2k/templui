@@ -16,7 +16,6 @@ type FormItemProps struct {
 
 type FormLabelProps struct {
 	For           string
-	Text          string
 	Class         string
 	DisabledClass string
 }
@@ -27,7 +26,6 @@ type FormDescriptionProps struct {
 
 type FormMessageProps struct {
 	Variant FormMessageVariant
-	Text    string
 	Class   string
 }
 
@@ -47,9 +45,10 @@ templ FormLabel(props FormLabelProps) {
 	@Label(LabelProps{
 		For:           props.For,
 		Class:         props.Class,
-		Text:          props.Text,
 		DisabledClass: props.DisabledClass,
-	})
+	}) {
+		{ children... }
+	}
 }
 
 templ FormDescription(props FormDescriptionProps) {
@@ -65,7 +64,7 @@ templ FormMessage(props FormMessageProps) {
 			formMessageVariantClass(props.Variant),
 		}
 	>
-		{ props.Text }
+		{ children... }
 	</p>
 }
 

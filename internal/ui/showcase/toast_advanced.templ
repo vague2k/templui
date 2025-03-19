@@ -6,7 +6,7 @@ templ ToastAdvanced() {
 	<div class="w-full max-w-4xl mx-auto p-8">
 		<section class="mb-12">
 			@components.Card(components.CardProps{}) {
-				@components.CardContent() {
+				@components.CardContent(components.CardContentProps{}) {
 					<form
 						class="flex flex-col gap-2"
 						hx-post="/docs/toast/demo"
@@ -15,86 +15,174 @@ templ ToastAdvanced() {
 					>
 						// Message
 						@components.FormItem(components.FormItemProps{}) {
-							@components.Label(components.LabelProps{Text: "Message"})
+							@components.Label(components.LabelProps{}) {
+								Message
+							}
+							@components.Input(components.InputProps{
+								Value: "You have a new notification",
+								Name:  "title",
+							})
+						}
+						// Description
+						@components.FormItem(components.FormItemProps{}) {
+							@components.Label(components.LabelProps{}) {
+								Description
+							}
 							@components.Input(components.InputProps{
 								Value: "Test Notification",
-								Name:  "text",
+								Name:  "description",
 							})
 						}
 						// Type
 						@components.FormItem(components.FormItemProps{}) {
-							@components.Label(components.LabelProps{Text: "Type"})
-							@components.Select(components.SelectProps{
-								Name: "type",
-								Options: []components.SelectOption{
-									{Value: "default", Label: "Default"},
-									{Value: "success", Label: "Success"},
-									{Value: "error", Label: "Error"},
-									{Value: "warning", Label: "Warning"},
-									{Value: "info", Label: "Info"},
-								},
-							})
+							@components.Label(components.LabelProps{}) {
+								Type
+							}
+							@components.Select(components.SelectProps{}) {
+								@components.SelectTrigger(components.SelectTriggerProps{
+									Name: "type",
+								}) {
+									@components.SelectValue(components.SelectValueProps{
+										Placeholder: "Default",
+									})
+								}
+								@components.SelectContent(components.SelectContentProps{}) {
+									@components.SelectGroup(components.SelectGroupProps{}) {
+										@components.SelectItem(components.SelectItemProps{
+											Value:    "default",
+											Selected: true,
+										}) {
+											Default
+										}
+										@components.SelectItem(components.SelectItemProps{
+											Value: "success",
+										}) {
+											Success
+										}
+										@components.SelectItem(components.SelectItemProps{
+											Value: "error",
+										}) {
+											Error
+										}
+										@components.SelectItem(components.SelectItemProps{
+											Value: "warning",
+										}) {
+											Warning
+										}
+										@components.SelectItem(components.SelectItemProps{
+											Value: "info",
+										}) {
+											Info
+										}
+									}
+								}
+							}
 						}
 						// Position
 						@components.FormItem(components.FormItemProps{}) {
-							@components.Label(components.LabelProps{Text: "Position"})
-							@components.Select(components.SelectProps{
-								Name: "position",
-								Options: []components.SelectOption{
-									{Value: "top-right", Label: "Top Right"},
-									{Value: "top-left", Label: "Top Left"},
-									{Value: "top-center", Label: "Top Center"},
-									{Value: "bottom-right", Label: "Bottom Right", Selected: true},
-									{Value: "bottom-left", Label: "Bottom Left"},
-									{Value: "bottom-center", Label: "Bottom Center"},
-								},
-							})
+							@components.Label(components.LabelProps{}) {
+								Position
+							}
+							@components.Select(components.SelectProps{}) {
+								@components.SelectTrigger(components.SelectTriggerProps{
+									Name: "position",
+								}) {
+									@components.SelectValue(components.SelectValueProps{
+										Placeholder: "Bottom Right",
+									})
+								}
+								@components.SelectContent(components.SelectContentProps{}) {
+									@components.SelectGroup(components.SelectGroupProps{}) {
+										@components.SelectItem(components.SelectItemProps{
+											Value: "top-right",
+										}) {
+											Top Right
+										}
+										@components.SelectItem(components.SelectItemProps{
+											Value: "top-left",
+										}) {
+											Top Left
+										}
+										@components.SelectItem(components.SelectItemProps{
+											Value: "top-center",
+										}) {
+											Top Center
+										}
+										@components.SelectItem(components.SelectItemProps{
+											Value:    "bottom-right",
+											Selected: true,
+										}) {
+											Bottom Right
+										}
+										@components.SelectItem(components.SelectItemProps{
+											Value: "bottom-left",
+										}) {
+											Bottom Left
+										}
+										@components.SelectItem(components.SelectItemProps{
+											Value: "bottom-center",
+										}) {
+											Bottom Center
+										}
+									}
+								}
+							}
 						}
 						// Duration
 						@components.FormItem(components.FormItemProps{}) {
-							@components.Label(components.LabelProps{Text: "Duration (ms)"})
+							@components.Label(components.LabelProps{}) {
+								Duration (ms)
+							}
 							@components.Input(components.InputProps{
 								Type:  "number",
 								Name:  "duration",
 								Value: "3000",
 							})
 						}
-						// Size
-						@components.FormItem(components.FormItemProps{}) {
-							@components.Label(components.LabelProps{Text: "Size"})
-							@components.Select(components.SelectProps{
-								Name: "size",
-								Options: []components.SelectOption{
-									{Value: "sm", Label: "Small"},
-									{Value: "md", Label: "Medium"},
-									{Value: "lg", Label: "Large"},
-								},
-							})
-						}
 						// Options
 						@components.FormItem(components.FormItemProps{}) {
-							@components.Label(components.LabelProps{Text: "Options"})
+							@components.Label(components.LabelProps{}) {
+								<div id="toast-advanced-container"></div>
+								@components.SelectScript()
+							}
 							@components.FormItemFlex(components.FormItemProps{}) {
 								@components.Toggle(components.ToggleProps{
 									Name:    "dismissible",
 									Checked: true,
 								})
-								@components.Label(components.LabelProps{Text: "Dismissible"})
+								@components.Label(components.LabelProps{}) {
+									Dimissible
+								}
 							}
 							@components.FormItemFlex(components.FormItemProps{}) {
 								@components.Toggle(components.ToggleProps{
 									Name:    "icon",
 									Checked: true,
 								})
-								@components.Label(components.LabelProps{Text: "Show Icon"})
+								@components.Label(components.LabelProps{}) {
+									Show Icon
+								}
+							}
+							@components.FormItemFlex(components.FormItemProps{}) {
+								@components.Toggle(components.ToggleProps{
+									ID:      "indicator",
+									Name:    "indicator",
+									Checked: true,
+								})
+								@components.Label(components.LabelProps{
+									For: "indicator",
+								}) {
+									Show Indicator
+								}
 							}
 						}
 						// Submit
 						@components.Button(components.ButtonProps{
-							Text:  "Show Toast",
 							Type:  "submit",
 							Class: "w-full",
-						})
+						}) {
+							Show Toast
+						}
 					</form>
 				}
 			}

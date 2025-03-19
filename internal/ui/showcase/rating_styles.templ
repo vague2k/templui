@@ -5,41 +5,55 @@ import "github.com/axzilla/templui/components"
 templ RatingStyles() {
 	<div class="flex flex-col gap-4">
 		<div class="flex flex-col gap-2">
-			@components.Label(components.LabelProps{Text: "Star"})
-			@components.Rating(components.RatingProps{
-				Value:    4,
-				MaxValue: 5,
-				ReadOnly: true,
-				Style:    components.RatingStyleStar,
-			})
+			@components.Label(components.LabelProps{}) {
+				Star Style
+			}
+			@components.RatingRoot(components.RatingRootProps{
+				Value: 4,
+			}) {
+				@components.RatingGroup(components.RatingGroupProps{}) {
+					for i := 1; i <= 5; i++ {
+						@components.RatingItem(components.RatingItemProps{
+							Value: i,
+							Style: components.RatingStyleStar,
+						})
+					}
+				}
+			}
 		</div>
 		<div class="flex flex-col gap-2">
-			@components.Label(components.LabelProps{Text: "Heart"})
-			@components.Rating(components.RatingProps{
-				Value:    4,
-				MaxValue: 5,
-				ReadOnly: true,
-				Style:    components.RatingStyleHeart,
-			})
+			@components.Label(components.LabelProps{}) {
+				Heart Style
+			}
+			@components.RatingRoot(components.RatingRootProps{
+				Value: 4,
+			}) {
+				@components.RatingGroup(components.RatingGroupProps{}) {
+					for i := 1; i <= 5; i++ {
+						@components.RatingItem(components.RatingItemProps{
+							Value: i,
+							Style: components.RatingStyleHeart,
+						})
+					}
+				}
+			}
 		</div>
 		<div class="flex flex-col gap-2">
-			@components.Label(components.LabelProps{Text: "Emoji"})
-			@components.Rating(components.RatingProps{
-				Value:    4,
-				MaxValue: 5,
-				ReadOnly: true,
-				Style:    components.RatingStyleEmoji,
-			})
-		</div>
-		<div class="flex flex-col gap-2">
-			@components.Label(components.LabelProps{Text: "Numeric"})
-			@components.Rating(components.RatingProps{
-				Value:     3.6,
-				MaxValue:  5,
-				ReadOnly:  true,
-				Precision: 0.1,
-				Style:     components.RatingStyleNumeric,
-			})
+			@components.Label(components.LabelProps{}) {
+				Emoji Style
+			}
+			@components.RatingRoot(components.RatingRootProps{
+				Value: 4,
+			}) {
+				@components.RatingGroup(components.RatingGroupProps{}) {
+					for i := 1; i <= 5; i++ {
+						@components.RatingItem(components.RatingItemProps{
+							Value: i,
+							Style: components.RatingStyleEmoji,
+						})
+					}
+				}
+			}
 		</div>
 	</div>
 }

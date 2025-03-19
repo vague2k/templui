@@ -9,11 +9,17 @@ templ ToastDefault() {
 			hx-post="/docs/toast/demo"
 			hx-trigger="submit"
 			hx-target="#toast-container"
+			hx-vals='{
+				"title": "You have a new notification",
+				"description": "Test Notification",
+				"dismissible": "on"
+			}'
 		>
 			@components.Button(components.ButtonProps{
-				Text: "Show Toast",
 				Type: "submit",
-			})
+			}) {
+				Show Toast
+			}
 		</form>
 		<div id="toast-container"></div>
 	</div>

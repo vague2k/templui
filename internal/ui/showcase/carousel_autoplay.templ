@@ -6,24 +6,28 @@ import (
 
 templ CarouselAutoplay() {
 	@components.Carousel(components.CarouselProps{
-		Slides: []components.CarouselSlide{
-			{
-				Content: CarouselAutoplaySlide("Slide 1", "This is the first slide", "bg-blue-500"),
-			},
-			{
-				Content: CarouselAutoplaySlide("Slide 2", "This is the second slide", "bg-green-500"),
-			},
-			{
-				Content: CarouselAutoplaySlide("Slide 3", "This is the first slide", "bg-purple-500"),
-			},
-		},
-		ShowControls:   true,
-		ShowIndicators: true,
-		Autoplay:       true,
-		Interval:       3000,
-		Loop:           true,
-		Class:          "rounded-md",
-	})
+		Autoplay: true,
+		Interval: 3000,
+		Loop:     true,
+		Class:    "rounded-md",
+	}) {
+		@components.CarouselContent(components.CarouselContentProps{}) {
+			@components.CarouselItem(components.CarouselItemProps{}) {
+				@CarouselAutoplaySlide("Slide 1", "This is the first slide", "bg-blue-500")
+			}
+			@components.CarouselItem(components.CarouselItemProps{}) {
+				@CarouselAutoplaySlide("Slide 2", "This is the second slide", "bg-green-500")
+			}
+			@components.CarouselItem(components.CarouselItemProps{}) {
+				@CarouselAutoplaySlide("Slide 3", "This is the third slide", "bg-purple-500")
+			}
+		}
+		@components.CarouselPrevious(components.CarouselPreviousProps{})
+		@components.CarouselNext(components.CarouselNextProps{})
+		@components.CarouselIndicators(components.CarouselIndicatorsProps{
+			Count: 3,
+		})
+	}
 }
 
 templ CarouselAutoplaySlide(title, description, bg string) {

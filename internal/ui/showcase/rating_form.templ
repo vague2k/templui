@@ -5,21 +5,32 @@ import "github.com/axzilla/templui/components"
 templ RatingForm() {
 	<form class="max-w-sm mx-auto">
 		@components.FormItem(components.FormItemProps{}) {
-			@components.Label(components.LabelProps{Text: "Product Quality"})
-			@components.Rating(components.RatingProps{
+			@components.Label(components.LabelProps{For: "product_quality"}) {
+				Product Quality
+			}
+			@components.RatingRoot(components.RatingRootProps{
 				Value:     3,
-				MaxValue:  5,
 				ReadOnly:  false,
-				Style:     components.RatingStyleStar,
 				Precision: 1.0,
 				Name:      "product_quality",
-			})
+			}) {
+				@components.RatingGroup(components.RatingGroupProps{}) {
+					for i := 1; i <= 5; i++ {
+						@components.RatingItem(components.RatingItemProps{
+							Value: i,
+							Style: components.RatingStyleStar,
+						})
+					}
+				}
+			}
 			@components.FormDescription(components.FormDescriptionProps{}) {
 				Rate the quality of the product you received.
 			}
 			@components.FormMessage(components.FormMessageProps{
 				Variant: components.FormMessageVariantError,
-				Text:    "Please rate the product quality."})
+			}) {
+				Please rate the product quality.
+			}
 		}
 	</form>
 }

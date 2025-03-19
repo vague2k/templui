@@ -11,24 +11,51 @@ import templruntime "github.com/a-h/templ/runtime"
 import (
 	"github.com/axzilla/templui/icons"
 	"github.com/axzilla/templui/utils"
+	"strconv"
 )
 
 type SelectProps struct {
-	ID          string
-	Name        string
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+}
+
+type SelectTriggerProps struct {
+	ID         string
+	Name       string
+	Required   bool
+	Disabled   bool
+	HasError   bool
+	Class      string
+	Attributes templ.Attributes
+}
+
+type SelectValueProps struct {
 	Placeholder string
-	Options     []SelectOption
-	Disabled    bool
-	Required    bool
-	HasError    bool
 	Class       string
 	Attributes  templ.Attributes
 }
 
-type SelectOption struct {
-	Label      string
+type SelectContentProps struct {
+	Class      string
+	Attributes templ.Attributes
+}
+
+type SelectGroupProps struct {
+	Class      string
+	Attributes templ.Attributes
+}
+
+type SelectLabelProps struct {
+	Class      string
+	Attributes templ.Attributes
+}
+
+type SelectItemProps struct {
 	Value      string
 	Selected   bool
+	Disabled   bool
+	Class      string
 	Attributes templ.Attributes
 }
 
@@ -53,7 +80,7 @@ func Select(props SelectProps) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		var templ_7745c5c3_Var2 = []any{utils.TwMerge("relative w-full", props.Class)}
+		var templ_7745c5c3_Var2 = []any{utils.TwMerge("w-full select-container relative", props.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -71,94 +98,20 @@ func Select(props SelectProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\" data-select-id=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var4 = []any{
-			utils.TwMerge(
-				"peer h-10 w-full px-3 py-2",
-				"rounded-md border border-input bg-background text-sm",
-				"appearance-none ring-offset-background",
-				"placeholder:text-muted-foreground",
-				"focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2",
-				"disabled:cursor-not-allowed disabled:opacity-50",
-				utils.TwIf("border-destructive ring-destructive", props.HasError),
-			),
+		var templ_7745c5c3_Var4 string
+		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 57, Col: 27}
 		}
-		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var4...)
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "<select x-ref=\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var5 string
-		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 30, Col: 19}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "\" id=\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var6 string
-		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 31, Col: 16}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "\" name=\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var7 string
-		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(props.Name)
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 32, Col: 20}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		if props.Disabled {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, " disabled")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		}
-		if props.Required {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, " required")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, " class=\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var8 string
-		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var4).String())
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 1, Col: 0}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -166,87 +119,294 @@ func Select(props SelectProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, ">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, ">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		if props.Placeholder != "" {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "<option value=\"\" disabled selected hidden>")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			var templ_7745c5c3_Var9 string
-			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(props.Placeholder)
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 49, Col: 65}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "</option> ")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
+		templ_7745c5c3_Err = templ_7745c5c3_Var1.Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
 		}
-		for _, option := range props.Options {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "<option value=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</div>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		return nil
+	})
+}
+
+func SelectTrigger(props SelectTriggerProps) templ.Component {
+	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
+			return templ_7745c5c3_CtxErr
+		}
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+		if !templ_7745c5c3_IsBuffer {
+			defer func() {
+				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err == nil {
+					templ_7745c5c3_Err = templ_7745c5c3_BufErr
+				}
+			}()
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var5 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var5 == nil {
+			templ_7745c5c3_Var5 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		templ_7745c5c3_Var6 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+			templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+			templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+			if !templ_7745c5c3_IsBuffer {
+				defer func() {
+					templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+					if templ_7745c5c3_Err == nil {
+						templ_7745c5c3_Err = templ_7745c5c3_BufErr
+					}
+				}()
+			}
+			ctx = templ.InitializeContext(ctx)
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<input type=\"hidden\" name=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var10 string
-			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(option.Value)
+			var templ_7745c5c3_Var7 string
+			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(props.Name)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 53, Col: 25}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 88, Col: 20}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			if option.Selected {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, " selected")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			if props.Required {
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, " required")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, option.Attributes)
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, ">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, ">")
+			templ_7745c5c3_Err = templ_7745c5c3_Var5.Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var11 string
-			templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(option.Label)
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 57, Col: 19}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, " <span class=\"pointer-events-none ml-1\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "</option>")
+			templ_7745c5c3_Err = icons.ChevronDown(icons.IconProps{
+				Size:  "16",
+				Class: "text-muted-foreground",
+			}).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "</select>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "</span>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			return nil
+		})
+		templ_7745c5c3_Err = Button(ButtonProps{
+			ID:      props.ID,
+			Type:    "button",
+			Variant: ButtonVariantOutline,
+			Class: utils.TwMerge(
+				"w-full select-trigger flex items-center justify-between",
+				utils.TwIf("border-destructive ring-destructive", props.HasError),
+				props.Class,
+			),
+			Disabled: props.Disabled,
+			Attributes: utils.MergeAttributes(
+				templ.Attributes{
+					"aria-haspopup":       "listbox",
+					"aria-expanded":       "false",
+					"data-select-trigger": "true",
+					"tabindex":            "0",
+					"required":            strconv.FormatBool(props.Required),
+				},
+				props.Attributes,
+			)},
+		).Render(templ.WithChildren(ctx, templ_7745c5c3_Var6), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var12 = []any{
-			utils.TwMerge(
-				"absolute right-3 top-3",
-				"pointer-events-none",
-				"peer-disabled:opacity-50",
-			),
+		return nil
+	})
+}
+
+func SelectValue(props SelectValueProps) templ.Component {
+	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
+			return templ_7745c5c3_CtxErr
 		}
-		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var12...)
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+		if !templ_7745c5c3_IsBuffer {
+			defer func() {
+				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err == nil {
+					templ_7745c5c3_Err = templ_7745c5c3_BufErr
+				}
+			}()
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var8 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var8 == nil {
+			templ_7745c5c3_Var8 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		var templ_7745c5c3_Var9 = []any{utils.TwMerge("block truncate select-value text-muted-foreground", props.Class)}
+		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var9...)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "<span class=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var10 string
+		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var9).String())
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 1, Col: 0}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, props.Attributes)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, ">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var11 string
+		templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(props.Placeholder)
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 106, Col: 21}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templ_7745c5c3_Var8.Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "</span>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		return nil
+	})
+}
+
+func SelectContent(props SelectContentProps) templ.Component {
+	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
+			return templ_7745c5c3_CtxErr
+		}
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+		if !templ_7745c5c3_IsBuffer {
+			defer func() {
+				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err == nil {
+					templ_7745c5c3_Err = templ_7745c5c3_BufErr
+				}
+			}()
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var12 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var12 == nil {
+			templ_7745c5c3_Var12 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		var templ_7745c5c3_Var13 = []any{utils.TwMerge(
+			"p-1 select-content absolute z-50 w-full overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md",
+			"transition-all ease-out duration-100",
+			"transform opacity-0 -translate-y-1 scale-95", // init condition
+			props.Class,
+		)}
+		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var13...)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "<div class=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var14 string
+		templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var13).String())
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 1, Col: 0}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "\" style=\"display: none;\" role=\"listbox\" tabindex=\"-1\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, props.Attributes)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, ">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templ_7745c5c3_Var12.Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "</div>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		return nil
+	})
+}
+
+func SelectGroup(props SelectGroupProps) templ.Component {
+	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
+			return templ_7745c5c3_CtxErr
+		}
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+		if !templ_7745c5c3_IsBuffer {
+			defer func() {
+				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err == nil {
+					templ_7745c5c3_Err = templ_7745c5c3_BufErr
+				}
+			}()
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var15 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var15 == nil {
+			templ_7745c5c3_Var15 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		var templ_7745c5c3_Var16 = []any{utils.TwMerge("p-1", props.Class)}
+		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var16...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -254,27 +414,298 @@ func Select(props SelectProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var13 string
-		templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var12).String())
+		var templ_7745c5c3_Var17 string
+		templ_7745c5c3_Var17, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var16).String())
 		if templ_7745c5c3_Err != nil {
 			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 1, Col: 0}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var17))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, "\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, "\" role=\"group\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = icons.ChevronDown(icons.IconProps{
-			Size:  "16",
-			Class: "text-muted-foreground",
-		}).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, props.Attributes)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "</div></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, ">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templ_7745c5c3_Var15.Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 23, "</div>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		return nil
+	})
+}
+
+func SelectLabel(props SelectLabelProps) templ.Component {
+	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
+			return templ_7745c5c3_CtxErr
+		}
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+		if !templ_7745c5c3_IsBuffer {
+			defer func() {
+				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err == nil {
+					templ_7745c5c3_Err = templ_7745c5c3_BufErr
+				}
+			}()
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var18 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var18 == nil {
+			templ_7745c5c3_Var18 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		var templ_7745c5c3_Var19 = []any{utils.TwMerge("px-2 py-1.5 text-sm font-medium", props.Class)}
+		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var19...)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 24, "<span class=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var20 string
+		templ_7745c5c3_Var20, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var19).String())
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 1, Col: 0}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var20))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 25, "\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, props.Attributes)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 26, ">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templ_7745c5c3_Var18.Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 27, "</span>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		return nil
+	})
+}
+
+func SelectItem(props SelectItemProps) templ.Component {
+	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
+			return templ_7745c5c3_CtxErr
+		}
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+		if !templ_7745c5c3_IsBuffer {
+			defer func() {
+				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err == nil {
+					templ_7745c5c3_Err = templ_7745c5c3_BufErr
+				}
+			}()
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var21 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var21 == nil {
+			templ_7745c5c3_Var21 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		var templ_7745c5c3_Var22 = []any{utils.TwMerge(
+			"select-item relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 px-2 text-sm font-light outline-none",
+			"hover:bg-accent hover:text-accent-foreground",
+			"focus:bg-accent focus:text-accent-foreground",
+			utils.TwIf("bg-accent text-accent-foreground", props.Selected),
+			utils.TwIf("pointer-events-none opacity-50", props.Disabled),
+			props.Class,
+		)}
+		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var22...)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 28, "<div class=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var23 string
+		templ_7745c5c3_Var23, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var22).String())
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 1, Col: 0}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var23))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 29, "\" role=\"option\" data-value=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var24 string
+		templ_7745c5c3_Var24, templ_7745c5c3_Err = templ.JoinStringErrs(props.Value)
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 158, Col: 26}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var24))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 30, "\" data-selected=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var25 string
+		templ_7745c5c3_Var25, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.FormatBool(props.Selected))
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 159, Col: 52}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var25))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 31, "\" data-disabled=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var26 string
+		templ_7745c5c3_Var26, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.FormatBool(props.Disabled))
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 160, Col: 52}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var26))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 32, "\" tabindex=\"0\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, props.Attributes)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 33, "><span class=\"truncate select-item-text\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templ_7745c5c3_Var21.Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 34, "</span> ")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var27 = []any{utils.TwMerge(
+			"select-check absolute right-2 flex h-3.5 w-3.5 items-center justify-center",
+			utils.TwIfElse(props.Selected, "opacity-100", "opacity-0"),
+		)}
+		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var27...)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 35, "<span class=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var28 string
+		templ_7745c5c3_Var28, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var27).String())
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 1, Col: 0}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var28))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 36, "\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = icons.Check(icons.IconProps{Size: "16"}).Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 37, "</span></div>")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		return nil
+	})
+}
+
+func SelectScript() templ.Component {
+	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
+			return templ_7745c5c3_CtxErr
+		}
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+		if !templ_7745c5c3_IsBuffer {
+			defer func() {
+				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err == nil {
+					templ_7745c5c3_Err = templ_7745c5c3_BufErr
+				}
+			}()
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var29 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var29 == nil {
+			templ_7745c5c3_Var29 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		handle := templ.NewOnceHandle()
+		templ_7745c5c3_Var30 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+			templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+			templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+			if !templ_7745c5c3_IsBuffer {
+				defer func() {
+					templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+					if templ_7745c5c3_Err == nil {
+						templ_7745c5c3_Err = templ_7745c5c3_BufErr
+					}
+				}()
+			}
+			ctx = templ.InitializeContext(ctx)
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 38, "<script defer nonce=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var31 string
+			templ_7745c5c3_Var31, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 181, Col: 43}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var31))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 39, "\">\n\t\t\tdocument.addEventListener('DOMContentLoaded', function() {\n\t\t\t\t// Helper function to position dropdown based on available space\n\t\t\t\tfunction updateDropdownPosition(trigger, content) {\n\t\t\t\t\t// Get necessary measurements\n\t\t\t\t\tconst triggerRect = trigger.getBoundingClientRect();\n\t\t\t\t\tconst viewportHeight = window.innerHeight;\n\t\t\t\t\tconst viewportWidth = window.innerWidth;\n\t\t\t\t\t\n\t\t\t\t\t// First make the content visible but off-screen to measure its natural size\n\t\t\t\t\tcontent.style.display = 'block';\n\t\t\t\t\tcontent.style.visibility = 'hidden';\n\t\t\t\t\tcontent.style.maxHeight = 'none'; // Remove max-height to get natural height\n\t\t\t\t\t\n\t\t\t\t\t// Force a reflow to make sure we get accurate measurements\n\t\t\t\t\tvoid content.offsetHeight;\n\t\t\t\t\t\n\t\t\t\t\t// Get content dimensions\n\t\t\t\t\tconst contentHeight = content.scrollHeight;\n\t\t\t\t\tconst contentWidth = content.scrollWidth;\n\t\t\t\t\t\n\t\t\t\t\t// Calculate available space in different directions\n\t\t\t\t\tconst spaceBelow = viewportHeight - triggerRect.bottom;\n\t\t\t\t\tconst spaceAbove = triggerRect.top;\n\t\t\t\t\tconst spaceRight = viewportWidth - triggerRect.left;\n\t\t\t\t\t\n\t\t\t\t\t// Reset visibility\n\t\t\t\t\tcontent.style.visibility = '';\n\t\t\t\t\t\n\t\t\t\t\t// Vertical positioning\n\t\t\t\t\tlet needsVerticalScroll = false;\n\t\t\t\t\tlet maxHeight;\n\t\t\t\t\t\n\t\t\t\t\tif (spaceBelow >= contentHeight) {\n\t\t\t\t\t\t// Enough space below\n\t\t\t\t\t\tcontent.style.top = \"100%\";\n\t\t\t\t\t\tcontent.style.bottom = \"auto\";\n\t\t\t\t\t\tcontent.style.marginTop = \"0.25rem\";\n\t\t\t\t\t\tcontent.style.marginBottom = \"0\";\n\t\t\t\t\t\tmaxHeight = spaceBelow - 10; // Add some padding\n\t\t\t\t\t} else if (spaceAbove >= contentHeight) {\n\t\t\t\t\t\t// Enough space above\n\t\t\t\t\t\tcontent.style.bottom = \"100%\";\n\t\t\t\t\t\tcontent.style.top = \"auto\";\n\t\t\t\t\t\tcontent.style.marginBottom = \"0.25rem\";\n\t\t\t\t\t\tcontent.style.marginTop = \"0\";\n\t\t\t\t\t\tmaxHeight = spaceAbove - 10; // Add some padding\n\t\t\t\t\t} else {\n\t\t\t\t\t\t// Not enough space in either direction - use the larger space and add scrolling\n\t\t\t\t\t\tneedsVerticalScroll = true;\n\t\t\t\t\t\tif (spaceBelow >= spaceAbove) {\n\t\t\t\t\t\t\tcontent.style.top = \"100%\";\n\t\t\t\t\t\t\tcontent.style.bottom = \"auto\";\n\t\t\t\t\t\t\tcontent.style.marginTop = \"0.25rem\";\n\t\t\t\t\t\t\tcontent.style.marginBottom = \"0\";\n\t\t\t\t\t\t\tmaxHeight = spaceBelow - 10;\n\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\tcontent.style.bottom = \"100%\";\n\t\t\t\t\t\t\tcontent.style.top = \"auto\";\n\t\t\t\t\t\t\tcontent.style.marginBottom = \"0.25rem\";\n\t\t\t\t\t\t\tcontent.style.marginTop = \"0\";\n\t\t\t\t\t\t\tmaxHeight = spaceAbove - 10;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t\t\n\t\t\t\t\t// Apply vertical scroll if needed\n\t\t\t\t\tif (needsVerticalScroll) {\n\t\t\t\t\t\tcontent.style.maxHeight = maxHeight + \"px\";\n\t\t\t\t\t\tcontent.style.overflowY = \"auto\";\n\t\t\t\t\t} else {\n\t\t\t\t\t\tcontent.style.maxHeight = \"none\";\n\t\t\t\t\t\tcontent.style.overflowY = \"visible\";\n\t\t\t\t\t}\n\t\t\t\t\t\n\t\t\t\t\t// Handle horizontal positioning if needed (for very wide dropdowns)\n\t\t\t\t\tif (contentWidth > triggerRect.width && contentWidth > spaceRight) {\n\t\t\t\t\t\tcontent.style.right = \"0\";\n\t\t\t\t\t\tcontent.style.left = \"auto\";\n\t\t\t\t\t} else {\n\t\t\t\t\t\tcontent.style.left = \"0\";\n\t\t\t\t\t\tcontent.style.right = \"auto\";\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\t// Find all Select containers\n\t\t\t\tdocument.querySelectorAll('.select-container').forEach(function(selectContainer) {\n\t\t\t\t\tconst id = selectContainer.getAttribute('data-select-id');\n\t\t\t\t\tconst trigger = selectContainer.querySelector('.select-trigger');\n\t\t\t\t\tconst content = selectContainer.querySelector('.select-content');\n\t\t\t\t\tconst valueEl = selectContainer.querySelector('.select-value');\n\t\t\t\t\tconst hiddenInput = selectContainer.querySelector('input[type=\"hidden\"]');\n\t\t\t\t\tlet isOpen = false;\n\t\t\t\t\t\n\t\t\t\t\t// Initialize selected value\n\t\t\t\t\tlet selectedItem = selectContainer.querySelector('.select-item[data-selected=\"true\"]');\n\t\t\t\t\tlet hoverApplied = false; // Track if hover effect is applied\n\t\t\t\t\t\n\t\t\t\t\t// If no item is selected, mark the first one as pre-selected (just visually)\n\t\t\t\t\tif (!selectedItem) {\n\t\t\t\t\t\tconst firstItem = selectContainer.querySelector('.select-item');\n\t\t\t\t\t\tif (firstItem) {\n\t\t\t\t\t\t\tfirstItem.classList.add('bg-muted'); // Add a subtle gray background\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t\t\n\t\t\t\t\t// Update values if an item is actually selected\n\t\t\t\t\tif (selectedItem && valueEl) {\n\t\t\t\t\t\tconst itemText = selectedItem.querySelector('.select-item-text');\n\t\t\t\t\t\tif (itemText) {\n\t\t\t\t\t\t\tvalueEl.textContent = itemText.textContent;\n\t\t\t\t\t\t\tvalueEl.classList.remove('text-muted-foreground');\n\t\t\t\t\t\t}\n\t\t\t\t\t\tif (hiddenInput) {\n\t\t\t\t\t\t\thiddenInput.value = selectedItem.getAttribute('data-value');\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\n\t\t\t\t\t// Handle hover effect on mouse movement\n\t\t\t\t\tcontent.addEventListener('mouseover', function(e) {\n\t\t\t\t\t\tconst item = e.target.closest('.select-item');\n\t\t\t\t\t\tif (!item) return;\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Reset all items to normal state\n\t\t\t\t\t\tselectContainer.querySelectorAll('.select-item').forEach(el => {\n\t\t\t\t\t\t\tif (el.getAttribute('data-selected') === 'true') {\n\t\t\t\t\t\t\t\t// For selected item, keep check mark but remove background\n\t\t\t\t\t\t\t\tel.classList.remove('bg-accent', 'text-accent-foreground', 'bg-muted');\n\t\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\t\tel.classList.remove('bg-accent', 'text-accent-foreground', 'bg-muted');\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t});\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Apply hover effect to current item\n\t\t\t\t\t\tif (item.getAttribute('data-disabled') !== 'true') {\n\t\t\t\t\t\t\titem.classList.add('bg-accent', 'text-accent-foreground');\n\t\t\t\t\t\t\thoverApplied = true;\n\t\t\t\t\t\t}\n\t\t\t\t\t});\n\t\t\t\t\t\n\t\t\t\t\t// Reset hover effect when mouse leaves content area\n\t\t\t\t\tcontent.addEventListener('mouseleave', function() {\n\t\t\t\t\t\t// Remove hover effect\n\t\t\t\t\t\tselectContainer.querySelectorAll('.select-item').forEach(el => {\n\t\t\t\t\t\t\tif (el.getAttribute('data-selected') === 'true') {\n\t\t\t\t\t\t\t\t// Restore background to selected item\n\t\t\t\t\t\t\t\tel.classList.add('bg-accent', 'text-accent-foreground');\n\t\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\t\tel.classList.remove('bg-accent', 'text-accent-foreground', 'bg-muted');\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t});\n\t\t\t\t\t\thoverApplied = false;\n\t\t\t\t\t});\n\n\t\t\t\t\t// Toggle dropdown with elegant transitions\n\t\t\t\t\tif (trigger) {\n\t\t\t\t\t\t// Prevent focus ring on mousedown\n\t\t\t\t\t\ttrigger.addEventListener('mousedown', function(e) {\n\t\t\t\t\t\t\tif (e.button === 0) {\n\t\t\t\t\t\t\t\tthis.style.outline = 'none';\n\t\t\t\t\t\t\t\tthis.style.boxShadow = 'none';\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t});\n\t\t\t\t\t\t\n\t\t\t\t\t\ttrigger.addEventListener('click', function() {\n\t\t\t\t\t\t\tif (this.disabled) return;\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\tisOpen = !isOpen;\n\t\t\t\t\t\t\tthis.setAttribute('aria-expanded', isOpen.toString());\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\tif (isOpen) {\n\t\t\t\t\t\t\t\t// Update position before showing\n\t\t\t\t\t\t\t\tupdateDropdownPosition(this, content);\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t// Show dropdown\n\t\t\t\t\t\t\t\tcontent.style.display = 'block';\n\t\t\t\t\t\t\t\t// Force reflow\n\t\t\t\t\t\t\t\tvoid content.offsetHeight;\n\t\t\t\t\t\t\t\t// Apply animation end state\n\t\t\t\t\t\t\t\tcontent.classList.remove('opacity-0', '-translate-y-1', 'scale-95');\n\t\t\t\t\t\t\t\tcontent.classList.add('opacity-100', 'translate-y-0', 'scale-100');\n\t\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\t\t// Start closing animation\n\t\t\t\t\t\t\t\tcontent.classList.remove('opacity-100', 'translate-y-0', 'scale-100');\n\t\t\t\t\t\t\t\tcontent.classList.add('opacity-0', '-translate-y-1', 'scale-95');\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t// Hide after animation completes\n\t\t\t\t\t\t\t\tsetTimeout(function() {\n\t\t\t\t\t\t\t\t\tif (!isOpen) { // Double-check state hasn't changed\n\t\t\t\t\t\t\t\t\t\tcontent.style.display = 'none';\n\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t}, 100); // Match duration from CSS\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t// Reset focus styles\n\t\t\t\t\t\t\t\tthis.style.outline = '';\n\t\t\t\t\t\t\t\tthis.style.boxShadow = '';\n\t\t\t\t\t\t\t\tthis.focus();\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t});\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Keyboard navigation\n\t\t\t\t\t\ttrigger.addEventListener('keydown', function(e) {\n\t\t\t\t\t\t\tif ((e.key === 'Enter' || e.key === ' ') && !this.disabled) {\n\t\t\t\t\t\t\t\te.preventDefault();\n\t\t\t\t\t\t\t\tthis.click();\n\t\t\t\t\t\t\t} else if ((e.key === 'Escape' || e.key === 'Tab') && isOpen) {\n\t\t\t\t\t\t\t\te.preventDefault();\n\t\t\t\t\t\t\t\tthis.click(); // Close dropdown\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t});\n\t\t\t\t\t}\n\t\t\t\t\t\n\t\t\t\t\t// Handle item selection\n\t\t\t\t\tselectContainer.querySelectorAll('.select-item').forEach(function(item) {\n\t\t\t\t\t\titem.addEventListener('click', function() {\n\t\t\t\t\t\t\tif (this.getAttribute('data-disabled') === 'true') return;\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t// Get data\n\t\t\t\t\t\t\tconst value = this.getAttribute('data-value');\n\t\t\t\t\t\t\tconst itemText = this.querySelector('.select-item-text');\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t// Reset selection state\n\t\t\t\t\t\t\tselectContainer.querySelectorAll('.select-item').forEach(el => {\n\t\t\t\t\t\t\t\tel.setAttribute('data-selected', 'false');\n\t\t\t\t\t\t\t\tel.classList.remove('bg-accent', 'text-accent-foreground', 'bg-muted');\n\t\t\t\t\t\t\t\tconst check = el.querySelector('.select-check');\n\t\t\t\t\t\t\t\tif (check) check.classList.replace('opacity-100', 'opacity-0');\n\t\t\t\t\t\t\t});\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t// Set new selection\n\t\t\t\t\t\t\tthis.setAttribute('data-selected', 'true');\n\t\t\t\t\t\t\tthis.classList.add('bg-accent', 'text-accent-foreground');\n\t\t\t\t\t\t\tconst check = this.querySelector('.select-check');\n\t\t\t\t\t\t\tif (check) check.classList.replace('opacity-0', 'opacity-100');\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t// Update UI\n\t\t\t\t\t\t\tif (valueEl && itemText) {\n\t\t\t\t\t\t\t\tvalueEl.textContent = itemText.textContent;\n\t\t\t\t\t\t\t\tvalueEl.classList.remove('text-muted-foreground');\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t// Update hidden input\n\t\t\t\t\t\t\tif (hiddenInput && value) {\n\t\t\t\t\t\t\t\thiddenInput.value = value;\n\t\t\t\t\t\t\t\thiddenInput.dispatchEvent(new Event('change', {bubbles: true}));\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t// Close dropdown elegantly\n\t\t\t\t\t\t\tisOpen = false;\n\t\t\t\t\t\t\tcontent.classList.remove('opacity-100', 'translate-y-0', 'scale-100');\n\t\t\t\t\t\t\tcontent.classList.add('opacity-0', '-translate-y-1', 'scale-95');\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\tsetTimeout(function() {\n\t\t\t\t\t\t\t\tif (!isOpen) {\n\t\t\t\t\t\t\t\t\tcontent.style.display = 'none';\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}, 100);\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\ttrigger.setAttribute('aria-expanded', 'false');\n\t\t\t\t\t\t\ttrigger.style.outline = '';\n\t\t\t\t\t\t\ttrigger.style.boxShadow = '';\n\t\t\t\t\t\t\ttrigger.focus();\n\t\t\t\t\t\t});\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Keyboard selection\n\t\t\t\t\t\titem.addEventListener('keydown', function(e) {\n\t\t\t\t\t\t\tif (e.key === 'Enter' || e.key === ' ') {\n\t\t\t\t\t\t\t\te.preventDefault();\n\t\t\t\t\t\t\t\tthis.click();\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t});\n\t\t\t\t\t});\n\t\t\t\t\t\n\t\t\t\t\t// Close on outside click\n\t\t\t\t\tdocument.addEventListener('click', function(e) {\n\t\t\t\t\t\tif (isOpen && !selectContainer.contains(e.target)) {\n\t\t\t\t\t\t\tisOpen = false;\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t// Close with animation\n\t\t\t\t\t\t\tcontent.classList.remove('opacity-100', 'translate-y-0', 'scale-100');\n\t\t\t\t\t\t\tcontent.classList.add('opacity-0', '-translate-y-1', 'scale-95');\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\tsetTimeout(function() {\n\t\t\t\t\t\t\t\tif (!isOpen) {\n\t\t\t\t\t\t\t\t\tcontent.style.display = 'none';\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}, 100);\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\ttrigger.setAttribute('aria-expanded', 'false');\n\t\t\t\t\t\t\ttrigger.style.outline = '';\n\t\t\t\t\t\t\ttrigger.style.boxShadow = '';\n\t\t\t\t\t\t}\n\t\t\t\t\t});\n\t\t\t\t});\n\t\t\t});\n\t\t</script>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			return nil
+		})
+		templ_7745c5c3_Err = handle.Once().Render(templ.WithChildren(ctx, templ_7745c5c3_Var30), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

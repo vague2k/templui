@@ -13,7 +13,6 @@ templ ButtonHtmxLoading() {
 		>
 			@components.Button(components.ButtonProps{
 				Type:  "submit",
-				Text:  "Submit",
 				Class: "flex items-center gap-2",
 			}) {
 				<span id="spinner" class="htmx-indicator hidden [&.htmx-request]:inline-flex">
@@ -22,6 +21,7 @@ templ ButtonHtmxLoading() {
 						Color: "text-primary-foreground",
 					})
 				</span>
+				Submit
 			}
 		</form>
 		<div id="toast-container"></div>

@@ -30,37 +30,53 @@ templ ExampleWrapper(p ExampleWrapperProps) {
 		}
 	>
 		<p class="mb-2 font-semibold">{ p.SectionName }</p>
-		@components.Tabs(components.TabsProps{
-			Tabs:                  generateTabs(p), // Extrahiere Logik in separate Funktion
-			TabsContainerClass:    "md:w-1/2",
-			ContentContainerClass: "w-full",
-		})
+		@components.TabsRoot(components.TabsRootProps{
+			ID: "example-" + p.ID,
+		}) {
+			@components.TabsList(components.TabsListProps{
+				Class: "md:w-1/2",
+			}) {
+				@components.TabTrigger(components.TabTriggerProps{
+					Value:    "preview",
+					IsActive: true,
+				}) {
+					Preview
+				}
+				@components.TabTrigger(components.TabTriggerProps{
+					Value: "code",
+				}) {
+					Code
+				}
+				if p.ComponentCodeFile != "" {
+					@components.TabTrigger(components.TabTriggerProps{
+						Value: "component",
+					}) {
+						Component
+					}
+				}
+			}
+			<div class="w-full relative mt-2">
+				@components.TabContent(components.TabContentProps{
+					Value:    "preview",
+					IsActive: true,
+				}) {
+					@showcaseWrapper(showcaseWrapperProps{
+						Content: p.ShowcaseFile,
+					})
+				}
+				@components.TabContent(components.TabContentProps{
+					Value: "code",
+				}) {
+					@CodeSnippetFromEmbedded(p.PreviewCodeFile, "go", showcase.TemplFiles)
+				}
+				if p.ComponentCodeFile != "" {
+					@components.TabContent(components.TabContentProps{
+						Value: "component",
+					}) {
+						@CodeSnippetFromEmbedded(p.ComponentCodeFile, "go", components.TemplFiles)
+					}
+				}
+			</div>
+		}
 	</div>
-}
-
-func generateTabs(p ExampleWrapperProps) []components.Tab {
-	tabs := []components.Tab{
-		{
-			ID:    "preview",
-			Title: "Preview",
-			Content: showcaseWrapper(showcaseWrapperProps{
-				Content: p.ShowcaseFile,
-			}),
-		},
-		{
-			ID:      "code",
-			Title:   "Code",
-			Content: CodeSnippetFromEmbedded(p.PreviewCodeFile, "go", showcase.TemplFiles),
-		},
-	}
-
-	if p.ComponentCodeFile != "" {
-		tabs = append(tabs, components.Tab{
-			ID:      "component",
-			Title:   "Component",
-			Content: CodeSnippetFromEmbedded(p.ComponentCodeFile, "go", components.TemplFiles),
-		})
-	}
-
-	return tabs
 }

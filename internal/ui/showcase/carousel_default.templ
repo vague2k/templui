@@ -4,21 +4,25 @@ import "github.com/axzilla/templui/components"
 
 templ CarouselDefault() {
 	@components.Carousel(components.CarouselProps{
-		Slides: []components.CarouselSlide{
-			{
-				Content: CarouselSlide("Slide 1", "This is the first slide", "bg-blue-500"),
-			},
-			{
-				Content: CarouselSlide("Slide 2", "This is the second slide", "bg-green-500"),
-			},
-			{
-				Content: CarouselSlide("Slide 3", "This is the third slice", "bg-purple-500"),
-			},
-		},
-		ShowControls:   true,
-		ShowIndicators: true,
-		Class:          "rounded-md",
-	})
+		Class: "rounded-md",
+	}) {
+		@components.CarouselContent(components.CarouselContentProps{}) {
+			@components.CarouselItem(components.CarouselItemProps{}) {
+				@CarouselSlide("Slide 1", "This is the first slide", "bg-blue-500")
+			}
+			@components.CarouselItem(components.CarouselItemProps{}) {
+				@CarouselSlide("Slide 2", "This is the second slide", "bg-green-500")
+			}
+			@components.CarouselItem(components.CarouselItemProps{}) {
+				@CarouselSlide("Slide 3", "This is the third slide", "bg-purple-500")
+			}
+		}
+		@components.CarouselPrevious(components.CarouselPreviousProps{})
+		@components.CarouselNext(components.CarouselNextProps{})
+		@components.CarouselIndicators(components.CarouselIndicatorsProps{
+			Count: 3,
+		})
+	}
 }
 
 templ CarouselSlide(title, description, bg string) {

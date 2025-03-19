@@ -1,5 +1,9 @@
 package components
 
+import (
+	"github.com/axzilla/templui/utils"
+)
+
 type DrawerSide string
 
 const (
@@ -10,9 +14,45 @@ const (
 )
 
 type DrawerProps struct {
-	Title       string
-	Description string
-	Side        DrawerSide
+	Side       DrawerSide
+	Class      string
+	Attributes templ.Attributes
+}
+
+type DrawerTriggerProps struct {
+	Class      string
+	Attributes templ.Attributes
+}
+
+type DrawerContentProps struct {
+	Side       DrawerSide
+	Class      string
+	Attributes templ.Attributes
+}
+
+type DrawerHeaderProps struct {
+	Class      string
+	Attributes templ.Attributes
+}
+
+type DrawerFooterProps struct {
+	Class      string
+	Attributes templ.Attributes
+}
+
+type DrawerTitleProps struct {
+	Class      string
+	Attributes templ.Attributes
+}
+
+type DrawerDescriptionProps struct {
+	Class      string
+	Attributes templ.Attributes
+}
+
+type DrawerCloseProps struct {
+	Class      string
+	Attributes templ.Attributes
 }
 
 templ DrawerScript() {
@@ -34,19 +74,35 @@ templ DrawerScript() {
 	}
 }
 
-templ DrawerRoot() {
+// DrawerRoot is the main container for the drawer component
+templ Drawer(props DrawerProps) {
+	@DrawerScript()
 	<div
 		x-data="drawer"
 		@keydown.escape.window="close"
+		class={ utils.TwMerge("relative", props.Class) }
+		{ props.Attributes... }
 	>
 		{ children... }
 	</div>
 }
 
-templ Drawer(props DrawerProps) {
+// DrawerTrigger is the element that opens the drawer
+templ DrawerTrigger(props DrawerTriggerProps) {
+	<div
+		@click="open"
+		class={ utils.TwMerge("cursor-pointer", props.Class) }
+		{ props.Attributes... }
+	>
+		{ children... }
+	</div>
+}
+
+// DrawerContent contains the drawer's content and handles positioning/animation
+templ DrawerContent(props DrawerContentProps) {
 	<div
 		x-show="isOpen"
-		class="fixed inset-0 bg-background/80 backdrop-blur-xs"
+		class="fixed inset-0 z-50 bg-background/80 backdrop-blur-xs"
 		@click="close"
 		x-transition:enter="transition ease-out duration-300"
 		x-transition:enter-start="opacity-0"
@@ -57,12 +113,13 @@ templ Drawer(props DrawerProps) {
 	></div>
 	<div
 		x-show="isOpen"
+		@click.away="close"
 		class={
-			"z-50",
-			templ.KV("fixed inset-y-0 right-0 w-3/4 md:w-1/2 lg:w-1/3", props.Side == DrawerSideRight),
-			templ.KV("fixed inset-y-0 left-0 w-3/4 md:w-1/2 lg:w-1/3", props.Side == DrawerSideLeft),
-			templ.KV("fixed inset-x-0 top-0 h-auto sm:h-1/2", props.Side == DrawerSideTop),
-			templ.KV("fixed inset-x-0 bottom-0 h-auto sm:h-1/2", props.Side == DrawerSideBottom),
+			utils.TwMerge("fixed z-50", props.Class),
+			templ.KV("inset-y-0 right-0 w-3/4 md:w-1/2 lg:w-1/3", props.Side == DrawerSideRight),
+			templ.KV("inset-y-0 left-0 w-3/4 md:w-1/2 lg:w-1/3", props.Side == DrawerSideLeft),
+			templ.KV("inset-x-0 top-0 h-auto sm:h-1/2", props.Side == DrawerSideTop),
+			templ.KV("inset-x-0 bottom-0 h-auto sm:h-1/2", props.Side == DrawerSideBottom),
 		}
 		x-transition:enter="transition ease-out duration-300"
 		x-transition:leave="transition ease-in duration-300"
@@ -90,39 +147,76 @@ templ Drawer(props DrawerProps) {
 			x-transition:leave-start="opacity-100 transform translate-y-0"
 			x-transition:leave-end="opacity-0 transform translate-y-full"
 		}
+		{ props.Attributes... }
 	>
 		<div
-			class={ "h-full overflow-y-auto bg-background p-6 shadow-lg",
-			templ.KV("border-l", props.Side == DrawerSideRight),
-			templ.KV("border-r", props.Side == DrawerSideLeft),
-			templ.KV("border-t", props.Side == DrawerSideBottom),
-			templ.KV("border-b", props.Side == DrawerSideTop) }
+			class={
+				"h-full overflow-y-auto bg-background p-6 shadow-lg",
+				templ.KV("border-l", props.Side == DrawerSideRight),
+				templ.KV("border-r", props.Side == DrawerSideLeft),
+				templ.KV("border-t", props.Side == DrawerSideBottom),
+				templ.KV("border-b", props.Side == DrawerSideTop),
+			}
+			@click.stop
 		>
-			<div class="flex flex-col space-y-2">
-				<h2 class="text-lg font-semibold">{ props.Title }</h2>
-				<p class="text-sm text-muted-foreground">{ props.Description }</p>
-			</div>
-			<div class="mt-4">
-				{ children... }
-			</div>
+			{ children... }
 		</div>
 	</div>
 }
 
-templ DrawerTrigger(text string, side DrawerSide) {
-	<span @click="open">
+// DrawerHeader contains the drawer's title and description
+templ DrawerHeader(props DrawerHeaderProps) {
+	<div
+		class={ utils.TwMerge("flex flex-col space-y-1.5 pb-4", props.Class) }
+		{ props.Attributes... }
+	>
 		{ children... }
-	</span>
+	</div>
 }
 
-templ DrawerClose(text string) {
+// DrawerTitle is the title of the drawer
+templ DrawerTitle(props DrawerTitleProps) {
+	<h2
+		class={ utils.TwMerge("text-lg font-semibold leading-none tracking-tight", props.Class) }
+		{ props.Attributes... }
+	>
+		{ children... }
+	</h2>
+}
+
+// DrawerDescription is the description of the drawer
+templ DrawerDescription(props DrawerDescriptionProps) {
+	<p
+		class={ utils.TwMerge("text-sm text-muted-foreground", props.Class) }
+		{ props.Attributes... }
+	>
+		{ children... }
+	</p>
+}
+
+// DrawerFooter is a container for the drawer's footer content
+templ DrawerFooter(props DrawerFooterProps) {
+	<div
+		class={ utils.TwMerge("flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 pt-4", props.Class) }
+		{ props.Attributes... }
+	>
+		{ children... }
+	</div>
+}
+
+// DrawerClose is a button that closes the drawer
+templ DrawerClose(props DrawerCloseProps) {
 	<button
 		@click="close"
-		class={ "inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background",
-		"transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-		"disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent",
-		"hover:text-accent-foreground h-10 px-4 py-2" }
+		class={ utils.TwMerge(
+			"inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background",
+			"transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+			"disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent",
+			"hover:text-accent-foreground h-10 px-4 py-2",
+			props.Class,
+		) }
+		{ props.Attributes... }
 	>
-		{ text }
+		{ children... }
 	</button>
 }

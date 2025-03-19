@@ -15,12 +15,12 @@ templ Slider() {
 			Name:        "Slider",
 			Description: templ.Raw("Control for selecting a numeric value within a range."),
 			Tailwind:    true,
-			Alpine:      true,
+			VanillaJS:   true,
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.SliderDefault(),
 				PreviewCodeFile:   "slider_default.templ",
-				ComponentCodeFile: "sheet.templ",
+				ComponentCodeFile: "slider.templ",
 			})
 			@modules.Usage(modules.UsageProps{
 				ComponentName: "Slider",
@@ -32,31 +32,25 @@ templ Slider() {
 					SectionName:       "With Value",
 					ShowcaseFile:      showcase.SliderWithValue(),
 					PreviewCodeFile:   "slider_with_value.templ",
-					ComponentCodeFile: "sheet.templ",
-				})
-				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "With Label",
-					ShowcaseFile:      showcase.SliderWithLabel(),
-					PreviewCodeFile:   "slider_with_label.templ",
-					ComponentCodeFile: "sheet.templ",
+					ComponentCodeFile: "slider.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "With Steps",
 					ShowcaseFile:      showcase.SliderWithSteps(),
 					PreviewCodeFile:   "slider_with_steps.templ",
-					ComponentCodeFile: "sheet.templ",
-				})
-				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "With Label and Value",
-					ShowcaseFile:      showcase.SliderWithLabelAndValue(),
-					PreviewCodeFile:   "slider_with_label_and_value.templ",
-					ComponentCodeFile: "sheet.templ",
+					ComponentCodeFile: "slider.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "Disabled",
 					ShowcaseFile:      showcase.SliderDisabled(),
 					PreviewCodeFile:   "slider_disabled.templ",
-					ComponentCodeFile: "sheet.templ",
+					ComponentCodeFile: "slider.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "With External Value",
+					ShowcaseFile:      showcase.SliderWithExternalValue(),
+					PreviewCodeFile:   "slider_with_external_value.templ",
+					ComponentCodeFile: "slider.templ",
 				})
 			}
 		}

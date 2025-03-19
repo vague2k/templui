@@ -29,19 +29,13 @@ templ Rating() {
 			})
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Read-Only",
-					ShowcaseFile:      showcase.RatingReadOnly(),
-					PreviewCodeFile:   "rating_read_only.templ",
-					ComponentCodeFile: "rating.templ",
-				})
-				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "Styles",
 					ShowcaseFile:      showcase.RatingStyles(),
 					PreviewCodeFile:   "rating_styles.templ",
 					ComponentCodeFile: "rating.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Precision",
+					SectionName:       "Precision (Read-Only)",
 					ShowcaseFile:      showcase.RatingPrecision(),
 					PreviewCodeFile:   "rating_precision.templ",
 					ComponentCodeFile: "rating.templ",

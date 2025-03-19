@@ -4,7 +4,9 @@ import "github.com/axzilla/templui/components"
 
 templ ModalDefault() {
 	@components.ModalTrigger("default-modal") {
-		@components.Button(components.ButtonProps{Text: "Open Modal"})
+		@components.Button(components.ButtonProps{}) {
+			Open Modal
+		}
 	}
 	@components.Modal(components.ModalProps{ID: "default-modal", Class: "max-w-md"}) {
 		@components.ModalHeader() {
@@ -16,15 +18,16 @@ templ ModalDefault() {
 		@components.ModalFooter() {
 			<div class="flex gap-2">
 				@components.ModalClose("default-modal") {
-					@components.Button(components.ButtonProps{
-						Text: "Cancel",
-					})
+					@components.Button(components.ButtonProps{}) {
+						Cancel
+					}
 				}
 				@components.ModalClose("default-modal") {
 					@components.Button(components.ButtonProps{
-						Text:    "Continue",
 						Variant: components.ButtonVariantSecondary,
-					})
+					}) {
+						Continue
+					}
 				}
 			</div>
 		}

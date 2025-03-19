@@ -12,11 +12,8 @@ const (
 )
 
 type BadgeProps struct {
-	Class      string
-	Text       string
 	Variant    BadgeVariant
-	IconBefore templ.Component
-	IconAfter  templ.Component
+	Class      string
 	Attributes templ.Attributes
 }
 
@@ -46,12 +43,6 @@ templ Badge(props BadgeProps) {
 		}
 		{ props.Attributes... }
 	>
-		if props.IconBefore != nil {
-			@props.IconBefore
-		}
-		{ props.Text }
-		if props.IconAfter != nil {
-			@props.IconAfter
-		}
+		{ children... }
 	</div>
 }

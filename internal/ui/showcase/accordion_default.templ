@@ -1,27 +1,42 @@
-
 package showcase
 
 import "github.com/axzilla/templui/components"
 
 templ AccordionDefault() {
-	@components.Accordion(components.AccordionProps{
-		Items: []components.AccordionItem{
-			{
-				ID:      "item-1",
-				Trigger: templ.Raw("Is it accessible?"),
-				Content: templ.Raw("Yes. It adheres to the WAI-ARIA design pattern."),
-			},
-			{
-				ID:      "item-2",
-				Trigger: templ.Raw("Is it styled?"),
-				Content: templ.Raw("Yes. It comes with default styles that match the other components' aesthetic."),
-			},
-			{
-				ID:      "item-3",
-				Trigger: templ.Raw("Is it animated?"),
-				Content: templ.Raw("Yes. It's animated by default, but you can disable it if you prefer."),
-			},
-		},
-		Class: "w-full sm:max-w-[70%]",
-	})
+	<div class="w-full max-w-sm">
+		@components.Accordion(components.AccordionProps{
+			Class: "w-full",
+		}) {
+			@components.AccordionItem(components.AccordionItemProps{
+				Value: "item-1",
+			}) {
+				@components.AccordionTrigger(components.AccordionTriggerProps{}) {
+					Is it accessible?
+				}
+				@components.AccordionContent(components.AccordionContentProps{}) {
+					Yes. It adheres to the WAI-ARIA design pattern.
+				}
+			}
+			@components.AccordionItem(components.AccordionItemProps{
+				Value: "item-2",
+			}) {
+				@components.AccordionTrigger(components.AccordionTriggerProps{}) {
+					Is it styled?
+				}
+				@components.AccordionContent(components.AccordionContentProps{}) {
+					Yes. It comes with default styles that matches the other components aesthetic.
+				}
+			}
+			@components.AccordionItem(components.AccordionItemProps{
+				Value: "item-3",
+			}) {
+				@components.AccordionTrigger(components.AccordionTriggerProps{}) {
+					Is it animated?
+				}
+				@components.AccordionContent(components.AccordionContentProps{}) {
+					Yes. It's animated by default, but you can disable it if you prefer.
+				}
+			}
+		}
+	</div>
 }

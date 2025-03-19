@@ -5,96 +5,102 @@ import (
 	"github.com/axzilla/templui/utils"
 )
 
-type SliderProps struct {
-	ID          string
-	Name        string
-	Min         int
-	Max         int
-	Step        int
-	Value       int
-	Label       string
-	ShowValue   bool
-	ValueFormat string
-	Disabled    bool
-	Class       string
-	Attributes  templ.Attributes
+type SliderRootProps struct {
+	ID         string
+	Name       string
+	Min        int
+	Max        int
+	Step       int
+	Value      int
+	Disabled   bool
+	Class      string
+	Attributes templ.Attributes
+}
+
+type SliderValueProps struct {
+	For        string
+	Class      string
+	Attributes templ.Attributes
+}
+
+templ SliderRoot(props SliderRootProps) {
+	<div
+		class={ utils.TwMerge("w-full", props.Class) }
+		data-slider-root
+		data-slider-id={ props.ID }
+	>
+		{ children... }
+	</div>
+}
+
+templ SliderInput(props SliderRootProps) {
+	<input
+		type="range"
+		id={ props.ID }
+		name={ props.Name }
+		if props.Value != 0 {
+			value={ fmt.Sprintf("%d", props.Value) }
+		}
+		if props.Min != 0 {
+			min={ fmt.Sprintf("%d", props.Min) }
+		}
+		if props.Max != 0 {
+			max={ fmt.Sprintf("%d", props.Max) }
+		}
+		if props.Step != 0 {
+			step={ fmt.Sprintf("%d", props.Step) }
+		}
+		class={ utils.TwMerge(
+			"w-full h-2 rounded-full bg-secondary appearance-none cursor-pointer",
+			"focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+			"[&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4",
+			"[&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-primary",
+			"[&::-webkit-slider-thumb]:hover:bg-primary/90",
+			"[&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:border-0",
+			"[&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-primary",
+			"[&::-moz-range-thumb]:hover:bg-primary/90",
+			"disabled:opacity-50 disabled:cursor-not-allowed",
+		) }
+		disabled?={ props.Disabled }
+		{ props.Attributes... }
+	/>
+}
+
+templ SliderValue(props SliderValueProps) {
+	<span
+		class={ utils.TwMerge("text-sm text-muted-foreground", props.Class) }
+		data-slider-value-for={ props.For }
+		{ props.Attributes... }
+	></span>
 }
 
 templ SliderScript() {
 	{{ handler := templ.NewOnceHandle() }}
 	@handler.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
-			document.addEventListener('alpine:init', () => {
-				Alpine.data('slider', () => ({
-					value: null,
-
-					init() {
-						this.value = this.$el.dataset.value;
-					},
-
-					handleInput(event) {
-						this.value = event.target.value;
+			document.addEventListener('DOMContentLoaded', () => {
+				const sliders = document.querySelectorAll('[data-slider-root]');
+				
+				sliders.forEach(slider => {
+					const sliderId = slider.dataset.sliderId;
+					const input = slider.querySelector('input[type="range"]');
+					const valueElements = document.querySelectorAll(`[data-slider-value-for="${sliderId}"]`);
+					
+					if (input) {
+						// Initial Setup
+						valueElements.forEach(el => {
+							el.textContent = input.value;
+						});
+						
+						// Event Listener
+						input.addEventListener('input', () => {
+							valueElements.forEach(el => {
+								el.textContent = input.value;
+							});
+						});
 					}
-				}))
-			})
+				});
+			});
 		</script>
 	}
-}
-
-templ Slider(props SliderProps) {
-	<div
-		class="space-y-2"
-		data-value={ fmt.Sprintf("%d", props.Value) }
-		x-data="slider"
-	>
-		if props.Label != "" || props.ShowValue {
-			<div class="flex justify-between items-center">
-				if props.Label != "" {
-					<label for={ props.ID } class="text-sm font-medium">
-						{ props.Label }
-					</label>
-				}
-				if props.ShowValue {
-					<p class="text-sm text-muted-foreground">
-						<span x-text="value"></span>
-						if props.ValueFormat != "" {
-							{ props.ValueFormat }
-						}
-					</p>
-				}
-			</div>
-		}
-		<input
-			@input="handleInput"
-			type="range"
-			id={ props.ID }
-			name={ props.Name }
-			if props.Value != 0 {
-				value={ fmt.Sprintf("%d", props.Value) }
-			}
-			if props.Min != 0 {
-				min={ fmt.Sprintf("%d", props.Min) }
-			}
-			if props.Max != 0 {
-				max={ fmt.Sprintf("%d", props.Max) }
-			}
-			if props.Step != 0 {
-				step={ fmt.Sprintf("%d", props.Step) }
-			}
-			class={ utils.TwMerge(
-				"w-full h-2 rounded-full bg-secondary appearance-none cursor-pointer",
-				"focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-				"[&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4",
-				"[&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-primary",
-				"[&::-webkit-slider-thumb]:hover:bg-primary/90",
-				"[&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4 [&::-moz-range-thumb]:border-0",
-				"[&::-moz-range-thumb]:rounded-full [&::-moz-range-thumb]:bg-primary",
-				"[&::-moz-range-thumb]:hover:bg-primary/90",
-				"disabled:opacity-50 disabled:cursor-not-allowed",
-				props.Class,
-			) }
-			disabled?={ props.Disabled }
-			{ props.Attributes... }
-		/>
-	</div>
 }

@@ -4,7 +4,7 @@ import "github.com/axzilla/templui/components"
 
 templ ChartBarHorizontal() {
 	@components.Card(components.CardProps{Class: "max-w-sm"}) {
-		@components.CardContent() {
+		@components.CardContent(components.CardContentProps{}) {
 			@components.Chart(components.ChartProps{
 				Variant:     components.ChartVariantBar,
 				Horizontal:  true,

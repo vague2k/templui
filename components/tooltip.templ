@@ -3,6 +3,7 @@ package components
 import "github.com/axzilla/templui/utils"
 
 type TooltipSide string
+type TooltipVariant string
 
 const (
 	TooltipTop    TooltipSide = "top"
@@ -11,8 +12,6 @@ const (
 	TooltipLeft   TooltipSide = "left"
 )
 
-type TooltipVariant string
-
 const (
 	TooltipDefault     TooltipVariant = "default"
 	TooltipSecondary   TooltipVariant = "secondary"
@@ -20,13 +19,67 @@ const (
 )
 
 type TooltipProps struct {
-	Trigger    templ.Component
-	Content    templ.Component
 	Side       TooltipSide
-	ShowArrow  bool
 	Variant    TooltipVariant
 	Class      string
 	Attributes templ.Attributes
+}
+
+type TooltipTriggerProps struct {
+	Class      string
+	Attributes templ.Attributes
+}
+
+type TooltipContentProps struct {
+	ShowArrow  bool
+	Side       TooltipSide
+	Variant    TooltipVariant
+	Class      string
+	Attributes templ.Attributes
+}
+
+templ Tooltip(props TooltipProps) {
+	<div
+		class={ utils.TwMerge("relative inline-block group", props.Class) }
+		{ props.Attributes... }
+	>
+		{ children... }
+	</div>
+}
+
+templ TooltipTrigger(props TooltipTriggerProps) {
+	<div
+		class={ utils.TwMerge("inline-block", props.Class) }
+		{ props.Attributes... }
+	>
+		{ children... }
+	</div>
+}
+
+templ TooltipContent(props TooltipContentProps) {
+	<div
+		class={ utils.TwMerge(
+				"absolute w-max z-50 pointer-events-none",
+				"text-xs px-4 py-1 rounded-lg",
+				"transition-opacity duration-200 delay-500 opacity-0 group-hover:opacity-100",
+				"whitespace-nowrap",
+				getTooltipSideClass(props.Side),
+				getTooltipVariantClass(props.Variant),
+				props.Class,
+			) }
+		{ props.Attributes... }
+	>
+		if props.ShowArrow {
+			<div
+				class={ utils.TwMerge(
+						"absolute h-2 w-2 rotate-45",
+						getArrowClass(props.Side),
+						getArrowColor(props.Variant),
+					) }
+			></div>
+		}
+		{ children... }
+	</div>
 }
 
 func getTooltipSideClass(side TooltipSide) string {
@@ -47,7 +100,7 @@ func getTooltipSideClass(side TooltipSide) string {
 func getTooltipVariantClass(variant TooltipVariant) string {
 	switch variant {
 	case TooltipDefault:
-		return "bg-bg text-primary-foreground"
+		return "bg-foreground text-background"
 	case TooltipSecondary:
 		return "bg-secondary text-secondary-foreground"
 	case TooltipDestructive:
@@ -83,36 +136,4 @@ func getArrowColor(variant TooltipVariant) string {
 	default:
 		return "bg-foreground"
 	}
-}
-
-templ Tooltip(props TooltipProps) {
-	<div class="relative inline-block group">
-		@props.Trigger
-		<div
-			class={
-				utils.TwMerge(
-					"absolute w-max z-50 pointer-events-none",
-					"text-xs px-4 py-1 rounded-lg",
-					"transition-opacity duration-200 delay-500 opacity-0 group-hover:opacity-100",
-					"whitespace-nowrap",
-					getTooltipSideClass(props.Side),
-					getTooltipVariantClass(props.Variant),
-					props.Class,
-				),
-			}
-		>
-			if props.ShowArrow {
-				<div
-					class={
-						utils.TwMerge(
-							"absolute h-2 w-2 rotate-45",
-							getArrowClass(props.Side),
-							getArrowColor(props.Variant),
-						),
-					}
-				></div>
-			}
-			@props.Content
-		</div>
-	</div>
 }

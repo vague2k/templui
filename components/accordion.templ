@@ -5,14 +5,23 @@ import (
 	"github.com/axzilla/templui/utils"
 )
 
-type AccordionItem struct {
-	ID      string
-	Trigger templ.Component
-	Content templ.Component
+type AccordionProps struct {
+	Class      string
+	Attributes templ.Attributes
 }
 
-type AccordionProps struct {
-	Items      []AccordionItem
+type AccordionItemProps struct {
+	Value      string
+	Class      string
+	Attributes templ.Attributes
+}
+
+type AccordionTriggerProps struct {
+	Class      string
+	Attributes templ.Attributes
+}
+
+type AccordionContentProps struct {
 	Class      string
 	Attributes templ.Attributes
 }
@@ -25,33 +34,51 @@ templ Accordion(props AccordionProps) {
 		) }
 		{ props.Attributes... }
 	>
-		for _, item := range props.Items {
-			<details
-				name="accordion"
-				class={ utils.TwMerge(
-					"group",
-					"open:[&>summary_svg]:rotate-180",
-				) }
-			>
-				<summary
-					class={ utils.TwMerge(
-						"flex w-full items-center justify-between py-4 px-5",
-						"text-left font-medium cursor-pointer",
-						"transition-all hover:underline",
-						"list-none [&::-webkit-details-marker]:hidden",
-					) }
-				>
-					@item.Trigger
-					@icons.ChevronDown(icons.IconProps{Size: "16", Class: "transition-transform"})
-				</summary>
-				<div
-					class={ utils.TwMerge(
-						"px-5 pb-4 pt-0",
-					) }
-				>
-					@item.Content
-				</div>
-			</details>
-		}
+		{ children... }
+	</div>
+}
+
+templ AccordionItem(props AccordionItemProps) {
+	<details
+		name="accordion"
+		class={ utils.TwMerge(
+			"group",
+			"open:[&>summary_svg]:rotate-180",
+			props.Class,
+		) }
+		data-value={ props.Value }
+		{ props.Attributes... }
+	>
+		{ children... }
+	</details>
+}
+
+templ AccordionTrigger(props AccordionTriggerProps) {
+	<summary
+		class={ utils.TwMerge(
+			"flex w-full items-center justify-between py-4 px-5",
+			"text-left font-medium cursor-pointer",
+			"transition-all hover:underline",
+			"list-none [&::-webkit-details-marker]:hidden",
+			props.Class,
+		) }
+		{ props.Attributes... }
+	>
+		<div class="flex-1">
+			{ children... }
+		</div>
+		@icons.ChevronDown(icons.IconProps{Size: "16", Class: "transition-transform"})
+	</summary>
+}
+
+templ AccordionContent(props AccordionContentProps) {
+	<div
+		class={ utils.TwMerge(
+			"px-5 pb-4 pt-0",
+			props.Class,
+		) }
+		{ props.Attributes... }
+	>
+		{ children... }
 	</div>
 }

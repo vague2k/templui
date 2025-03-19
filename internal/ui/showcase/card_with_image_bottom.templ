@@ -3,26 +3,31 @@ package showcase
 import "github.com/axzilla/templui/components"
 
 templ CardWithImageBottom() {
-	@components.Card(components.CardProps{Class: "w-2/3"}) {
-		@components.CardHeader() {
-			@components.CardTitle() {
-				Featured Card
+	<div class="w-full max-w-sm">
+		@components.Card(components.CardProps{}) {
+			@components.CardHeader(components.CardHeaderProps{}) {
+				@components.CardTitle(components.CardTitleProps{}) {
+					Featured Card
+				}
+				@components.CardDescription(components.CardDescriptionProps{}) {
+					With bottom image
+				}
 			}
-			@components.CardDescription() {
-				With top image
+			@components.CardContent(components.CardContentProps{}) {
+				<p>This card shows bottom image usage.</p>
 			}
+			@components.CardFooter(components.CardFooterProps{}) {
+				@components.Button(components.ButtonProps{}) {
+					Learn more
+				}
+			}
+			@components.CardMedia(components.CardMediaProps{
+				ID:          "bottom-media",
+				Src:         "/assets/img/card_placeholder.jpeg",
+				Alt:         "Card image",
+				Position:    components.CardMediaBottom,
+				AspectRatio: components.AspectRatioVideo,
+			})
 		}
-		@components.CardContent() {
-			<p>This card shows top image usage.</p>
-		}
-		@components.CardFooter() {
-			@components.Button(components.ButtonProps{Text: "Learn More"})
-		}
-		@components.CardImage(components.CardImageProps{
-			Src:         "/assets/img/card_placeholder.jpeg",
-			Alt:         "Card image",
-			Position:    components.CardImageBottom,
-			AspectRatio: "16/9",
-		})
-	}
+	</div>
 }
