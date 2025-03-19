@@ -4,9 +4,14 @@ import "github.com/axzilla/templui/components"
 
 templ SliderDefault() {
 	<div class="w-full max-w-sm">
-		@components.Slider(components.SliderProps{
+		@components.SliderRoot(components.SliderRootProps{
 			ID:   "default",
 			Name: "default",
-		})
+		}) {
+			@components.SliderInput(components.SliderRootProps{
+				ID:   "default",
+				Name: "default",
+			})
+		}
 	</div>
 }

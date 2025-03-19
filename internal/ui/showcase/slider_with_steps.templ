@@ -4,16 +4,31 @@ import "github.com/axzilla/templui/components"
 
 templ SliderWithSteps() {
 	<div class="w-full max-w-sm">
-		@components.Slider(components.SliderProps{
-			ID:          "steps",
-			Name:        "steps",
-			Label:       "Zoom Level",
-			Value:       100,
-			Min:         0,
-			Max:         200,
-			Step:        25,
-			ShowValue:   true,
-			ValueFormat: "%",
-		})
+		@components.SliderRoot(components.SliderRootProps{
+			ID:    "steps",
+			Name:  "steps",
+			Value: 100,
+			Min:   0,
+			Max:   200,
+			Step:  25,
+		}) {
+			<div class="flex justify-between items-center mb-2">
+				<label for="steps" class="text-sm font-medium">Zoom Level</label>
+				<div class="flex items-center">
+					@components.SliderValue(components.SliderValueProps{
+						For:    "steps",
+						Format: "%",
+					})
+				</div>
+			</div>
+			@components.SliderInput(components.SliderRootProps{
+				ID:    "steps",
+				Name:  "steps",
+				Value: 100,
+				Min:   0,
+				Max:   200,
+				Step:  25,
+			})
+		}
 	</div>
 }

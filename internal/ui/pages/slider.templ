@@ -58,6 +58,18 @@ templ Slider() {
 					PreviewCodeFile:   "slider_disabled.templ",
 					ComponentCodeFile: "sheet.templ",
 				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "With External Value",
+					ShowcaseFile:      showcase.SliderWithExternalValue(),
+					PreviewCodeFile:   "slider_with_external_value.templ",
+					ComponentCodeFile: "sheet.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "With Multiple Values",
+					ShowcaseFile:      showcase.SliderMultipleValues(),
+					PreviewCodeFile:   "slider_with_multiple_values.templ",
+					ComponentCodeFile: "sheet.templ",
+				})
 			}
 		}
 	}

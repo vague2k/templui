@@ -920,6 +920,9 @@
   .justify-center {
     justify-content: center;
   }
+  .justify-end {
+    justify-content: flex-end;
+  }
   .justify-start {
     justify-content: flex-start;
   }
@@ -1561,6 +1564,9 @@
   }
   .ring-offset-background {
     --tw-ring-offset-color: var(--background);
+  }
+  .ring-offset-background\/100 {
+    --tw-ring-offset-color: color-mix(in oklab, var(--background) 100%, transparent);
   }
   .outline {
     outline-style: var(--tw-outline-style);

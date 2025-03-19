@@ -4,15 +4,28 @@ import "github.com/axzilla/templui/components"
 
 templ SliderWithValue() {
 	<div class="w-full max-w-sm">
-		@components.Slider(components.SliderProps{
-			ID:          "with-label",
-			Name:        "with-label",
-			Value:       75,
-			Min:         0,
-			Max:         100,
-			Step:        1,
-			ShowValue:   true,
-			ValueFormat: "%",
-		})
+		@components.SliderRoot(components.SliderRootProps{
+			ID:    "with-value",
+			Name:  "with-value",
+			Value: 75,
+			Min:   0,
+			Max:   100,
+			Step:  1,
+		}) {
+			<div class="flex justify-end mb-2">
+				@components.SliderValue(components.SliderValueProps{
+					For:    "with-value",
+					Format: "%",
+				})
+			</div>
+			@components.SliderInput(components.SliderRootProps{
+				ID:    "with-value",
+				Name:  "with-value",
+				Value: 75,
+				Min:   0,
+				Max:   100,
+				Step:  1,
+			})
+		}
 	</div>
 }
