@@ -3,7 +3,6 @@ package components
 import "github.com/axzilla/templui/utils"
 import "context"
 
-// Tabs Component Composition props
 type TabsRootProps struct {
 	ID    string
 	Class string
@@ -17,17 +16,97 @@ type TabTriggerProps struct {
 	Value    string
 	IsActive bool
 	Class    string
-	TabsID   string // Optional ID, wird verwendet wenn nicht im TabsRoot-Kontext
+	TabsID   string
 }
 
 type TabContentProps struct {
 	Value    string
 	IsActive bool
 	Class    string
-	TabsID   string // Optional ID, wird verwendet wenn nicht im TabsRoot-Kontext
+	TabsID   string
 }
 
-// Script mit Vanilla JS
+templ TabsRoot(props TabsRootProps) {
+	{{ tabsID := props.ID }}
+	if tabsID == "" {
+		{{ tabsID = utils.RandomID() }}
+	}
+	<div
+		class={ utils.TwMerge("relative", props.Class) }
+		data-tabs-root
+		data-tabs-id={ tabsID }
+	>
+		{{ ctx = context.WithValue(ctx, "tabsId", tabsID) }}
+		{ children... }
+	</div>
+}
+
+templ TabsList(props TabsListProps) {
+	<div
+		class={ utils.TwMerge(
+		"relative flex items-center justify-center h-10 p-1 rounded-lg select-none bg-muted text-muted-foreground",
+		props.Class,
+	) }
+	>
+		{ children... }
+		<div
+			data-tabs-marker
+			data-tabs-id={ getTabsID(ctx) }
+			class="absolute left-0 z-10 h-full duration-300 ease-out"
+		>
+			<div class="w-full h-full bg-background rounded-md shadow-xs"></div>
+		</div>
+	</div>
+}
+
+templ TabTrigger(props TabTriggerProps) {
+	{{ tabsID := props.TabsID }}
+	if tabsID == "" {
+		{{ tabsID = getTabsID(ctx) }}
+	}
+	<button
+		type="button"
+		class={ utils.TwMerge(
+			"relative z-20 flex-1 inline-flex items-center justify-center h-8 px-3 text-sm font-medium transition-all rounded-md cursor-pointer whitespace-nowrap hover:text-foreground",
+			utils.TwIf("text-foreground bg-background shadow-xs", props.IsActive),
+			props.Class,
+		) }
+		data-tabs-trigger
+		data-tabs-id={ tabsID }
+		data-tabs-value={ props.Value }
+		data-state={ utils.TwIfElse(props.IsActive, "active", "inactive") }
+	>
+		{ children... }
+	</button>
+}
+
+templ TabContent(props TabContentProps) {
+	{{ tabsID := props.TabsID }}
+	if tabsID == "" {
+		{{ tabsID = getTabsID(ctx) }}
+	}
+	<div
+		class={ utils.TwMerge(
+			"relative",
+			utils.TwIf("hidden", !props.IsActive),
+			props.Class,
+		) }
+		data-tabs-content
+		data-tabs-id={ tabsID }
+		data-tabs-value={ props.Value }
+		data-state={ utils.TwIfElse(props.IsActive, "active", "inactive") }
+	>
+		{ children... }
+	</div>
+}
+
+func getTabsID(ctx context.Context) string {
+	if tabsID, ok := ctx.Value("tabsId").(string); ok {
+		return tabsID
+	}
+	return ""
+}
+
 templ TabsScript() {
 	<script nonce={ templ.GetNonce(ctx) }>
 		document.addEventListener('DOMContentLoaded', () => {
@@ -96,131 +175,4 @@ templ TabsScript() {
 			});
 		});
 	</script>
-}
-
-// Tabs Komponenten
-templ TabsRoot(props TabsRootProps) {
-	@TabsScript()
-	{{ tabsID := props.ID }}
-	if tabsID == "" {
-		{{ tabsID = utils.RandomID() }}
-	}
-	<div
-		class={ utils.TwMerge("relative", props.Class) }
-		data-tabs-root
-		data-tabs-id={ tabsID }
-	>
-		{{ ctx = context.WithValue(ctx, "tabsId", tabsID) }}
-		{ children... }
-	</div>
-}
-
-templ TabsList(props TabsListProps) {
-	<div
-		class={ utils.TwMerge(
-		"relative flex items-center justify-center h-10 p-1 rounded-lg select-none bg-muted text-muted-foreground",
-		props.Class,
-	) }
-	>
-		{ children... }
-		<div
-			data-tabs-marker
-			data-tabs-id={ getTabsID(ctx) }
-			class="absolute left-0 z-10 h-full duration-300 ease-out"
-		>
-			<div class="w-full h-full bg-background rounded-md shadow-xs"></div>
-		</div>
-	</div>
-}
-
-// Hilfsfunktion um TabsID aus dem Kontext zu holen
-func getTabsID(ctx context.Context) string {
-	if tabsID, ok := ctx.Value("tabsId").(string); ok {
-		return tabsID
-	}
-	return ""
-}
-
-templ TabTrigger(props TabTriggerProps) {
-	// TabsID aus Kontext oder Props verwenden
-	{{ tabsID := props.TabsID }}
-	if tabsID == "" {
-		{{ tabsID = getTabsID(ctx) }}
-	}
-	<button
-		type="button"
-		class={ utils.TwMerge(
-			"relative z-20 flex-1 inline-flex items-center justify-center h-8 px-3 text-sm font-medium transition-all rounded-md cursor-pointer whitespace-nowrap hover:text-foreground",
-			utils.TwIf("text-foreground bg-background shadow-xs", props.IsActive),
-			props.Class,
-		) }
-		data-tabs-trigger
-		data-tabs-id={ tabsID }
-		data-tabs-value={ props.Value }
-		data-state={ utils.TwIfElse(props.IsActive, "active", "inactive") }
-	>
-		{ children... }
-	</button>
-}
-
-templ TabContent(props TabContentProps) {
-	// TabsID aus Kontext oder Props verwenden
-	{{ tabsID := props.TabsID }}
-	if tabsID == "" {
-		{{ tabsID = getTabsID(ctx) }}
-	}
-	<div
-		class={ utils.TwMerge(
-			"relative",
-			utils.TwIf("hidden", !props.IsActive),
-			props.Class,
-		) }
-		data-tabs-content
-		data-tabs-id={ tabsID }
-		data-tabs-value={ props.Value }
-		data-state={ utils.TwIfElse(props.IsActive, "active", "inactive") }
-	>
-		{ children... }
-	</div>
-}
-
-// Backward-Kompatibilität: Original Tabs
-type Tab struct {
-	ID      string
-	Title   string
-	Content templ.Component
-}
-
-type TabsProps struct {
-	Tabs                  []Tab
-	TabsContainerClass    string
-	ContentContainerClass string
-}
-
-templ Tabs(props TabsProps) {
-	{{ tabID := utils.RandomID() }}
-	@TabsRoot(TabsRootProps{ID: tabID}) {
-		@TabsList(TabsListProps{Class: props.TabsContainerClass}) {
-			for i, tab := range props.Tabs {
-				@TabTrigger(TabTriggerProps{
-					Value:    tab.ID,
-					IsActive: i == 0,
-					TabsID:   tabID,
-				}) {
-					{ tab.Title }
-				}
-			}
-		}
-		<div class={ utils.TwMerge("relative mt-2", props.ContentContainerClass) }>
-			for i, tab := range props.Tabs {
-				@TabContent(TabContentProps{
-					Value:    tab.ID,
-					IsActive: i == 0,
-					TabsID:   tabID,
-				}) {
-					@tab.Content
-				}
-			}
-		</div>
-	}
 }

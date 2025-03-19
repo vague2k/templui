@@ -23,7 +23,6 @@ type ExampleWrapperProps struct {
 	ID                string // For #id in URL Link
 }
 
-// Version mit neuer Component Composition API
 templ ExampleWrapper(p ExampleWrapperProps) {
 	<div
 		if p.ID != "" {
@@ -80,45 +79,4 @@ templ ExampleWrapper(p ExampleWrapperProps) {
 			</div>
 		}
 	</div>
-}
-
-// Alternative Version, die weiterhin die alte API verwendet (für Rückwärtskompatibilität)
-templ ExampleWrapperOld(p ExampleWrapperProps) {
-	<div
-		if p.ID != "" {
-			id={ p.ID }
-		}
-	>
-		<p class="mb-2 font-semibold">{ p.SectionName }</p>
-		@components.Tabs(components.TabsProps{
-			Tabs:                  generateTabs(p),
-			TabsContainerClass:    "md:w-1/2",
-			ContentContainerClass: "w-full",
-		})
-	</div>
-}
-
-func generateTabs(p ExampleWrapperProps) []components.Tab {
-	tabs := []components.Tab{
-		{
-			ID:    "preview",
-			Title: "Preview",
-			Content: showcaseWrapper(showcaseWrapperProps{
-				Content: p.ShowcaseFile,
-			}),
-		},
-		{
-			ID:      "code",
-			Title:   "Code",
-			Content: CodeSnippetFromEmbedded(p.PreviewCodeFile, "go", showcase.TemplFiles),
-		},
-	}
-	if p.ComponentCodeFile != "" {
-		tabs = append(tabs, components.Tab{
-			ID:      "component",
-			Title:   "Component",
-			Content: CodeSnippetFromEmbedded(p.ComponentCodeFile, "go", components.TemplFiles),
-		})
-	}
-	return tabs
 }

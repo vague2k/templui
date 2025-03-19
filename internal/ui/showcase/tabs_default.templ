@@ -87,13 +87,11 @@ templ PasswordTab() {
 					Type:        components.InputTypePassword,
 					Placeholder: "Current Password",
 					ID:          "current_password",
-					// Label:       "Current Password",
 				})
 				@components.Input(components.InputProps{
 					Type:        components.InputTypePassword,
 					Placeholder: "New Password",
 					ID:          "new_password",
-					// Label:       "New Password",
 				})
 			</div>
 		}
@@ -103,24 +101,4 @@ templ PasswordTab() {
 			}
 		}
 	}
-}
-
-// Für Rückwärtskompatibilität kann auch die ursprüngliche API verwendet werden
-templ TabsDefaultBackwardsCompatible() {
-	@components.Tabs(components.TabsProps{
-		Tabs: []components.Tab{
-			{
-				ID:      "account",
-				Title:   "Account",
-				Content: AccountTab(),
-			},
-			{
-				ID:      "password",
-				Title:   "Password",
-				Content: PasswordTab(),
-			},
-		},
-		TabsContainerClass:    "w-full max-w-xs",
-		ContentContainerClass: "w-full max-w-xs",
-	})
 }
