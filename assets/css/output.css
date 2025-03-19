@@ -358,6 +358,9 @@
   .left-full {
     left: 100%;
   }
+  .z-6 {
+    z-index: 6;
+  }
   .z-10 {
     z-index: 10;
   }
@@ -549,9 +552,6 @@
   .h-8 {
     height: calc(var(--spacing) * 8);
   }
-  .h-9 {
-    height: calc(var(--spacing) * 9);
-  }
   .h-10 {
     height: calc(var(--spacing) * 10);
   }
@@ -566,6 +566,9 @@
   }
   .h-24 {
     height: calc(var(--spacing) * 24);
+  }
+  .h-80 {
+    height: calc(var(--spacing) * 80);
   }
   .h-96 {
     height: calc(var(--spacing) * 96);

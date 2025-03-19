@@ -1,0 +1,842 @@
+// chart_components.templ
+package components
+
+import "github.com/axzilla/templui/utils"
+import "fmt"
+
+// Basistypen für Chart-Konfiguration
+type ChartVariant string
+
+const (
+	ChartVariantBar      ChartVariant = "bar"
+	ChartVariantLine     ChartVariant = "line"
+	ChartVariantPie      ChartVariant = "pie"
+	ChartVariantDoughnut ChartVariant = "doughnut"
+	ChartVariantRadar    ChartVariant = "radar"
+)
+
+// Gemeinsame Props für alle Chart-Typen
+type ChartBaseProps struct {
+	ID    string
+	Class string
+}
+
+// ChartBar Komponente
+type ChartBarProps struct {
+	ChartBaseProps
+	Horizontal bool
+	Stacked    bool
+}
+
+templ ChartBar(props ChartBarProps) {
+	{{ chartId := props.ID }}
+	if chartId == "" {
+		{{ chartId = "chart-" + utils.RandomID() }}
+	}
+	<div
+		class={ utils.TwMerge("chart-container relative", props.Class) }
+		data-chart-type="bar"
+		data-chart-id={ chartId }
+		data-horizontal={ utils.BoolToString(props.Horizontal) }
+		data-stacked={ utils.BoolToString(props.Stacked) }
+	>
+		<canvas id={ chartId }></canvas>
+		{ children... }
+	</div>
+}
+
+// ChartLine Komponente
+type ChartLineProps struct {
+	ChartBaseProps
+	Stacked bool
+}
+
+templ ChartLine(props ChartLineProps) {
+	{{ chartId := props.ID }}
+	if chartId == "" {
+		{{ chartId = "chart-" + utils.RandomID() }}
+	}
+	<div
+		class={ utils.TwMerge("chart-container relative", props.Class) }
+		data-chart-type="line"
+		data-chart-id={ chartId }
+		data-stacked={ utils.BoolToString(props.Stacked) }
+	>
+		<canvas id={ chartId }></canvas>
+		{ children... }
+	</div>
+}
+
+// ChartPie Komponente
+type ChartPieProps struct {
+	ChartBaseProps
+	Cutout string // Prozent für den inneren Ausschnitt
+}
+
+templ ChartPie(props ChartPieProps) {
+	{{ chartId := props.ID }}
+	if chartId == "" {
+		{{ chartId = "chart-" + utils.RandomID() }}
+	}
+	<div
+		class={ utils.TwMerge("chart-container relative", props.Class) }
+		data-chart-type="pie"
+		data-chart-id={ chartId }
+		data-cutout={ props.Cutout }
+	>
+		<canvas id={ chartId }></canvas>
+		{ children... }
+	</div>
+}
+
+// ChartDoughnut Komponente
+type ChartDoughnutProps struct {
+	ChartBaseProps
+	Cutout string // Prozent für den inneren Ausschnitt
+}
+
+templ ChartDoughnut(props ChartDoughnutProps) {
+	{{ chartId := props.ID }}
+	if chartId == "" {
+		{{ chartId = "chart-" + utils.RandomID() }}
+	}
+	<div
+		class={ utils.TwMerge("chart-container relative", props.Class) }
+		data-chart-type="doughnut"
+		data-chart-id={ chartId }
+		data-cutout={ props.Cutout }
+	>
+		<canvas id={ chartId }></canvas>
+		{ children... }
+	</div>
+}
+
+// ChartRadar Komponente
+type ChartRadarProps struct {
+	ChartBaseProps
+}
+
+templ ChartRadar(props ChartRadarProps) {
+	{{ chartId := props.ID }}
+	if chartId == "" {
+		{{ chartId = "chart-" + utils.RandomID() }}
+	}
+	<div
+		class={ utils.TwMerge("chart-container relative", props.Class) }
+		data-chart-type="radar"
+		data-chart-id={ chartId }
+	>
+		<canvas id={ chartId }></canvas>
+		{ children... }
+	</div>
+}
+
+// ChartData definiert die Daten für das Chart
+type ChartDataProps struct {
+	Labels []string
+}
+
+templ ChartData(props ChartDataProps) {
+	<div class="chart-data" data-chart-labels={ utils.JSONStringify(props.Labels) }>
+		{ children... }
+	</div>
+}
+
+// ChartBar-Dataset
+type ChartBarDatasetProps struct {
+	Label           string
+	Data            []float64
+	BackgroundColor string
+	BorderColor     string
+	BorderWidth     int
+	HoverOpacity    float64
+	BorderRadius    int
+}
+
+templ ChartBarDataset(props ChartBarDatasetProps) {
+	<div
+		class="chart-dataset"
+		data-type="bar"
+		data-label={ props.Label }
+		data-values={ utils.JSONStringify(props.Data) }
+		data-background-color={ props.BackgroundColor }
+		data-border-color={ props.BorderColor }
+		data-border-width={ utils.IntToString(props.BorderWidth) }
+		data-hover-opacity={ utils.FloatToString(props.HoverOpacity) }
+		data-border-radius={ utils.IntToString(props.BorderRadius) }
+	></div>
+}
+
+// ChartLine-Dataset
+type ChartLineDatasetProps struct {
+	Label                string
+	Data                 []float64
+	BorderColor          string
+	BackgroundColor      string
+	BorderWidth          int
+	Tension              float64
+	Fill                 bool
+	Stepped              bool
+	PointRadius          int
+	PointHoverRadius     int
+	PointStyle           string // circle, cross, dash, line, rect, star, triangle
+	PointBackgroundColor string
+	PointBorderColor     string
+	PointBorderWidth     int
+}
+
+templ ChartLineDataset(props ChartLineDatasetProps) {
+	<div
+		class="chart-dataset"
+		data-type="line"
+		data-label={ props.Label }
+		data-values={ utils.JSONStringify(props.Data) }
+		data-border-color={ props.BorderColor }
+		data-background-color={ props.BackgroundColor }
+		data-border-width={ utils.IntToString(props.BorderWidth) }
+		data-tension={ utils.FloatToString(props.Tension) }
+		data-fill={ utils.BoolToString(props.Fill) }
+		data-stepped={ utils.BoolToString(props.Stepped) }
+		data-point-radius={ utils.IntToString(props.PointRadius) }
+		data-point-hover-radius={ utils.IntToString(props.PointHoverRadius) }
+		data-point-style={ props.PointStyle }
+		data-point-background-color={ props.PointBackgroundColor }
+		data-point-border-color={ props.PointBorderColor }
+		data-point-border-width={ utils.IntToString(props.PointBorderWidth) }
+	></div>
+}
+
+// ChartPie/Doughnut-Dataset
+type ChartPieDatasetProps struct {
+	Label            string
+	Data             []float64
+	BackgroundColors []string
+	BorderColors     []string
+	BorderWidth      int
+	HoverOffset      int
+}
+
+templ ChartPieDataset(props ChartPieDatasetProps) {
+	<div
+		class="chart-dataset"
+		data-type="pie"
+		data-label={ props.Label }
+		data-values={ utils.JSONStringify(props.Data) }
+		data-background-colors={ utils.JSONStringify(props.BackgroundColors) }
+		data-border-colors={ utils.JSONStringify(props.BorderColors) }
+		data-border-width={ utils.IntToString(props.BorderWidth) }
+		data-hover-offset={ utils.IntToString(props.HoverOffset) }
+	></div>
+}
+
+// ChartRadar-Dataset
+type ChartRadarDatasetProps struct {
+	Label           string
+	Data            []float64
+	BorderColor     string
+	BackgroundColor string
+	BorderWidth     int
+	PointRadius     int
+	Fill            bool
+}
+
+templ ChartRadarDataset(props ChartRadarDatasetProps) {
+	<div
+		class="chart-dataset"
+		data-type="radar"
+		data-label={ props.Label }
+		data-values={ utils.JSONStringify(props.Data) }
+		data-border-color={ props.BorderColor }
+		data-background-color={ props.BackgroundColor }
+		data-border-width={ utils.IntToString(props.BorderWidth) }
+		data-point-radius={ utils.IntToString(props.PointRadius) }
+		data-fill={ utils.BoolToString(props.Fill) }
+	></div>
+}
+
+// Achsen-Konfiguration
+type ChartAxisProps struct {
+	Display     bool
+	Grid        bool
+	Title       string
+	Min         *float64
+	Max         *float64
+	BeginAtZero bool
+	Position    string // left, right, top, bottom
+}
+
+templ ChartXAxis(props ChartAxisProps) {
+	<div
+		class="chart-x-axis"
+		data-display={ utils.BoolToString(props.Display) }
+		data-grid={ utils.BoolToString(props.Grid) }
+		data-title={ props.Title }
+		if props.Min != nil {
+			data-min={ utils.IfElse(props.Min != nil, utils.FloatToString(*props.Min), "").(string) }
+		}
+		if props.Max != nil {
+			data-max={ utils.IfElse(props.Max != nil, utils.FloatToString(*props.Max), "").(string) }
+		}
+		data-begin-at-zero={ utils.BoolToString(props.BeginAtZero) }
+		data-position={ props.Position }
+	></div>
+}
+
+templ ChartYAxis(props ChartAxisProps) {
+	{{ fmt.Println(props) }}
+	<div
+		class="chart-y-axis"
+		data-display={ utils.BoolToString(props.Display) }
+		data-grid={ utils.BoolToString(props.Grid) }
+		data-title={ props.Title }
+		if props.Min != nil {
+			data-min={ utils.IfElse(props.Min != nil, utils.FloatToString(*props.Min), "").(string) }
+		}
+		if props.Max != nil {
+			data-max={ utils.IfElse(props.Max != nil, utils.FloatToString(*props.Max), "").(string) }
+		}
+		data-begin-at-zero={ utils.BoolToString(props.BeginAtZero) }
+		data-position={ props.Position }
+	></div>
+}
+
+// Legend-Konfiguration
+type ChartLegendProps struct {
+	Display  bool
+	Position string // top, left, bottom, right
+	Align    string // start, center, end
+	Labels   ChartLegendLabelsProps
+}
+
+type ChartLegendLabelsProps struct {
+	UsePointStyle bool
+	PointStyle    string
+	BoxWidth      int
+	BoxHeight     int
+}
+
+templ ChartLegend(props ChartLegendProps) {
+	<div
+		class="chart-legend"
+		data-display={ utils.BoolToString(props.Display) }
+		data-position={ props.Position }
+		data-align={ props.Align }
+		data-use-point-style={ utils.BoolToString(props.Labels.UsePointStyle) }
+		data-point-style={ props.Labels.PointStyle }
+		data-box-width={ utils.IntToString(props.Labels.BoxWidth) }
+		data-box-height={ utils.IntToString(props.Labels.BoxHeight) }
+	></div>
+}
+
+// Tooltip-Konfiguration
+type ChartTooltipProps struct {
+	Enabled         bool
+	Mode            string // nearest, index, dataset, point, x, y
+	Intersect       bool
+	Position        string // average, nearest
+	BackgroundColor string
+	BorderColor     string
+	BorderWidth     int
+	UsePointStyle   bool
+}
+
+templ ChartTooltip(props ChartTooltipProps) {
+	<div
+		class="chart-tooltip"
+		data-enabled={ utils.BoolToString(props.Enabled) }
+		data-mode={ props.Mode }
+		data-intersect={ utils.BoolToString(props.Intersect) }
+		data-position={ props.Position }
+		data-background-color={ props.BackgroundColor }
+		data-border-color={ props.BorderColor }
+		data-border-width={ utils.IntToString(props.BorderWidth) }
+		data-use-point-style={ utils.BoolToString(props.UsePointStyle) }
+	></div>
+}
+
+// Animation-Konfiguration
+type ChartAnimationProps struct {
+	Duration int
+	Easing   string // linear, easeInOut, easeInCubic, etc.
+	Delay    int
+}
+
+templ ChartAnimation(props ChartAnimationProps) {
+	<div
+		class="chart-animation"
+		data-duration={ utils.IntToString(props.Duration) }
+		data-easing={ props.Easing }
+		data-delay={ utils.IntToString(props.Delay) }
+	></div>
+}
+
+// Title-Konfiguration
+type ChartTitleProps struct {
+	Display bool
+	Text    string
+	Align   string // start, center, end
+	Font    ChartFontProps
+}
+
+type ChartFontProps struct {
+	Size   int
+	Weight string // normal, bold
+	Family string
+	Color  string
+}
+
+templ ChartTitle(props ChartTitleProps) {
+	<div
+		class="chart-title"
+		data-display={ utils.BoolToString(props.Display) }
+		data-text={ props.Text }
+		data-align={ props.Align }
+		data-font-size={ utils.IntToString(props.Font.Size) }
+		data-font-weight={ props.Font.Weight }
+		data-font-family={ props.Font.Family }
+		data-font-color={ props.Font.Color }
+	></div>
+}
+
+// Script zum Initialisieren aller Charts
+templ ChartScripts() {
+	{{ handle := templ.NewOnceHandle() }}
+	@handle.Once() {
+		<!-- Load Chart.js library -->
+		<script defer nonce={ templ.GetNonce(ctx) } src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+		<!-- Initialize charts -->
+		<script nonce={ templ.GetNonce(ctx) }>
+			document.addEventListener('DOMContentLoaded', function() {
+				const chartInstances = {};
+				
+				function getThemeColors() {
+					const computedStyle = getComputedStyle(document.documentElement);
+					return {
+						foreground: computedStyle.getPropertyValue('--foreground').trim(),
+						background: computedStyle.getPropertyValue('--background').trim(),
+						mutedForeground: computedStyle.getPropertyValue('--muted-foreground').trim(),
+						border: computedStyle.getPropertyValue('--border').trim()
+					};
+				}
+				
+				function initCharts() {
+					const colors = getThemeColors();
+					document.querySelectorAll('.chart-container').forEach(container => {
+						const canvas = container.querySelector('canvas');
+						if (!canvas) return;
+						
+						const chartId = canvas.id;
+						if (chartInstances[chartId]) {
+							chartInstances[chartId].destroy();
+						}
+						
+						// Chart type and basic config
+						const chartType = container.getAttribute('data-chart-type');
+						const horizontal = container.getAttribute('data-horizontal') === 'true';
+						const stacked = container.getAttribute('data-stacked') === 'true';
+						const cutout = container.getAttribute('data-cutout') || '50%'; // für doughnut chart
+						
+						// Parse data
+						const dataEl = container.querySelector('.chart-data');
+						if (!dataEl) return;
+						
+						// Extract labels
+						const labels = JSON.parse(dataEl.getAttribute('data-chart-labels') || '[]');
+						
+						// Extract datasets
+						const datasetEls = container.querySelectorAll('.chart-dataset');
+						if (datasetEls.length === 0) return;
+						
+						const datasets = Array.from(datasetEls).map(el => {
+							const type = el.getAttribute('data-type');
+							const dataset = {
+								label: el.getAttribute('data-label'),
+								data: JSON.parse(el.getAttribute('data-values') || '[]'),
+							};
+							
+							// Gemeinsame Eigenschaften
+							if (el.hasAttribute('data-border-width')) {
+								dataset.borderWidth = parseInt(el.getAttribute('data-border-width'));
+							}
+							
+							if (el.hasAttribute('data-border-color')) {
+								dataset.borderColor = el.getAttribute('data-border-color');
+							}
+							
+							if (el.hasAttribute('data-background-color')) {
+								dataset.backgroundColor = el.getAttribute('data-background-color');
+							}
+							
+							// Type-spezifische Eigenschaften
+							if (type === 'line') {
+								if (el.hasAttribute('data-tension')) {
+									dataset.tension = parseFloat(el.getAttribute('data-tension'));
+								}
+								
+								if (el.hasAttribute('data-fill')) {
+									dataset.fill = el.getAttribute('data-fill') === 'true';
+								}
+								
+								if (el.hasAttribute('data-stepped')) {
+									dataset.stepped = el.getAttribute('data-stepped') === 'true';
+								}
+								
+								// Point-Konfiguration
+								if (el.hasAttribute('data-point-radius')) {
+									dataset.pointRadius = parseInt(el.getAttribute('data-point-radius'));
+								}
+								
+								if (el.hasAttribute('data-point-hover-radius')) {
+									dataset.pointHoverRadius = parseInt(el.getAttribute('data-point-hover-radius'));
+								}
+								
+								if (el.hasAttribute('data-point-style')) {
+									dataset.pointStyle = el.getAttribute('data-point-style');
+								}
+								
+								if (el.hasAttribute('data-point-background-color')) {
+									dataset.pointBackgroundColor = el.getAttribute('data-point-background-color');
+								}
+								
+								if (el.hasAttribute('data-point-border-color')) {
+									dataset.pointBorderColor = el.getAttribute('data-point-border-color');
+								}
+								
+								if (el.hasAttribute('data-point-border-width')) {
+									dataset.pointBorderWidth = parseInt(el.getAttribute('data-point-border-width'));
+								}
+							} else if (type === 'bar') {
+								if (el.hasAttribute('data-hover-opacity')) {
+									dataset.hoverBackgroundColor = (ctx) => {
+										return colorWithOpacity(
+											ctx.dataset.backgroundColor, 
+											parseFloat(el.getAttribute('data-hover-opacity'))
+										);
+									};
+								}
+								
+								if (el.hasAttribute('data-border-radius')) {
+									dataset.borderRadius = parseInt(el.getAttribute('data-border-radius'));
+								}
+							} else if (type === 'pie' || type === 'doughnut') {
+								if (el.hasAttribute('data-background-colors')) {
+									dataset.backgroundColor = JSON.parse(el.getAttribute('data-background-colors'));
+								}
+								
+								if (el.hasAttribute('data-border-colors')) {
+									dataset.borderColors = JSON.parse(el.getAttribute('data-border-colors'));
+								}
+								
+								if (el.hasAttribute('data-hover-offset')) {
+									dataset.hoverOffset = parseInt(el.getAttribute('data-hover-offset'));
+								}
+							}
+							
+							return dataset;
+						});
+						
+						// Extract configuration components
+						const options = {
+							responsive: true,
+							maintainAspectRatio: true,
+							indexAxis: horizontal ? 'y' : 'x',
+							interaction: {
+								mode: 'index',
+								intersect: false
+							},
+							plugins: {
+								legend: {
+									display: false,
+								},
+								tooltip: {
+									enabled: true,
+									mode: 'index',
+									intersect: false,
+									backgroundColor: colors.background,
+									titleColor: colors.foreground,
+									bodyColor: colors.mutedForeground,
+									borderColor: colors.border,
+									borderWidth: 1
+								},
+								title: {
+									display: false,
+								}
+							},
+							scales: chartType === 'radar' || chartType === 'pie' || chartType === 'doughnut' 
+								? {} 
+								: {
+									x: {
+										display: true,
+										grid: {
+											drawTicks: false,
+											display: false,
+											color: colors.border
+										},
+										border: {
+											display: true,
+											color: colors.border
+										},
+										stacked: stacked,
+										ticks: {
+											color: colors.mutedForeground
+										}
+									},
+									y: {
+										display: true,
+										grid: {
+											drawTicks: false,
+											display: true,
+											color: colors.border
+										},
+										border: {
+											display: true,
+											color: colors.border
+										},
+										stacked: stacked,
+										ticks: {
+											color: colors.mutedForeground
+										},
+										beginAtZero: true
+									}
+								}
+						};
+						
+						// X-Axis config
+						const xAxisEl = container.querySelector('.chart-x-axis');
+						if (xAxisEl && chartType !== 'radar' && chartType !== 'pie' && chartType !== 'doughnut') {
+							options.scales.x.display = xAxisEl.getAttribute('data-display') === 'true';
+							options.scales.x.grid.display = xAxisEl.getAttribute('data-grid') === 'true';
+							
+							if (xAxisEl.hasAttribute('data-title') && xAxisEl.getAttribute('data-title')) {
+								options.scales.x.title = {
+									display: true,
+									text: xAxisEl.getAttribute('data-title'),
+									color: colors.foreground
+								};
+							}
+							
+							if (xAxisEl.hasAttribute('data-min') && xAxisEl.getAttribute('data-min')) {
+								options.scales.x.min = parseFloat(xAxisEl.getAttribute('data-min'));
+							}
+							
+							if (xAxisEl.hasAttribute('data-max') && xAxisEl.getAttribute('data-max')) {
+								options.scales.x.max = parseFloat(xAxisEl.getAttribute('data-max'));
+							}
+							
+							options.scales.x.beginAtZero = xAxisEl.getAttribute('data-begin-at-zero') === 'true';
+							
+							if (xAxisEl.hasAttribute('data-position') && xAxisEl.getAttribute('data-position')) {
+								options.scales.x.position = xAxisEl.getAttribute('data-position');
+							}
+						}
+						
+						// Y-Axis config
+						const yAxisEl = container.querySelector('.chart-y-axis');
+						if (yAxisEl && chartType !== 'radar' && chartType !== 'pie' && chartType !== 'doughnut') {
+							options.scales.y.display = yAxisEl.getAttribute('data-display') === 'true';
+							options.scales.y.grid.display = yAxisEl.getAttribute('data-grid') === 'true';
+							
+							if (yAxisEl.hasAttribute('data-title') && yAxisEl.getAttribute('data-title')) {
+								options.scales.y.title = {
+									display: true,
+									text: yAxisEl.getAttribute('data-title'),
+									color: colors.foreground
+								};
+							}
+							
+							if (yAxisEl.hasAttribute('data-min') && yAxisEl.getAttribute('data-min')) {
+								options.scales.y.min = parseFloat(yAxisEl.getAttribute('data-min'));
+							}
+							
+							if (yAxisEl.hasAttribute('data-max') && yAxisEl.getAttribute('data-max')) {
+								options.scales.y.max = parseFloat(yAxisEl.getAttribute('data-max'));
+							}
+							
+							options.scales.y.beginAtZero = yAxisEl.getAttribute('data-begin-at-zero') === 'true';
+							
+							if (yAxisEl.hasAttribute('data-position') && yAxisEl.getAttribute('data-position')) {
+								options.scales.y.position = yAxisEl.getAttribute('data-position');
+							}
+						}
+						
+						// Legend config
+						const legendEl = container.querySelector('.chart-legend');
+						if (legendEl) {
+							options.plugins.legend.display = legendEl.getAttribute('data-display') === 'true';
+							
+							if (legendEl.hasAttribute('data-position')) {
+								options.plugins.legend.position = legendEl.getAttribute('data-position');
+							}
+							
+							if (legendEl.hasAttribute('data-align')) {
+								options.plugins.legend.align = legendEl.getAttribute('data-align');
+							}
+							
+							if (legendEl.hasAttribute('data-use-point-style')) {
+								options.plugins.legend.labels = options.plugins.legend.labels || {};
+								options.plugins.legend.labels.usePointStyle = legendEl.getAttribute('data-use-point-style') === 'true';
+							}
+							
+							if (legendEl.hasAttribute('data-point-style')) {
+								options.plugins.legend.labels = options.plugins.legend.labels || {};
+								options.plugins.legend.labels.pointStyle = legendEl.getAttribute('data-point-style');
+							}
+							
+							if (legendEl.hasAttribute('data-box-width')) {
+								options.plugins.legend.labels = options.plugins.legend.labels || {};
+								options.plugins.legend.labels.boxWidth = parseInt(legendEl.getAttribute('data-box-width'));
+							}
+							
+							if (legendEl.hasAttribute('data-box-height')) {
+								options.plugins.legend.labels = options.plugins.legend.labels || {};
+								options.plugins.legend.labels.boxHeight = parseInt(legendEl.getAttribute('data-box-height'));
+							}
+						}
+						
+						// Tooltip config
+						const tooltipEl = container.querySelector('.chart-tooltip');
+						if (tooltipEl) {
+							options.plugins.tooltip.enabled = tooltipEl.getAttribute('data-enabled') !== 'false';
+							
+							if (tooltipEl.hasAttribute('data-mode')) {
+								options.plugins.tooltip.mode = tooltipEl.getAttribute('data-mode');
+							}
+							
+							if (tooltipEl.hasAttribute('data-intersect')) {
+								options.plugins.tooltip.intersect = tooltipEl.getAttribute('data-intersect') === 'true';
+							}
+							
+							if (tooltipEl.hasAttribute('data-position')) {
+								options.plugins.tooltip.position = tooltipEl.getAttribute('data-position');
+							}
+							
+							if (tooltipEl.hasAttribute('data-background-color')) {
+								options.plugins.tooltip.backgroundColor = tooltipEl.getAttribute('data-background-color');
+							}
+							
+							if (tooltipEl.hasAttribute('data-border-color')) {
+								options.plugins.tooltip.borderColor = tooltipEl.getAttribute('data-border-color');
+							}
+							
+							if (tooltipEl.hasAttribute('data-border-width')) {
+								options.plugins.tooltip.borderWidth = parseInt(tooltipEl.getAttribute('data-border-width'));
+							}
+							
+							if (tooltipEl.hasAttribute('data-use-point-style')) {
+								options.plugins.tooltip.usePointStyle = tooltipEl.getAttribute('data-use-point-style') === 'true';
+							}
+						}
+						
+						// Animation config
+						const animationEl = container.querySelector('.chart-animation');
+						if (animationEl) {
+							options.animation = {};
+							
+							if (animationEl.hasAttribute('data-duration')) {
+								options.animation.duration = parseInt(animationEl.getAttribute('data-duration'));
+							}
+							
+							if (animationEl.hasAttribute('data-easing')) {
+								options.animation.easing = animationEl.getAttribute('data-easing');
+							}
+							
+							if (animationEl.hasAttribute('data-delay')) {
+								options.animation.delay = parseInt(animationEl.getAttribute('data-delay'));
+							}
+						}
+						
+						// Title config
+						const titleEl = container.querySelector('.chart-title');
+						if (titleEl) {
+							options.plugins.title.display = titleEl.getAttribute('data-display') === 'true';
+							
+							if (titleEl.hasAttribute('data-text')) {
+								options.plugins.title.text = titleEl.getAttribute('data-text');
+							}
+							
+							if (titleEl.hasAttribute('data-align')) {
+								options.plugins.title.align = titleEl.getAttribute('data-align');
+							}
+							
+							if (titleEl.hasAttribute('data-font-size') || 
+								titleEl.hasAttribute('data-font-weight') || 
+								titleEl.hasAttribute('data-font-family') || 
+								titleEl.hasAttribute('data-font-color')) {
+								
+								options.plugins.title.font = {};
+								
+								if (titleEl.hasAttribute('data-font-size')) {
+									options.plugins.title.font.size = parseInt(titleEl.getAttribute('data-font-size'));
+								}
+								
+								if (titleEl.hasAttribute('data-font-weight')) {
+									options.plugins.title.font.weight = titleEl.getAttribute('data-font-weight');
+								}
+								
+								if (titleEl.hasAttribute('data-font-family')) {
+									options.plugins.title.font.family = titleEl.getAttribute('data-font-family');
+								}
+								
+								if (titleEl.hasAttribute('data-font-color')) {
+									options.plugins.title.color = titleEl.getAttribute('data-font-color');
+								} else {
+									options.plugins.title.color = colors.foreground;
+								}
+							}
+						}
+						
+						// Doughnut specific options
+						if (chartType === 'doughnut') {
+							options.cutout = cutout;
+						}
+						
+						// Create the chart
+						const chart = new Chart(canvas, {
+							type: chartType,
+							data: {
+								labels: labels,
+								datasets: datasets
+							},
+							options: options
+						});
+						
+						chartInstances[chartId] = chart;
+					});
+				}
+				
+				// Helper Funktion für Farbtransparenz
+				function colorWithOpacity(color, opacity) {
+					if (color.startsWith('hsl') || color.startsWith('rgb')) {
+						if (color.startsWith('hsl')) {
+							return color.replace('hsl', 'hsla').replace(')', `, ${opacity})`);
+						} else if (color.startsWith('rgb')) {
+							return color.replace('rgb', 'rgba').replace(')', `, ${opacity})`);
+						}
+					}
+					return color;
+				}
+				
+				// Charts initialisieren
+				initCharts();
+				
+				// Auf Resize reagieren
+				window.addEventListener('resize', function() {
+					for (let id in chartInstances) {
+						chartInstances[id].resize();
+					}
+				});
+				
+				// Auf Theme-Änderungen reagieren
+				const observer = new MutationObserver(() => {
+					setTimeout(initCharts, 50);
+				});
+				observer.observe(document.documentElement, { attributes: true });
+				
+				// Alpine.js Integration
+				document.addEventListener('alpine:initialized', () => {
+					document.addEventListener('theme-changed', initCharts);
+				});
+			});
+		</script>
+	}
+}

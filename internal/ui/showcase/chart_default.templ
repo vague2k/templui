@@ -1,23 +1,84 @@
 package showcase
 
 import "github.com/axzilla/templui/components"
+import "github.com/axzilla/templui/utils"
 
 templ ChartDefault() {
 	@components.Card(components.CardProps{Class: "max-w-sm"}) {
+		@components.CardHeader(components.CardHeaderProps{}) {
+			@components.CardTitle(components.CardTitleProps{}) {
+				Bar Chart - Mobile vs. Desktop
+			}
+			@components.CardDescription(components.CardDescriptionProps{}) {
+				Website Besucher (Jan - Jun 2024)
+			}
+		}
 		@components.CardContent(components.CardContentProps{}) {
-			@components.Chart(components.ChartProps{
-				Variant:     components.ChartVariantBar,
-				ShowYGrid:   true,
-				ShowXLabels: true,
-				Data: components.ChartData{
-					Labels: []string{"Jan", "Feb", "March", "April", "May", "June"},
-					Datasets: []components.ChartDataset{
-						{
-							Data: []float64{12, 19, 12, 5, 2, 3},
-						},
-					},
+			@components.ChartBar(components.ChartBarProps{
+				ChartBaseProps: components.ChartBaseProps{
+					Class: "h-80",
 				},
-			})
+			}) {
+				@components.ChartData(components.ChartDataProps{
+					Labels: []string{"Jan", "Feb", "Mar", "Apr", "May", "Jun"},
+				}) {
+					@components.ChartBarDataset(components.ChartBarDatasetProps{
+						Label:           "Desktop",
+						Data:            []float64{186, 305, 237, 73, 209, 214},
+						BackgroundColor: "hsl(var(--chart-1))",
+						BorderWidth:     1,
+						HoverOpacity:    0.8,
+						BorderRadius:    4,
+					})
+					@components.ChartBarDataset(components.ChartBarDatasetProps{
+						Label:           "Mobile",
+						Data:            []float64{80, 200, 120, 190, 130, 140},
+						BackgroundColor: "hsl(var(--chart-2))",
+						BorderWidth:     1,
+						HoverOpacity:    0.8,
+						BorderRadius:    4,
+					})
+				}
+				@components.ChartXAxis(components.ChartAxisProps{
+					Display: true,
+					Grid:    true,
+					Title:   "Monat",
+				})
+				@components.ChartYAxis(components.ChartAxisProps{
+					Display:     true,
+					Grid:        true,
+					Title:       "Besucher",
+					BeginAtZero: true,
+					Min:         utils.Ptr[float64](-200),
+					Max:         utils.Ptr[float64](400),
+				})
+				@components.ChartLegend(components.ChartLegendProps{
+					Display:  true,
+					Position: "top",
+					Align:    "center",
+					Labels: components.ChartLegendLabelsProps{
+						UsePointStyle: true,
+						PointStyle:    "circle",
+						BoxWidth:      10,
+						BoxHeight:     10,
+					},
+				})
+				@components.ChartTooltip(components.ChartTooltipProps{
+					Enabled:   true,
+					Mode:      "index",
+					Intersect: true,
+				})
+				@components.ChartAnimation(components.ChartAnimationProps{
+					Duration: 500,
+					Easing:   "easeOutQuart",
+				})
+			}
+		}
+		@components.CardFooter(components.CardFooterProps{Class: "flex-col items-start gap-2 text-sm"}) {
+			<div class="flex gap-2 font-medium leading-none">
+				Trending up by 5.2% this month
+				<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="h-4 w-4"><path d="M23 6l-9.5 9.5-5-5L1 18"></path></svg>
+			</div>
 		}
 	}
 }
