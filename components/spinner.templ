@@ -13,7 +13,6 @@ const (
 type SpinnerProps struct {
 	Size       SpinnerSize
 	Color      string
-	Text       string
 	Class      string
 	Attributes templ.Attributes
 }
@@ -78,14 +77,5 @@ templ Spinner(props SpinnerProps) {
 				),
 			) }
 		></div>
-		if props.Text != "" {
-			<span
-				class={ utils.TwMerge(
-					"mt-2 text-center",
-					textSizeClass(props.Size),
-					"text-foreground",
-				) }
-			>{ props.Text }</span>
-		}
 	</div>
 }
