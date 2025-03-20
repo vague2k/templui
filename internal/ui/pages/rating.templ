@@ -29,6 +29,13 @@ templ Rating() {
 			})
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "With Label",
+					ShowcaseFile:      showcase.RatingWithLabel(),
+					PreviewCodeFile:   "rating_with_label.templ",
+					ComponentCodeFile: "rating.templ",
+					ID:                "label",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "Styles",
 					ShowcaseFile:      showcase.RatingStyles(),
 					PreviewCodeFile:   "rating_styles.templ",

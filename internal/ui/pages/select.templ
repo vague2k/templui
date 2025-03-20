@@ -28,6 +28,13 @@ templ Select() {
 			})
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "With Label",
+					ShowcaseFile:      showcase.SelectWithLabel(),
+					PreviewCodeFile:   "select_with_label.templ",
+					ComponentCodeFile: "select.templ",
+					ID:                "label",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "Disabled",
 					ShowcaseFile:      showcase.SelectDisabled(),
 					PreviewCodeFile:   "select_disabled.templ",
