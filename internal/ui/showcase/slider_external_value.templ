@@ -2,20 +2,20 @@ package showcase
 
 import "github.com/axzilla/templui/components"
 
-templ SliderWithExternalValue() {
+templ SliderExternalValue() {
 	<div class="space-y-6 w-full max-w-sm">
 		<div>
 			@components.Slider(components.SliderProps{
-				ID:    "external-value",
-				Name:  "external-value",
+				ID:    "slider-external-value",
+				Name:  "slider-external-value",
 				Value: 50,
 				Min:   0,
 				Max:   100,
 				Step:  1,
 			}) {
 				@components.SliderInput(components.SliderProps{
-					ID:    "external-value",
-					Name:  "external-value",
+					ID:    "slider-external-value",
+					Name:  "slider-external-value",
 					Value: 50,
 					Min:   0,
 					Max:   100,
@@ -27,7 +27,7 @@ templ SliderWithExternalValue() {
 			<p class="text-sm text-muted-foreground mb-2">External value (linked to the slider):</p>
 			<div class="text-3xl font-bold flex gap-1">
 				@components.SliderValue(components.SliderValueProps{
-					For:   "external-value",
+					For:   "slider-external-value",
 					Class: "text-3xl font-bold text-primary",
 				})
 				%

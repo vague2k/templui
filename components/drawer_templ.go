@@ -12,20 +12,20 @@ import (
 	"github.com/axzilla/templui/utils"
 )
 
-type DrawerSide string
+type DrawerPosition string
 
 const (
-	DrawerSideTop    DrawerSide = "top"
-	DrawerSideRight  DrawerSide = "right"
-	DrawerSideBottom DrawerSide = "bottom"
-	DrawerSideLeft   DrawerSide = "left"
+	DrawerPositionTop    DrawerPosition = "top"
+	DrawerPositionRight  DrawerPosition = "right"
+	DrawerPositionBottom DrawerPosition = "bottom"
+	DrawerPositionLeft   DrawerPosition = "left"
 )
 
 type DrawerProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
-	Side       DrawerSide
+	Side       DrawerPosition
 }
 
 type DrawerTriggerProps struct {
@@ -38,7 +38,7 @@ type DrawerContentProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
-	Side       DrawerSide
+	Side       DrawerPosition
 }
 
 type DrawerHeaderProps struct {
@@ -228,10 +228,10 @@ func DrawerContent(props DrawerContentProps) templ.Component {
 		}
 		var templ_7745c5c3_Var8 = []any{
 			utils.TwMerge("fixed z-50", props.Class),
-			templ.KV("inset-y-0 right-0 w-3/4 md:w-1/2 lg:w-1/3", props.Side == DrawerSideRight),
-			templ.KV("inset-y-0 left-0 w-3/4 md:w-1/2 lg:w-1/3", props.Side == DrawerSideLeft),
-			templ.KV("inset-x-0 top-0 h-auto sm:h-1/2", props.Side == DrawerSideTop),
-			templ.KV("inset-x-0 bottom-0 h-auto sm:h-1/2", props.Side == DrawerSideBottom),
+			templ.KV("inset-y-0 right-0 w-3/4 md:w-1/2 lg:w-1/3", props.Side == DrawerPositionRight),
+			templ.KV("inset-y-0 left-0 w-3/4 md:w-1/2 lg:w-1/3", props.Side == DrawerPositionLeft),
+			templ.KV("inset-x-0 top-0 h-auto sm:h-1/2", props.Side == DrawerPositionTop),
+			templ.KV("inset-x-0 bottom-0 h-auto sm:h-1/2", props.Side == DrawerPositionBottom),
 		}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var8...)
 		if templ_7745c5c3_Err != nil {
@@ -254,25 +254,25 @@ func DrawerContent(props DrawerContentProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		if props.Side == DrawerSideLeft {
+		if props.Side == DrawerPositionLeft {
 			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, " x-transition:enter-start=\"opacity-0 transform -translate-x-full\" x-transition:enter-end=\"opacity-100 transform translate-x-0\" x-transition:leave-start=\"opacity-100 transform translate-x-0\" x-transition:leave-end=\"opacity-0 transform -translate-x-full\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		if props.Side == DrawerSideRight {
+		if props.Side == DrawerPositionRight {
 			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, " x-transition:enter-start=\"opacity-0 transform translate-x-full\" x-transition:enter-end=\"opacity-100 transform translate-x-0\" x-transition:leave-start=\"opacity-100 transform translate-x-0\" x-transition:leave-end=\"opacity-0 transform translate-x-full\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		if props.Side == DrawerSideTop {
+		if props.Side == DrawerPositionTop {
 			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, " x-transition:enter-start=\"opacity-0 transform -translate-y-full\" x-transition:enter-end=\"opacity-100 transform translate-y-0\" x-transition:leave-start=\"opacity-100 transform translate-y-0\" x-transition:leave-end=\"opacity-0 transform -translate-y-full\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		if props.Side == DrawerSideBottom {
+		if props.Side == DrawerPositionBottom {
 			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, " x-transition:enter-start=\"opacity-0 transform translate-y-full\" x-transition:enter-end=\"opacity-100 transform translate-y-0\" x-transition:leave-start=\"opacity-100 transform translate-y-0\" x-transition:leave-end=\"opacity-0 transform translate-y-full\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -288,10 +288,10 @@ func DrawerContent(props DrawerContentProps) templ.Component {
 		}
 		var templ_7745c5c3_Var10 = []any{
 			"h-full overflow-y-auto bg-background p-6 shadow-lg",
-			templ.KV("border-l", props.Side == DrawerSideRight),
-			templ.KV("border-r", props.Side == DrawerSideLeft),
-			templ.KV("border-t", props.Side == DrawerSideBottom),
-			templ.KV("border-b", props.Side == DrawerSideTop),
+			templ.KV("border-l", props.Side == DrawerPositionRight),
+			templ.KV("border-r", props.Side == DrawerPositionLeft),
+			templ.KV("border-t", props.Side == DrawerPositionBottom),
+			templ.KV("border-b", props.Side == DrawerPositionTop),
 		}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var10...)
 		if templ_7745c5c3_Err != nil {

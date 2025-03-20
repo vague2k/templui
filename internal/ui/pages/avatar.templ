@@ -27,15 +27,15 @@ templ Avatar() {
 			})
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "With Placeholder",
-					ShowcaseFile:      showcase.AvatarWithPlaceholder(),
-					PreviewCodeFile:   "avatar_with_placeholder.templ",
+					SectionName:       "Fallback",
+					ShowcaseFile:      showcase.AvatarFallback(),
+					PreviewCodeFile:   "avatar_fallback.templ",
 					ComponentCodeFile: "avatar.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "With Sizes",
-					ShowcaseFile:      showcase.AvatarWithSizes(),
-					PreviewCodeFile:   "avatar_with_sizes.templ",
+					SectionName:       "Sizes",
+					ShowcaseFile:      showcase.AvatarSizes(),
+					PreviewCodeFile:   "avatar_sizes.templ",
 					ComponentCodeFile: "avatar.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
@@ -45,9 +45,9 @@ templ Avatar() {
 					ComponentCodeFile: "avatar.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "With Group",
-					ShowcaseFile:      showcase.AvatarWithGroup(),
-					PreviewCodeFile:   "avatar_with_group.templ",
+					SectionName:       "Group",
+					ShowcaseFile:      showcase.AvatarGroup(),
+					PreviewCodeFile:   "avatar_group.templ",
 					ComponentCodeFile: "avatar.templ",
 				})
 			}

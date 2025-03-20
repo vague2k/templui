@@ -4,7 +4,7 @@ import (
 	"github.com/axzilla/templui/components"
 )
 
-templ DrawerWithSides() {
+templ DrawerPositions() {
 	<div class="flex flex-wrap gap-2">
 		@components.Drawer(components.DrawerProps{}) {
 			@components.DrawerTrigger(components.DrawerTriggerProps{}) {
@@ -12,7 +12,7 @@ templ DrawerWithSides() {
 					Top
 				}
 			}
-			@components.DrawerContent(components.DrawerContentProps{Side: components.DrawerSideTop}) {
+			@components.DrawerContent(components.DrawerContentProps{Side: components.DrawerPositionTop}) {
 				@components.DrawerHeader(components.DrawerHeaderProps{}) {
 					@components.DrawerTitle(components.DrawerTitleProps{}) {
 						Top Drawer
@@ -32,7 +32,7 @@ templ DrawerWithSides() {
 					Right
 				}
 			}
-			@components.DrawerContent(components.DrawerContentProps{Side: components.DrawerSideRight}) {
+			@components.DrawerContent(components.DrawerContentProps{Side: components.DrawerPositionRight}) {
 				@components.DrawerHeader(components.DrawerHeaderProps{}) {
 					@components.DrawerTitle(components.DrawerTitleProps{}) {
 						Right Drawer
@@ -52,7 +52,7 @@ templ DrawerWithSides() {
 					Bottom
 				}
 			}
-			@components.DrawerContent(components.DrawerContentProps{Side: components.DrawerSideBottom}) {
+			@components.DrawerContent(components.DrawerContentProps{Side: components.DrawerPositionBottom}) {
 				@components.DrawerHeader(components.DrawerHeaderProps{}) {
 					@components.DrawerTitle(components.DrawerTitleProps{}) {
 						Bottom Drawer
@@ -72,7 +72,7 @@ templ DrawerWithSides() {
 					Left
 				}
 			}
-			@components.DrawerContent(components.DrawerContentProps{Side: components.DrawerSideLeft}) {
+			@components.DrawerContent(components.DrawerContentProps{Side: components.DrawerPositionLeft}) {
 				@components.DrawerHeader(components.DrawerHeaderProps{}) {
 					@components.DrawerTitle(components.DrawerTitleProps{}) {
 						Left Drawer

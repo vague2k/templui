@@ -3,24 +3,7 @@ package showcase
 import "github.com/axzilla/templui/components"
 
 templ BadgeDefault() {
-	<div class="flex flex-wrap gap-2">
-		@components.Badge(components.BadgeProps{}) {
-			Default
-		}
-		@components.Badge(components.BadgeProps{
-			Variant: components.BadgeVariantSecondary,
-		}) {
-			Secondary
-		}
-		@components.Badge(components.BadgeProps{
-			Variant: components.BadgeVariantDestructive,
-		}) {
-			Destructive
-		}
-		@components.Badge(components.BadgeProps{
-			Variant: components.BadgeVariantOutline,
-		}) {
-			Outline
-		}
-	</div>
+	@components.Badge(components.BadgeProps{}) {
+		Badge
+	}
 }
