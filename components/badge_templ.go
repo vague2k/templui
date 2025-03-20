@@ -25,19 +25,6 @@ type BadgeProps struct {
 	Attributes templ.Attributes
 }
 
-func (b BadgeProps) variantClasses() string {
-	switch b.Variant {
-	case BadgeVariantDestructive:
-		return "border-transparent bg-destructive text-destructive-foreground"
-	case BadgeVariantOutline:
-		return "text-foreground border-border"
-	case BadgeVariantSecondary:
-		return "border-transparent bg-secondary text-secondary-foreground"
-	default:
-		return "border-transparent bg-primary text-primary-foreground"
-	}
-}
-
 func Badge(props BadgeProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -107,6 +94,19 @@ func Badge(props BadgeProps) templ.Component {
 		}
 		return nil
 	})
+}
+
+func (b BadgeProps) variantClasses() string {
+	switch b.Variant {
+	case BadgeVariantDestructive:
+		return "border-transparent bg-destructive text-destructive-foreground"
+	case BadgeVariantOutline:
+		return "text-foreground border-border"
+	case BadgeVariantSecondary:
+		return "border-transparent bg-secondary text-secondary-foreground"
+	default:
+		return "border-transparent bg-primary text-primary-foreground"
+	}
 }
 
 var _ = templruntime.GeneratedTemplate

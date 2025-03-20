@@ -64,6 +64,31 @@ type ChartProps struct {
 	Class       string
 }
 
+templ Chart(props ChartProps) {
+	{{ chartId := "chart-" + utils.RandomID() }}
+	{{ dataId := chartId + "-data" }}
+	<div class={ utils.TwMerge("chart-container relative", props.Class) }>
+		<canvas id={ chartId } data-chart-id={ dataId }></canvas>
+	</div>
+	{{
+	chartConfig := ChartConfig{
+		Type:        props.Variant,
+		Data:        props.Data,
+		Options:     props.Options,
+		ShowLegend:  props.ShowLegend,
+		ShowXAxis:   props.ShowXAxis,
+		ShowYAxis:   props.ShowYAxis,
+		ShowXLabels: props.ShowXLabels,
+		ShowYLabels: props.ShowYLabels,
+		ShowXGrid:   props.ShowXGrid,
+		ShowYGrid:   props.ShowYGrid,
+		Horizontal:  props.Horizontal,
+		Stacked:     props.Stacked,
+	}
+	}}
+	@templ.JSONScript(dataId, chartConfig)
+}
+
 templ ChartScripts() {
 	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
@@ -206,29 +231,4 @@ templ ChartScripts() {
 			});
 		</script>
 	}
-}
-
-templ Chart(props ChartProps) {
-	{{ chartId := "chart-" + utils.RandomID() }}
-	{{ dataId := chartId + "-data" }}
-	<div class={ utils.TwMerge("chart-container relative", props.Class) }>
-		<canvas id={ chartId } data-chart-id={ dataId }></canvas>
-	</div>
-	{{
-	chartConfig := ChartConfig{
-		Type:        props.Variant,
-		Data:        props.Data,
-		Options:     props.Options,
-		ShowLegend:  props.ShowLegend,
-		ShowXAxis:   props.ShowXAxis,
-		ShowYAxis:   props.ShowYAxis,
-		ShowXLabels: props.ShowXLabels,
-		ShowYLabels: props.ShowYLabels,
-		ShowXGrid:   props.ShowXGrid,
-		ShowYGrid:   props.ShowYGrid,
-		Horizontal:  props.Horizontal,
-		Stacked:     props.Stacked,
-	}
-	}}
-	@templ.JSONScript(dataId, chartConfig)
 }

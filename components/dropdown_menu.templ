@@ -2,7 +2,6 @@ package components
 
 import "github.com/axzilla/templui/utils"
 
-// Props structures
 type DropdownMenuProps struct {
 	Class      string
 	Attributes templ.Attributes
@@ -32,7 +31,6 @@ type DropdownMenuLabelProps struct {
 	Attributes templ.Attributes
 }
 
-// Unified props for MenuItem with link support
 type DropdownMenuItemProps struct {
 	Disabled   bool
 	Class      string
@@ -71,7 +69,6 @@ type DropdownMenuPortalProps struct {
 	Attributes templ.Attributes
 }
 
-// Template implementations
 templ DropdownMenu(props DropdownMenuProps) {
 	<div
 		x-data="dropdown"
@@ -138,10 +135,8 @@ templ DropdownMenuLabel(props DropdownMenuLabelProps) {
 	</div>
 }
 
-// Unified DropdownMenuItem component with link functionality
 templ DropdownMenuItem(props DropdownMenuItemProps) {
 	if props.Href != "" {
-		// Render as link if Href is provided
 		<a
 			href={ templ.SafeURL(props.Href) }
 			target={ props.Target }
@@ -158,7 +153,6 @@ templ DropdownMenuItem(props DropdownMenuItemProps) {
 			{ children... }
 		</a>
 	} else {
-		// Render as button if no Href
 		<button
 			class={ utils.TwMerge(
 					"w-full text-left flex items-center justify-between px-2 py-1.5 text-sm rounded-sm",
@@ -225,7 +219,6 @@ templ DropdownMenuSubTrigger(props DropdownMenuSubTriggerProps) {
 	</button>
 }
 
-// Portal component for submenus
 templ DropdownMenuPortal(props DropdownMenuPortalProps) {
 	<div
 		class={ utils.TwMerge("dropdown-portal", props.Class) }

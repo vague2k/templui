@@ -25,39 +25,6 @@ type SpinnerProps struct {
 	Attributes templ.Attributes
 }
 
-func spinnerSizeClass(size SpinnerSize) string {
-	switch size {
-	case SpinnerSizeSm:
-		return "w-6 h-6"
-	case SpinnerSizeLg:
-		return "w-12 h-12"
-	default:
-		return "w-8 h-8"
-	}
-}
-
-func borderSpinnerClass(size SpinnerSize) string {
-	switch size {
-	case SpinnerSizeSm:
-		return "border-[3px]"
-	case SpinnerSizeLg:
-		return "border-[5px]"
-	default:
-		return "border-4"
-	}
-}
-
-func textSizeClass(size SpinnerSize) string {
-	switch size {
-	case SpinnerSizeSm:
-		return "text-sm"
-	case SpinnerSizeLg:
-		return "text-lg"
-	default:
-		return "text-base"
-	}
-}
-
 func Spinner(props SpinnerProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -150,6 +117,39 @@ func Spinner(props SpinnerProps) templ.Component {
 		}
 		return nil
 	})
+}
+
+func spinnerSizeClass(size SpinnerSize) string {
+	switch size {
+	case SpinnerSizeSm:
+		return "w-6 h-6"
+	case SpinnerSizeLg:
+		return "w-12 h-12"
+	default:
+		return "w-8 h-8"
+	}
+}
+
+func borderSpinnerClass(size SpinnerSize) string {
+	switch size {
+	case SpinnerSizeSm:
+		return "border-[3px]"
+	case SpinnerSizeLg:
+		return "border-[5px]"
+	default:
+		return "border-4"
+	}
+}
+
+func textSizeClass(size SpinnerSize) string {
+	switch size {
+	case SpinnerSizeSm:
+		return "text-sm"
+	case SpinnerSizeLg:
+		return "text-lg"
+	default:
+		return "text-base"
+	}
 }
 
 var _ = templruntime.GeneratedTemplate

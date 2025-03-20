@@ -5,47 +5,6 @@ import (
 	"github.com/axzilla/templui/utils"
 )
 
-templ CodeScript() {
-	{{ handle := templ.NewOnceHandle() }}
-	@handle.Once() {
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/pojoaque.min.css"/>
-		<script nonce={ templ.GetNonce(ctx) } src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-		<script nonce={ templ.GetNonce(ctx) }>
-			document.addEventListener('alpine:init', () => {
-				hljs.highlightAll();
-
-				Alpine.data('code', () => ({
-					isCopied: false,
-					isNotCopied: true,
-					copyCode() {
-						try {
-							if (navigator.clipboard && window.isSecureContext) {
-								navigator.clipboard.writeText(this.$refs.code.textContent);
-							} else {
-								const textArea = document.createElement('textarea');
-								textArea.value = this.$refs.code.textContent;
-								document.body.appendChild(textArea);
-								textArea.select();
-								document.execCommand('copy');
-								document.body.removeChild(textArea);
-							}
-							
-							this.isCopied = true;
-							this.isNotCopied = false;
-							setTimeout(() => {
-								this.isCopied = false;
-								this.isNotCopied = true;
-							}, 2000);
-						} catch (err) {
-							console.error('Copy failed', err);
-						}
-					}
-				}))
-			})
-		</script>
-	}
-}
-
 type CodeSize string
 
 const (
@@ -104,4 +63,45 @@ templ Code(p CodeProps) {
 			</button>
 		}
 	</div>
+}
+
+templ CodeScript() {
+	{{ handle := templ.NewOnceHandle() }}
+	@handle.Once() {
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/pojoaque.min.css"/>
+		<script nonce={ templ.GetNonce(ctx) } src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+		<script nonce={ templ.GetNonce(ctx) }>
+			document.addEventListener('alpine:init', () => {
+				hljs.highlightAll();
+
+				Alpine.data('code', () => ({
+					isCopied: false,
+					isNotCopied: true,
+					copyCode() {
+						try {
+							if (navigator.clipboard && window.isSecureContext) {
+								navigator.clipboard.writeText(this.$refs.code.textContent);
+							} else {
+								const textArea = document.createElement('textarea');
+								textArea.value = this.$refs.code.textContent;
+								document.body.appendChild(textArea);
+								textArea.select();
+								document.execCommand('copy');
+								document.body.removeChild(textArea);
+							}
+							
+							this.isCopied = true;
+							this.isNotCopied = false;
+							setTimeout(() => {
+								this.isCopied = false;
+								this.isNotCopied = true;
+							}, 2000);
+						} catch (err) {
+							console.error('Copy failed', err);
+						}
+					}
+				}))
+			})
+		</script>
+	}
 }

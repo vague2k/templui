@@ -55,26 +55,6 @@ type DrawerCloseProps struct {
 	Attributes templ.Attributes
 }
 
-templ DrawerScript() {
-	{{ handle := templ.NewOnceHandle() }}
-	@handle.Once() {
-		<script nonce={ templ.GetNonce(ctx) }>
-			document.addEventListener('alpine:init', () => {
-				Alpine.data('drawer', () => ({
-					isOpen: false,
-					open() {
-						this.isOpen = true
-					},
-					close() {
-						this.isOpen = false
-					},
-				}))
-			})
-		</script>
-	}
-}
-
-// DrawerRoot is the main container for the drawer component
 templ Drawer(props DrawerProps) {
 	@DrawerScript()
 	<div
@@ -87,7 +67,6 @@ templ Drawer(props DrawerProps) {
 	</div>
 }
 
-// DrawerTrigger is the element that opens the drawer
 templ DrawerTrigger(props DrawerTriggerProps) {
 	<div
 		@click="open"
@@ -98,7 +77,6 @@ templ DrawerTrigger(props DrawerTriggerProps) {
 	</div>
 }
 
-// DrawerContent contains the drawer's content and handles positioning/animation
 templ DrawerContent(props DrawerContentProps) {
 	<div
 		x-show="isOpen"
@@ -164,7 +142,6 @@ templ DrawerContent(props DrawerContentProps) {
 	</div>
 }
 
-// DrawerHeader contains the drawer's title and description
 templ DrawerHeader(props DrawerHeaderProps) {
 	<div
 		class={ utils.TwMerge("flex flex-col space-y-1.5 pb-4", props.Class) }
@@ -174,7 +151,6 @@ templ DrawerHeader(props DrawerHeaderProps) {
 	</div>
 }
 
-// DrawerTitle is the title of the drawer
 templ DrawerTitle(props DrawerTitleProps) {
 	<h2
 		class={ utils.TwMerge("text-lg font-semibold leading-none tracking-tight", props.Class) }
@@ -184,7 +160,6 @@ templ DrawerTitle(props DrawerTitleProps) {
 	</h2>
 }
 
-// DrawerDescription is the description of the drawer
 templ DrawerDescription(props DrawerDescriptionProps) {
 	<p
 		class={ utils.TwMerge("text-sm text-muted-foreground", props.Class) }
@@ -194,7 +169,6 @@ templ DrawerDescription(props DrawerDescriptionProps) {
 	</p>
 }
 
-// DrawerFooter is a container for the drawer's footer content
 templ DrawerFooter(props DrawerFooterProps) {
 	<div
 		class={ utils.TwMerge("flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 pt-4", props.Class) }
@@ -204,7 +178,6 @@ templ DrawerFooter(props DrawerFooterProps) {
 	</div>
 }
 
-// DrawerClose is a button that closes the drawer
 templ DrawerClose(props DrawerCloseProps) {
 	<button
 		@click="close"
@@ -219,4 +192,23 @@ templ DrawerClose(props DrawerCloseProps) {
 	>
 		{ children... }
 	</button>
+}
+
+templ DrawerScript() {
+	{{ handle := templ.NewOnceHandle() }}
+	@handle.Once() {
+		<script nonce={ templ.GetNonce(ctx) }>
+			document.addEventListener('alpine:init', () => {
+				Alpine.data('drawer', () => ({
+					isOpen: false,
+					open() {
+						this.isOpen = true
+					},
+					close() {
+						this.isOpen = false
+					},
+				}))
+			})
+		</script>
+	}
 }
