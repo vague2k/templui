@@ -5,7 +5,7 @@ import "github.com/axzilla/templui/components"
 templ SliderWithExternalValue() {
 	<div class="space-y-6 w-full max-w-sm">
 		<div>
-			@components.SliderRoot(components.SliderRootProps{
+			@components.Slider(components.SliderProps{
 				ID:    "external-value",
 				Name:  "external-value",
 				Value: 50,
@@ -13,7 +13,7 @@ templ SliderWithExternalValue() {
 				Max:   100,
 				Step:  1,
 			}) {
-				@components.SliderInput(components.SliderRootProps{
+				@components.SliderInput(components.SliderProps{
 					ID:    "external-value",
 					Name:  "external-value",
 					Value: 50,

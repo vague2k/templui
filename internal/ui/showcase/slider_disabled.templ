@@ -4,7 +4,7 @@ import "github.com/axzilla/templui/components"
 
 templ SliderDisabled() {
 	<div class="w-full max-w-sm">
-		@components.SliderRoot(components.SliderRootProps{
+		@components.Slider(components.SliderProps{
 			ID:       "disabled",
 			Name:     "disabled",
 			Value:    20,
@@ -23,7 +23,7 @@ templ SliderDisabled() {
 					For: "disabled",
 				})
 			</div>
-			@components.SliderInput(components.SliderRootProps{
+			@components.SliderInput(components.SliderProps{
 				ID:       "disabled",
 				Name:     "disabled",
 				Value:    20,

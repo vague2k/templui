@@ -14,7 +14,7 @@ const (
 	RatingStyleEmoji RatingStyle = "emoji"
 )
 
-type RatingRootProps struct {
+type RatingProps struct {
 	Value       float64
 	ReadOnly    bool
 	Precision   float64
@@ -46,7 +46,7 @@ type RatingValueProps struct {
 	Attributes templ.Attributes
 }
 
-templ RatingRoot(props RatingRootProps) {
+templ Rating(props RatingProps) {
 	{{ props.setDefaults() }}
 	@RatingScript()
 	<div
@@ -162,7 +162,7 @@ func (p *RatingItemProps) setDefaults() {
 	}
 }
 
-func (p *RatingRootProps) setDefaults() {
+func (p *RatingProps) setDefaults() {
 	if p.Precision <= 0 {
 		p.Precision = 1.0
 	}

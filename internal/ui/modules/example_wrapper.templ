@@ -30,7 +30,7 @@ templ ExampleWrapper(p ExampleWrapperProps) {
 		}
 	>
 		<p class="mb-2 font-semibold">{ p.SectionName }</p>
-		@components.TabsRoot(components.TabsRootProps{
+		@components.Tabs(components.TabsProps{
 			ID: "example-" + p.ID,
 		}) {
 			@components.TabsList(components.TabsListProps{

@@ -8,7 +8,7 @@ templ RatingPrecision() {
 			@components.Label(components.LabelProps{}) {
 				Integer Ratings
 			}
-			@components.RatingRoot(components.RatingRootProps{
+			@components.Rating(components.RatingProps{
 				Value:       1.7,
 				ReadOnly:    true,
 				Precision:   1.0,
@@ -28,7 +28,7 @@ templ RatingPrecision() {
 			@components.Label(components.LabelProps{}) {
 				Half-Star Ratings 
 			}
-			@components.RatingRoot(components.RatingRootProps{
+			@components.Rating(components.RatingProps{
 				Value:     2.7,
 				ReadOnly:  true,
 				Precision: 0.5,
@@ -47,7 +47,7 @@ templ RatingPrecision() {
 			@components.Label(components.LabelProps{}) {
 				Decimal Ratings (0.1)
 			}
-			@components.RatingRoot(components.RatingRootProps{
+			@components.Rating(components.RatingProps{
 				Value:     3.7,
 				ReadOnly:  true,
 				Precision: 0.1,

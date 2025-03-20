@@ -4,7 +4,7 @@ import "github.com/axzilla/templui/components"
 
 templ SliderWithSteps() {
 	<div class="w-full max-w-sm">
-		@components.SliderRoot(components.SliderRootProps{
+		@components.Slider(components.SliderProps{
 			ID:    "steps",
 			Name:  "steps",
 			Value: 100,
@@ -24,7 +24,7 @@ templ SliderWithSteps() {
 					})
 				</div>
 			</div>
-			@components.SliderInput(components.SliderRootProps{
+			@components.SliderInput(components.SliderProps{
 				ID:    "steps",
 				Name:  "steps",
 				Value: 100,

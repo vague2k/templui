@@ -3,7 +3,7 @@ package components
 import "github.com/axzilla/templui/utils"
 import "context"
 
-type TabsRootProps struct {
+type TabsProps struct {
 	ID    string
 	Class string
 }
@@ -26,14 +26,14 @@ type TabContentProps struct {
 	TabsID   string
 }
 
-templ TabsRoot(props TabsRootProps) {
+templ Tabs(props TabsProps) {
 	{{ tabsID := props.ID }}
 	if tabsID == "" {
 		{{ tabsID = utils.RandomID() }}
 	}
 	<div
 		class={ utils.TwMerge("relative", props.Class) }
-		data-tabs-root
+		data-tabs
 		data-tabs-id={ tabsID }
 	>
 		{{ ctx = context.WithValue(ctx, "tabsId", tabsID) }}
@@ -110,15 +110,15 @@ func getTabsID(ctx context.Context) string {
 templ TabsScript() {
 	<script nonce={ templ.GetNonce(ctx) }>
 		document.addEventListener('DOMContentLoaded', () => {
-			document.querySelectorAll('[data-tabs-root]').forEach(tabsRoot => {
-				const tabsId = tabsRoot.dataset.tabsId;
-				const triggers = tabsRoot.querySelectorAll(`[data-tabs-trigger][data-tabs-id="${tabsId}"]`);
-				const contents = tabsRoot.querySelectorAll(`[data-tabs-content][data-tabs-id="${tabsId}"]`);
-				const marker = tabsRoot.querySelector(`[data-tabs-marker][data-tabs-id="${tabsId}"]`);
+			document.querySelectorAll('[data-tabs]').forEach(tabs => {
+				const tabsId = tabs.dataset.tabsId;
+				const triggers = tabs.querySelectorAll(`[data-tabs-trigger][data-tabs-id="${tabsId}"]`);
+				const contents = tabs.querySelectorAll(`[data-tabs-content][data-tabs-id="${tabsId}"]`);
+				const marker = tabs.querySelector(`[data-tabs-marker][data-tabs-id="${tabsId}"]`);
 				
 				// Initial setup
 				if (triggers.length > 0 && marker) {
-					const activeTab = tabsRoot.querySelector(`[data-tabs-trigger][data-tabs-id="${tabsId}"][data-state="active"]`) || triggers[0];
+					const activeTab = tabs.querySelector(`[data-tabs-trigger][data-tabs-id="${tabsId}"][data-state="active"]`) || triggers[0];
 					
 					// Set initial marker position
 					marker.style.width = activeTab.offsetWidth + 'px';
@@ -132,7 +132,7 @@ templ TabsScript() {
 						
 						// Find and show the corresponding content
 						const activeValue = activeTab.dataset.tabsValue;
-						const activeContent = tabsRoot.querySelector(`[data-tabs-content][data-tabs-id="${tabsId}"][data-tabs-value="${activeValue}"]`);
+						const activeContent = tabs.querySelector(`[data-tabs-content][data-tabs-id="${tabsId}"][data-tabs-value="${activeValue}"]`);
 						if (activeContent) {
 							activeContent.dataset.state = "active";
 							activeContent.classList.remove('hidden');

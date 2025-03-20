@@ -13,7 +13,7 @@ import (
 	"github.com/axzilla/templui/utils"
 )
 
-type SliderRootProps struct {
+type SliderProps struct {
 	ID         string
 	Name       string
 	Min        int
@@ -31,7 +31,7 @@ type SliderValueProps struct {
 	Attributes templ.Attributes
 }
 
-func SliderRoot(props SliderRootProps) templ.Component {
+func Slider(props SliderProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -70,7 +70,7 @@ func SliderRoot(props SliderRootProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\" data-slider-root data-slider-id=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\" data-slider data-slider-id=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -99,7 +99,7 @@ func SliderRoot(props SliderRootProps) templ.Component {
 	})
 }
 
-func SliderInput(props SliderRootProps) templ.Component {
+func SliderInput(props SliderProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -391,7 +391,7 @@ func SliderScript() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 25, "\">\n\t\t\tdocument.addEventListener('DOMContentLoaded', () => {\n\t\t\t\tconst sliders = document.querySelectorAll('[data-slider-root]');\n\t\t\t\t\n\t\t\t\tsliders.forEach(slider => {\n\t\t\t\t\tconst sliderId = slider.dataset.sliderId;\n\t\t\t\t\tconst input = slider.querySelector('input[type=\"range\"]');\n\t\t\t\t\tconst valueElements = document.querySelectorAll(`[data-slider-value-for=\"${sliderId}\"]`);\n\t\t\t\t\t\n\t\t\t\t\tif (input) {\n\t\t\t\t\t\t// Initial Setup\n\t\t\t\t\t\tvalueElements.forEach(el => {\n\t\t\t\t\t\t\tel.textContent = input.value;\n\t\t\t\t\t\t});\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Event Listener\n\t\t\t\t\t\tinput.addEventListener('input', () => {\n\t\t\t\t\t\t\tvalueElements.forEach(el => {\n\t\t\t\t\t\t\t\tel.textContent = input.value;\n\t\t\t\t\t\t\t});\n\t\t\t\t\t\t});\n\t\t\t\t\t}\n\t\t\t\t});\n\t\t\t});\n\t\t</script>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 25, "\">\n\t\t\tdocument.addEventListener('DOMContentLoaded', () => {\n\t\t\t\tconst sliders = document.querySelectorAll('[data-slider]');\n\t\t\t\t\n\t\t\t\tsliders.forEach(slider => {\n\t\t\t\t\tconst sliderId = slider.dataset.sliderId;\n\t\t\t\t\tconst input = slider.querySelector('input[type=\"range\"]');\n\t\t\t\t\tconst valueElements = document.querySelectorAll(`[data-slider-value-for=\"${sliderId}\"]`);\n\t\t\t\t\t\n\t\t\t\t\tif (input) {\n\t\t\t\t\t\t// Initial Setup\n\t\t\t\t\t\tvalueElements.forEach(el => {\n\t\t\t\t\t\t\tel.textContent = input.value;\n\t\t\t\t\t\t});\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Event Listener\n\t\t\t\t\t\tinput.addEventListener('input', () => {\n\t\t\t\t\t\t\tvalueElements.forEach(el => {\n\t\t\t\t\t\t\t\tel.textContent = input.value;\n\t\t\t\t\t\t\t});\n\t\t\t\t\t\t});\n\t\t\t\t\t}\n\t\t\t\t});\n\t\t\t});\n\t\t</script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
