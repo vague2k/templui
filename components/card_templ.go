@@ -10,24 +10,24 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import "github.com/axzilla/templui/utils"
 
-type CardMediaPosition int
-type CardMediaWidth int
+type CardMediaPosition string
+type CardMediaWidth string
 
 const (
-	CardMediaTop CardMediaPosition = iota
-	CardMediaBottom
-	CardMediaLeft
-	CardMediaRight
+	CardMediaTop    CardMediaPosition = "top"
+	CardMediaBottom CardMediaPosition = "bottom"
+	CardMediaLeft   CardMediaPosition = "left"
+	CardMediaRight  CardMediaPosition = "right"
 )
 
 const (
-	CardMediaWidthAuto CardMediaWidth = iota
-	CardMediaWidthFull
-	CardMediaWidthHalf
-	CardMediaWidthThird
-	CardMediaWidthQuarter
-	CardMediaWidthTwoThirds
-	CardMediaWidthThreeQuarters
+	CardMediaWidthAuto          CardMediaWidth = "auto"
+	CardMediaWidthFull          CardMediaWidth = "full"
+	CardMediaWidthHalf          CardMediaWidth = "half"
+	CardMediaWidthThird         CardMediaWidth = "third"
+	CardMediaWidthQuarter       CardMediaWidth = "quarter"
+	CardMediaWidthTwoThirds     CardMediaWidth = "two-thirds"
+	CardMediaWidthThreeQuarters CardMediaWidth = "three-quarters"
 )
 
 type CardProps struct {
