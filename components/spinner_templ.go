@@ -80,21 +80,23 @@ func Spinner(props SpinnerProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var4 = []any{utils.TwMerge(
-			"animate-spin rounded-full",
-			spinnerSizeClass(props.Size),
-			borderSpinnerClass(props.Size),
-			utils.TwIfElse(
-				props.Color == "",
-				"border-primary border-b-transparent",
-				"border-current border-b-transparent",
+		var templ_7745c5c3_Var4 = []any{
+			utils.TwMerge(
+				"animate-spin rounded-full",
+				spinnerSizeClass(props.Size),
+				borderSpinnerClass(props.Size),
+				utils.IfElse(
+					props.Color == "",
+					"border-primary border-b-transparent",
+					"border-current border-b-transparent",
+				),
+				utils.IfElse(
+					props.Color != "",
+					props.Color,
+					"",
+				),
 			),
-			utils.TwIfElse(
-				props.Color != "",
-				props.Color,
-				"",
-			),
-		)}
+		}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var4...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err

@@ -16,23 +16,23 @@ func TwMerge(classes ...string) string {
 	return twmerge.Merge(classes...)
 }
 
-// TwIf returns class if condition is true, otherwise an empty string.
-// Example: "bg-red-500", true → "bg-red-500"
-func TwIf(class string, condition bool) string {
-	result := templ.KV(class, condition)
-	if result.Value == true {
-		return result.Key
+// TwIf returns value if condition is true, otherwise an empty value of type T.
+// Example: true, "bg-red-500" → "bg-red-500"
+func If[T comparable](condition bool, value T) T {
+	var empty T
+	if condition {
+		return value
 	}
-	return ""
+	return empty
 }
 
-// TwIfElse returns trueClass if condition is true, otherwise falseClass.
+// TwIfElse returns trueValue if condition is true, otherwise falseValue.
 // Example: true, "bg-red-500", "bg-gray-300" → "bg-red-500"
-func TwIfElse(condition bool, trueClass string, falseClass string) string {
+func IfElse[T any](condition bool, trueValue T, falseValue T) T {
 	if condition {
-		return trueClass
+		return trueValue
 	}
-	return falseClass
+	return falseValue
 }
 
 // MergeAttributes combines multiple Attributes into one.

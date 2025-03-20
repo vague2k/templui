@@ -58,12 +58,10 @@ func Separator(props SeparatorProps) templ.Component {
 		var templ_7745c5c3_Var2 = []any{
 			utils.TwMerge(
 				"shrink-0",
-				utils.TwIf(getOrientationClasses(props.Orientation),
-					!(props.Label != "" && props.Orientation == SeparatorOrientationHorizontal)),
-				utils.TwIf("h-[1px] w-full", props.Orientation == SeparatorOrientationHorizontal),
-				utils.TwIf("h-full w-[1px]", props.Orientation == SeparatorOrientationVertical),
-				utils.TwIf(getDecorationClasses(props.Decoration),
-					!(props.Label != "" && props.Orientation == SeparatorOrientationHorizontal)),
+				utils.If(!(props.Label != "" && props.Orientation == SeparatorOrientationHorizontal), getOrientationClasses(props.Orientation)),
+				utils.If(props.Orientation == SeparatorOrientationHorizontal, "h-[1px] w-full"),
+				utils.If(props.Orientation == SeparatorOrientationVertical, "h-full w-[1px]"),
+				utils.If(!(props.Label != "" && props.Orientation == SeparatorOrientationHorizontal), getDecorationClasses(props.Decoration)),
 				props.Class,
 			),
 		}
@@ -142,7 +140,7 @@ func Separator(props SeparatorProps) templ.Component {
 			var templ_7745c5c3_Var7 string
 			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(props.Label)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/separator.templ`, Line: 57, Col: 18}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/separator.templ`, Line: 55, Col: 18}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {

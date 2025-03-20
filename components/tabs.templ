@@ -75,13 +75,13 @@ templ TabTrigger(props TabTriggerProps) {
 		type="button"
 		class={ utils.TwMerge(
 			"relative z-20 flex-1 inline-flex items-center justify-center h-8 px-3 text-sm font-medium transition-all rounded-md cursor-pointer whitespace-nowrap hover:text-foreground",
-			utils.TwIf("text-foreground bg-background shadow-xs", props.IsActive),
+			utils.If(props.IsActive,"text-foreground bg-background shadow-xs"),
 			props.Class,
 		) }
 		data-tabs-trigger
 		data-tabs-id={ tabsID }
 		data-tabs-value={ props.Value }
-		data-state={ utils.TwIfElse(props.IsActive, "active", "inactive") }
+		data-state={ utils.IfElse(props.IsActive, "active", "inactive") }
 	>
 		{ children... }
 	</button>
@@ -93,15 +93,17 @@ templ TabContent(props TabContentProps) {
 		{{ tabsID = getTabsID(ctx) }}
 	}
 	<div
-		class={ utils.TwMerge(
-			"relative",
-			utils.TwIf("hidden", !props.IsActive),
-			props.Class,
-		) }
+		class={
+			utils.TwMerge(
+				"relative",
+				utils.If(!props.IsActive, "hidden"),
+				props.Class,
+			),
+		}
 		data-tabs-content
 		data-tabs-id={ tabsID }
 		data-tabs-value={ props.Value }
-		data-state={ utils.TwIfElse(props.IsActive, "active", "inactive") }
+		data-state={ utils.IfElse(props.IsActive, "active", "inactive") }
 	>
 		{ children... }
 	</div>

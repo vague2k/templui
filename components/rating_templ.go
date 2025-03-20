@@ -302,14 +302,16 @@ func RatingItem(props RatingItemProps) templ.Component {
 		ctx = templ.ClearChildren(ctx)
 		props.setDefaults()
 		readOnly, _ := ctx.Value("readOnly").(bool)
-		var templ_7745c5c3_Var14 = []any{utils.TwMerge(
-			"relative",
-			getColorClass(props.Style),
-			"transition-opacity",
-			"cursor-pointer",
-			utils.TwIf("cursor-default", readOnly),
-			props.Class,
-		)}
+		var templ_7745c5c3_Var14 = []any{
+			utils.TwMerge(
+				"relative",
+				getColorClass(props.Style),
+				"transition-opacity",
+				"cursor-pointer",
+				utils.If(readOnly, "cursor-default"),
+				props.Class,
+			),
+		}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var14...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -334,7 +336,7 @@ func RatingItem(props RatingItemProps) templ.Component {
 		var templ_7745c5c3_Var16 string
 		templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(props.Value))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/rating.templ`, Line: 103, Col: 47}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/rating.templ`, Line: 105, Col: 47}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
 		if templ_7745c5c3_Err != nil {
@@ -355,7 +357,7 @@ func RatingItem(props RatingItemProps) templ.Component {
 		var templ_7745c5c3_Var17 string
 		templ_7745c5c3_Var17, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(props.Value))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/rating.templ`, Line: 114, Col: 41}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/rating.templ`, Line: 116, Col: 41}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var17))
 		if templ_7745c5c3_Err != nil {
@@ -476,7 +478,7 @@ func RatingScript() templ.Component {
 			var templ_7745c5c3_Var20 string
 			templ_7745c5c3_Var20, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/rating.templ`, Line: 182, Col: 43}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/rating.templ`, Line: 184, Col: 43}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var20))
 			if templ_7745c5c3_Err != nil {

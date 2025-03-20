@@ -434,8 +434,8 @@ func DropdownMenuItem(props DropdownMenuItemProps) templ.Component {
 		if props.Href != "" {
 			var templ_7745c5c3_Var17 = []any{utils.TwMerge(
 				"flex text-left items-center px-2 py-1.5 text-sm rounded-sm",
-				utils.TwIf("focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground cursor-default", !props.Disabled),
-				utils.TwIf("opacity-50 pointer-events-none", props.Disabled),
+				utils.If(!props.Disabled, "focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground cursor-default"),
+				utils.If(props.Disabled, "opacity-50 pointer-events-none"),
 				props.Class,
 			)}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var17...)
@@ -498,12 +498,14 @@ func DropdownMenuItem(props DropdownMenuItemProps) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		} else {
-			var templ_7745c5c3_Var21 = []any{utils.TwMerge(
-				"w-full text-left flex items-center justify-between px-2 py-1.5 text-sm rounded-sm",
-				utils.TwIf("focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground cursor-default", !props.Disabled),
-				utils.TwIf("opacity-50 pointer-events-none", props.Disabled),
-				props.Class,
-			)}
+			var templ_7745c5c3_Var21 = []any{
+				utils.TwMerge(
+					"w-full text-left flex items-center justify-between px-2 py-1.5 text-sm rounded-sm",
+					utils.If(!props.Disabled, "focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground cursor-default"),
+					utils.If(props.Disabled, "opacity-50 pointer-events-none"),
+					props.Class,
+				),
+			}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var21...)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -958,7 +960,7 @@ func DropdownMenuScript() templ.Component {
 		var templ_7745c5c3_Var42 string
 		templ_7745c5c3_Var42, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/dropdown_menu.templ`, Line: 259, Col: 42}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/dropdown_menu.templ`, Line: 261, Col: 42}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var42))
 		if templ_7745c5c3_Err != nil {

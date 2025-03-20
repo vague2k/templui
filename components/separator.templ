@@ -33,12 +33,10 @@ templ Separator(props SeparatorProps) {
 		class={
 			utils.TwMerge(
 				"shrink-0",
-				utils.TwIf(getOrientationClasses(props.Orientation),
-					!(props.Label != "" && props.Orientation == SeparatorOrientationHorizontal)),
-				utils.TwIf("h-[1px] w-full", props.Orientation == SeparatorOrientationHorizontal),
-				utils.TwIf("h-full w-[1px]", props.Orientation == SeparatorOrientationVertical),
-				utils.TwIf(getDecorationClasses(props.Decoration),
-					!(props.Label != "" && props.Orientation == SeparatorOrientationHorizontal)),
+				utils.If(!(props.Label != "" && props.Orientation == SeparatorOrientationHorizontal), getOrientationClasses(props.Orientation)),
+				utils.If(props.Orientation == SeparatorOrientationHorizontal, "h-[1px] w-full"),
+				utils.If(props.Orientation == SeparatorOrientationVertical, "h-full w-[1px]"),
+				utils.If(!(props.Label != "" && props.Orientation == SeparatorOrientationHorizontal), getDecorationClasses(props.Decoration)),
 				props.Class,
 			),
 		}

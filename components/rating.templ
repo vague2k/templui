@@ -92,14 +92,16 @@ templ RatingItem(props RatingItemProps) {
 	{{ props.setDefaults() }}
 	{{ readOnly, _ := ctx.Value("readOnly").(bool) }}
 	<div
-		class={ utils.TwMerge(
+		class={
+			utils.TwMerge(
 				"relative",
 				getColorClass(props.Style),
 				"transition-opacity",
 				"cursor-pointer",
-			    utils.TwIf("cursor-default", readOnly),
+				utils.If(readOnly, "cursor-default"),
 				props.Class,
-			) }
+			),
+		}
 		data-rating-value={ strconv.Itoa(props.Value) }
 		@click="setValue"
 		@mouseover="hover"

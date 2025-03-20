@@ -93,9 +93,15 @@ func Label(props LabelProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var6 string
-		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(utils.TwIfElse(props.DisabledClass != "", props.DisabledClass, "opacity-50 cursor-not-allowed"))
+		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(
+			utils.IfElse(
+				props.DisabledClass != "",
+				props.DisabledClass,
+				"opacity-50 cursor-not-allowed",
+			),
+		)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/label.templ`, Line: 23, Col: 119}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/label.templ`, Line: 29, Col: 2}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -158,7 +164,7 @@ func LabelScript() templ.Component {
 			var templ_7745c5c3_Var9 string
 			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/label.templ`, Line: 32, Col: 43}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/label.templ`, Line: 38, Col: 43}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 			if templ_7745c5c3_Err != nil {

@@ -20,7 +20,13 @@ templ Label(props LabelProps) {
 			templ.KV("text-destructive", len(props.Error) > 0),
 			props.Class,
 		}
-		data-disabled-style={ utils.TwIfElse(props.DisabledClass != "", props.DisabledClass, "opacity-50 cursor-not-allowed") }
+		data-disabled-style={
+			utils.IfElse(
+				props.DisabledClass != "",
+				props.DisabledClass,
+				"opacity-50 cursor-not-allowed",
+			),
+		}
 	>
 		{ children... }
 	</label>

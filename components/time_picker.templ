@@ -62,7 +62,7 @@ templ TimePicker(props TimePickerProps) {
 				Variant: ButtonVariantOutline,
 				Class: utils.TwMerge(
 					"w-full flex justify-between items-center",
-					utils.TwIf("border-destructive ring-destructive", props.HasError),
+					utils.If(props.HasError, "border-destructive ring-destructive"),
 				),
 				Disabled: props.Disabled,
 				Attributes: utils.MergeAttributes(
@@ -73,10 +73,12 @@ templ TimePicker(props TimePickerProps) {
 				),
 			}) {
 				<span
-					class={ utils.TwMerge(
-					"timepicker-display truncate",
-					utils.TwIf("text-muted-foreground", props.Value == (time.Time{})),
-				) }
+					class={
+						utils.TwMerge(
+							"timepicker-display truncate",
+							utils.If(props.Value == (time.Time{}), "text-muted-foreground"),
+						),
+					}
 				>
 					if props.Value != (time.Time{}) {
 						if props.Use12Hours {
@@ -189,7 +191,7 @@ templ TimePicker(props TimePickerProps) {
 							@click="selectPeriod"
 							class={ utils.TwMerge(
 								"px-3 py-1 text-sm rounded-md hover:bg-muted",
-								utils.TwIf("bg-primary text-primary-foreground", props.Value != (time.Time{}) && props.Value.Hour() < 12),
+								utils.If(props.Value != (time.Time{}) && props.Value.Hour() < 12, "bg-primary text-primary-foreground", ),
 							) }
 						>
 							{ props.AMLabel }
@@ -200,7 +202,7 @@ templ TimePicker(props TimePickerProps) {
 							@click="selectPeriod"
 							class={ utils.TwMerge(
 								"px-3 py-1 text-sm rounded-md hover:bg-muted",
-								utils.TwIf("bg-primary text-primary-foreground", props.Value != (time.Time{}) && props.Value.Hour() >= 12),
+								utils.If(props.Value != (time.Time{}) && props.Value.Hour() >= 12, "bg-primary text-primary-foreground", ),
 							) }
 						>
 							{ props.PMLabel }

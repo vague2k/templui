@@ -36,7 +36,7 @@ templ RadioCard(props RadioCardProps) {
 		{{ props.ID = utils.RandomID() }}
 	}
 	<div
-		class={ utils.TwMerge("relative", utils.TwIf("opacity-60", props.Disabled), props.Class) }
+		class={ utils.TwMerge("relative", utils.If(props.Disabled, "opacity-60"), props.Class) }
 		{ props.Attributes... }
 	>
 		<input
@@ -51,16 +51,18 @@ templ RadioCard(props RadioCardProps) {
 		/>
 		<label
 			for={ props.ID }
-			class={ utils.TwMerge(
-				"block w-full rounded-lg border overflow-hidden h-full",
-				"bg-card text-card-foreground p-4 flex flex-col",
-				"cursor-pointer",
-				"hover:border-primary/50",
-				"peer-checked:ring-1 peer-checked:ring-primary peer-checked:border-primary",
-				utils.TwIf("cursor-not-allowed", props.Disabled),
-				"transition-all duration-200",
-				props.Class,
-			) }
+			class={
+				utils.TwMerge(
+					"block w-full rounded-lg border overflow-hidden h-full",
+					"bg-card text-card-foreground p-4 flex flex-col",
+					"cursor-pointer",
+					"hover:border-primary/50",
+					"peer-checked:ring-1 peer-checked:ring-primary peer-checked:border-primary",
+					utils.If(props.Disabled, "cursor-not-allowed"),
+					"transition-all duration-200",
+					props.Class,
+				),
+			}
 			{ props.Attributes... }
 		>
 			{ children... }

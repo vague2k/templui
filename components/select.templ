@@ -73,7 +73,7 @@ templ SelectTrigger(props SelectTriggerProps) {
 		Variant: ButtonVariantOutline,
 		Class: utils.TwMerge(
 			"w-full select-trigger flex items-center justify-between",
-			utils.TwIf("border-destructive ring-destructive", props.HasError),
+			utils.If(props.HasError, "border-destructive ring-destructive"),
 			props.Class,
 		),
 		Disabled: props.Disabled,
@@ -151,14 +151,16 @@ templ SelectLabel(props SelectLabelProps) {
 
 templ SelectItem(props SelectItemProps) {
 	<div
-		class={ utils.TwMerge(
-			"select-item relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 px-2 text-sm font-light outline-none",
-			"hover:bg-accent hover:text-accent-foreground",
-			"focus:bg-accent focus:text-accent-foreground",
-			utils.TwIf("bg-accent text-accent-foreground", props.Selected),
-			utils.TwIf("pointer-events-none opacity-50", props.Disabled),
-			props.Class,
-		) }
+		class={
+			utils.TwMerge(
+				"select-item relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 px-2 text-sm font-light outline-none",
+				"hover:bg-accent hover:text-accent-foreground",
+				"focus:bg-accent focus:text-accent-foreground",
+				utils.If(props.Selected, "bg-accent text-accent-foreground"),
+				utils.If(props.Disabled, "pointer-events-none opacity-50"),
+				props.Class,
+			),
+		}
 		role="option"
 		data-value={ props.Value }
 		data-selected={ strconv.FormatBool(props.Selected) }
@@ -172,7 +174,7 @@ templ SelectItem(props SelectItemProps) {
 		<span
 			class={ utils.TwMerge(
 					"select-check absolute right-2 flex h-3.5 w-3.5 items-center justify-center",
-					utils.TwIfElse(props.Selected, "opacity-100", "opacity-0"),
+					utils.IfElse(props.Selected, "opacity-100", "opacity-0"),
 					) }
 		>
 			@icons.Check(icons.IconProps{Size: "16"})

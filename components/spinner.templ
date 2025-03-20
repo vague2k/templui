@@ -29,21 +29,23 @@ templ Spinner(props SpinnerProps) {
 		{ props.Attributes... }
 	>
 		<div
-			class={ utils.TwMerge(
-				"animate-spin rounded-full",
-				spinnerSizeClass(props.Size),
-				borderSpinnerClass(props.Size),
-				utils.TwIfElse(
-					props.Color == "",
-					"border-primary border-b-transparent",
-					"border-current border-b-transparent",
+			class={
+				utils.TwMerge(
+					"animate-spin rounded-full",
+					spinnerSizeClass(props.Size),
+					borderSpinnerClass(props.Size),
+					utils.IfElse(
+						props.Color == "",
+						"border-primary border-b-transparent",
+						"border-current border-b-transparent",
+					),
+					utils.IfElse(
+						props.Color != "",
+						props.Color,
+						"",
+					),
 				),
-				utils.TwIfElse(
-					props.Color != "",
-					props.Color,
-					"",
-				),
-			) }
+			}
 		></div>
 	</div>
 }

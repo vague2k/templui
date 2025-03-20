@@ -69,7 +69,7 @@ func Input(props InputProps) templ.Component {
 				"placeholder:text-muted-foreground",
 				"focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
 				"disabled:cursor-not-allowed disabled:opacity-50",
-				utils.TwIf("border-destructive ring-destructive", props.HasError),
+				utils.If(props.HasError, "border-destructive ring-destructive"),
 				props.Class,
 			),
 		}

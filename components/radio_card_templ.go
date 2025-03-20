@@ -63,7 +63,7 @@ func RadioCard(props RadioCardProps) templ.Component {
 		if props.ID == "" {
 			props.ID = utils.RandomID()
 		}
-		var templ_7745c5c3_Var2 = []any{utils.TwMerge("relative", utils.TwIf("opacity-60", props.Disabled), props.Class)}
+		var templ_7745c5c3_Var2 = []any{utils.TwMerge("relative", utils.If(props.Disabled, "opacity-60"), props.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -154,16 +154,18 @@ func RadioCard(props RadioCardProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var7 = []any{utils.TwMerge(
-			"block w-full rounded-lg border overflow-hidden h-full",
-			"bg-card text-card-foreground p-4 flex flex-col",
-			"cursor-pointer",
-			"hover:border-primary/50",
-			"peer-checked:ring-1 peer-checked:ring-primary peer-checked:border-primary",
-			utils.TwIf("cursor-not-allowed", props.Disabled),
-			"transition-all duration-200",
-			props.Class,
-		)}
+		var templ_7745c5c3_Var7 = []any{
+			utils.TwMerge(
+				"block w-full rounded-lg border overflow-hidden h-full",
+				"bg-card text-card-foreground p-4 flex flex-col",
+				"cursor-pointer",
+				"hover:border-primary/50",
+				"peer-checked:ring-1 peer-checked:ring-primary peer-checked:border-primary",
+				utils.If(props.Disabled, "cursor-not-allowed"),
+				"transition-all duration-200",
+				props.Class,
+			),
+		}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var7...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err

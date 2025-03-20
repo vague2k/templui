@@ -84,9 +84,9 @@ func Code(p CodeProps) templ.Component {
 			utils.TwMerge(
 				"language-"+p.Language,
 				"overflow-y-auto! rounded-md block text-sm max-h-[501px]!",
-				utils.TwIf("max-h-[250px]!", p.Size == CodeSizeSm),
-				utils.TwIf("max-h-[1000px]!", p.Size == CodeSizeLg),
-				utils.TwIf("max-h-full!", p.Size == CodeSizeFull),
+				utils.If(p.Size == CodeSizeSm, "max-h-[250px]!"),
+				utils.If(p.Size == CodeSizeLg, "max-h-[1000px]!"),
+				utils.If(p.Size == CodeSizeFull, "max-h-full!"),
 				p.CodeClass,
 			),
 		}
