@@ -4,6 +4,7 @@ import (
 	"github.com/axzilla/templui/icons"
 	"github.com/axzilla/templui/utils"
 	"strconv"
+	"context"
 )
 
 type RatingStyle string
@@ -53,7 +54,7 @@ type RatingValueProps struct {
 
 templ Rating(props RatingProps) {
 	{{ props.setDefaults() }}
-	@RatingScript()
+	{{ ctx = context.WithValue(ctx, "readOnly", props.ReadOnly) }}
 	<div
 		x-data="rating"
 		data-value={ strconv.FormatFloat(props.Value, 'f', -1, 64) }
@@ -72,7 +73,7 @@ templ Rating(props RatingProps) {
 			type="hidden"
 			name={ props.Name }
 			x-bind:value="value"
-			x-bind:disabled="!name"
+			disabled?={ props.Name == "" }
 			x-ref="input"
 		/>
 	</div>
@@ -89,14 +90,16 @@ templ RatingGroup(props RatingGroupProps) {
 
 templ RatingItem(props RatingItemProps) {
 	{{ props.setDefaults() }}
+	{{ readOnly, _ := ctx.Value("readOnly").(bool) }}
 	<div
 		class={ utils.TwMerge(
 				"relative",
 				getColorClass(props.Style),
 				"transition-opacity",
+				"cursor-pointer",
+			    utils.TwIf("cursor-default", readOnly),
 				props.Class,
 			) }
-		x-bind:class="readonly ? 'cursor-default' : 'cursor-pointer'"
 		data-rating-value={ strconv.Itoa(props.Value) }
 		@click="setValue"
 		@mouseover="hover"
