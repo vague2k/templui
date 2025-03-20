@@ -370,6 +370,9 @@
   .z-\[9999\] {
     z-index: 9999;
   }
+  .z-\[\<��\}�炳\?\1c �K���\b YF\f ����c�4\e �c\3 M��\%\1 ���I���ڜ���S�\/��\;���\,���\\p\15 \~\?�4k\^�\] {
+    z-index: <��}�炳?�K���YF����c�4�cM��%���I���ڜ���S�/��;���,���\p~?�4k^�;
+  }
   .container {
     width: 100%;
     @media (width >= 40rem) {
@@ -387,6 +390,9 @@
     @media (width >= 96rem) {
       max-width: 96rem;
     }
+  }
+  .m-8 {
+    margin: calc(var(--spacing) * 8);
   }
   .-mx-1 {
     margin-inline: calc(var(--spacing) * -1);
@@ -548,6 +554,9 @@
   }
   .h-8 {
     height: calc(var(--spacing) * 8);
+  }
+  .h-9 {
+    height: calc(var(--spacing) * 9);
   }
   .h-10 {
     height: calc(var(--spacing) * 10);
@@ -1254,6 +1263,9 @@
   .p-2 {
     padding: calc(var(--spacing) * 2);
   }
+  .p-3 {
+    padding: calc(var(--spacing) * 3);
+  }
   .p-4 {
     padding: calc(var(--spacing) * 4);
   }
@@ -1307,6 +1319,9 @@
   }
   .py-16 {
     padding-block: calc(var(--spacing) * 16);
+  }
+  .ps-5 {
+    padding-inline-start: calc(var(--spacing) * 5);
   }
   .pt-0 {
     padding-top: calc(var(--spacing) * 0);
@@ -1647,6 +1662,12 @@
   .select-none {
     -webkit-user-select: none;
     user-select: none;
+  }
+  .\[hB\:��O�\!�\] {
+    hB: ��O�!�;
+  }
+  .\[hL\:��O�\.�\] {
+    hL: ��O�.�;
   }
   .group-hover\:translate-x-0 {
     &:is(:where(.group):hover *) {

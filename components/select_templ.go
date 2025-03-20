@@ -22,41 +22,46 @@ type SelectProps struct {
 
 type SelectTriggerProps struct {
 	ID         string
+	Class      string
+	Attributes templ.Attributes
 	Name       string
 	Required   bool
 	Disabled   bool
 	HasError   bool
-	Class      string
-	Attributes templ.Attributes
 }
 
 type SelectValueProps struct {
-	Placeholder string
+	ID          string
 	Class       string
 	Attributes  templ.Attributes
+	Placeholder string
 }
 
 type SelectContentProps struct {
+	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
 type SelectGroupProps struct {
+	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
 type SelectLabelProps struct {
+	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
 type SelectItemProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
 	Value      string
 	Selected   bool
 	Disabled   bool
-	Class      string
-	Attributes templ.Attributes
 }
 
 func Select(props SelectProps) templ.Component {
@@ -105,7 +110,7 @@ func Select(props SelectProps) templ.Component {
 		var templ_7745c5c3_Var4 string
 		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 57, Col: 27}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 62, Col: 27}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
@@ -175,7 +180,7 @@ func SelectTrigger(props SelectTriggerProps) templ.Component {
 			var templ_7745c5c3_Var7 string
 			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(props.Name)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 88, Col: 20}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 93, Col: 20}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {
@@ -298,7 +303,7 @@ func SelectValue(props SelectValueProps) templ.Component {
 		var templ_7745c5c3_Var11 string
 		templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(props.Placeholder)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 106, Col: 21}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 111, Col: 21}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 		if templ_7745c5c3_Err != nil {
@@ -563,7 +568,7 @@ func SelectItem(props SelectItemProps) templ.Component {
 		var templ_7745c5c3_Var24 string
 		templ_7745c5c3_Var24, templ_7745c5c3_Err = templ.JoinStringErrs(props.Value)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 158, Col: 26}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 163, Col: 26}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var24))
 		if templ_7745c5c3_Err != nil {
@@ -576,7 +581,7 @@ func SelectItem(props SelectItemProps) templ.Component {
 		var templ_7745c5c3_Var25 string
 		templ_7745c5c3_Var25, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.FormatBool(props.Selected))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 159, Col: 52}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 164, Col: 52}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var25))
 		if templ_7745c5c3_Err != nil {
@@ -589,7 +594,7 @@ func SelectItem(props SelectItemProps) templ.Component {
 		var templ_7745c5c3_Var26 string
 		templ_7745c5c3_Var26, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.FormatBool(props.Disabled))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 160, Col: 52}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 165, Col: 52}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var26))
 		if templ_7745c5c3_Err != nil {
@@ -693,7 +698,7 @@ func SelectScript() templ.Component {
 			var templ_7745c5c3_Var31 string
 			templ_7745c5c3_Var31, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 181, Col: 43}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 186, Col: 43}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var31))
 			if templ_7745c5c3_Err != nil {

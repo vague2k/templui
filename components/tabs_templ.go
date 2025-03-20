@@ -12,26 +12,33 @@ import "github.com/axzilla/templui/utils"
 import "context"
 
 type TabsProps struct {
-	ID    string
-	Class string
+	ID         string
+	Class      string
+	Attributes templ.Attributes
 }
 
 type TabsListProps struct {
-	Class string
+	ID         string
+	Class      string
+	Attributes templ.Attributes
 }
 
 type TabTriggerProps struct {
-	Value    string
-	IsActive bool
-	Class    string
-	TabsID   string
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+	Value      string
+	IsActive   bool
+	TabsID     string
 }
 
 type TabContentProps struct {
-	Value    string
-	IsActive bool
-	Class    string
-	TabsID   string
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+	Value      string
+	IsActive   bool
+	TabsID     string
 }
 
 func Tabs(props TabsProps) templ.Component {
@@ -84,7 +91,7 @@ func Tabs(props TabsProps) templ.Component {
 		var templ_7745c5c3_Var4 string
 		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(tabsID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/tabs.templ`, Line: 37, Col: 23}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/tabs.templ`, Line: 44, Col: 23}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
@@ -164,7 +171,7 @@ func TabsList(props TabsListProps) templ.Component {
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(getTabsID(ctx))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/tabs.templ`, Line: 54, Col: 32}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/tabs.templ`, Line: 61, Col: 32}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
@@ -232,7 +239,7 @@ func TabTrigger(props TabTriggerProps) templ.Component {
 		var templ_7745c5c3_Var12 string
 		templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs(tabsID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/tabs.templ`, Line: 75, Col: 23}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/tabs.templ`, Line: 82, Col: 23}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
 		if templ_7745c5c3_Err != nil {
@@ -245,7 +252,7 @@ func TabTrigger(props TabTriggerProps) templ.Component {
 		var templ_7745c5c3_Var13 string
 		templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(props.Value)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/tabs.templ`, Line: 76, Col: 31}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/tabs.templ`, Line: 83, Col: 31}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 		if templ_7745c5c3_Err != nil {
@@ -258,7 +265,7 @@ func TabTrigger(props TabTriggerProps) templ.Component {
 		var templ_7745c5c3_Var14 string
 		templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(utils.TwIfElse(props.IsActive, "active", "inactive"))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/tabs.templ`, Line: 77, Col: 67}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/tabs.templ`, Line: 84, Col: 67}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 		if templ_7745c5c3_Err != nil {
@@ -334,7 +341,7 @@ func TabContent(props TabContentProps) templ.Component {
 		var templ_7745c5c3_Var18 string
 		templ_7745c5c3_Var18, templ_7745c5c3_Err = templ.JoinStringErrs(tabsID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/tabs.templ`, Line: 95, Col: 23}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/tabs.templ`, Line: 102, Col: 23}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var18))
 		if templ_7745c5c3_Err != nil {
@@ -347,7 +354,7 @@ func TabContent(props TabContentProps) templ.Component {
 		var templ_7745c5c3_Var19 string
 		templ_7745c5c3_Var19, templ_7745c5c3_Err = templ.JoinStringErrs(props.Value)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/tabs.templ`, Line: 96, Col: 31}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/tabs.templ`, Line: 103, Col: 31}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var19))
 		if templ_7745c5c3_Err != nil {
@@ -360,7 +367,7 @@ func TabContent(props TabContentProps) templ.Component {
 		var templ_7745c5c3_Var20 string
 		templ_7745c5c3_Var20, templ_7745c5c3_Err = templ.JoinStringErrs(utils.TwIfElse(props.IsActive, "active", "inactive"))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/tabs.templ`, Line: 97, Col: 67}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/tabs.templ`, Line: 104, Col: 67}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var20))
 		if templ_7745c5c3_Err != nil {
@@ -417,7 +424,7 @@ func TabsScript() templ.Component {
 		var templ_7745c5c3_Var22 string
 		templ_7745c5c3_Var22, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/tabs.templ`, Line: 111, Col: 36}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/tabs.templ`, Line: 118, Col: 36}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var22))
 		if templ_7745c5c3_Err != nil {

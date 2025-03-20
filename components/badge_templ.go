@@ -20,9 +20,10 @@ const (
 )
 
 type BadgeProps struct {
-	Variant    BadgeVariant
+	ID         string
 	Class      string
 	Attributes templ.Attributes
+	Variant    BadgeVariant
 }
 
 func Badge(props BadgeProps) templ.Component {

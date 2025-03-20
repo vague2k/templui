@@ -9,37 +9,42 @@ import (
 
 type CarouselProps struct {
 	ID         string
+	Class      string
+	Attributes templ.Attributes
 	Autoplay   bool
 	Interval   int
 	Loop       bool
-	Class      string
-	Attributes templ.Attributes
 }
 
 type CarouselContentProps struct {
+	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
 type CarouselItemProps struct {
+	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
 type CarouselPreviousProps struct {
+	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
 type CarouselNextProps struct {
+	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
 type CarouselIndicatorsProps struct {
-	Count      int
+	ID         string
 	Class      string
 	Attributes templ.Attributes
+	Count      int
 }
 
 templ Carousel(props CarouselProps) {

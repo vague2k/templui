@@ -26,18 +26,18 @@ const (
 )
 
 type InputProps struct {
+	ID          string
+	Class       string
+	Attributes  templ.Attributes
 	Type        InputType
 	Placeholder string
 	Value       string
 	Name        string
-	ID          string
 	Disabled    bool
 	Readonly    bool
 	Required    bool
 	FileAccept  string
 	HasError    bool
-	Class       string
-	Attributes  templ.Attributes
 }
 
 func Input(props InputProps) templ.Component {

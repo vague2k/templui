@@ -15,6 +15,8 @@ import (
 
 type TextareaProps struct {
 	ID          string
+	Class       string
+	Attributes  templ.Attributes
 	Name        string
 	Value       string
 	Placeholder string
@@ -22,8 +24,6 @@ type TextareaProps struct {
 	Disabled    bool
 	Required    bool
 	AutoResize  bool
-	Class       string
-	Attributes  templ.Attributes
 }
 
 func Textarea(props TextareaProps) templ.Component {

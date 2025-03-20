@@ -27,23 +27,26 @@ const (
 )
 
 type TooltipProps struct {
-	Side       TooltipPosition
-	Variant    TooltipVariant
+	ID         string
 	Class      string
 	Attributes templ.Attributes
+	Side       TooltipPosition
+	Variant    TooltipVariant
 }
 
 type TooltipTriggerProps struct {
+	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
 type TooltipContentProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
 	ShowArrow  bool
 	Side       TooltipPosition
 	Variant    TooltipVariant
-	Class      string
-	Attributes templ.Attributes
 }
 
 func Tooltip(props TooltipProps) templ.Component {

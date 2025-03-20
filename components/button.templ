@@ -22,19 +22,16 @@ const (
 )
 
 type ButtonProps struct {
-	ID string
-
-	Variant   ButtonVariant
-	Size      ButtonSize
-	FullWidth bool
-	Class     string
-
-	Href   string
-	Target string
-
-	Disabled bool
-	Type     string
-
+	ID           string
+	Class        string
+	Attributes   templ.Attributes
+	Variant      ButtonVariant
+	Size         ButtonSize
+	FullWidth    bool
+	Href         string
+	Target       string
+	Disabled     bool
+	Type         string
 	HxGet        string
 	HxPost       string
 	HxPut        string
@@ -43,8 +40,6 @@ type ButtonProps struct {
 	HxTarget     string
 	HxSwap       string
 	HxReplaceUrl string
-
-	Attributes templ.Attributes
 }
 
 templ Button(props ButtonProps) {

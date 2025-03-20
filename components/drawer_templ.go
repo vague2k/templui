@@ -22,43 +22,51 @@ const (
 )
 
 type DrawerProps struct {
-	Side       DrawerSide
+	ID         string
 	Class      string
 	Attributes templ.Attributes
+	Side       DrawerSide
 }
 
 type DrawerTriggerProps struct {
+	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
 type DrawerContentProps struct {
-	Side       DrawerSide
+	ID         string
 	Class      string
 	Attributes templ.Attributes
+	Side       DrawerSide
 }
 
 type DrawerHeaderProps struct {
+	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
 type DrawerFooterProps struct {
+	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
 type DrawerTitleProps struct {
+	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
 type DrawerDescriptionProps struct {
+	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
 type DrawerCloseProps struct {
+	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
@@ -680,7 +688,7 @@ func DrawerScript() templ.Component {
 			var templ_7745c5c3_Var29 string
 			templ_7745c5c3_Var29, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/drawer.templ`, Line: 200, Col: 37}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/drawer.templ`, Line: 208, Col: 37}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var29))
 			if templ_7745c5c3_Err != nil {

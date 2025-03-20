@@ -15,10 +15,12 @@ const (
 )
 
 type CodeProps struct {
+	ID             string
+	Class          string
+	Attrs          templ.Attributes
 	Language       string
 	ShowCopyButton bool
 	Size           CodeSize
-	Class          string
 	CodeClass      string
 }
 

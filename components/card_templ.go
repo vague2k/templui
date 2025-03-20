@@ -74,13 +74,13 @@ type CardHorizontalProps struct {
 
 type CardMediaProps struct {
 	ID          string
+	Class       string
+	Attributes  templ.Attributes
 	Src         string
 	Alt         string
 	Position    CardMediaPosition
-	Class       string
 	Width       CardMediaWidth
 	AspectRatio AspectRatioVariant
-	Attributes  templ.Attributes
 }
 
 func Card(props CardProps) templ.Component {

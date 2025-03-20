@@ -4,26 +4,29 @@ import "github.com/axzilla/templui/utils"
 
 type RadioCardProps struct {
 	ID         string
+	Class      string
+	Attributes templ.Attributes
 	Name       string
 	Value      string
 	Checked    bool
 	Disabled   bool
 	Required   bool
-	Class      string
-	Attributes templ.Attributes
 }
 
 type RadioCardHeaderProps struct {
+	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
 type RadioCardDescriptionProps struct {
+	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
 type RadioCardFooterProps struct {
+	ID         string
 	Class      string
 	Attributes templ.Attributes
 }

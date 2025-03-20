@@ -18,23 +18,30 @@ const (
 )
 
 type FormItemProps struct {
-	ID    string
-	Class string
+	ID         string
+	Class      string
+	Attributes templ.Attributes
 }
 
 type FormLabelProps struct {
-	For           string
+	ID            string
 	Class         string
+	Attributes    templ.Attributes
+	For           string
 	DisabledClass string
 }
 
 type FormDescriptionProps struct {
-	Class string
+	ID         string
+	Class      string
+	Attributes templ.Attributes
 }
 
 type FormMessageProps struct {
-	Variant FormMessageVariant
-	Class   string
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+	Variant    FormMessageVariant
 }
 
 func FormItem(props FormItemProps) templ.Component {

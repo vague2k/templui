@@ -19,10 +19,11 @@ const (
 )
 
 type SpinnerProps struct {
-	Size       SpinnerSize
-	Color      string
+	ID         string
 	Class      string
 	Attributes templ.Attributes
+	Size       SpinnerSize
+	Color      string
 }
 
 func Spinner(props SpinnerProps) templ.Component {

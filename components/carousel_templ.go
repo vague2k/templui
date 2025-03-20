@@ -17,37 +17,42 @@ import (
 
 type CarouselProps struct {
 	ID         string
+	Class      string
+	Attributes templ.Attributes
 	Autoplay   bool
 	Interval   int
 	Loop       bool
-	Class      string
-	Attributes templ.Attributes
 }
 
 type CarouselContentProps struct {
+	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
 type CarouselItemProps struct {
+	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
 type CarouselPreviousProps struct {
+	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
 type CarouselNextProps struct {
+	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
 type CarouselIndicatorsProps struct {
-	Count      int
+	ID         string
 	Class      string
 	Attributes templ.Attributes
+	Count      int
 }
 
 func Carousel(props CarouselProps) templ.Component {
@@ -93,7 +98,7 @@ func Carousel(props CarouselProps) templ.Component {
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/carousel.templ`, Line: 51, Col: 15}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/carousel.templ`, Line: 56, Col: 15}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
@@ -119,7 +124,7 @@ func Carousel(props CarouselProps) templ.Component {
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.FormatBool(props.Autoplay))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/carousel.templ`, Line: 56, Col: 52}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/carousel.templ`, Line: 61, Col: 52}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
@@ -137,7 +142,7 @@ func Carousel(props CarouselProps) templ.Component {
 			return props.Interval
 		}()))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/carousel.templ`, Line: 62, Col: 12}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/carousel.templ`, Line: 67, Col: 12}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -150,7 +155,7 @@ func Carousel(props CarouselProps) templ.Component {
 		var templ_7745c5c3_Var7 string
 		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.FormatBool(props.Loop))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/carousel.templ`, Line: 63, Col: 44}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/carousel.templ`, Line: 68, Col: 44}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
@@ -532,7 +537,7 @@ func CarouselIndicators(props CarouselIndicatorsProps) templ.Component {
 			var templ_7745c5c3_Var25 string
 			templ_7745c5c3_Var25, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("Go to slide %d", i+1))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/carousel.templ`, Line: 141, Col: 51}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/carousel.templ`, Line: 146, Col: 51}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var25))
 			if templ_7745c5c3_Err != nil {
@@ -592,7 +597,7 @@ func CarouselScript() templ.Component {
 			var templ_7745c5c3_Var28 string
 			templ_7745c5c3_Var28, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/carousel.templ`, Line: 151, Col: 43}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/carousel.templ`, Line: 156, Col: 43}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var28))
 			if templ_7745c5c3_Err != nil {

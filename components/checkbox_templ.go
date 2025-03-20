@@ -15,14 +15,14 @@ import (
 
 type CheckboxProps struct {
 	ID         string
+	Class      string
+	Attributes templ.Attributes
 	Name       string
 	Value      string
 	Disabled   bool
 	Required   bool
 	Checked    bool
 	Icon       templ.Component
-	Class      string
-	Attributes templ.Attributes
 }
 
 func Checkbox(props CheckboxProps) templ.Component {

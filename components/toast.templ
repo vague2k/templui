@@ -26,6 +26,9 @@ const (
 )
 
 type ToastProps struct {
+	ID            string
+	Class         string
+	Attributes    templ.Attributes
 	Title         string
 	Description   string
 	Variant       ToastVariant

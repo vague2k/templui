@@ -22,22 +22,25 @@ const (
 )
 
 type AvatarProps struct {
-	Size       AvatarSize
+	ID         string
 	Class      string
 	Attributes templ.Attributes
+	Size       AvatarSize
 }
 
 type AvatarImageProps struct {
-	Src        string
-	Alt        string
+	ID         string
 	Class      string
 	Attributes templ.Attributes
+	Src        string
+	Alt        string
 }
 
 type AvatarFallbackProps struct {
-	DelayMs    int
+	ID         string
 	Class      string
 	Attributes templ.Attributes
+	DelayMs    int
 }
 
 func Avatar(props AvatarProps) templ.Component {
@@ -145,7 +148,7 @@ func AvatarImage(props AvatarImageProps) templ.Component {
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(props.Src)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/avatar.templ`, Line: 51, Col: 17}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/avatar.templ`, Line: 54, Col: 17}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -158,7 +161,7 @@ func AvatarImage(props AvatarImageProps) templ.Component {
 		var templ_7745c5c3_Var7 string
 		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(props.Alt)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/avatar.templ`, Line: 52, Col: 17}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/avatar.templ`, Line: 55, Col: 17}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {

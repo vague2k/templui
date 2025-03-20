@@ -14,41 +14,46 @@ type SelectProps struct {
 
 type SelectTriggerProps struct {
 	ID         string
+	Class      string
+	Attributes templ.Attributes
 	Name       string
 	Required   bool
 	Disabled   bool
 	HasError   bool
-	Class      string
-	Attributes templ.Attributes
 }
 
 type SelectValueProps struct {
-	Placeholder string
+	ID          string
 	Class       string
 	Attributes  templ.Attributes
+	Placeholder string
 }
 
 type SelectContentProps struct {
+	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
 type SelectGroupProps struct {
+	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
 type SelectLabelProps struct {
+	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
 type SelectItemProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
 	Value      string
 	Selected   bool
 	Disabled   bool
-	Class      string
-	Attributes templ.Attributes
 }
 
 templ Select(props SelectProps) {

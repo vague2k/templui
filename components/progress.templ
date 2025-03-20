@@ -22,19 +22,20 @@ const (
 )
 
 type ProgressProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
 	Value      int
 	Max        int
 	Label      string
 	ShowValue  bool
 	Size       ProgressSize
 	Variant    ProgressVariant
-	Class      string
 	BarClass   string
 	HxGet      string
 	HxTrigger  string
 	HxTarget   string
 	HxSwap     string
-	Attributes templ.Attributes
 }
 
 templ Progress(props ProgressProps) {

@@ -7,9 +7,7 @@ templ AccordionDefault() {
 		@components.Accordion(components.AccordionProps{
 			Class: "w-full",
 		}) {
-			@components.AccordionItem(components.AccordionItemProps{
-				Value: "item-1",
-			}) {
+			@components.AccordionItem(components.AccordionItemProps{}) {
 				@components.AccordionTrigger(components.AccordionTriggerProps{}) {
 					Is it accessible?
 				}
@@ -17,9 +15,7 @@ templ AccordionDefault() {
 					Yes. It adheres to the WAI-ARIA design pattern.
 				}
 			}
-			@components.AccordionItem(components.AccordionItemProps{
-				Value: "item-2",
-			}) {
+			@components.AccordionItem(components.AccordionItemProps{}) {
 				@components.AccordionTrigger(components.AccordionTriggerProps{}) {
 					Is it styled?
 				}
@@ -27,9 +23,7 @@ templ AccordionDefault() {
 					Yes. It comes with default styles that matches the other components aesthetic.
 				}
 			}
-			@components.AccordionItem(components.AccordionItemProps{
-				Value: "item-3",
-			}) {
+			@components.AccordionItem(components.AccordionItemProps{}) {
 				@components.AccordionTrigger(components.AccordionTriggerProps{}) {
 					Is it animated?
 				}

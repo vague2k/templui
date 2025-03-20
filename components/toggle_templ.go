@@ -12,11 +12,11 @@ import "github.com/axzilla/templui/utils"
 
 type ToggleProps struct {
 	ID         string
+	Class      string
+	Attributes templ.Attributes
 	Name       string
 	Disabled   bool
 	Checked    bool
-	Class      string
-	Attributes templ.Attributes
 }
 
 func Toggle(props ToggleProps) templ.Component {

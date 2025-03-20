@@ -18,11 +18,12 @@ const (
 )
 
 type SeparatorProps struct {
+	ID          string
+	Class       string
+	Attributes  templ.Attributes
 	Orientation SeparatorOrientation
 	Decoration  SeparatorDecoration
 	Label       string
-	Class       string
-	Attributes  templ.Attributes
 }
 
 templ Separator(props SeparatorProps) {

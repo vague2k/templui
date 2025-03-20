@@ -14,39 +14,43 @@ import (
 )
 
 type PaginationProps struct {
+	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
 type PaginationLinkProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
 	Href       string
 	IsActive   bool
 	Disabled   bool
-	Class      string
 	HxGet      string
 	HxTarget   string
 	HxSwap     string
-	Attributes templ.Attributes
 }
 
 type PaginationPreviousProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
 	Href       string
 	Disabled   bool
-	Class      string
 	HxGet      string
 	HxTarget   string
 	HxSwap     string
-	Attributes templ.Attributes
 }
 
 type PaginationNextProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
 	Href       string
 	Disabled   bool
-	Class      string
 	HxGet      string
 	HxTarget   string
 	HxSwap     string
-	Attributes templ.Attributes
 }
 
 func Pagination(props PaginationProps) templ.Component {

@@ -4,26 +4,29 @@ import "github.com/axzilla/templui/utils"
 
 type CheckboxCardProps struct {
 	ID         string
+	Class      string
+	Attributes templ.Attributes
 	Name       string
 	Value      string
 	Checked    bool
 	Disabled   bool
 	Required   bool
-	Class      string
-	Attributes templ.Attributes
 }
 
 type CheckboxCardHeaderProps struct {
+	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
 type CheckboxCardDescriptionProps struct {
+	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
 type CheckboxCardFooterProps struct {
+	ID         string
 	Class      string
 	Attributes templ.Attributes
 }

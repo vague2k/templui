@@ -116,14 +116,14 @@ type DatePickerConfig struct {
 
 type DatePickerProps struct {
 	ID          string
+	Class       string
+	Attributes  templ.Attributes
 	Name        string
 	Value       time.Time
 	Config      DatePickerConfig
 	Placeholder string
 	Disabled    bool
 	HasError    bool
-	Class       string
-	Attributes  templ.Attributes
 }
 
 func DatePicker(props DatePickerProps) templ.Component {

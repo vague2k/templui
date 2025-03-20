@@ -18,6 +18,8 @@ import (
 
 type TimePickerProps struct {
 	ID          string
+	Class       string
+	Attributes  templ.Attributes
 	Name        string
 	Value       time.Time
 	Use12Hours  bool
@@ -27,8 +29,6 @@ type TimePickerProps struct {
 	Required    bool
 	Disabled    bool
 	HasError    bool
-	Class       string
-	Attributes  templ.Attributes
 }
 
 type SelectOption struct {

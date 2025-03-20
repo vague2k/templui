@@ -18,8 +18,10 @@ const (
 )
 
 type AlertProps struct {
-	Variant AlertVariant
-	Class   string
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+	Variant    AlertVariant
 }
 
 func Alert(props AlertProps) templ.Component {

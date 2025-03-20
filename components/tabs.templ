@@ -4,26 +4,33 @@ import "github.com/axzilla/templui/utils"
 import "context"
 
 type TabsProps struct {
-	ID    string
-	Class string
+	ID         string
+	Class      string
+	Attributes templ.Attributes
 }
 
 type TabsListProps struct {
-	Class string
+	ID         string
+	Class      string
+	Attributes templ.Attributes
 }
 
 type TabTriggerProps struct {
-	Value    string
-	IsActive bool
-	Class    string
-	TabsID   string
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+	Value      string
+	IsActive   bool
+	TabsID     string
 }
 
 type TabContentProps struct {
-	Value    string
-	IsActive bool
-	Class    string
-	TabsID   string
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+	Value      string
+	IsActive   bool
+	TabsID     string
 }
 
 templ Tabs(props TabsProps) {

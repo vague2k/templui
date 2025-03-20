@@ -6,31 +6,36 @@ import (
 )
 
 type BreadcrumbProps struct {
+	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
 type BreadcrumbListProps struct {
+	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
 type BreadcrumbItemProps struct {
-	Current    bool
+	ID         string
 	Class      string
 	Attributes templ.Attributes
+	Current    bool
 }
 
 type BreadcrumbLinkProps struct {
-	Href       string
+	ID         string
 	Class      string
 	Attributes templ.Attributes
+	Href       string
 }
 
 type BreadcrumbSeparatorProps struct {
-	UseCustom  bool
+	ID         string
 	Class      string
 	Attributes templ.Attributes
+	UseCustom  bool
 }
 
 templ Breadcrumb(props BreadcrumbProps) {

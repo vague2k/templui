@@ -11,6 +11,7 @@ import templruntime "github.com/a-h/templ/runtime"
 import "github.com/axzilla/templui/utils"
 
 type SkeletonProps struct {
+	ID         string
 	Class      string
 	Attributes templ.Attributes
 }

@@ -22,9 +22,9 @@ const (
 
 type AspectRatioProps struct {
 	ID         string
-	Ratio      AspectRatioVariant
 	Class      string
 	Attributes templ.Attributes
+	Ratio      AspectRatioVariant
 }
 
 func AspectRatio(props AspectRatioProps) templ.Component {

@@ -7,20 +7,21 @@ import (
 
 type SliderProps struct {
 	ID         string
+	Class      string
+	Attributes templ.Attributes
 	Name       string
 	Min        int
 	Max        int
 	Step       int
 	Value      int
 	Disabled   bool
-	Class      string
-	Attributes templ.Attributes
 }
 
 type SliderValueProps struct {
-	For        string
+	ID         string
 	Class      string
 	Attributes templ.Attributes
+	For        string
 }
 
 templ Slider(props SliderProps) {

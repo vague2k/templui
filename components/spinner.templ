@@ -11,10 +11,11 @@ const (
 )
 
 type SpinnerProps struct {
-	Size       SpinnerSize
-	Color      string
+	ID         string
 	Class      string
 	Attributes templ.Attributes
+	Size       SpinnerSize
+	Color      string
 }
 
 templ Spinner(props SpinnerProps) {
