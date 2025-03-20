@@ -10,24 +10,24 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import "github.com/axzilla/templui/utils"
 
-type TooltipSide string
+type TooltipPosition string
 type TooltipVariant string
 
 const (
-	TooltipTop    TooltipSide = "top"
-	TooltipRight  TooltipSide = "right"
-	TooltipBottom TooltipSide = "bottom"
-	TooltipLeft   TooltipSide = "left"
+	TooltipPositionTop    TooltipPosition = "top"
+	TooltipPositionRight  TooltipPosition = "right"
+	TooltipPositionBottom TooltipPosition = "bottom"
+	TooltipPositionLeft   TooltipPosition = "left"
 )
 
 const (
-	TooltipDefault     TooltipVariant = "default"
-	TooltipSecondary   TooltipVariant = "secondary"
-	TooltipDestructive TooltipVariant = "destructive"
+	TooltipVariantDefault     TooltipVariant = "default"
+	TooltipVariantSecondary   TooltipVariant = "secondary"
+	TooltipVariantDestructive TooltipVariant = "destructive"
 )
 
 type TooltipProps struct {
-	Side       TooltipSide
+	Side       TooltipPosition
 	Variant    TooltipVariant
 	Class      string
 	Attributes templ.Attributes
@@ -40,7 +40,7 @@ type TooltipTriggerProps struct {
 
 type TooltipContentProps struct {
 	ShowArrow  bool
-	Side       TooltipSide
+	Side       TooltipPosition
 	Variant    TooltipVariant
 	Class      string
 	Attributes templ.Attributes
@@ -271,15 +271,15 @@ func TooltipContent(props TooltipContentProps) templ.Component {
 	})
 }
 
-func getTooltipSideClass(side TooltipSide) string {
+func getTooltipSideClass(side TooltipPosition) string {
 	switch side {
-	case TooltipTop:
+	case TooltipPositionTop:
 		return "bottom-full left-1/2 -translate-x-1/2 mb-2"
-	case TooltipRight:
+	case TooltipPositionRight:
 		return "left-full top-1/2 -translate-y-1/2 ml-2"
-	case TooltipBottom:
+	case TooltipPositionBottom:
 		return "top-full left-1/2 -translate-x-1/2 mt-2"
-	case TooltipLeft:
+	case TooltipPositionLeft:
 		return "right-full top-1/2 -translate-y-1/2 mr-2"
 	default:
 		return "bottom-full left-1/2 -translate-x-1/2 mb-2"
@@ -288,26 +288,26 @@ func getTooltipSideClass(side TooltipSide) string {
 
 func getTooltipVariantClass(variant TooltipVariant) string {
 	switch variant {
-	case TooltipDefault:
+	case TooltipVariantDefault:
 		return "bg-foreground text-background"
-	case TooltipSecondary:
+	case TooltipVariantSecondary:
 		return "bg-secondary text-secondary-foreground"
-	case TooltipDestructive:
+	case TooltipVariantDestructive:
 		return "bg-destructive text-destructive-foreground"
 	default:
 		return "bg-foreground text-background"
 	}
 }
 
-func getArrowClass(side TooltipSide) string {
+func getArrowClass(side TooltipPosition) string {
 	switch side {
-	case TooltipTop:
+	case TooltipPositionTop:
 		return "bottom-[-4px] left-1/2 -translate-x-1/2"
-	case TooltipRight:
+	case TooltipPositionRight:
 		return "left-[-4px] top-1/2 -translate-y-1/2"
-	case TooltipBottom:
+	case TooltipPositionBottom:
 		return "top-[-4px] left-1/2 -translate-x-1/2"
-	case TooltipLeft:
+	case TooltipPositionLeft:
 		return "right-[-4px] top-1/2 -translate-y-1/2"
 	default:
 		return "bottom-[-4px] left-1/2 -translate-x-1/2"
@@ -316,11 +316,11 @@ func getArrowClass(side TooltipSide) string {
 
 func getArrowColor(variant TooltipVariant) string {
 	switch variant {
-	case TooltipDefault:
+	case TooltipVariantDefault:
 		return "bg-foreground"
-	case TooltipSecondary:
+	case TooltipVariantSecondary:
 		return "bg-secondary"
-	case TooltipDestructive:
+	case TooltipVariantDestructive:
 		return "bg-destructive"
 	default:
 		return "bg-foreground"
