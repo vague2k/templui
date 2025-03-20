@@ -38,6 +38,18 @@ templ Avatar() {
 					PreviewCodeFile:   "avatar_with_sizes.templ",
 					ComponentCodeFile: "avatar.templ",
 				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "With Icon",
+					ShowcaseFile:      showcase.AvatarWithIcon(),
+					PreviewCodeFile:   "avatar_with_icon.templ",
+					ComponentCodeFile: "avatar.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "With Group",
+					ShowcaseFile:      showcase.AvatarWithGroup(),
+					PreviewCodeFile:   "avatar_with_group.templ",
+					ComponentCodeFile: "avatar.templ",
+				})
 			}
 		}
 	}

@@ -2,29 +2,37 @@ package showcase
 
 import "github.com/axzilla/templui/components"
 
-templ AvatarWithSizes() {
-	<div class="flex flex-wrap gap-2">
+templ AvatarWithGroup() {
+	@components.AvatarGroup(components.AvatarGroupProps{
+		Max:     3,
+		Spacing: components.AvatarGroupSpacingLarge,
+	}) {
 		@components.Avatar(components.AvatarProps{
-			Size: components.AvatarSizeSmall,
+			InGroup: true,
 		}) {
 			@components.AvatarImage(components.AvatarImageProps{
 				Src: "https://avatars.githubusercontent.com/u/26936893?v=4",
 				Alt: "John Doe's avatar",
 			})
 		}
-		@components.Avatar(components.AvatarProps{}) {
-			@components.AvatarImage(components.AvatarImageProps{
-				Src: "https://avatars.githubusercontent.com/u/26936893?v=4",
-				Alt: "John Doe's avatar",
-			})
-		}
 		@components.Avatar(components.AvatarProps{
-			Size: components.AvatarSizeLarge,
+			InGroup: true,
 		}) {
 			@components.AvatarImage(components.AvatarImageProps{
 				Src: "https://avatars.githubusercontent.com/u/26936893?v=4",
 				Alt: "John Doe's avatar",
 			})
 		}
-	</div>
+		@components.Avatar(components.AvatarProps{
+			InGroup: true,
+		}) {
+			@components.AvatarImage(components.AvatarImageProps{
+				Src: "https://avatars.githubusercontent.com/u/26936893?v=4",
+				Alt: "John Doe's avatar",
+			})
+		}
+		@components.AvatarGroupOverflow(components.AvatarProps{
+			InGroup: true,
+		}, 2)
+	}
 }
