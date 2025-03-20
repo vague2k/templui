@@ -33,10 +33,18 @@ templ Separator(props SeparatorProps) {
 		class={
 			utils.TwMerge(
 				"shrink-0",
-				utils.If(!(props.Label != "" && props.Orientation == SeparatorOrientationHorizontal), getOrientationClasses(props.Orientation)),
+				utils.If(!(props.Label != "" && props.Orientation == SeparatorOrientationHorizontal),
+					utils.If(!(props.Label != "" && props.Orientation == SeparatorOrientationVertical),
+						getOrientationClasses(props.Orientation),
+					),
+				),
 				utils.If(props.Orientation == SeparatorOrientationHorizontal, "h-[1px] w-full"),
 				utils.If(props.Orientation == SeparatorOrientationVertical, "h-full w-[1px]"),
-				utils.If(!(props.Label != "" && props.Orientation == SeparatorOrientationHorizontal), getDecorationClasses(props.Decoration)),
+				utils.If(!(props.Label != "" && props.Orientation == SeparatorOrientationHorizontal),
+					utils.If(!(props.Label != "" && props.Orientation == SeparatorOrientationVertical),
+						getDecorationClasses(props.Decoration),
+					),
+				),
 				props.Class,
 			),
 		}
@@ -52,6 +60,19 @@ templ Separator(props SeparatorProps) {
 					aria-hidden="true"
 				></span>
 				<span class="relative mx-auto bg-background px-2 text-xs text-muted-foreground">
+					{ props.Label }
+				</span>
+			</div>
+		} else if props.Label != "" && props.Orientation == SeparatorOrientationVertical {
+			<div class="relative flex flex-col items-center h-full">
+				<span
+					class={ utils.TwMerge(
+							"absolute h-full border-l",
+							getDecorationClasses(props.Decoration),
+						) }
+					aria-hidden="true"
+				></span>
+				<span class="relative my-auto bg-background px-2 text-xs text-muted-foreground">
 					{ props.Label }
 				</span>
 			</div>

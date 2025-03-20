@@ -5,9 +5,14 @@ import (
 )
 
 templ SeparatorLabel() {
-	<div class="w-full max-w-md">
+	<div class="flex flex-col gap-16 w-full max-w-md items-center">
 		@components.Separator(components.SeparatorProps{
 			Orientation: components.SeparatorOrientationHorizontal,
+			Label:       "OR",
+		})
+		@components.Separator(components.SeparatorProps{
+			Class:       "h-24",
+			Orientation: components.SeparatorOrientationVertical,
 			Label:       "OR",
 		})
 	</div>
