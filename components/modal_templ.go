@@ -14,7 +14,7 @@ type ModalProps struct {
 	ID               string
 	Class            string
 	Attributes       templ.Attributes
-  DisableClickAway bool
+	DisableClickAway bool
 	DisableESC       bool
 }
 
@@ -138,7 +138,7 @@ func ModalTrigger(id string) templ.Component {
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(id)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/modal.templ`, Line: 54, Col: 20}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/modal.templ`, Line: 53, Col: 20}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -188,7 +188,7 @@ func ModalClose(id string) templ.Component {
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(id)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/modal.templ`, Line: 65, Col: 20}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/modal.templ`, Line: 63, Col: 20}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
@@ -362,7 +362,7 @@ func ModalScript() templ.Component {
 			var templ_7745c5c3_Var14 string
 			templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/modal.templ`, Line: 98, Col: 43}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/modal.templ`, Line: 93, Col: 43}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 			if templ_7745c5c3_Err != nil {
