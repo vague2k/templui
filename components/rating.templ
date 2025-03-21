@@ -40,22 +40,11 @@ type RatingItemProps struct {
 	Style      RatingStyle
 }
 
-type RatingLabelProps struct {
-	ID         string
-	Class      string
-	Attributes templ.Attributes
-}
-
-type RatingValueProps struct {
-	ID         string
-	Class      string
-	Attributes templ.Attributes
-}
-
 templ Rating(props RatingProps) {
 	{{ props.setDefaults() }}
 	{{ ctx = context.WithValue(ctx, "readOnly", props.ReadOnly) }}
 	<div
+		id={ props.ID }
 		x-data="rating"
 		data-value={ strconv.FormatFloat(props.Value, 'f', -1, 64) }
 		data-precision={ strconv.FormatFloat(props.Precision, 'f', -1, 64) }
@@ -81,7 +70,8 @@ templ Rating(props RatingProps) {
 
 templ RatingGroup(props RatingGroupProps) {
 	<div
-		class={ utils.TwMerge("flex items-center gap-1", props.Class) }
+		id={ props.ID }
+		class={ utils.TwMerge("flex flex-row items-center gap-1", props.Class) }
 		{ props.Attributes... }
 	>
 		{ children... }
@@ -92,20 +82,20 @@ templ RatingItem(props RatingItemProps) {
 	{{ props.setDefaults() }}
 	{{ readOnly, _ := ctx.Value("readOnly").(bool) }}
 	<div
-		class={
-			utils.TwMerge(
+		id={ props.ID }
+		class={ utils.TwMerge(
 				"relative",
 				getColorClass(props.Style),
 				"transition-opacity",
 				"cursor-pointer",
 				utils.If(readOnly, "cursor-default"),
 				props.Class,
-			),
-		}
+			) }
 		data-rating-value={ strconv.Itoa(props.Value) }
 		@click="setValue"
 		@mouseover="hover"
 		@mouseleave="resetPreview"
+		{ props.Attributes... }
 	>
 		<div class="opacity-30">
 			@getRatingIcon(props.Style, false, float64(props.Value))

@@ -48,7 +48,9 @@ type ChartConfig struct {
 	Stacked     bool         `json:"stacked"`
 }
 
+// Erweiterung des ChartProps um ID und Attributes
 type ChartProps struct {
+	ID          string
 	Variant     ChartVariant
 	Data        ChartData
 	Options     ChartOptions
@@ -62,29 +64,38 @@ type ChartProps struct {
 	Horizontal  bool
 	Stacked     bool
 	Class       string
+	Attributes  templ.Attributes
 }
 
 templ Chart(props ChartProps) {
-	{{ chartId := "chart-" + utils.RandomID() }}
-	{{ dataId := chartId + "-data" }}
-	<div class={ utils.TwMerge("chart-container relative", props.Class) }>
-		<canvas id={ chartId } data-chart-id={ dataId }></canvas>
+	// Wenn keine ID gesetzt, generiere eine zufällige
+	if props.ID == "" {
+		{{ props.ID = "chart-" + utils.RandomID() }}
+	}
+	{{ canvasId := props.ID + "-canvas" }}
+	{{ dataId := props.ID + "-data" }}
+	<div
+		id={ props.ID }
+		class={ utils.TwMerge("chart-container relative", props.Class) }
+		{ props.Attributes... }
+	>
+		<canvas id={ canvasId } data-chart-id={ dataId }></canvas>
 	</div>
 	{{
-	chartConfig := ChartConfig{
-		Type:        props.Variant,
-		Data:        props.Data,
-		Options:     props.Options,
-		ShowLegend:  props.ShowLegend,
-		ShowXAxis:   props.ShowXAxis,
-		ShowYAxis:   props.ShowYAxis,
-		ShowXLabels: props.ShowXLabels,
-		ShowYLabels: props.ShowYLabels,
-		ShowXGrid:   props.ShowXGrid,
-		ShowYGrid:   props.ShowYGrid,
-		Horizontal:  props.Horizontal,
-		Stacked:     props.Stacked,
-	}
+		chartConfig := ChartConfig{
+			Type:        props.Variant,
+			Data:        props.Data,
+			Options:     props.Options,
+			ShowLegend:  props.ShowLegend,
+			ShowXAxis:   props.ShowXAxis,
+			ShowYAxis:   props.ShowYAxis,
+			ShowXLabels: props.ShowXLabels,
+			ShowYLabels: props.ShowYLabels,
+			ShowXGrid:   props.ShowXGrid,
+			ShowYGrid:   props.ShowYGrid,
+			Horizontal:  props.Horizontal,
+			Stacked:     props.Stacked,
+		}
 	}}
 	@templ.JSONScript(dataId, chartConfig)
 }

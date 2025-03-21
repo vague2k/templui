@@ -97,7 +97,10 @@ templ TableRow(props TableRowProps) {
 	<tr
 		id={ props.ID }
 		class={
-			utils.TwMerge("border-b transition-colors hover:bg-muted/50", props.Class),
+			utils.TwMerge(
+				"border-b transition-colors hover:bg-muted/50",
+				props.Class,
+			),
 			templ.KV("data-[state=selected]:bg-muted", props.Selected),
 		}
 		{ props.Attributes... }

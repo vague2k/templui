@@ -1,3 +1,4 @@
+
 package components
 
 import "github.com/axzilla/templui/utils"
@@ -83,6 +84,7 @@ type DropdownMenuPortalProps struct {
 
 templ DropdownMenu(props DropdownMenuProps) {
 	<div
+		id={ props.ID }
 		x-data="dropdown"
 		class={ utils.TwMerge("relative inline-block text-left", props.Class) }
 		{ props.Attributes... }
@@ -93,6 +95,7 @@ templ DropdownMenu(props DropdownMenuProps) {
 
 templ DropdownMenuTrigger(props DropdownMenuTriggerProps) {
 	<div
+		id={ props.ID }
 		@click="toggleMenu"
 		class={ utils.TwMerge("inline-block", props.Class) }
 		data-trigger
@@ -104,6 +107,7 @@ templ DropdownMenuTrigger(props DropdownMenuTriggerProps) {
 
 templ DropdownMenuContent(props DropdownMenuContentProps) {
 	<div
+		id={ props.ID }
 		x-ref="panel"
 		x-show="isMenuOpen"
 		@click.outside="closeMenu"
@@ -115,12 +119,12 @@ templ DropdownMenuContent(props DropdownMenuContentProps) {
 		x-transition:leave-start="opacity-100 scale-100"
 		x-transition:leave-end="opacity-0 scale-95"
 		class={ utils.TwMerge(
-				"absolute z-50 rounded-md bg-popover p-1 shadow-md focus:outline-none overflow-auto",
-				"border border-border",
-				"min-w-[8rem]",
-				props.Width,
-				props.Class,
-			) }
+			"absolute z-50 rounded-md bg-popover p-1 shadow-md focus:outline-none overflow-auto",
+			"border border-border",
+			"min-w-[8rem]",
+			props.Width,
+			props.Class,
+		) }
 		style="top: 100%; margin-top: 0.25rem; left: 0; max-height: var(--dropdown-max-height, 300px);"
 		{ props.Attributes... }
 	>
@@ -130,6 +134,7 @@ templ DropdownMenuContent(props DropdownMenuContentProps) {
 
 templ DropdownMenuGroup(props DropdownMenuGroupProps) {
 	<div
+		id={ props.ID }
 		class={ utils.TwMerge("py-1", props.Class) }
 		role="group"
 		{ props.Attributes... }
@@ -140,6 +145,7 @@ templ DropdownMenuGroup(props DropdownMenuGroupProps) {
 
 templ DropdownMenuLabel(props DropdownMenuLabelProps) {
 	<div
+		id={ props.ID }
 		class={ utils.TwMerge("px-2 py-1.5 text-sm font-semibold", props.Class) }
 		{ props.Attributes... }
 	>
@@ -150,14 +156,17 @@ templ DropdownMenuLabel(props DropdownMenuLabelProps) {
 templ DropdownMenuItem(props DropdownMenuItemProps) {
 	if props.Href != "" {
 		<a
+			id={ props.ID }
 			href={ templ.SafeURL(props.Href) }
 			target={ props.Target }
-			class={ utils.TwMerge(
+			class={
+				utils.TwMerge(
 					"flex text-left items-center px-2 py-1.5 text-sm rounded-sm",
 					utils.If(!props.Disabled, "focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground cursor-default"),
 					utils.If(props.Disabled, "opacity-50 pointer-events-none"),
 					props.Class,
-				) }
+				),
+			}
 			role="menuitem"
 			data-menu-item=""
 			{ props.Attributes... }
@@ -166,6 +175,7 @@ templ DropdownMenuItem(props DropdownMenuItemProps) {
 		</a>
 	} else {
 		<button
+			id={ props.ID }
 			class={
 				utils.TwMerge(
 					"w-full text-left flex items-center justify-between px-2 py-1.5 text-sm rounded-sm",
@@ -186,6 +196,7 @@ templ DropdownMenuItem(props DropdownMenuItemProps) {
 
 templ DropdownMenuSeparator(props DropdownMenuSeparatorProps) {
 	<div
+		id={ props.ID }
 		class={ utils.TwMerge("h-px my-1 -mx-1 bg-muted", props.Class) }
 		role="separator"
 		{ props.Attributes... }
@@ -194,6 +205,7 @@ templ DropdownMenuSeparator(props DropdownMenuSeparatorProps) {
 
 templ DropdownMenuShortcut(props DropdownMenuShortcutProps) {
 	<span
+		id={ props.ID }
 		class={ utils.TwMerge("ml-auto text-xs tracking-widest opacity-60", props.Class) }
 		{ props.Attributes... }
 	>
@@ -203,6 +215,7 @@ templ DropdownMenuShortcut(props DropdownMenuShortcutProps) {
 
 templ DropdownMenuSub(props DropdownMenuSubProps) {
 	<div
+		id={ props.ID }
 		x-data="dropdownSubmenu"
 		class={ utils.TwMerge("relative", props.Class) }
 		{ props.Attributes... }
@@ -213,15 +226,18 @@ templ DropdownMenuSub(props DropdownMenuSubProps) {
 
 templ DropdownMenuSubTrigger(props DropdownMenuSubTriggerProps) {
 	<button
+		id={ props.ID }
 		type="button"
 		x-ref="subTrigger"
 		data-submenu-trigger
-		class={ utils.TwMerge(
+		class={
+			utils.TwMerge(
 				"w-full text-left flex items-center justify-between px-2 py-1.5 text-sm rounded-sm",
 				"focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground cursor-default",
 				"data-[state=open]:bg-accent data-[state=open]:text-accent-foreground",
 				props.Class,
-			) }
+			),
+		}
 		{ props.Attributes... }
 	>
 		<span>
@@ -235,6 +251,7 @@ templ DropdownMenuSubTrigger(props DropdownMenuSubTriggerProps) {
 
 templ DropdownMenuPortal(props DropdownMenuPortalProps) {
 	<div
+		id={ props.ID }
 		class={ utils.TwMerge("dropdown-portal", props.Class) }
 		{ props.Attributes... }
 	>
@@ -244,12 +261,15 @@ templ DropdownMenuPortal(props DropdownMenuPortalProps) {
 
 templ DropdownMenuSubContent(props DropdownMenuSubContentProps) {
 	<div
+		id={ props.ID }
 		x-ref="subContent"
 		data-submenu-content
-		class={ utils.TwMerge(
+		class={
+			utils.TwMerge(
 				"z-[9999] min-w-[8rem] rounded-md border bg-popover p-1 shadow-lg",
 				props.Class,
-			) }
+			),
+		}
 		style="position: fixed; display: none;"
 		{ props.Attributes... }
 	>

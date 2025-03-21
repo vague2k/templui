@@ -8,10 +8,8 @@ package components
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import (
-	"github.com/axzilla/templui/icons"
-	"github.com/axzilla/templui/utils"
-)
+import "github.com/axzilla/templui/utils"
+import "github.com/axzilla/templui/icons"
 
 type PaginationProps struct {
 	ID         string
@@ -231,6 +229,7 @@ func PaginationLink(props PaginationLinkProps) templ.Component {
 				return nil
 			})
 			templ_7745c5c3_Err = Button(ButtonProps{
+				ID:         props.ID,
 				Disabled:   true,
 				Size:       ButtonSizeIcon,
 				Variant:    ButtonVariantGhost,
@@ -260,6 +259,7 @@ func PaginationLink(props PaginationLinkProps) templ.Component {
 				return nil
 			})
 			templ_7745c5c3_Err = Button(ButtonProps{
+				ID:         props.ID,
 				HxGet:      props.HxGet,
 				HxTarget:   props.HxTarget,
 				HxSwap:     props.HxSwap,
@@ -291,6 +291,7 @@ func PaginationLink(props PaginationLinkProps) templ.Component {
 				return nil
 			})
 			templ_7745c5c3_Err = Button(ButtonProps{
+				ID:         props.ID,
 				Href:       props.Href,
 				Size:       ButtonSizeIcon,
 				Variant:    buttonVariant(props.IsActive),
@@ -349,6 +350,7 @@ func PaginationPrevious(props PaginationPreviousProps) templ.Component {
 			return nil
 		})
 		templ_7745c5c3_Err = Button(ButtonProps{
+			ID:         props.ID,
 			Href:       props.Href,
 			HxGet:      props.HxGet,
 			HxTarget:   props.HxTarget,
@@ -409,6 +411,7 @@ func PaginationNext(props PaginationNextProps) templ.Component {
 			return nil
 		})
 		templ_7745c5c3_Err = Button(ButtonProps{
+			ID:         props.ID,
 			Href:       props.Href,
 			HxGet:      props.HxGet,
 			HxTarget:   props.HxTarget,

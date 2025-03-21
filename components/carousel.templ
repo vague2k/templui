@@ -51,7 +51,6 @@ templ Carousel(props CarouselProps) {
 	if props.ID == "" {
 		{{ props.ID = utils.RandomID() }}
 	}
-	@CarouselScript()
 	<div
 		id={ props.ID }
 		class={ utils.TwMerge(
@@ -74,6 +73,7 @@ templ Carousel(props CarouselProps) {
 
 templ CarouselContent(props CarouselContentProps) {
 	<div
+		id={ props.ID }
 		class={ utils.TwMerge(
             "carousel-track flex h-full w-full transition-transform duration-500 ease-in-out",
             props.Class,
@@ -86,6 +86,7 @@ templ CarouselContent(props CarouselContentProps) {
 
 templ CarouselItem(props CarouselItemProps) {
 	<div
+		id={ props.ID }
 		class={ utils.TwMerge(
             "carousel-item flex-shrink-0 w-full h-full relative",
             props.Class,
@@ -98,6 +99,7 @@ templ CarouselItem(props CarouselItemProps) {
 
 templ CarouselPrevious(props CarouselPreviousProps) {
 	<button
+		id={ props.ID }
 		class={ utils.TwMerge(
             "carousel-prev absolute left-2 top-1/2 transform -translate-y-1/2 p-2 rounded-full bg-black/20 text-white hover:bg-black/40 focus:outline-none",
             props.Class,
@@ -112,6 +114,7 @@ templ CarouselPrevious(props CarouselPreviousProps) {
 
 templ CarouselNext(props CarouselNextProps) {
 	<button
+		id={ props.ID }
 		class={ utils.TwMerge(
             "carousel-next absolute right-2 top-1/2 transform -translate-y-1/2 p-2 rounded-full bg-black/20 text-white hover:bg-black/40 focus:outline-none",
             props.Class,
@@ -126,6 +129,7 @@ templ CarouselNext(props CarouselNextProps) {
 
 templ CarouselIndicators(props CarouselIndicatorsProps) {
 	<div
+		id={ props.ID }
 		class={ utils.TwMerge(
             "absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2",
             props.Class,

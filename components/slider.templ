@@ -69,6 +69,7 @@ templ SliderInput(props SliderProps) {
 
 templ SliderValue(props SliderValueProps) {
 	<span
+		id={ props.ID }
 		class={ utils.TwMerge("text-sm text-muted-foreground", props.Class) }
 		data-slider-value-for={ props.For }
 		{ props.Attributes... }

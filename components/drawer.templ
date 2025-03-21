@@ -64,8 +64,8 @@ type DrawerCloseProps struct {
 }
 
 templ Drawer(props DrawerProps) {
-	@DrawerScript()
 	<div
+		id={ props.ID }
 		x-data="drawer"
 		@keydown.escape.window="close"
 		class={ utils.TwMerge("relative", props.Class) }
@@ -77,6 +77,7 @@ templ Drawer(props DrawerProps) {
 
 templ DrawerTrigger(props DrawerTriggerProps) {
 	<div
+		id={ props.ID }
 		@click="open"
 		class={ utils.TwMerge("cursor-pointer", props.Class) }
 		{ props.Attributes... }
@@ -87,6 +88,7 @@ templ DrawerTrigger(props DrawerTriggerProps) {
 
 templ DrawerContent(props DrawerContentProps) {
 	<div
+		id={ props.ID }
 		x-show="isOpen"
 		class="fixed inset-0 z-50 bg-background/80 backdrop-blur-xs"
 		@click="close"
@@ -98,6 +100,7 @@ templ DrawerContent(props DrawerContentProps) {
 		x-transition:leave-end="opacity-0"
 	></div>
 	<div
+		id={ props.ID + "-content" }
 		x-show="isOpen"
 		@click.away="close"
 		class={
@@ -152,6 +155,7 @@ templ DrawerContent(props DrawerContentProps) {
 
 templ DrawerHeader(props DrawerHeaderProps) {
 	<div
+		id={ props.ID }
 		class={ utils.TwMerge("flex flex-col space-y-1.5 pb-4", props.Class) }
 		{ props.Attributes... }
 	>
@@ -161,6 +165,7 @@ templ DrawerHeader(props DrawerHeaderProps) {
 
 templ DrawerTitle(props DrawerTitleProps) {
 	<h2
+		id={ props.ID }
 		class={ utils.TwMerge("text-lg font-semibold leading-none tracking-tight", props.Class) }
 		{ props.Attributes... }
 	>
@@ -170,6 +175,7 @@ templ DrawerTitle(props DrawerTitleProps) {
 
 templ DrawerDescription(props DrawerDescriptionProps) {
 	<p
+		id={ props.ID }
 		class={ utils.TwMerge("text-sm text-muted-foreground", props.Class) }
 		{ props.Attributes... }
 	>
@@ -179,6 +185,7 @@ templ DrawerDescription(props DrawerDescriptionProps) {
 
 templ DrawerFooter(props DrawerFooterProps) {
 	<div
+		id={ props.ID }
 		class={ utils.TwMerge("flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 pt-4", props.Class) }
 		{ props.Attributes... }
 	>
@@ -188,6 +195,7 @@ templ DrawerFooter(props DrawerFooterProps) {
 
 templ DrawerClose(props DrawerCloseProps) {
 	<button
+		id={ props.ID }
 		@click="close"
 		class={ utils.TwMerge(
 			"inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background",

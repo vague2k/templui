@@ -43,6 +43,7 @@ type TooltipContentProps struct {
 
 templ Tooltip(props TooltipProps) {
 	<div
+		id={ props.ID }
 		class={ utils.TwMerge("relative inline-block group", props.Class) }
 		{ props.Attributes... }
 	>
@@ -52,6 +53,7 @@ templ Tooltip(props TooltipProps) {
 
 templ TooltipTrigger(props TooltipTriggerProps) {
 	<div
+		id={ props.ID }
 		class={ utils.TwMerge("inline-block", props.Class) }
 		{ props.Attributes... }
 	>
@@ -61,7 +63,9 @@ templ TooltipTrigger(props TooltipTriggerProps) {
 
 templ TooltipContent(props TooltipContentProps) {
 	<div
-		class={ utils.TwMerge(
+		id={ props.ID }
+		class={
+			utils.TwMerge(
 				"absolute w-max z-50 pointer-events-none",
 				"text-xs px-4 py-1 rounded-lg",
 				"transition-opacity duration-200 delay-500 opacity-0 group-hover:opacity-100",
@@ -69,16 +73,19 @@ templ TooltipContent(props TooltipContentProps) {
 				getTooltipSideClass(props.Side),
 				getTooltipVariantClass(props.Variant),
 				props.Class,
-			) }
+			),
+		}
 		{ props.Attributes... }
 	>
 		if props.ShowArrow {
 			<div
-				class={ utils.TwMerge(
+				class={
+					utils.TwMerge(
 						"absolute h-2 w-2 rotate-45",
 						getArrowClass(props.Side),
 						getArrowColor(props.Variant),
-					) }
+					),
+				}
 			></div>
 		}
 		{ children... }

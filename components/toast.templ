@@ -3,6 +3,7 @@ package components
 import (
 	"github.com/axzilla/templui/icons"
 	"strconv"
+	"github.com/axzilla/templui/utils"
 )
 
 type ToastVariant string
@@ -42,6 +43,7 @@ type ToastProps struct {
 templ Toast(props ToastProps) {
 	{{ props = props.withDefaults() }}
 	<div
+		id={ props.ID }
 		data-duration={ strconv.Itoa(props.Duration) }
 		x-data="toast"
 		@mouseenter="pauseTimer"
@@ -62,6 +64,7 @@ templ Toast(props ToastProps) {
 			templ.KV("left-1/2 -translate-x-1/2", props.Position == ToastPositionTopCenter || props.Position == ToastPositionBottomCenter),
 			"w-full md:max-w-[420px]",
 		}
+		{ props.Attributes... }
 	>
 		<div class="w-full bg-primary-foreground rounded-lg shadow-xs border pt-5 pb-4 px-4 flex items-center justify-center relative overflow-hidden">
 			if props.ShowIndicator {

@@ -3,7 +3,6 @@ package components
 import "github.com/axzilla/templui/utils"
 
 type SeparatorOrientation string
-
 type SeparatorDecoration string
 
 const (
@@ -28,6 +27,7 @@ type SeparatorProps struct {
 
 templ Separator(props SeparatorProps) {
 	<div
+		id={ props.ID }
 		role="separator"
 		aria-orientation={ string(props.Orientation) }
 		class={
@@ -53,10 +53,12 @@ templ Separator(props SeparatorProps) {
 		if props.Label != "" && props.Orientation == SeparatorOrientationHorizontal {
 			<div class="relative flex items-center w-full">
 				<span
-					class={ utils.TwMerge(
+					class={
+						utils.TwMerge(
 							"absolute w-full border-t",
 							getDecorationClasses(props.Decoration),
-						) }
+						),
+					}
 					aria-hidden="true"
 				></span>
 				<span class="relative mx-auto bg-background px-2 text-xs text-muted-foreground">
@@ -66,10 +68,12 @@ templ Separator(props SeparatorProps) {
 		} else if props.Label != "" && props.Orientation == SeparatorOrientationVertical {
 			<div class="relative flex flex-col items-center h-full">
 				<span
-					class={ utils.TwMerge(
+					class={
+						utils.TwMerge(
 							"absolute h-full border-l",
 							getDecorationClasses(props.Decoration),
-						) }
+						),
+					}
 					aria-hidden="true"
 				></span>
 				<span class="relative my-auto bg-background px-2 text-xs text-muted-foreground">

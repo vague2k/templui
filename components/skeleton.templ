@@ -10,6 +10,7 @@ type SkeletonProps struct {
 
 templ Skeleton(props SkeletonProps) {
 	<div
+		id={ props.ID }
 		class={ utils.TwMerge(
 			"animate-pulse rounded bg-muted",
 			props.Class,

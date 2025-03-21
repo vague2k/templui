@@ -1,3 +1,4 @@
+
 package components
 
 import (
@@ -58,6 +59,7 @@ type SelectItemProps struct {
 
 templ Select(props SelectProps) {
 	<div
+		id={ props.ID + "-container" }
 		class={ utils.TwMerge("w-full select-container relative", props.Class) }
 		data-select-id={ props.ID }
 		{ props.Attributes... }
@@ -68,7 +70,7 @@ templ Select(props SelectProps) {
 
 templ SelectTrigger(props SelectTriggerProps) {
 	@Button(ButtonProps{
-		ID:      props.ID,
+		ID:      props.ID + "-trigger",
 		Type:    "button",
 		Variant: ButtonVariantOutline,
 		Class: utils.TwMerge(
@@ -105,6 +107,7 @@ templ SelectTrigger(props SelectTriggerProps) {
 
 templ SelectValue(props SelectValueProps) {
 	<span
+		id={ props.ID }
 		class={ utils.TwMerge("block truncate select-value text-muted-foreground", props.Class) }
 		{ props.Attributes... }
 	>
@@ -115,10 +118,11 @@ templ SelectValue(props SelectValueProps) {
 
 templ SelectContent(props SelectContentProps) {
 	<div
+		id={ props.ID }
 		class={ utils.TwMerge(
 			"p-1 select-content absolute z-50 w-full overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md",
 			"transition-all ease-out duration-100",
-			"transform opacity-0 -translate-y-1 scale-95", // init condition
+			"transform opacity-0 -translate-y-1 scale-95", // initial condition
 			props.Class,
 		) }
 		style="display: none;"
@@ -132,6 +136,7 @@ templ SelectContent(props SelectContentProps) {
 
 templ SelectGroup(props SelectGroupProps) {
 	<div
+		id={ props.ID }
 		class={ utils.TwMerge("p-1", props.Class) }
 		role="group"
 		{ props.Attributes... }
@@ -142,6 +147,7 @@ templ SelectGroup(props SelectGroupProps) {
 
 templ SelectLabel(props SelectLabelProps) {
 	<span
+		id={ props.ID }
 		class={ utils.TwMerge("px-2 py-1.5 text-sm font-medium", props.Class) }
 		{ props.Attributes... }
 	>
@@ -151,6 +157,7 @@ templ SelectLabel(props SelectLabelProps) {
 
 templ SelectItem(props SelectItemProps) {
 	<div
+		id={ props.ID }
 		class={
 			utils.TwMerge(
 				"select-item relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 px-2 text-sm font-light outline-none",
@@ -172,10 +179,12 @@ templ SelectItem(props SelectItemProps) {
 			{ children... }
 		</span>
 		<span
-			class={ utils.TwMerge(
+			class={
+				utils.TwMerge(
 					"select-check absolute right-2 flex h-3.5 w-3.5 items-center justify-center",
 					utils.IfElse(props.Selected, "opacity-100", "opacity-0"),
-					) }
+				),
+			}
 		>
 			@icons.Check(icons.IconProps{Size: "16"})
 		</span>

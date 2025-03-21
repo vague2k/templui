@@ -36,6 +36,7 @@ templ RadioCard(props RadioCardProps) {
 		{{ props.ID = utils.RandomID() }}
 	}
 	<div
+		id={ props.ID + "-container" }
 		class={ utils.TwMerge("relative", utils.If(props.Disabled, "opacity-60"), props.Class) }
 		{ props.Attributes... }
 	>
@@ -72,6 +73,7 @@ templ RadioCard(props RadioCardProps) {
 
 templ RadioCardHeader(props RadioCardHeaderProps) {
 	<div
+		id={ props.ID }
 		class={ utils.TwMerge("flex items-center justify-between mb-2", props.Class) }
 		{ props.Attributes... }
 	>
@@ -81,6 +83,7 @@ templ RadioCardHeader(props RadioCardHeaderProps) {
 
 templ RadioCardDescription(props RadioCardDescriptionProps) {
 	<p
+		id={ props.ID }
 		class={ utils.TwMerge("text-sm text-muted-foreground", props.Class) }
 		{ props.Attributes... }
 	>
@@ -90,6 +93,7 @@ templ RadioCardDescription(props RadioCardDescriptionProps) {
 
 templ RadioCardFooter(props RadioCardFooterProps) {
 	<div
+		id={ props.ID }
 		class={ utils.TwMerge("mt-auto pt-4 w-full", props.Class) }
 		{ props.Attributes... }
 	>

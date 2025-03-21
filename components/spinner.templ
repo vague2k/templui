@@ -20,6 +20,7 @@ type SpinnerProps struct {
 
 templ Spinner(props SpinnerProps) {
 	<div
+		id={ props.ID }
 		class={ utils.TwMerge(
 			"inline-flex flex-col items-center justify-center",
 			props.Class,
