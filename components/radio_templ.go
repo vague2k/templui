@@ -11,14 +11,14 @@ import templruntime "github.com/a-h/templ/runtime"
 import "github.com/axzilla/templui/utils"
 
 type RadioProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
 	Value      string
 	Name       string
-	ID         string
 	Disabled   bool
 	Required   bool
 	Checked    bool
-	Class      string
-	Attributes templ.Attributes
 }
 
 func Radio(props RadioProps) templ.Component {

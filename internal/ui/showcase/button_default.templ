@@ -3,12 +3,7 @@ package showcase
 import "github.com/axzilla/templui/components"
 
 templ ButtonDefault() {
-	<div class="flex flex-wrap gap-2">
-		@components.Button(components.ButtonProps{Text: "Default"})
-		@components.Button(components.ButtonProps{Text: "Secondary", Variant: components.ButtonVariantSecondary})
-		@components.Button(components.ButtonProps{Text: "Destructive", Variant: components.ButtonVariantDestructive})
-		@components.Button(components.ButtonProps{Text: "Outline", Variant: components.ButtonVariantOutline})
-		@components.Button(components.ButtonProps{Text: "Ghost", Variant: components.ButtonVariantGhost})
-		@components.Button(components.ButtonProps{Text: "Link", Variant: components.ButtonVariantLink})
-	</div>
+	@components.Button(components.ButtonProps{}) {
+		Button
+	}
 }

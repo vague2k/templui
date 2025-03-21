@@ -163,6 +163,10 @@ var Sections = []Section{
 				Href: "/docs/components/spinner",
 			},
 			{
+				Text: "Table",
+				Href: "/docs/components/table",
+			},
+			{
 				Text: "Tabs",
 				Href: "/docs/components/tabs",
 			},
@@ -170,10 +174,10 @@ var Sections = []Section{
 				Text: "Textarea",
 				Href: "/docs/components/textarea",
 			},
-			{
-				Text: "Time Picker",
-				Href: "/docs/components/time-picker",
-			},
+			// {
+			// 	Text: "Time Picker",
+			// 	Href: "/docs/components/time-picker",
+			// },
 			{
 				Text: "Toast",
 				Href: "/docs/components/toast",

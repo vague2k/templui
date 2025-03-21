@@ -5,20 +5,33 @@ import "github.com/axzilla/templui/components"
 templ InputOTPForm() {
 	@components.FormItem(components.FormItemProps{}) {
 		@components.FormLabel(components.FormLabelProps{
-			For:  "otp-form",
-			Text: "Verification Code",
-		})
+			For: "otp-form",
+		}) {
+			Verification Code
+		}
 		@components.InputOTP(components.InputOTPProps{
 			ID:       "otp-form",
+			Name:     "verification-code",
 			Required: true,
 			HasError: true,
-		})
+		}) {
+			@components.InputOTPGroup(components.InputOTPGroupProps{}) {
+				@components.InputOTPSlot(components.InputOTPSlotProps{Index: 0})
+				@components.InputOTPSlot(components.InputOTPSlotProps{Index: 1})
+				@components.InputOTPSlot(components.InputOTPSlotProps{Index: 2})
+				@components.InputOTPSeparator(components.InputOTPSeparatorProps{})
+				@components.InputOTPSlot(components.InputOTPSlotProps{Index: 3})
+				@components.InputOTPSlot(components.InputOTPSlotProps{Index: 4})
+				@components.InputOTPSlot(components.InputOTPSlotProps{Index: 5})
+			}
+		}
 		@components.FormDescription(components.FormDescriptionProps{}) {
 			Enter the 6-digit code sent to your phone
 		}
 		@components.FormMessage(components.FormMessageProps{
-			Text:    "Invalid verification code.",
 			Variant: components.FormMessageVariantError,
-		})
+		}) {
+			Invalid verification code.
+		}
 	}
 }

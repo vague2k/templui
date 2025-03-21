@@ -25,21 +25,27 @@ templ Form() {
 			})
 			<div>
 				@components.Card(components.CardProps{}) {
-					@components.CardHeader() {
-						@components.CardTitle() {
+					@components.CardHeader(components.CardHeaderProps{}) {
+						@components.CardTitle(components.CardTitleProps{}) {
 							Usage
 						}
-						@components.CardDescription() {
+						@components.CardDescription(components.CardDescriptionProps{}) {
 							Form elements are composed using a set of helper components that enhance the following form controls:
 						}
 					}
-					@components.CardContent() {
+					@components.CardContent(components.CardContentProps{}) {
 						<ul class="list-disc pl-6 space-y-2">
+							<li>
+								<a href="/docs/components/checkbox#form" class="font-medium hover:underline">Checkbox</a>
+							</li>
+							<li>
+								<a href="/docs/components/date-picker#form" class="font-medium hover:underline">Date Picker</a>
+							</li>
 							<li>
 								<a href="/docs/components/input#form" class="font-medium hover:underline">Input</a>
 							</li>
 							<li>
-								<a href="/docs/components/checkbox#form" class="font-medium hover:underline">Checkbox</a>
+								<a href="/docs/components/input-otp#form" class="font-medium hover:underline">Input OTP</a>
 							</li>
 							<li>
 								<a href="/docs/components/radio#form" class="font-medium hover:underline">Radio</a>
@@ -50,14 +56,11 @@ templ Form() {
 							<li>
 								<a href="/docs/components/textarea#form" class="font-medium hover:underline">Textarea</a>
 							</li>
+							<!-- <li> -->
+							<!-- 	<a href="/docs/components/time-picker#form" class="font-medium hover:underline">Time Picker</a> -->
+							<!-- </li> -->
 							<li>
 								<a href="/docs/components/toggle#form" class="font-medium hover:underline">Toggle</a>
-							</li>
-							<li>
-								<a href="/docs/components/date-picker#form" class="font-medium hover:underline">Date Picker</a>
-							</li>
-							<li>
-								<a href="/docs/components/time-picker#form" class="font-medium hover:underline">Time Picker</a>
 							</li>
 							<li>
 								<a href="/docs/components/rating#form" class="font-medium hover:underline">Rating</a>

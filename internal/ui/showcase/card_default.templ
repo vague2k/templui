@@ -3,20 +3,78 @@ package showcase
 import "github.com/axzilla/templui/components"
 
 templ CardDefault() {
-	@components.Card(components.CardProps{Class: "max-w-sm"}) {
-		@components.CardHeader() {
-			@components.CardTitle() {
-				Card Title
+	<div class="w-full max-w-sm">
+		@components.Card(components.CardProps{}) {
+			@components.CardHeader(components.CardHeaderProps{}) {
+				@components.CardTitle(components.CardTitleProps{}) {
+					Create Project
+				}
+				@components.CardDescription(components.CardDescriptionProps{}) {
+					Deploy your new project in one-click.
+				}
 			}
-			@components.CardDescription() {
-				Card Description
+			@components.CardContent(components.CardContentProps{}) {
+				<div class="flex flex-col gap-4">
+					<div class="w-full max-w-sm grid gap-2">
+						@components.Label(components.LabelProps{
+							For: "name",
+						}) {
+							Name
+						}
+						@components.Input(components.InputProps{
+							ID:          "name",
+							Placeholder: "Enter project name",
+						})
+					</div>
+					<div class="w-full max-w-sm grid gap-2">
+						@components.Label(components.LabelProps{
+							For: "service",
+						}) {
+							Service
+						}
+						@components.Select(components.SelectProps{}) {
+							@components.SelectTrigger(components.SelectTriggerProps{
+								ID: "service",
+							}) {
+								@components.SelectValue(components.SelectValueProps{
+									Placeholder: "Select",
+								})
+							}
+							@components.SelectContent(components.SelectContentProps{}) {
+								@components.SelectGroup(components.SelectGroupProps{}) {
+									@components.SelectItem(components.SelectItemProps{
+										Value: "postgres",
+									}) {
+										PostgreSQL
+									}
+									@components.SelectItem(components.SelectItemProps{
+										Value: "mysql",
+									}) {
+										MySQL
+									}
+									@components.SelectItem(components.SelectItemProps{
+										Value: "sqlite",
+									}) {
+										SQLite
+									}
+								}
+							}
+						}
+					</div>
+				</div>
+			}
+			@components.CardFooter(components.CardFooterProps{
+				Class: "flex justify-between",
+			}) {
+				@components.Button(components.ButtonProps{
+					Variant: components.ButtonVariantSecondary,
+				}) {
+					Cancel
+				}
+				@components.Button(components.ButtonProps{}) {
+					Deploy
+				}
 			}
 		}
-		@components.CardContent() {
-			<p>Card Content</p>
-		}
-		@components.CardFooter() {
-			@components.Button(components.ButtonProps{Text: "Action"})
-		}
-	}
+	</div>
 }

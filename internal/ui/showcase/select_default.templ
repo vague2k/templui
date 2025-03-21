@@ -3,14 +3,45 @@ package showcase
 import "github.com/axzilla/templui/components"
 
 templ SelectDefault() {
-	<div class="w-full  max-w-md">
-		@components.Select(components.SelectProps{
-			Options: []components.SelectOption{
-				{Label: "Apple", Value: "apple"},
-				{Label: "Banana", Value: "banana"},
-				{Label: "Orange", Value: "orange"},
-				{Label: "Mango", Value: "mango"},
-			},
-		})
+	<div class="w-full max-w-sm">
+		@components.Select(components.SelectProps{}) {
+			@components.SelectTrigger(components.SelectTriggerProps{}) {
+				@components.SelectValue(components.SelectValueProps{
+					Placeholder: "Select a fruit",
+				})
+			}
+			@components.SelectContent(components.SelectContentProps{}) {
+				@components.SelectGroup(components.SelectGroupProps{}) {
+					@components.SelectLabel(components.SelectLabelProps{}) {
+						Fruits
+					}
+					@components.SelectItem(components.SelectItemProps{
+						Value: "apple",
+					}) {
+						Apple
+					}
+					@components.SelectItem(components.SelectItemProps{
+						Value: "banana",
+					}) {
+						Banana
+					}
+					@components.SelectItem(components.SelectItemProps{
+						Value: "blueberry",
+					}) {
+						Blueberry
+					}
+					@components.SelectItem(components.SelectItemProps{
+						Value: "grapes",
+					}) {
+						Grapes
+					}
+					@components.SelectItem(components.SelectItemProps{
+						Value: "pineapple",
+					}) {
+						Pineapple
+					}
+				}
+			}
+		}
 	</div>
 }

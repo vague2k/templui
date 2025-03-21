@@ -3,25 +3,43 @@ package components
 import "github.com/axzilla/templui/utils"
 
 type RadioCardProps struct {
-	ID          string
-	Name        string
-	Value       string
-	Checked     bool
-	Disabled    bool
-	Required    bool
-	Title       string
-	Description string
-	Icon        templ.Component
-	Footer      templ.Component
-	Class       string
-	Attributes  templ.Attributes
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+	Name       string
+	Value      string
+	Checked    bool
+	Disabled   bool
+	Required   bool
+}
+
+type RadioCardHeaderProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+}
+
+type RadioCardDescriptionProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+}
+
+type RadioCardFooterProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
 }
 
 templ RadioCard(props RadioCardProps) {
 	if props.ID == "" {
 		{{ props.ID = utils.RandomID() }}
 	}
-	<div class={ utils.TwMerge("relative", utils.TwIf("opacity-60", props.Disabled)) }>
+	<div
+		id={ props.ID + "-container" }
+		class={ utils.TwMerge("relative", utils.If(props.Disabled, "opacity-60"), props.Class) }
+		{ props.Attributes... }
+	>
 		<input
 			type="radio"
 			id={ props.ID }
@@ -31,7 +49,6 @@ templ RadioCard(props RadioCardProps) {
 			disabled?={ props.Disabled }
 			required?={ props.Required }
 			class="peer sr-only"
-			{ props.Attributes... }
 		/>
 		<label
 			for={ props.ID }
@@ -42,34 +59,44 @@ templ RadioCard(props RadioCardProps) {
 					"cursor-pointer",
 					"hover:border-primary/50",
 					"peer-checked:ring-1 peer-checked:ring-primary peer-checked:border-primary",
-					utils.TwIf("cursor-not-allowed", props.Disabled),
+					utils.If(props.Disabled, "cursor-not-allowed"),
 					"transition-all duration-200",
 					props.Class,
 				),
 			}
+			{ props.Attributes... }
 		>
-			<div class="flex items-center justify-between mb-2">
-				<div class="flex items-center gap-2">
-					if props.Icon != nil {
-						<div class="text-primary">
-							@props.Icon
-						</div>
-					}
-					<h3 class="text-lg font-semibold leading-none tracking-tight">
-						{ props.Title }
-					</h3>
-				</div>
-			</div>
-			if props.Description != "" {
-				<p class="text-sm text-muted-foreground">
-					{ props.Description }
-				</p>
-			}
-			if props.Footer != nil {
-				<div class="mt-auto pt-4 w-full">
-					@props.Footer
-				</div>
-			}
+			{ children... }
 		</label>
+	</div>
+}
+
+templ RadioCardHeader(props RadioCardHeaderProps) {
+	<div
+		id={ props.ID }
+		class={ utils.TwMerge("flex items-center justify-between mb-2", props.Class) }
+		{ props.Attributes... }
+	>
+		{ children... }
+	</div>
+}
+
+templ RadioCardDescription(props RadioCardDescriptionProps) {
+	<p
+		id={ props.ID }
+		class={ utils.TwMerge("text-sm text-muted-foreground", props.Class) }
+		{ props.Attributes... }
+	>
+		{ children... }
+	</p>
+}
+
+templ RadioCardFooter(props RadioCardFooterProps) {
+	<div
+		id={ props.ID }
+		class={ utils.TwMerge("mt-auto pt-4 w-full", props.Class) }
+		{ props.Attributes... }
+	>
+		{ children... }
 	</div>
 }

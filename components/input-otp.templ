@@ -6,17 +6,129 @@ import (
 )
 
 type InputOTPProps struct {
+	ID         string
+	Name       string
+	Value      string
+	MaxLength  int
+	Required   bool
+	HasError   bool
+	Class      string
+	Attributes templ.Attributes
+}
+
+type InputOTPGroupProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+}
+
+type InputOTPSlotProps struct {
 	ID          string
-	Name        string
-	Value       string
-	Length      int
+	Class       string
+	Attributes  templ.Attributes
+	Index       int
 	Type        string
 	Placeholder string
 	Disabled    bool
-	Required    bool
-	HasError    bool
-	Class       string
-	Attributes  templ.Attributes
+}
+
+type InputOTPSeparatorProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+}
+
+templ InputOTP(props InputOTPProps) {
+	if props.ID == "" {
+		{{ props.ID = utils.RandomID() }}
+	}
+	if props.MaxLength <= 0 {
+		{{ props.MaxLength = 6 }}
+	}
+	<div
+		id={ props.ID + "-container" }
+		class={ utils.TwMerge(
+			"flex flex-row items-center gap-2 w-fit",
+			props.Class,
+		) }
+		x-data="inputOTP"
+		data-max-length={ strconv.Itoa(props.MaxLength) }
+		if props.Value != "" {
+			data-value={ props.Value }
+		}
+		x-on:paste.prevent="handlePaste"
+		{ props.Attributes... }
+	>
+		<input
+			type="hidden"
+			id={ props.ID }
+			name={ props.Name }
+			x-model="otpValue"
+			required?={ props.Required }
+		/>
+		{ children... }
+	</div>
+}
+
+templ InputOTPGroup(props InputOTPGroupProps) {
+	<div
+		id={ props.ID }
+		class={ utils.TwMerge(
+			"flex gap-2",
+			props.Class,
+		) }
+		{ props.Attributes... }
+	>
+		{ children... }
+	</div>
+}
+
+templ InputOTPSlot(props InputOTPSlotProps) {
+	if props.Type == "" {
+		{{ props.Type = "text" }}
+	}
+	<div
+		id={ props.ID }
+		data-slot
+		class="relative"
+		{ props.Attributes... }
+	>
+		<input
+			x-ref={ "otpDigit" + strconv.Itoa(props.Index) }
+			type={ props.Type }
+			inputmode="numeric"
+			placeholder={ props.Placeholder }
+			maxlength="1"
+			class={
+				utils.TwMerge(
+					"w-10 h-12 text-center",
+					"rounded-md border border-input bg-background text-sm",
+					"file:border-0 file:bg-transparent file:text-sm file:font-medium",
+					"placeholder:text-muted-foreground",
+					"focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+					"disabled:cursor-not-allowed disabled:opacity-50",
+					props.Class,
+				),
+			}
+			disabled?={ props.Disabled }
+			data-input-index={ strconv.Itoa(props.Index) }
+			x-on:input="handleInput"
+			x-on:keydown="handleKeydown"
+		/>
+	</div>
+}
+
+templ InputOTPSeparator(props InputOTPSeparatorProps) {
+	<div
+		id={ props.ID }
+		class={ utils.TwMerge(
+			"flex items-center text-muted-foreground text-xl",
+			props.Class,
+		) }
+		{ props.Attributes... }
+	>
+		<span>-</span>
+	</div>
 }
 
 templ InputOTPScript() {
@@ -36,7 +148,7 @@ templ InputOTPScript() {
 					},
 					
 					getInputRefs() {
-						const length = parseInt(this.$el.dataset.length || '6');
+						const length = parseInt(this.$el.dataset.maxLength || '6');
 						this.inputRefs = [];
 						for (let i = 0; i < length; i++) {
 							const ref = this.$refs[`otpDigit${i}`];
@@ -101,8 +213,6 @@ templ InputOTPScript() {
 						const inputs = this.getInputRefs();
 						
 						if (event.key === 'Backspace') {
-							const input = event.target;
-							
 							if (!input.value && index > 0) {
 								inputs[index - 1].focus();
 								inputs[index - 1].value = '';
@@ -141,63 +251,4 @@ templ InputOTPScript() {
 			});
 		</script>
 	}
-}
-
-templ InputOTP(props InputOTPProps) {
-	if props.ID == "" {
-		{{ props.ID = utils.RandomID() }}
-	}
-	if props.Length <= 0 {
-		{{ props.Length = 6 }}
-	}
-	if props.Type == "" {
-		{{ props.Type = "text" }}
-	}
-	if props.Placeholder == "" {
-		{{ props.Placeholder = "" }}
-	}
-	@InputOTPScript()
-	<div
-		id={ props.ID + "-container" }
-		class={ utils.TwMerge(
-			"flex flex-row gap-2 w-fit",
-			props.Class,
-		) }
-		x-data="inputOTP"
-		data-length={ strconv.Itoa(props.Length) }
-		if props.Value != "" {
-			data-value={ props.Value }
-		}
-		x-on:paste.prevent="handlePaste"
-	>
-		<input
-			type="hidden"
-			id={ props.ID }
-			name={ props.Name }
-			x-model="otpValue"
-			required?={ props.Required }
-		/>
-		for i := 0; i < props.Length; i++ {
-			<input
-				x-ref={ "otpDigit" + strconv.Itoa(i) }
-				type={ props.Type }
-				inputmode="numeric"
-				placeholder={ props.Placeholder }
-				maxlength="1"
-				class={ utils.TwMerge(
-						"w-10 h-12 text-center",
-						"rounded-md border border-input bg-background text-sm",
-						"file:border-0 file:bg-transparent file:text-sm file:font-medium",
-						"placeholder:text-muted-foreground",
-						"focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-						"disabled:cursor-not-allowed disabled:opacity-50",
-						utils.TwIf("border-destructive ring-destructive", props.HasError),
-					) }
-				disabled?={ props.Disabled }
-				data-input-index={ strconv.Itoa(i) }
-				x-on:input="handleInput"
-				x-on:keydown="handleKeydown"
-			/>
-		}
-	</div>
 }

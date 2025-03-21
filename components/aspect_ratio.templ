@@ -2,24 +2,26 @@ package components
 
 import "github.com/axzilla/templui/utils"
 
-type AspectRatioVariant int
+type AspectRatioVariant string
 
 const (
-	AspectRatioAuto AspectRatioVariant = iota
-	AspectRatioSquare
-	AspectRatioVideo
-	AspectRatioPortrait
-	AspectRatioWide
+	AspectRatioAuto     AspectRatioVariant = "auto"
+	AspectRatioSquare   AspectRatioVariant = "square"
+	AspectRatioVideo    AspectRatioVariant = "video"
+	AspectRatioPortrait AspectRatioVariant = "portrait"
+	AspectRatioWide     AspectRatioVariant = "wide"
 )
 
 type AspectRatioProps struct {
-	Ratio      AspectRatioVariant
+	ID         string
 	Class      string
 	Attributes templ.Attributes
+	Ratio      AspectRatioVariant
 }
 
 templ AspectRatio(props AspectRatioProps) {
 	<div
+		id={ props.ID }
 		class={ utils.TwMerge(
 			"relative w-full",
 			getAspectRatioClass(props.Ratio),

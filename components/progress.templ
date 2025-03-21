@@ -6,14 +6,13 @@ import (
 )
 
 type ProgressSize string
+type ProgressVariant string
 
 const (
 	ProgressSizeDefault ProgressSize = ""
 	ProgressSizeSm      ProgressSize = "sm"
 	ProgressSizeLg      ProgressSize = "lg"
 )
-
-type ProgressVariant string
 
 const (
 	ProgressVariantDefault ProgressVariant = "default"
@@ -23,29 +22,29 @@ const (
 )
 
 type ProgressProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
 	Value      int
 	Max        int
 	Label      string
 	ShowValue  bool
 	Size       ProgressSize
 	Variant    ProgressVariant
-	Class      string
 	BarClass   string
 	HxGet      string
 	HxTrigger  string
 	HxTarget   string
 	HxSwap     string
-	Attributes templ.Attributes
 }
 
 templ Progress(props ProgressProps) {
+	if props.ID == "" {
+		{{ props.ID = utils.RandomID() }}
+	}
 	<div
-		class={
-			utils.TwMerge(
-				"w-full",
-				props.Class,
-			),
-		}
+		id={ props.ID }
+		class={ utils.TwMerge("w-full", props.Class) }
 		if props.HxGet != "" {
 			hx-get={ props.HxGet }
 		}
@@ -76,13 +75,7 @@ templ Progress(props ProgressProps) {
 				}
 			</div>
 		}
-		<div
-			class={
-				utils.TwMerge(
-					"w-full overflow-hidden rounded-full bg-secondary",
-				),
-			}
-		>
+		<div class={ "w-full overflow-hidden rounded-full bg-secondary" }>
 			<div
 				class={
 					utils.TwMerge(

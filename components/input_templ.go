@@ -26,18 +26,18 @@ const (
 )
 
 type InputProps struct {
+	ID          string
+	Class       string
+	Attributes  templ.Attributes
 	Type        InputType
 	Placeholder string
 	Value       string
 	Name        string
-	ID          string
 	Disabled    bool
 	Readonly    bool
 	Required    bool
 	FileAccept  string
 	HasError    bool
-	Class       string
-	Attributes  templ.Attributes
 }
 
 func Input(props InputProps) templ.Component {
@@ -69,7 +69,7 @@ func Input(props InputProps) templ.Component {
 				"placeholder:text-muted-foreground",
 				"focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
 				"disabled:cursor-not-allowed disabled:opacity-50",
-				utils.TwIf("border-destructive ring-destructive", props.HasError),
+				utils.If(props.HasError, "border-destructive ring-destructive"),
 				props.Class,
 			),
 		}

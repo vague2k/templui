@@ -29,15 +29,9 @@ templ Textarea() {
 			})
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "With Value",
-					ShowcaseFile:      showcase.TextareaWithValue(),
-					PreviewCodeFile:   "textarea_with_value.templ",
-					ComponentCodeFile: "textarea.templ",
-				})
-				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "With Rows",
-					ShowcaseFile:      showcase.TextareaWithRows(),
-					PreviewCodeFile:   "textarea_with_rows.templ",
+					SectionName:       "Custom Rows",
+					ShowcaseFile:      showcase.TextareaCustomRows(),
+					PreviewCodeFile:   "textarea_custom_rows.templ",
 					ComponentCodeFile: "textarea.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{

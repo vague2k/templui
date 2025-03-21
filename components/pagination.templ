@@ -1,220 +1,186 @@
 package components
 
-import (
-	"github.com/axzilla/templui/icons"
-	"github.com/axzilla/templui/utils"
-	"math"
-	"strconv"
-	"strings"
-)
-
-type PaginationVariant string
-
-const (
-	PaginationVariantDefault PaginationVariant = "default"
-	PaginationVariantSimple  PaginationVariant = "simple"
-	PaginationVariantMinimal PaginationVariant = "minimal"
-	PaginationVariantOutline PaginationVariant = "outline"
-)
+import "github.com/axzilla/templui/utils"
+import "github.com/axzilla/templui/icons"
 
 type PaginationProps struct {
-	CurrentPage  int
-	TotalPages   int
-	PageSize     int
-	TotalItems   int
-	MaxVisible   int
-	Variant      PaginationVariant
-	ShowNumbers  bool
-	ShowControls bool
-	UrlPattern   string
-	HxGet        bool
-	HxTarget     string
-	HxSwap       string
-	Class        string
-	Attributes   templ.Attributes
+	ID         string
+	Class      string
+	Attributes templ.Attributes
 }
 
-func calculateTotalPages(props PaginationProps) int {
-	if props.TotalPages > 0 {
-		return props.TotalPages
-	}
-
-	if props.TotalItems > 0 && props.PageSize > 0 {
-		return int(math.Ceil(float64(props.TotalItems) / float64(props.PageSize)))
-	}
-
-	return 1
+type PaginationLinkProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+	Href       string
+	IsActive   bool
+	Disabled   bool
+	HxGet      string
+	HxTarget   string
+	HxSwap     string
 }
 
-func getPageUrl(urlPattern string, page int) string {
-	if urlPattern == "" {
-		return "?page=" + strconv.Itoa(page)
-	}
+type PaginationPreviousProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+	Href       string
+	Disabled   bool
+	HxGet      string
+	HxTarget   string
+	HxSwap     string
+}
 
-	return strings.Replace(urlPattern, "{page}", strconv.Itoa(page), 1)
+type PaginationNextProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+	Href       string
+	Disabled   bool
+	HxGet      string
+	HxTarget   string
+	HxSwap     string
 }
 
 templ Pagination(props PaginationProps) {
-	if props.MaxVisible <= 0 {
-		{{ props.MaxVisible = 7 }}
-	}
-	if props.CurrentPage <= 0 {
-		{{ props.CurrentPage = 1 }}
-	}
-	if props.Variant == "" {
-		{{ props.Variant = PaginationVariantDefault }}
-	}
-	if !props.ShowNumbers && !props.ShowControls {
-		{{ props.ShowNumbers = true }}
-		{{ props.ShowControls = true }}
-	}
-	{{ totalPages := calculateTotalPages(props) }}
-	if props.CurrentPage > totalPages {
-		{{ props.CurrentPage = totalPages }}
-	}
 	<nav
 		role="navigation"
-		aria-label="Pagination"
-		class={ utils.TwMerge(
-				"flex flex-wrap items-center justify-center gap-1",
-				props.Class,
-			) }
+		aria-label="pagination"
+		class={ utils.TwMerge("flex flex-wrap justify-center", props.Class) }
 		{ props.Attributes... }
 	>
-		if props.ShowControls {
-			@renderPrevButton(props)
-		}
-		if props.ShowNumbers && props.Variant != PaginationVariantSimple {
-			@renderPageNumbers(props, totalPages)
-		}
-		if props.ShowControls {
-			@renderNextButton(props, totalPages)
-		}
+		{ children... }
 	</nav>
 }
 
-templ renderPrevButton(props PaginationProps) {
-	if props.CurrentPage <= 1 {
+templ PaginationContent() {
+	<ul class="flex flex-row items-center gap-1">
+		{ children... }
+	</ul>
+}
+
+templ PaginationItem() {
+	<li>
+		{ children... }
+	</li>
+}
+
+templ PaginationLink(props PaginationLinkProps) {
+	if props.Disabled {
 		@Button(ButtonProps{
-			Variant:  ButtonVariantGhost,
-			Disabled: true,
+			ID:         props.ID,
+			Disabled:   true,
+			Size:       ButtonSizeIcon,
+			Variant:    ButtonVariantGhost,
+			Class:      props.Class,
+			Attributes: props.Attributes,
 		}) {
-			@icons.ChevronLeft(icons.IconProps{Size: "16"})
-			if props.Variant != PaginationVariantMinimal {
-				<span>Previous</span>
-			}
+			{ children... }
+		}
+	} else if props.HxGet != "" {
+		@Button(ButtonProps{
+			ID:         props.ID,
+			HxGet:      props.HxGet,
+			HxTarget:   props.HxTarget,
+			HxSwap:     props.HxSwap,
+			Size:       ButtonSizeIcon,
+			Variant:    buttonVariant(props.IsActive),
+			Class:      props.Class,
+			Attributes: props.Attributes,
+		}) {
+			{ children... }
 		}
 	} else {
-		if props.HxGet {
-			@Button(ButtonProps{
-				Variant:  ButtonVariantGhost,
-				HxGet:    getPageUrl(props.UrlPattern, props.CurrentPage-1),
-				HxTarget: props.HxTarget,
-				HxSwap:   props.HxSwap,
-			}) {
-				@icons.ChevronLeft(icons.IconProps{Size: "16"})
-				if props.Variant != PaginationVariantMinimal {
-					<span>Previous</span>
-				}
-			}
-		} else {
-			@Button(ButtonProps{
-				Variant: ButtonVariantGhost,
-				Href:    getPageUrl(props.UrlPattern, props.CurrentPage-1),
-			}) {
-				@icons.ChevronLeft(icons.IconProps{Size: "16", Class: "mr-1"})
-				if props.Variant != PaginationVariantMinimal {
-					<span>Previous</span>
-				}
-			}
+		@Button(ButtonProps{
+			ID:         props.ID,
+			Href:       props.Href,
+			Size:       ButtonSizeIcon,
+			Variant:    buttonVariant(props.IsActive),
+			Class:      props.Class,
+			Attributes: props.Attributes,
+		}) {
+			{ children... }
 		}
 	}
 }
 
-templ renderNextButton(props PaginationProps, totalPages int) {
-	if props.CurrentPage >= totalPages {
-		@Button(ButtonProps{
-			Variant:  ButtonVariantGhost,
-			Disabled: true,
-		}) {
-			if props.Variant != PaginationVariantMinimal {
-				<span>Next</span>
-			}
-			@icons.ChevronRight(icons.IconProps{Size: "16", Class: "ml-1"})
-		}
-	} else {
-		if props.HxGet {
-			@Button(ButtonProps{
-				Variant:  ButtonVariantGhost,
-				HxGet:    getPageUrl(props.UrlPattern, props.CurrentPage+1),
-				HxTarget: props.HxTarget,
-				HxSwap:   props.HxSwap,
-			}) {
-				if props.Variant != PaginationVariantMinimal {
-					<span>Next</span>
-				}
-				@icons.ChevronRight(icons.IconProps{Size: "16", Class: "ml-1"})
-			}
-		} else {
-			@Button(ButtonProps{
-				Variant: ButtonVariantGhost,
-				Href:    getPageUrl(props.UrlPattern, props.CurrentPage+1),
-			}) {
-				if props.Variant != PaginationVariantMinimal {
-					<span>Next</span>
-				}
-				@icons.ChevronRight(icons.IconProps{Size: "16", Class: "ml-1"})
-			}
-		}
+templ PaginationPrevious(props PaginationPreviousProps) {
+	@Button(ButtonProps{
+		ID:         props.ID,
+		Href:       props.Href,
+		HxGet:      props.HxGet,
+		HxTarget:   props.HxTarget,
+		HxSwap:     props.HxSwap,
+		Disabled:   props.Disabled,
+		Variant:    ButtonVariantGhost,
+		Class:      utils.TwMerge("gap-1", props.Class),
+		Attributes: props.Attributes,
+	}) {
+		@icons.ChevronLeft(icons.IconProps{Size: "16"})
+		<span>Previous</span>
 	}
 }
 
-templ renderPageNumbers(props PaginationProps, totalPages int) {
-	if props.Variant != PaginationVariantMinimal && props.CurrentPage > 3 && props.MaxVisible < totalPages {
-		@renderPageButton(props, 1)
-		if props.CurrentPage > 4 {
-			<span class="flex h-10 w-10 items-center justify-center text-sm">...</span>
-		}
+templ PaginationNext(props PaginationNextProps) {
+	@Button(ButtonProps{
+		ID:         props.ID,
+		Href:       props.Href,
+		HxGet:      props.HxGet,
+		HxTarget:   props.HxTarget,
+		HxSwap:     props.HxSwap,
+		Disabled:   props.Disabled,
+		Variant:    ButtonVariantGhost,
+		Class:      utils.TwMerge("gap-1", props.Class),
+		Attributes: props.Attributes,
+	}) {
+		<span>Next</span>
+		@icons.ChevronRight(icons.IconProps{Size: "16"})
 	}
-	{{
-		start, end := calculateVisibleRange(props.CurrentPage, totalPages, props.MaxVisible)
-	}}
+}
+
+templ PaginationEllipsis() {
+	@icons.Ellipsis(icons.IconProps{Size: "16"})
+}
+
+func CreatePagination(currentPage, totalPages, maxVisible int) struct {
+	CurrentPage int
+	TotalPages  int
+	Pages       []int
+	HasPrevious bool
+	HasNext     bool
+} {
+	if currentPage < 1 {
+		currentPage = 1
+	}
+	if totalPages < 1 {
+		totalPages = 1
+	}
+	if currentPage > totalPages {
+		currentPage = totalPages
+	}
+	if maxVisible < 1 {
+		maxVisible = 5
+	}
+
+	start, end := calculateVisibleRange(currentPage, totalPages, maxVisible)
+	pages := make([]int, 0, end-start+1)
 	for i := start; i <= end; i++ {
-		@renderPageButton(props, i)
+		pages = append(pages, i)
 	}
-	if props.Variant != PaginationVariantMinimal && props.CurrentPage < totalPages - 2 && props.MaxVisible < totalPages {
-		if props.CurrentPage < totalPages - 3 {
-			<span class="flex h-10 w-10 items-center justify-center text-sm">...</span>
-		}
-		@renderPageButton(props, totalPages)
-	}
-}
 
-templ renderPageButton(props PaginationProps, page int) {
-	if page == props.CurrentPage {
-		@Button(ButtonProps{
-			Variant: getButtonVariant(props.Variant),
-			Text:    strconv.Itoa(page),
-			Size:    ButtonSizeIcon,
-		})
-	} else {
-		if props.HxGet {
-			@Button(ButtonProps{
-				Variant:  ButtonVariantGhost,
-				Text:     strconv.Itoa(page),
-				HxGet:    getPageUrl(props.UrlPattern, page),
-				HxTarget: props.HxTarget,
-				HxSwap:   props.HxSwap,
-				Size:     ButtonSizeIcon,
-			})
-		} else {
-			@Button(ButtonProps{
-				Variant: ButtonVariantGhost,
-				Text:    strconv.Itoa(page),
-				Size:    ButtonSizeIcon,
-				Href:    getPageUrl(props.UrlPattern, page),
-			})
-		}
+	return struct {
+		CurrentPage int
+		TotalPages  int
+		Pages       []int
+		HasPrevious bool
+		HasNext     bool
+	}{
+		CurrentPage: currentPage,
+		TotalPages:  totalPages,
+		Pages:       pages,
+		HasPrevious: currentPage > 1,
+		HasNext:     currentPage < totalPages,
 	}
 }
 
@@ -243,11 +209,9 @@ func calculateVisibleRange(currentPage, totalPages, maxVisible int) (int, int) {
 	return start, end
 }
 
-func getButtonVariant(paginationType PaginationVariant) ButtonVariant {
-	switch paginationType {
-	case PaginationVariantOutline:
+func buttonVariant(isActive bool) ButtonVariant {
+	if isActive {
 		return ButtonVariantOutline
-	default:
-		return ButtonVariantDefault
 	}
+	return ButtonVariantGhost
 }
