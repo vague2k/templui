@@ -3,9 +3,11 @@ package components
 import "github.com/axzilla/templui/utils"
 
 type ModalProps struct {
-	ID         string
-	Class      string
-	Attributes templ.Attributes
+    ID               string
+    Class            string
+    Attributes       templ.Attributes
+    DisableClickAway bool
+    DisableESC       bool
 }
 
 templ Modal(props ModalProps) {
@@ -33,7 +35,12 @@ templ Modal(props ModalProps) {
 					"relative bg-background rounded-lg border text-left overflow-hidden shadow-xl transform transition-all sm:my-8 w-full",
 					props.Class),
 			}
-			@click.away="handleClickAway"
+			if !props.DisableClickAway {
+				@click.outside="handleClickAway"
+			}
+			if !props.DisableESC {
+				x-on:keydown.esc.window="handleClickAway"
+			}
 		>
 			{ children... }
 		</div>
