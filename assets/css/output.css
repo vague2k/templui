@@ -2202,6 +2202,11 @@
       color: var(---accent-foreground);
     }
   }
+  .data-\[state\=selected\]\:bg-muted {
+    &[data-state="selected"] {
+      background-color: var(--muted);
+    }
+  }
   .sm\:my-8 {
     @media (width >= 40rem) {
       margin-block: calc(var(--spacing) * 8);
@@ -2494,15 +2499,6 @@
       padding-left: calc(var(--spacing) * 11);
     }
   }
-  .\[\&\:not\(\.bg-primary\)\]\:hover\:bg-muted {
-    &:not(.bg-primary) {
-      &:hover {
-        @media (hover: hover) {
-          background-color: var(--muted);
-        }
-      }
-    }
-  }
   .\[\&\>\[role\=checkbox\]\]\:translate-y-\[2px\] {
     &>[role=checkbox] {
       --tw-translate-y: 2px;
@@ -2548,15 +2544,6 @@
   .\[\&amp\;\.htmx-request\]\:inline-flex {
     &amp;.htmx-request {
       display: inline-flex;
-    }
-  }
-  .\[\&amp\;\:not\(\.bg-primary\)\]\:hover\:bg-muted {
-    &amp;:not(.bg-primary) {
-      &:hover {
-        @media (hover: hover) {
-          background-color: var(--muted);
-        }
-      }
     }
   }
 }
