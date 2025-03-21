@@ -22,7 +22,6 @@ func toastDemoHandler(w http.ResponseWriter, r *http.Request) {
 		duration = 0
 	}
 
-	fmt.Println("xxx", r.FormValue("description"))
 	toastProps := components.ToastProps{
 		Title:         r.FormValue("title"),
 		Description:   r.FormValue("description"),
