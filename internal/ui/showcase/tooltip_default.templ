@@ -1,0 +1,21 @@
+package showcase
+
+import "github.com/axzilla/templui/components"
+
+templ TooltipDefault() {
+	@components.Tooltip(components.TooltipProps{}) {
+		@components.TooltipTrigger(components.TooltipTriggerProps{}) {
+			@components.Button(components.ButtonProps{
+				Variant: components.ButtonVariantOutline,
+			}) {
+				Hover Me
+			}
+		}
+		@components.TooltipContent(components.TooltipContentProps{
+			Side:    components.TooltipPositionTop,
+			Variant: components.TooltipVariantDefault,
+		}) {
+			Add to cart
+		}
+	}
+}

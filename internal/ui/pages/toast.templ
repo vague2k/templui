@@ -20,8 +20,8 @@ templ Toast() {
 			Alpine:      true,
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				ShowcaseFile:      showcase.Toast(),
-				PreviewCodeFile:   "toast.templ",
+				ShowcaseFile:      showcase.ToastDefault(),
+				PreviewCodeFile:   "toast_default.templ",
 				ComponentCodeFile: "toast.templ",
 			})
 			@modules.Usage(modules.UsageProps{
@@ -32,8 +32,8 @@ templ Toast() {
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "Playground",
-					ShowcaseFile:      showcase.ToastAdvanced(),
-					PreviewCodeFile:   "toast_advanced.templ",
+					ShowcaseFile:      showcase.ToastPlayground(),
+					PreviewCodeFile:   "toast_playground.templ",
 					ComponentCodeFile: "toast.templ",
 				})
 			}
@@ -43,21 +43,37 @@ templ Toast() {
 
 templ UsageExamples() {
 	@components.Tabs(components.TabsProps{
-		Tabs: []components.Tab{
-			{
-				ID:      "with-htmx",
-				Title:   "With HTMX",
-				Content: withHtmx(),
-			},
-			{
-				ID:      "full-page-form",
-				Title:   "Full Page Form",
-				Content: fullPageForm(),
-			},
-		},
-		TabsContainerClass:    "w-full",
-		ContentContainerClass: "w-full",
-	})
+		ID: "usage-examples",
+	}) {
+		@components.TabsList(components.TabsListProps{
+			Class: "w-full",
+		}) {
+			@components.TabTrigger(components.TabTriggerProps{
+				Value:    "with-htmx",
+				IsActive: true,
+			}) {
+				With HTMX
+			}
+			@components.TabTrigger(components.TabTriggerProps{
+				Value: "full-page-form",
+			}) {
+				Full Page Form
+			}
+		}
+		<div class="w-full mt-2">
+			@components.TabContent(components.TabContentProps{
+				Value:    "with-htmx",
+				IsActive: true,
+			}) {
+				@withHtmx()
+			}
+			@components.TabContent(components.TabContentProps{
+				Value: "full-page-form",
+			}) {
+				@fullPageForm()
+			}
+		</div>
+	}
 }
 
 var withHtmxCode = fmt.Sprintf(`// Template
@@ -67,13 +83,12 @@ var withHtmxCode = fmt.Sprintf(`// Template
 	</form>
 	<div id="toast"></div>
 }
-
 // Handler
 func Save(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		components.Toast(components.ToastProps{
-			Message: err.Error(),
-			Type: "error",
+			Text: err.Error(),
+			Variant: components.ToastVariantError,
 		}).Render(r.Context(), w)
 	}
 }`, "templ")
@@ -88,15 +103,14 @@ var fullPageFormCode = fmt.Sprintf(`// Template
 %s UserForm(error string) {
     if error != "" {
         @components.Toast(components.ToastProps{
-            Message: error,
-            Type:    "error",
+            Text: error,
+            Variant:    components.ToastVariantError,
         })
     }
     <form method="POST">
         <input name="email"/>
     </form>
 }
-
 // Handler
 func Save(w http.ResponseWriter, r *http.Request) {
     if err != nil {

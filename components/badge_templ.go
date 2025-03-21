@@ -20,25 +20,10 @@ const (
 )
 
 type BadgeProps struct {
-	Class      string           // Additional CSS classes
-	Text       string           // Badge text content
-	Variant    BadgeVariant     // Visual style variant
-	IconBefore templ.Component  // Icon to display before the text
-	IconAfter  templ.Component  // Icon to display after the text
-	Attributes templ.Attributes // Additional HTML attributes
-}
-
-func (b BadgeProps) variantClasses() string {
-	switch b.Variant {
-	case BadgeVariantDestructive:
-		return "border-transparent bg-destructive text-destructive-foreground"
-	case BadgeVariantOutline:
-		return "text-foreground border-border"
-	case BadgeVariantSecondary:
-		return "border-transparent bg-secondary text-secondary-foreground"
-	default:
-		return "border-transparent bg-primary text-primary-foreground"
-	}
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+	Variant    BadgeVariant
 }
 
 func Badge(props BadgeProps) templ.Component {
@@ -64,15 +49,10 @@ func Badge(props BadgeProps) templ.Component {
 		ctx = templ.ClearChildren(ctx)
 		var templ_7745c5c3_Var2 = []any{
 			utils.TwMerge(
-				// Layout
 				"inline-flex items-center gap-2",
-				// Style
 				"rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors",
-				// State
 				"focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2",
-				// Variants
 				props.variantClasses(),
-				// Custom
 				props.Class,
 			),
 		}
@@ -80,20 +60,33 @@ func Badge(props BadgeProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div id=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var3 string
-		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var2).String())
+		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/badge.templ`, Line: 1, Col: 0}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/badge.templ`, Line: 23, Col: 15}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\" class=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var4 string
+		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var2).String())
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/badge.templ`, Line: 1, Col: 0}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -101,34 +94,13 @@ func Badge(props BadgeProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, ">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, ">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		if props.IconBefore != nil {
-			templ_7745c5c3_Err = props.IconBefore.Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		}
-		var templ_7745c5c3_Var4 string
-		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(props.Text)
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/badge.templ`, Line: 57, Col: 14}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
+		templ_7745c5c3_Err = templ_7745c5c3_Var1.Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, " ")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		if props.IconAfter != nil {
-			templ_7745c5c3_Err = props.IconAfter.Render(ctx, templ_7745c5c3_Buffer)
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
 		}
 		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</div>")
 		if templ_7745c5c3_Err != nil {
@@ -136,6 +108,19 @@ func Badge(props BadgeProps) templ.Component {
 		}
 		return nil
 	})
+}
+
+func (b BadgeProps) variantClasses() string {
+	switch b.Variant {
+	case BadgeVariantDestructive:
+		return "border-transparent bg-destructive text-destructive-foreground"
+	case BadgeVariantOutline:
+		return "text-foreground border-border"
+	case BadgeVariantSecondary:
+		return "border-transparent bg-secondary text-secondary-foreground"
+	default:
+		return "border-transparent bg-primary text-primary-foreground"
+	}
 }
 
 var _ = templruntime.GeneratedTemplate

@@ -3,9 +3,5 @@ package showcase
 import "github.com/axzilla/templui/icons"
 
 templ IconDefault() {
-	<div class="flex flex-wrap gap-2">
-		@icons.User(icons.IconProps{Size: "24"})
-		@icons.House(icons.IconProps{Size: "24"})
-		@icons.Settings(icons.IconProps{Size: "24"})
-	</div>
+	@icons.User(icons.IconProps{Size: "24"})
 }

@@ -5,17 +5,38 @@ import "github.com/axzilla/templui/components"
 templ SelectWithLabel() {
 	<div class="space-y-2 w-full max-w-sm">
 		@components.Label(components.LabelProps{
-			Text: "Choose a Fruit",
-			For:  "fruit-with-label",
-		})
-		@components.Select(components.SelectProps{
-			ID: "fruit-with-label",
-			Options: []components.SelectOption{
-				{Label: "Apple", Value: "apple"},
-				{Label: "Banana", Value: "banana"},
-				{Label: "Orange", Value: "orange"},
-				{Label: "Mango", Value: "mango"},
-			},
-		})
+			For: "select-with-label",
+		}) {
+			Fruit
+		}
+		@components.Select(components.SelectProps{}) {
+			@components.SelectTrigger(components.SelectTriggerProps{
+				ID: "select-with-label",
+			}) {
+				@components.SelectValue(components.SelectValueProps{
+					Placeholder: "Select a fruit",
+				})
+			}
+			@components.SelectContent(components.SelectContentProps{}) {
+				@components.SelectLabel(components.SelectLabelProps{}) {
+					Fruits
+				}
+				@components.SelectItem(components.SelectItemProps{
+					Value: "apple",
+				}) {
+					Apple
+				}
+				@components.SelectItem(components.SelectItemProps{
+					Value: "banana",
+				}) {
+					Banana
+				}
+				@components.SelectItem(components.SelectItemProps{
+					Value: "orange",
+				}) {
+					Orange
+				}
+			}
+		}
 	</div>
 }

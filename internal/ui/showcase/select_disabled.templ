@@ -4,17 +4,29 @@ import "github.com/axzilla/templui/components"
 
 templ SelectDisabled() {
 	<div class="space-y-2 w-full max-w-sm">
-		@components.FormLabel(components.FormLabelProps{
-			Text: "Choose a fruit",
-			For:  "select-disabled",
-		})
-		@components.Select(components.SelectProps{
-			ID:       "select-disabled",
-			Disabled: true,
-			Options: []components.SelectOption{
-				{Label: "Apple", Value: "1"},
-				{Label: "Banana", Value: "2"},
-			},
-		})
+		@components.Select(components.SelectProps{}) {
+			@components.SelectTrigger(components.SelectTriggerProps{
+				Disabled: true,
+			}) {
+				@components.SelectValue(components.SelectValueProps{
+					Placeholder: "Select a fruit",
+				})
+			}
+			@components.SelectContent(components.SelectContentProps{}) {
+				@components.SelectLabel(components.SelectLabelProps{}) {
+					Fruits
+				}
+				@components.SelectItem(components.SelectItemProps{
+					Value: "apple",
+				}) {
+					Apple
+				}
+				@components.SelectItem(components.SelectItemProps{
+					Value: "banana",
+				}) {
+					Banana
+				}
+			}
+		}
 	</div>
 }

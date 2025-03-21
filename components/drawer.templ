@@ -1,0 +1,230 @@
+package components
+
+import (
+	"github.com/axzilla/templui/utils"
+)
+
+type DrawerPosition string
+
+const (
+	DrawerPositionTop    DrawerPosition = "top"
+	DrawerPositionRight  DrawerPosition = "right"
+	DrawerPositionBottom DrawerPosition = "bottom"
+	DrawerPositionLeft   DrawerPosition = "left"
+)
+
+type DrawerProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+	Side       DrawerPosition
+}
+
+type DrawerTriggerProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+}
+
+type DrawerContentProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+	Side       DrawerPosition
+}
+
+type DrawerHeaderProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+}
+
+type DrawerFooterProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+}
+
+type DrawerTitleProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+}
+
+type DrawerDescriptionProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+}
+
+type DrawerCloseProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+}
+
+templ Drawer(props DrawerProps) {
+	<div
+		id={ props.ID }
+		x-data="drawer"
+		@keydown.escape.window="close"
+		class={ utils.TwMerge("relative", props.Class) }
+		{ props.Attributes... }
+	>
+		{ children... }
+	</div>
+}
+
+templ DrawerTrigger(props DrawerTriggerProps) {
+	<div
+		id={ props.ID }
+		@click="open"
+		class={ utils.TwMerge("cursor-pointer", props.Class) }
+		{ props.Attributes... }
+	>
+		{ children... }
+	</div>
+}
+
+templ DrawerContent(props DrawerContentProps) {
+	<div
+		id={ props.ID }
+		x-show="isOpen"
+		class="fixed inset-0 z-50 bg-background/80 backdrop-blur-xs"
+		@click="close"
+		x-transition:enter="transition ease-out duration-300"
+		x-transition:enter-start="opacity-0"
+		x-transition:enter-end="opacity-100"
+		x-transition:leave="transition ease-in duration-300"
+		x-transition:leave-start="opacity-100"
+		x-transition:leave-end="opacity-0"
+	></div>
+	<div
+		id={ props.ID + "-content" }
+		x-show="isOpen"
+		@click.away="close"
+		class={
+			utils.TwMerge("fixed z-50", props.Class),
+			templ.KV("inset-y-0 right-0 w-3/4 md:w-1/2 lg:w-1/3", props.Side == DrawerPositionRight),
+			templ.KV("inset-y-0 left-0 w-3/4 md:w-1/2 lg:w-1/3", props.Side == DrawerPositionLeft),
+			templ.KV("inset-x-0 top-0 h-auto sm:h-1/2", props.Side == DrawerPositionTop),
+			templ.KV("inset-x-0 bottom-0 h-auto sm:h-1/2", props.Side == DrawerPositionBottom),
+		}
+		x-transition:enter="transition ease-out duration-300"
+		x-transition:leave="transition ease-in duration-300"
+		if props.Side == DrawerPositionLeft {
+			x-transition:enter-start="opacity-0 transform -translate-x-full"
+			x-transition:enter-end="opacity-100 transform translate-x-0"
+			x-transition:leave-start="opacity-100 transform translate-x-0"
+			x-transition:leave-end="opacity-0 transform -translate-x-full"
+		}
+		if props.Side == DrawerPositionRight {
+			x-transition:enter-start="opacity-0 transform translate-x-full"
+			x-transition:enter-end="opacity-100 transform translate-x-0"
+			x-transition:leave-start="opacity-100 transform translate-x-0"
+			x-transition:leave-end="opacity-0 transform translate-x-full"
+		}
+		if props.Side == DrawerPositionTop {
+			x-transition:enter-start="opacity-0 transform -translate-y-full"
+			x-transition:enter-end="opacity-100 transform translate-y-0"
+			x-transition:leave-start="opacity-100 transform translate-y-0"
+			x-transition:leave-end="opacity-0 transform -translate-y-full"
+		}
+		if props.Side == DrawerPositionBottom {
+			x-transition:enter-start="opacity-0 transform translate-y-full"
+			x-transition:enter-end="opacity-100 transform translate-y-0"
+			x-transition:leave-start="opacity-100 transform translate-y-0"
+			x-transition:leave-end="opacity-0 transform translate-y-full"
+		}
+		{ props.Attributes... }
+	>
+		<div
+			class={
+				"h-full overflow-y-auto bg-background p-6 shadow-lg",
+				templ.KV("border-l", props.Side == DrawerPositionRight),
+				templ.KV("border-r", props.Side == DrawerPositionLeft),
+				templ.KV("border-t", props.Side == DrawerPositionBottom),
+				templ.KV("border-b", props.Side == DrawerPositionTop),
+			}
+			@click.stop
+		>
+			{ children... }
+		</div>
+	</div>
+}
+
+templ DrawerHeader(props DrawerHeaderProps) {
+	<div
+		id={ props.ID }
+		class={ utils.TwMerge("flex flex-col space-y-1.5 pb-4", props.Class) }
+		{ props.Attributes... }
+	>
+		{ children... }
+	</div>
+}
+
+templ DrawerTitle(props DrawerTitleProps) {
+	<h2
+		id={ props.ID }
+		class={ utils.TwMerge("text-lg font-semibold leading-none tracking-tight", props.Class) }
+		{ props.Attributes... }
+	>
+		{ children... }
+	</h2>
+}
+
+templ DrawerDescription(props DrawerDescriptionProps) {
+	<p
+		id={ props.ID }
+		class={ utils.TwMerge("text-sm text-muted-foreground", props.Class) }
+		{ props.Attributes... }
+	>
+		{ children... }
+	</p>
+}
+
+templ DrawerFooter(props DrawerFooterProps) {
+	<div
+		id={ props.ID }
+		class={ utils.TwMerge("flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 pt-4", props.Class) }
+		{ props.Attributes... }
+	>
+		{ children... }
+	</div>
+}
+
+templ DrawerClose(props DrawerCloseProps) {
+	<button
+		id={ props.ID }
+		@click="close"
+		class={ utils.TwMerge(
+			"inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background",
+			"transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+			"disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent",
+			"hover:text-accent-foreground h-10 px-4 py-2",
+			props.Class,
+		) }
+		{ props.Attributes... }
+	>
+		{ children... }
+	</button>
+}
+
+templ DrawerScript() {
+	{{ handle := templ.NewOnceHandle() }}
+	@handle.Once() {
+		<script nonce={ templ.GetNonce(ctx) }>
+			document.addEventListener('alpine:init', () => {
+				Alpine.data('drawer', () => ({
+					isOpen: false,
+					open() {
+						this.isOpen = true
+					},
+					close() {
+						this.isOpen = false
+					},
+				}))
+			})
+		</script>
+	}
+}

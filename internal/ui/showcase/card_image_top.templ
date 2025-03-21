@@ -1,0 +1,33 @@
+package showcase
+
+import "github.com/axzilla/templui/components"
+
+templ CardImageTop() {
+	<div class="w-full max-w-sm">
+		@components.Card(components.CardProps{}) {
+			@components.CardMedia(components.CardMediaProps{
+				ID:          "top-media",
+				Src:         "/assets/img/card_placeholder.jpeg",
+				Alt:         "Card image",
+				Position:    components.CardMediaTop,
+				AspectRatio: components.AspectRatioVideo,
+			})
+			@components.CardHeader(components.CardHeaderProps{}) {
+				@components.CardTitle(components.CardTitleProps{}) {
+					Featured Card
+				}
+				@components.CardDescription(components.CardDescriptionProps{}) {
+					With top image
+				}
+			}
+			@components.CardContent(components.CardContentProps{}) {
+				<p>This card shows top image usage.</p>
+			}
+			@components.CardFooter(components.CardFooterProps{}) {
+				@components.Button(components.ButtonProps{}) {
+					Learn more
+				}
+			}
+		}
+	</div>
+}

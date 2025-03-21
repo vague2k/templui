@@ -4,20 +4,20 @@ import "github.com/axzilla/templui/components"
 
 // ComponentScripts returns script tags for all components.
 templ ComponentScripts() {
-	@components.ChartScripts()
-	@components.RatingScript()
 	@components.CarouselScript()
+	@components.ChartScripts()
 	@components.CodeScript()
-	@components.ToastScript()
 	@components.DatePickerScript()
+	@components.DrawerScript()
 	@components.DropdownMenuScript()
-	@components.LabelScript()
 	@components.InputOTPScript()
+	@components.LabelScript()
 	@components.ModalScript()
-	@components.SheetScript()
+	@components.RatingScript()
+	@components.SelectScript()
 	@components.SliderScript()
 	@components.TabsScript()
 	@components.TextareaScript()
 	@components.TimePickerScript()
-	<!-- @components.ProgressScript() -->
+	@components.ToastScript()
 }

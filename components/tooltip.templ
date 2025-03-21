@@ -2,120 +2,148 @@ package components
 
 import "github.com/axzilla/templui/utils"
 
-// TooltipSide definiert die Position des Tooltips relativ zum Trigger
-type TooltipSide string
-
-const (
-	TooltipTop    TooltipSide = "top"
-	TooltipRight  TooltipSide = "right"
-	TooltipBottom TooltipSide = "bottom"
-	TooltipLeft   TooltipSide = "left"
-)
-
+type TooltipPosition string
 type TooltipVariant string
 
 const (
-	TooltipDefault     TooltipVariant = "default"
-	TooltipSecondary   TooltipVariant = "secondary"
-	TooltipDestructive TooltipVariant = "destructive"
+	TooltipPositionTop    TooltipPosition = "top"
+	TooltipPositionRight  TooltipPosition = "right"
+	TooltipPositionBottom TooltipPosition = "bottom"
+	TooltipPositionLeft   TooltipPosition = "left"
 )
 
-// TooltipProps configures the Tooltip component
+const (
+	TooltipVariantDefault     TooltipVariant = "default"
+	TooltipVariantSecondary   TooltipVariant = "secondary"
+	TooltipVariantDestructive TooltipVariant = "destructive"
+)
+
 type TooltipProps struct {
-	Trigger    templ.Component  // The element that triggers the tooltip
-	Content    templ.Component  // The tooltip content
-	Side       TooltipSide      // Tooltip position relative to trigger
-	ShowArrow  bool             // Whether to show the arrow pointer
-	Variant    TooltipVariant   // Visual style variant
-	Class      string           // Additional CSS classes
-	Attributes templ.Attributes // Additional HTML attributes
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+	Side       TooltipPosition
+	Variant    TooltipVariant
 }
 
-func getTooltipSideClass(side TooltipSide) string {
+type TooltipTriggerProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+}
+
+type TooltipContentProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+	ShowArrow  bool
+	Side       TooltipPosition
+	Variant    TooltipVariant
+}
+
+templ Tooltip(props TooltipProps) {
+	<div
+		id={ props.ID }
+		class={ utils.TwMerge("relative inline-block group", props.Class) }
+		{ props.Attributes... }
+	>
+		{ children... }
+	</div>
+}
+
+templ TooltipTrigger(props TooltipTriggerProps) {
+	<div
+		id={ props.ID }
+		class={ utils.TwMerge("inline-block", props.Class) }
+		{ props.Attributes... }
+	>
+		{ children... }
+	</div>
+}
+
+templ TooltipContent(props TooltipContentProps) {
+	<div
+		id={ props.ID }
+		class={
+			utils.TwMerge(
+				"absolute w-max z-50 pointer-events-none",
+				"text-xs px-4 py-1 rounded-lg",
+				"transition-opacity duration-200 delay-500 opacity-0 group-hover:opacity-100",
+				"whitespace-nowrap",
+				getTooltipSideClass(props.Side),
+				getTooltipVariantClass(props.Variant),
+				props.Class,
+			),
+		}
+		{ props.Attributes... }
+	>
+		if props.ShowArrow {
+			<div
+				class={
+					utils.TwMerge(
+						"absolute h-2 w-2 rotate-45",
+						getArrowClass(props.Side),
+						getArrowColor(props.Variant),
+					),
+				}
+			></div>
+		}
+		{ children... }
+	</div>
+}
+
+func getTooltipSideClass(side TooltipPosition) string {
 	switch side {
-	case TooltipTop:
+	case TooltipPositionTop:
 		return "bottom-full left-1/2 -translate-x-1/2 mb-2"
-	case TooltipRight:
+	case TooltipPositionRight:
 		return "left-full top-1/2 -translate-y-1/2 ml-2"
-	case TooltipBottom:
+	case TooltipPositionBottom:
 		return "top-full left-1/2 -translate-x-1/2 mt-2"
-	case TooltipLeft:
+	case TooltipPositionLeft:
 		return "right-full top-1/2 -translate-y-1/2 mr-2"
 	default:
-		return "bottom-full left-1/2 -translate-x-1/2 mb-2" // Top
+		return "bottom-full left-1/2 -translate-x-1/2 mb-2"
 	}
 }
 
 func getTooltipVariantClass(variant TooltipVariant) string {
 	switch variant {
-	case TooltipDefault:
-		return "bg-bg text-primary-foreground"
-	case TooltipSecondary:
+	case TooltipVariantDefault:
+		return "bg-foreground text-background"
+	case TooltipVariantSecondary:
 		return "bg-secondary text-secondary-foreground"
-	case TooltipDestructive:
+	case TooltipVariantDestructive:
 		return "bg-destructive text-destructive-foreground"
 	default:
 		return "bg-foreground text-background"
 	}
 }
 
-func getArrowClass(side TooltipSide) string {
+func getArrowClass(side TooltipPosition) string {
 	switch side {
-	case TooltipTop:
+	case TooltipPositionTop:
 		return "bottom-[-4px] left-1/2 -translate-x-1/2"
-	case TooltipRight:
+	case TooltipPositionRight:
 		return "left-[-4px] top-1/2 -translate-y-1/2"
-	case TooltipBottom:
+	case TooltipPositionBottom:
 		return "top-[-4px] left-1/2 -translate-x-1/2"
-	case TooltipLeft:
+	case TooltipPositionLeft:
 		return "right-[-4px] top-1/2 -translate-y-1/2"
 	default:
-		return "bottom-[-4px] left-1/2 -translate-x-1/2" // Top
+		return "bottom-[-4px] left-1/2 -translate-x-1/2"
 	}
 }
 
 func getArrowColor(variant TooltipVariant) string {
 	switch variant {
-	case TooltipDefault:
+	case TooltipVariantDefault:
 		return "bg-foreground"
-	case TooltipSecondary:
+	case TooltipVariantSecondary:
 		return "bg-secondary"
-	case TooltipDestructive:
+	case TooltipVariantDestructive:
 		return "bg-destructive"
 	default:
 		return "bg-foreground"
 	}
-}
-
-// A small pop-up box that appears when a user hovers over an element
-templ Tooltip(props TooltipProps) {
-	<div class="relative inline-block group">
-		@props.Trigger
-		<div
-			class={
-				utils.TwMerge(
-					"absolute w-max z-50 pointer-events-none",
-					"text-xs px-4 py-1 rounded-lg",
-					"transition-opacity duration-200 delay-500 opacity-0 group-hover:opacity-100",
-					"whitespace-nowrap",
-					getTooltipSideClass(props.Side),
-					getTooltipVariantClass(props.Variant),
-					props.Class,
-				),
-			}
-		>
-			if props.ShowArrow {
-				<div
-					class={
-						utils.TwMerge(
-							"absolute h-2 w-2 rotate-45",
-							getArrowClass(props.Side),
-							getArrowColor(props.Variant),
-						),
-					}
-				></div>
-			}
-			@props.Content
-		</div>
-	</div>
 }

@@ -1,0 +1,27 @@
+package showcase
+
+import "github.com/axzilla/templui/components"
+
+templ BreadcrumbDefault() {
+	@components.Breadcrumb(components.BreadcrumbProps{}) {
+		@components.BreadcrumbList(components.BreadcrumbListProps{}) {
+			@components.BreadcrumbItem(components.BreadcrumbItemProps{}) {
+				@components.BreadcrumbLink(components.BreadcrumbLinkProps{Href: "/"}) {
+					Home
+				}
+			}
+			@components.BreadcrumbItem(components.BreadcrumbItemProps{}) {
+				@components.BreadcrumbSeparator(components.BreadcrumbSeparatorProps{})
+				@components.BreadcrumbLink(components.BreadcrumbLinkProps{Href: "/docs"}) {
+					Documentation
+				}
+			}
+			@components.BreadcrumbItem(components.BreadcrumbItemProps{}) {
+				@components.BreadcrumbSeparator(components.BreadcrumbSeparatorProps{})
+				@components.BreadcrumbPage(components.BreadcrumbItemProps{Current: true}) {
+					Components
+				}
+			}
+		}
+	}
+}

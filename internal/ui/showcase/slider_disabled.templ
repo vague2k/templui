@@ -5,15 +5,33 @@ import "github.com/axzilla/templui/components"
 templ SliderDisabled() {
 	<div class="w-full max-w-sm">
 		@components.Slider(components.SliderProps{
-			ID:        "disabled",
-			Name:      "disabled",
-			Label:     "Disabled Slider",
-			Value:     20,
-			Min:       -20,
-			Max:       200,
-			Step:      20,
-			Disabled:  true,
-			ShowValue: true,
-		})
+			ID:       "slider-disabled",
+			Name:     "slider-disabled",
+			Value:    20,
+			Min:      -20,
+			Max:      200,
+			Step:     20,
+			Disabled: true,
+		}) {
+			<div class="flex justify-between items-center mb-1">
+				@components.Label(components.LabelProps{
+					For: "slider-disabled",
+				}) {
+					Volume
+				}
+				@components.SliderValue(components.SliderValueProps{
+					For: "slider-disabled",
+				})
+			</div>
+			@components.SliderInput(components.SliderProps{
+				ID:       "slider-disabled",
+				Name:     "slider-disabled",
+				Value:    20,
+				Min:      -20,
+				Max:      200,
+				Step:     20,
+				Disabled: true,
+			})
+		}
 	</div>
 }

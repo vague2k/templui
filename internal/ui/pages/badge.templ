@@ -17,8 +17,8 @@ templ Badge() {
 			Tailwind:    true,
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				ShowcaseFile:      showcase.BadgeVariants(),
-				PreviewCodeFile:   "badge_variants.templ",
+				ShowcaseFile:      showcase.BadgeDefault(),
+				PreviewCodeFile:   "badge_default.templ",
 				ComponentCodeFile: "badge.templ",
 			})
 			@modules.Usage(modules.UsageProps{
@@ -27,9 +27,41 @@ templ Badge() {
 			})
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Primary",
+					ShowcaseFile:      showcase.BadgeDefault(),
+					PreviewCodeFile:   "badge_default.templ",
+					ComponentCodeFile: "badge.templ",
+				})
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Secondary",
+					ShowcaseFile:      showcase.BadgeSecondary(),
+					PreviewCodeFile:   "badge_secondary.templ",
+					ComponentCodeFile: "badge.templ",
+				})
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Outline",
+					ShowcaseFile:      showcase.BadgeOutline(),
+					PreviewCodeFile:   "badge_outline.templ",
+					ComponentCodeFile: "badge.templ",
+				})
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Destructive",
+					ShowcaseFile:      showcase.BadgeDestructive(),
+					PreviewCodeFile:   "badge_destructive.templ",
+					ComponentCodeFile: "badge.templ",
+				})
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "With Icon",
-					ShowcaseFile:      showcase.BadgeIcons(),
-					PreviewCodeFile:   "badge_icons.templ",
+					ShowcaseFile:      showcase.BadgeWithIcon(),
+					PreviewCodeFile:   "badge_with_icon.templ",
 					ComponentCodeFile: "badge.templ",
 				})
 			}

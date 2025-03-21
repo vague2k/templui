@@ -16,7 +16,7 @@ templ Label() {
 			Name:        "Label",
 			Description: templ.Raw("Renders an accessible label associated with controls."),
 			Tailwind:    true,
-			Alpine:      true,
+			VanillaJS:   true,
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				SectionName:       "",
@@ -26,40 +26,48 @@ templ Label() {
 			})
 			<div>
 				@components.Card(components.CardProps{}) {
-					@components.CardHeader() {
-						@components.CardTitle() {
+					@components.CardHeader(components.CardHeaderProps{}) {
+						@components.CardTitle(components.CardTitleProps{}) {
 							Usage
 						}
-						@components.CardDescription() {
+						@components.CardDescription(components.CardDescriptionProps{}) {
 							The Label component enhances the following form controls:
 						}
 					}
-					@components.CardContent() {
+					@components.CardContent(components.CardContentProps{}) {
 						<ul class="list-disc pl-6 space-y-2">
-							<li>
-								<a href="/docs/components/input#label" class="font-medium hover:underline">Input</a>
-							</li>
-							<li>
-								<a href="/docs/components/checkbox#label" class="font-medium hover:underline">Checkbox</a>
-							</li>
-							<li>
-								<a href="/docs/components/radio#label" class="font-medium hover:underline">Radio</a>
-							</li>
-							<li>
-								<a href="/docs/components/select#label" class="font-medium hover:underline">Select</a>
-							</li>
-							<li>
-								<a href="/docs/components/textarea#label" class="font-medium hover:underline">Textarea</a>
-							</li>
-							<li>
-								<a href="/docs/components/toggle#label" class="font-medium hover:underline">Toggle</a>
-							</li>
-							<li>
-								<a href="/docs/components/date-picker#label" class="font-medium hover:underline">Date Picker</a>
-							</li>
-							<li>
-								<a href="/docs/components/time-picker#label" class="font-medium hover:underline">Time Picker</a>
-							</li>
+							<ul class="list-disc pl-6 space-y-2">
+								<li>
+									<a href="/docs/components/checkbox#label" class="font-medium hover:underline">Checkbox</a>
+								</li>
+								<li>
+									<a href="/docs/components/date-picker#label" class="font-medium hover:underline">Date Picker</a>
+								</li>
+								<li>
+									<a href="/docs/components/input#label" class="font-medium hover:underline">Input</a>
+								</li>
+								<li>
+									<a href="/docs/components/input-otp#label" class="font-medium hover:underline">Input OTP</a>
+								</li>
+								<li>
+									<a href="/docs/components/radio#label" class="font-medium hover:underline">Radio</a>
+								</li>
+								<li>
+									<a href="/docs/components/select#label" class="font-medium hover:underline">Select</a>
+								</li>
+								<li>
+									<a href="/docs/components/textarea#label" class="font-medium hover:underline">Textarea</a>
+								</li>
+								<!-- <li> -->
+								<!-- 	<a href="/docs/components/time-picker#label" class="font-medium hover:underline">Time Picker</a> -->
+								<!-- </li> -->
+								<li>
+									<a href="/docs/components/toggle#label" class="font-medium hover:underline">Toggle</a>
+								</li>
+								<li>
+									<a href="/docs/components/rating#label" class="font-medium hover:underline">Rating</a>
+								</li>
+							</ul>
 						</ul>
 					}
 				}

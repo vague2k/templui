@@ -4,7 +4,11 @@ import "github.com/axzilla/templui/components"
 
 templ InputWithLabel() {
 	<div class="w-full max-w-sm grid gap-2">
-		@components.Label(components.LabelProps{Text: "Email", For: "email"})
+		@components.Label(components.LabelProps{
+			For: "email",
+		}) {
+			Email
+		}
 		@components.Input(components.InputProps{
 			ID:          "email",
 			Type:        "email",

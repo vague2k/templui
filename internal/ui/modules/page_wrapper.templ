@@ -22,24 +22,27 @@ templ PageWrapper(p PageWrapperProps) {
 		<div class="flex gap-2 items-baseline">
 			if p.Tailwind {
 				@components.Badge(components.BadgeProps{
-					IconBefore: wrappedicons.Tailwind(16),
-					Text:       "TailwindCSS",
-					Variant:    components.BadgeVariantSecondary,
-				})
+					Variant: components.BadgeVariantSecondary,
+				}) {
+					@wrappedicons.Tailwind(16)
+					TailwindCSS
+				}
 			}
 			if p.Alpine {
 				@components.Badge(components.BadgeProps{
-					IconBefore: wrappedicons.Alpine(16),
-					Text:       "Alpine.js",
-					Variant:    components.BadgeVariantSecondary,
-				})
+					Variant: components.BadgeVariantSecondary,
+				}) {
+					@wrappedicons.Alpine(16)
+					Alpine.js
+				}
 			}
 			if p.VanillaJS {
 				@components.Badge(components.BadgeProps{
-					IconBefore: wrappedicons.JS(16),
-					Text:       "Vanilla JS",
-					Variant:    components.BadgeVariantSecondary,
-				})
+					Variant: components.BadgeVariantSecondary,
+				}) {
+					@wrappedicons.JS(16)
+					Vanilla JS
+				}
 			}
 		</div>
 	</div>

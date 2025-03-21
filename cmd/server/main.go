@@ -22,14 +22,16 @@ func toastDemoHandler(w http.ResponseWriter, r *http.Request) {
 		duration = 0
 	}
 
+	fmt.Println("xxx", r.FormValue("description"))
 	toastProps := components.ToastProps{
-		Message:     r.FormValue("message"),
-		Type:        r.FormValue("type"),
-		Position:    r.FormValue("position"),
-		Duration:    duration,
-		Size:        r.FormValue("size"),
-		Dismissible: r.FormValue("dismissible") == "on",
-		Icon:        r.FormValue("icon") == "on",
+		Title:         r.FormValue("title"),
+		Description:   r.FormValue("description"),
+		Variant:       components.ToastVariant(r.FormValue("type")),
+		Position:      components.ToastPosition(r.FormValue("position")),
+		Duration:      duration,
+		Dismissible:   r.FormValue("dismissible") == "on",
+		ShowIndicator: r.FormValue("indicator") == "on",
+		Icon:          r.FormValue("icon") == "on",
 	}
 
 	components.Toast(toastProps).Render(r.Context(), w)
@@ -104,6 +106,7 @@ func main() {
 	mux.Handle("GET /docs/components/checkbox", templ.Handler(pages.Checkbox()))
 	mux.Handle("GET /docs/components/checkbox-card", templ.Handler(pages.CheckboxCard()))
 	mux.Handle("GET /docs/components/date-picker", templ.Handler(pages.DatePicker()))
+	mux.Handle("GET /docs/components/drawer", templ.Handler(pages.Drawer()))
 	mux.Handle("GET /docs/components/dropdown-menu", templ.Handler(pages.DropdownMenu()))
 	mux.Handle("GET /docs/components/form", templ.Handler(pages.Form()))
 	mux.Handle("GET /docs/components/icon", templ.Handler(pages.Icon()))
@@ -118,13 +121,13 @@ func main() {
 	mux.Handle("GET /docs/components/rating", templ.Handler(pages.Rating()))
 	mux.Handle("GET /docs/components/select", templ.Handler(pages.Select()))
 	mux.Handle("GET /docs/components/separator", templ.Handler(pages.Separator()))
-	mux.Handle("GET /docs/components/sheet", templ.Handler(pages.Sheet()))
 	mux.Handle("GET /docs/components/skeleton", templ.Handler(pages.Skeleton()))
 	mux.Handle("GET /docs/components/slider", templ.Handler(pages.Slider()))
 	mux.Handle("GET /docs/components/spinner", templ.Handler(pages.Spinner()))
+	mux.Handle("GET /docs/components/table", templ.Handler(pages.Table()))
 	mux.Handle("GET /docs/components/tabs", templ.Handler(pages.Tabs()))
 	mux.Handle("GET /docs/components/textarea", templ.Handler(pages.Textarea()))
-	mux.Handle("GET /docs/components/time-picker", templ.Handler(pages.TimePicker()))
+	// mux.Handle("GET /docs/components/time-picker", templ.Handler(pages.TimePicker()))
 	mux.Handle("GET /docs/components/toast", templ.Handler(pages.Toast()))
 	mux.Handle("GET /docs/components/toggle", templ.Handler(pages.Toggle()))
 	mux.Handle("GET /docs/components/tooltip", templ.Handler(pages.Tooltip()))

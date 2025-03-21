@@ -4,67 +4,126 @@ import (
 	"github.com/axzilla/templui/icons"
 	"github.com/axzilla/templui/utils"
 	"strconv"
+	"context"
 )
 
-// RatingSize defines available sizes for the Rating component
-type RatingSize string
-
-// RatingStyle defines the visual style for the Rating component
 type RatingStyle string
 
 const (
-	RatingStyleStar    RatingStyle = "star"    // Star icons for ratings
-	RatingStyleHeart   RatingStyle = "heart"   // Heart icons for ratings
-	RatingStyleEmoji   RatingStyle = "emoji"   // Emoji faces for ratings
-	RatingStyleNumeric RatingStyle = "numeric" // Numeric display (with optional icon)
+	RatingStyleStar  RatingStyle = "star"
+	RatingStyleHeart RatingStyle = "heart"
+	RatingStyleEmoji RatingStyle = "emoji"
 )
 
-// RatingProps configures the Rating component
 type RatingProps struct {
-	Value       float64          // Current rating value
-	MaxValue    int              // Maximum rating value (default: 5)
-	ReadOnly    bool             // Whether the rating is interactive or display-only
-	Style       RatingStyle      // Visual style for the rating
-	Size        RatingSize       // Size of the rating elements
-	Precision   float64          // Step precision for fractional ratings (0.5, 0.1, etc.)
-	Name        string           // Form field name (when used in forms)
-	ShowValue   bool             // Whether to display the numeric value
-	OnlyInteger bool             // Force ratings to integer values
-	Class       string           // Additional CSS classes
-	Attributes  templ.Attributes // Additional HTML attributes
+	ID          string
+	Class       string
+	Attributes  templ.Attributes
+	Value       float64
+	ReadOnly    bool
+	Precision   float64
+	Name        string
+	OnlyInteger bool
 }
 
-// Default values for the Rating component
-func (p *RatingProps) setDefaults() {
-	if p.MaxValue <= 0 {
-		p.MaxValue = 5
-	}
-	if p.Precision <= 0 {
-		p.Precision = 1.0
-	}
-	if p.Style == "" {
-		p.Style = RatingStyleStar
-	}
+type RatingGroupProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
 }
 
-// Get color class based on the RatingStyle
+type RatingItemProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+	Value      int
+	Style      RatingStyle
+}
+
+templ Rating(props RatingProps) {
+	{{ props.setDefaults() }}
+	{{ ctx = context.WithValue(ctx, "readOnly", props.ReadOnly) }}
+	<div
+		id={ props.ID }
+		x-data="rating"
+		data-value={ strconv.FormatFloat(props.Value, 'f', -1, 64) }
+		data-precision={ strconv.FormatFloat(props.Precision, 'f', -1, 64) }
+		data-readonly={ strconv.FormatBool(props.ReadOnly) }
+		data-name={ props.Name }
+		data-onlyinteger={ strconv.FormatBool(props.OnlyInteger) }
+		class={ utils.TwMerge(
+			"flex flex-col items-start gap-1",
+			props.Class,
+		) }
+		{ props.Attributes... }
+	>
+		{ children... }
+		<input
+			type="hidden"
+			name={ props.Name }
+			x-bind:value="value"
+			disabled?={ props.Name == "" }
+			x-ref="input"
+		/>
+	</div>
+}
+
+templ RatingGroup(props RatingGroupProps) {
+	<div
+		id={ props.ID }
+		class={ utils.TwMerge("flex flex-row items-center gap-1", props.Class) }
+		{ props.Attributes... }
+	>
+		{ children... }
+	</div>
+}
+
+templ RatingItem(props RatingItemProps) {
+	{{ props.setDefaults() }}
+	{{ readOnly, _ := ctx.Value("readOnly").(bool) }}
+	<div
+		id={ props.ID }
+		class={ utils.TwMerge(
+				"relative",
+				getColorClass(props.Style),
+				"transition-opacity",
+				"cursor-pointer",
+				utils.If(readOnly, "cursor-default"),
+				props.Class,
+			) }
+		data-rating-value={ strconv.Itoa(props.Value) }
+		@click="setValue"
+		@mouseover="hover"
+		@mouseleave="resetPreview"
+		{ props.Attributes... }
+	>
+		<div class="opacity-30">
+			@getRatingIcon(props.Style, false, float64(props.Value))
+		</div>
+		<div
+			class="absolute inset-0 overflow-hidden"
+			x-bind:style="getItemStyle"
+			data-index={ strconv.Itoa(props.Value) }
+		>
+			@getRatingIcon(props.Style, true, float64(props.Value))
+		</div>
+	</div>
+}
+
 func getColorClass(style RatingStyle) string {
 	switch style {
 	case RatingStyleHeart:
 		return "text-destructive"
 	case RatingStyleEmoji:
 		return "text-yellow-500"
-	default: // Star and others
+	default:
 		return "text-yellow-400"
 	}
 }
 
-// Get item icon based on the RatingStyle
 func getRatingIcon(style RatingStyle, filled bool, value float64) templ.Component {
-	// Emoji style uses different icons based on value
 	if style == RatingStyleEmoji {
 		if filled {
-			// Choose emoji based on rating level (1-5)
 			switch {
 			case value <= 1:
 				return icons.Angry(icons.IconProps{})
@@ -80,183 +139,177 @@ func getRatingIcon(style RatingStyle, filled bool, value float64) templ.Componen
 		}
 		return icons.Meh(icons.IconProps{})
 	}
-
-	// Handle other styles
 	if filled {
 		switch style {
 		case RatingStyleHeart:
 			return icons.Heart(icons.IconProps{Fill: "currentColor"})
-		default: // Star
+		default:
 			return icons.Star(icons.IconProps{Fill: "currentColor"})
 		}
 	} else {
 		switch style {
 		case RatingStyleHeart:
 			return icons.Heart(icons.IconProps{})
-		default: // Star
+		default:
 			return icons.Star(icons.IconProps{})
 		}
 	}
 }
 
-// Interactive Rating component with Alpine.js
+func (p *RatingItemProps) setDefaults() {
+	if p.Style == "" {
+		p.Style = RatingStyleStar
+	}
+}
+
+func (p *RatingProps) setDefaults() {
+	if p.Precision <= 0 {
+		p.Precision = 1.0
+	}
+}
+
 templ RatingScript() {
 	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
-            document.addEventListener('alpine:init', () => {
-                Alpine.data('rating', () => ({
-                    value: 0,
-                    maxValue: 5,
-                    precision: 1,
-                    readonly: false,
-                    name: '',
-                    onlyInteger: false,
-                    previewValue: 0,
-                    
-                    init() {
-                        // Get configuration from data attributes
-                        this.value = parseFloat(this.$el.dataset.value) || 0;
-                        this.maxValue = parseInt(this.$el.dataset.maxvalue) || 5;
-                        this.precision = parseFloat(this.$el.dataset.precision) || 1;
-                        this.readonly = this.$el.dataset.readonly === 'true';
-                        this.name = this.$el.dataset.name || '';
-                        this.onlyInteger = this.$el.dataset.onlyinteger === 'true';
-                        
-                        // Round value to the nearest step based on precision
-                        this.value = Math.round(this.value / this.precision) * this.precision;
-                    },
-                    
-                    setValue() {
-                        if (this.readonly) return;
-                        
-                        // Get the rating value from the clicked element's data attribute
-                        const item = this.$event.target.closest('[data-rating-value]');
-                        if (!item) return;
-                        
-                        const newValue = parseInt(item.dataset.ratingValue);
-                        
-                        // Handle precision for fractional ratings
-                        if (this.onlyInteger) {
-                            this.value = Math.round(newValue);
-                        } else {
-                            this.value = Math.round(newValue / this.precision) * this.precision;
-                        }
-                        
-                        // Ensure value is within bounds
-                        this.value = Math.max(0, Math.min(this.maxValue, this.value));
-                        
-                        // Dispatch event for form integration
-                        this.$dispatch('rating-change', { 
-                            name: this.name, 
-                            value: this.value 
-                        });
-                    },
-                    
-                    getFormattedValue() {
-                        // Format the value for display (rounded to 2 decimal places)
-                        return Math.round(this.value * 100) / 100;
-                    },
-                    
-                    getItemStyle() {
-                        // Get the index from the element's data attribute
-                        const index = parseInt(this.$el.dataset.index || '0');
-                        
-                        // Calculate item styling
-                        const filled = index <= Math.floor(this.value);
-                        const partial = !filled && (index - 1 < this.value && this.value < index);
-                        const percentage = partial ? (this.value - Math.floor(this.value)) * 100 : 0;
-                        
-                        // Return appropriate width style
-                        return {
-                            width: filled ? '100%' : (partial ? percentage + '%' : '0%')
-                        };
-                    },
-                    
-                    hover() {
-                        if (this.readonly) return;
-                        // Preview rating on hover
-                        const item = this.$event.target.closest('[data-rating-value]');
-                        if (!item) return;
-                        
-                        this.previewValue = parseInt(item.dataset.ratingValue);
-                    },
-                    
-                    getCursorClass() {
-                        return this.readonly ? 'cursor-default' : 'cursor-pointer';
-                    }
-                }));
-            });
-        </script>
-	}
-}
-
-// Rating component for user ratings and feedback
-templ Rating(props RatingProps) {
-	// Apply default values
-	{{ props.setDefaults() }}
-	<div
-		x-data="rating"
-		data-value={ strconv.FormatFloat(props.Value, 'f', -1, 64) }
-		data-maxvalue={ strconv.Itoa(props.MaxValue) }
-		data-precision={ strconv.FormatFloat(props.Precision, 'f', -1, 64) }
-		data-readonly={ strconv.FormatBool(props.ReadOnly) }
-		data-name={ props.Name }
-		data-onlyinteger={ strconv.FormatBool(props.OnlyInteger) }
-		class={ utils.TwMerge(
-			"flex flex-col items-start gap-1",
-			props.Class,
-		) }
-		{ props.Attributes... }
-	>
-		<div class="flex items-center gap-1">
-			if props.Style != RatingStyleNumeric {
-				<!-- Standard rating items (stars, hearts, emojis) -->
-				for i := 1; i <= props.MaxValue; i++ {
-					<div
-						class={
-							utils.TwMerge(
-								"relative",
-								getColorClass(props.Style),
-								"transition-opacity",
-							),
-							templ.KV("cursor-pointer", !props.ReadOnly),
-							templ.KV("cursor-default", props.ReadOnly),
+			document.addEventListener('alpine:init', () => {
+				Alpine.data('rating', () => ({
+					value: 0,
+					maxValue: 5, // Default value, will be dynamically updated
+					precision: 1,
+					readonly: false,
+					name: '',
+					onlyInteger: false,
+					previewValue: 0,
+					
+					init() {
+						this.value = parseFloat(this.$el.dataset.value) || 0;
+						this.precision = parseFloat(this.$el.dataset.precision) || 1;
+						this.readonly = this.$el.dataset.readonly === 'true';
+						this.name = this.$el.dataset.name || '';
+						this.onlyInteger = this.$el.dataset.onlyinteger === 'true';
+						
+						// Dynamically calculate maxValue based on the items
+						this.calculateMaxValue();
+						
+						// Ensure value is within valid range
+						this.value = Math.min(this.maxValue, this.value);
+						this.value = Math.round(this.value / this.precision) * this.precision;
+						
+						// Initialize the form element for proper form integration
+						if (this.$refs.input) {
+							this.$refs.input.value = this.value;
 						}
-						data-rating-value={ strconv.Itoa(i) }
-						@click="setValue"
-						@mouseover="hover"
-					>
-						<div class="opacity-30">
-							@getRatingIcon(props.Style, false, float64(i))
-						</div>
-						<div
-							class="absolute inset-0 overflow-hidden"
-							x-bind:style="getItemStyle"
-							data-index={ strconv.Itoa(i) }
-						>
-							@getRatingIcon(props.Style, true, float64(i))
-						</div>
-					</div>
-				}
-			} else {
-				<!-- Numeric display with optional icon -->
-				<span class={ utils.TwMerge("font-bold") }>
-					<span x-text="getFormattedValue"></span>
-					<span>/ </span><span x-text="maxValue"></span>
-				</span>
-				<span class={ utils.TwMerge(getColorClass(RatingStyleStar)) }>
-					@icons.Star(icons.IconProps{})
-				</span>
-			}
-			<!-- Hidden input for form submission -->
-			if props.Name != "" {
-				<input
-					type="hidden"
-					name={ props.Name }
-					x-bind:value="value"
-				/>
-			}
-		</div>
-	</div>
+						
+						// Check if we're in a form context
+						this.form = this.$el.closest('form');
+						if (this.form && this.name) {
+							// Add validation support
+							this.form.addEventListener('submit', () => {
+								this.validate();
+							});
+						}
+						
+						// Setup mutation observer to react to DOM changes
+						this.observeDOMChanges();
+					},
+					
+					calculateMaxValue() {
+						// Find all rating items and determine the highest value
+						const items = this.$el.querySelectorAll('[data-rating-value]');
+						let highestValue = 0;
+						
+						items.forEach(item => {
+							const value = parseInt(item.dataset.ratingValue, 10);
+							if (value > highestValue) {
+								highestValue = value;
+							}
+						});
+						
+						// Set minimum maxValue of 1
+						this.maxValue = Math.max(1, highestValue);
+					},
+					
+					observeDOMChanges() {
+						// Use MutationObserver to react to DOM changes
+						const observer = new MutationObserver(() => {
+							this.calculateMaxValue();
+						});
+						
+						// Watch for changes in the child node list
+						observer.observe(this.$el, { childList: true, subtree: true });
+					},
+					
+					validate() {
+						// Basic validation - can be extended as needed
+						const isValid = this.value > 0;
+						// Trigger custom event for form validation
+						this.$dispatch('rating-validate', { 
+							name: this.name, 
+							value: this.value,
+							valid: isValid
+						});
+						return isValid;
+					},
+					
+					setValue() {
+						if (this.readonly) return;
+						const item = this.$event.target.closest('[data-rating-value]');
+						if (!item) return;
+						const newValue = parseInt(item.dataset.ratingValue);
+						if (this.onlyInteger) {
+							this.value = Math.round(newValue);
+						} else {
+							this.value = Math.round(newValue / this.precision) * this.precision;
+						}
+						this.value = Math.max(0, Math.min(this.maxValue, this.value));
+						
+						// Update the hidden input value
+						if (this.$refs.input) {
+							this.$refs.input.value = this.value;
+						}
+						
+						// Trigger change events for form integration
+						this.$dispatch('rating-change', { 
+							name: this.name, 
+							value: this.value,
+							maxValue: this.maxValue
+						});
+						
+						// Trigger input event for better form integration
+						if (this.$refs.input) {
+							this.$refs.input.dispatchEvent(new Event('input', { bubbles: true }));
+							this.$refs.input.dispatchEvent(new Event('change', { bubbles: true }));
+						}
+					},
+					
+					getFormattedValue() {
+						return Math.round(this.value * 100) / 100;
+					},
+					
+					getItemStyle() {
+						const index = parseInt(this.$el.dataset.index || '0');
+						const filled = index <= Math.floor(this.value);
+						const partial = !filled && (index - 1 < this.value && this.value < index);
+						const percentage = partial ? (this.value - Math.floor(this.value)) * 100 : 0;
+						return {
+							width: filled ? '100%' : (partial ? percentage + '%' : '0%')
+						};
+					},
+					
+					hover() {
+						if (this.readonly) return;
+						const item = this.$event.target.closest('[data-rating-value]');
+						if (!item) return;
+						this.previewValue = parseInt(item.dataset.ratingValue);
+					},
+					
+					resetPreview() {
+						if (this.readonly) return;
+						this.previewValue = 0;
+					}
+				}));
+			});
+		</script>
+	}
 }

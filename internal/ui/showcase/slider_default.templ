@@ -7,6 +7,11 @@ templ SliderDefault() {
 		@components.Slider(components.SliderProps{
 			ID:   "default",
 			Name: "default",
-		})
+		}) {
+			@components.SliderInput(components.SliderProps{
+				ID:   "default",
+				Name: "default",
+			})
+		}
 	</div>
 }

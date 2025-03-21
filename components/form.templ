@@ -2,71 +2,102 @@ package components
 
 import "github.com/axzilla/templui/utils"
 
-// FormItemProps represents form item properties
+type FormMessageVariant string
+
+const (
+	FormMessageVariantError FormMessageVariant = "error"
+	FormMessageVariantInfo  FormMessageVariant = "info"
+)
+
 type FormItemProps struct {
-	ID    string // Optional container ID
-	Class string // Additional CSS classes
+	ID         string
+	Class      string
+	Attributes templ.Attributes
 }
 
-// FormLabelProps represents form label properties
 type FormLabelProps struct {
-	For           string // Target form element ID
-	Text          string // Label text
-	Class         string // Additional CSS classes
-	DisabledClass string // Additional CSS classes when the form element is disabled
+	ID            string
+	Class         string
+	Attributes    templ.Attributes
+	For           string
+	DisabledClass string
 }
 
-// FormDescriptionProps represents helper text properties
 type FormDescriptionProps struct {
-	Class string // Additional CSS classes
+	ID         string
+	Class      string
+	Attributes templ.Attributes
 }
 
-// FormMessageProps represents feedback message properties
 type FormMessageProps struct {
-	Type    string // error, success, warning, info
-	Message string // Message text
-	Class   string // Additional CSS classes
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+	Variant    FormMessageVariant
 }
 
-// FormItem wraps form elements in a vertical layout
 templ FormItem(props FormItemProps) {
-	<div class={ utils.TwMerge("space-y-2", props.Class) }>
+	<div
+		id={ props.ID }
+		class={ utils.TwMerge("space-y-2", props.Class) }
+		{ props.Attributes... }
+	>
 		{ children... }
 	</div>
 }
 
-// FormItemFlex wraps form elements in a horizontal layout
 templ FormItemFlex(props FormItemProps) {
-	<div class={ utils.TwMerge("items-center flex space-x-2", props.Class) }>
+	<div
+		id={ props.ID }
+		class={ utils.TwMerge("items-center flex space-x-2", props.Class) }
+		{ props.Attributes... }
+	>
 		{ children... }
 	</div>
 }
 
-// FormLabel renders a form label
 templ FormLabel(props FormLabelProps) {
 	@Label(LabelProps{
 		For:           props.For,
 		Class:         props.Class,
-		Text:          props.Text,
 		DisabledClass: props.DisabledClass,
-	})
+		Attributes:    props.Attributes,
+		ID:            props.ID,
+	}) {
+		{ children... }
+	}
 }
 
-// FormDescription renders helper text below form elements
 templ FormDescription(props FormDescriptionProps) {
-	<p class={ utils.TwMerge("text-sm text-muted-foreground", props.Class) }>
+	<p
+		id={ props.ID }
+		class={ utils.TwMerge("text-sm text-muted-foreground", props.Class) }
+		{ props.Attributes... }
+	>
 		{ children... }
 	</p>
 }
 
-// FormMessage renders feedback messages
 templ FormMessage(props FormMessageProps) {
 	<p
+		id={ props.ID }
 		class={
 			utils.TwMerge("text-[0.8rem] font-medium", props.Class),
-			templ.KV("text-destructive", props.Type == "error"),
+			formMessageVariantClass(props.Variant),
 		}
+		{ props.Attributes... }
 	>
-		{ props.Message }
+		{ children... }
 	</p>
+}
+
+func formMessageVariantClass(variant FormMessageVariant) string {
+	switch variant {
+	case FormMessageVariantError:
+		return "text-red-500"
+	case FormMessageVariantInfo:
+		return "text-blue-500"
+	default:
+		return ""
+	}
 }

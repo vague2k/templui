@@ -5,44 +5,288 @@ import (
 	"github.com/axzilla/templui/icons"
 	"github.com/axzilla/templui/utils"
 	"time"
+	"strconv"
 )
 
 type TimePickerProps struct {
-	ID          string           // Unique identifier
-	Name        string           // Form input name
-	Value       time.Time        // Initial time value
-	Use12Hours  bool             // Enable 12-hour format with AM/PM
-	AMLabel     string           // AM label for 12-hour format
-	PMLabel     string           // PM label for 12-hour format
-	Placeholder string           // Input placeholder text
-	Required    bool             // Required form field
-	Disabled    bool             // Disable interactivity
-	HasError    bool             // Error state styling
-	Class       string           // Additional CSS classes
-	Attributes  templ.Attributes // Additional HTML attributes
+	ID          string
+	Class       string
+	Attributes  templ.Attributes
+	Name        string
+	Value       time.Time
+	Use12Hours  bool
+	AMLabel     string
+	PMLabel     string
+	Placeholder string
+	Required    bool
+	Disabled    bool
+	HasError    bool
+}
+
+type SelectOption struct {
+	Label string
+	Value string
+}
+
+templ TimePicker(props TimePickerProps) {
+	if props.ID == "" {
+		{{ props.ID = utils.RandomID() }}
+	}
+	if props.Placeholder == "" {
+		{{ props.Placeholder = "Select time" }}
+	}
+	if props.AMLabel == "" {
+		{{ props.AMLabel = "AM" }}
+	}
+	if props.PMLabel == "" {
+		{{ props.PMLabel = "PM" }}
+	}
+	<div
+		class={ utils.TwMerge("relative", props.Class) }
+		if props.Value != (time.Time{}) {
+			data-value={ props.Value.Format("15:04") }
+		}
+		data-use12hours={ fmt.Sprintf("%t", props.Use12Hours) }
+		x-data="timePicker"
+		data-input-id={ props.ID }
+	>
+		<div class="relative">
+			<input
+				type="hidden"
+				name={ props.Name }
+				required?={ props.Required }
+			/>
+			@Button(ButtonProps{
+				ID:      props.ID,
+				Type:    "button",
+				Variant: ButtonVariantOutline,
+				Class: utils.TwMerge(
+					"w-full flex justify-between items-center",
+					utils.If(props.HasError, "border-destructive ring-destructive"),
+				),
+				Disabled: props.Disabled,
+				Attributes: utils.MergeAttributes(
+					templ.Attributes{
+						"@click": "toggleTimePicker",
+					},
+					props.Attributes,
+				),
+			}) {
+				<span
+					class={
+						utils.TwMerge(
+							"timepicker-display truncate",
+							utils.If(props.Value == (time.Time{}), "text-muted-foreground"),
+						),
+					}
+				>
+					if props.Value != (time.Time{}) {
+						if props.Use12Hours {
+							{ props.Value.Format("03:04 PM") }
+						} else {
+							{ props.Value.Format("15:04") }
+						}
+					} else {
+						{ props.Placeholder }
+					}
+				</span>
+				@icons.Clock(icons.IconProps{
+					Class: "ml-2 h-4 w-4 text-muted-foreground",
+				})
+			}
+		</div>
+		<div
+			x-show="open"
+			x-ref="timePickerPopup"
+			@click.away="closeTimePicker"
+			x-transition.opacity
+			class="absolute left-0 z-50 w-72 p-4 rounded-lg border bg-popover shadow-md"
+			:class="positionClass"
+			@resize.window="updatePosition"
+			style="display: none;"
+		>
+			<div class="grid grid-cols-2 gap-2 flex-1">
+				<div>
+					@Select(SelectProps{
+						ID:    "hour-select-" + props.ID,
+						Class: "w-full",
+					}) {
+						@SelectTrigger(SelectTriggerProps{
+							Name: "hour",
+						}) {
+							@SelectValue(SelectValueProps{
+								Placeholder: "Hour",
+							}) {
+								if props.Value != (time.Time{}) {
+									if props.Use12Hours {
+										// Convert 24h to 12h format for display
+										{{ hour := props.Value.Hour() % 12 }}
+										{{
+										if hour == 0 {
+											hour = 12
+										}
+										}}
+										{ fmt.Sprintf("%02d", hour) }
+									} else {
+										{ fmt.Sprintf("%02d", props.Value.Hour()) }
+									}
+								}
+							}
+						}
+						@SelectContent(SelectContentProps{}) {
+							@SelectGroup(SelectGroupProps{}) {
+								for _, option := range generateHourOptions(props.Use12Hours) {
+									@SelectItem(SelectItemProps{
+										Value: option.Value,
+										Selected: props.Value != (time.Time{}) &&
+											((props.Use12Hours &&
+												((props.Value.Hour()%12 == 0 && option.Value == "12") ||
+													(props.Value.Hour()%12 == parseInt(option.Value)))) ||
+												(!props.Use12Hours && props.Value.Hour() == parseInt(option.Value))),
+									}) {
+										{ option.Label }
+									}
+								}
+							}
+						}
+					}
+				</div>
+				<div>
+					@Select(SelectProps{
+						ID:    "minute-select-" + props.ID,
+						Class: "w-full",
+					}) {
+						@SelectTrigger(SelectTriggerProps{
+							Name: "minute",
+						}) {
+							@SelectValue(SelectValueProps{
+								Placeholder: "Minute",
+							}) {
+								if props.Value != (time.Time{}) {
+									{ fmt.Sprintf("%02d", props.Value.Minute()) }
+								}
+							}
+						}
+						@SelectContent(SelectContentProps{}) {
+							@SelectGroup(SelectGroupProps{}) {
+								for _, option := range generateMinuteOptions() {
+									@SelectItem(SelectItemProps{
+										Value:    option.Value,
+										Selected: props.Value != (time.Time{}) && props.Value.Minute() == parseInt(option.Value),
+									}) {
+										{ option.Label }
+									}
+								}
+							}
+						}
+					}
+				</div>
+			</div>
+			<div class="flex justify-between mt-4 gap-2">
+				if props.Use12Hours {
+					<div class="flex justify-center gap-2">
+						<button
+							type="button"
+							data-period="AM"
+							@click="selectPeriod"
+							class={ utils.TwMerge(
+								"px-3 py-1 text-sm rounded-md hover:bg-muted",
+								utils.If(props.Value != (time.Time{}) && props.Value.Hour() < 12, "bg-primary text-primary-foreground", ),
+							) }
+						>
+							{ props.AMLabel }
+						</button>
+						<button
+							type="button"
+							data-period="PM"
+							@click="selectPeriod"
+							class={ utils.TwMerge(
+								"px-3 py-1 text-sm rounded-md hover:bg-muted",
+								utils.If(props.Value != (time.Time{}) && props.Value.Hour() >= 12, "bg-primary text-primary-foreground", ),
+							) }
+						>
+							{ props.PMLabel }
+						</button>
+					</div>
+				} else {
+					<div></div>
+				}
+				@Button(ButtonProps{
+					Type:    "button",
+					Variant: ButtonVariantSecondary,
+					Attributes: templ.Attributes{
+						"@click": "closeTimePicker",
+					},
+				}) {
+					Done
+				}
+			</div>
+		</div>
+	</div>
+}
+
+func parseInt(str string) int {
+	val, err := strconv.Atoi(str)
+	if err != nil {
+		return 0
+	}
+	return val
+}
+
+func generateHourOptions(use12Hours bool) []SelectOption {
+	options := make([]SelectOption, 0)
+	if use12Hours {
+		options = append(options, SelectOption{
+			Label: "12",
+			Value: "12",
+		})
+		for i := 1; i <= 11; i++ {
+			options = append(options, SelectOption{
+				Label: fmt.Sprintf("%02d", i),
+				Value: fmt.Sprintf("%d", i),
+			})
+		}
+	} else {
+		for i := 0; i <= 23; i++ {
+			options = append(options, SelectOption{
+				Label: fmt.Sprintf("%02d", i),
+				Value: fmt.Sprintf("%d", i),
+			})
+		}
+	}
+	return options
+}
+
+func generateMinuteOptions() []SelectOption {
+	options := make([]SelectOption, 60)
+	for i := 0; i < 60; i++ {
+		options[i] = SelectOption{
+			Label: fmt.Sprintf("%02d", i),
+			Value: fmt.Sprintf("%d", i),
+		}
+	}
+	return options
 }
 
 templ TimePickerScript() {
 	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
-            document.addEventListener('alpine:init', () => {
-                Alpine.data('timePicker', () => ({
+			document.addEventListener('alpine:init', () => {
+				Alpine.data('timePicker', () => ({
 					open: false,
-					formValue: null,     // 24h Format for Form submission
-					displayValue: null,  // 12h/24h Format for Display
+					formValue: null,
+					displayValue: null,
 					selectedHour: 0,
 					selectedMinute: 0,
 					isPM: false,
 					hours: [],
 					minutes: [],
 					use12Hours: false,
-    				position: 'bottom',
+					position: 'bottom',
 
 					init() {
 						this.use12Hours = this.$el.dataset.use12hours === 'true';
-
-						// Initialize from dataset value
 						if (this.$el.dataset?.value) {
 							const [hours, minutes] = this.$el.dataset.value.split(':').map(Number);
 							this.selectedMinute = minutes;
@@ -53,9 +297,35 @@ templ TimePickerScript() {
 							} else {
 								this.selectedHour = hours;
 							}
-							// Set initial values
 							this.updateValues();
 						}
+						
+						// Set up listeners for the selects
+						this.$nextTick(() => {
+                            // We handle selection by listening to click events on the select items
+                            // This is handled by the SelectScript but we need to sync the values
+                            
+                            const hourSelectId = 'hour-select-' + this.$el.dataset.inputId;
+                            const minuteSelectId = 'minute-select-' + this.$el.dataset.inputId;
+                            
+                            // Listen for changes on the hidden inputs to sync our values
+                            const hourInput = document.querySelector(`[data-select-id="${hourSelectId}"] input[type="hidden"]`);
+                            const minuteInput = document.querySelector(`[data-select-id="${minuteSelectId}"] input[type="hidden"]`);
+                            
+                            if (hourInput) {
+                                hourInput.addEventListener('change', () => {
+                                    this.selectedHour = parseInt(hourInput.value);
+                                    this.updateValues();
+                                });
+                            }
+                            
+                            if (minuteInput) {
+                                minuteInput.addEventListener('change', () => {
+                                    this.selectedMinute = parseInt(minuteInput.value);
+                                    this.updateValues();
+                                });
+                            }
+                        });
 					},
 
 					toggleTimePicker() {
@@ -87,222 +357,53 @@ templ TimePickerScript() {
 						return this.position === 'bottom' ? 'top-full mt-1' : 'bottom-full mb-1';
 					},
 
-                    closeTimePicker() {
-                        this.open = false;
-                    },
+					closeTimePicker() {
+						this.open = false;
+					},
 
 					updateValues() {
-						// Calculate 24h time for form
 						let hour24 = this.selectedHour;
 						if (this.use12Hours) {
 							if (this.isPM && hour24 !== 12) hour24 += 12;
 							if (!this.isPM && hour24 === 12) hour24 = 0;
 						}
-						
-						// Always set 24h format for form submission
 						this.formValue = `${String(hour24).padStart(2, '0')}:${String(this.selectedMinute).padStart(2, '0')}`;
-
-						// Set display format based on mode
 						if (this.use12Hours) {
 							this.displayValue = `${String(this.selectedHour).padStart(2, '0')}:${String(this.selectedMinute).padStart(2, '0')} ${this.isPM ? 'PM' : 'AM'}`;
 						} else {
 							this.displayValue = this.formValue;
 						}
+                        
+                        // Update the display element with the new value
+                        const displayEl = this.$el.querySelector('.timepicker-display');
+                        if (displayEl) {
+                            displayEl.textContent = this.displayValue;
+                            displayEl.classList.remove('text-muted-foreground');
+                        }
+                        
+                        // Update the hidden form input
+                        const hiddenInput = this.$el.querySelector('input[type="hidden"][name]');
+                        if (hiddenInput) {
+                            hiddenInput.value = this.formValue;
+                        }
 					},
 
-					selectHour() {
-						const hour = parseInt(this.$el.value);
-						this.selectedHour = hour;
-						this.updateValues();
-					},
-
-					selectMinute() {
-						const minute = parseInt(this.$el.value);
-						this.selectedMinute = minute;
-						this.updateValues();
-					},
-
-					selectPeriod() {
-						const period = this.$el.getAttribute('data-period');
+					selectPeriod(event) {
+						const periodButton = event.currentTarget;
+						const period = periodButton.getAttribute('data-period');
 						this.isPM = period === 'PM';
+						
+						// Update UI for AM/PM buttons
+						const periodButtons = this.$el.querySelectorAll('[data-period]');
+						periodButtons.forEach(btn => {
+							btn.classList.remove('bg-primary', 'text-primary-foreground');
+						});
+						periodButton.classList.add('bg-primary', 'text-primary-foreground');
+						
 						this.updateValues();
-					},
-
-					periodButtonClass() {
-						const period = this.$el.getAttribute('data-period');
-						return period === 'PM' === this.isPM ? 'bg-primary text-primary-foreground' : '';
 					}
-                }));
-            });
-        </script>
+				}));
+			});
+		</script>
 	}
-}
-
-func generateHourOptions(use12Hours bool) []SelectOption {
-	options := make([]SelectOption, 0)
-	if use12Hours {
-		// Start with 12, then 1 through 11
-		options = append(options, SelectOption{
-			Label: "12",
-			Value: "12",
-		})
-		for i := 1; i <= 11; i++ {
-			options = append(options, SelectOption{
-				Label: fmt.Sprintf("%02d", i),
-				Value: fmt.Sprintf("%d", i),
-			})
-		}
-	} else {
-		// 24-hour format: 0 through 23
-		for i := 0; i <= 23; i++ {
-			options = append(options, SelectOption{
-				Label: fmt.Sprintf("%02d", i),
-				Value: fmt.Sprintf("%d", i),
-			})
-		}
-	}
-	return options
-}
-
-func generateMinuteOptions() []SelectOption {
-	options := make([]SelectOption, 60)
-	for i := 0; i < 60; i++ {
-		options[i] = SelectOption{
-			Label: fmt.Sprintf("%02d", i),
-			Value: fmt.Sprintf("%d", i),
-		}
-	}
-	return options
-}
-
-// A native time selector with support for 12/24 hour formats.
-templ TimePicker(props TimePickerProps) {
-	if props.ID == "" {
-		{{ props.ID = utils.RandomID() }}
-	}
-	if props.Placeholder == "" {
-		{{ props.Placeholder = "Select time" }}
-	}
-	if props.AMLabel == "" {
-		{{ props.AMLabel = "AM" }}
-	}
-	if props.PMLabel == "" {
-		{{ props.PMLabel = "PM" }}
-	}
-	<div
-		class={ utils.TwMerge("relative", props.Class) }
-		if props.Value != (time.Time{}) {
-			data-value={ props.Value.Format("15:04") }
-		}
-		data-use12hours={ fmt.Sprintf("%t", props.Use12Hours) }
-		x-data="timePicker"
-		data-input-id={ props.ID }
-	>
-		<div class="relative">
-			<input
-				type="hidden"
-				name={ props.Name }
-				x-bind:value="formValue"
-			/>
-			@Input(InputProps{
-				ID: props.ID,
-				// No Name attribute here because thats what the hidden input has
-				Value:       props.Value.Format("15:04"),
-				Placeholder: props.Placeholder,
-				Disabled:    props.Disabled,
-				Class:       utils.TwMerge(props.Class, "peer"),
-				HasError:    props.HasError,
-				Type:        "text",
-				Readonly:    true,
-				Attributes: utils.MergeAttributes(
-					templ.Attributes{
-						"x-ref":  "timePickerInput",
-						":value": "displayValue", // Only the display value
-						"@click": "toggleTimePicker",
-					},
-					props.Attributes,
-				),
-			})
-			<button
-				type="button"
-				@click="toggleTimePicker"
-				disabled?={ props.Disabled }
-				class={
-					utils.TwMerge(
-						"absolute top-0 right-0 px-3 py-2",
-						"cursor-pointer text-muted-foreground",
-						"hover:text-foreground",
-						"peer-disabled:pointer-events-none peer-disabled:opacity-50",
-					),
-				}
-			>
-				@icons.Clock(icons.IconProps{})
-			</button>
-		</div>
-		<div
-			x-show="open"
-			x-ref="timePickerPopup"
-			@click.away="closeTimePicker"
-			x-transition.opacity
-			class="absolute left-0 z-50 w-72 p-4 rounded-lg border bg-popover shadow-md"
-			x-bind:class="positionClass"
-			@resize.window="updatePosition"
-		>
-			<div class="grid grid-cols-2 gap-2 flex-1">
-				<div>
-					@Select(SelectProps{
-						ID:   "hour-select",
-						Name: "hour",
-						Attributes: templ.Attributes{
-							"x-bind:value": "selectedHour",
-							"@change":      "selectHour",
-						},
-						Options: generateHourOptions(props.Use12Hours),
-					})
-				</div>
-				<div>
-					@Select(SelectProps{
-						ID:   "minute-select",
-						Name: "minute",
-						Attributes: templ.Attributes{
-							"x-bind:value": "selectedMinute",
-							"@change":      "selectMinute",
-						},
-						Options: generateMinuteOptions(),
-					})
-				</div>
-			</div>
-			<div class="flex justify-between mt-4 gap-2">
-				<div x-show="use12Hours" class="flex justify-center gap-2">
-					<button
-						type="button"
-						data-period="AM"
-						@click="selectPeriod"
-						class="px-3 py-1 text-sm rounded-md [&:not(.bg-primary)]:hover:bg-muted"
-						x-bind:class="periodButtonClass"
-					>
-						{ props.AMLabel }
-					</button>
-					<button
-						type="button"
-						data-period="PM"
-						@click="selectPeriod"
-						class="px-3 py-1 text-sm rounded-md [&:not(.bg-primary)]:hover:bg-muted"
-						x-bind:class="periodButtonClass"
-					>
-						{ props.PMLabel }
-					</button>
-				</div>
-				@Button(ButtonProps{
-					Type:    "button",
-					Text:    "Done",
-					Size:    ButtonSizeSm,
-					Variant: ButtonVariantSecondary,
-					Attributes: templ.Attributes{
-						"@click": "closeTimePicker",
-					},
-				})
-			</div>
-		</div>
-	</div>
 }

@@ -5,10 +5,16 @@ import "github.com/axzilla/templui/components"
 templ RatingDefault() {
 	@components.Rating(components.RatingProps{
 		Value:     3.5,
-		MaxValue:  5,
 		ReadOnly:  false,
-		Style:     components.RatingStyleStar,
 		Precision: 0.5,
-		ShowValue: true,
-	})
+	}) {
+		@components.RatingGroup(components.RatingGroupProps{}) {
+			for i := 1; i <= 5; i++ {
+				@components.RatingItem(components.RatingItemProps{
+					Value: i,
+					Style: components.RatingStyleStar,
+				})
+			}
+		}
+	}
 }
