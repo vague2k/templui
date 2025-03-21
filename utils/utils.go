@@ -3,13 +3,11 @@ package utils
 import (
 	"encoding/json"
 	"fmt"
+	"math/rand"
 	"strconv"
 
-	"math/rand"
-
-	"github.com/a-h/templ"
-
 	twmerge "github.com/Oudwins/tailwind-merge-go"
+	"github.com/a-h/templ"
 )
 
 // TwMerge combines Tailwind classes and resolves conflicts.
@@ -53,14 +51,6 @@ func MergeAttributes(attrs ...templ.Attributes) templ.Attributes {
 // Example: RandomID() → "id-123456"
 func RandomID() string {
 	return fmt.Sprintf("id-%d", rand.Intn(1000000))
-}
-
-// create a ifelse func withb bool prop but return any
-func IfElse(b bool, t, f any) any {
-	if b {
-		return t
-	}
-	return f
 }
 
 // float to string create one with standard lib

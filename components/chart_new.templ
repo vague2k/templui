@@ -1,8 +1,9 @@
-// chart_components.templ
 package components
 
-import "github.com/axzilla/templui/utils"
-import "fmt"
+import (
+	"github.com/axzilla/templui/utils"
+	"fmt"
+)
 
 // Basistypen für Chart-Konfiguration
 type ChartVariant string
@@ -272,10 +273,10 @@ templ ChartXAxis(props ChartAxisProps) {
 		data-grid={ utils.BoolToString(props.Grid) }
 		data-title={ props.Title }
 		if props.Min != nil {
-			data-min={ utils.IfElse(props.Min != nil, utils.FloatToString(*props.Min), "").(string) }
+			data-min={ utils.IfElse(props.Min != nil, utils.FloatToString(*props.Min), "") }
 		}
 		if props.Max != nil {
-			data-max={ utils.IfElse(props.Max != nil, utils.FloatToString(*props.Max), "").(string) }
+			data-max={ utils.IfElse(props.Max != nil, utils.FloatToString(*props.Max), "") }
 		}
 		data-begin-at-zero={ utils.BoolToString(props.BeginAtZero) }
 		data-position={ props.Position }
@@ -290,10 +291,10 @@ templ ChartYAxis(props ChartAxisProps) {
 		data-grid={ utils.BoolToString(props.Grid) }
 		data-title={ props.Title }
 		if props.Min != nil {
-			data-min={ utils.IfElse(props.Min != nil, utils.FloatToString(*props.Min), "").(string) }
+			data-min={ utils.IfElse(props.Min != nil, utils.FloatToString(*props.Min), "") }
 		}
 		if props.Max != nil {
-			data-max={ utils.IfElse(props.Max != nil, utils.FloatToString(*props.Max), "").(string) }
+			data-max={ utils.IfElse(props.Max != nil, utils.FloatToString(*props.Max), "") }
 		}
 		data-begin-at-zero={ utils.BoolToString(props.BeginAtZero) }
 		data-position={ props.Position }
