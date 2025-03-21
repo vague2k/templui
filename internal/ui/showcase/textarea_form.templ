@@ -6,21 +6,23 @@ templ TextareaForm() {
 	<div class="w-full max-w-md">
 		@components.FormItem(components.FormItemProps{}) {
 			@components.Label(components.LabelProps{
-				Text: "Your Message",
-				For:  "textarea-form",
-			})
+				For: "textarea-form",
+			}) {
+				Your Message
+			}
 			@components.Textarea(components.TextareaProps{
 				ID:          "textarea-form",
 				Name:        "message",
-				Placeholder: "Type your message here",
+				Placeholder: "Type your message here...",
 			})
 			@components.FormDescription(components.FormDescriptionProps{}) {
 				Please type your message in the textarea.
 			}
 			@components.FormMessage(components.FormMessageProps{
-				Type:    "error",
-				Message: "This message is required.",
-			})
+				Variant: components.FormMessageVariantError,
+			}) {
+				This message is required.
+			}
 		}
 	</div>
 }

@@ -13,43 +13,39 @@ import (
 	"github.com/axzilla/templui/utils"
 )
 
-// ProgressSize defines available sizes for the Progress component
 type ProgressSize string
-
-const (
-	ProgressSizeDefault ProgressSize = ""   // Default size
-	ProgressSizeSm      ProgressSize = "sm" // Small progress bar
-	ProgressSizeLg      ProgressSize = "lg" // Large progress bar
-)
-
-// ProgressVariant defines color variants
 type ProgressVariant string
 
 const (
-	ProgressVariantDefault ProgressVariant = "default" // Default styling
-	ProgressVariantSuccess ProgressVariant = "success" // Success state
-	ProgressVariantDanger  ProgressVariant = "danger"  // Error/danger state
-	ProgressVariantWarning ProgressVariant = "warning" // Warning state
+	ProgressSizeDefault ProgressSize = ""
+	ProgressSizeSm      ProgressSize = "sm"
+	ProgressSizeLg      ProgressSize = "lg"
 )
 
-// ProgressProps configures the Progress component
+const (
+	ProgressVariantDefault ProgressVariant = "default"
+	ProgressVariantSuccess ProgressVariant = "success"
+	ProgressVariantDanger  ProgressVariant = "danger"
+	ProgressVariantWarning ProgressVariant = "warning"
+)
+
 type ProgressProps struct {
-	Value      int              // Current progress value (0-100)
-	Max        int              // Maximum value (default: 100)
-	Label      string           // Optional text label
-	ShowValue  bool             // Whether to show percentage
-	Size       ProgressSize     // Size variant (sm, md, lg)
-	Variant    ProgressVariant  // Color variant
-	Class      string           // Additional CSS classes
-	BarClass   string           // Additional CSS classes for the bar itself
-	HxGet      string           // HTMX endpoint for updates
-	HxTrigger  string           // HTMX trigger for updates
-	HxTarget   string           // HTMX target for updates
-	HxSwap     string           // HTMX swap method
-	Attributes templ.Attributes // Additional HTML attributes
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+	Value      int
+	Max        int
+	Label      string
+	ShowValue  bool
+	Size       ProgressSize
+	Variant    ProgressVariant
+	BarClass   string
+	HxGet      string
+	HxTrigger  string
+	HxTarget   string
+	HxSwap     string
 }
 
-// Progress renders a progress bar component
 func Progress(props ProgressProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -106,7 +102,7 @@ func Progress(props ProgressProps) templ.Component {
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(props.HxGet)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/progress.templ`, Line: 54, Col: 23}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/progress.templ`, Line: 50, Col: 23}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
@@ -125,7 +121,7 @@ func Progress(props ProgressProps) templ.Component {
 			var templ_7745c5c3_Var5 string
 			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(props.HxTrigger)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/progress.templ`, Line: 57, Col: 31}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/progress.templ`, Line: 53, Col: 31}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
@@ -144,7 +140,7 @@ func Progress(props ProgressProps) templ.Component {
 			var templ_7745c5c3_Var6 string
 			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(props.HxTarget)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/progress.templ`, Line: 60, Col: 29}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/progress.templ`, Line: 56, Col: 29}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 			if templ_7745c5c3_Err != nil {
@@ -163,7 +159,7 @@ func Progress(props ProgressProps) templ.Component {
 			var templ_7745c5c3_Var7 string
 			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(props.HxSwap)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/progress.templ`, Line: 63, Col: 25}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/progress.templ`, Line: 59, Col: 25}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {
@@ -181,7 +177,7 @@ func Progress(props ProgressProps) templ.Component {
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d", getMaxValue(props.Max)))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/progress.templ`, Line: 66, Col: 59}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/progress.templ`, Line: 62, Col: 59}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
@@ -194,7 +190,7 @@ func Progress(props ProgressProps) templ.Component {
 		var templ_7745c5c3_Var9 string
 		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d", props.Value))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/progress.templ`, Line: 67, Col: 48}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/progress.templ`, Line: 63, Col: 48}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {
@@ -225,7 +221,7 @@ func Progress(props ProgressProps) templ.Component {
 				var templ_7745c5c3_Var10 string
 				templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(props.Label)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/progress.templ`, Line: 74, Col: 52}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/progress.templ`, Line: 70, Col: 52}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 				if templ_7745c5c3_Err != nil {
@@ -244,7 +240,7 @@ func Progress(props ProgressProps) templ.Component {
 				var templ_7745c5c3_Var11 string
 				templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%d%%", getProgressPercentage(props)))
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/progress.templ`, Line: 78, Col: 57}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/progress.templ`, Line: 74, Col: 57}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 				if templ_7745c5c3_Err != nil {
@@ -318,7 +314,7 @@ func Progress(props ProgressProps) templ.Component {
 		var templ_7745c5c3_Var16 string
 		templ_7745c5c3_Var16, templ_7745c5c3_Err = templruntime.SanitizeStyleAttributeValues(fmt.Sprintf("width: %d%%", getProgressPercentage(props)))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/progress.templ`, Line: 99, Col: 68}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/progress.templ`, Line: 95, Col: 68}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
 		if templ_7745c5c3_Err != nil {
@@ -332,7 +328,6 @@ func Progress(props ProgressProps) templ.Component {
 	})
 }
 
-// Helper functions
 func getMaxValue(max int) int {
 	if max <= 0 {
 		return 100
@@ -342,8 +337,6 @@ func getMaxValue(max int) int {
 
 func getProgressPercentage(props ProgressProps) int {
 	max := getMaxValue(props.Max)
-
-	// Ensure value is within bounds
 	value := props.Value
 	if value < 0 {
 		value = 0
@@ -351,8 +344,6 @@ func getProgressPercentage(props ProgressProps) int {
 	if value > max {
 		value = max
 	}
-
-	// Calculate percentage
 	return (value * 100) / max
 }
 
@@ -363,7 +354,7 @@ func getProgressSizeClasses(size ProgressSize) string {
 	case ProgressSizeLg:
 		return "h-4"
 	default:
-		return "h-2.5" // Default (md) size
+		return "h-2.5"
 	}
 }
 
@@ -376,7 +367,7 @@ func getProgressVariantClasses(variant ProgressVariant) string {
 	case ProgressVariantWarning:
 		return "bg-yellow-500"
 	default:
-		return "bg-primary" // Default to primary
+		return "bg-primary"
 	}
 }
 

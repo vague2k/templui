@@ -27,23 +27,23 @@ templ Pagination() {
 			})
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Simple",
-					ShowcaseFile:      showcase.PaginationSimple(),
-					PreviewCodeFile:   "pagination_simple.templ",
+					SectionName:       "With Helper",
+					ShowcaseFile:      showcase.PaginationWithHelper(),
+					PreviewCodeFile:   "pagination_with_helper.templ",
 					ComponentCodeFile: "pagination.templ",
 				})
-				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Minimal",
-					ShowcaseFile:      showcase.PaginationMinimal(),
-					PreviewCodeFile:   "pagination_minimal.templ",
-					ComponentCodeFile: "pagination.templ",
-				})
-				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Outline",
-					ShowcaseFile:      showcase.PaginationOutline(),
-					PreviewCodeFile:   "pagination_outline.templ",
-					ComponentCodeFile: "pagination.templ",
-				})
+				<!-- @modules.ExampleWrapper(modules.ExampleWrapperProps{ -->
+				<!-- 	SectionName:       "Minimal", -->
+				<!-- 	ShowcaseFile:      showcase.PaginationMinimal(), -->
+				<!-- 	PreviewCodeFile:   "pagination_minimal.templ", -->
+				<!-- 	ComponentCodeFile: "pagination.templ", -->
+				<!-- }) -->
+				<!-- @modules.ExampleWrapper(modules.ExampleWrapperProps{ -->
+				<!-- 	SectionName:       "Outline", -->
+				<!-- 	ShowcaseFile:      showcase.PaginationOutline(), -->
+				<!-- 	PreviewCodeFile:   "pagination_outline.templ", -->
+				<!-- 	ComponentCodeFile: "pagination.templ", -->
+				<!-- }) -->
 			}
 		}
 	}

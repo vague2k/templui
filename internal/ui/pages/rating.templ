@@ -19,7 +19,7 @@ templ Rating() {
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.RatingDefault(),
-				PreviewCodeFile:   "rating.templ",
+				PreviewCodeFile:   "rating_default.templ",
 				ComponentCodeFile: "rating.templ",
 			})
 			@modules.Usage(modules.UsageProps{
@@ -29,10 +29,11 @@ templ Rating() {
 			})
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Read-Only",
-					ShowcaseFile:      showcase.RatingReadOnly(),
-					PreviewCodeFile:   "rating_readonly.templ",
+					SectionName:       "With Label",
+					ShowcaseFile:      showcase.RatingWithLabel(),
+					PreviewCodeFile:   "rating_with_label.templ",
 					ComponentCodeFile: "rating.templ",
+					ID:                "label",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "Styles",
@@ -41,13 +42,13 @@ templ Rating() {
 					ComponentCodeFile: "rating.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Precision",
+					SectionName:       "Precision (Read-Only)",
 					ShowcaseFile:      showcase.RatingPrecision(),
 					PreviewCodeFile:   "rating_precision.templ",
 					ComponentCodeFile: "rating.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Custom Max Values",
+					SectionName:       "Max Values",
 					ShowcaseFile:      showcase.RatingMaxValues(),
 					PreviewCodeFile:   "rating_max_values.templ",
 					ComponentCodeFile: "rating.templ",

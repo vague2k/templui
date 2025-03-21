@@ -17,8 +17,8 @@ templ Tooltip() {
 			Tailwind:    true,
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				ShowcaseFile:      showcase.Tooltip(),
-				PreviewCodeFile:   "tooltip.templ",
+				ShowcaseFile:      showcase.TooltipDefault(),
+				PreviewCodeFile:   "tooltip_default.templ",
 				ComponentCodeFile: "tooltip.templ",
 			})
 			@modules.Usage(modules.UsageProps{
@@ -34,14 +34,8 @@ templ Tooltip() {
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "Sides",
-					ShowcaseFile:      showcase.TooltipSides(),
+					ShowcaseFile:      showcase.TooltipPositions(),
 					PreviewCodeFile:   "tooltip_sides.templ",
-					ComponentCodeFile: "tooltip.templ",
-				})
-				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "With Arrow",
-					ShowcaseFile:      showcase.TooltipWithArrow(),
-					PreviewCodeFile:   "tooltip_with_arrow.templ",
 					ComponentCodeFile: "tooltip.templ",
 				})
 			}

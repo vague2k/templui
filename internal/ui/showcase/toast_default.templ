@@ -1,0 +1,26 @@
+package showcase
+
+import "github.com/axzilla/templui/components"
+
+templ ToastDefault() {
+	<div>
+		<form
+			class="flex flex-col gap-2"
+			hx-post="/docs/toast/demo"
+			hx-trigger="submit"
+			hx-target="#toast-container"
+			hx-vals='{
+				"title": "You have a new notification",
+				"description": "Test Notification",
+				"dismissible": "on"
+			}'
+		>
+			@components.Button(components.ButtonProps{
+				Type: "submit",
+			}) {
+				Show Toast
+			}
+		</form>
+		<div id="toast-container"></div>
+	</div>
+}

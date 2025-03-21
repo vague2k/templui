@@ -5,70 +5,25 @@ import (
 	"github.com/axzilla/templui/utils"
 )
 
-templ CodeScript() {
-	{{ handle := templ.NewOnceHandle() }}
-	@handle.Once() {
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/pojoaque.min.css"/>
-		<script nonce={ templ.GetNonce(ctx) } src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-		<script nonce={ templ.GetNonce(ctx) }>
-            document.addEventListener('alpine:init', () => {
-                // Highlight.js init
-                hljs.highlightAll();
-
-                // Copy functionality
-                Alpine.data('code', () => ({
-                    isCopied: false,
-                    isNotCopied: true,
-					copyCode() {
-						try {
-							// Moderne Methode (HTTPS)
-							if (navigator.clipboard && window.isSecureContext) {
-								navigator.clipboard.writeText(this.$refs.code.textContent);
-							} else {
-								// Fallback für HTTP
-								const textArea = document.createElement('textarea');
-								textArea.value = this.$refs.code.textContent;
-								document.body.appendChild(textArea);
-								textArea.select();
-								document.execCommand('copy');
-								document.body.removeChild(textArea);
-							}
-							
-							this.isCopied = true;
-							this.isNotCopied = false;
-							setTimeout(() => {
-								this.isCopied = false;
-								this.isNotCopied = true;
-							}, 2000);
-						} catch (err) {
-							console.error('Copy failed', err);
-						}
-					}
-                }))
-            })
-        </script>
-	}
-}
-
-// CodeSize represents the available sizes for the Code component
 type CodeSize string
 
 const (
-	CodeSizeDefault CodeSize = ""     // ~20 lines (default)
-	CodeSizeSm      CodeSize = "sm"   // ~10 lines (for short examples)
-	CodeSizeLg      CodeSize = "lg"   // ~40 lines (for long examples)
-	CodeSizeFull    CodeSize = "full" // Full height (no max-height)
+	CodeSizeDefault CodeSize = ""
+	CodeSizeSm      CodeSize = "sm"
+	CodeSizeLg      CodeSize = "lg"
+	CodeSizeFull    CodeSize = "full"
 )
 
 type CodeProps struct {
-	Language       string   // Programming language for syntax highlighting
-	ShowCopyButton bool     // Whether to show the copy button
-	Size           CodeSize // Size of the code block
-	Class          string   // Additional classes for the wrapper div
-	CodeClass      string   // Additional classes for the code element
+	ID             string
+	Class          string
+	Attrs          templ.Attributes
+	Language       string
+	ShowCopyButton bool
+	Size           CodeSize
+	CodeClass      string
 }
 
-// Code displays a code block with optional syntax highlighting and copy functionality
 templ Code(p CodeProps) {
 	<div
 		class={
@@ -86,9 +41,9 @@ templ Code(p CodeProps) {
 					utils.TwMerge(
 						"language-"+p.Language,
 						"overflow-y-auto! rounded-md block text-sm max-h-[501px]!",
-						utils.TwIf("max-h-[250px]!", p.Size == CodeSizeSm),
-						utils.TwIf("max-h-[1000px]!", p.Size == CodeSizeLg),
-						utils.TwIf("max-h-full!", p.Size == CodeSizeFull),
+						utils.If(p.Size == CodeSizeSm, "max-h-[250px]!"),
+						utils.If(p.Size == CodeSizeLg, "max-h-[1000px]!"),
+						utils.If(p.Size == CodeSizeFull, "max-h-full!"),
 						p.CodeClass,
 					),
 				}
@@ -110,4 +65,45 @@ templ Code(p CodeProps) {
 			</button>
 		}
 	</div>
+}
+
+templ CodeScript() {
+	{{ handle := templ.NewOnceHandle() }}
+	@handle.Once() {
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/pojoaque.min.css"/>
+		<script nonce={ templ.GetNonce(ctx) } src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+		<script nonce={ templ.GetNonce(ctx) }>
+			document.addEventListener('alpine:init', () => {
+				hljs.highlightAll();
+
+				Alpine.data('code', () => ({
+					isCopied: false,
+					isNotCopied: true,
+					copyCode() {
+						try {
+							if (navigator.clipboard && window.isSecureContext) {
+								navigator.clipboard.writeText(this.$refs.code.textContent);
+							} else {
+								const textArea = document.createElement('textarea');
+								textArea.value = this.$refs.code.textContent;
+								document.body.appendChild(textArea);
+								textArea.select();
+								document.execCommand('copy');
+								document.body.removeChild(textArea);
+							}
+							
+							this.isCopied = true;
+							this.isNotCopied = false;
+							setTimeout(() => {
+								this.isCopied = false;
+								this.isNotCopied = true;
+							}, 2000);
+						} catch (err) {
+							console.error('Copy failed', err);
+						}
+					}
+				}))
+			})
+		</script>
+	}
 }

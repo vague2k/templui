@@ -1,13 +1,126 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import (
+	"github.com/axzilla/templui/components"
+	"github.com/axzilla/templui/icons"
+)
 
 templ DropdownMenuDefault() {
-	@components.DropdownMenu(components.DropdownMenuProps{
-		Items: []components.DropdownMenuItem{
-			{Label: "Profile", Value: "profile"},
-			{Label: "Settings", Value: "settings"},
-			{Label: "Logout", Value: "logout"},
-		},
-	})
+	@components.DropdownMenu(components.DropdownMenuProps{}) {
+		@components.DropdownMenuTrigger(components.DropdownMenuTriggerProps{}) {
+			@components.Button(components.ButtonProps{
+				Variant: components.ButtonVariantOutline,
+			}) {
+				Open
+			}
+		}
+		@components.DropdownMenuContent(components.DropdownMenuContentProps{
+			Width: "w-56",
+		}) {
+			@components.DropdownMenuLabel(components.DropdownMenuLabelProps{}) {
+				My Account
+			}
+			@components.DropdownMenuSeparator(components.DropdownMenuSeparatorProps{})
+			@components.DropdownMenuGroup(components.DropdownMenuGroupProps{}) {
+				@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
+					Profile
+					@components.DropdownMenuShortcut(components.DropdownMenuShortcutProps{}) {
+						⇧⌘P
+					}
+				}
+				@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
+					Billing
+					@components.DropdownMenuShortcut(components.DropdownMenuShortcutProps{}) {
+						⌘B
+					}
+				}
+				@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
+					Settings
+					@components.DropdownMenuShortcut(components.DropdownMenuShortcutProps{}) {
+						⌘S
+					}
+				}
+				@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
+					Keyboard shortcuts
+					@components.DropdownMenuShortcut(components.DropdownMenuShortcutProps{}) {
+						⌘K
+					}
+				}
+			}
+			@components.DropdownMenuSeparator(components.DropdownMenuSeparatorProps{})
+			@components.DropdownMenuGroup(components.DropdownMenuGroupProps{}) {
+				@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
+					Team
+				}
+				@components.DropdownMenuSub(components.DropdownMenuSubProps{}) {
+					@components.DropdownMenuSubTrigger(components.DropdownMenuSubTriggerProps{}) {
+						<span class="flex items-center">
+							@icons.Users(icons.IconProps{Size: "16", Class: "mr-2"})
+							Invite users
+						</span>
+					}
+					@components.DropdownMenuPortal(components.DropdownMenuPortalProps{}) {
+						@components.DropdownMenuSubContent(components.DropdownMenuSubContentProps{}) {
+							@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
+								<span class="flex items-center">
+									@icons.Mail(icons.IconProps{Size: "16", Class: "mr-2"})
+									Email
+								</span>
+							}
+							@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
+								<span class="flex items-center">
+									@icons.MessageSquare(icons.IconProps{Size: "16", Class: "mr-2"})
+									Message
+								</span>
+							}
+							@components.DropdownMenuSeparator(components.DropdownMenuSeparatorProps{})
+							@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
+								More...
+							}
+						}
+					}
+				}
+				@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
+					New Team
+					@components.DropdownMenuShortcut(components.DropdownMenuShortcutProps{}) {
+						⌘+T
+					}
+				}
+			}
+			@components.DropdownMenuSeparator(components.DropdownMenuSeparatorProps{})
+			@components.DropdownMenuItem(components.DropdownMenuItemProps{
+				Href:   "https://github.com",
+				Target: "_blank",
+			}) {
+				<span class="flex items-center">
+					@icons.Github(icons.IconProps{Size: "16", Class: "mr-2"})
+					GitHub
+				</span>
+			}
+			@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
+				<span class="flex items-center">
+					@icons.LifeBuoy(icons.IconProps{Size: "16", Class: "mr-2"})
+					Support
+				</span>
+			}
+			@components.DropdownMenuItem(components.DropdownMenuItemProps{
+				Disabled: true,
+			}) {
+				<span class="flex items-center">
+					@icons.Code(icons.IconProps{Size: "16", Class: "mr-2"})
+					API
+				</span>
+			}
+			@components.DropdownMenuSeparator(components.DropdownMenuSeparatorProps{})
+			@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
+				<span class="flex items-center">
+					@icons.LogOut(icons.IconProps{Size: "16", Class: "mr-2"})
+					Log out
+				</span>
+				@components.DropdownMenuShortcut(components.DropdownMenuShortcutProps{}) {
+					⇧⌘Q
+				}
+			}
+		}
+	}
 }

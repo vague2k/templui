@@ -1,0 +1,68 @@
+package showcase
+
+import "github.com/axzilla/templui/components"
+
+templ TooltipPositions() {
+	<div class="flex gap-2">
+		@components.Tooltip(components.TooltipProps{}) {
+			@components.TooltipTrigger(components.TooltipTriggerProps{}) {
+				@components.Button(components.ButtonProps{
+					Variant: components.ButtonVariantOutline,
+				}) {
+					Top
+				}
+			}
+			@components.TooltipContent(components.TooltipContentProps{
+				Side:      components.TooltipPositionTop,
+				ShowArrow: true,
+			}) {
+				Tooltip on top
+			}
+		}
+		@components.Tooltip(components.TooltipProps{}) {
+			@components.TooltipTrigger(components.TooltipTriggerProps{}) {
+				@components.Button(components.ButtonProps{
+					Variant: components.ButtonVariantOutline,
+				}) {
+					Right
+				}
+			}
+			@components.TooltipContent(components.TooltipContentProps{
+				Side:      components.TooltipPositionRight,
+				ShowArrow: true,
+			}) {
+				Tooltip on right
+			}
+		}
+		@components.Tooltip(components.TooltipProps{}) {
+			@components.TooltipTrigger(components.TooltipTriggerProps{}) {
+				@components.Button(components.ButtonProps{
+					Variant: components.ButtonVariantOutline,
+				}) {
+					Bottom
+				}
+			}
+			@components.TooltipContent(components.TooltipContentProps{
+				Side:      components.TooltipPositionBottom,
+				ShowArrow: true,
+			}) {
+				Tooltip on bottom
+			}
+		}
+		@components.Tooltip(components.TooltipProps{}) {
+			@components.TooltipTrigger(components.TooltipTriggerProps{}) {
+				@components.Button(components.ButtonProps{
+					Variant: components.ButtonVariantOutline,
+				}) {
+					Left
+				}
+			}
+			@components.TooltipContent(components.TooltipContentProps{
+				Side:      components.TooltipPositionLeft,
+				ShowArrow: true,
+			}) {
+				Tooltip on left
+			}
+		}
+	</div>
+}

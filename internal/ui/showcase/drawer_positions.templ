@@ -1,0 +1,90 @@
+package showcase
+
+import (
+	"github.com/axzilla/templui/components"
+)
+
+templ DrawerPositions() {
+	<div class="flex flex-wrap gap-2">
+		@components.Drawer(components.DrawerProps{}) {
+			@components.DrawerTrigger(components.DrawerTriggerProps{}) {
+				@components.Button(components.ButtonProps{}) {
+					Top
+				}
+			}
+			@components.DrawerContent(components.DrawerContentProps{Side: components.DrawerPositionTop}) {
+				@components.DrawerHeader(components.DrawerHeaderProps{}) {
+					@components.DrawerTitle(components.DrawerTitleProps{}) {
+						Top Drawer
+					}
+				}
+				<p>This drawer slides in from the top of the screen.</p>
+				@components.DrawerFooter(components.DrawerFooterProps{}) {
+					@components.DrawerClose(components.DrawerCloseProps{}) {
+						Close
+					}
+				}
+			}
+		}
+		@components.Drawer(components.DrawerProps{}) {
+			@components.DrawerTrigger(components.DrawerTriggerProps{}) {
+				@components.Button(components.ButtonProps{}) {
+					Right
+				}
+			}
+			@components.DrawerContent(components.DrawerContentProps{Side: components.DrawerPositionRight}) {
+				@components.DrawerHeader(components.DrawerHeaderProps{}) {
+					@components.DrawerTitle(components.DrawerTitleProps{}) {
+						Right Drawer
+					}
+				}
+				<p>This drawer slides in from the right side of the screen.</p>
+				@components.DrawerFooter(components.DrawerFooterProps{}) {
+					@components.DrawerClose(components.DrawerCloseProps{}) {
+						Close
+					}
+				}
+			}
+		}
+		@components.Drawer(components.DrawerProps{}) {
+			@components.DrawerTrigger(components.DrawerTriggerProps{}) {
+				@components.Button(components.ButtonProps{}) {
+					Bottom
+				}
+			}
+			@components.DrawerContent(components.DrawerContentProps{Side: components.DrawerPositionBottom}) {
+				@components.DrawerHeader(components.DrawerHeaderProps{}) {
+					@components.DrawerTitle(components.DrawerTitleProps{}) {
+						Bottom Drawer
+					}
+				}
+				<p>This drawer slides in from the bottom of the screen.</p>
+				@components.DrawerFooter(components.DrawerFooterProps{}) {
+					@components.DrawerClose(components.DrawerCloseProps{}) {
+						Close
+					}
+				}
+			}
+		}
+		@components.Drawer(components.DrawerProps{}) {
+			@components.DrawerTrigger(components.DrawerTriggerProps{}) {
+				@components.Button(components.ButtonProps{}) {
+					Left
+				}
+			}
+			@components.DrawerContent(components.DrawerContentProps{Side: components.DrawerPositionLeft}) {
+				@components.DrawerHeader(components.DrawerHeaderProps{}) {
+					@components.DrawerTitle(components.DrawerTitleProps{}) {
+						Left Drawer
+					}
+				}
+				<p>This drawer slides in from the left side of the screen.</p>
+				@components.DrawerFooter(components.DrawerFooterProps{}) {
+					@components.DrawerClose(components.DrawerCloseProps{}) {
+						Close
+					}
+				}
+			}
+		}
+	</div>
+}

@@ -1,0 +1,71 @@
+package showcase
+
+import "github.com/axzilla/templui/components"
+import "github.com/axzilla/templui/icons"
+
+templ RadioCardDefault() {
+	<div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+		@components.RadioCard(components.RadioCardProps{
+			ID:    "comp-plan-basic",
+			Name:  "comp-plan",
+			Value: "basic",
+		}) {
+			@components.RadioCardHeader(components.RadioCardHeaderProps{}) {
+				<div class="flex items-center gap-2">
+					@icons.Package(icons.IconProps{Size: "20"})
+					<h3>Basic Plan</h3>
+				</div>
+			}
+			@components.RadioCardDescription(components.RadioCardDescriptionProps{}) {
+				Essential features for individuals and small teams
+			}
+			@components.RadioCardFooter(components.RadioCardFooterProps{}) {
+				@radioCardPriceFooter("$5.99")
+			}
+		}
+		@components.RadioCard(components.RadioCardProps{
+			ID:    "comp-plan-pro",
+			Name:  "comp-plan",
+			Value: "pro",
+		}) {
+			@components.RadioCardHeader(components.RadioCardHeaderProps{}) {
+				<div class="flex items-center gap-2">
+					@icons.Star(icons.IconProps{Size: "20"})
+					<h3>Pro Plan</h3>
+				</div>
+			}
+			@components.RadioCardDescription(components.RadioCardDescriptionProps{}) {
+				Enhanced capabilities for growing businesses.
+			}
+			@components.RadioCardFooter(components.RadioCardFooterProps{}) {
+				@radioCardPriceFooter("$14.99")
+			}
+		}
+		@components.RadioCard(components.RadioCardProps{
+			ID:       "comp-plan-enterprise",
+			Name:     "comp-plan",
+			Value:    "enterprise",
+			Disabled: true,
+		}) {
+			@components.RadioCardHeader(components.RadioCardHeaderProps{}) {
+				<div class="flex items-center gap-2">
+					@icons.Building(icons.IconProps{Size: "20"})
+					<h3>Enterprise Plan</h3>
+				</div>
+			}
+			@components.RadioCardDescription(components.RadioCardDescriptionProps{}) {
+				Advanced features for large organizations
+			}
+			@components.RadioCardFooter(components.RadioCardFooterProps{}) {
+				@radioCardPriceFooter("$29.99")
+			}
+		}
+	</div>
+}
+
+templ radioCardPriceFooter(price string) {
+	<div class="flex justify-between items-center border-t border-border pt-2 mt-2 text-sm">
+		<span class="text-muted-foreground">Price</span>
+		<span class="font-medium">{ price }</span>
+	</div>
+}

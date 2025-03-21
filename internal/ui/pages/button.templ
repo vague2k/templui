@@ -17,8 +17,8 @@ templ Button() {
 			Tailwind:    true,
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				ShowcaseFile:      showcase.ButtonVariants(),
-				PreviewCodeFile:   "button_variants.templ",
+				ShowcaseFile:      showcase.ButtonDefault(),
+				PreviewCodeFile:   "button_default.templ",
 				ComponentCodeFile: "button.templ",
 			})
 			@modules.Usage(modules.UsageProps{
@@ -27,21 +27,57 @@ templ Button() {
 			})
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Sizes",
-					ShowcaseFile:      showcase.ButtonSizes(),
-					PreviewCodeFile:   "button_sizes.templ",
+					SectionName:       "Primary",
+					ShowcaseFile:      showcase.ButtonPrimary(),
+					PreviewCodeFile:   "button_primary.templ",
 					ComponentCodeFile: "button.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Disabled",
-					ShowcaseFile:      showcase.ButtonDisabled(),
-					PreviewCodeFile:   "button_disabled.templ",
+					SectionName:       "Secondary",
+					ShowcaseFile:      showcase.ButtonSecondary(),
+					PreviewCodeFile:   "button_secondary.templ",
 					ComponentCodeFile: "button.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Icons",
-					ShowcaseFile:      showcase.ButtonIcons(),
-					PreviewCodeFile:   "button_icons.templ",
+					SectionName:       "Destructive",
+					ShowcaseFile:      showcase.ButtonDestructive(),
+					PreviewCodeFile:   "button_destructive.templ",
+					ComponentCodeFile: "button.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Outline",
+					ShowcaseFile:      showcase.ButtonOutline(),
+					PreviewCodeFile:   "button_outline.templ",
+					ComponentCodeFile: "button.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Ghost",
+					ShowcaseFile:      showcase.ButtonGhost(),
+					PreviewCodeFile:   "button_ghost.templ",
+					ComponentCodeFile: "button.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Link",
+					ShowcaseFile:      showcase.ButtonLink(),
+					PreviewCodeFile:   "button_link.templ",
+					ComponentCodeFile: "button.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Icon",
+					ShowcaseFile:      showcase.ButtonIcon(),
+					PreviewCodeFile:   "button_icon.templ",
+					ComponentCodeFile: "button.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "With Icon",
+					ShowcaseFile:      showcase.ButtonWithIcon(),
+					PreviewCodeFile:   "button_icon.templ",
+					ComponentCodeFile: "button.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Loading",
+					ShowcaseFile:      showcase.ButtonLoading(),
+					PreviewCodeFile:   "button_loading.templ",
 					ComponentCodeFile: "button.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
