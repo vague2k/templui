@@ -743,6 +743,9 @@
   .shrink-0 {
     flex-shrink: 0;
   }
+  .caption-bottom {
+    caption-side: bottom;
+  }
   .border-collapse {
     border-collapse: collapse;
   }
@@ -1376,6 +1379,9 @@
   .text-left {
     text-align: left;
   }
+  .align-middle {
+    vertical-align: middle;
+  }
   .text-2xl {
     font-size: var(--text-2xl);
     line-height: var(--tw-leading, var(--text-2xl--line-height));
@@ -1998,6 +2004,13 @@
       }
     }
   }
+  .hover\:bg-muted\/50 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: color-mix(in oklab, var(--muted) 50%, transparent);
+      }
+    }
+  }
   .hover\:bg-primary\/90 {
     &:hover {
       @media (hover: hover) {
@@ -2380,6 +2393,18 @@
       line-height: var(--leading-relaxed);
     }
   }
+  .\[\&_tr\]\:border-b {
+    & tr {
+      border-bottom-style: var(--tw-border-style);
+      border-bottom-width: 1px;
+    }
+  }
+  .\[\&_tr\:last-child\]\:border-0 {
+    & tr:last-child {
+      border-style: var(--tw-border-style);
+      border-width: 0px;
+    }
+  }
   .\[\&\.htmx-request\]\:inline-flex {
     &.htmx-request {
       display: inline-flex;
@@ -2459,9 +2484,29 @@
       }
     }
   }
+  .\[\&\:has\(\[role\=checkbox\]\)\]\:pr-0 {
+    &:has([role=checkbox]) {
+      padding-right: calc(var(--spacing) * 0);
+    }
+  }
   .\[\&\:has\(svg\)\]\:pl-11 {
     &:has(svg) {
       padding-left: calc(var(--spacing) * 11);
+    }
+  }
+  .\[\&\:not\(\.bg-primary\)\]\:hover\:bg-muted {
+    &:not(.bg-primary) {
+      &:hover {
+        @media (hover: hover) {
+          background-color: var(--muted);
+        }
+      }
+    }
+  }
+  .\[\&\>\[role\=checkbox\]\]\:translate-y-\[2px\] {
+    &>[role=checkbox] {
+      --tw-translate-y: 2px;
+      translate: var(--tw-translate-x) var(--tw-translate-y);
     }
   }
   .open\:\[\&\>summary_svg\]\:rotate-180 {
@@ -2492,9 +2537,26 @@
       translate: var(--tw-translate-x) var(--tw-translate-y);
     }
   }
+  .\[\&\>tr\]\:last\:border-b-0 {
+    &>tr {
+      &:last-child {
+        border-bottom-style: var(--tw-border-style);
+        border-bottom-width: 0px;
+      }
+    }
+  }
   .\[\&amp\;\.htmx-request\]\:inline-flex {
     &amp;.htmx-request {
       display: inline-flex;
+    }
+  }
+  .\[\&amp\;\:not\(\.bg-primary\)\]\:hover\:bg-muted {
+    &amp;:not(.bg-primary) {
+      &:hover {
+        @media (hover: hover) {
+          background-color: var(--muted);
+        }
+      }
     }
   }
 }
