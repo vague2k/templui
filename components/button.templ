@@ -5,13 +5,9 @@ import (
 	"strings"
 )
 
-// ButtonVariant defines the visual style of the button
 type ButtonVariant string
-
-// ButtonSize defines the dimensions of the button
 type ButtonSize string
 
-// Button variants
 const (
 	ButtonVariantDefault     ButtonVariant = "default"
 	ButtonVariantDestructive ButtonVariant = "destructive"
@@ -21,97 +17,37 @@ const (
 	ButtonVariantLink        ButtonVariant = "link"
 )
 
-// Button sizes
 const (
-	ButtonSizeMd   ButtonSize = "md"
-	ButtonSizeSm   ButtonSize = "sm"
-	ButtonSizeLg   ButtonSize = "lg"
 	ButtonSizeIcon ButtonSize = "icon"
 )
 
-// ButtonProps configures the Button component
 type ButtonProps struct {
-	Class        string           // Additional CSS classes
-	Text         string           // Button label text
-	Variant      ButtonVariant    // Visual style
-	Size         ButtonSize       // Button dimensions
-	FullWidth    bool             // Expand to fill container
-	Href         string           // URL for link buttons
-	Target       string           // Link target attribute
-	Disabled     bool             // Interactivity state
-	Type         string           // Button type attribute
-	IconLeft     templ.Component  // Icon component before text
-	IconRight    templ.Component  // Icon component after text
-	HxGet        string           // HTMX: URL for GET requests
-	HxPost       string           // HTMX: URL for POST requests
-	HxPut        string           // HTMX: URL for PUT requests
-	HxDelete     string           // HTMX: URL for DELETE requests
-	HxTrigger    string           // HTMX: Trigger event
-	HxTarget     string           // HTMX: Target for response
-	HxSwap       string           // HTMX: Method for inserting response
-	HxReplaceUrl string           // HTMX: Replace the URL to - (alternative to using Href, to void reloading the page)
-	Attributes   templ.Attributes // Additional HTML attributes
+	ID           string
+	Class        string
+	Attributes   templ.Attributes
+	Variant      ButtonVariant
+	Size         ButtonSize
+	FullWidth    bool
+	Href         string
+	Target       string
+	Disabled     bool
+	Type         string
+	HxGet        string
+	HxPost       string
+	HxPut        string
+	HxDelete     string
+	HxTrigger    string
+	HxTarget     string
+	HxSwap       string
+	HxReplaceUrl string
 }
 
-// variantClasses returns CSS classes based on button variant
-func (b ButtonProps) variantClasses() string {
-	switch b.Variant {
-	case ButtonVariantDestructive:
-		return "bg-destructive text-destructive-foreground hover:bg-destructive/90"
-	case ButtonVariantOutline:
-		return "border border-input bg-background hover:bg-accent hover:text-accent-foreground"
-	case ButtonVariantSecondary:
-		return "bg-secondary text-secondary-foreground hover:bg-secondary/80"
-	case ButtonVariantGhost:
-		return "hover:bg-accent hover:text-accent-foreground"
-	case ButtonVariantLink:
-		return "text-primary underline-offset-4 hover:underline"
-	default:
-		return "bg-primary text-primary-foreground hover:bg-primary/90"
-	}
-}
-
-// sizeClasses returns CSS classes based on button size
-func (b ButtonProps) sizeClasses() string {
-	switch b.Size {
-	case ButtonSizeSm:
-		return "h-9 px-3 rounded-md"
-	case ButtonSizeLg:
-		return "h-11 px-8 rounded-md"
-	case ButtonSizeIcon:
-		return "h-10 w-10"
-	default:
-		return "h-10 px-4 py-2 rounded-md"
-	}
-}
-
-// modifierClasses returns additional CSS classes for modifiers
-func (b ButtonProps) modifierClasses() string {
-	classes := []string{}
-	if b.FullWidth {
-		classes = append(classes, "w-full")
-	}
-	return strings.Join(classes, " ")
-}
-
-// Button renders an interactive element for triggering actions
 templ Button(props ButtonProps) {
 	if props.Href != "" {
 		<a
-			{ props.Attributes... }
+			id={ props.ID }
 			href={ templ.SafeURL(props.Href) }
 			target={ props.Target }
-			class={
-				utils.TwMerge(
-					"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors",
-					"focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-					"cursor-pointer disabled:cursor-not-allowed",
-					props.variantClasses(),
-					props.sizeClasses(),
-					props.modifierClasses(),
-					props.Class,
-				),
-			}
 			if props.Disabled {
 				disabled
 			}
@@ -136,17 +72,40 @@ templ Button(props ButtonProps) {
 			if props.HxSwap != "" {
 				hx-swap={ props.HxSwap }
 			}
+			if props.HxReplaceUrl != "" {
+				hx-replace-url={ props.HxReplaceUrl }
+			}
+			{ props.Attributes... }
 		>
-			{ children... }
-			@renderButtonContent(props)
+			<button
+				class={
+					utils.TwMerge(
+						"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors",
+						"focus-visible:outline-hidden focus-visible:ring-2 focus:ring-ring focus-visible:ring-offset-2",
+						"disabled:opacity-50 disabled:cursor-not-allowed",
+						"cursor-pointer",
+						props.variantClasses(),
+						props.sizeClasses(),
+						props.modifierClasses(),
+						props.Class,
+					),
+				}
+				if props.Type != "" {
+					type={ props.Type }
+				}
+				disabled?={ props.Disabled }
+				{ props.Attributes... }
+			>
+				{ children... }
+			</button>
 		</a>
 	} else {
 		<button
-			{ props.Attributes... }
+			id={ props.ID }
 			class={
 				utils.TwMerge(
 					"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors",
-					"focus-visible:outline-hidden focus-visible:ring-2 focus:ring-ring focus-visible:ring-offset-2",
+					"focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
 					"disabled:opacity-50 disabled:cursor-not-allowed",
 					"cursor-pointer",
 					props.variantClasses(),
@@ -183,22 +142,43 @@ templ Button(props ButtonProps) {
 			if props.HxReplaceUrl != "" {
 				hx-replace-url={ props.HxReplaceUrl }
 			}
+			{ props.Attributes... }
 		>
 			{ children... }
-			@renderButtonContent(props)
 		</button>
 	}
 }
 
-// renderButtonContent displays the button's text and icons
-templ renderButtonContent(props ButtonProps) {
-	<span class="flex gap-2 items-center">
-		if props.IconLeft != nil {
-			@props.IconLeft
-		}
-		{ props.Text }
-		if props.IconRight != nil {
-			@props.IconRight
-		}
-	</span>
+func (b ButtonProps) variantClasses() string {
+	switch b.Variant {
+	case ButtonVariantDestructive:
+		return "bg-destructive text-destructive-foreground hover:bg-destructive/90"
+	case ButtonVariantOutline:
+		return "border border-input bg-background hover:bg-accent hover:text-accent-foreground"
+	case ButtonVariantSecondary:
+		return "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+	case ButtonVariantGhost:
+		return "hover:bg-accent hover:text-accent-foreground"
+	case ButtonVariantLink:
+		return "text-primary underline-offset-4 hover:underline"
+	default:
+		return "bg-primary text-primary-foreground hover:bg-primary/90"
+	}
+}
+
+func (b ButtonProps) sizeClasses() string {
+	switch b.Size {
+	case ButtonSizeIcon:
+		return "h-10 w-10"
+	default:
+		return "h-10 px-4 py-2 rounded-md"
+	}
+}
+
+func (b ButtonProps) modifierClasses() string {
+	classes := []string{}
+	if b.FullWidth {
+		classes = append(classes, "w-full")
+	}
+	return strings.Join(classes, " ")
 }

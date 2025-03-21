@@ -6,11 +6,45 @@ import (
 
 templ PaginationDefault() {
 	@components.Pagination(components.PaginationProps{
-		CurrentPage:  3,
-		TotalPages:   10,
-		MaxVisible:   5,
-		ShowNumbers:  true,
-		ShowControls: true,
-		// UrlPattern:   "/docs/examples?page={page}",
-	})
+		Class: "mt-8",
+	}) {
+		@components.PaginationContent() {
+			@components.PaginationItem() {
+				@components.PaginationPrevious(components.PaginationPreviousProps{
+					Href:     "?page=1",
+					Disabled: false,
+				})
+			}
+			@components.PaginationItem() {
+				@components.PaginationLink(components.PaginationLinkProps{
+					Href: "?page=1",
+				}) {
+					1
+				}
+			}
+			@components.PaginationItem() {
+				@components.PaginationLink(components.PaginationLinkProps{
+					Href:     "?page=2",
+					IsActive: true,
+				}) {
+					2
+				}
+			}
+			@components.PaginationItem() {
+				@components.PaginationLink(components.PaginationLinkProps{
+					Href: "?page=3",
+				}) {
+					3
+				}
+			}
+			@components.PaginationItem() {
+				@components.PaginationEllipsis()
+			}
+			@components.PaginationItem() {
+				@components.PaginationNext(components.PaginationNextProps{
+					Href: "?page=3",
+				})
+			}
+		}
+	}
 }

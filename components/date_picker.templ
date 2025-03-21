@@ -6,18 +6,16 @@ import (
 	"time"
 )
 
-// DateFormat defines date formatting options
 type DateFormat string
 
 const (
-	DateFormatISO  DateFormat = "iso"  // ISO format (YYYY-MM-DD)
-	DateFormatEU   DateFormat = "eu"   // European format (DD.MM.YYYY)
-	DateFormatUK   DateFormat = "uk"   // UK format (DD/MM/YYYY)
-	DateFormatUS   DateFormat = "us"   // US format (MM/DD/YYYY)
-	DateFormatLONG DateFormat = "long" // Long format (Month DD, YYYY)
+	DateFormatISO  DateFormat = "iso"
+	DateFormatEU   DateFormat = "eu"
+	DateFormatUK   DateFormat = "uk"
+	DateFormatUS   DateFormat = "us"
+	DateFormatLONG DateFormat = "long"
 )
 
-// dateFormatMapping maps DateFormat to Go time format strings
 var dateFormatMapping = map[DateFormat]string{
 	DateFormatISO:  "2006-01-02",
 	DateFormatEU:   "02.01.2006",
@@ -26,50 +24,42 @@ var dateFormatMapping = map[DateFormat]string{
 	DateFormatLONG: "January 2, 2006",
 }
 
-// DateLocale configures locale-specific settings
 type DateLocale struct {
-	MonthNames []string // Localized month names
-	DayNames   []string // Localized day names
+	MonthNames []string
+	DayNames   []string
 }
 
-// DateLocaleDefault and other locale presets
-var DateLocaleDefault = DateLocale{
-	MonthNames: []string{"January", "February", "March", "April", "May", "June",
-		"July", "August", "September", "October", "November", "December"},
-	DayNames: []string{"Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"},
-}
-
-// Pre-defined locales for different languages
 var (
-	// DateLocaleSpanish provides Spanish localization
+	DateLocaleDefault = DateLocale{
+		MonthNames: []string{"January", "February", "March", "April", "May", "June",
+			"July", "August", "September", "October", "November", "December"},
+		DayNames: []string{"Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"},
+	}
+
 	DateLocaleSpanish = DateLocale{
 		MonthNames: []string{"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
 			"Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"},
 		DayNames: []string{"Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"},
 	}
 
-	// DateLocaleGerman provides German localization
 	DateLocaleGerman = DateLocale{
 		MonthNames: []string{"Januar", "Februar", "März", "April", "Mai", "Juni",
 			"Juli", "August", "September", "Oktober", "November", "Dezember"},
 		DayNames: []string{"Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"},
 	}
 
-	// DateLocaleFrench provides French localization
 	DateLocaleFrench = DateLocale{
 		MonthNames: []string{"Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
 			"Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"},
 		DayNames: []string{"Lu", "Ma", "Me", "Je", "Ve", "Sa", "Di"},
 	}
 
-	// DateLocaleItalian provides Italian localization
 	DateLocaleItalian = DateLocale{
 		MonthNames: []string{"Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno",
 			"Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"},
 		DayNames: []string{"Lu", "Ma", "Me", "Gi", "Ve", "Sa", "Do"},
 	}
 
-	// DateLocaleJapanese provides Japanese localization
 	DateLocaleJapanese = DateLocale{
 		MonthNames: []string{"1月", "2月", "3月", "4月", "5月", "6月",
 			"7月", "8月", "9月", "10月", "11月", "12月"},
@@ -78,38 +68,32 @@ var (
 )
 
 var (
-	// DatePickerISO provides ISO format with default locale
 	DatePickerISO = DatePickerConfig{
 		Format: DateFormatISO,
 		Locale: DateLocaleDefault,
 	}
 
-	// DatePickerEU provides European format with default locale
 	DatePickerEU = DatePickerConfig{
 		Format: DateFormatEU,
 		Locale: DateLocaleDefault,
 	}
 
-	// DatePickerUK provides UK format with default locale
 	DatePickerUK = DatePickerConfig{
 		Format: DateFormatUK,
 		Locale: DateLocaleDefault,
 	}
 
-	// DatePickerUS provides US format with default locale
 	DatePickerUS = DatePickerConfig{
 		Format: DateFormatUS,
 		Locale: DateLocaleDefault,
 	}
 
-	// DatePickerUS provides US format with default locale
 	DatePickerLONG = DatePickerConfig{
 		Format: DateFormatLONG,
 		Locale: DateLocaleDefault,
 	}
 )
 
-// NewDatePickerConfig creates a new configuration with specified format and locale
 func NewDatePickerConfig(format DateFormat, locale DateLocale) DatePickerConfig {
 	return DatePickerConfig{
 		Format: format,
@@ -117,30 +101,145 @@ func NewDatePickerConfig(format DateFormat, locale DateLocale) DatePickerConfig 
 	}
 }
 
+type DatePickerConfig struct {
+	Format DateFormat
+	Locale DateLocale
+}
+
+type DatePickerProps struct {
+	ID          string
+	Class       string
+	Attributes  templ.Attributes
+	Name        string
+	Value       time.Time
+	Config      DatePickerConfig
+	Placeholder string
+	Disabled    bool
+	HasError    bool
+}
+
+templ DatePicker(props DatePickerProps) {
+	if props.ID == "" {
+		{{ props.ID = utils.RandomID() }}
+	}
+	if props.Placeholder == "" {
+		{{ props.Placeholder = "Select a date" }}
+	}
+	<div
+		class={ utils.TwMerge("relative", props.Class) }
+		if props.Value != (time.Time{}) {
+			data-value={ props.Value.Format(props.Config.getGoFormat()) }
+		}
+		data-format={ string(props.Config.Format) }
+		data-monthnames={ templ.JSONString(props.Config.Locale.MonthNames) }
+		data-daynames={ templ.JSONString(props.Config.Locale.DayNames) }
+		x-data="date-picker"
+		data-input-id={ props.ID }
+		@resize.window="updatePosition"
+	>
+		<div class="relative">
+			@Input(InputProps{
+				ID:          props.ID,
+				Name:        props.Name,
+				Value:       props.Value.Format(props.Config.getGoFormat()),
+				Placeholder: props.Placeholder,
+				Disabled:    props.Disabled,
+				Class:       utils.TwMerge(props.Class, "peer"),
+				HasError:    props.HasError,
+				Type:        "text",
+				Readonly:    true,
+				Attributes: utils.MergeAttributes(
+					templ.Attributes{
+						"x-ref":        "datePickerInput",
+						":x-modelable": "value",
+						":value":       "value",
+						"@click":       "toggleDatePicker",
+					},
+					props.Attributes,
+				),
+			})
+			<button
+				type="button"
+				@click="toggleDatePicker"
+				disabled?={ props.Disabled }
+				class={
+					utils.TwMerge(
+						// Layout
+						"absolute top-0 right-0 px-3 py-2",
+						// Styling
+						"cursor-pointer text-muted-foreground",
+						// States
+						"hover:text-foreground",
+						"peer-disabled:pointer-events-none peer-disabled:opacity-50",
+					),
+				}
+			>
+				@icons.Calendar(icons.IconProps{})
+			</button>
+		</div>
+		<div
+			x-show="open"
+			x-ref="datePickerPopup"
+			@click.away="closeDatePicker"
+			x-transition.opacity
+			class={
+				utils.TwMerge(
+					// Layout
+					"absolute left-0 z-50 w-64 p-4",
+					// Styling
+					"rounded-lg border bg-popover shadow-md",
+				),
+			}
+			x-bind:class="positionClass"
+		>
+			<div class="flex items-center justify-between mb-4">
+				<span x-text="getCurrentMonth" class="text-sm font-medium"></span>
+				<div class="flex gap-1">
+					<button
+						type="button"
+						@click="atClickPrevMonth"
+						class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-7 w-7"
+					>
+						@icons.ChevronLeft(icons.IconProps{})
+					</button>
+					<button
+						type="button"
+						@click="atClickNextMonth"
+						class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-7 w-7"
+					>
+						@icons.ChevronRight(icons.IconProps{})
+					</button>
+				</div>
+			</div>
+			<div class="grid grid-cols-7 gap-1 mb-2">
+				<template x-for="day in days" :key="day">
+					<div class="text-center text-xs text-muted-foreground" x-text="day"></div>
+				</template>
+			</div>
+			<div class="grid grid-cols-7 gap-1">
+				<template x-for="blank in blankDays" key="'blank' + blank">
+					<div class="h-8 w-8"></div>
+				</template>
+				<template x-for="day in monthDays">
+					<button
+						x-bind:data-day="day"
+						type="button"
+						@click="selectDate"
+						:class="activeDayClass"
+						x-text="day"
+						class="inline-flex h-8 w-8 items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+					></button>
+				</template>
+			</div>
+		</div>
+	</div>
+}
+
 func (c DatePickerConfig) getGoFormat() string {
 	if format, ok := dateFormatMapping[c.Format]; ok {
 		return format
 	}
-	return dateFormatMapping[DateFormatISO] // Default to ISO
-}
-
-// DatePickerConfig combines format and locale settings
-type DatePickerConfig struct {
-	Format DateFormat // Date format style
-	Locale DateLocale // Localization settings
-}
-
-// DatePickerProps configures the DatePicker component
-type DatePickerProps struct {
-	ID          string           // DOM identifier
-	Name        string           // Form field name
-	Value       time.Time        // Selected date
-	Config      DatePickerConfig // Format and locale config
-	Placeholder string           // Helper text shown when empty
-	Disabled    bool             // Prevents interaction
-	HasError    bool             // Error state styling
-	Class       string           // Additional CSS classes
-	Attributes  templ.Attributes // Additional HTML attributes
+	return dateFormatMapping[DateFormatISO]
 }
 
 templ DatePickerScript() {
@@ -318,122 +417,4 @@ templ DatePickerScript() {
 			});
 		</script>
 	}
-}
-
-// DatePicker renders a date selection input with calendar popup
-templ DatePicker(props DatePickerProps) {
-	if props.ID == "" {
-		{{ props.ID = utils.RandomID() }}
-	}
-	if props.Placeholder == "" {
-		{{ props.Placeholder = "Select a date" }}
-	}
-	<div
-		class={ utils.TwMerge("relative", props.Class) }
-		if props.Value != (time.Time{}) {
-			data-value={ props.Value.Format(props.Config.getGoFormat()) }
-		}
-		data-format={ string(props.Config.Format) }
-		data-monthnames={ templ.JSONString(props.Config.Locale.MonthNames) }
-		data-daynames={ templ.JSONString(props.Config.Locale.DayNames) }
-		x-data="date-picker"
-		data-input-id={ props.ID }
-		@resize.window="updatePosition"
-	>
-		<div class="relative">
-			@Input(InputProps{
-				ID:          props.ID,
-				Name:        props.Name,
-				Value:       props.Value.Format(props.Config.getGoFormat()),
-				Placeholder: props.Placeholder,
-				Disabled:    props.Disabled,
-				Class:       utils.TwMerge(props.Class, "peer"),
-				HasError:    props.HasError,
-				Type:        "text",
-				Readonly:    true,
-				Attributes: utils.MergeAttributes(
-					templ.Attributes{
-						"x-ref":        "datePickerInput",
-						":x-modelable": "value",
-						":value":       "value",
-						"@click":       "toggleDatePicker",
-					},
-					props.Attributes,
-				),
-			})
-			<button
-				type="button"
-				@click="toggleDatePicker"
-				disabled?={ props.Disabled }
-				class={
-					utils.TwMerge(
-						// Layout
-						"absolute top-0 right-0 px-3 py-2",
-						// Styling
-						"cursor-pointer text-muted-foreground",
-						// States
-						"hover:text-foreground",
-						"peer-disabled:pointer-events-none peer-disabled:opacity-50",
-					),
-				}
-			>
-				@icons.Calendar(icons.IconProps{})
-			</button>
-		</div>
-		<div
-			x-show="open"
-			x-ref="datePickerPopup"
-			@click.away="closeDatePicker"
-			x-transition.opacity
-			class={
-				utils.TwMerge(
-					// Layout
-					"absolute left-0 z-50 w-64 p-4",
-					// Styling
-					"rounded-lg border bg-popover shadow-md",
-				),
-			}
-			x-bind:class="positionClass"
-		>
-			<div class="flex items-center justify-between mb-4">
-				<span x-text="getCurrentMonth" class="text-sm font-medium"></span>
-				<div class="flex gap-1">
-					<button
-						type="button"
-						@click="atClickPrevMonth"
-						class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-7 w-7"
-					>
-						@icons.ChevronLeft(icons.IconProps{})
-					</button>
-					<button
-						type="button"
-						@click="atClickNextMonth"
-						class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-7 w-7"
-					>
-						@icons.ChevronRight(icons.IconProps{})
-					</button>
-				</div>
-			</div>
-			<div class="grid grid-cols-7 gap-1 mb-2">
-				<template x-for="day in days" :key="day">
-					<div class="text-center text-xs text-muted-foreground" x-text="day"></div>
-				</template>
-			</div>
-			<div class="grid grid-cols-7 gap-1">
-				<template x-for="blank in blankDays" key="'blank' + blank">
-					<div class="h-8 w-8"></div>
-				</template>
-				<template x-for="day in monthDays">
-					<button
-						x-bind:data-day="day"
-						type="button"
-						@click="selectDate"
-						:class="activeDayClass"
-						x-text="day"
-						class="inline-flex h-8 w-8 items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-					></button>
-				</template>
-			</div>
-		</div>
-	</div>
 }

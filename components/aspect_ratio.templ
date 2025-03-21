@@ -2,26 +2,26 @@ package components
 
 import "github.com/axzilla/templui/utils"
 
-// AspectRatioType defines the available aspect ratio types as an enum
-type AspectRatioType int
+type AspectRatioVariant string
 
 const (
-	AspectRatioAuto     AspectRatioType = iota // Determined by content
-	AspectRatioSquare                          // 1:1 ratio
-	AspectRatioVideo                           // 16:9 ratio
-	AspectRatioPortrait                        // 3:4 ratio
-	AspectRatioWide                            // 2:1 ratio
+	AspectRatioAuto     AspectRatioVariant = "auto"
+	AspectRatioSquare   AspectRatioVariant = "square"
+	AspectRatioVideo    AspectRatioVariant = "video"
+	AspectRatioPortrait AspectRatioVariant = "portrait"
+	AspectRatioWide     AspectRatioVariant = "wide"
 )
 
 type AspectRatioProps struct {
-	Ratio      AspectRatioType
+	ID         string
 	Class      string
 	Attributes templ.Attributes
+	Ratio      AspectRatioVariant
 }
 
-// A component for maintaining consistent width-to-height ratios across different screen sizes.
 templ AspectRatio(props AspectRatioProps) {
 	<div
+		id={ props.ID }
 		class={ utils.TwMerge(
 			"relative w-full",
 			getAspectRatioClass(props.Ratio),
@@ -35,17 +35,17 @@ templ AspectRatio(props AspectRatioProps) {
 	</div>
 }
 
-func getAspectRatioClass(ratio AspectRatioType) string {
+func getAspectRatioClass(ratio AspectRatioVariant) string {
 	switch ratio {
 	case AspectRatioSquare:
-		return "aspect-square" // 1:1 ratio
+		return "aspect-square"
 	case AspectRatioVideo:
-		return "aspect-video" // 16:9 ratio
+		return "aspect-video"
 	case AspectRatioPortrait:
-		return "aspect-[3/4]" // 3:4 ratio
+		return "aspect-[3/4]"
 	case AspectRatioWide:
-		return "aspect-[2/1]" // 2:1 ratio
+		return "aspect-[2/1]"
 	default:
-		return "aspect-auto" // Let the content determine the aspect ratio
+		return "aspect-auto"
 	}
 }

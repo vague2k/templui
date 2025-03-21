@@ -18,11 +18,12 @@ const (
 )
 
 type AlertProps struct {
-	Variant AlertVariant // Visual style variant
-	Class   string       // Additional CSS classes
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+	Variant    AlertVariant
 }
 
-// Alert renders a status message component
 func Alert(props AlertProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -45,16 +46,11 @@ func Alert(props AlertProps) templ.Component {
 		}
 		ctx = templ.ClearChildren(ctx)
 		var templ_7745c5c3_Var2 = []any{utils.TwMerge(
-			// Layout
 			"relative w-full p-4",
 			"[&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4",
 			"[&>svg+div]:translate-y-[-3px] [&:has(svg)]:pl-11",
-
-			// Styling
 			"rounded-lg border",
 			getAlertVariantClasses(props.Variant),
-
-			// Custom
 			props.Class,
 		)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
@@ -90,7 +86,6 @@ func Alert(props AlertProps) templ.Component {
 	})
 }
 
-// AlertTitle renders the heading section
 func AlertTitle() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -113,10 +108,7 @@ func AlertTitle() templ.Component {
 		}
 		ctx = templ.ClearChildren(ctx)
 		var templ_7745c5c3_Var5 = []any{utils.TwMerge(
-			// Layout
 			"mb-1",
-
-			// Styling
 			"font-medium leading-none tracking-tight",
 		)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var5...)
@@ -152,7 +144,6 @@ func AlertTitle() templ.Component {
 	})
 }
 
-// AlertDescription renders the body content
 func AlertDescription() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -175,10 +166,7 @@ func AlertDescription() templ.Component {
 		}
 		ctx = templ.ClearChildren(ctx)
 		var templ_7745c5c3_Var8 = []any{utils.TwMerge(
-			// Layout
 			"[&_p]:leading-relaxed",
-
-			// Styling
 			"text-sm",
 		)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var8...)

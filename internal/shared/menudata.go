@@ -90,6 +90,11 @@ var Sections = []Section{
 				Href: "/docs/components/date-picker",
 			},
 			{
+				Text: "Drawer",
+				Href: "/docs/components/drawer",
+			},
+
+			{
 				Text: "Dropdown Menu",
 				Href: "/docs/components/dropdown-menu",
 			},
@@ -145,11 +150,6 @@ var Sections = []Section{
 				Text: "Separator",
 				Href: "/docs/components/separator",
 			},
-
-			{
-				Text: "Sheet",
-				Href: "/docs/components/sheet",
-			},
 			{
 				Text: "Skeleton",
 				Href: "/docs/components/skeleton",
@@ -174,10 +174,10 @@ var Sections = []Section{
 				Text: "Textarea",
 				Href: "/docs/components/textarea",
 			},
-			{
-				Text: "Time Picker",
-				Href: "/docs/components/time-picker",
-			},
+			// {
+			// 	Text: "Time Picker",
+			// 	Href: "/docs/components/time-picker",
+			// },
 			{
 				Text: "Toast",
 				Href: "/docs/components/toast",

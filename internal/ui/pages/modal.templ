@@ -18,8 +18,8 @@ templ Modal() {
 			Alpine:      true,
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				ShowcaseFile:      showcase.Modal(),
-				PreviewCodeFile:   "modal.templ",
+				ShowcaseFile:      showcase.ModalDefault(),
+				PreviewCodeFile:   "modal_default.templ",
 				ComponentCodeFile: "modal.templ",
 			})
 			@modules.Usage(modules.UsageProps{

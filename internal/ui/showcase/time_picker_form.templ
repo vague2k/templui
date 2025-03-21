@@ -6,9 +6,10 @@ templ TimePickerForm() {
 	<div class="w-full max-w-sm">
 		@components.FormItem(components.FormItemProps{}) {
 			@components.FormLabel(components.FormLabelProps{
-				Text: "Select a time",
-				For:  "time-picker-form",
-			})
+				For: "time-picker-form",
+			}) {
+				Select a time
+			}
 			@components.TimePicker(components.TimePickerProps{
 				ID:       "time-picker-form",
 				Name:     "time-picker-form",
@@ -18,9 +19,10 @@ templ TimePickerForm() {
 				Select a time from the dropdown.
 			}
 			@components.FormMessage(components.FormMessageProps{
-				Message: "Please select a time",
-				Type:    "error",
-			})
+				Variant: components.FormMessageVariantError,
+			}) {
+				Please select a time
+			}
 		}
 	</div>
 }

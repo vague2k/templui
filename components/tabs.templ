@@ -1,77 +1,187 @@
 package components
 
 import "github.com/axzilla/templui/utils"
-
-type Tab struct {
-	ID      string
-	Title   string
-	Content templ.Component
-}
+import "context"
 
 type TabsProps struct {
-	Tabs                  []Tab
-	TabsContainerClass    string
-	ContentContainerClass string
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+}
+
+type TabsListProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+}
+
+type TabTriggerProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+	Value      string
+	IsActive   bool
+	TabsID     string
+}
+
+type TabContentProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+	Value      string
+	IsActive   bool
+	TabsID     string
+}
+
+templ Tabs(props TabsProps) {
+	{{ tabsID := props.ID }}
+	if tabsID == "" {
+		{{ tabsID = utils.RandomID() }}
+	}
+	<div
+		class={ utils.TwMerge("relative", props.Class) }
+		data-tabs
+		data-tabs-id={ tabsID }
+	>
+		{{ ctx = context.WithValue(ctx, "tabsId", tabsID) }}
+		{ children... }
+	</div>
+}
+
+templ TabsList(props TabsListProps) {
+	<div
+		class={ utils.TwMerge(
+		"relative flex items-center justify-center h-10 p-1 rounded-lg select-none bg-muted text-muted-foreground",
+		props.Class,
+	) }
+	>
+		{ children... }
+		<div
+			data-tabs-marker
+			data-tabs-id={ getTabsID(ctx) }
+			class="absolute left-0 z-10 h-full duration-300 ease-out"
+		>
+			<div class="w-full h-full bg-background rounded-md shadow-xs"></div>
+		</div>
+	</div>
+}
+
+templ TabTrigger(props TabTriggerProps) {
+	{{ tabsID := props.TabsID }}
+	if tabsID == "" {
+		{{ tabsID = getTabsID(ctx) }}
+	}
+	<button
+		type="button"
+		class={ utils.TwMerge(
+			"relative z-20 flex-1 inline-flex items-center justify-center h-8 px-3 text-sm font-medium transition-all rounded-md cursor-pointer whitespace-nowrap hover:text-foreground",
+			utils.If(props.IsActive,"text-foreground bg-background shadow-xs"),
+			props.Class,
+		) }
+		data-tabs-trigger
+		data-tabs-id={ tabsID }
+		data-tabs-value={ props.Value }
+		data-state={ utils.IfElse(props.IsActive, "active", "inactive") }
+	>
+		{ children... }
+	</button>
+}
+
+templ TabContent(props TabContentProps) {
+	{{ tabsID := props.TabsID }}
+	if tabsID == "" {
+		{{ tabsID = getTabsID(ctx) }}
+	}
+	<div
+		class={
+			utils.TwMerge(
+				"relative",
+				utils.If(!props.IsActive, "hidden"),
+				props.Class,
+			),
+		}
+		data-tabs-content
+		data-tabs-id={ tabsID }
+		data-tabs-value={ props.Value }
+		data-state={ utils.IfElse(props.IsActive, "active", "inactive") }
+	>
+		{ children... }
+	</div>
+}
+
+func getTabsID(ctx context.Context) string {
+	if tabsID, ok := ctx.Value("tabsId").(string); ok {
+		return tabsID
+	}
+	return ""
 }
 
 templ TabsScript() {
 	<script nonce={ templ.GetNonce(ctx) }>
-        document.addEventListener('DOMContentLoaded', () => {
-            document.querySelectorAll('.tabs-component').forEach(tabs => {
-                const tabID = tabs.dataset.tabs;
-                const buttons = tabs.querySelectorAll(`[data-tab-button="${tabID}"]`);
-                const contents = tabs.querySelectorAll(`[data-tab-content="${tabID}"]`);
-                const marker = tabs.querySelector(`[data-tab-marker="${tabID}"]`);
-
-                if (marker) {
-                    marker.style.width = buttons[0].offsetWidth + 'px';
-                    marker.style.height = buttons[0].offsetHeight + 'px';
-                    marker.style.left = buttons[0].offsetLeft + 'px';
-                }
-
-                buttons.forEach((btn, idx) => {
-                    btn.onclick = () => {
-                        buttons.forEach(b => b.classList.remove('text-foreground', 'bg-background', 'shadow-xs'));
-                        btn.classList.add('text-foreground', 'bg-background', 'shadow-xs');
-                        contents.forEach(c => c.classList.add('hidden'));
-                        contents[idx].classList.remove('hidden');
-                        marker.style.width = btn.offsetWidth + 'px';
-                        marker.style.height = btn.offsetHeight + 'px';
-                        marker.style.left = btn.offsetLeft + 'px';
-                    };
-                });
-            });
-        });
-    </script>
-}
-
-templ Tabs(props TabsProps) {
-	{{ tabID := utils.RandomID() }}
-	<div class="tabs-component relative" data-tabs={ tabID }>
-		<div class={ "relative flex items-center justify-center h-10 p-1 rounded-lg select-none bg-muted text-muted-foreground", props.TabsContainerClass }>
-			for i, tab := range props.Tabs {
-				<button
-					type="button"
-					data-tab-button={ tabID }
-					class={ "relative z-20 flex-1 inline-flex items-center justify-center h-8 px-3 text-sm font-medium transition-all rounded-md cursor-pointer whitespace-nowrap hover:text-foreground" ,
-                        templ.KV(" text-foreground bg-background shadow-xs", i == 0) }
-				>
-					{ tab.Title }
-				</button>
-			}
-			<div data-tab-marker={ tabID } class="absolute left-0 z-10 h-full duration-300 ease-out">
-				<div class="w-full h-full bg-background rounded-md shadow-xs"></div>
-			</div>
-		</div>
-		<div class={ "relative mt-2", props.ContentContainerClass }>
-			for i, tab := range props.Tabs {
-				<div
-					data-tab-content={ tabID }
-					class={ "relative" ,templ.KV(" hidden", i != 0) }
-				>
-					@tab.Content
-				</div>
-			}
-		</div>
-	</div>
+		document.addEventListener('DOMContentLoaded', () => {
+			document.querySelectorAll('[data-tabs]').forEach(tabs => {
+				const tabsId = tabs.dataset.tabsId;
+				const triggers = tabs.querySelectorAll(`[data-tabs-trigger][data-tabs-id="${tabsId}"]`);
+				const contents = tabs.querySelectorAll(`[data-tabs-content][data-tabs-id="${tabsId}"]`);
+				const marker = tabs.querySelector(`[data-tabs-marker][data-tabs-id="${tabsId}"]`);
+				
+				// Initial setup
+				if (triggers.length > 0 && marker) {
+					const activeTab = tabs.querySelector(`[data-tabs-trigger][data-tabs-id="${tabsId}"][data-state="active"]`) || triggers[0];
+					
+					// Set initial marker position
+					marker.style.width = activeTab.offsetWidth + 'px';
+					marker.style.height = activeTab.offsetHeight + 'px';
+					marker.style.left = activeTab.offsetLeft + 'px';
+					
+					// Set initial active state if not already set
+					if (!activeTab.dataset.state || activeTab.dataset.state !== "active") {
+						activeTab.dataset.state = "active";
+						activeTab.classList.add('text-foreground', 'bg-background', 'shadow-xs');
+						
+						// Find and show the corresponding content
+						const activeValue = activeTab.dataset.tabsValue;
+						const activeContent = tabs.querySelector(`[data-tabs-content][data-tabs-id="${tabsId}"][data-tabs-value="${activeValue}"]`);
+						if (activeContent) {
+							activeContent.dataset.state = "active";
+							activeContent.classList.remove('hidden');
+						}
+					}
+				}
+				
+				// Event listeners
+				triggers.forEach(trigger => {
+					trigger.addEventListener('click', () => {
+						const value = trigger.dataset.tabsValue;
+						
+						// Update trigger states
+						triggers.forEach(t => {
+							t.dataset.state = t.dataset.tabsValue === value ? "active" : "inactive";
+							t.classList.remove('text-foreground', 'bg-background', 'shadow-xs');
+							if (t.dataset.state === "active") {
+								t.classList.add('text-foreground', 'bg-background', 'shadow-xs');
+							}
+						});
+						
+						// Update content states
+						contents.forEach(content => {
+							content.dataset.state = content.dataset.tabsValue === value ? "active" : "inactive";
+							if (content.dataset.state === "active") {
+								content.classList.remove('hidden');
+							} else {
+								content.classList.add('hidden');
+							}
+						});
+						
+						// Update marker
+						if (marker) {
+							marker.style.width = trigger.offsetWidth + 'px';
+							marker.style.height = trigger.offsetHeight + 'px';
+							marker.style.left = trigger.offsetLeft + 'px';
+						}
+					});
+				});
+			});
+		});
+	</script>
 }

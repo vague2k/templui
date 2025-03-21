@@ -1,0 +1,37 @@
+package showcase
+
+import "github.com/axzilla/templui/components"
+
+templ SliderSteps() {
+	<div class="w-full max-w-sm">
+		@components.Slider(components.SliderProps{
+			ID:    "slider-steps",
+			Name:  "slider-steps",
+			Value: 100,
+			Min:   0,
+			Max:   200,
+			Step:  25,
+		}) {
+			<div class="flex justify-between items-center mb-1">
+				@components.Label(components.LabelProps{
+					For: "slider-steps",
+				}) {
+					Zoom Level
+				}
+				<div class="flex items-center">
+					@components.SliderValue(components.SliderValueProps{
+						For: "slider-steps",
+					})
+				</div>
+			</div>
+			@components.SliderInput(components.SliderProps{
+				ID:    "slider-steps",
+				Name:  "slider-steps",
+				Value: 100,
+				Min:   0,
+				Max:   200,
+				Step:  25,
+			})
+		}
+	</div>
+}

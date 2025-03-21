@@ -18,21 +18,20 @@ const (
 )
 
 type InputProps struct {
-	Type        InputType        // Input field type
-	Placeholder string           // Helper text shown when empty
-	Value       string           // Current input value
-	Name        string           // Form field name
-	ID          string           // DOM identifier
-	Disabled    bool             // Prevents interaction
-	Readonly    bool             // Allows selection only
-	Required    bool             // Required
-	FileAccept  string           // Allowed file types
-	HasError    bool             // Error state styling
-	Class       string           // Additional CSS classes
-	Attributes  templ.Attributes // Additional HTML attributes
+	ID          string
+	Class       string
+	Attributes  templ.Attributes
+	Type        InputType
+	Placeholder string
+	Value       string
+	Name        string
+	Disabled    bool
+	Readonly    bool
+	Required    bool
+	FileAccept  string
+	HasError    bool
 }
 
-// Input renders a styled form input field
 templ Input(props InputProps) {
 	<input
 		x-ref={ props.ID }
@@ -48,22 +47,13 @@ templ Input(props InputProps) {
 		id={ props.ID }
 		class={
 			utils.TwMerge(
-				// Layout
 				"peer flex h-10 w-full px-3 py-2",
-		
-				// Styling
 				"rounded-md border border-input bg-background text-sm ring-offset-background",
 				"file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground ",
 				"placeholder:text-muted-foreground",
-		
-				// States
 				"focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
 				"disabled:cursor-not-allowed disabled:opacity-50",
-		
-				// Conditional
-				utils.TwIf("border-destructive ring-destructive", props.HasError),
-		
-				// Custom
+				utils.If(props.HasError, "border-destructive ring-destructive"),
 				props.Class,
 			),
 		}

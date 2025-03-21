@@ -5,18 +5,19 @@ import "github.com/axzilla/templui/components"
 templ ToggleForm() {
 	<div class="w-full max-w-sm">
 		@components.FormItem(components.FormItemProps{}) {
-			@components.FormLabel(components.FormLabelProps{
-				Text: "Connectivity Settings",
-			})
+			@components.FormLabel(components.FormLabelProps{}) {
+				Connectivity Settings
+			}
 			@components.FormItemFlex(components.FormItemProps{}) {
 				@components.Toggle(components.ToggleProps{
 					ID:   "airplane-mode",
 					Name: "airplane",
 				})
 				@components.FormLabel(components.FormLabelProps{
-					For:  "airplane-mode",
-					Text: "Airplane Mode",
-				})
+					For: "airplane-mode",
+				}) {
+					Airplane Mode
+				}
 			}
 			@components.FormItemFlex(components.FormItemProps{}) {
 				@components.Toggle(components.ToggleProps{
@@ -25,9 +26,10 @@ templ ToggleForm() {
 					Disabled: true,
 				})
 				@components.FormLabel(components.FormLabelProps{
-					For:  "wifi-mode",
-					Text: "WiFi (Not Available)",
-				})
+					For: "wifi-mode",
+				}) {
+					Wi-Fi
+				}
 			}
 			@components.FormItemFlex(components.FormItemProps{}) {
 				@components.Toggle(components.ToggleProps{
@@ -36,17 +38,19 @@ templ ToggleForm() {
 					Checked: true,
 				})
 				@components.FormLabel(components.FormLabelProps{
-					For:  "bluetooth-mode",
-					Text: "Bluetooth",
-				})
+					For: "bluetooth-mode",
+				}) {
+					Bluetooth
+				}
 			}
 			@components.FormDescription(components.FormDescriptionProps{}) {
 				Manage your device's connectivity options.
 			}
 			@components.FormMessage(components.FormMessageProps{
-				Type:    "error",
-				Message: "Please configure your connectivity settings.",
-			})
+				Variant: components.FormMessageVariantError,
+			}) {
+				Please configure your connectivity settings.
+			}
 		}
 	</div>
 }

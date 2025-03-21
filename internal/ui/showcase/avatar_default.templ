@@ -1,0 +1,12 @@
+package showcase
+
+import "github.com/axzilla/templui/components"
+
+templ AvatarDefault() {
+	@components.Avatar(components.AvatarProps{}) {
+		@components.AvatarImage(components.AvatarImageProps{
+			Src: "https://avatars.githubusercontent.com/u/26936893?v=4",
+			Alt: "John Doe's avatar",
+		})
+	}
+}

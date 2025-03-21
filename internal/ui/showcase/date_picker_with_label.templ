@@ -5,9 +5,10 @@ import "github.com/axzilla/templui/components"
 templ DatePickerWithLabel() {
 	<div class="w-full max-w-sm space-y-2">
 		@components.Label(components.LabelProps{
-			Text: "Pick a date",
-			For:  "date-picker-with-label",
-		})
+			For: "date-picker-with-label",
+		}) {
+			Pick a date
+		}
 		@components.DatePicker(components.DatePickerProps{
 			ID: "date-picker-with-label",
 		})
