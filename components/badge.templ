@@ -12,26 +12,15 @@ const (
 )
 
 type BadgeProps struct {
-	Variant    BadgeVariant
+	ID         string
 	Class      string
 	Attributes templ.Attributes
-}
-
-func (b BadgeProps) variantClasses() string {
-	switch b.Variant {
-	case BadgeVariantDestructive:
-		return "border-transparent bg-destructive text-destructive-foreground"
-	case BadgeVariantOutline:
-		return "text-foreground border-border"
-	case BadgeVariantSecondary:
-		return "border-transparent bg-secondary text-secondary-foreground"
-	default:
-		return "border-transparent bg-primary text-primary-foreground"
-	}
+	Variant    BadgeVariant
 }
 
 templ Badge(props BadgeProps) {
 	<div
+		id={ props.ID }
 		class={
 			utils.TwMerge(
 				"inline-flex items-center gap-2",
@@ -45,4 +34,17 @@ templ Badge(props BadgeProps) {
 	>
 		{ children... }
 	</div>
+}
+
+func (b BadgeProps) variantClasses() string {
+	switch b.Variant {
+	case BadgeVariantDestructive:
+		return "border-transparent bg-destructive text-destructive-foreground"
+	case BadgeVariantOutline:
+		return "text-foreground border-border"
+	case BadgeVariantSecondary:
+		return "border-transparent bg-secondary text-secondary-foreground"
+	default:
+		return "border-transparent bg-primary text-primary-foreground"
+	}
 }

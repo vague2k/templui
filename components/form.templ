@@ -10,33 +10,48 @@ const (
 )
 
 type FormItemProps struct {
-	ID    string
-	Class string
+	ID         string
+	Class      string
+	Attributes templ.Attributes
 }
 
 type FormLabelProps struct {
-	For           string
+	ID            string
 	Class         string
+	Attributes    templ.Attributes
+	For           string
 	DisabledClass string
 }
 
 type FormDescriptionProps struct {
-	Class string
+	ID         string
+	Class      string
+	Attributes templ.Attributes
 }
 
 type FormMessageProps struct {
-	Variant FormMessageVariant
-	Class   string
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+	Variant    FormMessageVariant
 }
 
 templ FormItem(props FormItemProps) {
-	<div class={ utils.TwMerge("space-y-2", props.Class) }>
+	<div
+		id={ props.ID }
+		class={ utils.TwMerge("space-y-2", props.Class) }
+		{ props.Attributes... }
+	>
 		{ children... }
 	</div>
 }
 
 templ FormItemFlex(props FormItemProps) {
-	<div class={ utils.TwMerge("items-center flex space-x-2", props.Class) }>
+	<div
+		id={ props.ID }
+		class={ utils.TwMerge("items-center flex space-x-2", props.Class) }
+		{ props.Attributes... }
+	>
 		{ children... }
 	</div>
 }
@@ -46,23 +61,31 @@ templ FormLabel(props FormLabelProps) {
 		For:           props.For,
 		Class:         props.Class,
 		DisabledClass: props.DisabledClass,
+		Attributes:    props.Attributes,
+		ID:            props.ID,
 	}) {
 		{ children... }
 	}
 }
 
 templ FormDescription(props FormDescriptionProps) {
-	<p class={ utils.TwMerge("text-sm text-muted-foreground", props.Class) }>
+	<p
+		id={ props.ID }
+		class={ utils.TwMerge("text-sm text-muted-foreground", props.Class) }
+		{ props.Attributes... }
+	>
 		{ children... }
 	</p>
 }
 
 templ FormMessage(props FormMessageProps) {
 	<p
+		id={ props.ID }
 		class={
 			utils.TwMerge("text-[0.8rem] font-medium", props.Class),
 			formMessageVariantClass(props.Variant),
 		}
+		{ props.Attributes... }
 	>
 		{ children... }
 	</p>

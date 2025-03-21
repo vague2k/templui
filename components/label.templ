@@ -4,9 +4,10 @@ import "github.com/axzilla/templui/utils"
 
 type LabelProps struct {
 	ID            string
+	Class         string
+	Attributes    templ.Attributes
 	For           string
 	Error         string
-	Class         string
 	DisabledClass string
 }
 
@@ -19,7 +20,14 @@ templ Label(props LabelProps) {
 			templ.KV("text-destructive", len(props.Error) > 0),
 			props.Class,
 		}
-		data-disabled-style={ utils.TwIfElse(props.DisabledClass != "", props.DisabledClass, "opacity-50 cursor-not-allowed") }
+		data-disabled-style={
+			utils.IfElse(
+				props.DisabledClass != "",
+				props.DisabledClass,
+				"opacity-50 cursor-not-allowed",
+			),
+		}
+		{ props.Attributes... }
 	>
 		{ children... }
 	</label>

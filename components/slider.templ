@@ -5,35 +5,36 @@ import (
 	"github.com/axzilla/templui/utils"
 )
 
-type SliderRootProps struct {
+type SliderProps struct {
 	ID         string
+	Class      string
+	Attributes templ.Attributes
 	Name       string
 	Min        int
 	Max        int
 	Step       int
 	Value      int
 	Disabled   bool
-	Class      string
-	Attributes templ.Attributes
 }
 
 type SliderValueProps struct {
-	For        string
+	ID         string
 	Class      string
 	Attributes templ.Attributes
+	For        string
 }
 
-templ SliderRoot(props SliderRootProps) {
+templ Slider(props SliderProps) {
 	<div
 		class={ utils.TwMerge("w-full", props.Class) }
-		data-slider-root
+		data-slider
 		data-slider-id={ props.ID }
 	>
 		{ children... }
 	</div>
 }
 
-templ SliderInput(props SliderRootProps) {
+templ SliderInput(props SliderProps) {
 	<input
 		type="range"
 		id={ props.ID }
@@ -68,6 +69,7 @@ templ SliderInput(props SliderRootProps) {
 
 templ SliderValue(props SliderValueProps) {
 	<span
+		id={ props.ID }
 		class={ utils.TwMerge("text-sm text-muted-foreground", props.Class) }
 		data-slider-value-for={ props.For }
 		{ props.Attributes... }
@@ -79,7 +81,7 @@ templ SliderScript() {
 	@handler.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
 			document.addEventListener('DOMContentLoaded', () => {
-				const sliders = document.querySelectorAll('[data-slider-root]');
+				const sliders = document.querySelectorAll('[data-slider]');
 				
 				sliders.forEach(slider => {
 					const sliderId = slider.dataset.sliderId;

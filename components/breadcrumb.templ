@@ -6,35 +6,41 @@ import (
 )
 
 type BreadcrumbProps struct {
+	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
 type BreadcrumbListProps struct {
+	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
 type BreadcrumbItemProps struct {
-	Current    bool
+	ID         string
 	Class      string
 	Attributes templ.Attributes
+	Current    bool
 }
 
 type BreadcrumbLinkProps struct {
-	Href       string
+	ID         string
 	Class      string
 	Attributes templ.Attributes
+	Href       string
 }
 
 type BreadcrumbSeparatorProps struct {
-	UseCustom  bool
+	ID         string
 	Class      string
 	Attributes templ.Attributes
+	UseCustom  bool
 }
 
 templ Breadcrumb(props BreadcrumbProps) {
 	<nav
+		id={ props.ID }
 		class={ utils.TwMerge(
 			"flex",
 			props.Class,
@@ -48,6 +54,7 @@ templ Breadcrumb(props BreadcrumbProps) {
 
 templ BreadcrumbList(props BreadcrumbListProps) {
 	<ol
+		id={ props.ID }
 		class={ utils.TwMerge(
 			"flex items-center flex-wrap gap-1 text-sm",
 			props.Class,
@@ -60,6 +67,7 @@ templ BreadcrumbList(props BreadcrumbListProps) {
 
 templ BreadcrumbItem(props BreadcrumbItemProps) {
 	<li
+		id={ props.ID }
 		class={ utils.TwMerge(
 			"flex items-center",
 			props.Class,
@@ -72,6 +80,7 @@ templ BreadcrumbItem(props BreadcrumbItemProps) {
 
 templ BreadcrumbLink(props BreadcrumbLinkProps) {
 	<a
+		id={ props.ID }
 		href={ templ.SafeURL(props.Href) }
 		class={ utils.TwMerge(
 			"text-muted-foreground hover:text-foreground hover:underline flex items-center gap-1.5 transition-colors",
@@ -85,6 +94,7 @@ templ BreadcrumbLink(props BreadcrumbLinkProps) {
 
 templ BreadcrumbSeparator(props BreadcrumbSeparatorProps) {
 	<span
+		id={ props.ID }
 		class={ utils.TwMerge(
 			"mx-2 text-muted-foreground",
 			props.Class,
@@ -101,6 +111,7 @@ templ BreadcrumbSeparator(props BreadcrumbSeparatorProps) {
 
 templ BreadcrumbPage(props BreadcrumbItemProps) {
 	<span
+		id={ props.ID }
 		class={ utils.TwMerge(
 			"font-medium text-foreground flex items-center gap-1.5",
 			props.Class,

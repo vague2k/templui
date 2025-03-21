@@ -4,6 +4,8 @@ import "github.com/axzilla/templui/components"
 
 templ TextareaDefault() {
 	<div class="w-full max-w-md">
-		@components.Textarea(components.TextareaProps{})
+		@components.Textarea(components.TextareaProps{
+			Placeholder: "Type your message here...",
+		})
 	</div>
 }

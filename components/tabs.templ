@@ -1,40 +1,50 @@
+
 package components
 
 import "github.com/axzilla/templui/utils"
 import "context"
 
-type TabsRootProps struct {
-	ID    string
-	Class string
+type TabsProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
 }
 
 type TabsListProps struct {
-	Class string
+	ID         string
+	Class      string
+	Attributes templ.Attributes
 }
 
 type TabTriggerProps struct {
-	Value    string
-	IsActive bool
-	Class    string
-	TabsID   string
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+	Value      string
+	IsActive   bool
+	TabsID     string
 }
 
 type TabContentProps struct {
-	Value    string
-	IsActive bool
-	Class    string
-	TabsID   string
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+	Value      string
+	IsActive   bool
+	TabsID     string
 }
 
-templ TabsRoot(props TabsRootProps) {
+templ Tabs(props TabsProps) {
 	{{ tabsID := props.ID }}
 	if tabsID == "" {
 		{{ tabsID = utils.RandomID() }}
 	}
 	<div
+		id={ tabsID }
 		class={ utils.TwMerge("relative", props.Class) }
-		data-tabs-root
+		data-tabs
 		data-tabs-id={ tabsID }
+		{ props.Attributes... }
 	>
 		{{ ctx = context.WithValue(ctx, "tabsId", tabsID) }}
 		{ children... }
@@ -43,10 +53,14 @@ templ TabsRoot(props TabsRootProps) {
 
 templ TabsList(props TabsListProps) {
 	<div
-		class={ utils.TwMerge(
-		"relative flex items-center justify-center h-10 p-1 rounded-lg select-none bg-muted text-muted-foreground",
-		props.Class,
-	) }
+		id={ props.ID }
+		class={
+			utils.TwMerge(
+				"relative flex items-center justify-center h-10 p-1 rounded-lg select-none bg-muted text-muted-foreground",
+				props.Class,
+			),
+		}
+		{ props.Attributes... }
 	>
 		{ children... }
 		<div
@@ -65,16 +79,18 @@ templ TabTrigger(props TabTriggerProps) {
 		{{ tabsID = getTabsID(ctx) }}
 	}
 	<button
+		id={ props.ID }
 		type="button"
 		class={ utils.TwMerge(
 			"relative z-20 flex-1 inline-flex items-center justify-center h-8 px-3 text-sm font-medium transition-all rounded-md cursor-pointer whitespace-nowrap hover:text-foreground",
-			utils.TwIf("text-foreground bg-background shadow-xs", props.IsActive),
+			utils.If(props.IsActive, "text-foreground bg-background shadow-xs"),
 			props.Class,
 		) }
 		data-tabs-trigger
 		data-tabs-id={ tabsID }
 		data-tabs-value={ props.Value }
-		data-state={ utils.TwIfElse(props.IsActive, "active", "inactive") }
+		data-state={ utils.IfElse(props.IsActive, "active", "inactive") }
+		{ props.Attributes... }
 	>
 		{ children... }
 	</button>
@@ -86,15 +102,19 @@ templ TabContent(props TabContentProps) {
 		{{ tabsID = getTabsID(ctx) }}
 	}
 	<div
-		class={ utils.TwMerge(
-			"relative",
-			utils.TwIf("hidden", !props.IsActive),
-			props.Class,
-		) }
+		id={ props.ID }
+		class={
+			utils.TwMerge(
+				"relative",
+				utils.If(!props.IsActive, "hidden"),
+				props.Class,
+			),
+		}
 		data-tabs-content
 		data-tabs-id={ tabsID }
 		data-tabs-value={ props.Value }
-		data-state={ utils.TwIfElse(props.IsActive, "active", "inactive") }
+		data-state={ utils.IfElse(props.IsActive, "active", "inactive") }
+		{ props.Attributes... }
 	>
 		{ children... }
 	</div>
@@ -110,15 +130,15 @@ func getTabsID(ctx context.Context) string {
 templ TabsScript() {
 	<script nonce={ templ.GetNonce(ctx) }>
 		document.addEventListener('DOMContentLoaded', () => {
-			document.querySelectorAll('[data-tabs-root]').forEach(tabsRoot => {
-				const tabsId = tabsRoot.dataset.tabsId;
-				const triggers = tabsRoot.querySelectorAll(`[data-tabs-trigger][data-tabs-id="${tabsId}"]`);
-				const contents = tabsRoot.querySelectorAll(`[data-tabs-content][data-tabs-id="${tabsId}"]`);
-				const marker = tabsRoot.querySelector(`[data-tabs-marker][data-tabs-id="${tabsId}"]`);
+			document.querySelectorAll('[data-tabs]').forEach(tabs => {
+				const tabsId = tabs.dataset.tabsId;
+				const triggers = tabs.querySelectorAll(`[data-tabs-trigger][data-tabs-id="${tabsId}"]`);
+				const contents = tabs.querySelectorAll(`[data-tabs-content][data-tabs-id="${tabsId}"]`);
+				const marker = tabs.querySelector(`[data-tabs-marker][data-tabs-id="${tabsId}"]`);
 				
 				// Initial setup
 				if (triggers.length > 0 && marker) {
-					const activeTab = tabsRoot.querySelector(`[data-tabs-trigger][data-tabs-id="${tabsId}"][data-state="active"]`) || triggers[0];
+					const activeTab = tabs.querySelector(`[data-tabs-trigger][data-tabs-id="${tabsId}"][data-state="active"]`) || triggers[0];
 					
 					// Set initial marker position
 					marker.style.width = activeTab.offsetWidth + 'px';
@@ -132,7 +152,7 @@ templ TabsScript() {
 						
 						// Find and show the corresponding content
 						const activeValue = activeTab.dataset.tabsValue;
-						const activeContent = tabsRoot.querySelector(`[data-tabs-content][data-tabs-id="${tabsId}"][data-tabs-value="${activeValue}"]`);
+						const activeContent = tabs.querySelector(`[data-tabs-content][data-tabs-id="${tabsId}"][data-tabs-value="${activeValue}"]`);
 						if (activeContent) {
 							activeContent.dataset.state = "active";
 							activeContent.classList.remove('hidden');

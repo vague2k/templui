@@ -15,28 +15,23 @@ const (
 	ButtonVariantSecondary   ButtonVariant = "secondary"
 	ButtonVariantGhost       ButtonVariant = "ghost"
 	ButtonVariantLink        ButtonVariant = "link"
+)
 
+const (
 	ButtonSizeIcon ButtonSize = "icon"
 )
 
 type ButtonProps struct {
-	ID string
-
-	// Style and appearance
-	Variant   ButtonVariant
-	Size      ButtonSize
-	FullWidth bool
-	Class     string
-
-	// Link behavior
-	Href   string
-	Target string
-
-	// Button state and behavior
-	Disabled bool
-	Type     string
-
-	// HTMX attributes
+	ID           string
+	Class        string
+	Attributes   templ.Attributes
+	Variant      ButtonVariant
+	Size         ButtonSize
+	FullWidth    bool
+	Href         string
+	Target       string
+	Disabled     bool
+	Type         string
 	HxGet        string
 	HxPost       string
 	HxPut        string
@@ -45,43 +40,6 @@ type ButtonProps struct {
 	HxTarget     string
 	HxSwap       string
 	HxReplaceUrl string
-
-	// Additional attributes
-	Attributes templ.Attributes
-}
-
-func (b ButtonProps) variantClasses() string {
-	switch b.Variant {
-	case ButtonVariantDestructive:
-		return "bg-destructive text-destructive-foreground hover:bg-destructive/90"
-	case ButtonVariantOutline:
-		return "border border-input bg-background hover:bg-accent hover:text-accent-foreground"
-	case ButtonVariantSecondary:
-		return "bg-secondary text-secondary-foreground hover:bg-secondary/80"
-	case ButtonVariantGhost:
-		return "hover:bg-accent hover:text-accent-foreground"
-	case ButtonVariantLink:
-		return "text-primary underline-offset-4 hover:underline"
-	default:
-		return "bg-primary text-primary-foreground hover:bg-primary/90"
-	}
-}
-
-func (b ButtonProps) sizeClasses() string {
-	switch b.Size {
-	case ButtonSizeIcon:
-		return "h-10 w-10"
-	default:
-		return "h-10 px-4 py-2 rounded-md"
-	}
-}
-
-func (b ButtonProps) modifierClasses() string {
-	classes := []string{}
-	if b.FullWidth {
-		classes = append(classes, "w-full")
-	}
-	return strings.Join(classes, " ")
 }
 
 templ Button(props ButtonProps) {
@@ -189,4 +147,38 @@ templ Button(props ButtonProps) {
 			{ children... }
 		</button>
 	}
+}
+
+func (b ButtonProps) variantClasses() string {
+	switch b.Variant {
+	case ButtonVariantDestructive:
+		return "bg-destructive text-destructive-foreground hover:bg-destructive/90"
+	case ButtonVariantOutline:
+		return "border border-input bg-background hover:bg-accent hover:text-accent-foreground"
+	case ButtonVariantSecondary:
+		return "bg-secondary text-secondary-foreground hover:bg-secondary/80"
+	case ButtonVariantGhost:
+		return "hover:bg-accent hover:text-accent-foreground"
+	case ButtonVariantLink:
+		return "text-primary underline-offset-4 hover:underline"
+	default:
+		return "bg-primary text-primary-foreground hover:bg-primary/90"
+	}
+}
+
+func (b ButtonProps) sizeClasses() string {
+	switch b.Size {
+	case ButtonSizeIcon:
+		return "h-10 w-10"
+	default:
+		return "h-10 px-4 py-2 rounded-md"
+	}
+}
+
+func (b ButtonProps) modifierClasses() string {
+	classes := []string{}
+	if b.FullWidth {
+		classes = append(classes, "w-full")
+	}
+	return strings.Join(classes, " ")
 }

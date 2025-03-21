@@ -10,21 +10,21 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import "github.com/axzilla/templui/utils"
 
-type AspectRatioVariant int
+type AspectRatioVariant string
 
 const (
-	AspectRatioAuto AspectRatioVariant = iota
-	AspectRatioSquare
-	AspectRatioVideo
-	AspectRatioPortrait
-	AspectRatioWide
+	AspectRatioAuto     AspectRatioVariant = "auto"
+	AspectRatioSquare   AspectRatioVariant = "square"
+	AspectRatioVideo    AspectRatioVariant = "video"
+	AspectRatioPortrait AspectRatioVariant = "portrait"
+	AspectRatioWide     AspectRatioVariant = "wide"
 )
 
 type AspectRatioProps struct {
 	ID         string
-	Ratio      AspectRatioVariant
 	Class      string
 	Attributes templ.Attributes
+	Ratio      AspectRatioVariant
 }
 
 func AspectRatio(props AspectRatioProps) templ.Component {

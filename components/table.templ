@@ -1,0 +1,140 @@
+package components
+
+import "github.com/axzilla/templui/utils"
+
+type TableProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+}
+
+type TableHeaderProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+}
+
+type TableBodyProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+}
+
+type TableFooterProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+}
+
+type TableRowProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+	Selected   bool
+}
+
+type TableHeadProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+}
+
+type TableCellProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+}
+
+type TableCaptionProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+}
+
+templ Table(props TableProps) {
+	<div class="relative w-full overflow-auto">
+		<table
+			id={ props.ID }
+			class={ utils.TwMerge("w-full caption-bottom text-sm", props.Class) }
+			{ props.Attributes... }
+		>
+			{ children... }
+		</table>
+	</div>
+}
+
+templ TableHeader(props TableHeaderProps) {
+	<thead
+		id={ props.ID }
+		class={ utils.TwMerge("[&_tr]:border-b", props.Class) }
+		{ props.Attributes... }
+	>
+		{ children... }
+	</thead>
+}
+
+templ TableBody(props TableBodyProps) {
+	<tbody
+		id={ props.ID }
+		class={ utils.TwMerge("[&_tr:last-child]:border-0", props.Class) }
+		{ props.Attributes... }
+	>
+		{ children... }
+	</tbody>
+}
+
+templ TableFooter(props TableFooterProps) {
+	<tfoot
+		id={ props.ID }
+		class={ utils.TwMerge("border-t bg-muted/50 font-medium [&>tr]:last:border-b-0", props.Class) }
+		{ props.Attributes... }
+	>
+		{ children... }
+	</tfoot>
+}
+
+templ TableRow(props TableRowProps) {
+	<tr
+		id={ props.ID }
+		class={
+			utils.TwMerge(
+				"border-b transition-colors hover:bg-muted/50",
+				props.Class,
+			),
+			templ.KV("data-[state=selected]:bg-muted", props.Selected),
+		}
+		{ props.Attributes... }
+	>
+		{ children... }
+	</tr>
+}
+
+templ TableHead(props TableHeadProps) {
+	<th
+		id={ props.ID }
+		class={ utils.TwMerge("h-10 px-2 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]", props.Class) }
+		{ props.Attributes... }
+	>
+		{ children... }
+	</th>
+}
+
+templ TableCell(props TableCellProps) {
+	<td
+		id={ props.ID }
+		class={ utils.TwMerge("p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]", props.Class) }
+		{ props.Attributes... }
+	>
+		{ children... }
+	</td>
+}
+
+templ TableCaption(props TableCaptionProps) {
+	<caption
+		id={ props.ID }
+		class={ utils.TwMerge("mt-4 text-sm text-muted-foreground", props.Class) }
+		{ props.Attributes... }
+	>
+		{ children... }
+	</caption>
+}

@@ -11,10 +11,44 @@ const (
 )
 
 type SpinnerProps struct {
-	Size       SpinnerSize
-	Color      string
+	ID         string
 	Class      string
 	Attributes templ.Attributes
+	Size       SpinnerSize
+	Color      string
+}
+
+templ Spinner(props SpinnerProps) {
+	<div
+		id={ props.ID }
+		class={ utils.TwMerge(
+			"inline-flex flex-col items-center justify-center",
+			props.Class,
+		) }
+		aria-label="Loading"
+		role="status"
+		{ props.Attributes... }
+	>
+		<div
+			class={
+				utils.TwMerge(
+					"animate-spin rounded-full",
+					spinnerSizeClass(props.Size),
+					borderSpinnerClass(props.Size),
+					utils.IfElse(
+						props.Color == "",
+						"border-primary border-b-transparent",
+						"border-current border-b-transparent",
+					),
+					utils.IfElse(
+						props.Color != "",
+						props.Color,
+						"",
+					),
+				),
+			}
+		></div>
+	</div>
 }
 
 func spinnerSizeClass(size SpinnerSize) string {
@@ -48,34 +82,4 @@ func textSizeClass(size SpinnerSize) string {
 	default:
 		return "text-base"
 	}
-}
-
-templ Spinner(props SpinnerProps) {
-	<div
-		class={ utils.TwMerge(
-			"inline-flex flex-col items-center justify-center",
-			props.Class,
-		) }
-		aria-label="Loading"
-		role="status"
-		{ props.Attributes... }
-	>
-		<div
-			class={ utils.TwMerge(
-				"animate-spin rounded-full",
-				spinnerSizeClass(props.Size),
-				borderSpinnerClass(props.Size),
-				utils.TwIfElse(
-					props.Color == "",
-					"border-primary border-b-transparent",
-					"border-current border-b-transparent",
-				),
-				utils.TwIfElse(
-					props.Color != "",
-					props.Color,
-					"",
-				),
-			) }
-		></div>
-	</div>
 }

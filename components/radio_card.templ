@@ -4,26 +4,29 @@ import "github.com/axzilla/templui/utils"
 
 type RadioCardProps struct {
 	ID         string
+	Class      string
+	Attributes templ.Attributes
 	Name       string
 	Value      string
 	Checked    bool
 	Disabled   bool
 	Required   bool
-	Class      string
-	Attributes templ.Attributes
 }
 
 type RadioCardHeaderProps struct {
+	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
 type RadioCardDescriptionProps struct {
+	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
 type RadioCardFooterProps struct {
+	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
@@ -33,7 +36,8 @@ templ RadioCard(props RadioCardProps) {
 		{{ props.ID = utils.RandomID() }}
 	}
 	<div
-		class={ utils.TwMerge("relative", utils.TwIf("opacity-60", props.Disabled), props.Class) }
+		id={ props.ID + "-container" }
+		class={ utils.TwMerge("relative", utils.If(props.Disabled, "opacity-60"), props.Class) }
 		{ props.Attributes... }
 	>
 		<input
@@ -48,16 +52,18 @@ templ RadioCard(props RadioCardProps) {
 		/>
 		<label
 			for={ props.ID }
-			class={ utils.TwMerge(
-				"block w-full rounded-lg border overflow-hidden h-full",
-				"bg-card text-card-foreground p-4 flex flex-col",
-				"cursor-pointer",
-				"hover:border-primary/50",
-				"peer-checked:ring-1 peer-checked:ring-primary peer-checked:border-primary",
-				utils.TwIf("cursor-not-allowed", props.Disabled),
-				"transition-all duration-200",
-				props.Class,
-			) }
+			class={
+				utils.TwMerge(
+					"block w-full rounded-lg border overflow-hidden h-full",
+					"bg-card text-card-foreground p-4 flex flex-col",
+					"cursor-pointer",
+					"hover:border-primary/50",
+					"peer-checked:ring-1 peer-checked:ring-primary peer-checked:border-primary",
+					utils.If(props.Disabled, "cursor-not-allowed"),
+					"transition-all duration-200",
+					props.Class,
+				),
+			}
 			{ props.Attributes... }
 		>
 			{ children... }
@@ -67,6 +73,7 @@ templ RadioCard(props RadioCardProps) {
 
 templ RadioCardHeader(props RadioCardHeaderProps) {
 	<div
+		id={ props.ID }
 		class={ utils.TwMerge("flex items-center justify-between mb-2", props.Class) }
 		{ props.Attributes... }
 	>
@@ -76,6 +83,7 @@ templ RadioCardHeader(props RadioCardHeaderProps) {
 
 templ RadioCardDescription(props RadioCardDescriptionProps) {
 	<p
+		id={ props.ID }
 		class={ utils.TwMerge("text-sm text-muted-foreground", props.Class) }
 		{ props.Attributes... }
 	>
@@ -85,6 +93,7 @@ templ RadioCardDescription(props RadioCardDescriptionProps) {
 
 templ RadioCardFooter(props RadioCardFooterProps) {
 	<div
+		id={ props.ID }
 		class={ utils.TwMerge("mt-auto pt-4 w-full", props.Class) }
 		{ props.Attributes... }
 	>

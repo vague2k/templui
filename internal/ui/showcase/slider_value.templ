@@ -2,11 +2,11 @@ package showcase
 
 import "github.com/axzilla/templui/components"
 
-templ SliderWithValue() {
+templ SliderValue() {
 	<div class="w-full max-w-sm">
-		@components.SliderRoot(components.SliderRootProps{
-			ID:    "with-value",
-			Name:  "with-value",
+		@components.Slider(components.SliderProps{
+			ID:    "slider-value",
+			Name:  "slider-value",
 			Value: 75,
 			Min:   0,
 			Max:   100,
@@ -14,12 +14,12 @@ templ SliderWithValue() {
 		}) {
 			<div class="flex justify-end mb-1">
 				@components.SliderValue(components.SliderValueProps{
-					For: "with-value",
+					For: "slider-value",
 				})
 			</div>
-			@components.SliderInput(components.SliderRootProps{
-				ID:    "with-value",
-				Name:  "with-value",
+			@components.SliderInput(components.SliderProps{
+				ID:    "slider-value",
+				Name:  "slider-value",
 				Value: 75,
 				Min:   0,
 				Max:   100,

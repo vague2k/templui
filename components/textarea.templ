@@ -7,6 +7,8 @@ import (
 
 type TextareaProps struct {
 	ID          string
+	Class       string
+	Attributes  templ.Attributes
 	Name        string
 	Value       string
 	Placeholder string
@@ -14,24 +16,6 @@ type TextareaProps struct {
 	Disabled    bool
 	Required    bool
 	AutoResize  bool
-	Class       string
-	Attributes  templ.Attributes
-}
-
-templ TextareaScript() {
-	{{ handle := templ.NewOnceHandle() }}
-	@handle.Once() {
-		<script defer nonce={ templ.GetNonce(ctx) }>
-			document.addEventListener('alpine:init', () => {
-				Alpine.data('textarea', () => ({
-					resize() {
-						this.$el.style.height = '80px';
-						this.$el.style.height = this.$el.scrollHeight + 'px';
-					}
-				}));
-			});
-		</script>
-	}
 }
 
 templ Textarea(props TextareaProps) {
@@ -68,4 +52,20 @@ templ Textarea(props TextareaProps) {
 			{ props.Value }
 		}
 	</textarea>
+}
+
+templ TextareaScript() {
+	{{ handle := templ.NewOnceHandle() }}
+	@handle.Once() {
+		<script defer nonce={ templ.GetNonce(ctx) }>
+			document.addEventListener('alpine:init', () => {
+				Alpine.data('textarea', () => ({
+					resize() {
+						this.$el.style.height = '80px';
+						this.$el.style.height = this.$el.scrollHeight + 'px';
+					}
+				}));
+			});
+		</script>
+	}
 }

@@ -3,9 +3,11 @@ package components
 import (
 	"github.com/axzilla/templui/utils"
 	"strings"
+	"fmt"
 )
 
 type AvatarSize string
+type AvatarGroupSpacing string
 
 const (
 	AvatarSizeSmall  AvatarSize = "small"
@@ -13,33 +15,55 @@ const (
 	AvatarSizeLarge  AvatarSize = "large"
 )
 
+const (
+	AvatarGroupSpacingSmall  AvatarGroupSpacing = "small"
+	AvatarGroupSpacingMedium AvatarGroupSpacing = "medium"
+	AvatarGroupSpacingLarge  AvatarGroupSpacing = "large"
+)
+
 type AvatarProps struct {
-	Size       AvatarSize
+	ID         string
 	Class      string
 	Attributes templ.Attributes
+	Size       AvatarSize
+	InGroup    bool
 }
 
 type AvatarImageProps struct {
-	Src        string
-	Alt        string
+	ID         string
 	Class      string
 	Attributes templ.Attributes
+	Src        string
+	Alt        string
 }
 
 type AvatarFallbackProps struct {
-	DelayMs    int
+	ID         string
 	Class      string
 	Attributes templ.Attributes
+	DelayMs    int
+}
+
+type AvatarGroupProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+	Max        int
+	Spacing    AvatarGroupSpacing
 }
 
 templ Avatar(props AvatarProps) {
 	<div
-		class={ utils.TwMerge(
-			"inline-flex items-center justify-center",
-			avatarSizeClasses(props.Size),
-			"rounded-full bg-muted",
-			props.Class,
-		) }
+		id={ props.ID }
+		class={
+			utils.TwMerge(
+				"inline-flex items-center justify-center",
+				avatarSizeClasses(props.Size),
+				"rounded-full bg-muted",
+				utils.If(props.InGroup, "ring-2 ring-background"),
+				props.Class,
+			),
+		}
 		{ props.Attributes... }
 	>
 		{ children... }
@@ -48,6 +72,7 @@ templ Avatar(props AvatarProps) {
 
 templ AvatarImage(props AvatarImageProps) {
 	<img
+		id={ props.ID }
 		src={ props.Src }
 		alt={ props.Alt }
 		class={ utils.TwMerge(
@@ -61,6 +86,7 @@ templ AvatarImage(props AvatarImageProps) {
 
 templ AvatarFallback(props AvatarFallbackProps) {
 	<span
+		id={ props.ID }
 		class={ utils.TwMerge(
 			"font-medium text-muted-foreground",
 			props.Class,
@@ -69,6 +95,36 @@ templ AvatarFallback(props AvatarFallbackProps) {
 	>
 		{ children... }
 	</span>
+}
+
+templ AvatarGroup(props AvatarGroupProps) {
+	<div
+		id={ props.ID }
+		class={ utils.TwMerge(
+			"flex items-center -space-x-3",
+			avatarGroupSpacingClasses(props.Spacing),
+			props.Class,
+		) }
+		{ props.Attributes... }
+	>
+		@templ.Raw(fmt.Sprintf("<!-- Max avatars: %d -->", props.Max))
+		{ children... }
+	</div>
+}
+
+templ AvatarGroupOverflow(props AvatarProps, count int) {
+	<div
+		id={ props.ID }
+		class={ utils.TwMerge(
+			"inline-flex items-center justify-center",
+			avatarSizeClasses(props.Size),
+			"rounded-full bg-muted ring-2 ring-background",
+			props.Class,
+		) }
+		{ props.Attributes... }
+	>
+		<span class="text-xs font-medium">+{ fmt.Sprint(count) }</span>
+	</div>
 }
 
 func avatarSizeClasses(size AvatarSize) string {
@@ -94,4 +150,15 @@ func AvatarInitials(name string) string {
 		}
 	}
 	return strings.ToUpper(initials)
+}
+
+func avatarGroupSpacingClasses(spacing AvatarGroupSpacing) string {
+	switch spacing {
+	case AvatarGroupSpacingSmall:
+		return "-space-x-1"
+	case AvatarGroupSpacingLarge:
+		return "-space-x-4"
+	default:
+		return "-space-x-2"
+	}
 }

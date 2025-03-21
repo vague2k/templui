@@ -3,7 +3,7 @@ package showcase
 import "github.com/axzilla/templui/components"
 
 templ TooltipVariants() {
-	<div class="flex space-x-4">
+	<div class="flex gap-2">
 		@components.Tooltip(components.TooltipProps{}) {
 			@components.TooltipTrigger(components.TooltipTriggerProps{}) {
 				@components.Button(components.ButtonProps{
@@ -13,8 +13,8 @@ templ TooltipVariants() {
 				}
 			}
 			@components.TooltipContent(components.TooltipContentProps{
-				Side:    components.TooltipTop,
-				Variant: components.TooltipDefault,
+				Side:    components.TooltipPositionTop,
+				Variant: components.TooltipVariantDefault,
 			}) {
 				Default tooltip
 			}
@@ -28,8 +28,8 @@ templ TooltipVariants() {
 				}
 			}
 			@components.TooltipContent(components.TooltipContentProps{
-				Side:    components.TooltipTop,
-				Variant: components.TooltipSecondary,
+				Side:    components.TooltipPositionTop,
+				Variant: components.TooltipVariantSecondary,
 			}) {
 				Secondary tooltip
 			}
@@ -43,8 +43,8 @@ templ TooltipVariants() {
 				}
 			}
 			@components.TooltipContent(components.TooltipContentProps{
-				Side:    components.TooltipTop,
-				Variant: components.TooltipDestructive,
+				Side:    components.TooltipPositionTop,
+				Variant: components.TooltipVariantDestructive,
 			}) {
 				Destructive tooltip
 			}

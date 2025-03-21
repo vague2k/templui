@@ -1,44 +1,46 @@
 package components
 
-import (
-	"github.com/axzilla/templui/icons"
-	"github.com/axzilla/templui/utils"
-)
+import "github.com/axzilla/templui/utils"
+import "github.com/axzilla/templui/icons"
 
 type PaginationProps struct {
+	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
 type PaginationLinkProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
 	Href       string
 	IsActive   bool
 	Disabled   bool
-	Class      string
 	HxGet      string
 	HxTarget   string
 	HxSwap     string
-	Attributes templ.Attributes
 }
 
 type PaginationPreviousProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
 	Href       string
 	Disabled   bool
-	Class      string
 	HxGet      string
 	HxTarget   string
 	HxSwap     string
-	Attributes templ.Attributes
 }
 
 type PaginationNextProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
 	Href       string
 	Disabled   bool
-	Class      string
 	HxGet      string
 	HxTarget   string
 	HxSwap     string
-	Attributes templ.Attributes
 }
 
 templ Pagination(props PaginationProps) {
@@ -67,6 +69,7 @@ templ PaginationItem() {
 templ PaginationLink(props PaginationLinkProps) {
 	if props.Disabled {
 		@Button(ButtonProps{
+			ID:         props.ID,
 			Disabled:   true,
 			Size:       ButtonSizeIcon,
 			Variant:    ButtonVariantGhost,
@@ -77,6 +80,7 @@ templ PaginationLink(props PaginationLinkProps) {
 		}
 	} else if props.HxGet != "" {
 		@Button(ButtonProps{
+			ID:         props.ID,
 			HxGet:      props.HxGet,
 			HxTarget:   props.HxTarget,
 			HxSwap:     props.HxSwap,
@@ -89,6 +93,7 @@ templ PaginationLink(props PaginationLinkProps) {
 		}
 	} else {
 		@Button(ButtonProps{
+			ID:         props.ID,
 			Href:       props.Href,
 			Size:       ButtonSizeIcon,
 			Variant:    buttonVariant(props.IsActive),
@@ -102,6 +107,7 @@ templ PaginationLink(props PaginationLinkProps) {
 
 templ PaginationPrevious(props PaginationPreviousProps) {
 	@Button(ButtonProps{
+		ID:         props.ID,
 		Href:       props.Href,
 		HxGet:      props.HxGet,
 		HxTarget:   props.HxTarget,
@@ -118,6 +124,7 @@ templ PaginationPrevious(props PaginationPreviousProps) {
 
 templ PaginationNext(props PaginationNextProps) {
 	@Button(ButtonProps{
+		ID:         props.ID,
 		Href:       props.Href,
 		HxGet:      props.HxGet,
 		HxTarget:   props.HxTarget,

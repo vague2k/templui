@@ -2,8 +2,8 @@ package showcase
 
 import "github.com/axzilla/templui/components"
 
-templ TooltipSides() {
-	<div class="flex space-x-4">
+templ TooltipPositions() {
+	<div class="flex gap-2">
 		@components.Tooltip(components.TooltipProps{}) {
 			@components.TooltipTrigger(components.TooltipTriggerProps{}) {
 				@components.Button(components.ButtonProps{
@@ -13,7 +13,7 @@ templ TooltipSides() {
 				}
 			}
 			@components.TooltipContent(components.TooltipContentProps{
-				Side:      components.TooltipTop,
+				Side:      components.TooltipPositionTop,
 				ShowArrow: true,
 			}) {
 				Tooltip on top
@@ -28,7 +28,7 @@ templ TooltipSides() {
 				}
 			}
 			@components.TooltipContent(components.TooltipContentProps{
-				Side:      components.TooltipRight,
+				Side:      components.TooltipPositionRight,
 				ShowArrow: true,
 			}) {
 				Tooltip on right
@@ -43,7 +43,7 @@ templ TooltipSides() {
 				}
 			}
 			@components.TooltipContent(components.TooltipContentProps{
-				Side:      components.TooltipBottom,
+				Side:      components.TooltipPositionBottom,
 				ShowArrow: true,
 			}) {
 				Tooltip on bottom
@@ -58,7 +58,7 @@ templ TooltipSides() {
 				}
 			}
 			@components.TooltipContent(components.TooltipContentProps{
-				Side:      components.TooltipLeft,
+				Side:      components.TooltipPositionLeft,
 				ShowArrow: true,
 			}) {
 				Tooltip on left

@@ -4,26 +4,29 @@ import "github.com/axzilla/templui/utils"
 
 type CheckboxCardProps struct {
 	ID         string
+	Class      string
+	Attributes templ.Attributes
 	Name       string
 	Value      string
 	Checked    bool
 	Disabled   bool
 	Required   bool
-	Class      string
-	Attributes templ.Attributes
 }
 
 type CheckboxCardHeaderProps struct {
+	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
 type CheckboxCardDescriptionProps struct {
+	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
 type CheckboxCardFooterProps struct {
+	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
@@ -32,13 +35,15 @@ templ CheckboxCard(props CheckboxCardProps) {
 	if props.ID == "" {
 		{{ props.ID = utils.RandomID() }}
 	}
+	{{ inputId := props.ID + "-input" }}
 	<div
-		class={ utils.TwMerge("relative", utils.TwIf("opacity-60", props.Disabled), props.Class) }
+		id={ props.ID }
+		class={ utils.TwMerge("relative", utils.If(props.Disabled, "opacity-60"), props.Class) }
 		{ props.Attributes... }
 	>
 		<input
 			type="checkbox"
-			id={ props.ID }
+			id={ inputId }
 			name={ props.Name }
 			value={ props.Value }
 			checked?={ props.Checked }
@@ -47,18 +52,19 @@ templ CheckboxCard(props CheckboxCardProps) {
 			class="peer sr-only"
 		/>
 		<label
-			for={ props.ID }
-			class={ utils.TwMerge(
-				"block w-full rounded-lg border overflow-hidden h-full",
-				"bg-card text-card-foreground p-4 flex flex-col",
-				"cursor-pointer",
-				"hover:border-primary/50",
-				"peer-checked:ring-1 peer-checked:ring-primary peer-checked:border-primary",
-				utils.TwIf("cursor-not-allowed", props.Disabled),
-				"transition-all duration-200",
-				props.Class,
-			) }
-			{ props.Attributes... }
+			for={ inputId }
+			class={
+				utils.TwMerge(
+					"block w-full rounded-lg border overflow-hidden h-full",
+					"bg-card text-card-foreground p-4 flex flex-col",
+					"cursor-pointer",
+					"hover:border-primary/50",
+					"peer-checked:ring-1 peer-checked:ring-primary peer-checked:border-primary",
+					utils.If(props.Disabled, "cursor-not-allowed"),
+					"transition-all duration-200",
+					props.Class,
+				),
+			}
 		>
 			{ children... }
 		</label>
@@ -67,6 +73,7 @@ templ CheckboxCard(props CheckboxCardProps) {
 
 templ CheckboxCardHeader(props CheckboxCardHeaderProps) {
 	<div
+		id={ props.ID }
 		class={ utils.TwMerge("flex items-center justify-between mb-2", props.Class) }
 		{ props.Attributes... }
 	>
@@ -76,6 +83,7 @@ templ CheckboxCardHeader(props CheckboxCardHeaderProps) {
 
 templ CheckboxCardDescription(props CheckboxCardDescriptionProps) {
 	<p
+		id={ props.ID }
 		class={ utils.TwMerge("text-sm text-muted-foreground", props.Class) }
 		{ props.Attributes... }
 	>
@@ -85,6 +93,7 @@ templ CheckboxCardDescription(props CheckboxCardDescriptionProps) {
 
 templ CheckboxCardFooter(props CheckboxCardFooterProps) {
 	<div
+		id={ props.ID }
 		class={ utils.TwMerge("mt-auto pt-4 w-full", props.Class) }
 		{ props.Attributes... }
 	>

@@ -32,8 +32,8 @@ templ Toast() {
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "Playground",
-					ShowcaseFile:      showcase.ToastAdvanced(),
-					PreviewCodeFile:   "toast_advanced.templ",
+					ShowcaseFile:      showcase.ToastPlayground(),
+					PreviewCodeFile:   "toast_playground.templ",
 					ComponentCodeFile: "toast.templ",
 				})
 			}
@@ -42,7 +42,7 @@ templ Toast() {
 }
 
 templ UsageExamples() {
-	@components.TabsRoot(components.TabsRootProps{
+	@components.Tabs(components.TabsProps{
 		ID: "usage-examples",
 	}) {
 		@components.TabsList(components.TabsListProps{

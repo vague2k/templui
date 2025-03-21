@@ -3,12 +3,51 @@ package components
 import "github.com/axzilla/templui/utils"
 
 type ModalProps struct {
-	ID    string
-	Class string
+	ID               string
+	Class            string
+	Attributes       templ.Attributes
+	DisableClickAway bool
+	DisableESC       bool
+}
+
+type ModalTriggerProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+	ModalID    string
+}
+
+type ModalCloseProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+	ModalID    string
+}
+
+type ModalHeaderProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+}
+
+type ModalBodyProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+}
+
+type ModalFooterProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
 }
 
 templ Modal(props ModalProps) {
+	if props.ID == "" {
+		{{ props.ID = utils.RandomID() }}
+	}
 	<div
+		id={ props.ID }
 		x-data="modal"
 		x-on:open-modal.window="handleOpenModal"
 		x-on:close-modal.window="handleCloseModal"
@@ -24,57 +63,83 @@ templ Modal(props ModalProps) {
 		aria-labelledby="modal-title"
 		role="dialog"
 		aria-modal="true"
+		{ props.Attributes... }
 	>
 		<div class="fixed inset-0 bg-background/70 bg-opacity-50 transition-opacity" aria-hidden="true"></div>
 		<div
+			id={ props.ID + "-content" }
 			class={
 				utils.TwMerge(
 					"relative bg-background rounded-lg border text-left overflow-hidden shadow-xl transform transition-all sm:my-8 w-full",
-					props.Class),
+					props.Class,
+				),
 			}
-			@click.away="handleClickAway"
+			if !props.DisableClickAway {
+				@click.outside="handleClickAway"
+			}
+			if !props.DisableESC {
+				x-on:keydown.esc.window="handleClickAway"
+			}
 		>
 			{ children... }
 		</div>
 	</div>
 }
 
-templ ModalTrigger(id string) {
+templ ModalTrigger(props ModalTriggerProps) {
 	<span
+		id={ props.ID }
 		x-data="modalTriggers"
-		data-modal-id={ id }
+		data-modal-id={ props.ModalID }
 		@click="openModal"
+		class={ props.Class }
+		{ props.Attributes... }
 	>
 		{ children... }
 	</span>
 }
 
-templ ModalClose(id string) {
+templ ModalClose(props ModalCloseProps) {
 	<span
+		id={ props.ID }
 		x-data="modalTriggers"
-		data-modal-id={ id }
+		data-modal-id={ props.ModalID }
 		@click="closeModal"
+		class={ utils.TwMerge("", props.Class) }
+		{ props.Attributes... }
 	>
 		{ children... }
 	</span>
 }
 
-templ ModalHeader() {
-	<div class="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+templ ModalHeader(props ModalHeaderProps) {
+	<div
+		id={ props.ID }
+		class={ utils.TwMerge("px-4 pt-5 pb-4 sm:p-6 sm:pb-4", props.Class) }
+		{ props.Attributes... }
+	>
 		<h3 class="text-lg leading-6 font-medium text-foreground" id="modal-title">
 			{ children... }
 		</h3>
 	</div>
 }
 
-templ ModalBody() {
-	<div class="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+templ ModalBody(props ModalBodyProps) {
+	<div
+		id={ props.ID }
+		class={ utils.TwMerge("px-4 pt-5 pb-4 sm:p-6 sm:pb-4", props.Class) }
+		{ props.Attributes... }
+	>
 		{ children... }
 	</div>
 }
 
-templ ModalFooter() {
-	<div class="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+templ ModalFooter(props ModalFooterProps) {
+	<div
+		id={ props.ID }
+		class={ utils.TwMerge("px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse", props.Class) }
+		{ props.Attributes... }
+	>
 		{ children... }
 	</div>
 }

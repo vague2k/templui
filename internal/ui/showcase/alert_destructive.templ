@@ -9,10 +9,10 @@ templ AlertDestructive() {
 	<div class="w-full max-w-xl">
 		@components.Alert(components.AlertProps{Variant: components.AlertVariantDestructive}) {
 			@icons.TriangleAlert(icons.IconProps{Size: "16"})
-			@components.AlertTitle() {
+			@components.AlertTitle(components.AlertTitleProps{}) {
 				Error
 			}
-			@components.AlertDescription() {
+			@components.AlertDescription(components.AlertDescriptionProps{}) {
 				Your session has expired. Please log in again.
 			}
 		}
