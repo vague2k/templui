@@ -3,10 +3,7 @@ package showcase
 import "github.com/axzilla/templui/components"
 
 templ InputOTPPlaceholder() {
-	@components.InputOTP("otp-placeholder",
-		components.InputOTPProps{
-			ID: "otp-placeholder",
-		}) {
+	@components.InputOTP("otp-placeholder") {
 		@components.InputOTPGroup() {
 			@components.InputOTPSlot(0, components.InputOTPSlotProps{Placeholder: "•"})
 			@components.InputOTPSlot(1, components.InputOTPSlotProps{Placeholder: "•"})
