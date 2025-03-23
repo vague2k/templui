@@ -30,46 +30,58 @@ type AccordionContentProps struct {
 	Attributes templ.Attributes
 }
 
-templ Accordion(props AccordionProps) {
+templ Accordion(props ...AccordionProps) {
+	{{ var p AccordionProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<div
-		id={ props.ID }
+		id={ p.ID }
 		class={ utils.TwMerge(
 			"divide-y rounded-md divide-border border",
-			props.Class,
+			p.Class,
 		) }
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</div>
 }
 
-templ AccordionItem(props AccordionItemProps) {
+templ AccordionItem(props ...AccordionItemProps) {
+	{{ var p AccordionItemProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<details
-		id={ props.ID }
+		id={ p.ID }
 		name="accordion"
 		class={ utils.TwMerge(
 			"group",
 			"open:[&>summary_svg]:rotate-180",
-			props.Class,
+			p.Class,
 		) }
-		data-value={ props.Value }
-		{ props.Attributes... }
+		data-value={ p.Value }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</details>
 }
 
-templ AccordionTrigger(props AccordionTriggerProps) {
+templ AccordionTrigger(props ...AccordionTriggerProps) {
+	{{ var p AccordionTriggerProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<summary
-		id={ props.ID }
+		id={ p.ID }
 		class={ utils.TwMerge(
 			"flex w-full items-center justify-between py-4 px-5",
 			"text-left font-medium cursor-pointer",
 			"transition-all hover:underline",
 			"list-none [&::-webkit-details-marker]:hidden",
-			props.Class,
+			p.Class,
 		) }
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
 		<div class="flex-1">
 			{ children... }
@@ -78,14 +90,18 @@ templ AccordionTrigger(props AccordionTriggerProps) {
 	</summary>
 }
 
-templ AccordionContent(props AccordionContentProps) {
+templ AccordionContent(props ...AccordionContentProps) {
+	{{ var p AccordionContentProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<div
-		id={ props.ID }
+		id={ p.ID }
 		class={ utils.TwMerge(
 			"px-5 pb-4 pt-0",
-			props.Class,
+			p.Class,
 		) }
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</div>
