@@ -38,15 +38,19 @@ type BreadcrumbSeparatorProps struct {
 	UseCustom  bool
 }
 
-templ Breadcrumb(props BreadcrumbProps) {
+templ Breadcrumb(props ...BreadcrumbProps) {
+	{{ var p BreadcrumbProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<nav
-		id={ props.ID }
+		id={ p.ID }
 		class={ utils.TwMerge(
 			"flex",
-			props.Class,
+			p.Class,
 		) }
 		aria-label="Breadcrumb"
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</nav>

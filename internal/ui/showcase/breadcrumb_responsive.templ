@@ -1,27 +1,25 @@
 package showcase
 
-import (
-	"github.com/axzilla/templui/components"
-)
+import "github.com/axzilla/templui/components"
 
 templ BreadcrumbResponsive() {
 	<!-- Mobile view (simplified with ellipsis) -->
 	<div class="md:hidden">
-		@components.Breadcrumb(components.BreadcrumbProps{}) {
-			@components.BreadcrumbList(components.BreadcrumbListProps{}) {
-				@components.BreadcrumbItem(components.BreadcrumbItemProps{}) {
+		@components.Breadcrumb() {
+			@components.BreadcrumbList() {
+				@components.BreadcrumbItem() {
 					@components.BreadcrumbLink(components.BreadcrumbLinkProps{Href: "/"}) {
 						Home
 					}
 				}
-				@components.BreadcrumbSeparator(components.BreadcrumbSeparatorProps{})
-				@components.BreadcrumbItem(components.BreadcrumbItemProps{}) {
+				@components.BreadcrumbSeparator()
+				@components.BreadcrumbItem() {
 					@components.BreadcrumbLink(components.BreadcrumbLinkProps{Href: "#"}) {
 						...
 					}
 				}
-				@components.BreadcrumbSeparator(components.BreadcrumbSeparatorProps{})
-				@components.BreadcrumbItem(components.BreadcrumbItemProps{}) {
+				@components.BreadcrumbSeparator()
+				@components.BreadcrumbItem() {
 					@components.BreadcrumbPage(components.BreadcrumbItemProps{Current: true}) {
 						Current Page
 					}
@@ -31,27 +29,27 @@ templ BreadcrumbResponsive() {
 	</div>
 	<!-- Desktop view (full breadcrumb) -->
 	<div class="hidden md:block">
-		@components.Breadcrumb(components.BreadcrumbProps{}) {
-			@components.BreadcrumbList(components.BreadcrumbListProps{}) {
-				@components.BreadcrumbItem(components.BreadcrumbItemProps{}) {
+		@components.Breadcrumb() {
+			@components.BreadcrumbList() {
+				@components.BreadcrumbItem() {
 					@components.BreadcrumbLink(components.BreadcrumbLinkProps{Href: "/"}) {
 						Home
 					}
 				}
-				@components.BreadcrumbSeparator(components.BreadcrumbSeparatorProps{})
-				@components.BreadcrumbItem(components.BreadcrumbItemProps{}) {
+				@components.BreadcrumbSeparator()
+				@components.BreadcrumbItem() {
 					@components.BreadcrumbLink(components.BreadcrumbLinkProps{Href: "/category"}) {
 						Category
 					}
 				}
-				@components.BreadcrumbSeparator(components.BreadcrumbSeparatorProps{})
-				@components.BreadcrumbItem(components.BreadcrumbItemProps{}) {
+				@components.BreadcrumbSeparator()
+				@components.BreadcrumbItem() {
 					@components.BreadcrumbLink(components.BreadcrumbLinkProps{Href: "/category/subcategory"}) {
 						Subcategory
 					}
 				}
-				@components.BreadcrumbSeparator(components.BreadcrumbSeparatorProps{})
-				@components.BreadcrumbItem(components.BreadcrumbItemProps{}) {
+				@components.BreadcrumbSeparator()
+				@components.BreadcrumbItem() {
 					@components.BreadcrumbPage(components.BreadcrumbItemProps{Current: true}) {
 						Current Page
 					}

@@ -137,8 +137,8 @@ templ TimePicker(props ...TimePickerProps) {
 								}
 							}
 						}
-						@SelectContent(SelectContentProps{}) {
-							@SelectGroup(SelectGroupProps{}) {
+						@SelectContent() {
+							@SelectGroup() {
 								for _, option := range generateHourOptions(p.Use12Hours) {
 									@SelectItem(SelectItemProps{
 										Value: option.Value,
@@ -171,8 +171,8 @@ templ TimePicker(props ...TimePickerProps) {
 								}
 							}
 						}
-						@SelectContent(SelectContentProps{}) {
-							@SelectGroup(SelectGroupProps{}) {
+						@SelectContent() {
+							@SelectGroup() {
 								for _, option := range generateMinuteOptions() {
 									@SelectItem(SelectItemProps{
 										Value:    option.Value,

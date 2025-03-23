@@ -9,10 +9,10 @@ templ AlertDefault() {
 	<div class="w-full max-w-xl">
 		@components.Alert(components.AlertProps{Variant: components.AlertVariantDefault}) {
 			@icons.Rocket(icons.IconProps{Size: "16"})
-			@components.AlertTitle(components.AlertTitleProps{}) {
+			@components.AlertTitle() {
 				Note
 			}
-			@components.AlertDescription(components.AlertDescriptionProps{}) {
+			@components.AlertDescription() {
 				This is a default alert — check it out!
 			}
 		}
