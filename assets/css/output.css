@@ -357,9 +357,6 @@
   .left-full {
     left: 100%;
   }
-  .z-9 {
-    z-index: 9;
-  }
   .z-10 {
     z-index: 10;
   }
@@ -390,12 +387,6 @@
       max-width: 96rem;
     }
   }
-  .m-5 {
-    margin: calc(var(--spacing) * 5);
-  }
-  .m-7 {
-    margin: calc(var(--spacing) * 7);
-  }
   .-mx-1 {
     margin-inline: calc(var(--spacing) * -1);
   }
@@ -404,9 +395,6 @@
   }
   .mx-4 {
     margin-inline: calc(var(--spacing) * 4);
-  }
-  .mx-5 {
-    margin-inline: calc(var(--spacing) * 5);
   }
   .mx-auto {
     margin-inline: auto;
@@ -694,9 +682,6 @@
   }
   .w-72 {
     width: calc(var(--spacing) * 72);
-  }
-  .w-183 {
-    width: calc(var(--spacing) * 183);
   }
   .w-\[1px\] {
     width: 1px;
@@ -1295,9 +1280,6 @@
   .object-cover {
     object-fit: cover;
   }
-  .p-0 {
-    padding: calc(var(--spacing) * 0);
-  }
   .p-1 {
     padding: calc(var(--spacing) * 1);
   }
@@ -1312,9 +1294,6 @@
   }
   .p-8 {
     padding: calc(var(--spacing) * 8);
-  }
-  .p-9 {
-    padding: calc(var(--spacing) * 9);
   }
   .px-2 {
     padding-inline: calc(var(--spacing) * 2);
@@ -1710,9 +1689,6 @@
   .select-none {
     -webkit-user-select: none;
     user-select: none;
-  }
-  .\[hL\:��O�\!�\] {
-    hL: ��O�!�;
   }
   .group-hover\:translate-x-0 {
     &:is(:where(.group):hover *) {

@@ -34,7 +34,6 @@ type InputOTPSlotProps struct {
 	ID          string
 	Class       string
 	Attributes  templ.Attributes
-	Index       int
 	Type        string
 	Placeholder string
 	Disabled    bool
@@ -89,7 +88,7 @@ func InputOTP(props ...InputOTPProps) templ.Component {
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID + "-container")
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 50, Col: 26}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 49, Col: 26}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
@@ -115,7 +114,7 @@ func InputOTP(props ...InputOTPProps) templ.Component {
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(p.MaxLength))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 56, Col: 45}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 55, Col: 45}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
@@ -133,7 +132,7 @@ func InputOTP(props ...InputOTPProps) templ.Component {
 			var templ_7745c5c3_Var6 string
 			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(p.Value)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 58, Col: 23}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 57, Col: 23}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 			if templ_7745c5c3_Err != nil {
@@ -159,7 +158,7 @@ func InputOTP(props ...InputOTPProps) templ.Component {
 		var templ_7745c5c3_Var7 string
 		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 65, Col: 12}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 64, Col: 12}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
@@ -172,7 +171,7 @@ func InputOTP(props ...InputOTPProps) templ.Component {
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(p.Name)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 66, Col: 16}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 65, Col: 16}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
@@ -244,7 +243,7 @@ func InputOTPGroup(props ...InputOTPGroupProps) templ.Component {
 		var templ_7745c5c3_Var11 string
 		templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 80, Col: 11}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 79, Col: 11}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 		if templ_7745c5c3_Err != nil {
@@ -287,7 +286,7 @@ func InputOTPGroup(props ...InputOTPGroupProps) templ.Component {
 	})
 }
 
-func InputOTPSlot(props ...InputOTPSlotProps) templ.Component {
+func InputOTPSlot(index int, props ...InputOTPSlotProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -322,7 +321,7 @@ func InputOTPSlot(props ...InputOTPSlotProps) templ.Component {
 		var templ_7745c5c3_Var14 string
 		templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 100, Col: 11}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 99, Col: 11}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 		if templ_7745c5c3_Err != nil {
@@ -360,9 +359,9 @@ func InputOTPSlot(props ...InputOTPSlotProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var16 string
-		templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs("otpDigit" + strconv.Itoa(p.Index))
+		templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs("otpDigit" + strconv.Itoa(index))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 106, Col: 45}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 105, Col: 43}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
 		if templ_7745c5c3_Err != nil {
@@ -375,7 +374,7 @@ func InputOTPSlot(props ...InputOTPSlotProps) templ.Component {
 		var templ_7745c5c3_Var17 string
 		templ_7745c5c3_Var17, templ_7745c5c3_Err = templ.JoinStringErrs(p.Type)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 107, Col: 16}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 106, Col: 16}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var17))
 		if templ_7745c5c3_Err != nil {
@@ -388,7 +387,7 @@ func InputOTPSlot(props ...InputOTPSlotProps) templ.Component {
 		var templ_7745c5c3_Var18 string
 		templ_7745c5c3_Var18, templ_7745c5c3_Err = templ.JoinStringErrs(p.Placeholder)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 109, Col: 30}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 108, Col: 30}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var18))
 		if templ_7745c5c3_Err != nil {
@@ -422,9 +421,9 @@ func InputOTPSlot(props ...InputOTPSlotProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var20 string
-		templ_7745c5c3_Var20, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(p.Index))
+		templ_7745c5c3_Var20, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(index))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 123, Col: 43}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 122, Col: 41}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var20))
 		if templ_7745c5c3_Err != nil {
@@ -478,7 +477,7 @@ func InputOTPSeparator(props ...InputOTPSeparatorProps) templ.Component {
 		var templ_7745c5c3_Var23 string
 		templ_7745c5c3_Var23, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 136, Col: 11}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 135, Col: 11}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var23))
 		if templ_7745c5c3_Err != nil {
@@ -554,7 +553,7 @@ func InputOTPScript() templ.Component {
 			var templ_7745c5c3_Var27 string
 			templ_7745c5c3_Var27, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 150, Col: 43}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 149, Col: 43}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var27))
 			if templ_7745c5c3_Err != nil {

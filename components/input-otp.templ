@@ -26,7 +26,6 @@ type InputOTPSlotProps struct {
 	ID          string
 	Class       string
 	Attributes  templ.Attributes
-	Index       int
 	Type        string
 	Placeholder string
 	Disabled    bool
@@ -88,7 +87,7 @@ templ InputOTPGroup(props ...InputOTPGroupProps) {
 	</div>
 }
 
-templ InputOTPSlot(props ...InputOTPSlotProps) {
+templ InputOTPSlot(index int, props ...InputOTPSlotProps) {
 	{{ var p InputOTPSlotProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
@@ -103,7 +102,7 @@ templ InputOTPSlot(props ...InputOTPSlotProps) {
 		{ p.Attributes... }
 	>
 		<input
-			x-ref={ "otpDigit" + strconv.Itoa(p.Index) }
+			x-ref={ "otpDigit" + strconv.Itoa(index) }
 			type={ p.Type }
 			inputmode="numeric"
 			placeholder={ p.Placeholder }
@@ -120,7 +119,7 @@ templ InputOTPSlot(props ...InputOTPSlotProps) {
 				),
 			}
 			disabled?={ p.Disabled }
-			data-input-index={ strconv.Itoa(p.Index) }
+			data-input-index={ strconv.Itoa(index) }
 			x-on:input="handleInput"
 			x-on:keydown="handleKeydown"
 		/>

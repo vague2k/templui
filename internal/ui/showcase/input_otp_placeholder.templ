@@ -7,13 +7,13 @@ templ InputOTPPlaceholder() {
 		ID: "otp-placeholder",
 	}) {
 		@components.InputOTPGroup() {
-			@components.InputOTPSlot(components.InputOTPSlotProps{Index: 0, Placeholder: "•"})
-			@components.InputOTPSlot(components.InputOTPSlotProps{Index: 1, Placeholder: "•"})
-			@components.InputOTPSlot(components.InputOTPSlotProps{Index: 2, Placeholder: "•"})
+			@components.InputOTPSlot(0, components.InputOTPSlotProps{Placeholder: "•"})
+			@components.InputOTPSlot(1, components.InputOTPSlotProps{Placeholder: "•"})
+			@components.InputOTPSlot(2, components.InputOTPSlotProps{Placeholder: "•"})
 			@components.InputOTPSeparator()
-			@components.InputOTPSlot(components.InputOTPSlotProps{Index: 3, Placeholder: "•"})
-			@components.InputOTPSlot(components.InputOTPSlotProps{Index: 4, Placeholder: "•"})
-			@components.InputOTPSlot(components.InputOTPSlotProps{Index: 5, Placeholder: "•"})
+			@components.InputOTPSlot(3, components.InputOTPSlotProps{Placeholder: "•"})
+			@components.InputOTPSlot(4, components.InputOTPSlotProps{Placeholder: "•"})
+			@components.InputOTPSlot(5, components.InputOTPSlotProps{Placeholder: "•"})
 		}
 	}
 }
