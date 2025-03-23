@@ -147,23 +147,30 @@ templ InputOTPScript() {
 					inputRefs: [],
 					
 					init() {
-						if (this.$el.dataset.value) {
-							this.otpValue = this.$el.dataset.value;
-							this.fillInputsFromValue();
-						}
+						// Initialize on first load
+						this.$nextTick(() => {
+							if (this.$el.dataset.value) {
+								this.otpValue = this.$el.dataset.value;
+								this.fillInputsFromValue();
+							}
+						});
 					},
 					
 					getInputRefs() {
-						// get these automatically from the input length
-						// const length = parseInt(this.$el.dataset.maxLength || '6');	
-						const length = this.$el.querySelectorAll('[data-input-index]').length;
-						console.log(length);
-						this.inputRefs = [];
-						for (let i = 0; i < length; i++) {
-							const ref = this.$refs[`otpDigit${i}`];
-							if (ref) this.inputRefs.push(ref);
+						// Use Alpine's magic $refs
+						const refs = this.$refs;
+						const inputs = [];
+						
+						// Loop through all potential refs
+						for (let i = 0; i < 20; i++) { // Assuming max 20 digits
+							const refName = `otpDigit${i}`;
+							if (refs[refName]) {
+								inputs.push(refs[refName]);
+							}
 						}
-						return this.inputRefs;
+						
+						this.inputRefs = inputs;
+						return inputs;
 					},
 					
 					focusFirstEmptyInput() {
