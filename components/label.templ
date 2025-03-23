@@ -11,23 +11,27 @@ type LabelProps struct {
 	DisabledClass string
 }
 
-templ Label(props LabelProps) {
+templ Label(props ...LabelProps) {
+	{{ var p LabelProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<label
-		id={ props.ID }
-		for={ props.For }
+		id={ p.ID }
+		for={ p.For }
 		class={
 			"text-sm font-medium leading-none inline-block",
-			templ.KV("text-destructive", len(props.Error) > 0),
-			props.Class,
+			templ.KV("text-destructive", len(p.Error) > 0),
+			p.Class,
 		}
 		data-disabled-style={
 			utils.IfElse(
-				props.DisabledClass != "",
-				props.DisabledClass,
+				p.DisabledClass != "",
+				p.DisabledClass,
 				"opacity-50 cursor-not-allowed",
 			),
 		}
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</label>
