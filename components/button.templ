@@ -42,40 +42,44 @@ type ButtonProps struct {
 	HxReplaceUrl string
 }
 
-templ Button(props ButtonProps) {
-	if props.Href != "" {
+templ Button(props ...ButtonProps) {
+	{{ var p ButtonProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
+	if p.Href != "" {
 		<a
-			id={ props.ID }
-			href={ templ.SafeURL(props.Href) }
-			target={ props.Target }
-			if props.Disabled {
+			id={ p.ID }
+			href={ templ.SafeURL(p.Href) }
+			target={ p.Target }
+			if p.Disabled {
 				disabled
 			}
-			if props.HxGet != "" {
-				hx-get={ props.HxGet }
+			if p.HxGet != "" {
+				hx-get={ p.HxGet }
 			}
-			if props.HxPost != "" {
-				hx-post={ props.HxPost }
+			if p.HxPost != "" {
+				hx-post={ p.HxPost }
 			}
-			if props.HxPut != "" {
-				hx-put={ props.HxPut }
+			if p.HxPut != "" {
+				hx-put={ p.HxPut }
 			}
-			if props.HxDelete != "" {
-				hx-delete={ props.HxDelete }
+			if p.HxDelete != "" {
+				hx-delete={ p.HxDelete }
 			}
-			if props.HxTrigger != "" {
-				hx-trigger={ props.HxTrigger }
+			if p.HxTrigger != "" {
+				hx-trigger={ p.HxTrigger }
 			}
-			if props.HxTarget != "" {
-				hx-target={ props.HxTarget }
+			if p.HxTarget != "" {
+				hx-target={ p.HxTarget }
 			}
-			if props.HxSwap != "" {
-				hx-swap={ props.HxSwap }
+			if p.HxSwap != "" {
+				hx-swap={ p.HxSwap }
 			}
-			if props.HxReplaceUrl != "" {
-				hx-replace-url={ props.HxReplaceUrl }
+			if p.HxReplaceUrl != "" {
+				hx-replace-url={ p.HxReplaceUrl }
 			}
-			{ props.Attributes... }
+			{ p.Attributes... }
 		>
 			<button
 				class={
@@ -84,65 +88,65 @@ templ Button(props ButtonProps) {
 						"focus-visible:outline-hidden focus-visible:ring-2 focus:ring-ring focus-visible:ring-offset-2",
 						"disabled:opacity-50 disabled:cursor-not-allowed",
 						"cursor-pointer",
-						props.variantClasses(),
-						props.sizeClasses(),
-						props.modifierClasses(),
-						props.Class,
+						p.variantClasses(),
+						p.sizeClasses(),
+						p.modifierClasses(),
+						p.Class,
 					),
 				}
-				if props.Type != "" {
-					type={ props.Type }
+				if p.Type != "" {
+					type={ p.Type }
 				}
-				disabled?={ props.Disabled }
-				{ props.Attributes... }
+				disabled?={ p.Disabled }
+				{ p.Attributes... }
 			>
 				{ children... }
 			</button>
 		</a>
 	} else {
 		<button
-			id={ props.ID }
+			id={ p.ID }
 			class={
 				utils.TwMerge(
 					"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors",
 					"focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2",
 					"disabled:opacity-50 disabled:cursor-not-allowed",
 					"cursor-pointer",
-					props.variantClasses(),
-					props.sizeClasses(),
-					props.modifierClasses(),
-					props.Class,
+					p.variantClasses(),
+					p.sizeClasses(),
+					p.modifierClasses(),
+					p.Class,
 				),
 			}
-			if props.Type != "" {
-				type={ props.Type }
+			if p.Type != "" {
+				type={ p.Type }
 			}
-			disabled?={ props.Disabled }
-			if props.HxGet != "" {
-				hx-get={ props.HxGet }
+			disabled?={ p.Disabled }
+			if p.HxGet != "" {
+				hx-get={ p.HxGet }
 			}
-			if props.HxPost != "" {
-				hx-post={ props.HxPost }
+			if p.HxPost != "" {
+				hx-post={ p.HxPost }
 			}
-			if props.HxPut != "" {
-				hx-put={ props.HxPut }
+			if p.HxPut != "" {
+				hx-put={ p.HxPut }
 			}
-			if props.HxDelete != "" {
-				hx-delete={ props.HxDelete }
+			if p.HxDelete != "" {
+				hx-delete={ p.HxDelete }
 			}
-			if props.HxTrigger != "" {
-				hx-trigger={ props.HxTrigger }
+			if p.HxTrigger != "" {
+				hx-trigger={ p.HxTrigger }
 			}
-			if props.HxTarget != "" {
-				hx-target={ props.HxTarget }
+			if p.HxTarget != "" {
+				hx-target={ p.HxTarget }
 			}
-			if props.HxSwap != "" {
-				hx-swap={ props.HxSwap }
+			if p.HxSwap != "" {
+				hx-swap={ p.HxSwap }
 			}
-			if props.HxReplaceUrl != "" {
-				hx-replace-url={ props.HxReplaceUrl }
+			if p.HxReplaceUrl != "" {
+				hx-replace-url={ p.HxReplaceUrl }
 			}
-			{ props.Attributes... }
+			{ p.Attributes... }
 		>
 			{ children... }
 		</button>
