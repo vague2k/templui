@@ -18,16 +18,20 @@ type TextareaProps struct {
 	AutoResize  bool
 }
 
-templ Textarea(props TextareaProps) {
+templ Textarea(props ...TextareaProps) {
+	{{ var p TextareaProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<textarea
-		x-ref={ props.ID }
-		id={ props.ID }
-		name={ props.Name }
-		placeholder={ props.Placeholder }
-		disabled?={ props.Disabled }
-		required?={ props.Required }
-		if props.Rows != 0 {
-			rows={ strconv.Itoa(props.Rows) }
+		x-ref={ p.ID }
+		id={ p.ID }
+		name={ p.Name }
+		placeholder={ p.Placeholder }
+		disabled?={ p.Disabled }
+		required?={ p.Required }
+		if p.Rows != 0 {
+			rows={ strconv.Itoa(p.Rows) }
 		}
 		class={
 			utils.TwMerge(
@@ -38,18 +42,18 @@ templ Textarea(props TextareaProps) {
 				"placeholder:text-muted-foreground",
 				"focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
 				"disabled:cursor-not-allowed disabled:opacity-50",
-				props.Class,
+				p.Class,
 			),
 		}
-		if props.AutoResize {
+		if p.AutoResize {
 			x-data="textarea"
 			x-init="resize"
 			@input="resize"
 		}
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
-		if props.Value != "" {
-			{ props.Value }
+		if p.Value != "" {
+			{ p.Value }
 		}
 	</textarea>
 }
