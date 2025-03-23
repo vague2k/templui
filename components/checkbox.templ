@@ -17,22 +17,26 @@ type CheckboxProps struct {
 	Icon       templ.Component
 }
 
-templ Checkbox(props CheckboxProps) {
-	if props.ID == "" {
-		{{ props.ID = utils.RandomID() }}
+templ Checkbox(props ...CheckboxProps) {
+	{{ var p CheckboxProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
+	if p.ID == "" {
+		{{ p.ID = utils.RandomID() }}
 	}
 	<div class="relative flex items-center">
 		<input
-			x-ref={ props.ID }
-			data-input-id={ props.ID }
-			data-testid={ props.ID }
-			checked?={ props.Checked }
-			disabled?={ props.Disabled }
-			required?={ props.Required }
-			id={ props.ID }
-			name={ props.Name }
-			if props.Value != "" {
-				value={ props.Value }
+			x-ref={ p.ID }
+			data-input-id={ p.ID }
+			data-testid={ p.ID }
+			checked?={ p.Checked }
+			disabled?={ p.Disabled }
+			required?={ p.Required }
+			id={ p.ID }
+			name={ p.Name }
+			if p.Value != "" {
+				value={ p.Value }
 			}
 			type="checkbox"
 			class={
@@ -43,10 +47,10 @@ templ Checkbox(props CheckboxProps) {
 					"cursor-pointer transition-colors",
 					"checked:before:bg-primary",
 					"disabled:cursor-not-allowed disabled:opacity-50",
-					props.Class,
+					p.Class,
 				),
 			}
-			{ props.Attributes... }
+			{ p.Attributes... }
 		/>
 		<div
 			class={
@@ -57,8 +61,8 @@ templ Checkbox(props CheckboxProps) {
 				),
 			}
 		>
-			if props.Icon != nil {
-				@props.Icon
+			if p.Icon != nil {
+				@p.Icon
 			} else {
 				@icons.Check(icons.IconProps{Size: "12"})
 			}
