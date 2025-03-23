@@ -18,19 +18,23 @@ type BadgeProps struct {
 	Variant    BadgeVariant
 }
 
-templ Badge(props BadgeProps) {
+templ Badge(props ...BadgeProps) {
+	{{ var p BadgeProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<div
-		id={ props.ID }
+		id={ p.ID }
 		class={
 			utils.TwMerge(
 				"inline-flex items-center gap-2",
 				"rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors",
 				"focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2",
-				props.variantClasses(),
-				props.Class,
+				p.variantClasses(),
+				p.Class,
 			),
 		}
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</div>
