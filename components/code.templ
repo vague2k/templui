@@ -24,7 +24,11 @@ type CodeProps struct {
 	CodeClass      string
 }
 
-templ Code(p CodeProps) {
+templ Code(props ...CodeProps) {
+	{{ var p CodeProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	if p.ID == "" {
 		{{ p.ID = utils.RandomID() }}
 	}
