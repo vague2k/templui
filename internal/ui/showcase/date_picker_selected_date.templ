@@ -8,8 +8,9 @@ import (
 
 templ DatePickerSelectedDate() {
 	<div class="w-full max-w-sm">
-		@components.DatePicker(components.DatePickerProps{
-			Value: time.Now(),
-		})
+		@components.DatePicker("birthdate",
+			components.DatePickerProps{
+				Value: time.Now(),
+			})
 	</div>
 }

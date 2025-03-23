@@ -7,12 +7,12 @@ templ InputOTPForm() {
 		@components.FormLabel("otp-form") {
 			Verification Code
 		}
-		@components.InputOTP(components.InputOTPProps{
-			ID:       "otp-form",
-			Name:     "verification-code",
-			Required: true,
-			HasError: true,
-		}) {
+		@components.InputOTP("otp-form",
+			components.InputOTPProps{
+				ID:       "otp-form",
+				Required: true,
+				HasError: true,
+			}) {
 			@components.InputOTPGroup() {
 				@components.InputOTPSlot(0)
 				@components.InputOTPSlot(1)

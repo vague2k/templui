@@ -4,9 +4,12 @@ import "github.com/axzilla/templui/components"
 
 templ InputDefault() {
 	<div class="w-full max-w-sm">
-		@components.Input(components.InputProps{
-			Type:        "email",
-			Placeholder: "Email",
-		})
+		@components.Input(
+			"email",
+			components.InputProps{
+				Type:        "email",
+				Placeholder: "Email",
+			},
+		)
 	</div>
 }

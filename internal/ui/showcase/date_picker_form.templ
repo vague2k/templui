@@ -8,11 +8,11 @@ templ DatePickerForm() {
 			@components.FormLabel("date-picker-form") {
 				Select a date
 			}
-			@components.DatePicker(components.DatePickerProps{
-				ID:       "date-picker-form",
-				Name:     "date-picker-form",
-				HasError: true,
-			})
+			@components.DatePicker("date-picker-form",
+				components.DatePickerProps{
+					ID:       "date-picker-form",
+					HasError: true,
+				})
 			@components.FormDescription() {
 				Select a date from the calendar.
 			}

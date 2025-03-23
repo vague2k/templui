@@ -119,7 +119,6 @@ type DatePickerProps struct {
 	ID          string
 	Class       string
 	Attributes  templ.Attributes
-	Name        string
 	Value       time.Time
 	Config      DatePickerConfig
 	Placeholder string
@@ -127,7 +126,7 @@ type DatePickerProps struct {
 	HasError    bool
 }
 
-func DatePicker(props ...DatePickerProps) templ.Component {
+func DatePicker(name string, props ...DatePickerProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -170,7 +169,7 @@ func DatePicker(props ...DatePickerProps) templ.Component {
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/date_picker.templ`, Line: 134, Col: 11}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/date_picker.templ`, Line: 133, Col: 11}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
@@ -201,7 +200,7 @@ func DatePicker(props ...DatePickerProps) templ.Component {
 			var templ_7745c5c3_Var5 string
 			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(p.Value.Format(p.Config.getGoFormat()))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/date_picker.templ`, Line: 137, Col: 54}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/date_picker.templ`, Line: 136, Col: 54}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
@@ -219,7 +218,7 @@ func DatePicker(props ...DatePickerProps) templ.Component {
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(string(p.Config.Format))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/date_picker.templ`, Line: 139, Col: 39}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/date_picker.templ`, Line: 138, Col: 39}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -232,7 +231,7 @@ func DatePicker(props ...DatePickerProps) templ.Component {
 		var templ_7745c5c3_Var7 string
 		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(templ.JSONString(p.Config.Locale.MonthNames))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/date_picker.templ`, Line: 140, Col: 64}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/date_picker.templ`, Line: 139, Col: 64}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
@@ -245,7 +244,7 @@ func DatePicker(props ...DatePickerProps) templ.Component {
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(templ.JSONString(p.Config.Locale.DayNames))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/date_picker.templ`, Line: 141, Col: 60}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/date_picker.templ`, Line: 140, Col: 60}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
@@ -258,7 +257,7 @@ func DatePicker(props ...DatePickerProps) templ.Component {
 		var templ_7745c5c3_Var9 string
 		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/date_picker.templ`, Line: 143, Col: 22}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/date_picker.templ`, Line: 142, Col: 22}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {
@@ -276,26 +275,27 @@ func DatePicker(props ...DatePickerProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = Input(InputProps{
-			ID:          p.ID,
-			Name:        p.Name,
-			Value:       p.Value.Format(p.Config.getGoFormat()),
-			Placeholder: p.Placeholder,
-			Disabled:    p.Disabled,
-			Class:       utils.TwMerge(p.Class, "peer"),
-			HasError:    p.HasError,
-			Type:        "text",
-			Readonly:    true,
-			Attributes: utils.MergeAttributes(
-				templ.Attributes{
-					"x-ref":        "datePickerInput",
-					":x-modelable": "value",
-					":value":       "value",
-					"@click":       "toggleDatePicker",
-				},
-				p.Attributes,
-			),
-		}).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = Input(
+			name,
+			InputProps{
+				ID:          p.ID,
+				Value:       p.Value.Format(p.Config.getGoFormat()),
+				Placeholder: p.Placeholder,
+				Disabled:    p.Disabled,
+				Class:       utils.TwMerge(p.Class, "peer"),
+				HasError:    p.HasError,
+				Type:        "text",
+				Readonly:    true,
+				Attributes: utils.MergeAttributes(
+					templ.Attributes{
+						"x-ref":        "datePickerInput",
+						":x-modelable": "value",
+						":value":       "value",
+						"@click":       "toggleDatePicker",
+					},
+					p.Attributes,
+				),
+			}).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

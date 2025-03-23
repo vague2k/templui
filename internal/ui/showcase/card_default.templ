@@ -19,10 +19,11 @@ templ CardDefault() {
 						@components.Label("name") {
 							Name
 						}
-						@components.Input(components.InputProps{
-							ID:          "name",
-							Placeholder: "Enter project name",
-						})
+						@components.Input("name",
+							components.InputProps{
+								ID:          "name",
+								Placeholder: "Enter project name",
+							})
 					</div>
 					<div class="w-full max-w-sm grid gap-2">
 						@components.Label("service") {

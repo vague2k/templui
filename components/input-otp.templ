@@ -7,9 +7,7 @@ import (
 
 type InputOTPProps struct {
 	ID         string
-	Name       string
 	Value      string
-	MaxLength  int
 	Required   bool
 	HasError   bool
 	Class      string
@@ -37,13 +35,10 @@ type InputOTPSeparatorProps struct {
 	Attributes templ.Attributes
 }
 
-templ InputOTP(props ...InputOTPProps) {
+templ InputOTP(name string, props ...InputOTPProps) {
 	{{ var p InputOTPProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
-	}
-	if p.MaxLength <= 0 {
-		{{ p.MaxLength = 6 }}
 	}
 	<div
 		id={ p.ID + "-container" }
@@ -52,7 +47,6 @@ templ InputOTP(props ...InputOTPProps) {
 			p.Class,
 		) }
 		x-data="inputOTP"
-		data-max-length={ strconv.Itoa(p.MaxLength) }
 		if p.Value != "" {
 			data-value={ p.Value }
 		}
@@ -62,7 +56,7 @@ templ InputOTP(props ...InputOTPProps) {
 		<input
 			type="hidden"
 			id={ p.ID }
-			name={ p.Name }
+			name={ name }
 			x-model="otpValue"
 			required?={ p.Required }
 		/>

@@ -4,8 +4,9 @@ import "github.com/axzilla/templui/components"
 
 templ DatePickerDisabled() {
 	<div class="w-full max-w-sm">
-		@components.DatePicker(components.DatePickerProps{
-			Disabled: true,
-		})
+		@components.DatePicker("birthdate",
+			components.DatePickerProps{
+				Disabled: true,
+			})
 	</div>
 }

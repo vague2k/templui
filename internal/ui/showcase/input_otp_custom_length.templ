@@ -3,10 +3,10 @@ package showcase
 import "github.com/axzilla/templui/components"
 
 templ InputOTPCustomLength() {
-	@components.InputOTP(components.InputOTPProps{
-		ID:        "otp-custom-length",
-		MaxLength: 4,
-	}) {
+	@components.InputOTP("otp-custom-length",
+		components.InputOTPProps{
+			ID: "otp-custom-length",
+		}) {
 		@components.InputOTPGroup() {
 			@components.InputOTPSlot(0)
 			@components.InputOTPSlot(1)

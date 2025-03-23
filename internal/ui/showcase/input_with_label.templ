@@ -7,10 +7,11 @@ templ InputWithLabel() {
 		@components.Label("email") {
 			Email
 		}
-		@components.Input(components.InputProps{
-			ID:          "email",
-			Type:        "email",
-			Placeholder: "Email",
-		})
+		@components.Input("email",
+			components.InputProps{
+				ID:          "email",
+				Type:        "email",
+				Placeholder: "Email",
+			})
 	</div>
 }

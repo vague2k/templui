@@ -18,22 +18,22 @@ templ ToastPlayground() {
 							@components.Label("title") {
 								Message
 							}
-							@components.Input(components.InputProps{
-								Value: "You have a new notification",
-								Name:  "title",
-								ID:    "title",
-							})
+							@components.Input("title",
+								components.InputProps{
+									Value: "You have a new notification",
+									ID:    "title",
+								})
 						}
 						// Description
 						@components.FormItem() {
 							@components.Label("description") {
 								Description
 							}
-							@components.Input(components.InputProps{
-								Value: "Test Notification",
-								Name:  "description",
-								ID:    "description",
-							})
+							@components.Input("description",
+								components.InputProps{
+									Value: "Test Notification",
+									ID:    "description",
+								})
 						}
 						// Type
 						@components.FormItem() {
@@ -137,12 +137,12 @@ templ ToastPlayground() {
 							@components.Label("duration") {
 								Duration (ms)
 							}
-							@components.Input(components.InputProps{
-								Type:  "number",
-								Name:  "duration",
-								Value: "3000",
-								ID:    "duration",
-							})
+							@components.Input("duration",
+								components.InputProps{
+									Type:  "number",
+									Value: "3000",
+									ID:    "duration",
+								})
 						}
 						// Options
 						@components.FormItem() {

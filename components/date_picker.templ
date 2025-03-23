@@ -111,7 +111,6 @@ type DatePickerProps struct {
 	ID          string
 	Class       string
 	Attributes  templ.Attributes
-	Name        string
 	Value       time.Time
 	Config      DatePickerConfig
 	Placeholder string
@@ -119,7 +118,7 @@ type DatePickerProps struct {
 	HasError    bool
 }
 
-templ DatePicker(props ...DatePickerProps) {
+templ DatePicker(name string, props ...DatePickerProps) {
 	{{ var p DatePickerProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
@@ -145,26 +144,27 @@ templ DatePicker(props ...DatePickerProps) {
 		{ p.Attributes... }
 	>
 		<div class="relative">
-			@Input(InputProps{
-				ID:          p.ID,
-				Name:        p.Name,
-				Value:       p.Value.Format(p.Config.getGoFormat()),
-				Placeholder: p.Placeholder,
-				Disabled:    p.Disabled,
-				Class:       utils.TwMerge(p.Class, "peer"),
-				HasError:    p.HasError,
-				Type:        "text",
-				Readonly:    true,
-				Attributes: utils.MergeAttributes(
-					templ.Attributes{
-						"x-ref":        "datePickerInput",
-						":x-modelable": "value",
-						":value":       "value",
-						"@click":       "toggleDatePicker",
-					},
-					p.Attributes,
-				),
-			})
+			@Input(
+				name,
+				InputProps{
+					ID:          p.ID,
+					Value:       p.Value.Format(p.Config.getGoFormat()),
+					Placeholder: p.Placeholder,
+					Disabled:    p.Disabled,
+					Class:       utils.TwMerge(p.Class, "peer"),
+					HasError:    p.HasError,
+					Type:        "text",
+					Readonly:    true,
+					Attributes: utils.MergeAttributes(
+						templ.Attributes{
+							"x-ref":        "datePickerInput",
+							":x-modelable": "value",
+							":value":       "value",
+							"@click":       "toggleDatePicker",
+						},
+						p.Attributes,
+					),
+				})
 			<button
 				type="button"
 				@click="toggleDatePicker"
