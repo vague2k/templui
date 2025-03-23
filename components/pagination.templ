@@ -9,6 +9,18 @@ type PaginationProps struct {
 	Attributes templ.Attributes
 }
 
+type PaginationContentProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+}
+
+type PaginationItemProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+}
+
 type PaginationLinkProps struct {
 	ID         string
 	Class      string
@@ -43,96 +55,120 @@ type PaginationNextProps struct {
 	HxSwap     string
 }
 
-templ Pagination(props PaginationProps) {
+templ Pagination(props ...PaginationProps) {
+	{{ var p PaginationProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<nav
 		role="navigation"
 		aria-label="pagination"
-		class={ utils.TwMerge("flex flex-wrap justify-center", props.Class) }
-		{ props.Attributes... }
+		class={ utils.TwMerge("flex flex-wrap justify-center", p.Class) }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</nav>
 }
 
-templ PaginationContent() {
-	<ul class="flex flex-row items-center gap-1">
+templ PaginationContent(props ...PaginationContentProps) {
+	{{ var p PaginationContentProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
+	<ul class="flex flex-row items-center gap-1" { p.Attributes... }>
 		{ children... }
 	</ul>
 }
 
-templ PaginationItem() {
-	<li>
+templ PaginationItem(props ...PaginationItemProps) {
+	{{ var p PaginationItemProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
+	<li { p.Attributes... }>
 		{ children... }
 	</li>
 }
 
-templ PaginationLink(props PaginationLinkProps) {
-	if props.Disabled {
+templ PaginationLink(props ...PaginationLinkProps) {
+	{{ var p PaginationLinkProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
+	if p.Disabled {
 		@Button(ButtonProps{
-			ID:         props.ID,
+			ID:         p.ID,
 			Disabled:   true,
 			Size:       ButtonSizeIcon,
 			Variant:    ButtonVariantGhost,
-			Class:      props.Class,
-			Attributes: props.Attributes,
+			Class:      p.Class,
+			Attributes: p.Attributes,
 		}) {
 			{ children... }
 		}
-	} else if props.HxGet != "" {
+	} else if p.HxGet != "" {
 		@Button(ButtonProps{
-			ID:         props.ID,
-			HxGet:      props.HxGet,
-			HxTarget:   props.HxTarget,
-			HxSwap:     props.HxSwap,
+			ID:         p.ID,
+			HxGet:      p.HxGet,
+			HxTarget:   p.HxTarget,
+			HxSwap:     p.HxSwap,
 			Size:       ButtonSizeIcon,
-			Variant:    buttonVariant(props.IsActive),
-			Class:      props.Class,
-			Attributes: props.Attributes,
+			Variant:    buttonVariant(p.IsActive),
+			Class:      p.Class,
+			Attributes: p.Attributes,
 		}) {
 			{ children... }
 		}
 	} else {
 		@Button(ButtonProps{
-			ID:         props.ID,
-			Href:       props.Href,
+			ID:         p.ID,
+			Href:       p.Href,
 			Size:       ButtonSizeIcon,
-			Variant:    buttonVariant(props.IsActive),
-			Class:      props.Class,
-			Attributes: props.Attributes,
+			Variant:    buttonVariant(p.IsActive),
+			Class:      p.Class,
+			Attributes: p.Attributes,
 		}) {
 			{ children... }
 		}
 	}
 }
 
-templ PaginationPrevious(props PaginationPreviousProps) {
+templ PaginationPrevious(props ...PaginationPreviousProps) {
+	{{ var p PaginationPreviousProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	@Button(ButtonProps{
-		ID:         props.ID,
-		Href:       props.Href,
-		HxGet:      props.HxGet,
-		HxTarget:   props.HxTarget,
-		HxSwap:     props.HxSwap,
-		Disabled:   props.Disabled,
+		ID:         p.ID,
+		Href:       p.Href,
+		HxGet:      p.HxGet,
+		HxTarget:   p.HxTarget,
+		HxSwap:     p.HxSwap,
+		Disabled:   p.Disabled,
 		Variant:    ButtonVariantGhost,
-		Class:      utils.TwMerge("gap-1", props.Class),
-		Attributes: props.Attributes,
+		Class:      utils.TwMerge("gap-1", p.Class),
+		Attributes: p.Attributes,
 	}) {
 		@icons.ChevronLeft(icons.IconProps{Size: "16"})
 		<span>Previous</span>
 	}
 }
 
-templ PaginationNext(props PaginationNextProps) {
+templ PaginationNext(props ...PaginationNextProps) {
+	{{ var p PaginationNextProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	@Button(ButtonProps{
-		ID:         props.ID,
-		Href:       props.Href,
-		HxGet:      props.HxGet,
-		HxTarget:   props.HxTarget,
-		HxSwap:     props.HxSwap,
-		Disabled:   props.Disabled,
+		ID:         p.ID,
+		Href:       p.Href,
+		HxGet:      p.HxGet,
+		HxTarget:   p.HxTarget,
+		HxSwap:     p.HxSwap,
+		Disabled:   p.Disabled,
 		Variant:    ButtonVariantGhost,
-		Class:      utils.TwMerge("gap-1", props.Class),
-		Attributes: props.Attributes,
+		Class:      utils.TwMerge("gap-1", p.Class),
+		Attributes: p.Attributes,
 	}) {
 		<span>Next</span>
 		@icons.ChevronRight(icons.IconProps{Size: "16"})
