@@ -119,36 +119,40 @@ type DatePickerProps struct {
 	HasError    bool
 }
 
-templ DatePicker(props DatePickerProps) {
-	if props.ID == "" {
-		{{ props.ID = utils.RandomID() }}
+templ DatePicker(props ...DatePickerProps) {
+	{{ var p DatePickerProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
 	}
-	if props.Placeholder == "" {
-		{{ props.Placeholder = "Select a date" }}
+	if p.ID == "" {
+		{{ p.ID = utils.RandomID() }}
+	}
+	if p.Placeholder == "" {
+		{{ p.Placeholder = "Select a date" }}
 	}
 	<div
-		id={ props.ID }
-		class={ utils.TwMerge("relative", props.Class) }
-		if props.Value != (time.Time{}) {
-			data-value={ props.Value.Format(props.Config.getGoFormat()) }
+		id={ p.ID }
+		class={ utils.TwMerge("relative", p.Class) }
+		if p.Value != (time.Time{}) {
+			data-value={ p.Value.Format(p.Config.getGoFormat()) }
 		}
-		data-format={ string(props.Config.Format) }
-		data-monthnames={ templ.JSONString(props.Config.Locale.MonthNames) }
-		data-daynames={ templ.JSONString(props.Config.Locale.DayNames) }
+		data-format={ string(p.Config.Format) }
+		data-monthnames={ templ.JSONString(p.Config.Locale.MonthNames) }
+		data-daynames={ templ.JSONString(p.Config.Locale.DayNames) }
 		x-data="date-picker"
-		data-input-id={ props.ID }
+		data-input-id={ p.ID }
 		@resize.window="updatePosition"
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
 		<div class="relative">
 			@Input(InputProps{
-				ID:          props.ID,
-				Name:        props.Name,
-				Value:       props.Value.Format(props.Config.getGoFormat()),
-				Placeholder: props.Placeholder,
-				Disabled:    props.Disabled,
-				Class:       utils.TwMerge(props.Class, "peer"),
-				HasError:    props.HasError,
+				ID:          p.ID,
+				Name:        p.Name,
+				Value:       p.Value.Format(p.Config.getGoFormat()),
+				Placeholder: p.Placeholder,
+				Disabled:    p.Disabled,
+				Class:       utils.TwMerge(p.Class, "peer"),
+				HasError:    p.HasError,
 				Type:        "text",
 				Readonly:    true,
 				Attributes: utils.MergeAttributes(
@@ -158,13 +162,13 @@ templ DatePicker(props DatePickerProps) {
 						":value":       "value",
 						"@click":       "toggleDatePicker",
 					},
-					props.Attributes,
+					p.Attributes,
 				),
 			})
 			<button
 				type="button"
 				@click="toggleDatePicker"
-				disabled?={ props.Disabled }
+				disabled?={ p.Disabled }
 				class={
 					utils.TwMerge(
 						"absolute top-0 right-0 px-3 py-2",
