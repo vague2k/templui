@@ -1,13 +1,9 @@
 package showcase
 
-import (
-	"github.com/axzilla/templui/components"
-)
+import "github.com/axzilla/templui/components"
 
 templ ProgressDefault() {
 	<div class="w-full max-w-sm">
-		@components.Progress(components.ProgressProps{
-			Value: 25,
-		})
+		@components.Progress(25)
 	</div>
 }

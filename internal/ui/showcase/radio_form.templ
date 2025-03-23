@@ -6,10 +6,8 @@ templ RadioForm() {
 	<div class="w-full max-w-sm">
 		@components.FormItem() {
 			@components.FormItemFlex() {
-				@components.Radio(components.RadioProps{
+				@components.Radio("radio-form", "all", components.RadioProps{
 					ID:      "r1",
-					Name:    "notify",
-					Value:   "all",
 					Checked: true,
 				})
 				@components.FormLabel("r1") {
@@ -17,10 +15,8 @@ templ RadioForm() {
 				}
 			}
 			@components.FormItemFlex() {
-				@components.Radio(components.RadioProps{
+				@components.Radio("radio-form", "wishlist", components.RadioProps{
 					ID:       "r2",
-					Name:     "notify",
-					Value:    "wishlist",
 					Disabled: true,
 				})
 				@components.FormLabel("r2") {
@@ -28,10 +24,8 @@ templ RadioForm() {
 				}
 			}
 			@components.FormItemFlex() {
-				@components.Radio(components.RadioProps{
-					ID:    "r3",
-					Name:  "notify",
-					Value: "none",
+				@components.Radio("radio-form", "none", components.RadioProps{
+					ID: "r3",
 				})
 				@components.FormLabel("r3") {
 					No notifications

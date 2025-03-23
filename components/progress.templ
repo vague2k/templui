@@ -25,7 +25,6 @@ type ProgressProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
-	Value      int
 	Max        int
 	Label      string
 	ShowValue  bool
@@ -38,7 +37,7 @@ type ProgressProps struct {
 	HxSwap     string
 }
 
-templ Progress(props ...ProgressProps) {
+templ Progress(value int, props ...ProgressProps) {
 	{{ var p ProgressProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
@@ -63,7 +62,7 @@ templ Progress(props ...ProgressProps) {
 		}
 		aria-valuemin="0"
 		aria-valuemax={ fmt.Sprintf("%d", getMaxValue(p.Max)) }
-		aria-valuenow={ fmt.Sprintf("%d", p.Value) }
+		aria-valuenow={ fmt.Sprintf("%d", value) }
 		role="progressbar"
 		{ p.Attributes... }
 	>
@@ -74,7 +73,7 @@ templ Progress(props ...ProgressProps) {
 				}
 				if p.ShowValue {
 					<span class="text-sm font-medium">
-						{ fmt.Sprintf("%d%%", getProgressPercentage(p)) }
+						{ fmt.Sprintf("%d%%", getProgressPercentage(value, p)) }
 					</span>
 				}
 			</div>
@@ -89,7 +88,7 @@ templ Progress(props ...ProgressProps) {
 						p.BarClass,
 					),
 				}
-				style={ fmt.Sprintf("width: %d%%", getProgressPercentage(p)) }
+				style={ fmt.Sprintf("width: %d%%", getProgressPercentage(value, p)) }
 			></div>
 		</div>
 	</div>
@@ -102,9 +101,8 @@ func getMaxValue(max int) int {
 	return max
 }
 
-func getProgressPercentage(props ProgressProps) int {
+func getProgressPercentage(value int, props ProgressProps) int {
 	max := getMaxValue(props.Max)
-	value := props.Value
 	if value < 0 {
 		value = 0
 	}

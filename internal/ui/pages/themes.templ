@@ -745,31 +745,20 @@ templ ThemePreview() {
 					@components.FormItem() {
 						<p class="text-sm text-muted-foreground">Contact Method</p>
 						@components.FormItemFlex() {
-							@components.Radio(components.RadioProps{
-								Value: "email",
-								ID:    "contact-email",
-								Name:  "contact-method",
-							})
+							@components.Radio("contact-email", "email")
 							@components.FormLabel("contact-email") {
 								Email
 							}
 						}
 						@components.FormItemFlex() {
-							@components.Radio(components.RadioProps{
-								Value: "phone",
-								ID:    "contact-phone",
-								Name:  "contact-method",
-							})
+							@components.Radio("contact-phone", "phone")
 							@components.FormLabel("contact-phone") {
 								Phone
 							}
 						}
 						@components.FormItemFlex() {
-							@components.Radio(components.RadioProps{
-								Value:      "mail",
-								ID:         "contact-mail",
-								Name:       "contact-method",
-								Attributes: templ.Attributes{"disabled": "true"},
+							@components.Radio("contact-mail", "mail", components.RadioProps{
+								Disabled: true,
 							})
 							@components.FormLabel("contact-mail") {
 								Physical Mail
