@@ -5,44 +5,41 @@ import "github.com/axzilla/templui/components"
 templ CheckboxForm() {
 	<div class="w-full max-w-sm">
 		@components.FormItem() {
-			@components.FormLabel() {
-				Select Your Interests
-			}
 			@components.FormItemFlex() {
-				@components.Checkbox(components.CheckboxProps{
-					ID:      "c1",
-					Name:    "interests",
-					Value:   "design",
-					Checked: true,
-				})
-				@components.FormLabel(components.FormLabelProps{
-					For: "c1",
-				}) {
+				@components.Checkbox(
+					"c1",
+					"interests",
+					components.CheckboxProps{
+						ID:      "c1",
+						Checked: true,
+					},
+				)
+				@components.FormLabel("c1") {
 					Dessign and UX
 				}
 			}
 			@components.FormItemFlex() {
-				@components.Checkbox(components.CheckboxProps{
-					ID:       "c2",
-					Name:     "interests",
-					Value:    "development",
-					Disabled: true,
-				})
-				@components.FormLabel(components.FormLabelProps{
-					For: "c2",
-				}) {
+				@components.Checkbox(
+					"c2",
+					"interests",
+					components.CheckboxProps{
+						ID:       "c2",
+						Disabled: true,
+					},
+				)
+				@components.FormLabel("c2") {
 					Development (Coming Soon)
 				}
 			}
 			@components.FormItemFlex() {
-				@components.Checkbox(components.CheckboxProps{
-					ID:    "c3",
-					Name:  "interests",
-					Value: "business",
-				})
-				@components.FormLabel(components.FormLabelProps{
-					For: "c3",
-				}) {
+				@components.Checkbox(
+					"c3",
+					"interests",
+					components.CheckboxProps{
+						ID: "c3",
+					},
+				)
+				@components.FormLabel("c3") {
 					Business and Marketing
 				}
 			}

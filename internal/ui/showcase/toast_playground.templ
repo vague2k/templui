@@ -15,32 +15,35 @@ templ ToastPlayground() {
 					>
 						// Message
 						@components.FormItem() {
-							@components.Label() {
+							@components.Label("title") {
 								Message
 							}
 							@components.Input(components.InputProps{
 								Value: "You have a new notification",
 								Name:  "title",
+								ID:    "title",
 							})
 						}
 						// Description
 						@components.FormItem() {
-							@components.Label() {
+							@components.Label("description") {
 								Description
 							}
 							@components.Input(components.InputProps{
 								Value: "Test Notification",
 								Name:  "description",
+								ID:    "description",
 							})
 						}
 						// Type
 						@components.FormItem() {
-							@components.Label() {
+							@components.Label("type") {
 								Type
 							}
 							@components.Select() {
 								@components.SelectTrigger(components.SelectTriggerProps{
 									Name: "type",
+									ID:   "type",
 								}) {
 									@components.SelectValue(components.SelectValueProps{
 										Placeholder: "Default",
@@ -80,12 +83,13 @@ templ ToastPlayground() {
 						}
 						// Position
 						@components.FormItem() {
-							@components.Label() {
+							@components.Label("position") {
 								Position
 							}
 							@components.Select() {
 								@components.SelectTrigger(components.SelectTriggerProps{
 									Name: "position",
+									ID:   "position",
 								}) {
 									@components.SelectValue(components.SelectValueProps{
 										Placeholder: "Bottom Right",
@@ -130,27 +134,28 @@ templ ToastPlayground() {
 						}
 						// Duration
 						@components.FormItem() {
-							@components.Label() {
+							@components.Label("duration") {
 								Duration (ms)
 							}
 							@components.Input(components.InputProps{
 								Type:  "number",
 								Name:  "duration",
 								Value: "3000",
+								ID:    "duration",
 							})
 						}
 						// Options
 						@components.FormItem() {
-							@components.Label() {
-								<div id="toast-advanced-container"></div>
-								@components.SelectScript()
+							@components.Label("dismissible") {
+								Dismissible
 							}
 							@components.FormItemFlex() {
 								@components.Toggle(components.ToggleProps{
 									Name:    "dismissible",
 									Checked: true,
+									ID:      "dismissible",
 								})
-								@components.Label() {
+								@components.Label("dismissible") {
 									Dimissible
 								}
 							}
@@ -159,7 +164,7 @@ templ ToastPlayground() {
 									Name:    "icon",
 									Checked: true,
 								})
-								@components.Label() {
+								@components.Label("icon") {
 									Show Icon
 								}
 							}
@@ -169,9 +174,7 @@ templ ToastPlayground() {
 									Name:    "indicator",
 									Checked: true,
 								})
-								@components.Label(components.LabelProps{
-									For: "indicator",
-								}) {
+								@components.Label("indicator") {
 									Show Indicator
 								}
 							}

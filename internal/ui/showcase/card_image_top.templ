@@ -5,13 +5,14 @@ import "github.com/axzilla/templui/components"
 templ CardImageTop() {
 	<div class="w-full max-w-sm">
 		@components.Card() {
-			@components.CardMedia(components.CardMediaProps{
-				ID:          "top-media",
-				Src:         "/assets/img/card_placeholder.jpeg",
-				Alt:         "Card image",
-				Position:    components.CardMediaTop,
-				AspectRatio: components.AspectRatioVideo,
-			})
+			@components.CardMedia("/assets/img/card_placeholder.jpeg",
+				components.CardMediaProps{
+					ID:          "top-media",
+					Alt:         "Card image",
+					Position:    components.CardMediaTop,
+					AspectRatio: components.AspectRatioVideo,
+				},
+			)
 			@components.CardHeader() {
 				@components.CardTitle() {
 					Featured Card

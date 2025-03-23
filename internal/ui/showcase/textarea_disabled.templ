@@ -4,9 +4,7 @@ import "github.com/axzilla/templui/components"
 
 templ TextareaDisabled() {
 	<div class="space-y-2 w-full max-w-md">
-		@components.Label(components.LabelProps{
-			For: "textarea-disabled",
-		}) {
+		@components.Label("textarea-disabled") {
 			Your Message
 		}
 		@components.Textarea(components.TextareaProps{

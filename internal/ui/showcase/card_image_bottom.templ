@@ -21,13 +21,14 @@ templ CardImageBottom() {
 					Learn more
 				}
 			}
-			@components.CardMedia(components.CardMediaProps{
-				ID:          "bottom-media",
-				Src:         "/assets/img/card_placeholder.jpeg",
-				Alt:         "Card image",
-				Position:    components.CardMediaBottom,
-				AspectRatio: components.AspectRatioVideo,
-			})
+			@components.CardMedia("/assets/img/card_placeholder.jpeg",
+				components.CardMediaProps{
+					ID:          "bottom-media",
+					Alt:         "Card image",
+					Position:    components.CardMediaBottom,
+					AspectRatio: components.AspectRatioVideo,
+				},
+			)
 		}
 	</div>
 }

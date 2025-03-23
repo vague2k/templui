@@ -5,9 +5,7 @@ import "github.com/axzilla/templui/components"
 templ DatePickerForm() {
 	<div class="w-full max-w-sm">
 		@components.FormItem() {
-			@components.FormLabel(components.FormLabelProps{
-				For: "date-picker-form",
-			}) {
+			@components.FormLabel("date-picker-form") {
 				Select a date
 			}
 			@components.DatePicker(components.DatePickerProps{

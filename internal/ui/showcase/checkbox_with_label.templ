@@ -4,12 +4,14 @@ import "github.com/axzilla/templui/components"
 
 templ CheckboxWithLabel() {
 	<div class="flex items-center gap-2">
-		@components.Checkbox(components.CheckboxProps{
-			ID: "checkbox-with-label",
-		})
-		@components.Label(components.LabelProps{
-			For: "checkbox-with-label",
-		}) {
+		@components.Checkbox(
+			"checkbox-with-label",
+			"checkbox-with-label",
+			components.CheckboxProps{
+				ID: "checkbox-with-label",
+			},
+		)
+		@components.Label("checkbox-with-label") {
 			Accept terms and conditions
 		}
 	</div>

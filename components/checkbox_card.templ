@@ -6,8 +6,6 @@ type CheckboxCardProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
-	Name       string
-	Value      string
 	Checked    bool
 	Disabled   bool
 	Required   bool
@@ -31,7 +29,7 @@ type CheckboxCardFooterProps struct {
 	Attributes templ.Attributes
 }
 
-templ CheckboxCard(props ...CheckboxCardProps) {
+templ CheckboxCard(name, value string, props ...CheckboxCardProps) {
 	{{ var p CheckboxCardProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
@@ -48,8 +46,8 @@ templ CheckboxCard(props ...CheckboxCardProps) {
 		<input
 			type="checkbox"
 			id={ inputId }
-			name={ p.Name }
-			value={ p.Value }
+			name={ name }
+			value={ value }
 			checked?={ p.Checked }
 			disabled?={ p.Disabled }
 			required?={ p.Required }

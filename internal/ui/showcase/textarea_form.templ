@@ -5,9 +5,7 @@ import "github.com/axzilla/templui/components"
 templ TextareaForm() {
 	<div class="w-full max-w-md">
 		@components.FormItem() {
-			@components.Label(components.LabelProps{
-				For: "textarea-form",
-			}) {
+			@components.Label("textarea-form") {
 				Your Message
 			}
 			@components.Textarea(components.TextareaProps{

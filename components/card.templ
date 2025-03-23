@@ -68,7 +68,6 @@ type CardMediaProps struct {
 	ID          string
 	Class       string
 	Attributes  templ.Attributes
-	Src         string
 	Alt         string
 	Position    CardMediaPosition
 	Width       CardMediaWidth
@@ -194,7 +193,7 @@ templ CardHorizontal(props ...CardHorizontalProps) {
 	</div>
 }
 
-templ CardMedia(props ...CardMediaProps) {
+templ CardMedia(src string, props ...CardMediaProps) {
 	{{ var p CardMediaProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
@@ -214,7 +213,7 @@ templ CardMedia(props ...CardMediaProps) {
 			Class: "h-full w-full",
 		}) {
 			<img
-				src={ p.Src }
+				src={ src }
 				alt={ p.Alt }
 				class="h-full w-full object-cover"
 			/>

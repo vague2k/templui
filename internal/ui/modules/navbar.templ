@@ -53,7 +53,7 @@ templ NavbarMobileMenu() {
 				@icons.SquareLibrary(icons.IconProps{})
 			</button>
 		}
-		@components.DrawerContent(components.DrawerContentProps{Side: components.DrawerPositionLeft}) {
+		@components.DrawerContent(components.DrawerPositionLeft) {
 			<div class="space-y-4">
 				for _, section := range shared.Sections {
 					<div class="pb-4">

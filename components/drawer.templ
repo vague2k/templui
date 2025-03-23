@@ -28,7 +28,6 @@ type DrawerContentProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
-	Side       DrawerPosition
 }
 
 type DrawerHeaderProps struct {
@@ -95,7 +94,7 @@ templ DrawerTrigger(props ...DrawerTriggerProps) {
 	</div>
 }
 
-templ DrawerContent(props ...DrawerContentProps) {
+templ DrawerContent(side DrawerPosition, props ...DrawerContentProps) {
 	{{ var p DrawerContentProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
@@ -118,32 +117,32 @@ templ DrawerContent(props ...DrawerContentProps) {
 		@click.away="close"
 		class={
 			utils.TwMerge("fixed z-50", p.Class),
-			templ.KV("inset-y-0 right-0 w-3/4 md:w-1/2 lg:w-1/3", p.Side == DrawerPositionRight),
-			templ.KV("inset-y-0 left-0 w-3/4 md:w-1/2 lg:w-1/3", p.Side == DrawerPositionLeft),
-			templ.KV("inset-x-0 top-0 h-auto sm:h-1/2", p.Side == DrawerPositionTop),
-			templ.KV("inset-x-0 bottom-0 h-auto sm:h-1/2", p.Side == DrawerPositionBottom),
+			templ.KV("inset-y-0 right-0 w-3/4 md:w-1/2 lg:w-1/3", side == DrawerPositionRight),
+			templ.KV("inset-y-0 left-0 w-3/4 md:w-1/2 lg:w-1/3", side == DrawerPositionLeft),
+			templ.KV("inset-x-0 top-0 h-auto sm:h-1/2", side == DrawerPositionTop),
+			templ.KV("inset-x-0 bottom-0 h-auto sm:h-1/2", side == DrawerPositionBottom),
 		}
 		x-transition:enter="transition ease-out duration-300"
 		x-transition:leave="transition ease-in duration-300"
-		if p.Side == DrawerPositionLeft {
+		if side == DrawerPositionLeft {
 			x-transition:enter-start="opacity-0 transform -translate-x-full"
 			x-transition:enter-end="opacity-100 transform translate-x-0"
 			x-transition:leave-start="opacity-100 transform translate-x-0"
 			x-transition:leave-end="opacity-0 transform -translate-x-full"
 		}
-		if p.Side == DrawerPositionRight {
+		if side == DrawerPositionRight {
 			x-transition:enter-start="opacity-0 transform translate-x-full"
 			x-transition:enter-end="opacity-100 transform translate-x-0"
 			x-transition:leave-start="opacity-100 transform translate-x-0"
 			x-transition:leave-end="opacity-0 transform translate-x-full"
 		}
-		if p.Side == DrawerPositionTop {
+		if side == DrawerPositionTop {
 			x-transition:enter-start="opacity-0 transform -translate-y-full"
 			x-transition:enter-end="opacity-100 transform translate-y-0"
 			x-transition:leave-start="opacity-100 transform translate-y-0"
 			x-transition:leave-end="opacity-0 transform -translate-y-full"
 		}
-		if p.Side == DrawerPositionBottom {
+		if side == DrawerPositionBottom {
 			x-transition:enter-start="opacity-0 transform translate-y-full"
 			x-transition:enter-end="opacity-100 transform translate-y-0"
 			x-transition:leave-start="opacity-100 transform translate-y-0"
@@ -154,10 +153,10 @@ templ DrawerContent(props ...DrawerContentProps) {
 		<div
 			class={
 				"h-full overflow-y-auto bg-background p-6 shadow-lg",
-				templ.KV("border-l", p.Side == DrawerPositionRight),
-				templ.KV("border-r", p.Side == DrawerPositionLeft),
-				templ.KV("border-t", p.Side == DrawerPositionBottom),
-				templ.KV("border-b", p.Side == DrawerPositionTop),
+				templ.KV("border-l", side == DrawerPositionRight),
+				templ.KV("border-r", side == DrawerPositionLeft),
+				templ.KV("border-t", side == DrawerPositionBottom),
+				templ.KV("border-b", side == DrawerPositionTop),
 			}
 			@click.stop
 		>

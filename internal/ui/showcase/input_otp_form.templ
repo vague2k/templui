@@ -4,9 +4,7 @@ import "github.com/axzilla/templui/components"
 
 templ InputOTPForm() {
 	@components.FormItem() {
-		@components.FormLabel(components.FormLabelProps{
-			For: "otp-form",
-		}) {
+		@components.FormLabel("otp-form") {
 			Verification Code
 		}
 		@components.InputOTP(components.InputOTPProps{

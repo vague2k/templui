@@ -5,17 +5,12 @@ import "github.com/axzilla/templui/components"
 templ ToggleForm() {
 	<div class="w-full max-w-sm">
 		@components.FormItem() {
-			@components.FormLabel() {
-				Connectivity Settings
-			}
 			@components.FormItemFlex() {
 				@components.Toggle(components.ToggleProps{
 					ID:   "airplane-mode",
 					Name: "airplane",
 				})
-				@components.FormLabel(components.FormLabelProps{
-					For: "airplane-mode",
-				}) {
+				@components.FormLabel("airplane-mode") {
 					Airplane Mode
 				}
 			}
@@ -25,9 +20,7 @@ templ ToggleForm() {
 					Name:     "wifi",
 					Disabled: true,
 				})
-				@components.FormLabel(components.FormLabelProps{
-					For: "wifi-mode",
-				}) {
+				@components.FormLabel("wifi-mode") {
 					Wi-Fi
 				}
 			}
@@ -37,9 +30,7 @@ templ ToggleForm() {
 					Name:    "bluetooth",
 					Checked: true,
 				})
-				@components.FormLabel(components.FormLabelProps{
-					For: "bluetooth-mode",
-				}) {
+				@components.FormLabel("bluetooth-mode") {
 					Bluetooth
 				}
 			}

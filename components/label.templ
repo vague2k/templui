@@ -6,19 +6,18 @@ type LabelProps struct {
 	ID            string
 	Class         string
 	Attributes    templ.Attributes
-	For           string
 	Error         string
 	DisabledClass string
 }
 
-templ Label(props ...LabelProps) {
+templ Label(htmlFor string, props ...LabelProps) {
 	{{ var p LabelProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
 	<label
 		id={ p.ID }
-		for={ p.For }
+		for={ htmlFor }
 		class={
 			"text-sm font-medium leading-none inline-block",
 			templ.KV("text-destructive", len(p.Error) > 0),

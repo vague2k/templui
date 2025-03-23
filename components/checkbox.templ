@@ -9,15 +9,13 @@ type CheckboxProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
-	Name       string
-	Value      string
 	Disabled   bool
 	Required   bool
 	Checked    bool
 	Icon       templ.Component
 }
 
-templ Checkbox(props ...CheckboxProps) {
+templ Checkbox(name, value string, props ...CheckboxProps) {
 	{{ var p CheckboxProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
@@ -34,9 +32,9 @@ templ Checkbox(props ...CheckboxProps) {
 			disabled?={ p.Disabled }
 			required?={ p.Required }
 			id={ p.ID }
-			name={ p.Name }
-			if p.Value != "" {
-				value={ p.Value }
+			name={ name }
+			if value != "" {
+				value={ value }
 			}
 			type="checkbox"
 			class={

@@ -19,7 +19,6 @@ type FormLabelProps struct {
 	ID            string
 	Class         string
 	Attributes    templ.Attributes
-	For           string
 	DisabledClass string
 }
 
@@ -64,13 +63,12 @@ templ FormItemFlex(props ...FormItemProps) {
 	</div>
 }
 
-templ FormLabel(props ...FormLabelProps) {
+templ FormLabel(htmlFor string, props ...FormLabelProps) {
 	{{ var p FormLabelProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
-	@Label(LabelProps{
-		For:           p.For,
+	@Label(htmlFor, LabelProps{
 		Class:         p.Class,
 		DisabledClass: p.DisabledClass,
 		Attributes:    p.Attributes,
