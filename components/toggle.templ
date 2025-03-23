@@ -11,21 +11,25 @@ type ToggleProps struct {
 	Checked    bool
 }
 
-templ Toggle(props ToggleProps) {
-	if props.ID == "" {
-		{{ props.ID = utils.RandomID() }}
+templ Toggle(props ...ToggleProps) {
+	{{ var p ToggleProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
 	}
-	<label for={ props.ID } class="inline-flex cursor-pointer items-center gap-2">
+	if p.ID == "" {
+		{{ p.ID = utils.RandomID() }}
+	}
+	<label for={ p.ID } class="inline-flex cursor-pointer items-center gap-2">
 		<input
-			x-ref={ props.ID }
-			checked?={ props.Checked }
-			disabled?={ props.Disabled }
-			id={ props.ID }
+			x-ref={ p.ID }
+			checked?={ p.Checked }
+			disabled?={ p.Disabled }
+			id={ p.ID }
 			type="checkbox"
-			name={ props.Name }
+			name={ p.Name }
 			class="peer hidden"
 			role="switch"
-			{ props.Attributes... }
+			{ p.Attributes... }
 		/>
 		<div
 			class={
@@ -42,7 +46,7 @@ templ Toggle(props ToggleProps) {
 					"peer-checked:after:bg-secondary",
 					"peer-disabled:opacity-50",
 					"peer-disabled:cursor-not-allowed",
-					props.Class,
+					p.Class,
 				),
 			}
 			aria-hidden="true"
