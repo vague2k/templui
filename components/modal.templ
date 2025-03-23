@@ -43,16 +43,20 @@ type ModalFooterProps struct {
 	Attributes templ.Attributes
 }
 
-templ Modal(props ModalProps) {
-	if props.ID == "" {
-		{{ props.ID = utils.RandomID() }}
+templ Modal(props ...ModalProps) {
+	{{ var p ModalProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
+	if p.ID == "" {
+		{{ p.ID = utils.RandomID() }}
 	}
 	<div
-		id={ props.ID }
+		id={ p.ID }
 		x-data="modal"
 		x-on:open-modal.window="handleOpenModal"
 		x-on:close-modal.window="handleCloseModal"
-		data-modal-id={ props.ID }
+		data-modal-id={ p.ID }
 		x-show="open"
 		x-transition:enter="transition ease-out duration-300"
 		x-transition:enter-start="opacity-0"
@@ -64,21 +68,21 @@ templ Modal(props ModalProps) {
 		aria-labelledby="modal-title"
 		role="dialog"
 		aria-modal="true"
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
 		<div class="fixed inset-0 bg-background/70 bg-opacity-50 transition-opacity" aria-hidden="true"></div>
 		<div
-			id={ props.ID + "-content" }
+			id={ p.ID + "-content" }
 			class={
 				utils.TwMerge(
 					"relative bg-background rounded-lg border text-left overflow-hidden shadow-xl transform transition-all sm:my-8 w-full",
-					props.Class,
+					p.Class,
 				),
 			}
-			if !props.DisableClickAway {
+			if !p.DisableClickAway {
 				@click.outside="handleClickAway"
 			}
-			if !props.DisableESC {
+			if !p.DisableESC {
 				x-on:keydown.esc.window="handleClickAway"
 			}
 		>
@@ -87,43 +91,55 @@ templ Modal(props ModalProps) {
 	</div>
 }
 
-templ ModalTrigger(props ModalTriggerProps) {
+templ ModalTrigger(props ...ModalTriggerProps) {
+	{{ var p ModalTriggerProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<span
-		id={ props.ID }
+		id={ p.ID }
 		x-data="modalTriggers"
-		data-modal-id={ props.ModalID }
-		if !props.Disabled {
+		data-modal-id={ p.ModalID }
+		if !p.Disabled {
 			@click="openModal"
 		}
 		class={
 			utils.TwMerge(
-				utils.IfElse(props.Disabled, "cursor-not-allowed", "cursor-pointer"),
-				props.Class),
+				utils.IfElse(p.Disabled, "cursor-not-allowed", "cursor-pointer"),
+				p.Class),
 		}
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</span>
 }
 
-templ ModalClose(props ModalCloseProps) {
+templ ModalClose(props ...ModalCloseProps) {
+	{{ var p ModalCloseProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<span
-		id={ props.ID }
+		id={ p.ID }
 		x-data="modalTriggers"
-		data-modal-id={ props.ModalID }
+		data-modal-id={ p.ModalID }
 		@click="closeModal"
-		class={ utils.TwMerge("", props.Class) }
-		{ props.Attributes... }
+		class={ utils.TwMerge("", p.Class) }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</span>
 }
 
-templ ModalHeader(props ModalHeaderProps) {
+templ ModalHeader(props ...ModalHeaderProps) {
+	{{ var p ModalHeaderProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<div
-		id={ props.ID }
-		class={ utils.TwMerge("px-4 pt-5 pb-4 sm:p-6 sm:pb-4", props.Class) }
-		{ props.Attributes... }
+		id={ p.ID }
+		class={ utils.TwMerge("px-4 pt-5 pb-4 sm:p-6 sm:pb-4", p.Class) }
+		{ p.Attributes... }
 	>
 		<h3 class="text-lg leading-6 font-medium text-foreground" id="modal-title">
 			{ children... }
@@ -131,21 +147,29 @@ templ ModalHeader(props ModalHeaderProps) {
 	</div>
 }
 
-templ ModalBody(props ModalBodyProps) {
+templ ModalBody(props ...ModalBodyProps) {
+	{{ var p ModalBodyProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<div
-		id={ props.ID }
-		class={ utils.TwMerge("px-4 pt-5 pb-4 sm:p-6 sm:pb-4", props.Class) }
-		{ props.Attributes... }
+		id={ p.ID }
+		class={ utils.TwMerge("px-4 pt-5 pb-4 sm:p-6 sm:pb-4", p.Class) }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</div>
 }
 
-templ ModalFooter(props ModalFooterProps) {
+templ ModalFooter(props ...ModalFooterProps) {
+	{{ var p ModalFooterProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<div
-		id={ props.ID }
-		class={ utils.TwMerge("px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse", props.Class) }
-		{ props.Attributes... }
+		id={ p.ID }
+		class={ utils.TwMerge("px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse", p.Class) }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</div>
