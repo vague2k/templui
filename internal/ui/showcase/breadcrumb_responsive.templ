@@ -8,13 +8,13 @@ templ BreadcrumbResponsive() {
 		@components.Breadcrumb() {
 			@components.BreadcrumbList() {
 				@components.BreadcrumbItem() {
-					@components.BreadcrumbLink(components.BreadcrumbLinkProps{Href: "/"}) {
+					@components.BreadcrumbLink("/") {
 						Home
 					}
 				}
 				@components.BreadcrumbSeparator()
 				@components.BreadcrumbItem() {
-					@components.BreadcrumbLink(components.BreadcrumbLinkProps{Href: "#"}) {
+					@components.BreadcrumbLink("#") {
 						...
 					}
 				}
@@ -32,19 +32,19 @@ templ BreadcrumbResponsive() {
 		@components.Breadcrumb() {
 			@components.BreadcrumbList() {
 				@components.BreadcrumbItem() {
-					@components.BreadcrumbLink(components.BreadcrumbLinkProps{Href: "/"}) {
+					@components.BreadcrumbLink("/") {
 						Home
 					}
 				}
 				@components.BreadcrumbSeparator()
 				@components.BreadcrumbItem() {
-					@components.BreadcrumbLink(components.BreadcrumbLinkProps{Href: "/category"}) {
+					@components.BreadcrumbLink("/category") {
 						Category
 					}
 				}
 				@components.BreadcrumbSeparator()
 				@components.BreadcrumbItem() {
-					@components.BreadcrumbLink(components.BreadcrumbLinkProps{Href: "/category/subcategory"}) {
+					@components.BreadcrumbLink("/category/subcategory") {
 						Subcategory
 					}
 				}

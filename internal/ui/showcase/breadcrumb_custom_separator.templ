@@ -9,7 +9,7 @@ templ BreadcrumbCustomSeparator() {
 	@components.Breadcrumb() {
 		@components.BreadcrumbList() {
 			@components.BreadcrumbItem() {
-				@components.BreadcrumbLink(components.BreadcrumbLinkProps{Href: "/"}) {
+				@components.BreadcrumbLink("/") {
 					Home
 				}
 			}
@@ -17,7 +17,7 @@ templ BreadcrumbCustomSeparator() {
 				@components.BreadcrumbSeparator(components.BreadcrumbSeparatorProps{UseCustom: true}) {
 					@icons.Slash(icons.IconProps{Size: "14"})
 				}
-				@components.BreadcrumbLink(components.BreadcrumbLinkProps{Href: "/products"}) {
+				@components.BreadcrumbLink("/products") {
 					Products
 				}
 			}

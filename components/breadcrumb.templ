@@ -28,7 +28,6 @@ type BreadcrumbLinkProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
-	Href       string
 }
 
 type BreadcrumbSeparatorProps struct {
@@ -90,14 +89,14 @@ templ BreadcrumbItem(props ...BreadcrumbItemProps) {
 	</li>
 }
 
-templ BreadcrumbLink(props ...BreadcrumbLinkProps) {
+templ BreadcrumbLink(href string, props ...BreadcrumbLinkProps) {
 	{{ var p BreadcrumbLinkProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
 	<a
 		id={ p.ID }
-		href={ templ.SafeURL(p.Href) }
+		href={ templ.SafeURL(href) }
 		class={ utils.TwMerge(
 			"text-muted-foreground hover:text-foreground hover:underline flex items-center gap-1.5 transition-colors",
 			p.Class,
