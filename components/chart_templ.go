@@ -75,7 +75,7 @@ type ChartProps struct {
 	Attributes  templ.Attributes
 }
 
-func Chart(props ChartProps) templ.Component {
+func Chart(props ...ChartProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -96,12 +96,16 @@ func Chart(props ChartProps) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		if props.ID == "" {
-			props.ID = "chart-" + utils.RandomID()
+		var p ChartProps
+		if len(props) > 0 {
+			p = props[0]
 		}
-		canvasId := props.ID + "-canvas"
-		dataId := props.ID + "-data"
-		var templ_7745c5c3_Var2 = []any{utils.TwMerge("chart-container relative", props.Class)}
+		if p.ID == "" {
+			p.ID = "chart-" + utils.RandomID()
+		}
+		canvasId := p.ID + "-canvas"
+		dataId := p.ID + "-data"
+		var templ_7745c5c3_Var2 = []any{utils.TwMerge("chart-container relative", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -111,9 +115,9 @@ func Chart(props ChartProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var3 string
-		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
+		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 78, Col: 15}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 82, Col: 11}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
@@ -136,7 +140,7 @@ func Chart(props ChartProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, props.Attributes)
+		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, p.Attributes)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -147,7 +151,7 @@ func Chart(props ChartProps) templ.Component {
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(canvasId)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 82, Col: 23}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 86, Col: 23}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
@@ -160,7 +164,7 @@ func Chart(props ChartProps) templ.Component {
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(dataId)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 82, Col: 48}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 86, Col: 48}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -172,18 +176,18 @@ func Chart(props ChartProps) templ.Component {
 		}
 
 		chartConfig := ChartConfig{
-			Type:        props.Variant,
-			Data:        props.Data,
-			Options:     props.Options,
-			ShowLegend:  props.ShowLegend,
-			ShowXAxis:   props.ShowXAxis,
-			ShowYAxis:   props.ShowYAxis,
-			ShowXLabels: props.ShowXLabels,
-			ShowYLabels: props.ShowYLabels,
-			ShowXGrid:   props.ShowXGrid,
-			ShowYGrid:   props.ShowYGrid,
-			Horizontal:  props.Horizontal,
-			Stacked:     props.Stacked,
+			Type:        p.Variant,
+			Data:        p.Data,
+			Options:     p.Options,
+			ShowLegend:  p.ShowLegend,
+			ShowXAxis:   p.ShowXAxis,
+			ShowYAxis:   p.ShowYAxis,
+			ShowXLabels: p.ShowXLabels,
+			ShowYLabels: p.ShowYLabels,
+			ShowXGrid:   p.ShowXGrid,
+			ShowYGrid:   p.ShowYGrid,
+			Horizontal:  p.Horizontal,
+			Stacked:     p.Stacked,
 		}
 		templ_7745c5c3_Err = templ.JSONScript(dataId, chartConfig).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
@@ -234,7 +238,7 @@ func ChartScripts() templ.Component {
 			var templ_7745c5c3_Var9 string
 			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 107, Col: 43}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 111, Col: 43}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 			if templ_7745c5c3_Err != nil {
@@ -247,7 +251,7 @@ func ChartScripts() templ.Component {
 			var templ_7745c5c3_Var10 string
 			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 109, Col: 37}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/chart.templ`, Line: 113, Col: 37}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {
