@@ -1,8 +1,6 @@
 package components
 
-import (
-	"github.com/axzilla/templui/utils"
-)
+import "github.com/axzilla/templui/utils"
 
 type DrawerPosition string
 
@@ -63,32 +61,47 @@ type DrawerCloseProps struct {
 	Attributes templ.Attributes
 }
 
-templ Drawer(props DrawerProps) {
+templ Drawer(props ...DrawerProps) {
+	{{ var p DrawerProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
+	if p.ID == "" {
+		{{ p.ID = utils.RandomID() }}
+	}
 	<div
-		id={ props.ID }
+		id={ p.ID }
 		x-data="drawer"
 		@keydown.escape.window="close"
-		class={ utils.TwMerge("relative", props.Class) }
-		{ props.Attributes... }
+		class={ utils.TwMerge("relative", p.Class) }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</div>
 }
 
-templ DrawerTrigger(props DrawerTriggerProps) {
+templ DrawerTrigger(props ...DrawerTriggerProps) {
+	{{ var p DrawerTriggerProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<div
-		id={ props.ID }
+		id={ p.ID }
 		@click="open"
-		class={ utils.TwMerge("cursor-pointer", props.Class) }
-		{ props.Attributes... }
+		class={ utils.TwMerge("cursor-pointer", p.Class) }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</div>
 }
 
-templ DrawerContent(props DrawerContentProps) {
+templ DrawerContent(props ...DrawerContentProps) {
+	{{ var p DrawerContentProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<div
-		id={ props.ID }
+		id={ p.ID }
 		x-show="isOpen"
 		class="fixed inset-0 z-50 bg-background/80 backdrop-blur-xs"
 		@click="close"
@@ -100,51 +113,51 @@ templ DrawerContent(props DrawerContentProps) {
 		x-transition:leave-end="opacity-0"
 	></div>
 	<div
-		id={ props.ID + "-content" }
+		id={ p.ID + "-content" }
 		x-show="isOpen"
 		@click.away="close"
 		class={
-			utils.TwMerge("fixed z-50", props.Class),
-			templ.KV("inset-y-0 right-0 w-3/4 md:w-1/2 lg:w-1/3", props.Side == DrawerPositionRight),
-			templ.KV("inset-y-0 left-0 w-3/4 md:w-1/2 lg:w-1/3", props.Side == DrawerPositionLeft),
-			templ.KV("inset-x-0 top-0 h-auto sm:h-1/2", props.Side == DrawerPositionTop),
-			templ.KV("inset-x-0 bottom-0 h-auto sm:h-1/2", props.Side == DrawerPositionBottom),
+			utils.TwMerge("fixed z-50", p.Class),
+			templ.KV("inset-y-0 right-0 w-3/4 md:w-1/2 lg:w-1/3", p.Side == DrawerPositionRight),
+			templ.KV("inset-y-0 left-0 w-3/4 md:w-1/2 lg:w-1/3", p.Side == DrawerPositionLeft),
+			templ.KV("inset-x-0 top-0 h-auto sm:h-1/2", p.Side == DrawerPositionTop),
+			templ.KV("inset-x-0 bottom-0 h-auto sm:h-1/2", p.Side == DrawerPositionBottom),
 		}
 		x-transition:enter="transition ease-out duration-300"
 		x-transition:leave="transition ease-in duration-300"
-		if props.Side == DrawerPositionLeft {
+		if p.Side == DrawerPositionLeft {
 			x-transition:enter-start="opacity-0 transform -translate-x-full"
 			x-transition:enter-end="opacity-100 transform translate-x-0"
 			x-transition:leave-start="opacity-100 transform translate-x-0"
 			x-transition:leave-end="opacity-0 transform -translate-x-full"
 		}
-		if props.Side == DrawerPositionRight {
+		if p.Side == DrawerPositionRight {
 			x-transition:enter-start="opacity-0 transform translate-x-full"
 			x-transition:enter-end="opacity-100 transform translate-x-0"
 			x-transition:leave-start="opacity-100 transform translate-x-0"
 			x-transition:leave-end="opacity-0 transform translate-x-full"
 		}
-		if props.Side == DrawerPositionTop {
+		if p.Side == DrawerPositionTop {
 			x-transition:enter-start="opacity-0 transform -translate-y-full"
 			x-transition:enter-end="opacity-100 transform translate-y-0"
 			x-transition:leave-start="opacity-100 transform translate-y-0"
 			x-transition:leave-end="opacity-0 transform -translate-y-full"
 		}
-		if props.Side == DrawerPositionBottom {
+		if p.Side == DrawerPositionBottom {
 			x-transition:enter-start="opacity-0 transform translate-y-full"
 			x-transition:enter-end="opacity-100 transform translate-y-0"
 			x-transition:leave-start="opacity-100 transform translate-y-0"
 			x-transition:leave-end="opacity-0 transform translate-y-full"
 		}
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
 		<div
 			class={
 				"h-full overflow-y-auto bg-background p-6 shadow-lg",
-				templ.KV("border-l", props.Side == DrawerPositionRight),
-				templ.KV("border-r", props.Side == DrawerPositionLeft),
-				templ.KV("border-t", props.Side == DrawerPositionBottom),
-				templ.KV("border-b", props.Side == DrawerPositionTop),
+				templ.KV("border-l", p.Side == DrawerPositionRight),
+				templ.KV("border-r", p.Side == DrawerPositionLeft),
+				templ.KV("border-t", p.Side == DrawerPositionBottom),
+				templ.KV("border-b", p.Side == DrawerPositionTop),
 			}
 			@click.stop
 		>
