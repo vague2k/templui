@@ -82,32 +82,47 @@ type DropdownMenuPortalProps struct {
 	Attributes templ.Attributes
 }
 
-templ DropdownMenu(props DropdownMenuProps) {
+templ DropdownMenu(props ...DropdownMenuProps) {
+	{{ var p DropdownMenuProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
+	if p.ID == "" {
+		{{ p.ID = utils.RandomID() }}
+	}
 	<div
-		id={ props.ID }
+		id={ p.ID }
 		x-data="dropdown"
-		class={ utils.TwMerge("relative inline-block text-left", props.Class) }
-		{ props.Attributes... }
+		class={ utils.TwMerge("relative inline-block text-left", p.Class) }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</div>
 }
 
-templ DropdownMenuTrigger(props DropdownMenuTriggerProps) {
+templ DropdownMenuTrigger(props ...DropdownMenuTriggerProps) {
+	{{ var p DropdownMenuTriggerProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<div
-		id={ props.ID }
+		id={ p.ID }
 		@click="toggleMenu"
-		class={ utils.TwMerge("inline-block", props.Class) }
+		class={ utils.TwMerge("inline-block", p.Class) }
 		data-trigger
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</div>
 }
 
-templ DropdownMenuContent(props DropdownMenuContentProps) {
+templ DropdownMenuContent(props ...DropdownMenuContentProps) {
+	{{ var p DropdownMenuContentProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<div
-		id={ props.ID }
+		id={ p.ID }
 		x-ref="panel"
 		x-show="isMenuOpen"
 		@click.outside="closeMenu"
@@ -122,111 +137,142 @@ templ DropdownMenuContent(props DropdownMenuContentProps) {
 			"absolute z-50 rounded-md bg-popover p-1 shadow-md focus:outline-none overflow-auto",
 			"border border-border",
 			"min-w-[8rem]",
-			props.Width,
-			props.Class,
+			p.Width,
+			p.Class,
 		) }
 		style="top: 100%; margin-top: 0.25rem; left: 0; max-height: var(--dropdown-max-height, 300px);"
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</div>
 }
 
-templ DropdownMenuGroup(props DropdownMenuGroupProps) {
+templ DropdownMenuGroup(props ...DropdownMenuGroupProps) {
+	{{ var p DropdownMenuGroupProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<div
-		id={ props.ID }
-		class={ utils.TwMerge("py-1", props.Class) }
+		id={ p.ID }
+		class={ utils.TwMerge("py-1", p.Class) }
 		role="group"
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</div>
 }
 
-templ DropdownMenuLabel(props DropdownMenuLabelProps) {
+templ DropdownMenuLabel(props ...DropdownMenuLabelProps) {
+	{{ var p DropdownMenuLabelProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<div
-		id={ props.ID }
-		class={ utils.TwMerge("px-2 py-1.5 text-sm font-semibold", props.Class) }
-		{ props.Attributes... }
+		id={ p.ID }
+		class={ utils.TwMerge("px-2 py-1.5 text-sm font-semibold", p.Class) }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</div>
 }
 
-templ DropdownMenuItem(props DropdownMenuItemProps) {
-	if props.Href != "" {
+templ DropdownMenuItem(props ...DropdownMenuItemProps) {
+	{{ var p DropdownMenuItemProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
+	if p.ID == "" {
+		{{ p.ID = utils.RandomID() }}
+	}
+	if p.Href != "" {
 		<a
-			id={ props.ID }
-			href={ templ.SafeURL(props.Href) }
-			target={ props.Target }
+			id={ p.ID }
+			href={ templ.SafeURL(p.Href) }
+			target={ p.Target }
 			class={
 				utils.TwMerge(
 					"flex text-left items-center px-2 py-1.5 text-sm rounded-sm",
-					utils.If(!props.Disabled, "focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground cursor-default"),
-					utils.If(props.Disabled, "opacity-50 pointer-events-none"),
-					props.Class,
+					utils.If(!p.Disabled, "focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground cursor-default"),
+					utils.If(p.Disabled, "opacity-50 pointer-events-none"),
+					p.Class,
 				),
 			}
 			role="menuitem"
 			data-menu-item=""
-			{ props.Attributes... }
+			{ p.Attributes... }
 		>
 			{ children... }
 		</a>
 	} else {
 		<button
-			id={ props.ID }
+			id={ p.ID }
 			class={
 				utils.TwMerge(
 					"w-full text-left flex items-center justify-between px-2 py-1.5 text-sm rounded-sm",
-					utils.If(!props.Disabled, "focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground cursor-default"),
-					utils.If(props.Disabled, "opacity-50 pointer-events-none"),
-					props.Class,
+					utils.If(!p.Disabled, "focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground cursor-default"),
+					utils.If(p.Disabled, "opacity-50 pointer-events-none"),
+					p.Class,
 				),
 			}
 			role="menuitem"
 			data-menu-item=""
-			disabled?={ props.Disabled }
-			{ props.Attributes... }
+			disabled?={ p.Disabled }
+			{ p.Attributes... }
 		>
 			{ children... }
 		</button>
 	}
 }
 
-templ DropdownMenuSeparator(props DropdownMenuSeparatorProps) {
+templ DropdownMenuSeparator(props ...DropdownMenuSeparatorProps) {
+	{{ var p DropdownMenuSeparatorProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<div
-		id={ props.ID }
-		class={ utils.TwMerge("h-px my-1 -mx-1 bg-muted", props.Class) }
+		id={ p.ID }
+		class={ utils.TwMerge("h-px my-1 -mx-1 bg-muted", p.Class) }
 		role="separator"
-		{ props.Attributes... }
+		{ p.Attributes... }
 	></div>
 }
 
-templ DropdownMenuShortcut(props DropdownMenuShortcutProps) {
+templ DropdownMenuShortcut(props ...DropdownMenuShortcutProps) {
+	{{ var p DropdownMenuShortcutProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<span
-		id={ props.ID }
-		class={ utils.TwMerge("ml-auto text-xs tracking-widest opacity-60", props.Class) }
-		{ props.Attributes... }
+		id={ p.ID }
+		class={ utils.TwMerge("ml-auto text-xs tracking-widest opacity-60", p.Class) }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</span>
 }
 
-templ DropdownMenuSub(props DropdownMenuSubProps) {
+templ DropdownMenuSub(props ...DropdownMenuSubProps) {
+	{{ var p DropdownMenuSubProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<div
-		id={ props.ID }
+		id={ p.ID }
 		x-data="dropdownSubmenu"
-		class={ utils.TwMerge("relative", props.Class) }
-		{ props.Attributes... }
+		class={ utils.TwMerge("relative", p.Class) }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</div>
 }
 
-templ DropdownMenuSubTrigger(props DropdownMenuSubTriggerProps) {
+templ DropdownMenuSubTrigger(props ...DropdownMenuSubTriggerProps) {
+	{{ var p DropdownMenuSubTriggerProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<button
-		id={ props.ID }
+		id={ p.ID }
 		type="button"
 		x-ref="subTrigger"
 		data-submenu-trigger
@@ -235,10 +281,10 @@ templ DropdownMenuSubTrigger(props DropdownMenuSubTriggerProps) {
 				"w-full text-left flex items-center justify-between px-2 py-1.5 text-sm rounded-sm",
 				"focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground cursor-default",
 				"data-[state=open]:bg-accent data-[state=open]:text-accent-foreground",
-				props.Class,
+				p.Class,
 			),
 		}
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
 		<span>
 			{ children... }
@@ -249,29 +295,37 @@ templ DropdownMenuSubTrigger(props DropdownMenuSubTriggerProps) {
 	</button>
 }
 
-templ DropdownMenuPortal(props DropdownMenuPortalProps) {
+templ DropdownMenuPortal(props ...DropdownMenuPortalProps) {
+	{{ var p DropdownMenuPortalProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<div
-		id={ props.ID }
-		class={ utils.TwMerge("dropdown-portal", props.Class) }
-		{ props.Attributes... }
+		id={ p.ID }
+		class={ utils.TwMerge("dropdown-portal", p.Class) }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</div>
 }
 
-templ DropdownMenuSubContent(props DropdownMenuSubContentProps) {
+templ DropdownMenuSubContent(props ...DropdownMenuSubContentProps) {
+	{{ var p DropdownMenuSubContentProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<div
-		id={ props.ID }
+		id={ p.ID }
 		x-ref="subContent"
 		data-submenu-content
 		class={
 			utils.TwMerge(
 				"z-[9999] min-w-[8rem] rounded-md border bg-popover p-1 shadow-lg",
-				props.Class,
+				p.Class,
 			),
 		}
 		style="position: fixed; display: none;"
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</div>
