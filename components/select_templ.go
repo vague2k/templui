@@ -65,7 +65,7 @@ type SelectItemProps struct {
 	Disabled   bool
 }
 
-func Select(props SelectProps) templ.Component {
+func Select(props ...SelectProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -86,7 +86,11 @@ func Select(props SelectProps) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		var templ_7745c5c3_Var2 = []any{utils.TwMerge("w-full select-container relative", props.Class)}
+		var p SelectProps
+		if len(props) > 0 {
+			p = props[0]
+		}
+		var templ_7745c5c3_Var2 = []any{utils.TwMerge("w-full select-container relative", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -96,9 +100,9 @@ func Select(props SelectProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var3 string
-		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID + "-container")
+		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID + "-container")
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 62, Col: 30}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 66, Col: 26}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
@@ -122,9 +126,9 @@ func Select(props SelectProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var5 string
-		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
+		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 64, Col: 27}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 68, Col: 23}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
@@ -134,7 +138,7 @@ func Select(props SelectProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, props.Attributes)
+		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, p.Attributes)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -154,7 +158,7 @@ func Select(props SelectProps) templ.Component {
 	})
 }
 
-func SelectTrigger(props SelectTriggerProps) templ.Component {
+func SelectTrigger(props ...SelectTriggerProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -175,6 +179,10 @@ func SelectTrigger(props SelectTriggerProps) templ.Component {
 			templ_7745c5c3_Var6 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
+		var p SelectTriggerProps
+		if len(props) > 0 {
+			p = props[0]
+		}
 		templ_7745c5c3_Var7 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 			templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 			templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
@@ -192,9 +200,9 @@ func SelectTrigger(props SelectTriggerProps) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var8 string
-			templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(props.Name)
+			templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(p.Name)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 95, Col: 20}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 103, Col: 16}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 			if templ_7745c5c3_Err != nil {
@@ -204,7 +212,7 @@ func SelectTrigger(props SelectTriggerProps) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			if props.Required {
+			if p.Required {
 				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, " required")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
@@ -236,24 +244,24 @@ func SelectTrigger(props SelectTriggerProps) templ.Component {
 			return nil
 		})
 		templ_7745c5c3_Err = Button(ButtonProps{
-			ID:      props.ID + "-trigger",
+			ID:      p.ID + "-trigger",
 			Type:    "button",
 			Variant: ButtonVariantOutline,
 			Class: utils.TwMerge(
 				"w-full select-trigger flex items-center justify-between",
-				utils.If(props.HasError, "border-destructive ring-destructive"),
-				props.Class,
+				utils.If(p.HasError, "border-destructive ring-destructive"),
+				p.Class,
 			),
-			Disabled: props.Disabled,
+			Disabled: p.Disabled,
 			Attributes: utils.MergeAttributes(
 				templ.Attributes{
 					"aria-haspopup":       "listbox",
 					"aria-expanded":       "false",
 					"data-select-trigger": "true",
 					"tabindex":            "0",
-					"required":            strconv.FormatBool(props.Required),
+					"required":            strconv.FormatBool(p.Required),
 				},
-				props.Attributes,
+				p.Attributes,
 			)},
 		).Render(templ.WithChildren(ctx, templ_7745c5c3_Var7), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
@@ -263,7 +271,7 @@ func SelectTrigger(props SelectTriggerProps) templ.Component {
 	})
 }
 
-func SelectValue(props SelectValueProps) templ.Component {
+func SelectValue(props ...SelectValueProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -284,7 +292,11 @@ func SelectValue(props SelectValueProps) templ.Component {
 			templ_7745c5c3_Var9 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		var templ_7745c5c3_Var10 = []any{utils.TwMerge("block truncate select-value text-muted-foreground", props.Class)}
+		var p SelectValueProps
+		if len(props) > 0 {
+			p = props[0]
+		}
+		var templ_7745c5c3_Var10 = []any{utils.TwMerge("block truncate select-value text-muted-foreground", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var10...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -294,9 +306,9 @@ func SelectValue(props SelectValueProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var11 string
-		templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
+		templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 110, Col: 15}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 122, Col: 11}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 		if templ_7745c5c3_Err != nil {
@@ -319,7 +331,7 @@ func SelectValue(props SelectValueProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, props.Attributes)
+		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, p.Attributes)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -328,9 +340,9 @@ func SelectValue(props SelectValueProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var13 string
-		templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(props.Placeholder)
+		templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(p.Placeholder)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 114, Col: 21}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 126, Col: 17}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 		if templ_7745c5c3_Err != nil {
@@ -348,7 +360,7 @@ func SelectValue(props SelectValueProps) templ.Component {
 	})
 }
 
-func SelectContent(props SelectContentProps) templ.Component {
+func SelectContent(props ...SelectContentProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -369,11 +381,15 @@ func SelectContent(props SelectContentProps) templ.Component {
 			templ_7745c5c3_Var14 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
+		var p SelectContentProps
+		if len(props) > 0 {
+			p = props[0]
+		}
 		var templ_7745c5c3_Var15 = []any{utils.TwMerge(
 			"p-1 select-content absolute z-50 w-full overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md",
 			"transition-all ease-out duration-100",
 			"transform opacity-0 -translate-y-1 scale-95", // initial condition
-			props.Class,
+			p.Class,
 		)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var15...)
 		if templ_7745c5c3_Err != nil {
@@ -384,9 +400,9 @@ func SelectContent(props SelectContentProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var16 string
-		templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
+		templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 121, Col: 15}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 137, Col: 11}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
 		if templ_7745c5c3_Err != nil {
@@ -409,7 +425,7 @@ func SelectContent(props SelectContentProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, props.Attributes)
+		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, p.Attributes)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -429,7 +445,7 @@ func SelectContent(props SelectContentProps) templ.Component {
 	})
 }
 
-func SelectGroup(props SelectGroupProps) templ.Component {
+func SelectGroup(props ...SelectGroupProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -450,7 +466,11 @@ func SelectGroup(props SelectGroupProps) templ.Component {
 			templ_7745c5c3_Var18 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		var templ_7745c5c3_Var19 = []any{utils.TwMerge("p-1", props.Class)}
+		var p SelectGroupProps
+		if len(props) > 0 {
+			p = props[0]
+		}
+		var templ_7745c5c3_Var19 = []any{utils.TwMerge("p-1", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var19...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -460,9 +480,9 @@ func SelectGroup(props SelectGroupProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var20 string
-		templ_7745c5c3_Var20, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
+		templ_7745c5c3_Var20, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 139, Col: 15}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 159, Col: 11}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var20))
 		if templ_7745c5c3_Err != nil {
@@ -485,7 +505,7 @@ func SelectGroup(props SelectGroupProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, props.Attributes)
+		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, p.Attributes)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -505,7 +525,7 @@ func SelectGroup(props SelectGroupProps) templ.Component {
 	})
 }
 
-func SelectLabel(props SelectLabelProps) templ.Component {
+func SelectLabel(props ...SelectLabelProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -526,7 +546,11 @@ func SelectLabel(props SelectLabelProps) templ.Component {
 			templ_7745c5c3_Var22 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		var templ_7745c5c3_Var23 = []any{utils.TwMerge("px-2 py-1.5 text-sm font-medium", props.Class)}
+		var p SelectLabelProps
+		if len(props) > 0 {
+			p = props[0]
+		}
+		var templ_7745c5c3_Var23 = []any{utils.TwMerge("px-2 py-1.5 text-sm font-medium", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var23...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -536,9 +560,9 @@ func SelectLabel(props SelectLabelProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var24 string
-		templ_7745c5c3_Var24, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
+		templ_7745c5c3_Var24, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 150, Col: 15}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 174, Col: 11}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var24))
 		if templ_7745c5c3_Err != nil {
@@ -561,7 +585,7 @@ func SelectLabel(props SelectLabelProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, props.Attributes)
+		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, p.Attributes)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -581,7 +605,7 @@ func SelectLabel(props SelectLabelProps) templ.Component {
 	})
 }
 
-func SelectItem(props SelectItemProps) templ.Component {
+func SelectItem(props ...SelectItemProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -602,14 +626,18 @@ func SelectItem(props SelectItemProps) templ.Component {
 			templ_7745c5c3_Var26 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
+		var p SelectItemProps
+		if len(props) > 0 {
+			p = props[0]
+		}
 		var templ_7745c5c3_Var27 = []any{
 			utils.TwMerge(
 				"select-item relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 px-2 text-sm font-light outline-none",
 				"hover:bg-accent hover:text-accent-foreground",
 				"focus:bg-accent focus:text-accent-foreground",
-				utils.If(props.Selected, "bg-accent text-accent-foreground"),
-				utils.If(props.Disabled, "pointer-events-none opacity-50"),
-				props.Class,
+				utils.If(p.Selected, "bg-accent text-accent-foreground"),
+				utils.If(p.Disabled, "pointer-events-none opacity-50"),
+				p.Class,
 			),
 		}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var27...)
@@ -621,9 +649,9 @@ func SelectItem(props SelectItemProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var28 string
-		templ_7745c5c3_Var28, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
+		templ_7745c5c3_Var28, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 160, Col: 15}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 188, Col: 11}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var28))
 		if templ_7745c5c3_Err != nil {
@@ -647,9 +675,9 @@ func SelectItem(props SelectItemProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var30 string
-		templ_7745c5c3_Var30, templ_7745c5c3_Err = templ.JoinStringErrs(props.Value)
+		templ_7745c5c3_Var30, templ_7745c5c3_Err = templ.JoinStringErrs(p.Value)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 172, Col: 26}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 200, Col: 22}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var30))
 		if templ_7745c5c3_Err != nil {
@@ -660,9 +688,9 @@ func SelectItem(props SelectItemProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var31 string
-		templ_7745c5c3_Var31, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.FormatBool(props.Selected))
+		templ_7745c5c3_Var31, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.FormatBool(p.Selected))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 173, Col: 52}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 201, Col: 48}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var31))
 		if templ_7745c5c3_Err != nil {
@@ -673,9 +701,9 @@ func SelectItem(props SelectItemProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var32 string
-		templ_7745c5c3_Var32, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.FormatBool(props.Disabled))
+		templ_7745c5c3_Var32, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.FormatBool(p.Disabled))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 174, Col: 52}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 202, Col: 48}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var32))
 		if templ_7745c5c3_Err != nil {
@@ -685,7 +713,7 @@ func SelectItem(props SelectItemProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, props.Attributes)
+		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, p.Attributes)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -704,7 +732,7 @@ func SelectItem(props SelectItemProps) templ.Component {
 		var templ_7745c5c3_Var33 = []any{
 			utils.TwMerge(
 				"select-check absolute right-2 flex h-3.5 w-3.5 items-center justify-center",
-				utils.IfElse(props.Selected, "opacity-100", "opacity-0"),
+				utils.IfElse(p.Selected, "opacity-100", "opacity-0"),
 			),
 		}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var33...)
@@ -781,7 +809,7 @@ func SelectScript() templ.Component {
 			var templ_7745c5c3_Var37 string
 			templ_7745c5c3_Var37, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 197, Col: 43}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/select.templ`, Line: 225, Col: 43}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var37))
 			if templ_7745c5c3_Err != nil {
