@@ -59,7 +59,7 @@ type TableCaptionProps struct {
 	Attributes templ.Attributes
 }
 
-func Table(props TableProps) templ.Component {
+func Table(props ...TableProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -80,11 +80,15 @@ func Table(props TableProps) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
+		var p TableProps
+		if len(props) > 0 {
+			p = props[0]
+		}
 		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div class=\"relative w-full overflow-auto\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var2 = []any{utils.TwMerge("w-full caption-bottom text-sm", props.Class)}
+		var templ_7745c5c3_Var2 = []any{utils.TwMerge("w-full caption-bottom text-sm", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -94,9 +98,9 @@ func Table(props TableProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var3 string
-		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
+		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/table.templ`, Line: 57, Col: 16}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/table.templ`, Line: 61, Col: 12}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
@@ -119,7 +123,7 @@ func Table(props TableProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, props.Attributes)
+		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, p.Attributes)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -139,7 +143,7 @@ func Table(props TableProps) templ.Component {
 	})
 }
 
-func TableHeader(props TableHeaderProps) templ.Component {
+func TableHeader(props ...TableHeaderProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -160,7 +164,11 @@ func TableHeader(props TableHeaderProps) templ.Component {
 			templ_7745c5c3_Var5 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		var templ_7745c5c3_Var6 = []any{utils.TwMerge("[&_tr]:border-b", props.Class)}
+		var p TableHeaderProps
+		if len(props) > 0 {
+			p = props[0]
+		}
+		var templ_7745c5c3_Var6 = []any{utils.TwMerge("[&_tr]:border-b", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var6...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -170,9 +178,9 @@ func TableHeader(props TableHeaderProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var7 string
-		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
+		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/table.templ`, Line: 68, Col: 15}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/table.templ`, Line: 76, Col: 11}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
@@ -195,7 +203,7 @@ func TableHeader(props TableHeaderProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, props.Attributes)
+		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, p.Attributes)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -215,7 +223,7 @@ func TableHeader(props TableHeaderProps) templ.Component {
 	})
 }
 
-func TableBody(props TableBodyProps) templ.Component {
+func TableBody(props ...TableBodyProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -236,7 +244,11 @@ func TableBody(props TableBodyProps) templ.Component {
 			templ_7745c5c3_Var9 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		var templ_7745c5c3_Var10 = []any{utils.TwMerge("[&_tr:last-child]:border-0", props.Class)}
+		var p TableBodyProps
+		if len(props) > 0 {
+			p = props[0]
+		}
+		var templ_7745c5c3_Var10 = []any{utils.TwMerge("[&_tr:last-child]:border-0", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var10...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -246,9 +258,9 @@ func TableBody(props TableBodyProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var11 string
-		templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
+		templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/table.templ`, Line: 78, Col: 15}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/table.templ`, Line: 90, Col: 11}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 		if templ_7745c5c3_Err != nil {
@@ -271,7 +283,7 @@ func TableBody(props TableBodyProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, props.Attributes)
+		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, p.Attributes)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -291,7 +303,7 @@ func TableBody(props TableBodyProps) templ.Component {
 	})
 }
 
-func TableFooter(props TableFooterProps) templ.Component {
+func TableFooter(props ...TableFooterProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -312,7 +324,11 @@ func TableFooter(props TableFooterProps) templ.Component {
 			templ_7745c5c3_Var13 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		var templ_7745c5c3_Var14 = []any{utils.TwMerge("border-t bg-muted/50 font-medium [&>tr]:last:border-b-0", props.Class)}
+		var p TableFooterProps
+		if len(props) > 0 {
+			p = props[0]
+		}
+		var templ_7745c5c3_Var14 = []any{utils.TwMerge("border-t bg-muted/50 font-medium [&>tr]:last:border-b-0", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var14...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -322,9 +338,9 @@ func TableFooter(props TableFooterProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var15 string
-		templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
+		templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/table.templ`, Line: 88, Col: 15}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/table.templ`, Line: 104, Col: 11}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var15))
 		if templ_7745c5c3_Err != nil {
@@ -347,7 +363,7 @@ func TableFooter(props TableFooterProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, props.Attributes)
+		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, p.Attributes)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -367,7 +383,7 @@ func TableFooter(props TableFooterProps) templ.Component {
 	})
 }
 
-func TableRow(props TableRowProps) templ.Component {
+func TableRow(props ...TableRowProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -388,12 +404,16 @@ func TableRow(props TableRowProps) templ.Component {
 			templ_7745c5c3_Var17 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
+		var p TableRowProps
+		if len(props) > 0 {
+			p = props[0]
+		}
 		var templ_7745c5c3_Var18 = []any{
 			utils.TwMerge(
 				"border-b transition-colors hover:bg-muted/50",
-				props.Class,
+				p.Class,
 			),
-			templ.KV("data-[state=selected]:bg-muted", props.Selected),
+			templ.KV("data-[state=selected]:bg-muted", p.Selected),
 		}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var18...)
 		if templ_7745c5c3_Err != nil {
@@ -404,9 +424,9 @@ func TableRow(props TableRowProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var19 string
-		templ_7745c5c3_Var19, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
+		templ_7745c5c3_Var19, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/table.templ`, Line: 98, Col: 15}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/table.templ`, Line: 118, Col: 11}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var19))
 		if templ_7745c5c3_Err != nil {
@@ -429,7 +449,7 @@ func TableRow(props TableRowProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, props.Attributes)
+		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, p.Attributes)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -449,7 +469,7 @@ func TableRow(props TableRowProps) templ.Component {
 	})
 }
 
-func TableHead(props TableHeadProps) templ.Component {
+func TableHead(props ...TableHeadProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -470,7 +490,11 @@ func TableHead(props TableHeadProps) templ.Component {
 			templ_7745c5c3_Var21 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		var templ_7745c5c3_Var22 = []any{utils.TwMerge("h-10 px-2 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]", props.Class)}
+		var p TableHeadProps
+		if len(props) > 0 {
+			p = props[0]
+		}
+		var templ_7745c5c3_Var22 = []any{utils.TwMerge("h-10 px-2 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var22...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -480,9 +504,9 @@ func TableHead(props TableHeadProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var23 string
-		templ_7745c5c3_Var23, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
+		templ_7745c5c3_Var23, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/table.templ`, Line: 114, Col: 15}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/table.templ`, Line: 138, Col: 11}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var23))
 		if templ_7745c5c3_Err != nil {
@@ -505,7 +529,7 @@ func TableHead(props TableHeadProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, props.Attributes)
+		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, p.Attributes)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -525,7 +549,7 @@ func TableHead(props TableHeadProps) templ.Component {
 	})
 }
 
-func TableCell(props TableCellProps) templ.Component {
+func TableCell(props ...TableCellProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -546,7 +570,11 @@ func TableCell(props TableCellProps) templ.Component {
 			templ_7745c5c3_Var25 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		var templ_7745c5c3_Var26 = []any{utils.TwMerge("p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]", props.Class)}
+		var p TableCellProps
+		if len(props) > 0 {
+			p = props[0]
+		}
+		var templ_7745c5c3_Var26 = []any{utils.TwMerge("p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var26...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -556,9 +584,9 @@ func TableCell(props TableCellProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var27 string
-		templ_7745c5c3_Var27, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
+		templ_7745c5c3_Var27, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/table.templ`, Line: 124, Col: 15}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/table.templ`, Line: 152, Col: 11}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var27))
 		if templ_7745c5c3_Err != nil {
@@ -581,7 +609,7 @@ func TableCell(props TableCellProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, props.Attributes)
+		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, p.Attributes)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -601,7 +629,7 @@ func TableCell(props TableCellProps) templ.Component {
 	})
 }
 
-func TableCaption(props TableCaptionProps) templ.Component {
+func TableCaption(props ...TableCaptionProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -622,7 +650,11 @@ func TableCaption(props TableCaptionProps) templ.Component {
 			templ_7745c5c3_Var29 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		var templ_7745c5c3_Var30 = []any{utils.TwMerge("mt-4 text-sm text-muted-foreground", props.Class)}
+		var p TableCaptionProps
+		if len(props) > 0 {
+			p = props[0]
+		}
+		var templ_7745c5c3_Var30 = []any{utils.TwMerge("mt-4 text-sm text-muted-foreground", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var30...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -632,9 +664,9 @@ func TableCaption(props TableCaptionProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var31 string
-		templ_7745c5c3_Var31, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
+		templ_7745c5c3_Var31, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/table.templ`, Line: 134, Col: 15}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/table.templ`, Line: 166, Col: 11}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var31))
 		if templ_7745c5c3_Err != nil {
@@ -657,7 +689,7 @@ func TableCaption(props TableCaptionProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, props.Attributes)
+		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, p.Attributes)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
