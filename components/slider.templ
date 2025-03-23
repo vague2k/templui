@@ -24,32 +24,40 @@ type SliderValueProps struct {
 	For        string
 }
 
-templ Slider(props SliderProps) {
+templ Slider(props ...SliderProps) {
+	{{ var p SliderProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<div
-		class={ utils.TwMerge("w-full", props.Class) }
+		class={ utils.TwMerge("w-full", p.Class) }
 		data-slider
-		data-slider-id={ props.ID }
+		data-slider-id={ p.ID }
 	>
 		{ children... }
 	</div>
 }
 
-templ SliderInput(props SliderProps) {
+templ SliderInput(props ...SliderProps) {
+	{{ var p SliderProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<input
 		type="range"
-		id={ props.ID }
-		name={ props.Name }
-		if props.Value != 0 {
-			value={ fmt.Sprintf("%d", props.Value) }
+		id={ p.ID }
+		name={ p.Name }
+		if p.Value != 0 {
+			value={ fmt.Sprintf("%d", p.Value) }
 		}
-		if props.Min != 0 {
-			min={ fmt.Sprintf("%d", props.Min) }
+		if p.Min != 0 {
+			min={ fmt.Sprintf("%d", p.Min) }
 		}
-		if props.Max != 0 {
-			max={ fmt.Sprintf("%d", props.Max) }
+		if p.Max != 0 {
+			max={ fmt.Sprintf("%d", p.Max) }
 		}
-		if props.Step != 0 {
-			step={ fmt.Sprintf("%d", props.Step) }
+		if p.Step != 0 {
+			step={ fmt.Sprintf("%d", p.Step) }
 		}
 		class={ utils.TwMerge(
 			"w-full h-2 rounded-full bg-secondary appearance-none cursor-pointer",
@@ -62,17 +70,21 @@ templ SliderInput(props SliderProps) {
 			"[&::-moz-range-thumb]:hover:bg-primary/90",
 			"disabled:opacity-50 disabled:cursor-not-allowed",
 		) }
-		disabled?={ props.Disabled }
-		{ props.Attributes... }
+		disabled?={ p.Disabled }
+		{ p.Attributes... }
 	/>
 }
 
-templ SliderValue(props SliderValueProps) {
+templ SliderValue(props ...SliderValueProps) {
+	{{ var p SliderValueProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<span
-		id={ props.ID }
-		class={ utils.TwMerge("text-sm text-muted-foreground", props.Class) }
-		data-slider-value-for={ props.For }
-		{ props.Attributes... }
+		id={ p.ID }
+		class={ utils.TwMerge("text-sm text-muted-foreground", p.Class) }
+		data-slider-value-for={ p.For }
+		{ p.Attributes... }
 	></span>
 }
 
