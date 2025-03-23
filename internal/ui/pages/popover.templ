@@ -1,0 +1,54 @@
+package pages
+
+import (
+	"github.com/axzilla/templui/internal/ui/layouts"
+	"github.com/axzilla/templui/internal/ui/modules"
+	"github.com/axzilla/templui/internal/ui/showcase"
+)
+
+templ Popover() {
+	@layouts.DocsLayout(
+		"Popover",
+		"Displays content in a window, triggered by a hover or click.",
+	) {
+		@modules.PageWrapper(modules.PageWrapperProps{
+			Name:        "Popover",
+			Description: templ.Raw("Displays content in a window, triggered by a hover or click."),
+			Tailwind:    true,
+			Alpine:      true,
+		}) {
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				ShowcaseFile:      showcase.PopoverDefault(),
+				PreviewCodeFile:   "popover_default.templ",
+				ComponentCodeFile: "popover.templ",
+			})
+			@modules.Usage(modules.UsageProps{
+				ComponentName: "Popover",
+				NeedsHandler:  true,
+				PropsExample:  "...",
+			})
+
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+                @modules.ExampleWrapper(modules.ExampleWrapperProps{
+                               SectionName:       "Trigger & Closing",
+                               ShowcaseFile:      showcase.PopoverTriggers(),
+                               PreviewCodeFile:   "popover_triggers.templ",
+                               ComponentCodeFile: "popover.templ",
+                })
+
+                @modules.ExampleWrapper(modules.ExampleWrapperProps{
+                    SectionName:       "Variants",
+                    ShowcaseFile:      showcase.PopoverVariants(),
+                    PreviewCodeFile:   "popover_variants.templ",
+                    ComponentCodeFile: "popover.templ",
+                })
+                @modules.ExampleWrapper(modules.ExampleWrapperProps{
+                    SectionName:       "Positions",
+                    ShowcaseFile:      showcase.PopoverPositions(),
+                    PreviewCodeFile:   "popover_positions.templ",
+                    ComponentCodeFile: "popover.templ",
+                })
+            }
+		}
+	}
+}

@@ -1,0 +1,74 @@
+package showcase
+
+import "github.com/axzilla/templui/components"
+
+templ PopoverVariants() {
+	<div class="flex gap-2">
+        @components.Popover() {
+            @components.PopoverTrigger(components.PopoverTriggerProps{
+                ID: "default-variant-popover",
+            }) {
+                @components.Button(components.ButtonProps{Variant: components.ButtonVariantOutline}) {
+                    Default
+                }
+            }
+            @components.PopoverContent(components.PopoverContentProps{
+                ID: "default-variant-popover",
+                Variant: components.PopoverDefault,
+            }) {
+                @components.PopoverHeader() {
+                    Header
+                }
+                <div class="p-2 space-y-1">
+                    <p>Popover content </p>
+                    <p>Popover content </p>
+                    <p>Popover content </p>
+                </div>
+            }
+        }
+        @components.Popover() {
+            @components.PopoverTrigger(components.PopoverTriggerProps{
+                ID: "secondary-variant-popover",
+            }) {
+                @components.Button(components.ButtonProps{Variant: components.ButtonVariantOutline}) {
+                    Secondary
+                }
+            }
+            @components.PopoverContent(components.PopoverContentProps{
+                ID: "secondary-variant-popover",
+                Variant: components.PopoverSecondary,
+            }) {
+                @components.PopoverHeader(components.PopoverHeaderProps{Variant: components.PopoverSecondary}) {
+                    Header
+                }
+                <div class="p-2 space-y-1">
+                    <p>Popover content </p>
+                    <p>Popover content </p>
+                    <p>Popover content </p>
+                </div>
+            }
+        }
+        @components.Popover() {
+            @components.PopoverTrigger(components.PopoverTriggerProps{
+                ID: "destructive-variant-popover",
+            }) {
+                @components.Button(components.ButtonProps{Variant: components.ButtonVariantOutline}) {
+                    Destructive
+                }
+            }
+            @components.PopoverContent(components.PopoverContentProps{
+                ID: "destructive-variant-popover",
+                Variant: components.PopoverDestructive,
+            }) {
+                @components.PopoverHeader(components.PopoverHeaderProps{Variant: components.PopoverDestructive}) {
+                    Header
+                }
+                <div class="p-2 space-y-1">
+                    <p>Popover content </p>
+                    <p>Popover content </p>
+                    <p>Popover content </p>
+                </div>
+            }
+        }
+	</div>
+}

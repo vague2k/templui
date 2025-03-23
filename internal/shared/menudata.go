@@ -127,6 +127,10 @@ var Sections = []Section{
 				Href: "/docs/components/pagination",
 			},
 			{
+				Text: "Popover",
+				Href: "/docs/components/popover",
+			},
+			{
 				Text: "Progress",
 				Href: "/docs/components/progress",
 			},

@@ -1,0 +1,30 @@
+package showcase
+
+import "github.com/axzilla/templui/components"
+
+templ PopoverDefault() {
+	@components.Popover() {
+		@components.PopoverTrigger(components.PopoverTriggerProps{
+			ID: "default-popover",
+		}) {
+			@components.Button(components.ButtonProps{}) {
+				Default
+			}
+		}
+		@components.PopoverContent(components.PopoverContentProps{
+			ID: "default-popover",
+		}) {
+			@components.PopoverHeader() {
+				Header
+			}
+			<div class="p-2 space-y-1">
+				<p>Popover content </p>
+				<p>Popover content </p>
+				<p>Popover content </p>
+				<p>Popover content </p>
+				<p>Popover content </p>
+				<p>Popover content </p>
+			</div>
+		}
+	}
+}
