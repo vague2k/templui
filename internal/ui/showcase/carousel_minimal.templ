@@ -1,8 +1,6 @@
 package showcase
 
-import (
-	"github.com/axzilla/templui/components"
-)
+import "github.com/axzilla/templui/components"
 
 templ CarouselMinimal() {
 	@components.Carousel(components.CarouselProps{
@@ -11,14 +9,14 @@ templ CarouselMinimal() {
 		Loop:     true,
 		Class:    "rounded-md",
 	}) {
-		@components.CarouselContent(components.CarouselContentProps{}) {
-			@components.CarouselItem(components.CarouselItemProps{}) {
+		@components.CarouselContent() {
+			@components.CarouselItem() {
 				@CarouselMinimalSlide("Slide 1", "This is the first slide", "bg-blue-500")
 			}
-			@components.CarouselItem(components.CarouselItemProps{}) {
+			@components.CarouselItem() {
 				@CarouselMinimalSlide("Slide 2", "This is the second slide", "bg-green-500")
 			}
-			@components.CarouselItem(components.CarouselItemProps{}) {
+			@components.CarouselItem() {
 				@CarouselMinimalSlide("Slide 3", "This is the third slide", "bg-purple-500")
 			}
 		}

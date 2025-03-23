@@ -5,8 +5,8 @@ import "github.com/axzilla/templui/components"
 templ ToastPlayground() {
 	<div class="w-full max-w-4xl mx-auto p-8">
 		<section class="mb-12">
-			@components.Card(components.CardProps{}) {
-				@components.CardContent(components.CardContentProps{}) {
+			@components.Card() {
+				@components.CardContent() {
 					<form
 						class="flex flex-col gap-2"
 						hx-post="/docs/toast/demo"
@@ -14,8 +14,8 @@ templ ToastPlayground() {
 						hx-target="#toast-advanced-container"
 					>
 						// Message
-						@components.FormItem(components.FormItemProps{}) {
-							@components.Label(components.LabelProps{}) {
+						@components.FormItem() {
+							@components.Label() {
 								Message
 							}
 							@components.Input(components.InputProps{
@@ -24,8 +24,8 @@ templ ToastPlayground() {
 							})
 						}
 						// Description
-						@components.FormItem(components.FormItemProps{}) {
-							@components.Label(components.LabelProps{}) {
+						@components.FormItem() {
+							@components.Label() {
 								Description
 							}
 							@components.Input(components.InputProps{
@@ -34,11 +34,11 @@ templ ToastPlayground() {
 							})
 						}
 						// Type
-						@components.FormItem(components.FormItemProps{}) {
-							@components.Label(components.LabelProps{}) {
+						@components.FormItem() {
+							@components.Label() {
 								Type
 							}
-							@components.Select(components.SelectProps{}) {
+							@components.Select() {
 								@components.SelectTrigger(components.SelectTriggerProps{
 									Name: "type",
 								}) {
@@ -46,8 +46,8 @@ templ ToastPlayground() {
 										Placeholder: "Default",
 									})
 								}
-								@components.SelectContent(components.SelectContentProps{}) {
-									@components.SelectGroup(components.SelectGroupProps{}) {
+								@components.SelectContent() {
+									@components.SelectGroup() {
 										@components.SelectItem(components.SelectItemProps{
 											Value:    "default",
 											Selected: true,
@@ -79,11 +79,11 @@ templ ToastPlayground() {
 							}
 						}
 						// Position
-						@components.FormItem(components.FormItemProps{}) {
-							@components.Label(components.LabelProps{}) {
+						@components.FormItem() {
+							@components.Label() {
 								Position
 							}
-							@components.Select(components.SelectProps{}) {
+							@components.Select() {
 								@components.SelectTrigger(components.SelectTriggerProps{
 									Name: "position",
 								}) {
@@ -91,8 +91,8 @@ templ ToastPlayground() {
 										Placeholder: "Bottom Right",
 									})
 								}
-								@components.SelectContent(components.SelectContentProps{}) {
-									@components.SelectGroup(components.SelectGroupProps{}) {
+								@components.SelectContent() {
+									@components.SelectGroup() {
 										@components.SelectItem(components.SelectItemProps{
 											Value: "top-right",
 										}) {
@@ -129,8 +129,8 @@ templ ToastPlayground() {
 							}
 						}
 						// Duration
-						@components.FormItem(components.FormItemProps{}) {
-							@components.Label(components.LabelProps{}) {
+						@components.FormItem() {
+							@components.Label() {
 								Duration (ms)
 							}
 							@components.Input(components.InputProps{
@@ -140,30 +140,30 @@ templ ToastPlayground() {
 							})
 						}
 						// Options
-						@components.FormItem(components.FormItemProps{}) {
-							@components.Label(components.LabelProps{}) {
+						@components.FormItem() {
+							@components.Label() {
 								<div id="toast-advanced-container"></div>
 								@components.SelectScript()
 							}
-							@components.FormItemFlex(components.FormItemProps{}) {
+							@components.FormItemFlex() {
 								@components.Toggle(components.ToggleProps{
 									Name:    "dismissible",
 									Checked: true,
 								})
-								@components.Label(components.LabelProps{}) {
+								@components.Label() {
 									Dimissible
 								}
 							}
-							@components.FormItemFlex(components.FormItemProps{}) {
+							@components.FormItemFlex() {
 								@components.Toggle(components.ToggleProps{
 									Name:    "icon",
 									Checked: true,
 								})
-								@components.Label(components.LabelProps{}) {
+								@components.Label() {
 									Show Icon
 								}
 							}
-							@components.FormItemFlex(components.FormItemProps{}) {
+							@components.FormItemFlex() {
 								@components.Toggle(components.ToggleProps{
 									ID:      "indicator",
 									Name:    "indicator",

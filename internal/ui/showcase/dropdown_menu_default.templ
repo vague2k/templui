@@ -6,8 +6,8 @@ import (
 )
 
 templ DropdownMenuDefault() {
-	@components.DropdownMenu(components.DropdownMenuProps{}) {
-		@components.DropdownMenuTrigger(components.DropdownMenuTriggerProps{}) {
+	@components.DropdownMenu() {
+		@components.DropdownMenuTrigger() {
 			@components.Button(components.ButtonProps{
 				Variant: components.ButtonVariantOutline,
 			}) {
@@ -17,77 +17,77 @@ templ DropdownMenuDefault() {
 		@components.DropdownMenuContent(components.DropdownMenuContentProps{
 			Width: "w-56",
 		}) {
-			@components.DropdownMenuLabel(components.DropdownMenuLabelProps{}) {
+			@components.DropdownMenuLabel() {
 				My Account
 			}
-			@components.DropdownMenuSeparator(components.DropdownMenuSeparatorProps{})
-			@components.DropdownMenuGroup(components.DropdownMenuGroupProps{}) {
-				@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
+			@components.DropdownMenuSeparator()
+			@components.DropdownMenuGroup() {
+				@components.DropdownMenuItem() {
 					Profile
-					@components.DropdownMenuShortcut(components.DropdownMenuShortcutProps{}) {
+					@components.DropdownMenuShortcut() {
 						⇧⌘P
 					}
 				}
-				@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
+				@components.DropdownMenuItem() {
 					Billing
-					@components.DropdownMenuShortcut(components.DropdownMenuShortcutProps{}) {
+					@components.DropdownMenuShortcut() {
 						⌘B
 					}
 				}
-				@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
+				@components.DropdownMenuItem() {
 					Settings
-					@components.DropdownMenuShortcut(components.DropdownMenuShortcutProps{}) {
+					@components.DropdownMenuShortcut() {
 						⌘S
 					}
 				}
-				@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
+				@components.DropdownMenuItem() {
 					Keyboard shortcuts
-					@components.DropdownMenuShortcut(components.DropdownMenuShortcutProps{}) {
+					@components.DropdownMenuShortcut() {
 						⌘K
 					}
 				}
 			}
-			@components.DropdownMenuSeparator(components.DropdownMenuSeparatorProps{})
-			@components.DropdownMenuGroup(components.DropdownMenuGroupProps{}) {
-				@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
+			@components.DropdownMenuSeparator()
+			@components.DropdownMenuGroup() {
+				@components.DropdownMenuItem() {
 					Team
 				}
-				@components.DropdownMenuSub(components.DropdownMenuSubProps{}) {
-					@components.DropdownMenuSubTrigger(components.DropdownMenuSubTriggerProps{}) {
+				@components.DropdownMenuSub() {
+					@components.DropdownMenuSubTrigger() {
 						<span class="flex items-center">
 							@icons.Users(icons.IconProps{Size: "16", Class: "mr-2"})
 							Invite users
 						</span>
 					}
-					@components.DropdownMenuPortal(components.DropdownMenuPortalProps{}) {
-						@components.DropdownMenuSubContent(components.DropdownMenuSubContentProps{}) {
-							@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
+					@components.DropdownMenuPortal() {
+						@components.DropdownMenuSubContent() {
+							@components.DropdownMenuItem() {
 								<span class="flex items-center">
 									@icons.Mail(icons.IconProps{Size: "16", Class: "mr-2"})
 									Email
 								</span>
 							}
-							@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
+							@components.DropdownMenuItem() {
 								<span class="flex items-center">
 									@icons.MessageSquare(icons.IconProps{Size: "16", Class: "mr-2"})
 									Message
 								</span>
 							}
-							@components.DropdownMenuSeparator(components.DropdownMenuSeparatorProps{})
-							@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
+							@components.DropdownMenuSeparator()
+							@components.DropdownMenuItem() {
 								More...
 							}
 						}
 					}
 				}
-				@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
+				@components.DropdownMenuItem() {
 					New Team
-					@components.DropdownMenuShortcut(components.DropdownMenuShortcutProps{}) {
+					@components.DropdownMenuShortcut() {
 						⌘+T
 					}
 				}
 			}
-			@components.DropdownMenuSeparator(components.DropdownMenuSeparatorProps{})
+			@components.DropdownMenuSeparator()
 			@components.DropdownMenuItem(components.DropdownMenuItemProps{
 				Href:   "https://github.com",
 				Target: "_blank",
@@ -97,7 +97,7 @@ templ DropdownMenuDefault() {
 					GitHub
 				</span>
 			}
-			@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
+			@components.DropdownMenuItem() {
 				<span class="flex items-center">
 					@icons.LifeBuoy(icons.IconProps{Size: "16", Class: "mr-2"})
 					Support
@@ -111,13 +111,13 @@ templ DropdownMenuDefault() {
 					API
 				</span>
 			}
-			@components.DropdownMenuSeparator(components.DropdownMenuSeparatorProps{})
-			@components.DropdownMenuItem(components.DropdownMenuItemProps{}) {
+			@components.DropdownMenuSeparator()
+			@components.DropdownMenuItem() {
 				<span class="flex items-center">
 					@icons.LogOut(icons.IconProps{Size: "16", Class: "mr-2"})
 					Log out
 				</span>
-				@components.DropdownMenuShortcut(components.DropdownMenuShortcutProps{}) {
+				@components.DropdownMenuShortcut() {
 					⇧⌘Q
 				}
 			}

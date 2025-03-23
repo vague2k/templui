@@ -4,7 +4,7 @@ import "github.com/axzilla/templui/components"
 
 templ RatingForm() {
 	<form class="max-w-sm mx-auto">
-		@components.FormItem(components.FormItemProps{}) {
+		@components.FormItem() {
 			@components.Label(components.LabelProps{For: "product_quality"}) {
 				Product Quality
 			}
@@ -14,7 +14,7 @@ templ RatingForm() {
 				Precision: 1.0,
 				Name:      "product_quality",
 			}) {
-				@components.RatingGroup(components.RatingGroupProps{}) {
+				@components.RatingGroup() {
 					for i := 1; i <= 5; i++ {
 						@components.RatingItem(components.RatingItemProps{
 							Value: i,
@@ -23,7 +23,7 @@ templ RatingForm() {
 					}
 				}
 			}
-			@components.FormDescription(components.FormDescriptionProps{}) {
+			@components.FormDescription() {
 				Rate the quality of the product you received.
 			}
 			@components.FormMessage(components.FormMessageProps{

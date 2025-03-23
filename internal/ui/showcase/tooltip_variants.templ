@@ -4,8 +4,8 @@ import "github.com/axzilla/templui/components"
 
 templ TooltipVariants() {
 	<div class="flex gap-2">
-		@components.Tooltip(components.TooltipProps{}) {
-			@components.TooltipTrigger(components.TooltipTriggerProps{}) {
+		@components.Tooltip() {
+			@components.TooltipTrigger() {
 				@components.Button(components.ButtonProps{
 					Variant: components.ButtonVariantOutline,
 				}) {
@@ -19,8 +19,8 @@ templ TooltipVariants() {
 				Default tooltip
 			}
 		}
-		@components.Tooltip(components.TooltipProps{}) {
-			@components.TooltipTrigger(components.TooltipTriggerProps{}) {
+		@components.Tooltip() {
+			@components.TooltipTrigger() {
 				@components.Button(components.ButtonProps{
 					Variant: components.ButtonVariantOutline,
 				}) {
@@ -34,8 +34,8 @@ templ TooltipVariants() {
 				Secondary tooltip
 			}
 		}
-		@components.Tooltip(components.TooltipProps{}) {
-			@components.TooltipTrigger(components.TooltipTriggerProps{}) {
+		@components.Tooltip() {
+			@components.TooltipTrigger() {
 				@components.Button(components.ButtonProps{
 					Variant: components.ButtonVariantOutline,
 				}) {

@@ -166,58 +166,78 @@ templ DrawerContent(props ...DrawerContentProps) {
 	</div>
 }
 
-templ DrawerHeader(props DrawerHeaderProps) {
+templ DrawerHeader(props ...DrawerHeaderProps) {
+	{{ var p DrawerHeaderProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<div
-		id={ props.ID }
-		class={ utils.TwMerge("flex flex-col space-y-1.5 pb-4", props.Class) }
-		{ props.Attributes... }
+		id={ p.ID }
+		class={ utils.TwMerge("flex flex-col space-y-1.5 pb-4", p.Class) }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</div>
 }
 
-templ DrawerTitle(props DrawerTitleProps) {
+templ DrawerTitle(props ...DrawerTitleProps) {
+	{{ var p DrawerTitleProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<h2
-		id={ props.ID }
-		class={ utils.TwMerge("text-lg font-semibold leading-none tracking-tight", props.Class) }
-		{ props.Attributes... }
+		id={ p.ID }
+		class={ utils.TwMerge("text-lg font-semibold leading-none tracking-tight", p.Class) }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</h2>
 }
 
-templ DrawerDescription(props DrawerDescriptionProps) {
+templ DrawerDescription(props ...DrawerDescriptionProps) {
+	{{ var p DrawerDescriptionProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<p
-		id={ props.ID }
-		class={ utils.TwMerge("text-sm text-muted-foreground", props.Class) }
-		{ props.Attributes... }
+		id={ p.ID }
+		class={ utils.TwMerge("text-sm text-muted-foreground", p.Class) }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</p>
 }
 
-templ DrawerFooter(props DrawerFooterProps) {
+templ DrawerFooter(props ...DrawerFooterProps) {
+	{{ var p DrawerFooterProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<div
-		id={ props.ID }
-		class={ utils.TwMerge("flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 pt-4", props.Class) }
-		{ props.Attributes... }
+		id={ p.ID }
+		class={ utils.TwMerge("flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 pt-4", p.Class) }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</div>
 }
 
-templ DrawerClose(props DrawerCloseProps) {
+templ DrawerClose(props ...DrawerCloseProps) {
+	{{ var p DrawerCloseProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<button
-		id={ props.ID }
+		id={ p.ID }
 		@click="close"
 		class={ utils.TwMerge(
 			"inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background",
 			"transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
 			"disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent",
 			"hover:text-accent-foreground h-10 px-4 py-2",
-			props.Class,
+			p.Class,
 		) }
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</button>

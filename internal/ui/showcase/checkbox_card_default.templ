@@ -10,7 +10,7 @@ templ CheckboxCardDefault() {
 			Name:  "features",
 			Value: "analytics",
 		}) {
-			@components.CheckboxCardHeader(components.CheckboxCardHeaderProps{}) {
+			@components.CheckboxCardHeader() {
 				<div class="flex items-center gap-2">
 					<div class="text-primary">
 						@icons.ChartBar(icons.IconProps{Size: "20"})
@@ -18,10 +18,10 @@ templ CheckboxCardDefault() {
 					<h3>Analytics</h3>
 				</div>
 			}
-			@components.CheckboxCardDescription(components.CheckboxCardDescriptionProps{}) {
+			@components.CheckboxCardDescription() {
 				Real-time data analytics and reporting tools
 			}
-			@components.CheckboxCardFooter(components.CheckboxCardFooterProps{}) {
+			@components.CheckboxCardFooter() {
 				@radioCardPriceFooter("$5/month")
 			}
 		}
@@ -30,7 +30,7 @@ templ CheckboxCardDefault() {
 			Name:  "features",
 			Value: "storage",
 		}) {
-			@components.CheckboxCardHeader(components.CheckboxCardHeaderProps{}) {
+			@components.CheckboxCardHeader() {
 				<div class="flex items-center gap-2">
 					<div class="text-primary">
 						@icons.Cloud(icons.IconProps{Size: "20"})
@@ -38,10 +38,10 @@ templ CheckboxCardDefault() {
 					<h3>Cloud Storage</h3>
 				</div>
 			}
-			@components.CheckboxCardDescription(components.CheckboxCardDescriptionProps{}) {
+			@components.CheckboxCardDescription() {
 				Secure file storage with 100GB capacity
 			}
-			@components.CheckboxCardFooter(components.CheckboxCardFooterProps{}) {
+			@components.CheckboxCardFooter() {
 				@radioCardPriceFooter("$3/month")
 			}
 		}
@@ -51,7 +51,7 @@ templ CheckboxCardDefault() {
 			Value:    "api",
 			Disabled: true,
 		}) {
-			@components.CheckboxCardHeader(components.CheckboxCardHeaderProps{}) {
+			@components.CheckboxCardHeader() {
 				<div class="flex items-center gap-2">
 					<div class="text-primary">
 						@icons.Code(icons.IconProps{Size: "20"})
@@ -59,10 +59,10 @@ templ CheckboxCardDefault() {
 					<h3>API Access</h3>
 				</div>
 			}
-			@components.CheckboxCardDescription(components.CheckboxCardDescriptionProps{}) {
+			@components.CheckboxCardDescription() {
 				Full access to our developer API endpoints
 			}
-			@components.CheckboxCardFooter(components.CheckboxCardFooterProps{}) {
+			@components.CheckboxCardFooter() {
 				@radioCardPriceFooter("$8/month")
 			}
 		}

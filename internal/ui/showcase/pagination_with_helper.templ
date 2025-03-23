@@ -1,13 +1,13 @@
 package showcase
 
 import (
-	"github.com/axzilla/templui/components"
 	"fmt"
+	"github.com/axzilla/templui/components"
 )
 
 templ PaginationWithHelper() {
 	{{ pagination := components.CreatePagination(5, 20, 3) }}
-	@components.Pagination(components.PaginationProps{}) {
+	@components.Pagination() {
 		@components.PaginationContent() {
 			@components.PaginationItem() {
 				@components.PaginationPrevious(components.PaginationPreviousProps{

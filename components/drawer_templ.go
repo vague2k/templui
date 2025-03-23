@@ -387,7 +387,7 @@ func DrawerContent(props ...DrawerContentProps) templ.Component {
 	})
 }
 
-func DrawerHeader(props DrawerHeaderProps) templ.Component {
+func DrawerHeader(props ...DrawerHeaderProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -408,7 +408,11 @@ func DrawerHeader(props DrawerHeaderProps) templ.Component {
 			templ_7745c5c3_Var16 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		var templ_7745c5c3_Var17 = []any{utils.TwMerge("flex flex-col space-y-1.5 pb-4", props.Class)}
+		var p DrawerHeaderProps
+		if len(props) > 0 {
+			p = props[0]
+		}
+		var templ_7745c5c3_Var17 = []any{utils.TwMerge("flex flex-col space-y-1.5 pb-4", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var17...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -418,9 +422,9 @@ func DrawerHeader(props DrawerHeaderProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var18 string
-		templ_7745c5c3_Var18, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
+		templ_7745c5c3_Var18, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/drawer.templ`, Line: 171, Col: 15}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/drawer.templ`, Line: 175, Col: 11}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var18))
 		if templ_7745c5c3_Err != nil {
@@ -443,7 +447,7 @@ func DrawerHeader(props DrawerHeaderProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, props.Attributes)
+		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, p.Attributes)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -463,7 +467,7 @@ func DrawerHeader(props DrawerHeaderProps) templ.Component {
 	})
 }
 
-func DrawerTitle(props DrawerTitleProps) templ.Component {
+func DrawerTitle(props ...DrawerTitleProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -484,7 +488,11 @@ func DrawerTitle(props DrawerTitleProps) templ.Component {
 			templ_7745c5c3_Var20 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		var templ_7745c5c3_Var21 = []any{utils.TwMerge("text-lg font-semibold leading-none tracking-tight", props.Class)}
+		var p DrawerTitleProps
+		if len(props) > 0 {
+			p = props[0]
+		}
+		var templ_7745c5c3_Var21 = []any{utils.TwMerge("text-lg font-semibold leading-none tracking-tight", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var21...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -494,9 +502,9 @@ func DrawerTitle(props DrawerTitleProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var22 string
-		templ_7745c5c3_Var22, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
+		templ_7745c5c3_Var22, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/drawer.templ`, Line: 181, Col: 15}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/drawer.templ`, Line: 189, Col: 11}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var22))
 		if templ_7745c5c3_Err != nil {
@@ -519,7 +527,7 @@ func DrawerTitle(props DrawerTitleProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, props.Attributes)
+		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, p.Attributes)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -539,7 +547,7 @@ func DrawerTitle(props DrawerTitleProps) templ.Component {
 	})
 }
 
-func DrawerDescription(props DrawerDescriptionProps) templ.Component {
+func DrawerDescription(props ...DrawerDescriptionProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -560,7 +568,11 @@ func DrawerDescription(props DrawerDescriptionProps) templ.Component {
 			templ_7745c5c3_Var24 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		var templ_7745c5c3_Var25 = []any{utils.TwMerge("text-sm text-muted-foreground", props.Class)}
+		var p DrawerDescriptionProps
+		if len(props) > 0 {
+			p = props[0]
+		}
+		var templ_7745c5c3_Var25 = []any{utils.TwMerge("text-sm text-muted-foreground", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var25...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -570,9 +582,9 @@ func DrawerDescription(props DrawerDescriptionProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var26 string
-		templ_7745c5c3_Var26, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
+		templ_7745c5c3_Var26, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/drawer.templ`, Line: 191, Col: 15}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/drawer.templ`, Line: 203, Col: 11}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var26))
 		if templ_7745c5c3_Err != nil {
@@ -595,7 +607,7 @@ func DrawerDescription(props DrawerDescriptionProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, props.Attributes)
+		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, p.Attributes)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -615,7 +627,7 @@ func DrawerDescription(props DrawerDescriptionProps) templ.Component {
 	})
 }
 
-func DrawerFooter(props DrawerFooterProps) templ.Component {
+func DrawerFooter(props ...DrawerFooterProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -636,7 +648,11 @@ func DrawerFooter(props DrawerFooterProps) templ.Component {
 			templ_7745c5c3_Var28 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		var templ_7745c5c3_Var29 = []any{utils.TwMerge("flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 pt-4", props.Class)}
+		var p DrawerFooterProps
+		if len(props) > 0 {
+			p = props[0]
+		}
+		var templ_7745c5c3_Var29 = []any{utils.TwMerge("flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 pt-4", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var29...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -646,9 +662,9 @@ func DrawerFooter(props DrawerFooterProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var30 string
-		templ_7745c5c3_Var30, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
+		templ_7745c5c3_Var30, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/drawer.templ`, Line: 201, Col: 15}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/drawer.templ`, Line: 217, Col: 11}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var30))
 		if templ_7745c5c3_Err != nil {
@@ -671,7 +687,7 @@ func DrawerFooter(props DrawerFooterProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, props.Attributes)
+		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, p.Attributes)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -691,7 +707,7 @@ func DrawerFooter(props DrawerFooterProps) templ.Component {
 	})
 }
 
-func DrawerClose(props DrawerCloseProps) templ.Component {
+func DrawerClose(props ...DrawerCloseProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -712,12 +728,16 @@ func DrawerClose(props DrawerCloseProps) templ.Component {
 			templ_7745c5c3_Var32 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
+		var p DrawerCloseProps
+		if len(props) > 0 {
+			p = props[0]
+		}
 		var templ_7745c5c3_Var33 = []any{utils.TwMerge(
 			"inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background",
 			"transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
 			"disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent",
 			"hover:text-accent-foreground h-10 px-4 py-2",
-			props.Class,
+			p.Class,
 		)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var33...)
 		if templ_7745c5c3_Err != nil {
@@ -728,9 +748,9 @@ func DrawerClose(props DrawerCloseProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var34 string
-		templ_7745c5c3_Var34, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
+		templ_7745c5c3_Var34, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/drawer.templ`, Line: 211, Col: 15}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/drawer.templ`, Line: 231, Col: 11}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var34))
 		if templ_7745c5c3_Err != nil {
@@ -753,7 +773,7 @@ func DrawerClose(props DrawerCloseProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, props.Attributes)
+		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, p.Attributes)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -814,7 +834,7 @@ func DrawerScript() templ.Component {
 			var templ_7745c5c3_Var38 string
 			templ_7745c5c3_Var38, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/drawer.templ`, Line: 229, Col: 37}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/drawer.templ`, Line: 249, Col: 37}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var38))
 			if templ_7745c5c3_Err != nil {

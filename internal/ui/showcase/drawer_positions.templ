@@ -1,86 +1,84 @@
 package showcase
 
-import (
-	"github.com/axzilla/templui/components"
-)
+import "github.com/axzilla/templui/components"
 
 templ DrawerPositions() {
 	<div class="flex flex-wrap gap-2">
-		@components.Drawer(components.DrawerProps{}) {
-			@components.DrawerTrigger(components.DrawerTriggerProps{}) {
-				@components.Button(components.ButtonProps{}) {
+		@components.Drawer() {
+			@components.DrawerTrigger() {
+				@components.Button() {
 					Top
 				}
 			}
 			@components.DrawerContent(components.DrawerContentProps{Side: components.DrawerPositionTop}) {
-				@components.DrawerHeader(components.DrawerHeaderProps{}) {
-					@components.DrawerTitle(components.DrawerTitleProps{}) {
+				@components.DrawerHeader() {
+					@components.DrawerTitle() {
 						Top Drawer
 					}
 				}
 				<p>This drawer slides in from the top of the screen.</p>
-				@components.DrawerFooter(components.DrawerFooterProps{}) {
-					@components.DrawerClose(components.DrawerCloseProps{}) {
+				@components.DrawerFooter() {
+					@components.DrawerClose() {
 						Close
 					}
 				}
 			}
 		}
-		@components.Drawer(components.DrawerProps{}) {
-			@components.DrawerTrigger(components.DrawerTriggerProps{}) {
-				@components.Button(components.ButtonProps{}) {
+		@components.Drawer() {
+			@components.DrawerTrigger() {
+				@components.Button() {
 					Right
 				}
 			}
 			@components.DrawerContent(components.DrawerContentProps{Side: components.DrawerPositionRight}) {
-				@components.DrawerHeader(components.DrawerHeaderProps{}) {
-					@components.DrawerTitle(components.DrawerTitleProps{}) {
+				@components.DrawerHeader() {
+					@components.DrawerTitle() {
 						Right Drawer
 					}
 				}
 				<p>This drawer slides in from the right side of the screen.</p>
-				@components.DrawerFooter(components.DrawerFooterProps{}) {
-					@components.DrawerClose(components.DrawerCloseProps{}) {
+				@components.DrawerFooter() {
+					@components.DrawerClose() {
 						Close
 					}
 				}
 			}
 		}
-		@components.Drawer(components.DrawerProps{}) {
-			@components.DrawerTrigger(components.DrawerTriggerProps{}) {
-				@components.Button(components.ButtonProps{}) {
+		@components.Drawer() {
+			@components.DrawerTrigger() {
+				@components.Button() {
 					Bottom
 				}
 			}
 			@components.DrawerContent(components.DrawerContentProps{Side: components.DrawerPositionBottom}) {
-				@components.DrawerHeader(components.DrawerHeaderProps{}) {
-					@components.DrawerTitle(components.DrawerTitleProps{}) {
+				@components.DrawerHeader() {
+					@components.DrawerTitle() {
 						Bottom Drawer
 					}
 				}
 				<p>This drawer slides in from the bottom of the screen.</p>
-				@components.DrawerFooter(components.DrawerFooterProps{}) {
-					@components.DrawerClose(components.DrawerCloseProps{}) {
+				@components.DrawerFooter() {
+					@components.DrawerClose() {
 						Close
 					}
 				}
 			}
 		}
-		@components.Drawer(components.DrawerProps{}) {
-			@components.DrawerTrigger(components.DrawerTriggerProps{}) {
-				@components.Button(components.ButtonProps{}) {
+		@components.Drawer() {
+			@components.DrawerTrigger() {
+				@components.Button() {
 					Left
 				}
 			}
 			@components.DrawerContent(components.DrawerContentProps{Side: components.DrawerPositionLeft}) {
-				@components.DrawerHeader(components.DrawerHeaderProps{}) {
-					@components.DrawerTitle(components.DrawerTitleProps{}) {
+				@components.DrawerHeader() {
+					@components.DrawerTitle() {
 						Left Drawer
 					}
 				}
 				<p>This drawer slides in from the left side of the screen.</p>
-				@components.DrawerFooter(components.DrawerFooterProps{}) {
-					@components.DrawerClose(components.DrawerCloseProps{}) {
+				@components.DrawerFooter() {
+					@components.DrawerClose() {
 						Close
 					}
 				}

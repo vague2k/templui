@@ -13,7 +13,7 @@ templ RatingWithLabel() {
 			@components.Rating(components.RatingProps{
 				Value: 2,
 			}) {
-				@components.RatingGroup(components.RatingGroupProps{}) {
+				@components.RatingGroup() {
 					for i := 1; i <= 5; i++ {
 						@components.RatingItem(components.RatingItemProps{
 							Value: i,
