@@ -32,19 +32,23 @@ type InputProps struct {
 	HasError    bool
 }
 
-templ Input(props InputProps) {
+templ Input(props ...InputProps) {
+	{{ var p InputProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<input
-		x-ref={ props.ID }
-		type={ string(props.Type) }
-		placeholder={ props.Placeholder }
-		disabled?={ props.Disabled }
-		readonly?={ props.Readonly }
-		required?={ props.Required }
-		name={ props.Name }
-		if props.Value != "" {
-			value={ props.Value }
+		x-ref={ p.ID }
+		type={ string(p.Type) }
+		placeholder={ p.Placeholder }
+		disabled?={ p.Disabled }
+		readonly?={ p.Readonly }
+		required?={ p.Required }
+		name={ p.Name }
+		if p.Value != "" {
+			value={ p.Value }
 		}
-		id={ props.ID }
+		id={ p.ID }
 		class={
 			utils.TwMerge(
 				"peer flex h-10 w-full px-3 py-2",
@@ -53,13 +57,13 @@ templ Input(props InputProps) {
 				"placeholder:text-muted-foreground",
 				"focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
 				"disabled:cursor-not-allowed disabled:opacity-50",
-				utils.If(props.HasError, "border-destructive ring-destructive"),
-				props.Class,
+				utils.If(p.HasError, "border-destructive ring-destructive"),
+				p.Class,
 			),
 		}
-		if props.Type == InputTypeFile {
-			accept={ props.FileAccept }
+		if p.Type == InputTypeFile {
+			accept={ p.FileAccept }
 		}
-		{ props.Attributes... }
+		{ p.Attributes... }
 	/>
 }
