@@ -122,7 +122,7 @@ func getAspectRatioClass(ratio AspectRatioVariant) string {
 	case AspectRatioWide:
 		return "aspect-[2/1]"
 	default:
-		return "aspect-auto"
+		return "aspect-square"
 	}
 }
 
