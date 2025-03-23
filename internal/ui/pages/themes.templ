@@ -688,18 +688,18 @@ templ Themes() {
 
 templ ThemePreview() {
 	<div id="theme-preview" class="theme-preview p-6 border rounded-lg">
-		@components.Card(components.CardProps{}) {
-			@components.CardHeader(components.CardHeaderProps{}) {
-				@components.CardTitle(components.CardTitleProps{}) {
+		@components.Card() {
+			@components.CardHeader() {
+				@components.CardTitle() {
 					User Registration 
 				}
-				@components.CardDescription(components.CardDescriptionProps{}) {
+				@components.CardDescription() {
 					Please fill out the form below to create your account. 
 				}
 			}
-			@components.CardContent(components.CardContentProps{}) {
+			@components.CardContent() {
 				<form class="space-y-4">
-					@components.FormItem(components.FormItemProps{}) {
+					@components.FormItem() {
 						@components.FormLabel(components.FormLabelProps{
 							For: "username",
 						}) {
@@ -712,7 +712,7 @@ templ ThemePreview() {
 							Placeholder: "Enter your username",
 						})
 					}
-					@components.FormItem(components.FormItemProps{}) {
+					@components.FormItem() {
 						@components.FormLabel(components.FormLabelProps{
 							For: "email",
 						}) {
@@ -725,7 +725,7 @@ templ ThemePreview() {
 							Placeholder: "Enter your email",
 						})
 					}
-					@components.FormItem(components.FormItemProps{}) {
+					@components.FormItem() {
 						@components.FormLabel(components.FormLabelProps{
 							For: "password",
 						}) {
@@ -738,7 +738,7 @@ templ ThemePreview() {
 							Placeholder: "Enter your password",
 						})
 					}
-					@components.FormItem(components.FormItemProps{}) {
+					@components.FormItem() {
 						@components.FormLabel(components.FormLabelProps{
 							For: "birthdate",
 						}) {
@@ -750,13 +750,13 @@ templ ThemePreview() {
 							Placeholder: "Select your birth date",
 						})
 					}
-					@components.FormItem(components.FormItemProps{}) {
+					@components.FormItem() {
 						@components.FormLabel(components.FormLabelProps{
 							For: "contact-method",
 						}) {
 							Contact Method
 						}
-						@components.FormItemFlex(components.FormItemProps{}) {
+						@components.FormItemFlex() {
 							@components.Radio(components.RadioProps{
 								Value: "email",
 								ID:    "contact-email",
@@ -768,7 +768,7 @@ templ ThemePreview() {
 								Email
 							}
 						}
-						@components.FormItemFlex(components.FormItemProps{}) {
+						@components.FormItemFlex() {
 							@components.Radio(components.RadioProps{
 								Value: "phone",
 								ID:    "contact-phone",
@@ -780,7 +780,7 @@ templ ThemePreview() {
 								Phone
 							}
 						}
-						@components.FormItemFlex(components.FormItemProps{}) {
+						@components.FormItemFlex() {
 							@components.Radio(components.RadioProps{
 								Value:      "mail",
 								ID:         "contact-mail",
@@ -794,11 +794,11 @@ templ ThemePreview() {
 							}
 						}
 					}
-					@components.FormItem(components.FormItemProps{}) {
-						@components.FormLabel(components.FormLabelProps{}) {
+					@components.FormItem() {
+						@components.FormLabel() {
 							Preferences
 						}
-						@components.FormItemFlex(components.FormItemProps{}) {
+						@components.FormItemFlex() {
 							@components.Toggle(components.ToggleProps{
 								ID:   "marketing",
 								Name: "marketing",
@@ -809,7 +809,7 @@ templ ThemePreview() {
 								Receive marketing emails
 							}
 						}
-						@components.FormItemFlex(components.FormItemProps{}) {
+						@components.FormItemFlex() {
 							@components.Toggle(components.ToggleProps{
 								ID:         "notifications",
 								Name:       "notifications",
@@ -821,7 +821,7 @@ templ ThemePreview() {
 								Enable notifications
 							}
 						}
-						@components.FormItemFlex(components.FormItemProps{}) {
+						@components.FormItemFlex() {
 							@components.Toggle(components.ToggleProps{
 								ID:         "beta",
 								Name:       "beta",
@@ -834,11 +834,11 @@ templ ThemePreview() {
 							}
 						}
 					}
-					@components.FormItem(components.FormItemProps{}) {
-						@components.FormLabel(components.FormLabelProps{}) {
+					@components.FormItem() {
+						@components.FormLabel() {
 							Terms and Conditions
 						}
-						@components.FormItemFlex(components.FormItemProps{}) {
+						@components.FormItemFlex() {
 							@components.Checkbox(components.CheckboxProps{
 								ID:    "terms",
 								Name:  "terms",
@@ -850,7 +850,7 @@ templ ThemePreview() {
 								I accept the terms and conditions
 							}
 						}
-						@components.FormItemFlex(components.FormItemProps{}) {
+						@components.FormItemFlex() {
 							@components.Checkbox(components.CheckboxProps{
 								ID:    "newsletter",
 								Name:  "newsletter",
@@ -865,14 +865,14 @@ templ ThemePreview() {
 					}
 				</form>
 			}
-			@components.CardFooter(components.CardFooterProps{}) {
+			@components.CardFooter() {
 				<div class="flex justify-between w-full">
 					@components.Button(components.ButtonProps{
 						Variant: components.ButtonVariantSecondary,
 					}) {
 						Cancel
 					}
-					@components.Button(components.ButtonProps{}) {
+					@components.Button() {
 						Register
 					}
 				</div>
@@ -908,13 +908,13 @@ templ ThemeCustomizer(props ThemeCustomizerProps) {
 			}
 		}
 		@components.Modal(components.ModalProps{ID: "css-modal", Class: "max-w-xl"}) {
-			@components.ModalHeader(components.ModalHeaderProps{}) {
+			@components.ModalHeader() {
 				Generated CSS Code
 			}
-			@components.ModalBody(components.ModalBodyProps{}) {
+			@components.ModalBody() {
 				<pre x-text="generatedCSS" class="text-primary p-4 rounded overflow-x-auto max-h-96"></pre>
 			}
-			@components.ModalFooter(components.ModalFooterProps{}) {
+			@components.ModalFooter() {
 				<div class="flex gap-2">
 					@components.Button(components.ButtonProps{
 						Variant:    "primary",
