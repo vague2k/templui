@@ -34,33 +34,41 @@ type TabContentProps struct {
 	TabsID     string
 }
 
-templ Tabs(props TabsProps) {
-	{{ tabsID := props.ID }}
+templ Tabs(props ...TabsProps) {
+	{{ var p TabsProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
+	{{ tabsID := p.ID }}
 	if tabsID == "" {
 		{{ tabsID = utils.RandomID() }}
 	}
 	<div
 		id={ tabsID }
-		class={ utils.TwMerge("relative", props.Class) }
+		class={ utils.TwMerge("relative", p.Class) }
 		data-tabs
 		data-tabs-id={ tabsID }
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
 		{{ ctx = context.WithValue(ctx, "tabsId", tabsID) }}
 		{ children... }
 	</div>
 }
 
-templ TabsList(props TabsListProps) {
+templ TabsList(props ...TabsListProps) {
+	{{ var p TabsListProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<div
-		id={ props.ID }
+		id={ p.ID }
 		class={
 			utils.TwMerge(
 				"relative flex items-center justify-center h-10 p-1 rounded-lg select-none bg-muted text-muted-foreground",
-				props.Class,
+				p.Class,
 			),
 		}
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
 		{ children... }
 		<div
@@ -73,48 +81,56 @@ templ TabsList(props TabsListProps) {
 	</div>
 }
 
-templ TabTrigger(props TabTriggerProps) {
-	{{ tabsID := props.TabsID }}
+templ TabTrigger(props ...TabTriggerProps) {
+	{{ var p TabTriggerProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
+	{{ tabsID := p.TabsID }}
 	if tabsID == "" {
 		{{ tabsID = getTabsID(ctx) }}
 	}
 	<button
-		id={ props.ID }
+		id={ p.ID }
 		type="button"
 		class={ utils.TwMerge(
 			"relative z-20 flex-1 inline-flex items-center justify-center h-8 px-3 text-sm font-medium transition-all rounded-md cursor-pointer whitespace-nowrap hover:text-foreground",
-			utils.If(props.IsActive, "text-foreground bg-background shadow-xs"),
-			props.Class,
+			utils.If(p.IsActive, "text-foreground bg-background shadow-xs"),
+			p.Class,
 		) }
 		data-tabs-trigger
 		data-tabs-id={ tabsID }
-		data-tabs-value={ props.Value }
-		data-state={ utils.IfElse(props.IsActive, "active", "inactive") }
-		{ props.Attributes... }
+		data-tabs-value={ p.Value }
+		data-state={ utils.IfElse(p.IsActive, "active", "inactive") }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</button>
 }
 
-templ TabContent(props TabContentProps) {
-	{{ tabsID := props.TabsID }}
+templ TabContent(props ...TabContentProps) {
+	{{ var p TabContentProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
+	{{ tabsID := p.TabsID }}
 	if tabsID == "" {
 		{{ tabsID = getTabsID(ctx) }}
 	}
 	<div
-		id={ props.ID }
+		id={ p.ID }
 		class={
 			utils.TwMerge(
 				"relative",
-				utils.If(!props.IsActive, "hidden"),
-				props.Class,
+				utils.If(!p.IsActive, "hidden"),
+				p.Class,
 			),
 		}
 		data-tabs-content
 		data-tabs-id={ tabsID }
-		data-tabs-value={ props.Value }
-		data-state={ utils.IfElse(props.IsActive, "active", "inactive") }
-		{ props.Attributes... }
+		data-tabs-value={ p.Value }
+		data-state={ utils.IfElse(p.IsActive, "active", "inactive") }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</div>
