@@ -3,36 +3,28 @@ package showcase
 import "github.com/axzilla/templui/components"
 
 templ AvatarGroup() {
-	@components.AvatarGroup(components.AvatarGroupProps{
-		Max:     3,
+	@components.AvatarGroup(3, components.AvatarGroupProps{
 		Spacing: components.AvatarGroupSpacingLarge,
 	}) {
 		@components.Avatar(components.AvatarProps{
 			InGroup: true,
 		}) {
-			@components.AvatarImage(components.AvatarImageProps{
-				Src: "https://avatars.githubusercontent.com/u/26936893?v=4",
-				Alt: "John Doe's avatar",
-			})
+			@components.AvatarImage("https://avatars.githubusercontent.com/u/26936893?v=4")
 		}
 		@components.Avatar(components.AvatarProps{
 			InGroup: true,
 		}) {
-			@components.AvatarImage(components.AvatarImageProps{
-				Src: "https://avatars.githubusercontent.com/u/26936893?v=4",
-				Alt: "John Doe's avatar",
-			})
+			@components.AvatarImage("https://avatars.githubusercontent.com/u/26936893?v=4")
 		}
 		@components.Avatar(components.AvatarProps{
 			InGroup: true,
 		}) {
-			@components.AvatarImage(components.AvatarImageProps{
-				Src: "https://avatars.githubusercontent.com/u/26936893?v=4",
-				Alt: "John Doe's avatar",
-			})
+			@components.AvatarImage("https://avatars.githubusercontent.com/u/26936893?v=4")
 		}
 		@components.AvatarGroupOverflow(2, components.AvatarProps{
 			InGroup: true,
-		})
+		}) {
+			@components.AvatarImage("https://avatars.githubusercontent.com/u/26936893?v=4")
+		}
 	}
 }

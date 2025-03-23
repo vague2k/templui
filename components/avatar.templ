@@ -33,7 +33,6 @@ type AvatarImageProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
-	Src        string
 	Alt        string
 }
 
@@ -41,14 +40,12 @@ type AvatarFallbackProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
-	DelayMs    int
 }
 
 type AvatarGroupProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
-	Max        int
 	Spacing    AvatarGroupSpacing
 }
 
@@ -74,14 +71,14 @@ templ Avatar(props ...AvatarProps) {
 	</div>
 }
 
-templ AvatarImage(props ...AvatarImageProps) {
+templ AvatarImage(src string, props ...AvatarImageProps) {
 	{{ var p AvatarImageProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
 	<img
 		id={ p.ID }
-		src={ p.Src }
+		src={ src }
 		alt={ p.Alt }
 		class={ utils.TwMerge(
 			"w-full h-full",
@@ -109,7 +106,7 @@ templ AvatarFallback(props ...AvatarFallbackProps) {
 	</span>
 }
 
-templ AvatarGroup(props ...AvatarGroupProps) {
+templ AvatarGroup(max int, props ...AvatarGroupProps) {
 	{{ var p AvatarGroupProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
@@ -123,7 +120,7 @@ templ AvatarGroup(props ...AvatarGroupProps) {
 		) }
 		{ p.Attributes... }
 	>
-		@templ.Raw(fmt.Sprintf("<!-- Max avatars: %d -->", p.Max))
+		@templ.Raw(fmt.Sprintf("<!-- Max avatars: %d -->", max))
 		{ children... }
 	</div>
 }
