@@ -15,6 +15,7 @@ type ModalTriggerProps struct {
 	Class      string
 	Attributes templ.Attributes
 	ModalID    string
+	Disabled   bool
 }
 
 type ModalCloseProps struct {
@@ -91,8 +92,14 @@ templ ModalTrigger(props ModalTriggerProps) {
 		id={ props.ID }
 		x-data="modalTriggers"
 		data-modal-id={ props.ModalID }
-		@click="openModal"
-		class={ props.Class }
+		if !props.Disabled {
+			@click="openModal"
+		}
+		class={
+			utils.TwMerge(
+				utils.IfElse(props.Disabled, "cursor-not-allowed", "cursor-pointer"),
+				props.Class),
+		}
 		{ props.Attributes... }
 	>
 		{ children... }
