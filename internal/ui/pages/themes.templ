@@ -867,9 +867,7 @@ templ ThemeCustomizer(props ThemeCustomizerProps) {
 			@RadiusSelector()
 			@ModeSelector()
 		</div>
-		@components.ModalTrigger(components.ModalTriggerProps{
-			ModalID: "css-modal",
-		}) {
+		@components.ModalTrigger("css-modal") {
 			@components.Button(components.ButtonProps{
 				FullWidth: true,
 				Attributes: templ.Attributes{
@@ -894,9 +892,7 @@ templ ThemeCustomizer(props ThemeCustomizerProps) {
 					}) {
 						Copy to Clipboard
 					}
-					@components.ModalClose(components.ModalCloseProps{
-						ModalID: "css-modal",
-					}) {
+					@components.ModalClose("css-modal") {
 						@components.Button(components.ButtonProps{
 							Variant: "secondary",
 						}) {

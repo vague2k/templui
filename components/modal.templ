@@ -14,7 +14,6 @@ type ModalTriggerProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
-	ModalID    string
 	Disabled   bool
 }
 
@@ -22,7 +21,6 @@ type ModalCloseProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
-	ModalID    string
 }
 
 type ModalHeaderProps struct {
@@ -91,7 +89,7 @@ templ Modal(props ...ModalProps) {
 	</div>
 }
 
-templ ModalTrigger(props ...ModalTriggerProps) {
+templ ModalTrigger(modalID string, props ...ModalTriggerProps) {
 	{{ var p ModalTriggerProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
@@ -99,7 +97,7 @@ templ ModalTrigger(props ...ModalTriggerProps) {
 	<span
 		id={ p.ID }
 		x-data="modalTriggers"
-		data-modal-id={ p.ModalID }
+		data-modal-id={ modalID }
 		if !p.Disabled {
 			@click="openModal"
 		}
@@ -114,7 +112,7 @@ templ ModalTrigger(props ...ModalTriggerProps) {
 	</span>
 }
 
-templ ModalClose(props ...ModalCloseProps) {
+templ ModalClose(modalID string, props ...ModalCloseProps) {
 	{{ var p ModalCloseProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
@@ -122,7 +120,7 @@ templ ModalClose(props ...ModalCloseProps) {
 	<span
 		id={ p.ID }
 		x-data="modalTriggers"
-		data-modal-id={ p.ModalID }
+		data-modal-id={ modalID }
 		@click="closeModal"
 		class={ utils.TwMerge("", p.Class) }
 		{ p.Attributes... }
