@@ -75,115 +75,147 @@ type CardMediaProps struct {
 	AspectRatio AspectRatioVariant
 }
 
-templ Card(props CardProps) {
+templ Card(props ...CardProps) {
+	{{ var p CardProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<div
-		id={ props.ID }
+		id={ p.ID }
 		class={ utils.TwMerge(
 				"w-full rounded-lg border bg-card text-card-foreground shadow-xs",
-				props.Class,
+				p.Class,
 			) }
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</div>
 }
 
-templ CardHeader(props CardHeaderProps) {
+templ CardHeader(props ...CardHeaderProps) {
+	{{ var p CardHeaderProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<div
-		id={ props.ID }
+		id={ p.ID }
 		class={ utils.TwMerge(
 				"flex flex-col space-y-1.5 p-6 pb-0",
-				props.Class,
+				p.Class,
 			) }
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</div>
 }
 
-templ CardTitle(props CardTitleProps) {
+templ CardTitle(props ...CardTitleProps) {
+	{{ var p CardTitleProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<h3
-		id={ props.ID }
+		id={ p.ID }
 		class={ utils.TwMerge(
 				"text-lg font-semibold leading-none tracking-tight",
-				props.Class,
+				p.Class,
 			) }
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</h3>
 }
 
-templ CardDescription(props CardDescriptionProps) {
+templ CardDescription(props ...CardDescriptionProps) {
+	{{ var p CardDescriptionProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<p
-		id={ props.ID }
+		id={ p.ID }
 		class={ utils.TwMerge(
 				"text-sm text-muted-foreground",
-				props.Class,
+				p.Class,
 			) }
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</p>
 }
 
-templ CardContent(props CardContentProps) {
+templ CardContent(props ...CardContentProps) {
+	{{ var p CardContentProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<div
-		id={ props.ID }
+		id={ p.ID }
 		class={ utils.TwMerge(
 				"p-6",
-				props.Class,
+				p.Class,
 			) }
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</div>
 }
 
-templ CardFooter(props CardFooterProps) {
+templ CardFooter(props ...CardFooterProps) {
+	{{ var p CardFooterProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<div
-		id={ props.ID }
+		id={ p.ID }
 		class={ utils.TwMerge(
 				"flex items-center p-6 pt-0",
-				props.Class,
+				p.Class,
 			) }
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</div>
 }
 
-templ CardHorizontal(props CardHorizontalProps) {
+templ CardHorizontal(props ...CardHorizontalProps) {
+	{{ var p CardHorizontalProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<div
-		id={ props.ID }
+		id={ p.ID }
 		class={ utils.TwMerge(
 				"flex overflow-hidden",
-				props.Class,
+				p.Class,
 			) }
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</div>
 }
 
-templ CardMedia(props CardMediaProps) {
+templ CardMedia(props ...CardMediaProps) {
+	{{ var p CardMediaProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<div
-		id={ props.ID }
+		id={ p.ID }
 		class={ utils.TwMerge(
 				"overflow-hidden",
-				getCardMediaPositionClasses(props.Position, props.Width),
-				props.Class,
+				getCardMediaPositionClasses(p.Position, p.Width),
+				p.Class,
 			) }
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
 		@AspectRatio(AspectRatioProps{
-			ID:    props.ID + "-aspect",
-			Ratio: props.AspectRatio,
+			ID:    p.ID + "-aspect",
+			Ratio: p.AspectRatio,
 			Class: "h-full w-full",
 		}) {
 			<img
-				src={ props.Src }
-				alt={ props.Alt }
+				src={ p.Src }
+				alt={ p.Alt }
 				class="h-full w-full object-cover"
 			/>
 		}
