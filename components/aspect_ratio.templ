@@ -19,15 +19,19 @@ type AspectRatioProps struct {
 	Ratio      AspectRatioVariant
 }
 
-templ AspectRatio(props AspectRatioProps) {
+templ AspectRatio(props ...AspectRatioProps) {
+	{{ var p AspectRatioProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<div
-		id={ props.ID }
+		id={ p.ID }
 		class={ utils.TwMerge(
 			"relative w-full",
-			getAspectRatioClass(props.Ratio),
-			props.Class,
+			getAspectRatioClass(p.Ratio),
+			p.Class,
 		) }
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
 		<div class="absolute inset-0">
 			{ children... }
