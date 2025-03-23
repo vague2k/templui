@@ -39,7 +39,7 @@ type CheckboxCardFooterProps struct {
 	Attributes templ.Attributes
 }
 
-func CheckboxCard(props CheckboxCardProps) templ.Component {
+func CheckboxCard(props ...CheckboxCardProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -60,11 +60,15 @@ func CheckboxCard(props CheckboxCardProps) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		if props.ID == "" {
-			props.ID = utils.RandomID()
+		var p CheckboxCardProps
+		if len(props) > 0 {
+			p = props[0]
 		}
-		inputId := props.ID + "-input"
-		var templ_7745c5c3_Var2 = []any{utils.TwMerge("relative", utils.If(props.Disabled, "opacity-60"), props.Class)}
+		if p.ID == "" {
+			p.ID = utils.RandomID()
+		}
+		inputId := p.ID + "-input"
+		var templ_7745c5c3_Var2 = []any{utils.TwMerge("relative", utils.If(p.Disabled, "opacity-60"), p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -74,9 +78,9 @@ func CheckboxCard(props CheckboxCardProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var3 string
-		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
+		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/checkbox_card.templ`, Line: 40, Col: 15}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/checkbox_card.templ`, Line: 44, Col: 11}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
@@ -99,7 +103,7 @@ func CheckboxCard(props CheckboxCardProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, props.Attributes)
+		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, p.Attributes)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -110,7 +114,7 @@ func CheckboxCard(props CheckboxCardProps) templ.Component {
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(inputId)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/checkbox_card.templ`, Line: 46, Col: 15}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/checkbox_card.templ`, Line: 50, Col: 15}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
@@ -121,9 +125,9 @@ func CheckboxCard(props CheckboxCardProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var6 string
-		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(props.Name)
+		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(p.Name)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/checkbox_card.templ`, Line: 47, Col: 20}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/checkbox_card.templ`, Line: 51, Col: 16}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -134,9 +138,9 @@ func CheckboxCard(props CheckboxCardProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var7 string
-		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(props.Value)
+		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(p.Value)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/checkbox_card.templ`, Line: 48, Col: 22}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/checkbox_card.templ`, Line: 52, Col: 18}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
@@ -146,19 +150,19 @@ func CheckboxCard(props CheckboxCardProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		if props.Checked {
+		if p.Checked {
 			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, " checked")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		if props.Disabled {
+		if p.Disabled {
 			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, " disabled")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		if props.Required {
+		if p.Required {
 			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, " required")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -175,9 +179,9 @@ func CheckboxCard(props CheckboxCardProps) templ.Component {
 				"cursor-pointer",
 				"hover:border-primary/50",
 				"peer-checked:ring-1 peer-checked:ring-primary peer-checked:border-primary",
-				utils.If(props.Disabled, "cursor-not-allowed"),
+				utils.If(p.Disabled, "cursor-not-allowed"),
 				"transition-all duration-200",
-				props.Class,
+				p.Class,
 			),
 		}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var8...)
@@ -191,7 +195,7 @@ func CheckboxCard(props CheckboxCardProps) templ.Component {
 		var templ_7745c5c3_Var9 string
 		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(inputId)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/checkbox_card.templ`, Line: 55, Col: 16}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/checkbox_card.templ`, Line: 59, Col: 16}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {
@@ -226,7 +230,7 @@ func CheckboxCard(props CheckboxCardProps) templ.Component {
 	})
 }
 
-func CheckboxCardHeader(props CheckboxCardHeaderProps) templ.Component {
+func CheckboxCardHeader(props ...CheckboxCardHeaderProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -247,7 +251,11 @@ func CheckboxCardHeader(props CheckboxCardHeaderProps) templ.Component {
 			templ_7745c5c3_Var11 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		var templ_7745c5c3_Var12 = []any{utils.TwMerge("flex items-center justify-between mb-2", props.Class)}
+		var p CheckboxCardHeaderProps
+		if len(props) > 0 {
+			p = props[0]
+		}
+		var templ_7745c5c3_Var12 = []any{utils.TwMerge("flex items-center justify-between mb-2", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var12...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -257,9 +265,9 @@ func CheckboxCardHeader(props CheckboxCardHeaderProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var13 string
-		templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
+		templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/checkbox_card.templ`, Line: 76, Col: 15}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/checkbox_card.templ`, Line: 84, Col: 11}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 		if templ_7745c5c3_Err != nil {
@@ -282,7 +290,7 @@ func CheckboxCardHeader(props CheckboxCardHeaderProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, props.Attributes)
+		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, p.Attributes)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -302,7 +310,7 @@ func CheckboxCardHeader(props CheckboxCardHeaderProps) templ.Component {
 	})
 }
 
-func CheckboxCardDescription(props CheckboxCardDescriptionProps) templ.Component {
+func CheckboxCardDescription(props ...CheckboxCardDescriptionProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -323,7 +331,11 @@ func CheckboxCardDescription(props CheckboxCardDescriptionProps) templ.Component
 			templ_7745c5c3_Var15 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		var templ_7745c5c3_Var16 = []any{utils.TwMerge("text-sm text-muted-foreground", props.Class)}
+		var p CheckboxCardDescriptionProps
+		if len(props) > 0 {
+			p = props[0]
+		}
+		var templ_7745c5c3_Var16 = []any{utils.TwMerge("text-sm text-muted-foreground", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var16...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -333,9 +345,9 @@ func CheckboxCardDescription(props CheckboxCardDescriptionProps) templ.Component
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var17 string
-		templ_7745c5c3_Var17, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
+		templ_7745c5c3_Var17, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/checkbox_card.templ`, Line: 86, Col: 15}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/checkbox_card.templ`, Line: 98, Col: 11}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var17))
 		if templ_7745c5c3_Err != nil {
@@ -358,7 +370,7 @@ func CheckboxCardDescription(props CheckboxCardDescriptionProps) templ.Component
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, props.Attributes)
+		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, p.Attributes)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -378,7 +390,7 @@ func CheckboxCardDescription(props CheckboxCardDescriptionProps) templ.Component
 	})
 }
 
-func CheckboxCardFooter(props CheckboxCardFooterProps) templ.Component {
+func CheckboxCardFooter(props ...CheckboxCardFooterProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -399,7 +411,11 @@ func CheckboxCardFooter(props CheckboxCardFooterProps) templ.Component {
 			templ_7745c5c3_Var19 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		var templ_7745c5c3_Var20 = []any{utils.TwMerge("mt-auto pt-4 w-full", props.Class)}
+		var p CheckboxCardFooterProps
+		if len(props) > 0 {
+			p = props[0]
+		}
+		var templ_7745c5c3_Var20 = []any{utils.TwMerge("mt-auto pt-4 w-full", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var20...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -409,9 +425,9 @@ func CheckboxCardFooter(props CheckboxCardFooterProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var21 string
-		templ_7745c5c3_Var21, templ_7745c5c3_Err = templ.JoinStringErrs(props.ID)
+		templ_7745c5c3_Var21, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/checkbox_card.templ`, Line: 96, Col: 15}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/checkbox_card.templ`, Line: 112, Col: 11}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var21))
 		if templ_7745c5c3_Err != nil {
@@ -434,7 +450,7 @@ func CheckboxCardFooter(props CheckboxCardFooterProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, props.Attributes)
+		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, p.Attributes)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
