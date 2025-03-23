@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"github.com/axzilla/templui/icons"
 	"github.com/axzilla/templui/utils"
-	"time"
 	"strconv"
+	"time"
 )
 
 type TimePickerProps struct {
@@ -28,66 +28,70 @@ type SelectOption struct {
 	Value string
 }
 
-templ TimePicker(props TimePickerProps) {
-	if props.ID == "" {
-		{{ props.ID = utils.RandomID() }}
+templ TimePicker(props ...TimePickerProps) {
+	{{ var p TimePickerProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
 	}
-	if props.Placeholder == "" {
-		{{ props.Placeholder = "Select time" }}
+	if p.ID == "" {
+		{{ p.ID = utils.RandomID() }}
 	}
-	if props.AMLabel == "" {
-		{{ props.AMLabel = "AM" }}
+	if p.Placeholder == "" {
+		{{ p.Placeholder = "Select time" }}
 	}
-	if props.PMLabel == "" {
-		{{ props.PMLabel = "PM" }}
+	if p.AMLabel == "" {
+		{{ p.AMLabel = "AM" }}
+	}
+	if p.PMLabel == "" {
+		{{ p.PMLabel = "PM" }}
 	}
 	<div
-		class={ utils.TwMerge("relative", props.Class) }
-		if props.Value != (time.Time{}) {
-			data-value={ props.Value.Format("15:04") }
+		class={ utils.TwMerge("relative", p.Class) }
+		if p.Value != (time.Time{}) {
+			data-value={ p.Value.Format("15:04") }
 		}
-		data-use12hours={ fmt.Sprintf("%t", props.Use12Hours) }
+		data-use12hours={ fmt.Sprintf("%t", p.Use12Hours) }
 		x-data="timePicker"
-		data-input-id={ props.ID }
+		data-input-id={ p.ID }
 	>
 		<div class="relative">
 			<input
 				type="hidden"
-				name={ props.Name }
-				required?={ props.Required }
+				name={ p.Name }
+				required?={ p.Required }
 			/>
 			@Button(ButtonProps{
-				ID:      props.ID,
+				ID:      p.ID,
 				Type:    "button",
 				Variant: ButtonVariantOutline,
 				Class: utils.TwMerge(
 					"w-full flex justify-between items-center",
-					utils.If(props.HasError, "border-destructive ring-destructive"),
+					utils.If(p.HasError, "border-destructive ring-destructive"),
 				),
-				Disabled: props.Disabled,
+				Disabled: p.Disabled,
 				Attributes: utils.MergeAttributes(
 					templ.Attributes{
 						"@click": "toggleTimePicker",
 					},
-					props.Attributes,
+					p.Attributes,
 				),
 			}) {
 				<span
 					class={
 						utils.TwMerge(
 							"timepicker-display truncate",
-							utils.If(props.Value == (time.Time{}), "text-muted-foreground"),
+							utils.If(p.Value == (time.Time{}), "text-muted-foreground"),
 						),
 					}
 				>
-					if props.Value != (time.Time{}) {
-						if props.Use12Hours {
-							{ props.Value.Format("03:04 PM") }
+					if p.Value != (time.Time{}) {
+						if p.Use12Hours {
+							{ p.Value.Format("03:04 PM") }
 						} else {
-							{ props.Value.Format("15:04") }
+							{ p.Value.Format("15:04") }
 						}
 					} else {
-						{ props.Placeholder }
+						{ p.Placeholder }
 					}
 				</span>
 				@icons.Clock(icons.IconProps{
@@ -108,7 +112,7 @@ templ TimePicker(props TimePickerProps) {
 			<div class="grid grid-cols-2 gap-2 flex-1">
 				<div>
 					@Select(SelectProps{
-						ID:    "hour-select-" + props.ID,
+						ID:    "hour-select-" + p.ID,
 						Class: "w-full",
 					}) {
 						@SelectTrigger(SelectTriggerProps{
@@ -117,10 +121,10 @@ templ TimePicker(props TimePickerProps) {
 							@SelectValue(SelectValueProps{
 								Placeholder: "Hour",
 							}) {
-								if props.Value != (time.Time{}) {
-									if props.Use12Hours {
+								if p.Value != (time.Time{}) {
+									if p.Use12Hours {
 										// Convert 24h to 12h format for display
-										{{ hour := props.Value.Hour() % 12 }}
+										{{ hour := p.Value.Hour() % 12 }}
 										{{
 										if hour == 0 {
 											hour = 12
@@ -128,21 +132,21 @@ templ TimePicker(props TimePickerProps) {
 										}}
 										{ fmt.Sprintf("%02d", hour) }
 									} else {
-										{ fmt.Sprintf("%02d", props.Value.Hour()) }
+										{ fmt.Sprintf("%02d", p.Value.Hour()) }
 									}
 								}
 							}
 						}
 						@SelectContent(SelectContentProps{}) {
 							@SelectGroup(SelectGroupProps{}) {
-								for _, option := range generateHourOptions(props.Use12Hours) {
+								for _, option := range generateHourOptions(p.Use12Hours) {
 									@SelectItem(SelectItemProps{
 										Value: option.Value,
-										Selected: props.Value != (time.Time{}) &&
-											((props.Use12Hours &&
-												((props.Value.Hour()%12 == 0 && option.Value == "12") ||
-													(props.Value.Hour()%12 == parseInt(option.Value)))) ||
-												(!props.Use12Hours && props.Value.Hour() == parseInt(option.Value))),
+										Selected: p.Value != (time.Time{}) &&
+											((p.Use12Hours &&
+												((p.Value.Hour()%12 == 0 && option.Value == "12") ||
+													(p.Value.Hour()%12 == parseInt(option.Value)))) ||
+												(!p.Use12Hours && p.Value.Hour() == parseInt(option.Value))),
 									}) {
 										{ option.Label }
 									}
@@ -153,7 +157,7 @@ templ TimePicker(props TimePickerProps) {
 				</div>
 				<div>
 					@Select(SelectProps{
-						ID:    "minute-select-" + props.ID,
+						ID:    "minute-select-" + p.ID,
 						Class: "w-full",
 					}) {
 						@SelectTrigger(SelectTriggerProps{
@@ -162,8 +166,8 @@ templ TimePicker(props TimePickerProps) {
 							@SelectValue(SelectValueProps{
 								Placeholder: "Minute",
 							}) {
-								if props.Value != (time.Time{}) {
-									{ fmt.Sprintf("%02d", props.Value.Minute()) }
+								if p.Value != (time.Time{}) {
+									{ fmt.Sprintf("%02d", p.Value.Minute()) }
 								}
 							}
 						}
@@ -172,7 +176,7 @@ templ TimePicker(props TimePickerProps) {
 								for _, option := range generateMinuteOptions() {
 									@SelectItem(SelectItemProps{
 										Value:    option.Value,
-										Selected: props.Value != (time.Time{}) && props.Value.Minute() == parseInt(option.Value),
+										Selected: p.Value != (time.Time{}) && p.Value.Minute() == parseInt(option.Value),
 									}) {
 										{ option.Label }
 									}
@@ -183,7 +187,7 @@ templ TimePicker(props TimePickerProps) {
 				</div>
 			</div>
 			<div class="flex justify-between mt-4 gap-2">
-				if props.Use12Hours {
+				if p.Use12Hours {
 					<div class="flex justify-center gap-2">
 						<button
 							type="button"
@@ -191,10 +195,10 @@ templ TimePicker(props TimePickerProps) {
 							@click="selectPeriod"
 							class={ utils.TwMerge(
 								"px-3 py-1 text-sm rounded-md hover:bg-muted",
-								utils.If(props.Value != (time.Time{}) && props.Value.Hour() < 12, "bg-primary text-primary-foreground", ),
+								utils.If(p.Value != (time.Time{}) && p.Value.Hour() < 12, "bg-primary text-primary-foreground", ),
 							) }
 						>
-							{ props.AMLabel }
+							{ p.AMLabel }
 						</button>
 						<button
 							type="button"
@@ -202,10 +206,10 @@ templ TimePicker(props TimePickerProps) {
 							@click="selectPeriod"
 							class={ utils.TwMerge(
 								"px-3 py-1 text-sm rounded-md hover:bg-muted",
-								utils.If(props.Value != (time.Time{}) && props.Value.Hour() >= 12, "bg-primary text-primary-foreground", ),
+								utils.If(p.Value != (time.Time{}) && p.Value.Hour() >= 12, "bg-primary text-primary-foreground", ),
 							) }
 						>
-							{ props.PMLabel }
+							{ p.PMLabel }
 						</button>
 					</div>
 				} else {
