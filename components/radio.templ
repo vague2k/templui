@@ -13,16 +13,20 @@ type RadioProps struct {
 	Checked    bool
 }
 
-templ Radio(props RadioProps) {
+templ Radio(props ...RadioProps) {
+	{{ var p RadioProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<input
-		x-ref={ props.ID }
+		x-ref={ p.ID }
 		type="radio"
-		id={ props.ID }
-		name={ props.Name }
-		value={ props.Value }
-		checked?={ props.Checked }
-		disabled?={ props.Disabled }
-		required?={ props.Required }
+		id={ p.ID }
+		name={ p.Name }
+		value={ p.Value }
+		checked?={ p.Checked }
+		disabled?={ p.Disabled }
+		required?={ p.Required }
 		class={
 			utils.TwMerge(
 				"relative h-4 w-4",
@@ -36,9 +40,9 @@ templ Radio(props RadioProps) {
 				"focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring",
 				"focus-visible:ring-offset-2 focus-visible:ring-offset-background",
 				"disabled:cursor-not-allowed",
-				props.Class,
+				p.Class,
 			),
 		}
-		{ props.Attributes... }
+		{ p.Attributes... }
 	/>
 }
