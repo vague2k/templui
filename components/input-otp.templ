@@ -38,66 +38,75 @@ type InputOTPSeparatorProps struct {
 	Attributes templ.Attributes
 }
 
-templ InputOTP(props InputOTPProps) {
-	if props.ID == "" {
-		{{ props.ID = utils.RandomID() }}
+templ InputOTP(props ...InputOTPProps) {
+	{{ var p InputOTPProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
 	}
-	if props.MaxLength <= 0 {
-		{{ props.MaxLength = 6 }}
+	if p.MaxLength <= 0 {
+		{{ p.MaxLength = 6 }}
 	}
 	<div
-		id={ props.ID + "-container" }
+		id={ p.ID + "-container" }
 		class={ utils.TwMerge(
 			"flex flex-row items-center gap-2 w-fit",
-			props.Class,
+			p.Class,
 		) }
 		x-data="inputOTP"
-		data-max-length={ strconv.Itoa(props.MaxLength) }
-		if props.Value != "" {
-			data-value={ props.Value }
+		data-max-length={ strconv.Itoa(p.MaxLength) }
+		if p.Value != "" {
+			data-value={ p.Value }
 		}
 		x-on:paste.prevent="handlePaste"
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
 		<input
 			type="hidden"
-			id={ props.ID }
-			name={ props.Name }
+			id={ p.ID }
+			name={ p.Name }
 			x-model="otpValue"
-			required?={ props.Required }
+			required?={ p.Required }
 		/>
 		{ children... }
 	</div>
 }
 
-templ InputOTPGroup(props InputOTPGroupProps) {
+templ InputOTPGroup(props ...InputOTPGroupProps) {
+	{{ var p InputOTPGroupProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<div
-		id={ props.ID }
+		id={ p.ID }
 		class={ utils.TwMerge(
 			"flex gap-2",
-			props.Class,
+			p.Class,
 		) }
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</div>
 }
 
-templ InputOTPSlot(props InputOTPSlotProps) {
-	if props.Type == "" {
-		{{ props.Type = "text" }}
+templ InputOTPSlot(props ...InputOTPSlotProps) {
+	{{ var p InputOTPSlotProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
+	if p.Type == "" {
+		{{ p.Type = "text" }}
 	}
 	<div
-		id={ props.ID }
+		id={ p.ID }
 		data-slot
 		class="relative"
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
 		<input
-			x-ref={ "otpDigit" + strconv.Itoa(props.Index) }
-			type={ props.Type }
+			x-ref={ "otpDigit" + strconv.Itoa(p.Index) }
+			type={ p.Type }
 			inputmode="numeric"
-			placeholder={ props.Placeholder }
+			placeholder={ p.Placeholder }
 			maxlength="1"
 			class={
 				utils.TwMerge(
@@ -107,25 +116,29 @@ templ InputOTPSlot(props InputOTPSlotProps) {
 					"placeholder:text-muted-foreground",
 					"focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
 					"disabled:cursor-not-allowed disabled:opacity-50",
-					props.Class,
+					p.Class,
 				),
 			}
-			disabled?={ props.Disabled }
-			data-input-index={ strconv.Itoa(props.Index) }
+			disabled?={ p.Disabled }
+			data-input-index={ strconv.Itoa(p.Index) }
 			x-on:input="handleInput"
 			x-on:keydown="handleKeydown"
 		/>
 	</div>
 }
 
-templ InputOTPSeparator(props InputOTPSeparatorProps) {
+templ InputOTPSeparator(props ...InputOTPSeparatorProps) {
+	{{ var p InputOTPSeparatorProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<div
-		id={ props.ID }
+		id={ p.ID }
 		class={ utils.TwMerge(
 			"flex items-center text-muted-foreground text-xl",
-			props.Class,
+			p.Class,
 		) }
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
 		<span>-</span>
 	</div>
