@@ -11,6 +11,15 @@ RUN go install github.com/a-h/templ/cmd/templ@latest
 # Generate templ files
 RUN templ generate
 
+# Install Node.js and npm for TailwindCSS
+RUN apk add --no-cache nodejs npm
+
+# Install TailwindCSS
+RUN npm install -g tailwindcss
+
+# Build CSS
+RUN tailwindcss -i ./assets/css/input.css -o ./assets/css/output.css
+
 # Install build dependencies
 RUN apk add --no-cache gcc musl-dev
 
@@ -29,6 +38,10 @@ ENV GO_ENV=production
 
 # Copy the binary from the build stage
 COPY --from=build /app/main .
+
+# Copy static assets and CSS
+COPY --from=build /app/static ./static
+COPY --from=build /app/assets ./assets
 
 # Expose the port your application runs on
 EXPOSE 8090
