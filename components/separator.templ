@@ -30,8 +30,13 @@ templ Separator(props ...SeparatorProps) {
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
+	if p.Orientation == "" {
+		{{ p.Orientation = SeparatorOrientationHorizontal }}
+	}
 	<div
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		role="separator"
 		aria-orientation={ string(p.Orientation) }
 		class={
