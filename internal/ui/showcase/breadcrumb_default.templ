@@ -6,13 +6,17 @@ templ BreadcrumbDefault() {
 	@components.Breadcrumb() {
 		@components.BreadcrumbList() {
 			@components.BreadcrumbItem() {
-				@components.BreadcrumbLink("/") {
+				@components.BreadcrumbLink(components.BreadcrumbLinkProps{
+					Href: "/",
+				}) {
 					Home
 				}
 			}
 			@components.BreadcrumbItem() {
 				@components.BreadcrumbSeparator()
-				@components.BreadcrumbLink("/docs") {
+				@components.BreadcrumbLink(components.BreadcrumbLinkProps{
+					Href: "/docs",
+				}) {
 					Documentation
 				}
 			}

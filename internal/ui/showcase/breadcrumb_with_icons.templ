@@ -9,14 +9,18 @@ templ BreadcrumbWithIcons() {
 	@components.Breadcrumb() {
 		@components.BreadcrumbList() {
 			@components.BreadcrumbItem() {
-				@components.BreadcrumbLink("/") {
+				@components.BreadcrumbLink(components.BreadcrumbLinkProps{
+					Href: "/",
+				}) {
 					@icons.House(icons.IconProps{Size: "16"})
 					<span class="ml-1">Home</span>
 				}
 			}
 			@components.BreadcrumbItem() {
 				@components.BreadcrumbSeparator()
-				@components.BreadcrumbLink("/docs") {
+				@components.BreadcrumbLink(components.BreadcrumbLinkProps{
+					Href: "/docs",
+				}) {
 					@icons.FileText(icons.IconProps{Size: "16"})
 					<span class="ml-1">Documentation</span>
 				}

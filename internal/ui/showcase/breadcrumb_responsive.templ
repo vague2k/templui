@@ -8,13 +8,17 @@ templ BreadcrumbResponsive() {
 		@components.Breadcrumb() {
 			@components.BreadcrumbList() {
 				@components.BreadcrumbItem() {
-					@components.BreadcrumbLink("/") {
+					@components.BreadcrumbLink(components.BreadcrumbLinkProps{
+						Href: "/",
+					}) {
 						Home
 					}
 				}
 				@components.BreadcrumbSeparator()
 				@components.BreadcrumbItem() {
-					@components.BreadcrumbLink("#") {
+					@components.BreadcrumbLink(components.BreadcrumbLinkProps{
+						Href: "#",
+					}) {
 						...
 					}
 				}
@@ -32,19 +36,25 @@ templ BreadcrumbResponsive() {
 		@components.Breadcrumb() {
 			@components.BreadcrumbList() {
 				@components.BreadcrumbItem() {
-					@components.BreadcrumbLink("/") {
+					@components.BreadcrumbLink(components.BreadcrumbLinkProps{
+						Href: "/",
+					}) {
 						Home
 					}
 				}
 				@components.BreadcrumbSeparator()
 				@components.BreadcrumbItem() {
-					@components.BreadcrumbLink("/category") {
+					@components.BreadcrumbLink(components.BreadcrumbLinkProps{
+						Href: "/category",
+					}) {
 						Category
 					}
 				}
 				@components.BreadcrumbSeparator()
 				@components.BreadcrumbItem() {
-					@components.BreadcrumbLink("/category/subcategory") {
+					@components.BreadcrumbLink(components.BreadcrumbLinkProps{
+						Href: "/category/subcategory",
+					}) {
 						Subcategory
 					}
 				}
