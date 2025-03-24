@@ -504,9 +504,6 @@
   .aspect-\[3\/4\] {
     aspect-ratio: 3/4;
   }
-  .aspect-auto {
-    aspect-ratio: auto;
-  }
   .aspect-square {
     aspect-ratio: 1 / 1;
   }
@@ -1689,12 +1686,6 @@
   .select-none {
     -webkit-user-select: none;
     user-select: none;
-  }
-  .\[hL\:��O�\%�\] {
-    hL: ��O�%�;
-  }
-  .\[y\:UOa�\2 ���\&uh�늊�v�\<\e -i�e\1a \] {
-    y: UOa����&uh�늊�v�<-i�e;
   }
   .group-hover\:translate-x-0 {
     &:is(:where(.group):hover *) {

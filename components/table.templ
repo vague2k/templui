@@ -58,7 +58,9 @@ templ Table(props ...TableProps) {
 	}
 	<div class="relative w-full overflow-auto">
 		<table
-			id={ p.ID }
+			if p.ID != "" {
+				id={ p.ID }
+			}
 			class={ utils.TwMerge("w-full caption-bottom text-sm", p.Class) }
 			{ p.Attributes... }
 		>
@@ -73,7 +75,9 @@ templ TableHeader(props ...TableHeaderProps) {
 		{{ p = props[0] }}
 	}
 	<thead
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		class={ utils.TwMerge("[&_tr]:border-b", p.Class) }
 		{ p.Attributes... }
 	>
@@ -87,7 +91,9 @@ templ TableBody(props ...TableBodyProps) {
 		{{ p = props[0] }}
 	}
 	<tbody
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		class={ utils.TwMerge("[&_tr:last-child]:border-0", p.Class) }
 		{ p.Attributes... }
 	>
@@ -101,7 +107,9 @@ templ TableFooter(props ...TableFooterProps) {
 		{{ p = props[0] }}
 	}
 	<tfoot
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		class={ utils.TwMerge("border-t bg-muted/50 font-medium [&>tr]:last:border-b-0", p.Class) }
 		{ p.Attributes... }
 	>
@@ -115,13 +123,15 @@ templ TableRow(props ...TableRowProps) {
 		{{ p = props[0] }}
 	}
 	<tr
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		class={
 			utils.TwMerge(
 				"border-b transition-colors hover:bg-muted/50",
+				utils.If(p.Selected, "data-[state=selected]:bg-muted"),
 				p.Class,
 			),
-			templ.KV("data-[state=selected]:bg-muted", p.Selected),
 		}
 		{ p.Attributes... }
 	>
@@ -135,8 +145,16 @@ templ TableHead(props ...TableHeadProps) {
 		{{ p = props[0] }}
 	}
 	<th
-		id={ p.ID }
-		class={ utils.TwMerge("h-10 px-2 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]", p.Class) }
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		class={
+			utils.TwMerge(
+				"h-10 px-2 text-left align-middle font-medium text-muted-foreground",
+				"[&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+				p.Class,
+			),
+		}
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -149,8 +167,16 @@ templ TableCell(props ...TableCellProps) {
 		{{ p = props[0] }}
 	}
 	<td
-		id={ p.ID }
-		class={ utils.TwMerge("p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]", p.Class) }
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		class={
+			utils.TwMerge(
+				"p-2 align-middle",
+				"[&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+				p.Class,
+			),
+		}
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -163,7 +189,9 @@ templ TableCaption(props ...TableCaptionProps) {
 		{{ p = props[0] }}
 	}
 	<caption
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		class={ utils.TwMerge("mt-4 text-sm text-muted-foreground", p.Class) }
 		{ p.Attributes... }
 	>
