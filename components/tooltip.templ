@@ -46,8 +46,16 @@ templ Tooltip(props ...TooltipProps) {
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
+	if p.Side == "" {
+		{{ p.Side = TooltipPositionTop }}
+	}
+	if p.Variant == "" {
+		{{ p.Variant = TooltipVariantDefault }}
+	}
 	<div
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		class={ utils.TwMerge("relative inline-block group", p.Class) }
 		{ p.Attributes... }
 	>
@@ -61,7 +69,9 @@ templ TooltipTrigger(props ...TooltipTriggerProps) {
 		{{ p = props[0] }}
 	}
 	<div
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		class={ utils.TwMerge("inline-block", p.Class) }
 		{ p.Attributes... }
 	>
@@ -74,8 +84,16 @@ templ TooltipContent(props ...TooltipContentProps) {
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
+	if p.Side == "" {
+		{{ p.Side = TooltipPositionTop }}
+	}
+	if p.Variant == "" {
+		{{ p.Variant = TooltipVariantDefault }}
+	}
 	<div
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		class={
 			utils.TwMerge(
 				"absolute w-max z-50 pointer-events-none",
