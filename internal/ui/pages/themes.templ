@@ -703,44 +703,40 @@ templ ThemePreview() {
 						@components.FormLabel("username") {
 							Username
 						}
-						@components.Input("username",
-							components.InputProps{
-								ID:          "username",
-								Type:        components.InputTypeText,
-								Placeholder: "Enter your username",
-							})
+						@components.Input(components.InputProps{
+							ID:          "username",
+							Type:        components.InputTypeText,
+							Placeholder: "Enter your username",
+						})
 					}
 					@components.FormItem() {
 						@components.FormLabel("email") {
 							Email
 						}
-						@components.Input("email",
-							components.InputProps{
-								ID:          "email",
-								Type:        components.InputTypeEmail,
-								Placeholder: "Enter your email",
-							})
+						@components.Input(components.InputProps{
+							ID:          "email",
+							Type:        components.InputTypeEmail,
+							Placeholder: "Enter your email",
+						})
 					}
 					@components.FormItem() {
 						@components.FormLabel("password") {
 							Password
 						}
-						@components.Input("password",
-							components.InputProps{
-								ID:          "password",
-								Type:        components.InputTypePassword,
-								Placeholder: "Enter your password",
-							})
+						@components.Input(components.InputProps{
+							ID:          "password",
+							Type:        components.InputTypePassword,
+							Placeholder: "Enter your password",
+						})
 					}
 					@components.FormItem() {
 						@components.FormLabel("birthdate") {
 							Birth Date
 						}
-						@components.DatePicker("birthdate",
-							components.DatePickerProps{
-								ID:          "birthdate",
-								Placeholder: "Select your birth date",
-							})
+						@components.DatePicker(components.DatePickerProps{
+							ID:          "birthdate",
+							Placeholder: "Select your birth date",
+						})
 					}
 					@components.FormItem() {
 						<p class="text-sm text-muted-foreground">Contact Method</p>

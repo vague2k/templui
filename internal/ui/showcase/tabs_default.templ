@@ -49,20 +49,18 @@ templ AccountTab() {
 		}
 		@components.CardContent() {
 			<div class="flex flex-col gap-4">
-				@components.Input("name",
-					components.InputProps{
-						Type:        components.InputTypeText,
-						Placeholder: "Name",
-						ID:          "name",
-						Value:       "John Doe",
-					})
-				@components.Input("email",
-					components.InputProps{
-						Type:        components.InputTypeEmail,
-						Placeholder: "Email",
-						ID:          "email",
-						Value:       "john.doe@example.com",
-					})
+				@components.Input(components.InputProps{
+					Type:        components.InputTypeText,
+					Placeholder: "Name",
+					ID:          "name",
+					Value:       "John Doe",
+				})
+				@components.Input(components.InputProps{
+					Type:        components.InputTypeEmail,
+					Placeholder: "Email",
+					ID:          "email",
+					Value:       "john.doe@example.com",
+				})
 			</div>
 		}
 		@components.CardFooter() {
@@ -85,18 +83,16 @@ templ PasswordTab() {
 		}
 		@components.CardContent() {
 			<div class="flex flex-col gap-4">
-				@components.Input("current_password",
-					components.InputProps{
-						Type:        components.InputTypePassword,
-						Placeholder: "Current Password",
-						ID:          "current_password",
-					})
-				@components.Input("new_password",
-					components.InputProps{
-						Type:        components.InputTypePassword,
-						Placeholder: "New Password",
-						ID:          "new_password",
-					})
+				@components.Input(components.InputProps{
+					Type:        components.InputTypePassword,
+					Placeholder: "Current Password",
+					ID:          "current_password",
+				})
+				@components.Input(components.InputProps{
+					Type:        components.InputTypePassword,
+					Placeholder: "New Password",
+					ID:          "new_password",
+				})
 			</div>
 		}
 		@components.CardFooter() {
