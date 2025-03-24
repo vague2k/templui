@@ -6,19 +6,19 @@ templ CarouselDefault() {
 	@components.Carousel(components.CarouselProps{
 		Class: "rounded-md",
 	}) {
-		@components.CarouselContent(components.CarouselContentProps{}) {
-			@components.CarouselItem(components.CarouselItemProps{}) {
+		@components.CarouselContent() {
+			@components.CarouselItem() {
 				@CarouselSlide("Slide 1", "This is the first slide", "bg-blue-500")
 			}
-			@components.CarouselItem(components.CarouselItemProps{}) {
+			@components.CarouselItem() {
 				@CarouselSlide("Slide 2", "This is the second slide", "bg-green-500")
 			}
-			@components.CarouselItem(components.CarouselItemProps{}) {
+			@components.CarouselItem() {
 				@CarouselSlide("Slide 3", "This is the third slide", "bg-purple-500")
 			}
 		}
-		@components.CarouselPrevious(components.CarouselPreviousProps{})
-		@components.CarouselNext(components.CarouselNextProps{})
+		@components.CarouselPrevious()
+		@components.CarouselNext()
 		@components.CarouselIndicators(components.CarouselIndicatorsProps{
 			Count: 3,
 		})

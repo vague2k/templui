@@ -41,49 +41,79 @@ type TooltipContentProps struct {
 	Variant    TooltipVariant
 }
 
-templ Tooltip(props TooltipProps) {
+templ Tooltip(props ...TooltipProps) {
+	{{ var p TooltipProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
+	if p.Side == "" {
+		{{ p.Side = TooltipPositionTop }}
+	}
+	if p.Variant == "" {
+		{{ p.Variant = TooltipVariantDefault }}
+	}
 	<div
-		id={ props.ID }
-		class={ utils.TwMerge("relative inline-block group", props.Class) }
-		{ props.Attributes... }
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		class={ utils.TwMerge("relative inline-block group", p.Class) }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</div>
 }
 
-templ TooltipTrigger(props TooltipTriggerProps) {
+templ TooltipTrigger(props ...TooltipTriggerProps) {
+	{{ var p TooltipTriggerProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<div
-		id={ props.ID }
-		class={ utils.TwMerge("inline-block", props.Class) }
-		{ props.Attributes... }
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		class={ utils.TwMerge("inline-block", p.Class) }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</div>
 }
 
-templ TooltipContent(props TooltipContentProps) {
+templ TooltipContent(props ...TooltipContentProps) {
+	{{ var p TooltipContentProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
+	if p.Side == "" {
+		{{ p.Side = TooltipPositionTop }}
+	}
+	if p.Variant == "" {
+		{{ p.Variant = TooltipVariantDefault }}
+	}
 	<div
-		id={ props.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		class={
 			utils.TwMerge(
 				"absolute w-max z-50 pointer-events-none",
 				"text-xs px-4 py-1 rounded-lg",
 				"transition-opacity duration-200 delay-500 opacity-0 group-hover:opacity-100",
 				"whitespace-nowrap",
-				getTooltipSideClass(props.Side),
-				getTooltipVariantClass(props.Variant),
-				props.Class,
+				getTooltipSideClass(p.Side),
+				getTooltipVariantClass(p.Variant),
+				p.Class,
 			),
 		}
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
-		if props.ShowArrow {
+		if p.ShowArrow {
 			<div
 				class={
 					utils.TwMerge(
 						"absolute h-2 w-2 rotate-45",
-						getArrowClass(props.Side),
-						getArrowColor(props.Variant),
+						getArrowClass(p.Side),
+						getArrowColor(p.Variant),
 					),
 				}
 			></div>

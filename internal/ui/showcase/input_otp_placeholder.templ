@@ -3,17 +3,33 @@ package showcase
 import "github.com/axzilla/templui/components"
 
 templ InputOTPPlaceholder() {
-	@components.InputOTP(components.InputOTPProps{
-		ID: "otp-placeholder",
-	}) {
-		@components.InputOTPGroup(components.InputOTPGroupProps{}) {
-			@components.InputOTPSlot(components.InputOTPSlotProps{Index: 0, Placeholder: "•"})
-			@components.InputOTPSlot(components.InputOTPSlotProps{Index: 1, Placeholder: "•"})
-			@components.InputOTPSlot(components.InputOTPSlotProps{Index: 2, Placeholder: "•"})
-			@components.InputOTPSeparator(components.InputOTPSeparatorProps{})
-			@components.InputOTPSlot(components.InputOTPSlotProps{Index: 3, Placeholder: "•"})
-			@components.InputOTPSlot(components.InputOTPSlotProps{Index: 4, Placeholder: "•"})
-			@components.InputOTPSlot(components.InputOTPSlotProps{Index: 5, Placeholder: "•"})
+	@components.InputOTP() {
+		@components.InputOTPGroup() {
+			@components.InputOTPSlot(components.InputOTPSlotProps{
+				Index:       0,
+				Placeholder: "•",
+			})
+			@components.InputOTPSlot(components.InputOTPSlotProps{
+				Index:       1,
+				Placeholder: "•",
+			})
+			@components.InputOTPSlot(components.InputOTPSlotProps{
+				Index:       2,
+				Placeholder: "•",
+			})
+			@components.InputOTPSeparator()
+			@components.InputOTPSlot(components.InputOTPSlotProps{
+				Index:       3,
+				Placeholder: "•",
+			})
+			@components.InputOTPSlot(components.InputOTPSlotProps{
+				Index:       4,
+				Placeholder: "•",
+			})
+			@components.InputOTPSlot(components.InputOTPSlotProps{
+				Index:       5,
+				Placeholder: "•",
+			})
 		}
 	}
 }

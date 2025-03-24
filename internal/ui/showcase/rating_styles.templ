@@ -7,7 +7,7 @@ templ RatingStyles() {
 		@components.Rating(components.RatingProps{
 			Value: 2,
 		}) {
-			@components.RatingGroup(components.RatingGroupProps{}) {
+			@components.RatingGroup() {
 				for i := 1; i <= 5; i++ {
 					@components.RatingItem(components.RatingItemProps{
 						Value: i,
@@ -19,7 +19,7 @@ templ RatingStyles() {
 		@components.Rating(components.RatingProps{
 			Value: 3,
 		}) {
-			@components.RatingGroup(components.RatingGroupProps{}) {
+			@components.RatingGroup() {
 				for i := 1; i <= 5; i++ {
 					@components.RatingItem(components.RatingItemProps{
 						Value: i,
@@ -31,7 +31,7 @@ templ RatingStyles() {
 		@components.Rating(components.RatingProps{
 			Value: 4,
 		}) {
-			@components.RatingGroup(components.RatingGroupProps{}) {
+			@components.RatingGroup() {
 				for i := 1; i <= 5; i++ {
 					@components.RatingItem(components.RatingItemProps{
 						Value: i,

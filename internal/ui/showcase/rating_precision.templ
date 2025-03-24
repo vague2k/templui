@@ -8,7 +8,7 @@ templ RatingPrecision() {
 		ReadOnly:  true,
 		Precision: 0.5,
 	}) {
-		@components.RatingGroup(components.RatingGroupProps{}) {
+		@components.RatingGroup() {
 			for i := 1; i <= 5; i++ {
 				@components.RatingItem(components.RatingItemProps{
 					Value: i,

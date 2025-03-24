@@ -25,8 +25,8 @@ type ProgressProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
-	Value      int
 	Max        int
+	Value      int
 	Label      string
 	ShowValue  bool
 	Size       ProgressSize
@@ -38,54 +38,58 @@ type ProgressProps struct {
 	HxSwap     string
 }
 
-templ Progress(props ProgressProps) {
-	if props.ID == "" {
-		{{ props.ID = utils.RandomID() }}
+templ Progress(props ...ProgressProps) {
+	{{ var p ProgressProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
+	if p.ID == "" {
+		{{ p.ID = utils.RandomID() }}
 	}
 	<div
-		id={ props.ID }
-		class={ utils.TwMerge("w-full", props.Class) }
-		if props.HxGet != "" {
-			hx-get={ props.HxGet }
+		id={ p.ID }
+		class={ utils.TwMerge("w-full", p.Class) }
+		if p.HxGet != "" {
+			hx-get={ p.HxGet }
 		}
-		if props.HxTrigger != "" {
-			hx-trigger={ props.HxTrigger }
+		if p.HxTrigger != "" {
+			hx-trigger={ p.HxTrigger }
 		}
-		if props.HxTarget != "" {
-			hx-target={ props.HxTarget }
+		if p.HxTarget != "" {
+			hx-target={ p.HxTarget }
 		}
-		if props.HxSwap != "" {
-			hx-swap={ props.HxSwap }
+		if p.HxSwap != "" {
+			hx-swap={ p.HxSwap }
 		}
 		aria-valuemin="0"
-		aria-valuemax={ fmt.Sprintf("%d", getMaxValue(props.Max)) }
-		aria-valuenow={ fmt.Sprintf("%d", props.Value) }
+		aria-valuemax={ fmt.Sprintf("%d", getMaxValue(p.Max)) }
+		aria-valuenow={ fmt.Sprintf("%d", p.Value) }
 		role="progressbar"
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
-		if props.Label != "" || props.ShowValue {
+		if p.Label != "" || p.ShowValue {
 			<div class="flex justify-between items-center mb-1">
-				if props.Label != "" {
-					<span class="text-sm font-medium">{ props.Label }</span>
+				if p.Label != "" {
+					<span class="text-sm font-medium">{ p.Label }</span>
 				}
-				if props.ShowValue {
+				if p.ShowValue {
 					<span class="text-sm font-medium">
-						{ fmt.Sprintf("%d%%", getProgressPercentage(props)) }
+						{ fmt.Sprintf("%d%%", getProgressPercentage(p.Value, p)) }
 					</span>
 				}
 			</div>
 		}
-		<div class={ "w-full overflow-hidden rounded-full bg-secondary" }>
+		<div class="w-full overflow-hidden rounded-full bg-secondary">
 			<div
 				class={
 					utils.TwMerge(
 						"h-full rounded-full transition-all",
-						getProgressSizeClasses(props.Size),
-						getProgressVariantClasses(props.Variant),
-						props.BarClass,
+						getProgressSizeClasses(p.Size),
+						getProgressVariantClasses(p.Variant),
+						p.BarClass,
 					),
 				}
-				style={ fmt.Sprintf("width: %d%%", getProgressPercentage(props)) }
+				style={ fmt.Sprintf("width: %d%%", getProgressPercentage(p.Value, p)) }
 			></div>
 		</div>
 	</div>
@@ -98,9 +102,8 @@ func getMaxValue(max int) int {
 	return max
 }
 
-func getProgressPercentage(props ProgressProps) int {
+func getProgressPercentage(value int, props ProgressProps) int {
 	max := getMaxValue(props.Max)
-	value := props.Value
 	if value < 0 {
 		value = 0
 	}

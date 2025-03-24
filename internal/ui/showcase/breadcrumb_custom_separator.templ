@@ -6,24 +6,28 @@ import (
 )
 
 templ BreadcrumbCustomSeparator() {
-	@components.Breadcrumb(components.BreadcrumbProps{}) {
-		@components.BreadcrumbList(components.BreadcrumbListProps{}) {
-			@components.BreadcrumbItem(components.BreadcrumbItemProps{}) {
-				@components.BreadcrumbLink(components.BreadcrumbLinkProps{Href: "/"}) {
+	@components.Breadcrumb() {
+		@components.BreadcrumbList() {
+			@components.BreadcrumbItem() {
+				@components.BreadcrumbLink(components.BreadcrumbLinkProps{
+					Href: "/",
+				}) {
 					Home
 				}
 			}
-			@components.BreadcrumbItem(components.BreadcrumbItemProps{}) {
+			@components.BreadcrumbItem() {
 				@components.BreadcrumbSeparator(components.BreadcrumbSeparatorProps{UseCustom: true}) {
-					@icons.Slash(icons.IconProps{Size: "14"})
+					@icons.Slash(icons.IconProps{Size: 14})
 				}
-				@components.BreadcrumbLink(components.BreadcrumbLinkProps{Href: "/products"}) {
+				@components.BreadcrumbLink(components.BreadcrumbLinkProps{
+					Href: "/products",
+				}) {
 					Products
 				}
 			}
-			@components.BreadcrumbItem(components.BreadcrumbItemProps{}) {
+			@components.BreadcrumbItem() {
 				@components.BreadcrumbSeparator(components.BreadcrumbSeparatorProps{UseCustom: true}) {
-					@icons.Slash(icons.IconProps{Size: "14"})
+					@icons.Slash(icons.IconProps{Size: 14})
 				}
 				@components.BreadcrumbPage(components.BreadcrumbItemProps{Current: true}) {
 					Category

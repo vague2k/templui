@@ -4,16 +4,16 @@ import "github.com/axzilla/templui/components"
 
 templ CardDefault() {
 	<div class="w-full max-w-sm">
-		@components.Card(components.CardProps{}) {
-			@components.CardHeader(components.CardHeaderProps{}) {
-				@components.CardTitle(components.CardTitleProps{}) {
+		@components.Card() {
+			@components.CardHeader() {
+				@components.CardTitle() {
 					Create Project
 				}
-				@components.CardDescription(components.CardDescriptionProps{}) {
+				@components.CardDescription() {
 					Deploy your new project in one-click.
 				}
 			}
-			@components.CardContent(components.CardContentProps{}) {
+			@components.CardContent() {
 				<div class="flex flex-col gap-4">
 					<div class="w-full max-w-sm grid gap-2">
 						@components.Label(components.LabelProps{
@@ -32,7 +32,7 @@ templ CardDefault() {
 						}) {
 							Service
 						}
-						@components.Select(components.SelectProps{}) {
+						@components.Select() {
 							@components.SelectTrigger(components.SelectTriggerProps{
 								ID: "service",
 							}) {
@@ -40,8 +40,8 @@ templ CardDefault() {
 									Placeholder: "Select",
 								})
 							}
-							@components.SelectContent(components.SelectContentProps{}) {
-								@components.SelectGroup(components.SelectGroupProps{}) {
+							@components.SelectContent() {
+								@components.SelectGroup() {
 									@components.SelectItem(components.SelectItemProps{
 										Value: "postgres",
 									}) {
@@ -71,7 +71,7 @@ templ CardDefault() {
 				}) {
 					Cancel
 				}
-				@components.Button(components.ButtonProps{}) {
+				@components.Button() {
 					Deploy
 				}
 			}

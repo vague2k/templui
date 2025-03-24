@@ -51,89 +51,149 @@ type TableCaptionProps struct {
 	Attributes templ.Attributes
 }
 
-templ Table(props TableProps) {
+templ Table(props ...TableProps) {
+	{{ var p TableProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<div class="relative w-full overflow-auto">
 		<table
-			id={ props.ID }
-			class={ utils.TwMerge("w-full caption-bottom text-sm", props.Class) }
-			{ props.Attributes... }
+			if p.ID != "" {
+				id={ p.ID }
+			}
+			class={ utils.TwMerge("w-full caption-bottom text-sm", p.Class) }
+			{ p.Attributes... }
 		>
 			{ children... }
 		</table>
 	</div>
 }
 
-templ TableHeader(props TableHeaderProps) {
+templ TableHeader(props ...TableHeaderProps) {
+	{{ var p TableHeaderProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<thead
-		id={ props.ID }
-		class={ utils.TwMerge("[&_tr]:border-b", props.Class) }
-		{ props.Attributes... }
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		class={ utils.TwMerge("[&_tr]:border-b", p.Class) }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</thead>
 }
 
-templ TableBody(props TableBodyProps) {
+templ TableBody(props ...TableBodyProps) {
+	{{ var p TableBodyProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<tbody
-		id={ props.ID }
-		class={ utils.TwMerge("[&_tr:last-child]:border-0", props.Class) }
-		{ props.Attributes... }
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		class={ utils.TwMerge("[&_tr:last-child]:border-0", p.Class) }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</tbody>
 }
 
-templ TableFooter(props TableFooterProps) {
+templ TableFooter(props ...TableFooterProps) {
+	{{ var p TableFooterProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<tfoot
-		id={ props.ID }
-		class={ utils.TwMerge("border-t bg-muted/50 font-medium [&>tr]:last:border-b-0", props.Class) }
-		{ props.Attributes... }
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		class={ utils.TwMerge("border-t bg-muted/50 font-medium [&>tr]:last:border-b-0", p.Class) }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</tfoot>
 }
 
-templ TableRow(props TableRowProps) {
+templ TableRow(props ...TableRowProps) {
+	{{ var p TableRowProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<tr
-		id={ props.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		class={
 			utils.TwMerge(
 				"border-b transition-colors hover:bg-muted/50",
-				props.Class,
+				utils.If(p.Selected, "data-[state=selected]:bg-muted"),
+				p.Class,
 			),
-			templ.KV("data-[state=selected]:bg-muted", props.Selected),
 		}
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</tr>
 }
 
-templ TableHead(props TableHeadProps) {
+templ TableHead(props ...TableHeadProps) {
+	{{ var p TableHeadProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<th
-		id={ props.ID }
-		class={ utils.TwMerge("h-10 px-2 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]", props.Class) }
-		{ props.Attributes... }
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		class={
+			utils.TwMerge(
+				"h-10 px-2 text-left align-middle font-medium text-muted-foreground",
+				"[&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+				p.Class,
+			),
+		}
+		{ p.Attributes... }
 	>
 		{ children... }
 	</th>
 }
 
-templ TableCell(props TableCellProps) {
+templ TableCell(props ...TableCellProps) {
+	{{ var p TableCellProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<td
-		id={ props.ID }
-		class={ utils.TwMerge("p-2 align-middle [&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]", props.Class) }
-		{ props.Attributes... }
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		class={
+			utils.TwMerge(
+				"p-2 align-middle",
+				"[&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
+				p.Class,
+			),
+		}
+		{ p.Attributes... }
 	>
 		{ children... }
 	</td>
 }
 
-templ TableCaption(props TableCaptionProps) {
+templ TableCaption(props ...TableCaptionProps) {
+	{{ var p TableCaptionProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<caption
-		id={ props.ID }
-		class={ utils.TwMerge("mt-4 text-sm text-muted-foreground", props.Class) }
-		{ props.Attributes... }
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		class={ utils.TwMerge("mt-4 text-sm text-muted-foreground", p.Class) }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</caption>

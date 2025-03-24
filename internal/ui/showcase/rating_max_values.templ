@@ -6,7 +6,7 @@ templ RatingMaxValues() {
 	@components.Rating(components.RatingProps{
 		Value: 7,
 	}) {
-		@components.RatingGroup(components.RatingGroupProps{}) {
+		@components.RatingGroup() {
 			for i := 1; i <= 10; i++ {
 				@components.RatingItem(components.RatingItemProps{
 					Value: i,

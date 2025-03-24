@@ -25,7 +25,7 @@ var iconFS embed.FS
 
 // IconProps defines the properties that can be set for an icon.
 type IconProps struct {
-	Size        string
+	Size        int
 	Color       string
 	Fill        string
 	Stroke      string
@@ -34,10 +34,15 @@ type IconProps struct {
 }
 
 // Icon returns a function that generates a templ.Component for the specified icon.
-func Icon(name string) func(IconProps) templ.Component {
-	return func(props IconProps) templ.Component {
+func Icon(name string) func(...IconProps) templ.Component {
+	return func(props ...IconProps) templ.Component {
+		var p IconProps
+		if len(props) > 0 {
+			p = props[0]
+		}
+
 		return templ.ComponentFunc(func(ctx context.Context, w io.Writer) (err error) {
-			svg, err := generateSVG(name, props)
+			svg, err := generateSVG(name, p)
 			if err != nil {
 				return err
 			}
@@ -55,8 +60,8 @@ func generateSVG(name string, props IconProps) (string, error) {
 	}
 
 	size := props.Size
-	if size == "" {
-		size = "24"
+	if size <= 0 {
+		size = 24
 	}
 
 	fill := props.Fill
@@ -77,7 +82,7 @@ func generateSVG(name string, props IconProps) (string, error) {
 		strokeWidth = "2"
 	}
 
-	return fmt.Sprintf(`<svg xmlns="http://www.w3.org/2000/svg" width="%s" height="%s" viewBox="0 0 24 24" fill="%s" stroke="%s" stroke-width="%s" stroke-linecap="round" stroke-linejoin="round" class="%s" data-lucide="icon">%s</svg>`,
+	return fmt.Sprintf(`<svg xmlns="http://www.w3.org/2000/svg" width="%d" height="%d" viewBox="0 0 24 24" fill="%s" stroke="%s" stroke-width="%s" stroke-linecap="round" stroke-linejoin="round" class="%s" data-lucide="icon">%s</svg>`,
 		size, size, fill, stroke, strokeWidth, props.Class, content), nil
 }
 

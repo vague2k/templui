@@ -24,7 +24,11 @@ type CodeProps struct {
 	CodeClass      string
 }
 
-templ Code(p CodeProps) {
+templ Code(props ...CodeProps) {
+	{{ var p CodeProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	if p.ID == "" {
 		{{ p.ID = utils.RandomID() }}
 	}
@@ -37,14 +41,16 @@ templ Code(p CodeProps) {
 		<pre class="overflow-hidden!">
 			<code
 				x-ref="code"
-				class={ utils.TwMerge(
-					"language-"+p.Language,
-					"overflow-y-auto! rounded-md block text-sm max-h-[501px]!",
-					utils.If(p.Size == CodeSizeSm, "max-h-[250px]!"),
-					utils.If(p.Size == CodeSizeLg, "max-h-[1000px]!"),
-					utils.If(p.Size == CodeSizeFull, "max-h-full!"),
-					p.CodeClass,
-				) }
+				class={
+					utils.TwMerge(
+						"language-"+p.Language,
+						"overflow-y-auto! rounded-md block text-sm max-h-[501px]!",
+						utils.If(p.Size == CodeSizeSm, "max-h-[250px]!"),
+						utils.If(p.Size == CodeSizeLg, "max-h-[1000px]!"),
+						utils.If(p.Size == CodeSizeFull, "max-h-full!"),
+						p.CodeClass,
+					),
+				}
 			>
 				{ children... }
 			</code>
@@ -55,10 +61,10 @@ templ Code(p CodeProps) {
 				@click="copyCode"
 			>
 				<span x-show="isCopied">
-					@icons.Check(icons.IconProps{Size: "14"})
+					@icons.Check(icons.IconProps{Size: 14})
 				</span>
 				<span x-show="isNotCopied">
-					@icons.Clipboard(icons.IconProps{Size: "14"})
+					@icons.Clipboard(icons.IconProps{Size: 14})
 				</span>
 			</button>
 		}

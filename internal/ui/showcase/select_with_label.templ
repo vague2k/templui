@@ -9,7 +9,7 @@ templ SelectWithLabel() {
 		}) {
 			Fruit
 		}
-		@components.Select(components.SelectProps{}) {
+		@components.Select() {
 			@components.SelectTrigger(components.SelectTriggerProps{
 				ID: "select-with-label",
 			}) {
@@ -17,8 +17,8 @@ templ SelectWithLabel() {
 					Placeholder: "Select a fruit",
 				})
 			}
-			@components.SelectContent(components.SelectContentProps{}) {
-				@components.SelectLabel(components.SelectLabelProps{}) {
+			@components.SelectContent() {
+				@components.SelectLabel() {
 					Fruits
 				}
 				@components.SelectItem(components.SelectItemProps{

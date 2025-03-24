@@ -387,6 +387,9 @@
       max-width: 96rem;
     }
   }
+  .m-8 {
+    margin: calc(var(--spacing) * 8);
+  }
   .-mx-1 {
     margin-inline: calc(var(--spacing) * -1);
   }
@@ -565,9 +568,6 @@
   }
   .h-24 {
     height: calc(var(--spacing) * 24);
-  }
-  .h-80 {
-    height: calc(var(--spacing) * 80);
   }
   .h-96 {
     height: calc(var(--spacing) * 96);
@@ -1744,11 +1744,6 @@
   .peer-disabled\:pointer-events-none {
     &:is(:where(.peer):disabled ~ *) {
       pointer-events: none;
-    }
-  }
-  .peer-disabled\:cursor-not-allowed {
-    &:is(:where(.peer):disabled ~ *) {
-      cursor: not-allowed;
     }
   }
   .peer-disabled\:opacity-50 {

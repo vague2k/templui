@@ -10,16 +10,16 @@ templ RadioCardDefault() {
 			Name:  "comp-plan",
 			Value: "basic",
 		}) {
-			@components.RadioCardHeader(components.RadioCardHeaderProps{}) {
+			@components.RadioCardHeader() {
 				<div class="flex items-center gap-2">
-					@icons.Package(icons.IconProps{Size: "20"})
+					@icons.Package(icons.IconProps{Size: 20})
 					<h3>Basic Plan</h3>
 				</div>
 			}
-			@components.RadioCardDescription(components.RadioCardDescriptionProps{}) {
+			@components.RadioCardDescription() {
 				Essential features for individuals and small teams
 			}
-			@components.RadioCardFooter(components.RadioCardFooterProps{}) {
+			@components.RadioCardFooter() {
 				@radioCardPriceFooter("$5.99")
 			}
 		}
@@ -28,16 +28,16 @@ templ RadioCardDefault() {
 			Name:  "comp-plan",
 			Value: "pro",
 		}) {
-			@components.RadioCardHeader(components.RadioCardHeaderProps{}) {
+			@components.RadioCardHeader() {
 				<div class="flex items-center gap-2">
-					@icons.Star(icons.IconProps{Size: "20"})
+					@icons.Star(icons.IconProps{Size: 20})
 					<h3>Pro Plan</h3>
 				</div>
 			}
-			@components.RadioCardDescription(components.RadioCardDescriptionProps{}) {
+			@components.RadioCardDescription() {
 				Enhanced capabilities for growing businesses.
 			}
-			@components.RadioCardFooter(components.RadioCardFooterProps{}) {
+			@components.RadioCardFooter() {
 				@radioCardPriceFooter("$14.99")
 			}
 		}
@@ -47,16 +47,16 @@ templ RadioCardDefault() {
 			Value:    "enterprise",
 			Disabled: true,
 		}) {
-			@components.RadioCardHeader(components.RadioCardHeaderProps{}) {
+			@components.RadioCardHeader() {
 				<div class="flex items-center gap-2">
-					@icons.Building(icons.IconProps{Size: "20"})
+					@icons.Building(icons.IconProps{Size: 20})
 					<h3>Enterprise Plan</h3>
 				</div>
 			}
-			@components.RadioCardDescription(components.RadioCardDescriptionProps{}) {
+			@components.RadioCardDescription() {
 				Advanced features for large organizations
 			}
-			@components.RadioCardFooter(components.RadioCardFooterProps{}) {
+			@components.RadioCardFooter() {
 				@radioCardPriceFooter("$29.99")
 			}
 		}

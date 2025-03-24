@@ -36,56 +36,87 @@ type FormMessageProps struct {
 	Variant    FormMessageVariant
 }
 
-templ FormItem(props FormItemProps) {
+templ FormItem(props ...FormItemProps) {
+	{{ var p FormItemProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<div
-		id={ props.ID }
-		class={ utils.TwMerge("space-y-2", props.Class) }
-		{ props.Attributes... }
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		class={ utils.TwMerge("space-y-2", p.Class) }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</div>
 }
 
-templ FormItemFlex(props FormItemProps) {
+templ FormItemFlex(props ...FormItemProps) {
+	{{ var p FormItemProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<div
-		id={ props.ID }
-		class={ utils.TwMerge("items-center flex space-x-2", props.Class) }
-		{ props.Attributes... }
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		class={ utils.TwMerge("items-center flex space-x-2", p.Class) }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</div>
 }
 
-templ FormLabel(props FormLabelProps) {
+templ FormLabel(props ...FormLabelProps) {
+	{{ var p FormLabelProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	@Label(LabelProps{
-		For:           props.For,
-		Class:         props.Class,
-		DisabledClass: props.DisabledClass,
-		Attributes:    props.Attributes,
-		ID:            props.ID,
+		ID:            p.ID,
+		Class:         p.Class,
+		DisabledClass: p.DisabledClass,
+		Attributes:    p.Attributes,
+		For:           p.For,
 	}) {
 		{ children... }
 	}
 }
 
-templ FormDescription(props FormDescriptionProps) {
+templ FormDescription(props ...FormDescriptionProps) {
+	{{ var p FormDescriptionProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<p
-		id={ props.ID }
-		class={ utils.TwMerge("text-sm text-muted-foreground", props.Class) }
-		{ props.Attributes... }
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		class={ utils.TwMerge("text-sm text-muted-foreground", p.Class) }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</p>
 }
 
-templ FormMessage(props FormMessageProps) {
+templ FormMessage(props ...FormMessageProps) {
+	{{ var p FormMessageProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<p
-		id={ props.ID }
-		class={
-			utils.TwMerge("text-[0.8rem] font-medium", props.Class),
-			formMessageVariantClass(props.Variant),
+		if p.ID != "" {
+			id={ p.ID }
 		}
-		{ props.Attributes... }
+		class={
+			utils.TwMerge(
+				"text-[0.8rem] font-medium",
+				formMessageVariantClass(p.Variant),
+				p.Class,
+			),
+		}
+		{ p.Attributes... }
 	>
 		{ children... }
 	</p>
