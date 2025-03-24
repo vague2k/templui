@@ -23,16 +23,23 @@ templ Textarea(props ...TextareaProps) {
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
+	if p.ID == "" {
+		{{ p.ID = utils.RandomID() }}
+	}
 	<textarea
 		x-ref={ p.ID }
 		id={ p.ID }
-		name={ p.Name }
-		placeholder={ p.Placeholder }
-		disabled?={ p.Disabled }
-		required?={ p.Required }
-		if p.Rows != 0 {
+		if p.Name != "" {
+			name={ p.Name }
+		}
+		if p.Placeholder != "" {
+			placeholder={ p.Placeholder }
+		}
+		if p.Rows > 0 {
 			rows={ strconv.Itoa(p.Rows) }
 		}
+		disabled?={ p.Disabled }
+		required?={ p.Required }
 		class={
 			utils.TwMerge(
 				"flex w-full px-3 py-2",
@@ -51,11 +58,7 @@ templ Textarea(props ...TextareaProps) {
 			@input="resize"
 		}
 		{ p.Attributes... }
-	>
-		if p.Value != "" {
-			{ p.Value }
-		}
-	</textarea>
+	>{ p.Value }</textarea>
 }
 
 templ TextareaScript() {
