@@ -4,6 +4,8 @@ import "github.com/axzilla/templui/components"
 
 templ ProgressDefault() {
 	<div class="w-full max-w-sm">
-		@components.Progress(25)
+		@components.Progress(components.ProgressProps{
+			Value: 25,
+		})
 	</div>
 }
