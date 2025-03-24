@@ -49,10 +49,12 @@ templ InputOTP(props ...InputOTPProps) {
 		if p.Value != "" {
 			data-value={ p.Value }
 		}
-		class={ utils.TwMerge(
-			"flex flex-row items-center gap-2 w-fit",
-			p.Class,
-		) }
+		class={
+			utils.TwMerge(
+				"flex flex-row items-center gap-2 w-fit",
+				p.Class,
+			),
+		}
 		x-data="inputOTP"
 		x-on:paste.prevent="handlePaste"
 		{ p.Attributes... }
@@ -81,10 +83,12 @@ templ InputOTPGroup(props ...InputOTPGroupProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		class={ utils.TwMerge(
-			"flex gap-2",
-			p.Class,
-		) }
+		class={
+			utils.TwMerge(
+				"flex gap-2",
+				p.Class,
+			),
+		}
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -100,7 +104,9 @@ templ InputOTPSlot(props ...InputOTPSlotProps) {
 		{{ p.Type = "text" }}
 	}
 	<div
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		data-slot
 		class="relative"
 		{ p.Attributes... }
@@ -109,7 +115,9 @@ templ InputOTPSlot(props ...InputOTPSlotProps) {
 			x-ref={ "otpDigit" + strconv.Itoa(p.Index) }
 			type={ p.Type }
 			inputmode="numeric"
-			placeholder={ p.Placeholder }
+			if p.Placeholder != "" {
+				placeholder={ p.Placeholder }
+			}
 			maxlength="1"
 			class={
 				utils.TwMerge(
@@ -139,10 +147,12 @@ templ InputOTPSeparator(props ...InputOTPSeparatorProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		class={ utils.TwMerge(
-			"flex items-center text-muted-foreground text-xl",
-			p.Class,
-		) }
+		class={
+			utils.TwMerge(
+				"flex items-center text-muted-foreground text-xl",
+				p.Class,
+			),
+		}
 		{ p.Attributes... }
 	>
 		<span>-</span>
