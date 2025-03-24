@@ -48,23 +48,31 @@ templ Rating(props ...RatingProps) {
 	{{ p.setDefaults() }}
 	{{ ctx = context.WithValue(ctx, "readOnly", p.ReadOnly) }}
 	<div
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		x-data="rating"
 		data-value={ strconv.FormatFloat(p.Value, 'f', -1, 64) }
 		data-precision={ strconv.FormatFloat(p.Precision, 'f', -1, 64) }
 		data-readonly={ strconv.FormatBool(p.ReadOnly) }
-		data-name={ p.Name }
+		if p.Name != "" {
+			data-name={ p.Name }
+		}
 		data-onlyinteger={ strconv.FormatBool(p.OnlyInteger) }
-		class={ utils.TwMerge(
-			"flex flex-col items-start gap-1",
-			p.Class,
-		) }
+		class={
+			utils.TwMerge(
+				"flex flex-col items-start gap-1",
+				p.Class,
+			),
+		}
 		{ p.Attributes... }
 	>
 		{ children... }
 		<input
 			type="hidden"
-			name={ p.Name }
+			if p.Name != "" {
+				name={ p.Name }
+			}
 			x-bind:value="value"
 			disabled?={ p.Name == "" }
 			x-ref="input"
@@ -78,7 +86,9 @@ templ RatingGroup(props ...RatingGroupProps) {
 		{{ p = props[0] }}
 	}
 	<div
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		class={ utils.TwMerge("flex flex-row items-center gap-1", p.Class) }
 		{ p.Attributes... }
 	>
@@ -94,19 +104,25 @@ templ RatingItem(props ...RatingItemProps) {
 	{{ p.setDefaults() }}
 	{{ readOnly, _ := ctx.Value("readOnly").(bool) }}
 	<div
-		id={ p.ID }
-		class={ utils.TwMerge(
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		class={
+			utils.TwMerge(
 				"relative",
 				getColorClass(p.Style),
 				"transition-opacity",
 				"cursor-pointer",
 				utils.If(readOnly, "cursor-default"),
 				p.Class,
-			) }
+			),
+		}
 		data-rating-value={ strconv.Itoa(p.Value) }
-		@click="setValue"
-		@mouseover="hover"
-		@mouseleave="resetPreview"
+		if !readOnly {
+			@click="setValue"
+			@mouseover="hover"
+			@mouseleave="resetPreview"
+		}
 		{ p.Attributes... }
 	>
 		<div class="opacity-30">
