@@ -1,7 +1,9 @@
 package components
 
-import "github.com/axzilla/templui/utils"
-import "github.com/axzilla/templui/icons"
+import (
+	"github.com/axzilla/templui/icons"
+	"github.com/axzilla/templui/utils"
+)
 
 type PaginationProps struct {
 	ID         string
@@ -61,6 +63,9 @@ templ Pagination(props ...PaginationProps) {
 		{{ p = props[0] }}
 	}
 	<nav
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		role="navigation"
 		aria-label="pagination"
 		class={ utils.TwMerge("flex flex-wrap justify-center", p.Class) }
@@ -75,7 +80,13 @@ templ PaginationContent(props ...PaginationContentProps) {
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
-	<ul class="flex flex-row items-center gap-1" { p.Attributes... }>
+	<ul
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		class="flex flex-row items-center gap-1"
+		{ p.Attributes... }
+	>
 		{ children... }
 	</ul>
 }
@@ -85,7 +96,12 @@ templ PaginationItem(props ...PaginationItemProps) {
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
-	<li { p.Attributes... }>
+	<li
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		{ p.Attributes... }
+	>
 		{ children... }
 	</li>
 }
