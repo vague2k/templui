@@ -74,10 +74,10 @@ templ FormLabel(props ...FormLabelProps) {
 		{{ p = props[0] }}
 	}
 	@Label(LabelProps{
+		ID:            p.ID,
 		Class:         p.Class,
 		DisabledClass: p.DisabledClass,
 		Attributes:    p.Attributes,
-		ID:            p.ID,
 		For:           p.For,
 	}) {
 		{ children... }
@@ -90,7 +90,9 @@ templ FormDescription(props ...FormDescriptionProps) {
 		{{ p = props[0] }}
 	}
 	<p
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		class={ utils.TwMerge("text-sm text-muted-foreground", p.Class) }
 		{ p.Attributes... }
 	>
@@ -104,11 +106,14 @@ templ FormMessage(props ...FormMessageProps) {
 		{{ p = props[0] }}
 	}
 	<p
-		id={ p.ID }
-		class={
-			utils.TwMerge("text-[0.8rem] font-medium", p.Class),
-			formMessageVariantClass(p.Variant),
+		if p.ID != "" {
+			id={ p.ID }
 		}
+		class={ utils.TwMerge(
+            "text-[0.8rem] font-medium",
+            formMessageVariantClass(p.Variant),
+            p.Class,
+        ) }
 		{ p.Attributes... }
 	>
 		{ children... }
