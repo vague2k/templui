@@ -178,7 +178,7 @@ templ DatePicker(props ...DatePickerProps) {
 					),
 				}
 			>
-				@icons.Calendar(icons.IconProps{})
+				@icons.Calendar()
 			</button>
 		</div>
 		<div
@@ -202,14 +202,14 @@ templ DatePicker(props ...DatePickerProps) {
 						@click="atClickPrevMonth"
 						class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-7 w-7"
 					>
-						@icons.ChevronLeft(icons.IconProps{})
+						@icons.ChevronLeft()
 					</button>
 					<button
 						type="button"
 						@click="atClickNextMonth"
 						class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-7 w-7"
 					>
-						@icons.ChevronRight(icons.IconProps{})
+						@icons.ChevronRight()
 					</button>
 				</div>
 			</div>

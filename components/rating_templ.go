@@ -500,18 +500,18 @@ func getRatingIcon(style RatingStyle, filled bool, value float64) templ.Componen
 		if filled {
 			switch {
 			case value <= 1:
-				return icons.Angry(icons.IconProps{})
+				return icons.Angry()
 			case value <= 2:
-				return icons.Frown(icons.IconProps{})
+				return icons.Frown()
 			case value <= 3:
-				return icons.Meh(icons.IconProps{})
+				return icons.Meh()
 			case value <= 4:
-				return icons.Smile(icons.IconProps{})
+				return icons.Smile()
 			default:
-				return icons.Laugh(icons.IconProps{})
+				return icons.Laugh()
 			}
 		}
-		return icons.Meh(icons.IconProps{})
+		return icons.Meh()
 	}
 	if filled {
 		switch style {
@@ -523,9 +523,9 @@ func getRatingIcon(style RatingStyle, filled bool, value float64) templ.Componen
 	} else {
 		switch style {
 		case RatingStyleHeart:
-			return icons.Heart(icons.IconProps{})
+			return icons.Heart()
 		default:
-			return icons.Star(icons.IconProps{})
+			return icons.Star()
 		}
 	}
 }

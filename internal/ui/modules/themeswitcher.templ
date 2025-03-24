@@ -41,7 +41,7 @@ templ ThemeSwitcher(props ...ThemeSwitcherProps) {
 			"@click": "toggleTheme",
 		},
 	}) {
-		@icons.SunMedium(icons.IconProps{})
+		@icons.SunMedium()
 	}
 }
 
@@ -57,9 +57,9 @@ templ DynamicThemeIcon() {
 }
 
 templ DarkIcon() {
-	@icons.Moon(icons.IconProps{})
+	@icons.Moon()
 }
 
 templ LightIcon() {
-	@icons.SunMedium(icons.IconProps{})
+	@icons.SunMedium()
 }
