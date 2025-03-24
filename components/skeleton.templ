@@ -14,11 +14,15 @@ templ Skeleton(props ...SkeletonProps) {
 		{{ p = props[0] }}
 	}
 	<div
-		id={ p.ID }
-		class={ utils.TwMerge(
-			"animate-pulse rounded bg-muted",
-			p.Class,
-		) }
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		class={
+			utils.TwMerge(
+				"animate-pulse rounded bg-muted",
+				p.Class,
+			),
+		}
 		{ p.Attributes... }
 	></div>
 }
