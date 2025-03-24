@@ -11,11 +11,13 @@ RUN go install github.com/a-h/templ/cmd/templ@latest
 # Generate templ files
 RUN templ generate
 
-# Install Node.js and npm for TailwindCSS
-RUN apk add --no-cache nodejs npm
+# Install curl for downloading Tailwind CLI
+RUN apk add --no-cache curl
 
-# Install TailwindCSS
-RUN npm install -g tailwindcss
+# Download and install Tailwind CSS CLI
+RUN curl -sLO https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-linux-x64 && \
+    chmod +x tailwindcss-linux-x64 && \
+    mv tailwindcss-linux-x64 /usr/local/bin/tailwindcss
 
 # Build CSS
 RUN tailwindcss -i ./assets/css/input.css -o ./assets/css/output.css
