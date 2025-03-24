@@ -165,7 +165,7 @@ templ PaginationPrevious(props ...PaginationPreviousProps) {
 		Class:      utils.TwMerge("gap-1", p.Class),
 		Attributes: p.Attributes,
 	}) {
-		@icons.ChevronLeft(icons.IconProps{Size: "16"})
+		@icons.ChevronLeft(icons.IconProps{Size: 16})
 		<span>Previous</span>
 	}
 }
@@ -187,12 +187,12 @@ templ PaginationNext(props ...PaginationNextProps) {
 		Attributes: p.Attributes,
 	}) {
 		<span>Next</span>
-		@icons.ChevronRight(icons.IconProps{Size: "16"})
+		@icons.ChevronRight(icons.IconProps{Size: 16})
 	}
 }
 
 templ PaginationEllipsis() {
-	@icons.Ellipsis(icons.IconProps{Size: "16"})
+	@icons.Ellipsis(icons.IconProps{Size: 16})
 }
 
 func CreatePagination(currentPage, totalPages, maxVisible int) struct {

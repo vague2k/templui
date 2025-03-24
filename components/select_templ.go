@@ -246,7 +246,7 @@ func SelectTrigger(props ...SelectTriggerProps) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			templ_7745c5c3_Err = icons.ChevronDown(icons.IconProps{
-				Size:  "16",
+				Size:  16,
 				Class: "text-muted-foreground",
 			}).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
@@ -825,7 +825,7 @@ func SelectItem(props ...SelectItemProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = icons.Check(icons.IconProps{Size: "16"}).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = icons.Check(icons.IconProps{Size: 16}).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

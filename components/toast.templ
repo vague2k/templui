@@ -110,13 +110,13 @@ templ toastIndicator(p ToastProps) {
 
 templ toastIcon(p ToastProps) {
 	if p.Variant == ToastVariantSuccess {
-		@icons.CircleCheck(icons.IconProps{Size: "22", Class: "text-green-500 mr-3 flex-shrink-0"})
+		@icons.CircleCheck(icons.IconProps{Size: 22, Class: "text-green-500 mr-3 flex-shrink-0"})
 	} else if p.Variant == ToastVariantError {
-		@icons.CircleX(icons.IconProps{Size: "22", Class: "text-red-500 mr-3 flex-shrink-0"})
+		@icons.CircleX(icons.IconProps{Size: 22, Class: "text-red-500 mr-3 flex-shrink-0"})
 	} else if p.Variant == ToastVariantWarning {
-		@icons.TriangleAlert(icons.IconProps{Size: "22", Class: "text-yellow-500 mr-3 flex-shrink-0"})
+		@icons.TriangleAlert(icons.IconProps{Size: 22, Class: "text-yellow-500 mr-3 flex-shrink-0"})
 	} else if p.Variant == ToastVariantInfo {
-		@icons.Info(icons.IconProps{Size: "22", Class: "text-blue-500 mr-3 flex-shrink-0"})
+		@icons.Info(icons.IconProps{Size: 22, Class: "text-blue-500 mr-3 flex-shrink-0"})
 	}
 }
 
@@ -145,7 +145,7 @@ templ toastDismissButton() {
 		},
 	}) {
 		@icons.X(icons.IconProps{
-			Size:  "18",
+			Size:  18,
 			Class: "opacity-75 hover:opacity-100",
 		})
 	}

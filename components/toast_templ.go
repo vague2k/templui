@@ -264,22 +264,22 @@ func toastIcon(p ToastProps) templ.Component {
 		}
 		ctx = templ.ClearChildren(ctx)
 		if p.Variant == ToastVariantSuccess {
-			templ_7745c5c3_Err = icons.CircleCheck(icons.IconProps{Size: "22", Class: "text-green-500 mr-3 flex-shrink-0"}).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = icons.CircleCheck(icons.IconProps{Size: 22, Class: "text-green-500 mr-3 flex-shrink-0"}).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		} else if p.Variant == ToastVariantError {
-			templ_7745c5c3_Err = icons.CircleX(icons.IconProps{Size: "22", Class: "text-red-500 mr-3 flex-shrink-0"}).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = icons.CircleX(icons.IconProps{Size: 22, Class: "text-red-500 mr-3 flex-shrink-0"}).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		} else if p.Variant == ToastVariantWarning {
-			templ_7745c5c3_Err = icons.TriangleAlert(icons.IconProps{Size: "22", Class: "text-yellow-500 mr-3 flex-shrink-0"}).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = icons.TriangleAlert(icons.IconProps{Size: 22, Class: "text-yellow-500 mr-3 flex-shrink-0"}).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		} else if p.Variant == ToastVariantInfo {
-			templ_7745c5c3_Err = icons.Info(icons.IconProps{Size: "22", Class: "text-blue-500 mr-3 flex-shrink-0"}).Render(ctx, templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = icons.Info(icons.IconProps{Size: 22, Class: "text-blue-500 mr-3 flex-shrink-0"}).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -410,7 +410,7 @@ func toastDismissButton() templ.Component {
 			}
 			ctx = templ.InitializeContext(ctx)
 			templ_7745c5c3_Err = icons.X(icons.IconProps{
-				Size:  "18",
+				Size:  18,
 				Class: "opacity-75 hover:opacity-100",
 			}).Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
