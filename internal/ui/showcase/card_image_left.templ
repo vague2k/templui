@@ -6,14 +6,14 @@ templ CardImageLeft() {
 	<div class="w-full max-w-sm">
 		@components.Card() {
 			@components.CardHorizontal() {
-				@components.CardMedia("/assets/img/card_placeholder.jpeg",
-					components.CardMediaProps{
-						ID:          "left-media",
-						Alt:         "Left side image",
-						Position:    components.CardMediaLeft,
-						Width:       components.CardMediaWidthThird,
-						AspectRatio: components.AspectRatioAuto,
-					},
+				@components.CardMedia(components.CardMediaProps{
+					ID:          "left-media",
+					Alt:         "Left side image",
+					Position:    components.CardMediaLeft,
+					Width:       components.CardMediaWidthThird,
+					AspectRatio: components.AspectRatioAuto,
+					Src:         "/assets/img/card_placeholder.jpeg",
+				},
 				)
 				<div class="flex flex-col flex-1">
 					@components.CardHeader() {

@@ -19,14 +19,14 @@ templ CardImageRight() {
 						<p>This card demonstrates the right image layout.</p>
 					}
 				</div>
-				@components.CardMedia("/assets/img/card_placeholder.jpeg",
-					components.CardMediaProps{
-						ID:          "right-media",
-						Alt:         "Right side image",
-						Position:    components.CardMediaRight,
-						Width:       components.CardMediaWidthThird,
-						AspectRatio: components.AspectRatioAuto,
-					},
+				@components.CardMedia(components.CardMediaProps{
+					ID:          "right-media",
+					Alt:         "Right side image",
+					Position:    components.CardMediaRight,
+					Width:       components.CardMediaWidthThird,
+					AspectRatio: components.AspectRatioAuto,
+					Src:         "/assets/img/card_placeholder.jpeg",
+				},
 				)
 			}
 		}
