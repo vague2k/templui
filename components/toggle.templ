@@ -19,14 +19,22 @@ templ Toggle(props ...ToggleProps) {
 	if p.ID == "" {
 		{{ p.ID = utils.RandomID() }}
 	}
-	<label for={ p.ID } class="inline-flex cursor-pointer items-center gap-2">
+	<label
+		for={ p.ID }
+		class={ utils.TwMerge(
+            "inline-flex cursor-pointer items-center gap-2",
+            utils.If(p.Disabled, "cursor-not-allowed"),
+        ) }
+	>
 		<input
 			x-ref={ p.ID }
+			id={ p.ID }
+			if p.Name != "" {
+				name={ p.Name }
+			}
+			type="checkbox"
 			checked?={ p.Checked }
 			disabled?={ p.Disabled }
-			id={ p.ID }
-			type="checkbox"
-			name={ p.Name }
 			class="peer hidden"
 			role="switch"
 			{ p.Attributes... }
@@ -45,7 +53,6 @@ templ Toggle(props ...ToggleProps) {
 					"peer-checked:after:translate-x-[16px]",
 					"peer-checked:after:bg-secondary",
 					"peer-disabled:opacity-50",
-					"peer-disabled:cursor-not-allowed",
 					p.Class,
 				),
 			}
