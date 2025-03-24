@@ -3,11 +3,8 @@ package showcase
 import "github.com/axzilla/templui/components"
 
 templ CheckboxChecked() {
-	@components.Checkbox(
-		"checkbox-checked",
-		"checkbox-checked",
-		components.CheckboxProps{
-			Checked: true,
-		},
+	@components.Checkbox(components.CheckboxProps{
+		Checked: true,
+	},
 	)
 }

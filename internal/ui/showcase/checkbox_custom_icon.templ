@@ -6,12 +6,9 @@ import (
 )
 
 templ CheckboxCustomIcon() {
-	@components.Checkbox(
-		"checkbox-custom-icon",
-		"checkbox-custom-icon",
-		components.CheckboxProps{
-			Icon:    icons.Plus(icons.IconProps{Size: "12"}),
-			Checked: true,
-		},
+	@components.Checkbox(components.CheckboxProps{
+		Icon:    icons.Plus(icons.IconProps{Size: "12"}),
+		Checked: true,
+	},
 	)
 }

@@ -4,12 +4,10 @@ import "github.com/axzilla/templui/components"
 
 templ CheckboxDisabled() {
 	<div class="flex items-center gap-2">
-		@components.Checkbox(
-			"checkbox-disabled",
-			"checkbox-disabled",
-			components.CheckboxProps{
-				Disabled: true,
-			},
+		@components.Checkbox(components.CheckboxProps{
+			Disabled: true,
+			ID:       "checkbox-disabled",
+		},
 		)
 		@components.Label("checkbox-disabled") {
 			Accept terms and conditions

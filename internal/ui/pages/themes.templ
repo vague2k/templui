@@ -800,25 +800,20 @@ templ ThemePreview() {
 					@components.FormItem() {
 						<p class="text-sm text-muted-foreground">Terms and Conditions</p>
 						@components.FormItemFlex() {
-							@components.Checkbox(
-								"terms",
-								"accepted",
-								components.CheckboxProps{
-									ID: "terms",
-								},
+							@components.Checkbox(components.CheckboxProps{
+								ID: "terms",
+							},
 							)
 							@components.FormLabel("terms") {
 								I accept the terms and conditions
 							}
 						}
 						@components.FormItemFlex() {
-							@components.Checkbox(
-								"newsletter",
-								"subscribed",
-								components.CheckboxProps{
-									ID: "newsletter",
-								},
-							)
+							@components.Checkbox(components.CheckboxProps{
+								Name:  "newsletter",
+								Value: "subscribed",
+								ID:    "newsletter",
+							})
 							@components.FormLabel("newsletter") {
 								Subscribe to newsletter
 							}

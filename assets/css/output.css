@@ -387,11 +387,8 @@
       max-width: 96rem;
     }
   }
-  .m-5 {
-    margin: calc(var(--spacing) * 5);
-  }
-  .m-6 {
-    margin: calc(var(--spacing) * 6);
+  .m-7 {
+    margin: calc(var(--spacing) * 7);
   }
   .-mx-1 {
     margin-inline: calc(var(--spacing) * -1);
@@ -509,9 +506,6 @@
   }
   .aspect-\[3\/4\] {
     aspect-ratio: 3/4;
-  }
-  .aspect-auto {
-    aspect-ratio: auto;
   }
   .aspect-square {
     aspect-ratio: 1 / 1;

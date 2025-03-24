@@ -5,12 +5,9 @@ import "github.com/axzilla/templui/icons"
 
 templ CheckboxCardDefault() {
 	<div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-		@components.CheckboxCard(
-			"feature-analytics",
-			"analytics",
-			components.CheckboxCardProps{
-				ID: "feature-analytics",
-			},
+		@components.CheckboxCard(components.CheckboxCardProps{
+			ID: "feature-analytics",
+		},
 		) {
 			@components.CheckboxCardHeader() {
 				<div class="flex items-center gap-2">
@@ -27,12 +24,9 @@ templ CheckboxCardDefault() {
 				@radioCardPriceFooter("$5/month")
 			}
 		}
-		@components.CheckboxCard(
-			"feature-storage",
-			"storage",
-			components.CheckboxCardProps{
-				ID: "feature-storage",
-			},
+		@components.CheckboxCard(components.CheckboxCardProps{
+			ID: "feature-storage",
+		},
 		) {
 			@components.CheckboxCardHeader() {
 				<div class="flex items-center gap-2">
@@ -49,13 +43,10 @@ templ CheckboxCardDefault() {
 				@radioCardPriceFooter("$3/month")
 			}
 		}
-		@components.CheckboxCard(
-			"feature-api",
-			"api",
-			components.CheckboxCardProps{
-				ID:       "feature-api",
-				Disabled: true,
-			}) {
+		@components.CheckboxCard(components.CheckboxCardProps{
+			ID:       "feature-api",
+			Disabled: true,
+		}) {
 			@components.CheckboxCardHeader() {
 				<div class="flex items-center gap-2">
 					<div class="text-primary">

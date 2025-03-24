@@ -7,9 +7,9 @@ templ CheckboxForm() {
 		@components.FormItem() {
 			@components.FormItemFlex() {
 				@components.Checkbox(
-					"c1",
-					"interests",
 					components.CheckboxProps{
+						Name:    "interests",
+						Value:   "design",
 						ID:      "c1",
 						Checked: true,
 					},
@@ -19,26 +19,22 @@ templ CheckboxForm() {
 				}
 			}
 			@components.FormItemFlex() {
-				@components.Checkbox(
-					"c2",
-					"interests",
-					components.CheckboxProps{
-						ID:       "c2",
-						Disabled: true,
-					},
-				)
+				@components.Checkbox(components.CheckboxProps{
+					Name:     "interests",
+					Value:    "development",
+					ID:       "c2",
+					Disabled: true,
+				})
 				@components.FormLabel("c2") {
 					Development (Coming Soon)
 				}
 			}
 			@components.FormItemFlex() {
-				@components.Checkbox(
-					"c3",
-					"interests",
-					components.CheckboxProps{
-						ID: "c3",
-					},
-				)
+				@components.Checkbox(components.CheckboxProps{
+					Name:  "interests",
+					Value: "marketing",
+					ID:    "c3",
+				})
 				@components.FormLabel("c3") {
 					Business and Marketing
 				}
