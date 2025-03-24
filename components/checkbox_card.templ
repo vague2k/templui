@@ -44,11 +44,13 @@ templ CheckboxCard(props ...CheckboxCardProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		class={ utils.TwMerge(
-            "relative",
-            utils.If(p.Disabled, "opacity-60"),
-            p.Class,
-        ) }
+		class={
+			utils.TwMerge(
+				"relative",
+				utils.If(p.Disabled, "opacity-60"),
+				p.Class,
+			),
+		}
 		{ p.Attributes... }
 	>
 		<input
@@ -67,16 +69,18 @@ templ CheckboxCard(props ...CheckboxCardProps) {
 		/>
 		<label
 			for={ inputId }
-			class={ utils.TwMerge(
-                "block w-full rounded-lg border overflow-hidden h-full",
-                "bg-card text-card-foreground p-4 flex flex-col",
-                "cursor-pointer",
-                "hover:border-primary/50",
-                "peer-checked:ring-1 peer-checked:ring-primary peer-checked:border-primary",
-                utils.If(p.Disabled, "cursor-not-allowed"),
-                "transition-all duration-200",
-                p.Class,
-            ) }
+			class={
+				utils.TwMerge(
+					"block w-full rounded-lg border overflow-hidden h-full",
+					"bg-card text-card-foreground p-4 flex flex-col",
+					"cursor-pointer",
+					"hover:border-primary/50",
+					"peer-checked:ring-1 peer-checked:ring-primary peer-checked:border-primary",
+					utils.If(p.Disabled, "cursor-not-allowed"),
+					"transition-all duration-200",
+					p.Class,
+				),
+			}
 		>
 			{ children... }
 		</label>
@@ -92,10 +96,12 @@ templ CheckboxCardHeader(props ...CheckboxCardHeaderProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		class={ utils.TwMerge(
-            "flex items-center justify-between mb-2",
-            p.Class,
-        ) }
+		class={
+			utils.TwMerge(
+				"flex items-center justify-between mb-2",
+				p.Class,
+			),
+		}
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -111,10 +117,12 @@ templ CheckboxCardDescription(props ...CheckboxCardDescriptionProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		class={ utils.TwMerge(
-            "text-sm text-muted-foreground",
-            p.Class,
-        ) }
+		class={
+			utils.TwMerge(
+				"text-sm text-muted-foreground",
+				p.Class,
+			),
+		}
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -130,10 +138,12 @@ templ CheckboxCardFooter(props ...CheckboxCardFooterProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		class={ utils.TwMerge(
-            "mt-auto pt-4 w-full",
-            p.Class,
-        ) }
+		class={
+			utils.TwMerge(
+				"mt-auto pt-4 w-full",
+				p.Class,
+			),
+		}
 		{ p.Attributes... }
 	>
 		{ children... }

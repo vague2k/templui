@@ -193,10 +193,12 @@ templ TimePicker(props ...TimePickerProps) {
 							type="button"
 							data-period="AM"
 							@click="selectPeriod"
-							class={ utils.TwMerge(
-								"px-3 py-1 text-sm rounded-md hover:bg-muted",
-								utils.If(p.Value != (time.Time{}) && p.Value.Hour() < 12, "bg-primary text-primary-foreground", ),
-							) }
+							class={
+								utils.TwMerge(
+									"px-3 py-1 text-sm rounded-md hover:bg-muted",
+									utils.If(p.Value != (time.Time{}) && p.Value.Hour() < 12, "bg-primary text-primary-foreground"),
+								),
+							}
 						>
 							{ p.AMLabel }
 						</button>
@@ -204,10 +206,12 @@ templ TimePicker(props ...TimePickerProps) {
 							type="button"
 							data-period="PM"
 							@click="selectPeriod"
-							class={ utils.TwMerge(
-								"px-3 py-1 text-sm rounded-md hover:bg-muted",
-								utils.If(p.Value != (time.Time{}) && p.Value.Hour() >= 12, "bg-primary text-primary-foreground", ),
-							) }
+							class={
+								utils.TwMerge(
+									"px-3 py-1 text-sm rounded-md hover:bg-muted",
+									utils.If(p.Value != (time.Time{}) && p.Value.Hour() >= 12, "bg-primary text-primary-foreground"),
+								),
+							}
 						>
 							{ p.PMLabel }
 						</button>

@@ -84,10 +84,12 @@ templ Card(props ...CardProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		class={ utils.TwMerge(
-            "w-full rounded-lg border bg-card text-card-foreground shadow-xs",
-            p.Class,
-        ) }
+		class={
+			utils.TwMerge(
+				"w-full rounded-lg border bg-card text-card-foreground shadow-xs",
+				p.Class,
+			),
+		}
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -145,10 +147,12 @@ templ CardDescription(props ...CardDescriptionProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		class={ utils.TwMerge(
-            "text-sm text-muted-foreground",
-            p.Class,
-        ) }
+		class={
+			utils.TwMerge(
+				"text-sm text-muted-foreground",
+				p.Class,
+			),
+		}
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -164,10 +168,12 @@ templ CardContent(props ...CardContentProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		class={ utils.TwMerge(
-            "p-6",
-            p.Class,
-        ) }
+		class={
+			utils.TwMerge(
+				"p-6",
+				p.Class,
+			),
+		}
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -183,10 +189,12 @@ templ CardFooter(props ...CardFooterProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		class={ utils.TwMerge(
-            "flex items-center p-6 pt-0",
-            p.Class,
-        ) }
+		class={
+			utils.TwMerge(
+				"flex items-center p-6 pt-0",
+				p.Class,
+			),
+		}
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -202,10 +210,12 @@ templ CardHorizontal(props ...CardHorizontalProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		class={ utils.TwMerge(
-            "flex overflow-hidden",
-            p.Class,
-        ) }
+		class={
+			utils.TwMerge(
+				"flex overflow-hidden",
+				p.Class,
+			),
+		}
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -221,11 +231,13 @@ templ CardMedia(props ...CardMediaProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		class={ utils.TwMerge(
-            "overflow-hidden",
-            getCardMediaPositionClasses(p.Position, p.Width),
-            p.Class,
-        ) }
+		class={
+			utils.TwMerge(
+				"overflow-hidden",
+				getCardMediaPositionClasses(p.Position, p.Width),
+				p.Class,
+			),
+		}
 		{ p.Attributes... }
 	>
 		@AspectRatio(AspectRatioProps{

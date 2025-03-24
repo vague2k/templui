@@ -103,14 +103,16 @@ func Code(props ...CodeProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var5 = []any{utils.TwMerge(
-			"language-"+p.Language,
-			"overflow-y-auto! rounded-md block text-sm max-h-[501px]!",
-			utils.If(p.Size == CodeSizeSm, "max-h-[250px]!"),
-			utils.If(p.Size == CodeSizeLg, "max-h-[1000px]!"),
-			utils.If(p.Size == CodeSizeFull, "max-h-full!"),
-			p.CodeClass,
-		)}
+		var templ_7745c5c3_Var5 = []any{
+			utils.TwMerge(
+				"language-"+p.Language,
+				"overflow-y-auto! rounded-md block text-sm max-h-[501px]!",
+				utils.If(p.Size == CodeSizeSm, "max-h-[250px]!"),
+				utils.If(p.Size == CodeSizeLg, "max-h-[1000px]!"),
+				utils.If(p.Size == CodeSizeFull, "max-h-full!"),
+				p.CodeClass,
+			),
+		}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var5...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -211,7 +213,7 @@ func CodeScript() templ.Component {
 			var templ_7745c5c3_Var9 string
 			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/code.templ`, Line: 76, Col: 37}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/code.templ`, Line: 78, Col: 37}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 			if templ_7745c5c3_Err != nil {
@@ -224,7 +226,7 @@ func CodeScript() templ.Component {
 			var templ_7745c5c3_Var10 string
 			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/code.templ`, Line: 77, Col: 37}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/code.templ`, Line: 79, Col: 37}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {

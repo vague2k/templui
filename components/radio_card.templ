@@ -41,11 +41,13 @@ templ RadioCard(props ...RadioCardProps) {
 	}
 	<div
 		id={ p.ID + "-container" }
-		class={ utils.TwMerge(
-            "relative",
-            utils.If(p.Disabled, "opacity-60"),
-            p.Class,
-        ) }
+		class={
+			utils.TwMerge(
+				"relative",
+				utils.If(p.Disabled, "opacity-60"),
+				p.Class,
+			),
+		}
 		{ p.Attributes... }
 	>
 		<input

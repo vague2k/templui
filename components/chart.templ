@@ -80,7 +80,11 @@ templ Chart(props ...ChartProps) {
 	{{ dataId := p.ID + "-data" }}
 	<div
 		id={ p.ID }
-		class={ utils.TwMerge("chart-container relative", p.Class) }
+		class={
+			utils.TwMerge(
+				"chart-container relative",
+				p.Class),
+		}
 		{ p.Attributes... }
 	>
 		<canvas id={ canvasId } data-chart-id={ dataId }></canvas>

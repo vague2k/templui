@@ -41,14 +41,16 @@ templ Code(props ...CodeProps) {
 		<pre class="overflow-hidden!">
 			<code
 				x-ref="code"
-				class={ utils.TwMerge(
-					"language-"+p.Language,
-					"overflow-y-auto! rounded-md block text-sm max-h-[501px]!",
-					utils.If(p.Size == CodeSizeSm, "max-h-[250px]!"),
-					utils.If(p.Size == CodeSizeLg, "max-h-[1000px]!"),
-					utils.If(p.Size == CodeSizeFull, "max-h-full!"),
-					p.CodeClass,
-				) }
+				class={
+					utils.TwMerge(
+						"language-"+p.Language,
+						"overflow-y-auto! rounded-md block text-sm max-h-[501px]!",
+						utils.If(p.Size == CodeSizeSm, "max-h-[250px]!"),
+						utils.If(p.Size == CodeSizeLg, "max-h-[1000px]!"),
+						utils.If(p.Size == CodeSizeFull, "max-h-full!"),
+						p.CodeClass,
+					),
+				}
 			>
 				{ children... }
 			</code>

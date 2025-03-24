@@ -28,11 +28,13 @@ templ AspectRatio(props ...AspectRatioProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		class={ utils.TwMerge(
-            "relative w-full",
-            getAspectRatioClass(p.Ratio),
-            p.Class,
-        ) }
+		class={
+			utils.TwMerge(
+				"relative w-full",
+				getAspectRatioClass(p.Ratio),
+				p.Class,
+			),
+		}
 		{ p.Attributes... }
 	>
 		<div class="absolute inset-0">

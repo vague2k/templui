@@ -600,10 +600,12 @@ func TimePicker(props ...TimePickerProps) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var31 = []any{utils.TwMerge(
-				"px-3 py-1 text-sm rounded-md hover:bg-muted",
-				utils.If(p.Value != (time.Time{}) && p.Value.Hour() < 12, "bg-primary text-primary-foreground"),
-			)}
+			var templ_7745c5c3_Var31 = []any{
+				utils.TwMerge(
+					"px-3 py-1 text-sm rounded-md hover:bg-muted",
+					utils.If(p.Value != (time.Time{}) && p.Value.Hour() < 12, "bg-primary text-primary-foreground"),
+				),
+			}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var31...)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -628,7 +630,7 @@ func TimePicker(props ...TimePickerProps) templ.Component {
 			var templ_7745c5c3_Var33 string
 			templ_7745c5c3_Var33, templ_7745c5c3_Err = templ.JoinStringErrs(p.AMLabel)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/time_picker.templ`, Line: 201, Col: 18}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/time_picker.templ`, Line: 203, Col: 18}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var33))
 			if templ_7745c5c3_Err != nil {
@@ -638,10 +640,12 @@ func TimePicker(props ...TimePickerProps) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var34 = []any{utils.TwMerge(
-				"px-3 py-1 text-sm rounded-md hover:bg-muted",
-				utils.If(p.Value != (time.Time{}) && p.Value.Hour() >= 12, "bg-primary text-primary-foreground"),
-			)}
+			var templ_7745c5c3_Var34 = []any{
+				utils.TwMerge(
+					"px-3 py-1 text-sm rounded-md hover:bg-muted",
+					utils.If(p.Value != (time.Time{}) && p.Value.Hour() >= 12, "bg-primary text-primary-foreground"),
+				),
+			}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var34...)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
@@ -666,7 +670,7 @@ func TimePicker(props ...TimePickerProps) templ.Component {
 			var templ_7745c5c3_Var36 string
 			templ_7745c5c3_Var36, templ_7745c5c3_Err = templ.JoinStringErrs(p.PMLabel)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/time_picker.templ`, Line: 212, Col: 18}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/time_picker.templ`, Line: 216, Col: 18}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var36))
 			if templ_7745c5c3_Err != nil {
@@ -802,7 +806,7 @@ func TimePickerScript() templ.Component {
 			var templ_7745c5c3_Var40 string
 			templ_7745c5c3_Var40, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/time_picker.templ`, Line: 278, Col: 43}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/time_picker.templ`, Line: 282, Col: 43}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var40))
 			if templ_7745c5c3_Err != nil {

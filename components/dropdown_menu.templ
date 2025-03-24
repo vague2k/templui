@@ -136,13 +136,15 @@ templ DropdownMenuContent(props ...DropdownMenuContentProps) {
 		x-transition:leave="transition ease-in duration-75"
 		x-transition:leave-start="opacity-100 scale-100"
 		x-transition:leave-end="opacity-0 scale-95"
-		class={ utils.TwMerge(
-            "absolute z-50 rounded-md bg-popover p-1 shadow-md focus:outline-none overflow-auto",
-            "border border-border",
-            "min-w-[8rem]",
-            p.Width,
-            p.Class,
-        ) }
+		class={
+			utils.TwMerge(
+				"absolute z-50 rounded-md bg-popover p-1 shadow-md focus:outline-none overflow-auto",
+				"border border-border",
+				"min-w-[8rem]",
+				p.Width,
+				p.Class,
+			),
+		}
 		style="top: 100%; margin-top: 0.25rem; left: 0; max-height: var(--dropdown-max-height, 300px);"
 		{ p.Attributes... }
 	>
@@ -200,12 +202,14 @@ templ DropdownMenuItem(props ...DropdownMenuItemProps) {
 			if p.Target != "" {
 				target={ p.Target }
 			}
-			class={ utils.TwMerge(
-                "flex text-left items-center px-2 py-1.5 text-sm rounded-sm",
-                utils.If(!p.Disabled, "focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground cursor-default"),
-                utils.If(p.Disabled, "opacity-50 pointer-events-none"),
-                p.Class,
-            ) }
+			class={
+				utils.TwMerge(
+					"flex text-left items-center px-2 py-1.5 text-sm rounded-sm",
+					utils.If(!p.Disabled, "focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground cursor-default"),
+					utils.If(p.Disabled, "opacity-50 pointer-events-none"),
+					p.Class,
+				),
+			}
 			role="menuitem"
 			data-menu-item=""
 			{ p.Attributes... }
@@ -215,12 +219,14 @@ templ DropdownMenuItem(props ...DropdownMenuItemProps) {
 	} else {
 		<button
 			id={ p.ID }
-			class={ utils.TwMerge(
-                "w-full text-left flex items-center justify-between px-2 py-1.5 text-sm rounded-sm",
-                utils.If(!p.Disabled, "focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground cursor-default"),
-                utils.If(p.Disabled, "opacity-50 pointer-events-none"),
-                p.Class,
-            ) }
+			class={
+				utils.TwMerge(
+					"w-full text-left flex items-center justify-between px-2 py-1.5 text-sm rounded-sm",
+					utils.If(!p.Disabled, "focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground cursor-default"),
+					utils.If(p.Disabled, "opacity-50 pointer-events-none"),
+					p.Class,
+				),
+			}
 			role="menuitem"
 			data-menu-item=""
 			disabled?={ p.Disabled }
@@ -291,12 +297,14 @@ templ DropdownMenuSubTrigger(props ...DropdownMenuSubTriggerProps) {
 		type="button"
 		x-ref="subTrigger"
 		data-submenu-trigger
-		class={ utils.TwMerge(
-            "w-full text-left flex items-center justify-between px-2 py-1.5 text-sm rounded-sm",
-            "focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground cursor-default",
-            "data-[state=open]:bg-accent data-[state=open]:text-accent-foreground",
-            p.Class,
-        ) }
+		class={
+			utils.TwMerge(
+				"w-full text-left flex items-center justify-between px-2 py-1.5 text-sm rounded-sm",
+				"focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground cursor-default",
+				"data-[state=open]:bg-accent data-[state=open]:text-accent-foreground",
+				p.Class,
+			),
+		}
 		{ p.Attributes... }
 	>
 		<span>
@@ -335,10 +343,12 @@ templ DropdownMenuSubContent(props ...DropdownMenuSubContentProps) {
 		}
 		x-ref="subContent"
 		data-submenu-content
-		class={ utils.TwMerge(
-            "z-[9999] min-w-[8rem] rounded-md border bg-popover p-1 shadow-lg",
-            p.Class,
-        ) }
+		class={
+			utils.TwMerge(
+				"z-[9999] min-w-[8rem] rounded-md border bg-popover p-1 shadow-lg",
+				p.Class,
+			),
+		}
 		style="position: fixed; display: none;"
 		{ p.Attributes... }
 	>
