@@ -9,7 +9,9 @@ templ CheckboxDisabled() {
 			ID:       "checkbox-disabled",
 		},
 		)
-		@components.Label("checkbox-disabled") {
+		@components.Label(components.LabelProps{
+			For: "checkbox-disabled",
+		}) {
 			Accept terms and conditions
 		}
 	</div>

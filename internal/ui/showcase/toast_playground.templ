@@ -15,7 +15,9 @@ templ ToastPlayground() {
 					>
 						// Message
 						@components.FormItem() {
-							@components.Label("title") {
+							@components.Label(components.LabelProps{
+								For: "title",
+							}) {
 								Message
 							}
 							@components.Input(components.InputProps{
@@ -25,7 +27,9 @@ templ ToastPlayground() {
 						}
 						// Description
 						@components.FormItem() {
-							@components.Label("description") {
+							@components.Label(components.LabelProps{
+								For: "description",
+							}) {
 								Description
 							}
 							@components.Input(components.InputProps{
@@ -35,7 +39,9 @@ templ ToastPlayground() {
 						}
 						// Type
 						@components.FormItem() {
-							@components.Label("type") {
+							@components.Label(components.LabelProps{
+								For: "type",
+							}) {
 								Type
 							}
 							@components.Select() {
@@ -81,7 +87,9 @@ templ ToastPlayground() {
 						}
 						// Position
 						@components.FormItem() {
-							@components.Label("position") {
+							@components.Label(components.LabelProps{
+								For: "position",
+							}) {
 								Position
 							}
 							@components.Select() {
@@ -132,7 +140,9 @@ templ ToastPlayground() {
 						}
 						// Duration
 						@components.FormItem() {
-							@components.Label("duration") {
+							@components.Label(components.LabelProps{
+								For: "duration",
+							}) {
 								Duration (ms)
 							}
 							@components.Input(components.InputProps{
@@ -143,7 +153,9 @@ templ ToastPlayground() {
 						}
 						// Options
 						@components.FormItem() {
-							@components.Label("dismissible") {
+							@components.Label(components.LabelProps{
+								For: "dismissible",
+							}) {
 								Dismissible
 							}
 							@components.FormItemFlex() {
@@ -152,7 +164,9 @@ templ ToastPlayground() {
 									Checked: true,
 									ID:      "dismissible",
 								})
-								@components.Label("dismissible") {
+								@components.Label(components.LabelProps{
+									For: "dismissible",
+								}) {
 									Dimissible
 								}
 							}
@@ -161,7 +175,9 @@ templ ToastPlayground() {
 									Name:    "icon",
 									Checked: true,
 								})
-								@components.Label("icon") {
+								@components.Label(components.LabelProps{
+									For: "icon",
+								}) {
 									Show Icon
 								}
 							}
@@ -171,7 +187,9 @@ templ ToastPlayground() {
 									Name:    "indicator",
 									Checked: true,
 								})
-								@components.Label("indicator") {
+								@components.Label(components.LabelProps{
+									For: "indicator",
+								}) {
 									Show Indicator
 								}
 							}

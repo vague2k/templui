@@ -3,17 +3,22 @@ package showcase
 import "github.com/axzilla/templui/components"
 
 templ InputOTPCustomStyling() {
-	@components.InputOTP("otp-styled") {
+	@components.InputOTP(components.InputOTPProps{
+		ID: "otp-styled",
+	}) {
 		@components.InputOTPGroup(components.InputOTPGroupProps{
 			Class: "gap-3",
 		}) {
-			@components.InputOTPSlot(0, components.InputOTPSlotProps{
+			@components.InputOTPSlot(components.InputOTPSlotProps{
+				Index: 0,
 				Class: "w-12 h-14 bg-primary/10 border-primary text-lg font-bold",
 			})
-			@components.InputOTPSlot(1, components.InputOTPSlotProps{
+			@components.InputOTPSlot(components.InputOTPSlotProps{
+				Index: 1,
 				Class: "w-12 h-14 bg-primary/10 border-primary text-lg font-bold",
 			})
-			@components.InputOTPSlot(2, components.InputOTPSlotProps{
+			@components.InputOTPSlot(components.InputOTPSlotProps{
+				Index: 2,
 				Class: "w-12 h-14 bg-primary/10 border-primary text-lg font-bold",
 			})
 			@components.InputOTPSeparator(components.InputOTPSeparatorProps{
@@ -21,13 +26,16 @@ templ InputOTPCustomStyling() {
 			}) {
 				<span>:</span>
 			}
-			@components.InputOTPSlot(3, components.InputOTPSlotProps{
+			@components.InputOTPSlot(components.InputOTPSlotProps{
+				Index: 3,
 				Class: "w-12 h-14 bg-primary/10 border-primary text-lg font-bold",
 			})
-			@components.InputOTPSlot(4, components.InputOTPSlotProps{
+			@components.InputOTPSlot(components.InputOTPSlotProps{
+				Index: 4,
 				Class: "w-12 h-14 bg-primary/10 border-primary text-lg font-bold",
 			})
-			@components.InputOTPSlot(5, components.InputOTPSlotProps{
+			@components.InputOTPSlot(components.InputOTPSlotProps{
+				Index: 5,
 				Class: "w-12 h-14 bg-primary/10 border-primary text-lg font-bold",
 			})
 		}

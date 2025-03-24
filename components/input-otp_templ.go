@@ -15,11 +15,12 @@ import (
 
 type InputOTPProps struct {
 	ID         string
-	Value      string
-	Required   bool
-	HasError   bool
 	Class      string
 	Attributes templ.Attributes
+	Value      string
+	Required   bool
+	Name       string
+	HasError   bool
 }
 
 type InputOTPGroupProps struct {
@@ -32,6 +33,7 @@ type InputOTPSlotProps struct {
 	ID          string
 	Class       string
 	Attributes  templ.Attributes
+	Index       int
 	Type        string
 	Placeholder string
 	Disabled    bool
@@ -43,7 +45,7 @@ type InputOTPSeparatorProps struct {
 	Attributes templ.Attributes
 }
 
-func InputOTP(name string, props ...InputOTPProps) templ.Component {
+func InputOTP(props ...InputOTPProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -76,47 +78,40 @@ func InputOTP(name string, props ...InputOTPProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div id=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var3 string
-		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID + "-container")
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 44, Col: 26}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\" class=\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var4 string
-		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var2).String())
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 1, Col: 0}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\" x-data=\"inputOTP\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
+		if p.ID != "" {
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, " id=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var3 string
+			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID + "-container")
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 47, Col: 27}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
 		}
 		if p.Value != "" {
 			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, " data-value=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var5 string
-			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(p.Value)
+			var templ_7745c5c3_Var4 string
+			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(p.Value)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 51, Col: 23}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 50, Col: 23}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -125,7 +120,20 @@ func InputOTP(name string, props ...InputOTPProps) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, " x-on:paste.prevent=\"handlePaste\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, " class=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var5 string
+		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var2).String())
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 1, Col: 0}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "\" x-data=\"inputOTP\" x-on:paste.prevent=\"handlePaste\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -133,43 +141,59 @@ func InputOTP(name string, props ...InputOTPProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "><input type=\"hidden\" id=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "><input type=\"hidden\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var6 string
-		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 58, Col: 12}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "\" name=\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var7 string
-		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(name)
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 59, Col: 14}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "\" x-model=\"otpValue\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		if p.Required {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, " required")
+		if p.ID != "" {
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, " id=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var6 string
+			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 63, Col: 13}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, ">")
+		if p.Name != "" {
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, " name=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var7 string
+			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(p.Name)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 66, Col: 17}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, " x-model=\"otpValue\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		if p.Required {
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, " required")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, ">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -177,7 +201,7 @@ func InputOTP(name string, props ...InputOTPProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "</div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "</div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -218,20 +242,30 @@ func InputOTPGroup(props ...InputOTPGroupProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "<div id=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "<div")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var10 string
-		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 73, Col: 11}
+		if p.ID != "" {
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, " id=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var10 string
+			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 82, Col: 12}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "\" class=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, " class=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -244,7 +278,7 @@ func InputOTPGroup(props ...InputOTPGroupProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, "\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -252,7 +286,7 @@ func InputOTPGroup(props ...InputOTPGroupProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, ">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, ">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -260,7 +294,7 @@ func InputOTPGroup(props ...InputOTPGroupProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "</div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 23, "</div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -268,7 +302,7 @@ func InputOTPGroup(props ...InputOTPGroupProps) templ.Component {
 	})
 }
 
-func InputOTPSlot(index int, props ...InputOTPSlotProps) templ.Component {
+func InputOTPSlot(props ...InputOTPSlotProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -296,20 +330,20 @@ func InputOTPSlot(index int, props ...InputOTPSlotProps) templ.Component {
 		if p.Type == "" {
 			p.Type = "text"
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "<div id=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 24, "<div id=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var13 string
 		templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 93, Col: 11}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 103, Col: 11}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "\" data-slot class=\"relative\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 25, "\" data-slot class=\"relative\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -317,7 +351,7 @@ func InputOTPSlot(index int, props ...InputOTPSlotProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, ">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 26, ">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -336,46 +370,46 @@ func InputOTPSlot(index int, props ...InputOTPSlotProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, "<input x-ref=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 27, "<input x-ref=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var15 string
-		templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs("otpDigit" + strconv.Itoa(index))
+		templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs("otpDigit" + strconv.Itoa(p.Index))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 99, Col: 43}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 109, Col: 45}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var15))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "\" type=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 28, "\" type=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var16 string
 		templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs(p.Type)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 100, Col: 16}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 110, Col: 16}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 23, "\" inputmode=\"numeric\" placeholder=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 29, "\" inputmode=\"numeric\" placeholder=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var17 string
 		templ_7745c5c3_Var17, templ_7745c5c3_Err = templ.JoinStringErrs(p.Placeholder)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 102, Col: 30}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 112, Col: 30}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var17))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 24, "\" maxlength=\"1\" class=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 30, "\" maxlength=\"1\" class=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -388,30 +422,30 @@ func InputOTPSlot(index int, props ...InputOTPSlotProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 25, "\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 31, "\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		if p.Disabled {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 26, " disabled")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 32, " disabled")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 27, " data-input-index=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 33, " data-input-index=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var19 string
-		templ_7745c5c3_Var19, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(index))
+		templ_7745c5c3_Var19, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(p.Index))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 116, Col: 41}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 126, Col: 43}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var19))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 28, "\" x-on:input=\"handleInput\" x-on:keydown=\"handleKeydown\"></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 34, "\" x-on:input=\"handleInput\" x-on:keydown=\"handleKeydown\"></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -452,20 +486,30 @@ func InputOTPSeparator(props ...InputOTPSeparatorProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 29, "<div id=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 35, "<div")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var22 string
-		templ_7745c5c3_Var22, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 129, Col: 11}
+		if p.ID != "" {
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 36, " id=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var22 string
+			templ_7745c5c3_Var22, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 140, Col: 12}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var22))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 37, "\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var22))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 30, "\" class=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 38, " class=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -478,7 +522,7 @@ func InputOTPSeparator(props ...InputOTPSeparatorProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 31, "\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 39, "\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -486,7 +530,7 @@ func InputOTPSeparator(props ...InputOTPSeparatorProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 32, "><span>-</span></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 40, "><span>-</span></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -528,20 +572,20 @@ func InputOTPScript() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 33, "<script defer nonce=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 41, "<script defer nonce=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var26 string
 			templ_7745c5c3_Var26, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 143, Col: 43}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/input-otp.templ`, Line: 155, Col: 43}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var26))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 34, "\">\n\t\t\tdocument.addEventListener('alpine:init', () => {\n\t\t\t\tAlpine.data('inputOTP', () => ({\n\t\t\t\t\totpValue: '',\n\t\t\t\t\tinputRefs: [],\n\t\t\t\t\t\n\t\t\t\t\tinit() {\n\t\t\t\t\t\t// Initialize on first load\n\t\t\t\t\t\tthis.$nextTick(() => {\n\t\t\t\t\t\t\tif (this.$el.dataset.value) {\n\t\t\t\t\t\t\t\tthis.otpValue = this.$el.dataset.value;\n\t\t\t\t\t\t\t\tthis.fillInputsFromValue();\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t});\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\tgetInputRefs() {\n\t\t\t\t\t\t// Use Alpine's magic $refs\n\t\t\t\t\t\tconst refs = this.$refs;\n\t\t\t\t\t\tconst inputs = [];\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Loop through all potential refs\n\t\t\t\t\t\tfor (let i = 0; i < 20; i++) { // Assuming max 20 digits\n\t\t\t\t\t\t\tconst refName = `otpDigit${i}`;\n\t\t\t\t\t\t\tif (refs[refName]) {\n\t\t\t\t\t\t\t\tinputs.push(refs[refName]);\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t\t\n\t\t\t\t\t\tthis.inputRefs = inputs;\n\t\t\t\t\t\treturn inputs;\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\tfocusFirstEmptyInput() {\n\t\t\t\t\t\tconst inputs = this.getInputRefs();\n\t\t\t\t\t\tfor (let i = 0; i < inputs.length; i++) {\n\t\t\t\t\t\t\tif (!inputs[i].value) {\n\t\t\t\t\t\t\t\tinputs[i].focus();\n\t\t\t\t\t\t\t\tbreak;\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\tfillInputsFromValue() {\n\t\t\t\t\t\tconst inputs = this.getInputRefs();\n\t\t\t\t\t\tconst valueStr = this.otpValue.toString();\n\t\t\t\t\t\t\n\t\t\t\t\t\tfor (let i = 0; i < inputs.length; i++) {\n\t\t\t\t\t\t\tif (i < valueStr.length) {\n\t\t\t\t\t\t\t\tinputs[i].value = valueStr[i];\n\t\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\t\tinputs[i].value = '';\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\tupdateValue() {\n\t\t\t\t\t\tconst inputs = this.getInputRefs();\n\t\t\t\t\t\tlet value = '';\n\t\t\t\t\t\t\n\t\t\t\t\t\tfor (let i = 0; i < inputs.length; i++) {\n\t\t\t\t\t\t\tvalue += inputs[i].value || '';\n\t\t\t\t\t\t}\n\t\t\t\t\t\t\n\t\t\t\t\t\tthis.otpValue = value;\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\thandleInput(event) {\n\t\t\t\t\t\tconst input = event.target;\n\t\t\t\t\t\tconst index = parseInt(input.dataset.inputIndex || 0);\n\t\t\t\t\t\tconst inputs = this.getInputRefs();\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (input.value.length > 1) {\n\t\t\t\t\t\t\tinput.value = input.value.slice(-1);\n\t\t\t\t\t\t}\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (input.value && index < inputs.length - 1) {\n\t\t\t\t\t\t\tinputs[index + 1].focus();\n\t\t\t\t\t\t}\n\t\t\t\t\t\t\n\t\t\t\t\t\tthis.updateValue();\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\thandleKeydown(event) {\n\t\t\t\t\t\tconst input = event.target;\n\t\t\t\t\t\tconst index = parseInt(input.dataset.inputIndex || 0);\n\t\t\t\t\t\tconst inputs = this.getInputRefs();\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (event.key === 'Backspace') {\n\t\t\t\t\t\t\tif (!input.value && index > 0) {\n\t\t\t\t\t\t\t\tinputs[index - 1].focus();\n\t\t\t\t\t\t\t\tinputs[index - 1].value = '';\n\t\t\t\t\t\t\t\tevent.preventDefault();\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (event.key === 'ArrowLeft' && index > 0) {\n\t\t\t\t\t\t\tinputs[index - 1].focus();\n\t\t\t\t\t\t\tevent.preventDefault();\n\t\t\t\t\t\t}\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (event.key === 'ArrowRight' && index < inputs.length - 1) {\n\t\t\t\t\t\t\tinputs[index + 1].focus();\n\t\t\t\t\t\t\tevent.preventDefault();\n\t\t\t\t\t\t}\n\t\t\t\t\t\t\n\t\t\t\t\t\tthis.updateValue();\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\thandlePaste(event) {\n\t\t\t\t\t\tevent.preventDefault();\n\t\t\t\t\t\tconst inputs = this.getInputRefs();\n\t\t\t\t\t\t\n\t\t\t\t\t\tconst pastedData = (event.clipboardData || window.clipboardData).getData('text');\n\t\t\t\t\t\tconst pastedChars = pastedData.trim().split('');\n\t\t\t\t\t\t\n\t\t\t\t\t\tfor (let i = 0; i < inputs.length && i < pastedChars.length; i++) {\n\t\t\t\t\t\t\tinputs[i].value = pastedChars[i];\n\t\t\t\t\t\t}\n\t\t\t\t\t\t\n\t\t\t\t\t\tthis.focusFirstEmptyInput();\n\t\t\t\t\t\tthis.updateValue();\n\t\t\t\t\t}\n\t\t\t\t}));\n\t\t\t});\n\t\t</script>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 42, "\">\n\t\t\tdocument.addEventListener('alpine:init', () => {\n\t\t\t\tAlpine.data('inputOTP', () => ({\n\t\t\t\t\totpValue: '',\n\t\t\t\t\tinputRefs: [],\n\t\t\t\t\t\n\t\t\t\t\tinit() {\n\t\t\t\t\t\t// Initialize on first load\n\t\t\t\t\t\tthis.$nextTick(() => {\n\t\t\t\t\t\t\tif (this.$el.dataset.value) {\n\t\t\t\t\t\t\t\tthis.otpValue = this.$el.dataset.value;\n\t\t\t\t\t\t\t\tthis.fillInputsFromValue();\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t});\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\tgetInputRefs() {\n\t\t\t\t\t\t// Use Alpine's magic $refs\n\t\t\t\t\t\tconst refs = this.$refs;\n\t\t\t\t\t\tconst inputs = [];\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Loop through all potential refs\n\t\t\t\t\t\tfor (let i = 0; i < 20; i++) { // Assuming max 20 digits\n\t\t\t\t\t\t\tconst refName = `otpDigit${i}`;\n\t\t\t\t\t\t\tif (refs[refName]) {\n\t\t\t\t\t\t\t\tinputs.push(refs[refName]);\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t\t\n\t\t\t\t\t\tthis.inputRefs = inputs;\n\t\t\t\t\t\treturn inputs;\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\tfocusFirstEmptyInput() {\n\t\t\t\t\t\tconst inputs = this.getInputRefs();\n\t\t\t\t\t\tfor (let i = 0; i < inputs.length; i++) {\n\t\t\t\t\t\t\tif (!inputs[i].value) {\n\t\t\t\t\t\t\t\tinputs[i].focus();\n\t\t\t\t\t\t\t\tbreak;\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\tfillInputsFromValue() {\n\t\t\t\t\t\tconst inputs = this.getInputRefs();\n\t\t\t\t\t\tconst valueStr = this.otpValue.toString();\n\t\t\t\t\t\t\n\t\t\t\t\t\tfor (let i = 0; i < inputs.length; i++) {\n\t\t\t\t\t\t\tif (i < valueStr.length) {\n\t\t\t\t\t\t\t\tinputs[i].value = valueStr[i];\n\t\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\t\tinputs[i].value = '';\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\tupdateValue() {\n\t\t\t\t\t\tconst inputs = this.getInputRefs();\n\t\t\t\t\t\tlet value = '';\n\t\t\t\t\t\t\n\t\t\t\t\t\tfor (let i = 0; i < inputs.length; i++) {\n\t\t\t\t\t\t\tvalue += inputs[i].value || '';\n\t\t\t\t\t\t}\n\t\t\t\t\t\t\n\t\t\t\t\t\tthis.otpValue = value;\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\thandleInput(event) {\n\t\t\t\t\t\tconst input = event.target;\n\t\t\t\t\t\tconst index = parseInt(input.dataset.inputIndex || 0);\n\t\t\t\t\t\tconst inputs = this.getInputRefs();\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (input.value.length > 1) {\n\t\t\t\t\t\t\tinput.value = input.value.slice(-1);\n\t\t\t\t\t\t}\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (input.value && index < inputs.length - 1) {\n\t\t\t\t\t\t\tinputs[index + 1].focus();\n\t\t\t\t\t\t}\n\t\t\t\t\t\t\n\t\t\t\t\t\tthis.updateValue();\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\thandleKeydown(event) {\n\t\t\t\t\t\tconst input = event.target;\n\t\t\t\t\t\tconst index = parseInt(input.dataset.inputIndex || 0);\n\t\t\t\t\t\tconst inputs = this.getInputRefs();\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (event.key === 'Backspace') {\n\t\t\t\t\t\t\tif (!input.value && index > 0) {\n\t\t\t\t\t\t\t\tinputs[index - 1].focus();\n\t\t\t\t\t\t\t\tinputs[index - 1].value = '';\n\t\t\t\t\t\t\t\tevent.preventDefault();\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (event.key === 'ArrowLeft' && index > 0) {\n\t\t\t\t\t\t\tinputs[index - 1].focus();\n\t\t\t\t\t\t\tevent.preventDefault();\n\t\t\t\t\t\t}\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (event.key === 'ArrowRight' && index < inputs.length - 1) {\n\t\t\t\t\t\t\tinputs[index + 1].focus();\n\t\t\t\t\t\t\tevent.preventDefault();\n\t\t\t\t\t\t}\n\t\t\t\t\t\t\n\t\t\t\t\t\tthis.updateValue();\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\thandlePaste(event) {\n\t\t\t\t\t\tevent.preventDefault();\n\t\t\t\t\t\tconst inputs = this.getInputRefs();\n\t\t\t\t\t\t\n\t\t\t\t\t\tconst pastedData = (event.clipboardData || window.clipboardData).getData('text');\n\t\t\t\t\t\tconst pastedChars = pastedData.trim().split('');\n\t\t\t\t\t\t\n\t\t\t\t\t\tfor (let i = 0; i < inputs.length && i < pastedChars.length; i++) {\n\t\t\t\t\t\t\tinputs[i].value = pastedChars[i];\n\t\t\t\t\t\t}\n\t\t\t\t\t\t\n\t\t\t\t\t\tthis.focusFirstEmptyInput();\n\t\t\t\t\t\tthis.updateValue();\n\t\t\t\t\t}\n\t\t\t\t}));\n\t\t\t});\n\t\t</script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

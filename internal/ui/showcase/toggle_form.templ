@@ -10,7 +10,9 @@ templ ToggleForm() {
 					ID:   "airplane-mode",
 					Name: "airplane",
 				})
-				@components.FormLabel("airplane-mode") {
+				@components.FormLabel(components.FormLabelProps{
+					For: "airplane-mode",
+				}) {
 					Airplane Mode
 				}
 			}
@@ -20,7 +22,9 @@ templ ToggleForm() {
 					Name:     "wifi",
 					Disabled: true,
 				})
-				@components.FormLabel("wifi-mode") {
+				@components.FormLabel(components.FormLabelProps{
+					For: "wifi-mode",
+				}) {
 					Wi-Fi
 				}
 			}
@@ -30,7 +34,9 @@ templ ToggleForm() {
 					Name:    "bluetooth",
 					Checked: true,
 				})
-				@components.FormLabel("bluetooth-mode") {
+				@components.FormLabel(components.FormLabelProps{
+					For: "bluetooth-mode",
+				}) {
 					Bluetooth
 				}
 			}

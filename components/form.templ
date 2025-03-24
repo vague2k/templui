@@ -19,6 +19,7 @@ type FormLabelProps struct {
 	ID            string
 	Class         string
 	Attributes    templ.Attributes
+	For           string
 	DisabledClass string
 }
 
@@ -41,7 +42,9 @@ templ FormItem(props ...FormItemProps) {
 		{{ p = props[0] }}
 	}
 	<div
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		class={ utils.TwMerge("space-y-2", p.Class) }
 		{ p.Attributes... }
 	>
@@ -55,7 +58,9 @@ templ FormItemFlex(props ...FormItemProps) {
 		{{ p = props[0] }}
 	}
 	<div
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		class={ utils.TwMerge("items-center flex space-x-2", p.Class) }
 		{ p.Attributes... }
 	>
@@ -63,16 +68,17 @@ templ FormItemFlex(props ...FormItemProps) {
 	</div>
 }
 
-templ FormLabel(htmlFor string, props ...FormLabelProps) {
+templ FormLabel(props ...FormLabelProps) {
 	{{ var p FormLabelProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
-	@Label(htmlFor, LabelProps{
+	@Label(LabelProps{
 		Class:         p.Class,
 		DisabledClass: p.DisabledClass,
 		Attributes:    p.Attributes,
 		ID:            p.ID,
+		For:           p.For,
 	}) {
 		{ children... }
 	}

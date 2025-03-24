@@ -6,28 +6,34 @@ templ RadioForm() {
 	<div class="w-full max-w-sm">
 		@components.FormItem() {
 			@components.FormItemFlex() {
-				@components.Radio("radio-form", "all", components.RadioProps{
+				@components.Radio(components.RadioProps{
 					ID:      "r1",
 					Checked: true,
 				})
-				@components.FormLabel("r1") {
+				@components.FormLabel(components.FormLabelProps{
+					For: "r1",
+				}) {
 					All new products
 				}
 			}
 			@components.FormItemFlex() {
-				@components.Radio("radio-form", "wishlist", components.RadioProps{
+				@components.Radio(components.RadioProps{
 					ID:       "r2",
 					Disabled: true,
 				})
-				@components.FormLabel("r2") {
+				@components.FormLabel(components.FormLabelProps{
+					For: "r2",
+				}) {
 					Create a wishlist (Coming Soon)
 				}
 			}
 			@components.FormItemFlex() {
-				@components.Radio("radio-form", "none", components.RadioProps{
+				@components.Radio(components.RadioProps{
 					ID: "r3",
 				})
-				@components.FormLabel("r3") {
+				@components.FormLabel(components.FormLabelProps{
+					For: "r3",
+				}) {
 					No notifications
 				}
 			}

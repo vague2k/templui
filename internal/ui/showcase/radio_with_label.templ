@@ -4,10 +4,12 @@ import "github.com/axzilla/templui/components"
 
 templ RadioWithLabel() {
 	<div class="flex gap-2 items-center">
-		@components.Radio("radio-with-label", "radio-with-label", components.RadioProps{
+		@components.Radio(components.RadioProps{
 			ID: "radio-with-label",
 		})
-		@components.Label("radio-with-label") {
+		@components.Label(components.LabelProps{
+			For: "radio-with-label",
+		}) {
 			Label
 		}
 	</div>

@@ -6,9 +6,10 @@ templ CheckboxWithLabel() {
 	<div class="flex items-center gap-2">
 		@components.Checkbox(components.CheckboxProps{
 			ID: "checkbox-with-label",
-		},
-		)
-		@components.Label("checkbox-with-label") {
+		})
+		@components.Label(components.LabelProps{
+			For: "checkbox-with-label",
+		}) {
 			Accept terms and conditions
 		}
 	</div>

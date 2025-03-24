@@ -700,7 +700,9 @@ templ ThemePreview() {
 			@components.CardContent() {
 				<form class="space-y-4">
 					@components.FormItem() {
-						@components.FormLabel("username") {
+						@components.FormLabel(components.FormLabelProps{
+							For: "username",
+						}) {
 							Username
 						}
 						@components.Input(components.InputProps{
@@ -710,7 +712,9 @@ templ ThemePreview() {
 						})
 					}
 					@components.FormItem() {
-						@components.FormLabel("email") {
+						@components.FormLabel(components.FormLabelProps{
+							For: "email",
+						}) {
 							Email
 						}
 						@components.Input(components.InputProps{
@@ -720,7 +724,9 @@ templ ThemePreview() {
 						})
 					}
 					@components.FormItem() {
-						@components.FormLabel("password") {
+						@components.FormLabel(components.FormLabelProps{
+							For: "password",
+						}) {
 							Password
 						}
 						@components.Input(components.InputProps{
@@ -730,7 +736,9 @@ templ ThemePreview() {
 						})
 					}
 					@components.FormItem() {
-						@components.FormLabel("birthdate") {
+						@components.FormLabel(components.FormLabelProps{
+							For: "birthdate",
+						}) {
 							Birth Date
 						}
 						@components.DatePicker(components.DatePickerProps{
@@ -741,22 +749,36 @@ templ ThemePreview() {
 					@components.FormItem() {
 						<p class="text-sm text-muted-foreground">Contact Method</p>
 						@components.FormItemFlex() {
-							@components.Radio("contact-email", "email")
-							@components.FormLabel("contact-email") {
+							@components.Radio(components.RadioProps{
+								ID:   "contact-email",
+								Name: "contact-method",
+							})
+							@components.FormLabel(components.FormLabelProps{
+								For: "contact-email",
+							}) {
 								Email
 							}
 						}
 						@components.FormItemFlex() {
-							@components.Radio("contact-phone", "phone")
-							@components.FormLabel("contact-phone") {
+							@components.Radio(components.RadioProps{
+								ID:   "contact-phone",
+								Name: "contact-method",
+							})
+							@components.FormLabel(components.FormLabelProps{
+								For: "contact-phone",
+							}) {
 								Phone
 							}
 						}
 						@components.FormItemFlex() {
-							@components.Radio("contact-mail", "mail", components.RadioProps{
+							@components.Radio(components.RadioProps{
+								ID:       "contact-mail",
+								Name:     "contact-method",
 								Disabled: true,
 							})
-							@components.FormLabel("contact-mail") {
+							@components.FormLabel(components.FormLabelProps{
+								For: "contact-mail",
+							}) {
 								Physical Mail
 							}
 						}
@@ -768,7 +790,9 @@ templ ThemePreview() {
 								ID:   "marketing",
 								Name: "marketing",
 							})
-							@components.FormLabel("marketing") {
+							@components.FormLabel(components.FormLabelProps{
+								For: "marketing",
+							}) {
 								Receive marketing emails
 							}
 						}
@@ -778,7 +802,9 @@ templ ThemePreview() {
 								Name:       "notifications",
 								Attributes: templ.Attributes{"checked": "true"},
 							})
-							@components.FormLabel("notifications") {
+							@components.FormLabel(components.FormLabelProps{
+								For: "notifications",
+							}) {
 								Enable notifications
 							}
 						}
@@ -788,7 +814,9 @@ templ ThemePreview() {
 								Name:       "beta",
 								Attributes: templ.Attributes{"disabled": "true"},
 							})
-							@components.FormLabel("beta") {
+							@components.FormLabel(components.FormLabelProps{
+								For: "beta",
+							}) {
 								Join beta program
 							}
 						}
@@ -798,19 +826,20 @@ templ ThemePreview() {
 						@components.FormItemFlex() {
 							@components.Checkbox(components.CheckboxProps{
 								ID: "terms",
-							},
-							)
-							@components.FormLabel("terms") {
+							})
+							@components.FormLabel(components.FormLabelProps{
+								For: "terms",
+							}) {
 								I accept the terms and conditions
 							}
 						}
 						@components.FormItemFlex() {
 							@components.Checkbox(components.CheckboxProps{
-								Name:  "newsletter",
-								Value: "subscribed",
-								ID:    "newsletter",
+								ID: "newsletter",
 							})
-							@components.FormLabel("newsletter") {
+							@components.FormLabel(components.FormLabelProps{
+								For: "newsletter",
+							}) {
 								Subscribe to newsletter
 							}
 						}

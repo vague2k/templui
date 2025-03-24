@@ -6,12 +6,14 @@ type RadioProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
+	Name       string
+	Value      string
 	Disabled   bool
 	Required   bool
 	Checked    bool
 }
 
-templ Radio(name, value string, props ...RadioProps) {
+templ Radio(props ...RadioProps) {
 	{{ var p RadioProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
@@ -19,9 +21,15 @@ templ Radio(name, value string, props ...RadioProps) {
 	<input
 		x-ref={ p.ID }
 		type="radio"
-		id={ p.ID }
-		name={ name }
-		value={ value }
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		if p.Name != "" {
+			name={ p.Name }
+		}
+		if p.Value != "" {
+			value={ p.Value }
+		}
 		checked?={ p.Checked }
 		disabled?={ p.Disabled }
 		required?={ p.Required }

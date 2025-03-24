@@ -14,7 +14,9 @@ templ CheckboxForm() {
 						Checked: true,
 					},
 				)
-				@components.FormLabel("c1") {
+				@components.FormLabel(components.FormLabelProps{
+					For: "c1",
+				}) {
 					Dessign and UX
 				}
 			}
@@ -25,7 +27,9 @@ templ CheckboxForm() {
 					ID:       "c2",
 					Disabled: true,
 				})
-				@components.FormLabel("c2") {
+				@components.FormLabel(components.FormLabelProps{
+					For: "c2",
+				}) {
 					Development (Coming Soon)
 				}
 			}
@@ -35,7 +39,9 @@ templ CheckboxForm() {
 					Value: "marketing",
 					ID:    "c3",
 				})
-				@components.FormLabel("c3") {
+				@components.FormLabel(components.FormLabelProps{
+					For: "c3",
+				}) {
 					Business and Marketing
 				}
 			}

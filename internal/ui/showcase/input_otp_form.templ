@@ -4,22 +4,36 @@ import "github.com/axzilla/templui/components"
 
 templ InputOTPForm() {
 	@components.FormItem() {
-		@components.FormLabel("otp-form") {
+		@components.FormLabel(components.FormLabelProps{
+			For: "otp-form",
+		}) {
 			Verification Code
 		}
-		@components.InputOTP("otp-form",
-			components.InputOTPProps{
-				Required: true,
-				HasError: true,
-			}) {
+		@components.InputOTP(components.InputOTPProps{
+			ID:       "otp-form",
+			Required: true,
+			HasError: true,
+		}) {
 			@components.InputOTPGroup() {
-				@components.InputOTPSlot(0)
-				@components.InputOTPSlot(1)
-				@components.InputOTPSlot(2)
+				@components.InputOTPSlot(components.InputOTPSlotProps{
+					Index: 0,
+				})
+				@components.InputOTPSlot(components.InputOTPSlotProps{
+					Index: 1,
+				})
+				@components.InputOTPSlot(components.InputOTPSlotProps{
+					Index: 2,
+				})
 				@components.InputOTPSeparator()
-				@components.InputOTPSlot(3)
-				@components.InputOTPSlot(4)
-				@components.InputOTPSlot(5)
+				@components.InputOTPSlot(components.InputOTPSlotProps{
+					Index: 3,
+				})
+				@components.InputOTPSlot(components.InputOTPSlotProps{
+					Index: 4,
+				})
+				@components.InputOTPSlot(components.InputOTPSlotProps{
+					Index: 5,
+				})
 			}
 		}
 		@components.FormDescription() {

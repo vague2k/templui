@@ -5,7 +5,9 @@ import "github.com/axzilla/templui/components"
 templ SelectForm() {
 	<div class="w-full max-w-sm">
 		@components.FormItem() {
-			@components.FormLabel("select-with-label") {
+			@components.FormLabel(components.FormLabelProps{
+				For: "select-with-label",
+			}) {
 				Fruit
 			}
 			@components.Select() {

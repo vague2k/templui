@@ -4,7 +4,9 @@ import "github.com/axzilla/templui/components"
 
 templ SelectWithLabel() {
 	<div class="space-y-2 w-full max-w-sm">
-		@components.Label("select-with-label") {
+		@components.Label(components.LabelProps{
+			For: "select-with-label",
+		}) {
 			Fruit
 		}
 		@components.Select() {

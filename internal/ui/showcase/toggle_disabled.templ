@@ -8,7 +8,9 @@ templ ToggleDisabled() {
 			ID:       "toggle-disabled",
 			Disabled: true,
 		})
-		@components.Label("toggle-disabled") {
+		@components.Label(components.LabelProps{
+			For: "toggle-disabled",
+		}) {
 			Airplane Mode
 		}
 	</div>

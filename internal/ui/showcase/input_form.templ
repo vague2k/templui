@@ -5,7 +5,9 @@ import "github.com/axzilla/templui/components"
 templ InputForm() {
 	<div class="w-full max-w-sm">
 		@components.FormItem() {
-			@components.FormLabel("email-form") {
+			@components.FormLabel(components.FormLabelProps{
+				For: "email-form",
+			}) {
 				Email
 			}
 			@components.Input(components.InputProps{
