@@ -4,7 +4,7 @@ import "github.com/axzilla/templui/components"
 
 templ TextareaForm() {
 	<div class="w-full max-w-md">
-		@components.FormItem(components.FormItemProps{}) {
+		@components.FormItem() {
 			@components.Label(components.LabelProps{
 				For: "textarea-form",
 			}) {
@@ -15,7 +15,7 @@ templ TextareaForm() {
 				Name:        "message",
 				Placeholder: "Type your message here...",
 			})
-			@components.FormDescription(components.FormDescriptionProps{}) {
+			@components.FormDescription() {
 				Please type your message in the textarea.
 			}
 			@components.FormMessage(components.FormMessageProps{

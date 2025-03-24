@@ -6,7 +6,7 @@ templ ModalDefault() {
 	@components.ModalTrigger(components.ModalTriggerProps{
 		ModalID: "default-modal",
 	}) {
-		@components.Button(components.ButtonProps{}) {
+		@components.Button() {
 			Open Modal
 		}
 	}
@@ -14,18 +14,18 @@ templ ModalDefault() {
 		ID:    "default-modal",
 		Class: "max-w-md",
 	}) {
-		@components.ModalHeader(components.ModalHeaderProps{}) {
+		@components.ModalHeader() {
 			Are you absolutely sure?
 		}
-		@components.ModalBody(components.ModalBodyProps{}) {
+		@components.ModalBody() {
 			This action cannot be undone. This will permanently delete your account and remove your data from our servers.				
 		}
-		@components.ModalFooter(components.ModalFooterProps{}) {
+		@components.ModalFooter() {
 			<div class="flex gap-2">
 				@components.ModalClose(components.ModalCloseProps{
 					ModalID: "default-modal",
 				}) {
-					@components.Button(components.ButtonProps{}) {
+					@components.Button() {
 						Cancel
 					}
 				}

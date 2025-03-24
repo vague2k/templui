@@ -6,25 +6,29 @@ import (
 )
 
 templ BreadcrumbWithIcons() {
-	@components.Breadcrumb(components.BreadcrumbProps{}) {
-		@components.BreadcrumbList(components.BreadcrumbListProps{}) {
-			@components.BreadcrumbItem(components.BreadcrumbItemProps{}) {
-				@components.BreadcrumbLink(components.BreadcrumbLinkProps{Href: "/"}) {
-					@icons.House(icons.IconProps{Size: "16"})
+	@components.Breadcrumb() {
+		@components.BreadcrumbList() {
+			@components.BreadcrumbItem() {
+				@components.BreadcrumbLink(components.BreadcrumbLinkProps{
+					Href: "/",
+				}) {
+					@icons.House(icons.IconProps{Size: 16})
 					<span class="ml-1">Home</span>
 				}
 			}
-			@components.BreadcrumbItem(components.BreadcrumbItemProps{}) {
-				@components.BreadcrumbSeparator(components.BreadcrumbSeparatorProps{})
-				@components.BreadcrumbLink(components.BreadcrumbLinkProps{Href: "/docs"}) {
-					@icons.FileText(icons.IconProps{Size: "16"})
+			@components.BreadcrumbItem() {
+				@components.BreadcrumbSeparator()
+				@components.BreadcrumbLink(components.BreadcrumbLinkProps{
+					Href: "/docs",
+				}) {
+					@icons.FileText(icons.IconProps{Size: 16})
 					<span class="ml-1">Documentation</span>
 				}
 			}
-			@components.BreadcrumbItem(components.BreadcrumbItemProps{}) {
-				@components.BreadcrumbSeparator(components.BreadcrumbSeparatorProps{})
+			@components.BreadcrumbItem() {
+				@components.BreadcrumbSeparator()
 				@components.BreadcrumbPage(components.BreadcrumbItemProps{Current: true}) {
-					@icons.Component(icons.IconProps{Size: "16"})
+					@icons.Component(icons.IconProps{Size: 16})
 					<span class="ml-1">Components</span>
 				}
 			}

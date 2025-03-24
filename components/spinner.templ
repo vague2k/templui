@@ -18,31 +18,39 @@ type SpinnerProps struct {
 	Color      string
 }
 
-templ Spinner(props SpinnerProps) {
+templ Spinner(props ...SpinnerProps) {
+	{{ var p SpinnerProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<div
-		id={ props.ID }
-		class={ utils.TwMerge(
-			"inline-flex flex-col items-center justify-center",
-			props.Class,
-		) }
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		class={
+			utils.TwMerge(
+				"inline-flex flex-col items-center justify-center",
+				p.Class,
+			),
+		}
 		aria-label="Loading"
 		role="status"
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
 		<div
 			class={
 				utils.TwMerge(
 					"animate-spin rounded-full",
-					spinnerSizeClass(props.Size),
-					borderSpinnerClass(props.Size),
+					spinnerSizeClass(p.Size),
+					borderSpinnerClass(p.Size),
 					utils.IfElse(
-						props.Color == "",
+						p.Color == "",
 						"border-primary border-b-transparent",
 						"border-current border-b-transparent",
 					),
 					utils.IfElse(
-						props.Color != "",
-						props.Color,
+						p.Color != "",
+						p.Color,
 						"",
 					),
 				),

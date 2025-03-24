@@ -4,27 +4,28 @@ import "github.com/axzilla/templui/components"
 
 templ CardImageTop() {
 	<div class="w-full max-w-sm">
-		@components.Card(components.CardProps{}) {
+		@components.Card() {
 			@components.CardMedia(components.CardMediaProps{
 				ID:          "top-media",
-				Src:         "/assets/img/card_placeholder.jpeg",
 				Alt:         "Card image",
 				Position:    components.CardMediaTop,
 				AspectRatio: components.AspectRatioVideo,
-			})
-			@components.CardHeader(components.CardHeaderProps{}) {
-				@components.CardTitle(components.CardTitleProps{}) {
+				Src:         "/assets/img/card_placeholder.jpeg",
+			},
+			)
+			@components.CardHeader() {
+				@components.CardTitle() {
 					Featured Card
 				}
-				@components.CardDescription(components.CardDescriptionProps{}) {
+				@components.CardDescription() {
 					With top image
 				}
 			}
-			@components.CardContent(components.CardContentProps{}) {
+			@components.CardContent() {
 				<p>This card shows top image usage.</p>
 			}
-			@components.CardFooter(components.CardFooterProps{}) {
-				@components.Button(components.ButtonProps{}) {
+			@components.CardFooter() {
+				@components.Button() {
 					Learn more
 				}
 			}

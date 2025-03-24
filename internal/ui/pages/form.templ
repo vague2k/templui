@@ -24,16 +24,16 @@ templ Form() {
 				ComponentCodeFile: "form.templ",
 			})
 			<div>
-				@components.Card(components.CardProps{}) {
-					@components.CardHeader(components.CardHeaderProps{}) {
-						@components.CardTitle(components.CardTitleProps{}) {
+				@components.Card() {
+					@components.CardHeader() {
+						@components.CardTitle() {
 							Usage
 						}
-						@components.CardDescription(components.CardDescriptionProps{}) {
+						@components.CardDescription() {
 							Form elements are composed using a set of helper components that enhance the following form controls:
 						}
 					}
-					@components.CardContent(components.CardContentProps{}) {
+					@components.CardContent() {
 						<ul class="list-disc pl-6 space-y-2">
 							<li>
 								<a href="/docs/components/checkbox#form" class="font-medium hover:underline">Checkbox</a>

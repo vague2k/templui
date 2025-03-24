@@ -4,26 +4,27 @@ import "github.com/axzilla/templui/components"
 
 templ CardImageLeft() {
 	<div class="w-full max-w-sm">
-		@components.Card(components.CardProps{}) {
-			@components.CardHorizontal(components.CardHorizontalProps{}) {
+		@components.Card() {
+			@components.CardHorizontal() {
 				@components.CardMedia(components.CardMediaProps{
 					ID:          "left-media",
-					Src:         "/assets/img/card_placeholder.jpeg",
 					Alt:         "Left side image",
 					Position:    components.CardMediaLeft,
 					Width:       components.CardMediaWidthThird,
 					AspectRatio: components.AspectRatioAuto,
-				})
+					Src:         "/assets/img/card_placeholder.jpeg",
+				},
+				)
 				<div class="flex flex-col flex-1">
-					@components.CardHeader(components.CardHeaderProps{}) {
-						@components.CardTitle(components.CardTitleProps{}) {
+					@components.CardHeader() {
+						@components.CardTitle() {
 							Side Image Card
 						}
-						@components.CardDescription(components.CardDescriptionProps{}) {
+						@components.CardDescription() {
 							With left-aligned image
 						}
 					}
-					@components.CardContent(components.CardContentProps{}) {
+					@components.CardContent() {
 						<p>This card demonstrates the left image layout.</p>
 					}
 				</div>

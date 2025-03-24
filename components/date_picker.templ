@@ -1,4 +1,3 @@
-
 package components
 
 import (
@@ -111,60 +110,65 @@ type DatePickerProps struct {
 	ID          string
 	Class       string
 	Attributes  templ.Attributes
-	Name        string
 	Value       time.Time
 	Config      DatePickerConfig
 	Placeholder string
 	Disabled    bool
 	HasError    bool
+	Name        string
 }
 
-templ DatePicker(props DatePickerProps) {
-	if props.ID == "" {
-		{{ props.ID = utils.RandomID() }}
+templ DatePicker(props ...DatePickerProps) {
+	{{ var p DatePickerProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
 	}
-	if props.Placeholder == "" {
-		{{ props.Placeholder = "Select a date" }}
+	if p.ID == "" {
+		{{ p.ID = utils.RandomID() }}
+	}
+	if p.Placeholder == "" {
+		{{ p.Placeholder = "Select a date" }}
 	}
 	<div
-		id={ props.ID }
-		class={ utils.TwMerge("relative", props.Class) }
-		if props.Value != (time.Time{}) {
-			data-value={ props.Value.Format(props.Config.getGoFormat()) }
+		id={ p.ID }
+		class={ utils.TwMerge("relative", p.Class) }
+		if p.Value != (time.Time{}) {
+			data-value={ p.Value.Format(p.Config.getGoFormat()) }
 		}
-		data-format={ string(props.Config.Format) }
-		data-monthnames={ templ.JSONString(props.Config.Locale.MonthNames) }
-		data-daynames={ templ.JSONString(props.Config.Locale.DayNames) }
+		data-format={ string(p.Config.Format) }
+		data-monthnames={ templ.JSONString(p.Config.Locale.MonthNames) }
+		data-daynames={ templ.JSONString(p.Config.Locale.DayNames) }
 		x-data="date-picker"
-		data-input-id={ props.ID }
+		data-input-id={ p.ID }
 		@resize.window="updatePosition"
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
 		<div class="relative">
-			@Input(InputProps{
-				ID:          props.ID,
-				Name:        props.Name,
-				Value:       props.Value.Format(props.Config.getGoFormat()),
-				Placeholder: props.Placeholder,
-				Disabled:    props.Disabled,
-				Class:       utils.TwMerge(props.Class, "peer"),
-				HasError:    props.HasError,
-				Type:        "text",
-				Readonly:    true,
-				Attributes: utils.MergeAttributes(
-					templ.Attributes{
-						"x-ref":        "datePickerInput",
-						":x-modelable": "value",
-						":value":       "value",
-						"@click":       "toggleDatePicker",
-					},
-					props.Attributes,
-				),
-			})
+			@Input(
+				InputProps{
+					ID:          p.ID,
+					Name:        p.Name,
+					Value:       p.Value.Format(p.Config.getGoFormat()),
+					Placeholder: p.Placeholder,
+					Disabled:    p.Disabled,
+					Class:       utils.TwMerge(p.Class, "peer"),
+					HasError:    p.HasError,
+					Type:        "text",
+					Readonly:    true,
+					Attributes: utils.MergeAttributes(
+						templ.Attributes{
+							"x-ref":        "datePickerInput",
+							":x-modelable": "value",
+							":value":       "value",
+							"@click":       "toggleDatePicker",
+						},
+						p.Attributes,
+					),
+				})
 			<button
 				type="button"
 				@click="toggleDatePicker"
-				disabled?={ props.Disabled }
+				disabled?={ p.Disabled }
 				class={
 					utils.TwMerge(
 						"absolute top-0 right-0 px-3 py-2",
@@ -174,7 +178,7 @@ templ DatePicker(props DatePickerProps) {
 					),
 				}
 			>
-				@icons.Calendar(icons.IconProps{})
+				@icons.Calendar()
 			</button>
 		</div>
 		<div
@@ -198,14 +202,14 @@ templ DatePicker(props DatePickerProps) {
 						@click="atClickPrevMonth"
 						class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-7 w-7"
 					>
-						@icons.ChevronLeft(icons.IconProps{})
+						@icons.ChevronLeft()
 					</button>
 					<button
 						type="button"
 						@click="atClickNextMonth"
 						class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-7 w-7"
 					>
-						@icons.ChevronRight(icons.IconProps{})
+						@icons.ChevronRight()
 					</button>
 				</div>
 			</div>

@@ -31,27 +31,41 @@ type RadioCardFooterProps struct {
 	Attributes templ.Attributes
 }
 
-templ RadioCard(props RadioCardProps) {
-	if props.ID == "" {
-		{{ props.ID = utils.RandomID() }}
+templ RadioCard(props ...RadioCardProps) {
+	{{ var p RadioCardProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
+	if p.ID == "" {
+		{{ p.ID = utils.RandomID() }}
 	}
 	<div
-		id={ props.ID + "-container" }
-		class={ utils.TwMerge("relative", utils.If(props.Disabled, "opacity-60"), props.Class) }
-		{ props.Attributes... }
+		id={ p.ID + "-container" }
+		class={
+			utils.TwMerge(
+				"relative",
+				utils.If(p.Disabled, "opacity-60"),
+				p.Class,
+			),
+		}
+		{ p.Attributes... }
 	>
 		<input
 			type="radio"
-			id={ props.ID }
-			name={ props.Name }
-			value={ props.Value }
-			checked?={ props.Checked }
-			disabled?={ props.Disabled }
-			required?={ props.Required }
+			id={ p.ID }
+			if p.Name != "" {
+				name={ p.Name }
+			}
+			if p.Value != "" {
+				value={ p.Value }
+			}
+			checked?={ p.Checked }
+			disabled?={ p.Disabled }
+			required?={ p.Required }
 			class="peer sr-only"
 		/>
 		<label
-			for={ props.ID }
+			for={ p.ID }
 			class={
 				utils.TwMerge(
 					"block w-full rounded-lg border overflow-hidden h-full",
@@ -59,43 +73,61 @@ templ RadioCard(props RadioCardProps) {
 					"cursor-pointer",
 					"hover:border-primary/50",
 					"peer-checked:ring-1 peer-checked:ring-primary peer-checked:border-primary",
-					utils.If(props.Disabled, "cursor-not-allowed"),
+					utils.If(p.Disabled, "cursor-not-allowed"),
 					"transition-all duration-200",
-					props.Class,
+					p.Class,
 				),
 			}
-			{ props.Attributes... }
+			{ p.Attributes... }
 		>
 			{ children... }
 		</label>
 	</div>
 }
 
-templ RadioCardHeader(props RadioCardHeaderProps) {
+templ RadioCardHeader(props ...RadioCardHeaderProps) {
+	{{ var p RadioCardHeaderProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<div
-		id={ props.ID }
-		class={ utils.TwMerge("flex items-center justify-between mb-2", props.Class) }
-		{ props.Attributes... }
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		class={ utils.TwMerge("flex items-center justify-between mb-2", p.Class) }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</div>
 }
 
-templ RadioCardDescription(props RadioCardDescriptionProps) {
+templ RadioCardDescription(props ...RadioCardDescriptionProps) {
+	{{ var p RadioCardDescriptionProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<p
-		id={ props.ID }
-		class={ utils.TwMerge("text-sm text-muted-foreground", props.Class) }
-		{ props.Attributes... }
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		class={ utils.TwMerge("text-sm text-muted-foreground", p.Class) }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</p>
 }
 
-templ RadioCardFooter(props RadioCardFooterProps) {
+templ RadioCardFooter(props ...RadioCardFooterProps) {
+	{{ var p RadioCardFooterProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<div
-		id={ props.ID }
-		class={ utils.TwMerge("mt-auto pt-4 w-full", props.Class) }
-		{ props.Attributes... }
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		class={ utils.TwMerge("mt-auto pt-4 w-full", p.Class) }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</div>

@@ -4,7 +4,7 @@ import "github.com/axzilla/templui/components"
 
 templ TimePickerForm() {
 	<div class="w-full max-w-sm">
-		@components.FormItem(components.FormItemProps{}) {
+		@components.FormItem() {
 			@components.FormLabel(components.FormLabelProps{
 				For: "time-picker-form",
 			}) {
@@ -15,7 +15,7 @@ templ TimePickerForm() {
 				Name:     "time-picker-form",
 				HasError: true,
 			})
-			@components.FormDescription(components.FormDescriptionProps{}) {
+			@components.FormDescription() {
 				Select a time from the dropdown.
 			}
 			@components.FormMessage(components.FormMessageProps{

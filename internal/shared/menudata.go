@@ -74,16 +74,16 @@ var Sections = []Section{
 				Href: "/docs/components/charts",
 			},
 			{
-				Text: "Code",
-				Href: "/docs/components/code",
-			},
-			{
 				Text: "Checkbox",
 				Href: "/docs/components/checkbox",
 			},
 			{
 				Text: "Checkbox Card",
 				Href: "/docs/components/checkbox-card",
+			},
+			{
+				Text: "Code",
+				Href: "/docs/components/code",
 			},
 			{
 				Text: "Date Picker",

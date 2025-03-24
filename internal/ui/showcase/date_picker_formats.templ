@@ -14,7 +14,6 @@ templ DatePickerFormats() {
 				Default ISO format
 			}
 			@components.DatePicker(components.DatePickerProps{
-				ID:     "date-picker-iso-format",
 				Config: components.DatePickerISO,
 				Value:  time.Now(),
 			})
@@ -26,7 +25,6 @@ templ DatePickerFormats() {
 				Default EU format
 			}
 			@components.DatePicker(components.DatePickerProps{
-				ID:     "date-picker-eu-format",
 				Config: components.DatePickerEU,
 				Value:  time.Now(),
 			})
@@ -38,7 +36,6 @@ templ DatePickerFormats() {
 				UK Format
 			}
 			@components.DatePicker(components.DatePickerProps{
-				ID:     "date-picker-uk-format",
 				Config: components.DatePickerUK,
 				Value:  time.Now(),
 			})
@@ -50,7 +47,6 @@ templ DatePickerFormats() {
 				US Format
 			}
 			@components.DatePicker(components.DatePickerProps{
-				ID:     "date-picker-us-format",
 				Config: components.DatePickerUS,
 				Value:  time.Now(),
 			})
@@ -62,7 +58,6 @@ templ DatePickerFormats() {
 				LONG Format
 			}
 			@components.DatePicker(components.DatePickerProps{
-				ID:     "date-long-format",
 				Config: components.DatePickerLONG,
 				Value:  time.Now(),
 			})
@@ -74,7 +69,6 @@ templ DatePickerFormats() {
 				LONG Format (Spanish)
 			}
 			@components.DatePicker(components.DatePickerProps{
-				ID: "date-es-custom-config",
 				Config: components.NewDatePickerConfig(
 					components.DateFormatLONG,
 					components.DateLocaleSpanish,

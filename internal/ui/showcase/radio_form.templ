@@ -4,15 +4,10 @@ import "github.com/axzilla/templui/components"
 
 templ RadioForm() {
 	<div class="w-full max-w-sm">
-		@components.FormItem(components.FormItemProps{}) {
-			@components.FormLabel(components.FormLabelProps{}) {
-				Nofity me about new products
-			}
-			@components.FormItemFlex(components.FormItemProps{}) {
+		@components.FormItem() {
+			@components.FormItemFlex() {
 				@components.Radio(components.RadioProps{
 					ID:      "r1",
-					Name:    "notify",
-					Value:   "all",
 					Checked: true,
 				})
 				@components.FormLabel(components.FormLabelProps{
@@ -21,11 +16,9 @@ templ RadioForm() {
 					All new products
 				}
 			}
-			@components.FormItemFlex(components.FormItemProps{}) {
+			@components.FormItemFlex() {
 				@components.Radio(components.RadioProps{
 					ID:       "r2",
-					Name:     "notify",
-					Value:    "wishlist",
 					Disabled: true,
 				})
 				@components.FormLabel(components.FormLabelProps{
@@ -34,11 +27,9 @@ templ RadioForm() {
 					Create a wishlist (Coming Soon)
 				}
 			}
-			@components.FormItemFlex(components.FormItemProps{}) {
+			@components.FormItemFlex() {
 				@components.Radio(components.RadioProps{
-					ID:    "r3",
-					Name:  "notify",
-					Value: "none",
+					ID: "r3",
 				})
 				@components.FormLabel(components.FormLabelProps{
 					For: "r3",
@@ -46,7 +37,7 @@ templ RadioForm() {
 					No notifications
 				}
 			}
-			@components.FormDescription(components.FormDescriptionProps{}) {
+			@components.FormDescription() {
 				You can change your preferences at any time.
 			}
 			@components.FormMessage(components.FormMessageProps{

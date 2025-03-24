@@ -2,6 +2,7 @@ package components
 
 import (
 	"github.com/axzilla/templui/icons"
+	"github.com/axzilla/templui/utils"
 	"strconv"
 )
 
@@ -39,11 +40,18 @@ type ToastProps struct {
 	Icon          bool
 }
 
-templ Toast(props ToastProps) {
-	{{ props = props.withDefaults() }}
+templ Toast(props ...ToastProps) {
+	{{ var p ToastProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
+	if p.ID == "" {
+		{{ p.ID = utils.RandomID() }}
+	}
+	{{ p = p.withDefaults() }}
 	<div
-		id={ props.ID }
-		data-duration={ strconv.Itoa(props.Duration) }
+		id={ p.ID }
+		data-duration={ strconv.Itoa(p.Duration) }
 		x-data="toast"
 		@mouseenter="pauseTimer"
 		@mouseleave="resumeTimer"
@@ -55,67 +63,72 @@ templ Toast(props ToastProps) {
 		x-transition:leave-start="opacity-100 translate-y-0"
 		x-transition:leave-end="opacity-0 translate-y-4"
 		class={
-			"z-50 fixed pointer-events-auto p-4",
-			templ.KV("top-0", props.Position == ToastPositionTopRight || props.Position == ToastPositionTopLeft || props.Position == ToastPositionTopCenter),
-			templ.KV("bottom-0", props.Position == ToastPositionBottomRight || props.Position == ToastPositionBottomLeft || props.Position == ToastPositionBottomCenter),
-			templ.KV("right-0", props.Position == ToastPositionTopRight || props.Position == ToastPositionBottomRight),
-			templ.KV("left-0", props.Position == ToastPositionTopLeft || props.Position == ToastPositionBottomLeft),
-			templ.KV("left-1/2 -translate-x-1/2", props.Position == ToastPositionTopCenter || props.Position == ToastPositionBottomCenter),
-			"w-full md:max-w-[420px]",
+			utils.TwMerge(
+				"z-50 fixed pointer-events-auto p-4",
+				utils.If(p.Position == ToastPositionTopRight || p.Position == ToastPositionTopLeft || p.Position == ToastPositionTopCenter, "top-0"),
+				utils.If(p.Position == ToastPositionBottomRight || p.Position == ToastPositionBottomLeft || p.Position == ToastPositionBottomCenter, "bottom-0"),
+				utils.If(p.Position == ToastPositionTopRight || p.Position == ToastPositionBottomRight, "right-0"),
+				utils.If(p.Position == ToastPositionTopLeft || p.Position == ToastPositionBottomLeft, "left-0"),
+				utils.If(p.Position == ToastPositionTopCenter || p.Position == ToastPositionBottomCenter, "left-1/2 -translate-x-1/2"),
+				"w-full md:max-w-[420px]",
+				p.Class,
+			),
 		}
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
 		<div class="w-full bg-primary-foreground rounded-lg shadow-xs border pt-5 pb-4 px-4 flex items-center justify-center relative overflow-hidden">
-			if props.ShowIndicator {
-				@toastIndicator(props)
+			if p.ShowIndicator {
+				@toastIndicator(p)
 			}
-			if props.Icon {
-				@toastIcon(props)
+			if p.Icon {
+				@toastIcon(p)
 			}
 			<span class="flex-1 min-w-0">
-				@toastTitle(props)
-				@toastDescription(props)
+				@toastTitle(p)
+				@toastDescription(p)
 			</span>
-			if props.Dismissible {
+			if p.Dismissible {
 				@toastDismissButton()
 			}
 		</div>
 	</div>
 }
 
-templ toastIndicator(props ToastProps) {
+templ toastIndicator(p ToastProps) {
 	<div class="absolute top-0 left-0 right-0 h-1">
 		<div
 			x-ref="progress"
 			class={
-				"absolute inset-0",
-				toastTypeClass(props.Variant),
+				utils.TwMerge(
+					"absolute inset-0",
+					toastTypeClass(p.Variant),
+				),
 			}
 		></div>
 	</div>
 }
 
-templ toastIcon(props ToastProps) {
-	if props.Variant == ToastVariantSuccess {
-		@icons.CircleCheck(icons.IconProps{Size: "22", Class: "text-green-500 mr-3 flex-shrink-0"})
-	} else if props.Variant == ToastVariantError {
-		@icons.CircleX(icons.IconProps{Size: "22", Class: "text-red-500 mr-3 flex-shrink-0"})
-	} else if props.Variant == ToastVariantWarning {
-		@icons.TriangleAlert(icons.IconProps{Size: "22", Class: "text-yellow-500 mr-3 flex-shrink-0"})
-	} else if props.Variant == ToastVariantInfo {
-		@icons.Info(icons.IconProps{Size: "22", Class: "text-blue-500 mr-3 flex-shrink-0"})
+templ toastIcon(p ToastProps) {
+	if p.Variant == ToastVariantSuccess {
+		@icons.CircleCheck(icons.IconProps{Size: 22, Class: "text-green-500 mr-3 flex-shrink-0"})
+	} else if p.Variant == ToastVariantError {
+		@icons.CircleX(icons.IconProps{Size: 22, Class: "text-red-500 mr-3 flex-shrink-0"})
+	} else if p.Variant == ToastVariantWarning {
+		@icons.TriangleAlert(icons.IconProps{Size: 22, Class: "text-yellow-500 mr-3 flex-shrink-0"})
+	} else if p.Variant == ToastVariantInfo {
+		@icons.Info(icons.IconProps{Size: 22, Class: "text-blue-500 mr-3 flex-shrink-0"})
 	}
 }
 
-templ toastTitle(props ToastProps) {
-	if props.Title != "" {
-		<p class="text-sm font-semibold truncate">{ props.Title }</p>
+templ toastTitle(p ToastProps) {
+	if p.Title != "" {
+		<p class="text-sm font-semibold truncate">{ p.Title }</p>
 	}
 }
 
-templ toastDescription(props ToastProps) {
-	if props.Description != "" {
-		<p class="text-sm opacity-90 mt-1">{ props.Description }</p>
+templ toastDescription(p ToastProps) {
+	if p.Description != "" {
+		<p class="text-sm opacity-90 mt-1">{ p.Description }</p>
 	}
 }
 
@@ -132,7 +145,7 @@ templ toastDismissButton() {
 		},
 	}) {
 		@icons.X(icons.IconProps{
-			Size:  "18",
+			Size:  18,
 			Class: "opacity-75 hover:opacity-100",
 		})
 	}

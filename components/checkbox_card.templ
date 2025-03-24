@@ -6,11 +6,11 @@ type CheckboxCardProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
-	Name       string
-	Value      string
 	Checked    bool
 	Disabled   bool
 	Required   bool
+	Name       string
+	Value      string
 }
 
 type CheckboxCardHeaderProps struct {
@@ -31,24 +31,40 @@ type CheckboxCardFooterProps struct {
 	Attributes templ.Attributes
 }
 
-templ CheckboxCard(props CheckboxCardProps) {
-	if props.ID == "" {
-		{{ props.ID = utils.RandomID() }}
+templ CheckboxCard(props ...CheckboxCardProps) {
+	{{ var p CheckboxCardProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
 	}
-	{{ inputId := props.ID + "-input" }}
+	if p.ID == "" {
+		{{ p.ID = utils.RandomID() }}
+	}
+	{{ inputId := p.ID + "-input" }}
 	<div
-		id={ props.ID }
-		class={ utils.TwMerge("relative", utils.If(props.Disabled, "opacity-60"), props.Class) }
-		{ props.Attributes... }
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		class={
+			utils.TwMerge(
+				"relative",
+				utils.If(p.Disabled, "opacity-60"),
+				p.Class,
+			),
+		}
+		{ p.Attributes... }
 	>
 		<input
 			type="checkbox"
 			id={ inputId }
-			name={ props.Name }
-			value={ props.Value }
-			checked?={ props.Checked }
-			disabled?={ props.Disabled }
-			required?={ props.Required }
+			if p.Name != "" {
+				name={ p.Name }
+			}
+			if p.Value != "" {
+				value={ p.Value }
+			}
+			checked?={ p.Checked }
+			disabled?={ p.Disabled }
+			required?={ p.Required }
 			class="peer sr-only"
 		/>
 		<label
@@ -60,9 +76,9 @@ templ CheckboxCard(props CheckboxCardProps) {
 					"cursor-pointer",
 					"hover:border-primary/50",
 					"peer-checked:ring-1 peer-checked:ring-primary peer-checked:border-primary",
-					utils.If(props.Disabled, "cursor-not-allowed"),
+					utils.If(p.Disabled, "cursor-not-allowed"),
 					"transition-all duration-200",
-					props.Class,
+					p.Class,
 				),
 			}
 		>
@@ -71,31 +87,64 @@ templ CheckboxCard(props CheckboxCardProps) {
 	</div>
 }
 
-templ CheckboxCardHeader(props CheckboxCardHeaderProps) {
+templ CheckboxCardHeader(props ...CheckboxCardHeaderProps) {
+	{{ var p CheckboxCardHeaderProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<div
-		id={ props.ID }
-		class={ utils.TwMerge("flex items-center justify-between mb-2", props.Class) }
-		{ props.Attributes... }
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		class={
+			utils.TwMerge(
+				"flex items-center justify-between mb-2",
+				p.Class,
+			),
+		}
+		{ p.Attributes... }
 	>
 		{ children... }
 	</div>
 }
 
-templ CheckboxCardDescription(props CheckboxCardDescriptionProps) {
+templ CheckboxCardDescription(props ...CheckboxCardDescriptionProps) {
+	{{ var p CheckboxCardDescriptionProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<p
-		id={ props.ID }
-		class={ utils.TwMerge("text-sm text-muted-foreground", props.Class) }
-		{ props.Attributes... }
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		class={
+			utils.TwMerge(
+				"text-sm text-muted-foreground",
+				p.Class,
+			),
+		}
+		{ p.Attributes... }
 	>
 		{ children... }
 	</p>
 }
 
-templ CheckboxCardFooter(props CheckboxCardFooterProps) {
+templ CheckboxCardFooter(props ...CheckboxCardFooterProps) {
+	{{ var p CheckboxCardFooterProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<div
-		id={ props.ID }
-		class={ utils.TwMerge("mt-auto pt-4 w-full", props.Class) }
-		{ props.Attributes... }
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		class={
+			utils.TwMerge(
+				"mt-auto pt-4 w-full",
+				p.Class,
+			),
+		}
+		{ p.Attributes... }
 	>
 		{ children... }
 	</div>

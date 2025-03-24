@@ -4,7 +4,7 @@ import "github.com/axzilla/templui/components"
 
 templ InputForm() {
 	<div class="w-full max-w-sm">
-		@components.FormItem(components.FormItemProps{}) {
+		@components.FormItem() {
 			@components.FormLabel(components.FormLabelProps{
 				For: "email-form",
 			}) {
@@ -13,11 +13,10 @@ templ InputForm() {
 			@components.Input(components.InputProps{
 				ID:          "email-form",
 				Type:        "email",
-				Name:        "email",
 				Placeholder: "m@example.com",
 				HasError:    true,
 			})
-			@components.FormDescription(components.FormDescriptionProps{}) {
+			@components.FormDescription() {
 				Enter your email address for notifications.
 			}
 			@components.FormMessage(components.FormMessageProps{

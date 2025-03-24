@@ -4,7 +4,7 @@ import "github.com/axzilla/templui/components"
 
 templ SelectDisabled() {
 	<div class="space-y-2 w-full max-w-sm">
-		@components.Select(components.SelectProps{}) {
+		@components.Select() {
 			@components.SelectTrigger(components.SelectTriggerProps{
 				Disabled: true,
 			}) {
@@ -12,8 +12,8 @@ templ SelectDisabled() {
 					Placeholder: "Select a fruit",
 				})
 			}
-			@components.SelectContent(components.SelectContentProps{}) {
-				@components.SelectLabel(components.SelectLabelProps{}) {
+			@components.SelectContent() {
+				@components.SelectLabel() {
 					Fruits
 				}
 				@components.SelectItem(components.SelectItemProps{

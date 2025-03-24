@@ -1,8 +1,6 @@
 package showcase
 
-import (
-	"github.com/axzilla/templui/components"
-)
+import "github.com/axzilla/templui/components"
 
 templ CarouselAutoplay() {
 	@components.Carousel(components.CarouselProps{
@@ -11,19 +9,19 @@ templ CarouselAutoplay() {
 		Loop:     true,
 		Class:    "rounded-md",
 	}) {
-		@components.CarouselContent(components.CarouselContentProps{}) {
-			@components.CarouselItem(components.CarouselItemProps{}) {
+		@components.CarouselContent() {
+			@components.CarouselItem() {
 				@CarouselAutoplaySlide("Slide 1", "This is the first slide", "bg-blue-500")
 			}
-			@components.CarouselItem(components.CarouselItemProps{}) {
+			@components.CarouselItem() {
 				@CarouselAutoplaySlide("Slide 2", "This is the second slide", "bg-green-500")
 			}
-			@components.CarouselItem(components.CarouselItemProps{}) {
+			@components.CarouselItem() {
 				@CarouselAutoplaySlide("Slide 3", "This is the third slide", "bg-purple-500")
 			}
 		}
-		@components.CarouselPrevious(components.CarouselPreviousProps{})
-		@components.CarouselNext(components.CarouselNextProps{})
+		@components.CarouselPrevious()
+		@components.CarouselNext()
 		@components.CarouselIndicators(components.CarouselIndicatorsProps{
 			Count: 3,
 		})
