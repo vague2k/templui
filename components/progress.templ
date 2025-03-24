@@ -26,6 +26,7 @@ type ProgressProps struct {
 	Class      string
 	Attributes templ.Attributes
 	Max        int
+	Value      int
 	Label      string
 	ShowValue  bool
 	Size       ProgressSize
@@ -37,7 +38,7 @@ type ProgressProps struct {
 	HxSwap     string
 }
 
-templ Progress(value int, props ...ProgressProps) {
+templ Progress(props ...ProgressProps) {
 	{{ var p ProgressProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
@@ -62,7 +63,7 @@ templ Progress(value int, props ...ProgressProps) {
 		}
 		aria-valuemin="0"
 		aria-valuemax={ fmt.Sprintf("%d", getMaxValue(p.Max)) }
-		aria-valuenow={ fmt.Sprintf("%d", value) }
+		aria-valuenow={ fmt.Sprintf("%d", p.Value) }
 		role="progressbar"
 		{ p.Attributes... }
 	>
@@ -73,12 +74,12 @@ templ Progress(value int, props ...ProgressProps) {
 				}
 				if p.ShowValue {
 					<span class="text-sm font-medium">
-						{ fmt.Sprintf("%d%%", getProgressPercentage(value, p)) }
+						{ fmt.Sprintf("%d%%", getProgressPercentage(p.Value, p)) }
 					</span>
 				}
 			</div>
 		}
-		<div class={ "w-full overflow-hidden rounded-full bg-secondary" }>
+		<div class="w-full overflow-hidden rounded-full bg-secondary">
 			<div
 				class={
 					utils.TwMerge(
@@ -88,7 +89,7 @@ templ Progress(value int, props ...ProgressProps) {
 						p.BarClass,
 					),
 				}
-				style={ fmt.Sprintf("width: %d%%", getProgressPercentage(value, p)) }
+				style={ fmt.Sprintf("width: %d%%", getProgressPercentage(p.Value, p)) }
 			></div>
 		</div>
 	</div>
