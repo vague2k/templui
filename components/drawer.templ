@@ -28,6 +28,7 @@ type DrawerContentProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
+	Side       DrawerPosition
 }
 
 type DrawerHeaderProps struct {
@@ -85,7 +86,9 @@ templ DrawerTrigger(props ...DrawerTriggerProps) {
 		{{ p = props[0] }}
 	}
 	<div
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		@click="open"
 		class={ utils.TwMerge("cursor-pointer", p.Class) }
 		{ p.Attributes... }
@@ -94,13 +97,15 @@ templ DrawerTrigger(props ...DrawerTriggerProps) {
 	</div>
 }
 
-templ DrawerContent(side DrawerPosition, props ...DrawerContentProps) {
+templ DrawerContent(props ...DrawerContentProps) {
 	{{ var p DrawerContentProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
 	<div
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		x-show="isOpen"
 		class="fixed inset-0 z-50 bg-background/80 backdrop-blur-xs"
 		@click="close"
@@ -115,34 +120,35 @@ templ DrawerContent(side DrawerPosition, props ...DrawerContentProps) {
 		id={ p.ID + "-content" }
 		x-show="isOpen"
 		@click.away="close"
-		class={
-			utils.TwMerge("fixed z-50", p.Class),
-			templ.KV("inset-y-0 right-0 w-3/4 md:w-1/2 lg:w-1/3", side == DrawerPositionRight),
-			templ.KV("inset-y-0 left-0 w-3/4 md:w-1/2 lg:w-1/3", side == DrawerPositionLeft),
-			templ.KV("inset-x-0 top-0 h-auto sm:h-1/2", side == DrawerPositionTop),
-			templ.KV("inset-x-0 bottom-0 h-auto sm:h-1/2", side == DrawerPositionBottom),
-		}
+		class={ utils.TwMerge(
+            "fixed z-50",
+            p.Class,
+			utils.If(p.Side == DrawerPositionRight, "inset-y-0 right-0 w-3/4 md:w-1/2 lg:w-1/3"),
+			utils.If(p.Side == DrawerPositionLeft, "inset-y-0 left-0 w-3/4 md:w-1/2 lg:w-1/3"),
+            utils.If(p.Side == DrawerPositionTop, "inset-x-0 top-0 h-auto sm:h-1/2"),
+            utils.If(p.Side == DrawerPositionBottom, "inset-x-0 bottom-0 h-auto sm:h-1/2"),
+        ) }
 		x-transition:enter="transition ease-out duration-300"
 		x-transition:leave="transition ease-in duration-300"
-		if side == DrawerPositionLeft {
+		if p.Side == DrawerPositionLeft {
 			x-transition:enter-start="opacity-0 transform -translate-x-full"
 			x-transition:enter-end="opacity-100 transform translate-x-0"
 			x-transition:leave-start="opacity-100 transform translate-x-0"
 			x-transition:leave-end="opacity-0 transform -translate-x-full"
 		}
-		if side == DrawerPositionRight {
+		if p.Side == DrawerPositionRight {
 			x-transition:enter-start="opacity-0 transform translate-x-full"
 			x-transition:enter-end="opacity-100 transform translate-x-0"
 			x-transition:leave-start="opacity-100 transform translate-x-0"
 			x-transition:leave-end="opacity-0 transform translate-x-full"
 		}
-		if side == DrawerPositionTop {
+		if p.Side == DrawerPositionTop {
 			x-transition:enter-start="opacity-0 transform -translate-y-full"
 			x-transition:enter-end="opacity-100 transform translate-y-0"
 			x-transition:leave-start="opacity-100 transform translate-y-0"
 			x-transition:leave-end="opacity-0 transform -translate-y-full"
 		}
-		if side == DrawerPositionBottom {
+		if p.Side == DrawerPositionBottom {
 			x-transition:enter-start="opacity-0 transform translate-y-full"
 			x-transition:enter-end="opacity-100 transform translate-y-0"
 			x-transition:leave-start="opacity-100 transform translate-y-0"
@@ -151,13 +157,13 @@ templ DrawerContent(side DrawerPosition, props ...DrawerContentProps) {
 		{ p.Attributes... }
 	>
 		<div
-			class={
-				"h-full overflow-y-auto bg-background p-6 shadow-lg",
-				templ.KV("border-l", side == DrawerPositionRight),
-				templ.KV("border-r", side == DrawerPositionLeft),
-				templ.KV("border-t", side == DrawerPositionBottom),
-				templ.KV("border-b", side == DrawerPositionTop),
-			}
+			class={ utils.TwMerge(
+                "h-full overflow-y-auto bg-background p-6 shadow-lg",
+				utils.If(p.Side == DrawerPositionRight, "border-l"),
+				utils.If(p.Side == DrawerPositionLeft, "border-r"),
+				utils.If(p.Side == DrawerPositionBottom, "border-t"),
+				utils.If(p.Side == DrawerPositionTop, "border-b"),
+            ) }
 			@click.stop
 		>
 			{ children... }
@@ -171,7 +177,9 @@ templ DrawerHeader(props ...DrawerHeaderProps) {
 		{{ p = props[0] }}
 	}
 	<div
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		class={ utils.TwMerge("flex flex-col space-y-1.5 pb-4", p.Class) }
 		{ p.Attributes... }
 	>
@@ -185,7 +193,9 @@ templ DrawerTitle(props ...DrawerTitleProps) {
 		{{ p = props[0] }}
 	}
 	<h2
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		class={ utils.TwMerge("text-lg font-semibold leading-none tracking-tight", p.Class) }
 		{ p.Attributes... }
 	>
@@ -199,7 +209,9 @@ templ DrawerDescription(props ...DrawerDescriptionProps) {
 		{{ p = props[0] }}
 	}
 	<p
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		class={ utils.TwMerge("text-sm text-muted-foreground", p.Class) }
 		{ p.Attributes... }
 	>
@@ -213,7 +225,9 @@ templ DrawerFooter(props ...DrawerFooterProps) {
 		{{ p = props[0] }}
 	}
 	<div
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		class={ utils.TwMerge("flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 pt-4", p.Class) }
 		{ p.Attributes... }
 	>
@@ -227,15 +241,17 @@ templ DrawerClose(props ...DrawerCloseProps) {
 		{{ p = props[0] }}
 	}
 	<button
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		@click="close"
 		class={ utils.TwMerge(
-			"inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background",
-			"transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-			"disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent",
-			"hover:text-accent-foreground h-10 px-4 py-2",
-			p.Class,
-		) }
+            "inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background",
+            "transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+            "disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent",
+            "hover:text-accent-foreground h-10 px-4 py-2",
+            p.Class,
+        ) }
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -246,17 +262,17 @@ templ DrawerScript() {
 	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
 		<script nonce={ templ.GetNonce(ctx) }>
-			document.addEventListener('alpine:init', () => {
-				Alpine.data('drawer', () => ({
-					isOpen: false,
-					open() {
-						this.isOpen = true
-					},
-					close() {
-						this.isOpen = false
-					},
-				}))
-			})
-		</script>
+            document.addEventListener('alpine:init', () => {
+                Alpine.data('drawer', () => ({
+                    isOpen: false,
+                    open() {
+                        this.isOpen = true
+                    },
+                    close() {
+                        this.isOpen = false
+                    },
+                }))
+            })
+        </script>
 	}
 }

@@ -9,7 +9,9 @@ templ DrawerDefault() {
 				Open
 			}
 		}
-		@components.DrawerContent(components.DrawerPositionRight) {
+		@components.DrawerContent(components.DrawerContentProps{
+			Side: components.DrawerPositionRight,
+		}) {
 			@components.DrawerHeader() {
 				@components.DrawerTitle() {
 					Account
