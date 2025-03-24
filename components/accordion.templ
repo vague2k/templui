@@ -15,7 +15,6 @@ type AccordionItemProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
-	Value      string
 }
 
 type AccordionTriggerProps struct {
@@ -36,11 +35,13 @@ templ Accordion(props ...AccordionProps) {
 		{{ p = props[0] }}
 	}
 	<div
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		class={ utils.TwMerge(
-			"divide-y rounded-md divide-border border",
-			p.Class,
-		) }
+            "divide-y rounded-md divide-border border",
+            p.Class,
+        ) }
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -53,14 +54,15 @@ templ AccordionItem(props ...AccordionItemProps) {
 		{{ p = props[0] }}
 	}
 	<details
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		name="accordion"
 		class={ utils.TwMerge(
-			"group",
-			"open:[&>summary_svg]:rotate-180",
-			p.Class,
-		) }
-		data-value={ p.Value }
+            "group",
+            "open:[&>summary_svg]:rotate-180",
+            p.Class,
+        ) }
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -73,14 +75,16 @@ templ AccordionTrigger(props ...AccordionTriggerProps) {
 		{{ p = props[0] }}
 	}
 	<summary
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		class={ utils.TwMerge(
-			"flex w-full items-center justify-between py-4 px-5",
-			"text-left font-medium cursor-pointer",
-			"transition-all hover:underline",
-			"list-none [&::-webkit-details-marker]:hidden",
-			p.Class,
-		) }
+            "flex w-full items-center justify-between py-4 px-5",
+            "text-left font-medium cursor-pointer",
+            "transition-all hover:underline",
+            "list-none [&::-webkit-details-marker]:hidden",
+            p.Class,
+        ) }
 		{ p.Attributes... }
 	>
 		<div class="flex-1">
@@ -96,11 +100,13 @@ templ AccordionContent(props ...AccordionContentProps) {
 		{{ p = props[0] }}
 	}
 	<div
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		class={ utils.TwMerge(
-			"px-5 pb-4 pt-0",
-			p.Class,
-		) }
+            "px-5 pb-4 pt-0",
+            p.Class,
+        ) }
 		{ p.Attributes... }
 	>
 		{ children... }
