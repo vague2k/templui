@@ -357,9 +357,6 @@
   .left-full {
     left: 100%;
   }
-  .z-0 {
-    z-index: 0;
-  }
   .z-10 {
     z-index: 10;
   }
@@ -506,9 +503,6 @@
   }
   .aspect-\[3\/4\] {
     aspect-ratio: 3/4;
-  }
-  .aspect-auto {
-    aspect-ratio: auto;
   }
   .aspect-square {
     aspect-ratio: 1 / 1;
@@ -1283,9 +1277,6 @@
   .object-cover {
     object-fit: cover;
   }
-  .p-0 {
-    padding: calc(var(--spacing) * 0);
-  }
   .p-1 {
     padding: calc(var(--spacing) * 1);
   }
@@ -1695,6 +1686,12 @@
   .select-none {
     -webkit-user-select: none;
     user-select: none;
+  }
+  .\[hL\:��O�\%�\] {
+    hL: ��O�%�;
+  }
+  .\[y\:UOa�\2 ���\&uh�늊�v�\<\e -i�e\1a \] {
+    y: UOa����&uh�늊�v�<-i�e;
   }
   .group-hover\:translate-x-0 {
     &:is(:where(.group):hover *) {
