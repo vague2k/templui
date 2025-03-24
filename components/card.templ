@@ -68,6 +68,7 @@ type CardMediaProps struct {
 	ID          string
 	Class       string
 	Attributes  templ.Attributes
+	Src         string
 	Alt         string
 	Position    CardMediaPosition
 	Width       CardMediaWidth
@@ -80,11 +81,13 @@ templ Card(props ...CardProps) {
 		{{ p = props[0] }}
 	}
 	<div
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		class={ utils.TwMerge(
-				"w-full rounded-lg border bg-card text-card-foreground shadow-xs",
-				p.Class,
-			) }
+            "w-full rounded-lg border bg-card text-card-foreground shadow-xs",
+            p.Class,
+        ) }
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -97,11 +100,15 @@ templ CardHeader(props ...CardHeaderProps) {
 		{{ p = props[0] }}
 	}
 	<div
-		id={ p.ID }
-		class={ utils.TwMerge(
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		class={
+			utils.TwMerge(
 				"flex flex-col space-y-1.5 p-6 pb-0",
 				p.Class,
-			) }
+			),
+		}
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -114,11 +121,15 @@ templ CardTitle(props ...CardTitleProps) {
 		{{ p = props[0] }}
 	}
 	<h3
-		id={ p.ID }
-		class={ utils.TwMerge(
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		class={
+			utils.TwMerge(
 				"text-lg font-semibold leading-none tracking-tight",
 				p.Class,
-			) }
+			),
+		}
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -131,11 +142,13 @@ templ CardDescription(props ...CardDescriptionProps) {
 		{{ p = props[0] }}
 	}
 	<p
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		class={ utils.TwMerge(
-				"text-sm text-muted-foreground",
-				p.Class,
-			) }
+            "text-sm text-muted-foreground",
+            p.Class,
+        ) }
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -148,11 +161,13 @@ templ CardContent(props ...CardContentProps) {
 		{{ p = props[0] }}
 	}
 	<div
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		class={ utils.TwMerge(
-				"p-6",
-				p.Class,
-			) }
+            "p-6",
+            p.Class,
+        ) }
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -165,11 +180,13 @@ templ CardFooter(props ...CardFooterProps) {
 		{{ p = props[0] }}
 	}
 	<div
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		class={ utils.TwMerge(
-				"flex items-center p-6 pt-0",
-				p.Class,
-			) }
+            "flex items-center p-6 pt-0",
+            p.Class,
+        ) }
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -182,29 +199,33 @@ templ CardHorizontal(props ...CardHorizontalProps) {
 		{{ p = props[0] }}
 	}
 	<div
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		class={ utils.TwMerge(
-				"flex overflow-hidden",
-				p.Class,
-			) }
+            "flex overflow-hidden",
+            p.Class,
+        ) }
 		{ p.Attributes... }
 	>
 		{ children... }
 	</div>
 }
 
-templ CardMedia(src string, props ...CardMediaProps) {
+templ CardMedia(props ...CardMediaProps) {
 	{{ var p CardMediaProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
 	<div
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		class={ utils.TwMerge(
-				"overflow-hidden",
-				getCardMediaPositionClasses(p.Position, p.Width),
-				p.Class,
-			) }
+            "overflow-hidden",
+            getCardMediaPositionClasses(p.Position, p.Width),
+            p.Class,
+        ) }
 		{ p.Attributes... }
 	>
 		@AspectRatio(AspectRatioProps{
@@ -213,8 +234,12 @@ templ CardMedia(src string, props ...CardMediaProps) {
 			Class: "h-full w-full",
 		}) {
 			<img
-				src={ src }
-				alt={ p.Alt }
+				if p.Src != "" {
+					src={ p.Src }
+				}
+				if p.Alt != "" {
+					alt={ p.Alt }
+				}
 				class="h-full w-full object-cover"
 			/>
 		}
