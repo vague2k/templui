@@ -3,7 +3,9 @@ package showcase
 import "github.com/axzilla/templui/components"
 
 templ ModalDefault() {
-	@components.ModalTrigger("default-modal") {
+	@components.ModalTrigger(components.ModalTriggerProps{
+		ModalID: "default-modal",
+	}) {
 		@components.Button() {
 			Open Modal
 		}
@@ -20,12 +22,16 @@ templ ModalDefault() {
 		}
 		@components.ModalFooter() {
 			<div class="flex gap-2">
-				@components.ModalClose("default-modal") {
+				@components.ModalClose(components.ModalCloseProps{
+					ModalID: "default-modal",
+				}) {
 					@components.Button() {
 						Cancel
 					}
 				}
-				@components.ModalClose("default-modal") {
+				@components.ModalClose(components.ModalCloseProps{
+					ModalID: "default-modal",
+				}) {
 					@components.Button(components.ButtonProps{
 						Variant: components.ButtonVariantSecondary,
 					}) {

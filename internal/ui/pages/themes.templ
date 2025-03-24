@@ -876,7 +876,9 @@ templ ThemeCustomizer(props ThemeCustomizerProps) {
 			@RadiusSelector()
 			@ModeSelector()
 		</div>
-		@components.ModalTrigger("css-modal") {
+		@components.ModalTrigger(components.ModalTriggerProps{
+			ModalID: "css-modal",
+		}) {
 			@components.Button(components.ButtonProps{
 				FullWidth: true,
 				Attributes: templ.Attributes{
@@ -886,7 +888,10 @@ templ ThemeCustomizer(props ThemeCustomizerProps) {
 				Generate and Copy CSS
 			}
 		}
-		@components.Modal(components.ModalProps{ID: "css-modal", Class: "max-w-xl"}) {
+		@components.Modal(components.ModalProps{
+			ID:    "css-modal",
+			Class: "max-w-xl",
+		}) {
 			@components.ModalHeader() {
 				Generated CSS Code
 			}
@@ -901,7 +906,9 @@ templ ThemeCustomizer(props ThemeCustomizerProps) {
 					}) {
 						Copy to Clipboard
 					}
-					@components.ModalClose("css-modal") {
+					@components.ModalClose(components.ModalCloseProps{
+						ModalID: "css-modal",
+					}) {
 						@components.Button(components.ButtonProps{
 							Variant: "secondary",
 						}) {

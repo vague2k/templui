@@ -15,12 +15,14 @@ type ModalTriggerProps struct {
 	Class      string
 	Attributes templ.Attributes
 	Disabled   bool
+	ModalID    string
 }
 
 type ModalCloseProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
+	ModalID    string
 }
 
 type ModalHeaderProps struct {
@@ -89,22 +91,27 @@ templ Modal(props ...ModalProps) {
 	</div>
 }
 
-templ ModalTrigger(modalID string, props ...ModalTriggerProps) {
+templ ModalTrigger(props ...ModalTriggerProps) {
 	{{ var p ModalTriggerProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
 	<span
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		x-data="modalTriggers"
-		data-modal-id={ modalID }
+		if p.ModalID != "" {
+			data-modal-id={ p.ModalID }
+		}
 		if !p.Disabled {
 			@click="openModal"
 		}
 		class={
 			utils.TwMerge(
 				utils.IfElse(p.Disabled, "cursor-not-allowed", "cursor-pointer"),
-				p.Class),
+				p.Class,
+			),
 		}
 		{ p.Attributes... }
 	>
@@ -112,15 +119,19 @@ templ ModalTrigger(modalID string, props ...ModalTriggerProps) {
 	</span>
 }
 
-templ ModalClose(modalID string, props ...ModalCloseProps) {
+templ ModalClose(props ...ModalCloseProps) {
 	{{ var p ModalCloseProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
 	<span
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		x-data="modalTriggers"
-		data-modal-id={ modalID }
+		if p.ModalID != "" {
+			data-modal-id={ p.ModalID }
+		}
 		@click="closeModal"
 		class={ utils.TwMerge("", p.Class) }
 		{ p.Attributes... }
@@ -135,7 +146,9 @@ templ ModalHeader(props ...ModalHeaderProps) {
 		{{ p = props[0] }}
 	}
 	<div
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		class={ utils.TwMerge("px-4 pt-5 pb-4 sm:p-6 sm:pb-4", p.Class) }
 		{ p.Attributes... }
 	>
@@ -151,7 +164,9 @@ templ ModalBody(props ...ModalBodyProps) {
 		{{ p = props[0] }}
 	}
 	<div
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		class={ utils.TwMerge("px-4 pt-5 pb-4 sm:p-6 sm:pb-4", p.Class) }
 		{ p.Attributes... }
 	>
@@ -165,7 +180,9 @@ templ ModalFooter(props ...ModalFooterProps) {
 		{{ p = props[0] }}
 	}
 	<div
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		class={ utils.TwMerge("px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse", p.Class) }
 		{ p.Attributes... }
 	>
