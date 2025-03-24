@@ -34,7 +34,9 @@ templ Alert(props ...AlertProps) {
 		{{ p = props[0] }}
 	}
 	<div
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		class={
 			utils.TwMerge(
 				"relative w-full p-4",
@@ -58,7 +60,9 @@ templ AlertTitle(props ...AlertTitleProps) {
 		{{ p = props[0] }}
 	}
 	<h5
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		class={
 			utils.TwMerge(
 				"mb-1 font-medium leading-none tracking-tight",
@@ -77,7 +81,9 @@ templ AlertDescription(props ...AlertDescriptionProps) {
 		{{ p = props[0] }}
 	}
 	<div
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		class={
 			utils.TwMerge(
 				"[&_p]:leading-relaxed text-sm",
