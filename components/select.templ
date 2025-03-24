@@ -1,4 +1,3 @@
-
 package components
 
 import (
@@ -63,7 +62,9 @@ templ Select(props ...SelectProps) {
 		{{ p = props[0] }}
 	}
 	<div
-		id={ p.ID + "-container" }
+		if p.ID != "" {
+			id={ p.ID + "-container" }
+		}
 		class={ utils.TwMerge("w-full select-container relative", p.Class) }
 		data-select-id={ p.ID }
 		{ p.Attributes... }
@@ -96,11 +97,13 @@ templ SelectTrigger(props ...SelectTriggerProps) {
 				"required":            strconv.FormatBool(p.Required),
 			},
 			p.Attributes,
-		)},
-	) {
+		),
+	}) {
 		<input
 			type="hidden"
-			name={ p.Name }
+			if p.Name != "" {
+				name={ p.Name }
+			}
 			required?={ p.Required }
 		/>
 		{ children... }
@@ -119,11 +122,15 @@ templ SelectValue(props ...SelectValueProps) {
 		{{ p = props[0] }}
 	}
 	<span
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		class={ utils.TwMerge("block truncate select-value text-muted-foreground", p.Class) }
 		{ p.Attributes... }
 	>
-		{ p.Placeholder }
+		if p.Placeholder != "" {
+			{ p.Placeholder }
+		}
 		{ children... }
 	</span>
 }
@@ -134,13 +141,17 @@ templ SelectContent(props ...SelectContentProps) {
 		{{ p = props[0] }}
 	}
 	<div
-		id={ p.ID }
-		class={ utils.TwMerge(
-			"p-1 select-content absolute z-50 w-full overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md",
-			"transition-all ease-out duration-100",
-			"transform opacity-0 -translate-y-1 scale-95", // initial condition
-			p.Class,
-		) }
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		class={
+			utils.TwMerge(
+				"p-1 select-content absolute z-50 w-full overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md",
+				"transition-all ease-out duration-100",
+				"transform opacity-0 -translate-y-1 scale-95", // initial condition
+				p.Class,
+			),
+		}
 		style="display: none;"
 		role="listbox"
 		tabindex="-1"
@@ -156,7 +167,9 @@ templ SelectGroup(props ...SelectGroupProps) {
 		{{ p = props[0] }}
 	}
 	<div
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		class={ utils.TwMerge("p-1", p.Class) }
 		role="group"
 		{ p.Attributes... }
@@ -171,7 +184,9 @@ templ SelectLabel(props ...SelectLabelProps) {
 		{{ p = props[0] }}
 	}
 	<span
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		class={ utils.TwMerge("px-2 py-1.5 text-sm font-medium", p.Class) }
 		{ p.Attributes... }
 	>
@@ -185,7 +200,9 @@ templ SelectItem(props ...SelectItemProps) {
 		{{ p = props[0] }}
 	}
 	<div
-		id={ p.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		class={
 			utils.TwMerge(
 				"select-item relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 px-2 text-sm font-light outline-none",
