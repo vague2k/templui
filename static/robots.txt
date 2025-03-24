@@ -1,6 +1,6 @@
 User-agent: *
+Allow: /assets/img/social-preview.png
 Allow: /
 Disallow: /assets/
-Allow: /assets/img/social-preview.png
 
 Sitemap: https://templui.io/sitemap.xml
