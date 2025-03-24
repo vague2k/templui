@@ -22,7 +22,9 @@ templ CarouselAutoplay() {
 		}
 		@components.CarouselPrevious()
 		@components.CarouselNext()
-		@components.CarouselIndicators(3)
+		@components.CarouselIndicators(components.CarouselIndicatorsProps{
+			Count: 3,
+		})
 	}
 }
 
