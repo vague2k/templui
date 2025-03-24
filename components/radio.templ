@@ -19,7 +19,6 @@ templ Radio(props ...RadioProps) {
 		{{ p = props[0] }}
 	}
 	<input
-		x-ref={ p.ID }
 		type="radio"
 		if p.ID != "" {
 			id={ p.ID }
