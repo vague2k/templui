@@ -23,6 +23,7 @@ templ ToastPlayground() {
 							@components.Input(components.InputProps{
 								Value: "You have a new notification",
 								ID:    "title",
+								Name:  "title",
 							})
 						}
 						// Description
@@ -35,6 +36,7 @@ templ ToastPlayground() {
 							@components.Input(components.InputProps{
 								Value: "Test Notification",
 								ID:    "description",
+								Name:  "description",
 							})
 						}
 						// Type
@@ -149,6 +151,7 @@ templ ToastPlayground() {
 								Type:  "number",
 								Value: "3000",
 								ID:    "duration",
+								Name:  "duration",
 							})
 						}
 						// Options
