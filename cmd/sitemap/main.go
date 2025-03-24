@@ -144,7 +144,6 @@ func main() {
 	// Create robots.txt
 	robotsContent := fmt.Sprintf(`User-agent: *
 Allow: /
-Disallow: /assets/
 
 Sitemap: %s/sitemap.xml
 `, *baseURL)
