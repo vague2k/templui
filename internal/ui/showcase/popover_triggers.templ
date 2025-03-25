@@ -4,96 +4,69 @@ import "github.com/axzilla/templui/components"
 
 templ PopoverTriggers() {
 	<div class="flex gap-2">
-        @components.Popover() {
-            @components.PopoverTrigger(components.PopoverTriggerProps{
-                ID: "hover-popover",
-            }) {
-                @components.Button(components.ButtonProps{Variant: components.ButtonVariantOutline}) {
-                    Hover
-                }
-            }
-            @components.PopoverContent(components.PopoverContentProps{
-                ID: "hover-popover",
-            }) {
-                @components.PopoverHeader() {
-                    Header
-                }
-                <div class="p-2 space-y-1">
-                    <p>Popover content </p>
-                    <p>Popover content </p>
-                    <p>Popover content </p>
-                </div>
-            }
-        }
-        @components.Popover() {
-            @components.PopoverTrigger(components.PopoverTriggerProps{
-                ID: "click-popover",
-                TriggerType: components.PopoverOnClick,
-            }) {
-                @components.Button(components.ButtonProps{Variant: components.ButtonVariantOutline}) {
-                    Click
-                }
-            }
-            @components.PopoverContent(components.PopoverContentProps{
-                ID: "click-popover",
-            }) {
-                @components.PopoverHeader() {
-                    Header
-                }
-                <div class="p-2 space-y-1">
-                    <p>Popover content </p>
-                    <p>Popover content </p>
-                    <p>Popover content </p>
-                </div>
-            }
-        }
-        @components.Popover() {
-            @components.PopoverTrigger(components.PopoverTriggerProps{
-                ID: "no-clickaway-popover",
-                TriggerType: components.PopoverOnClick,
-            }) {
-                @components.Button(components.ButtonProps{Variant: components.ButtonVariantOutline}) {
-                    No ClickAway
-                }
-            }
-            @components.PopoverContent(components.PopoverContentProps{
-                ID: "no-clickaway-popover",
-                DisableClickAway: true,
-            }) {
-                @components.PopoverHeader() {
-                    Header
-                }
-                <div class="p-2 space-y-1">
-                    <p>Popover content </p>
-                    <p>Popover content </p>
-                    <p>Popover content </p>
-                </div>
-            }
-        }
-
-        @components.Popover() {
-            @components.PopoverTrigger(components.PopoverTriggerProps{
-                ID: "no-clickaway-esc",
-                TriggerType: components.PopoverOnClick,
-            }) {
-                @components.Button(components.ButtonProps{Variant: components.ButtonVariantOutline}) {
-                    No ClickAway-ESC
-                }
-            }
-            @components.PopoverContent(components.PopoverContentProps{
-                ID: "no-clickaway-esc",
-                DisableClickAway: true,
-                DisableESC: true,
-            }) {
-                @components.PopoverHeader() {
-                    Header
-                }
-                <div class="p-2 space-y-1">
-                    <p>Popover content </p>
-                    <p>Popover content </p>
-                    <p>Popover content </p>
-                </div>
-            }
-        }
+		@components.Popover() {
+			@components.PopoverTrigger(components.PopoverTriggerProps{
+				ID:          "hover-popover",
+				TriggerType: components.PopoverTriggerTypeHover,
+			}) {
+				@components.Button(components.ButtonProps{Variant: components.ButtonVariantOutline}) {
+					Hover
+				}
+			}
+			@components.PopoverContent(components.PopoverContentProps{
+				ID:    "hover-popover",
+				Class: "w-full min-w-2xs",
+			}) {
+				@PopoverContent()
+			}
+		}
+		@components.Popover() {
+			@components.PopoverTrigger(components.PopoverTriggerProps{
+				ID: "click-popover",
+			}) {
+				@components.Button(components.ButtonProps{Variant: components.ButtonVariantOutline}) {
+					Click
+				}
+			}
+			@components.PopoverContent(components.PopoverContentProps{
+				ID:    "click-popover",
+				Class: "w-full min-w-2xs",
+			}) {
+				@PopoverContent()
+			}
+		}
+		@components.Popover() {
+			@components.PopoverTrigger(components.PopoverTriggerProps{
+				ID: "no-clickaway-popover",
+			}) {
+				@components.Button(components.ButtonProps{Variant: components.ButtonVariantOutline}) {
+					No ClickAway
+				}
+			}
+			@components.PopoverContent(components.PopoverContentProps{
+				ID:               "no-clickaway-popover",
+				DisableClickAway: true,
+				Class:            "w-full min-w-2xs",
+			}) {
+				@PopoverContent()
+			}
+		}
+		@components.Popover() {
+			@components.PopoverTrigger(components.PopoverTriggerProps{
+				ID: "no-clickaway-esc",
+			}) {
+				@components.Button(components.ButtonProps{Variant: components.ButtonVariantOutline}) {
+					No ClickAway-ESC
+				}
+			}
+			@components.PopoverContent(components.PopoverContentProps{
+				ID:               "no-clickaway-esc",
+				DisableClickAway: true,
+				DisableESC:       true,
+				Class:            "w-full min-w-2xs",
+			}) {
+				@PopoverContent()
+			}
+		}
 	</div>
 }

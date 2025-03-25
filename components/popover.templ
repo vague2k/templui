@@ -1,6 +1,7 @@
 package components
 
 import "github.com/axzilla/templui/utils"
+import "fmt"
 
 type PopoverPlacement string
 
@@ -14,26 +15,12 @@ const (
 type PopoverTriggerType string
 
 const (
-	PopoverOnHover PopoverTriggerType = "hover"
-	PopoverOnClick PopoverTriggerType = "click"
+	PopoverTriggerTypeHover PopoverTriggerType = "hover"
+	PopoverTriggerTypeClick PopoverTriggerType = "click"
 )
 
-type PopoverVariant string
-
-const (
-	PopoverDefault     PopoverVariant = "default"
-	PopoverSecondary   PopoverVariant = "secondary"
-	PopoverDestructive PopoverVariant = "destructive"
-)
-
-type PopoverContentProps struct {
-	ID               string
-	Placement        PopoverPlacement
-	Variant          PopoverVariant
-	Class            string
-	ContainerClass   string
-	DisableClickAway bool
-	DisableESC       bool
+type PopoverProps struct {
+	Class string
 }
 
 type PopoverTriggerProps struct {
@@ -41,15 +28,168 @@ type PopoverTriggerProps struct {
 	TriggerType PopoverTriggerType
 }
 
-type PopoverHeaderProps struct {
-	Variant PopoverVariant
-	Class   string
+type PopoverContentProps struct {
+	ID               string
+	Class            string
+	Attributes       templ.Attributes
+	Placement        PopoverPlacement
+	ContainerClass   string
+	DisableClickAway bool
+	DisableESC       bool
 }
 
-type PopoverProps struct {
-    Class   string
+templ PopoverTrigger(props ...PopoverTriggerProps) {
+	{{ var p PopoverTriggerProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
+	if p.TriggerType == "" {
+		{{ p.TriggerType = PopoverTriggerTypeClick }}
+	}
+	<span
+		x-data="popoverTrigger"
+		data-popover-id={ p.ID }
+		data-popover-trigger={ string(p.TriggerType) }
+		@mouseenter="openPopover"
+		@mouseleave="closePopover"
+		@focus="openPopover"
+		@blur="closePopover"
+		@click="togglePopover"
+	>
+		{ children... }
+	</span>
 }
 
+templ Popover(props ...PopoverProps) {
+	{{ var p PopoverProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
+	<div class={ utils.TwMerge("relative", p.Class) }>
+		{ children... }
+	</div>
+}
+
+templ PopoverContent(props ...PopoverContentProps) {
+	{{ var p PopoverContentProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
+	if p.Placement == "" {
+		{{ p.Placement = PopoverBottom }}
+	}
+	<div
+		x-data="popover"
+		x-on:open-popover.window="handleOpenPopover"
+		x-on:close-popover.window="handleClosePopover"
+		x-on:toggle-popover.window="handleTogglePopover"
+		data-popover-id={ p.ID }
+		x-show="open"
+		x-cloak
+		x-transition:enter="transition ease-out duration-100"
+		x-transition:enter-start="opacity-0 scale-95"
+		x-transition:enter-end="opacity-100 scale-100"
+		x-transition:leave="transition ease-in duration-75"
+		x-transition:leave-start="opacity-100 scale-100"
+		x-transition:leave-end="opacity-0 scale-95"
+		class={
+			utils.TwMerge(
+				"absolute z-50 flex origin-center flex-col items-center justify-center will-change-transform",
+				utils.If(p.Placement == PopoverBottom, "top-full start-1/2 -translate-x-1/2 mt-1"),
+				utils.If(p.Placement == PopoverLeft, "end-full top-1/2 -translate-y-1/2 mr-1"),
+				utils.If(p.Placement == PopoverRight, "start-full top-1/2 -translate-y-1/2 ml-1"),
+				utils.If(p.Placement == PopoverTop, "bottom-full start-1/2 -translate-x-1/2 mb-1"),
+				p.ContainerClass,
+			),
+		}
+	>
+		<div
+			if !p.DisableClickAway {
+				x-on:click.outside="handleClosePopover"
+			}
+			if !p.DisableESC {
+				x-on:keydown.esc.window="handleClosePopover"
+			}
+			class={
+				utils.TwMerge(
+					"bg-background w-full overflow-hidden rounded-lg border transition-opacity text-start text-sm",
+					"overflow-scroll",
+					p.Class,
+				),
+			}
+		>
+			{ children... }
+		</div>
+		<div
+			class={
+				utils.TwMerge(
+					"absolute h-2 w-2 rotate-45 bg-forground",
+					getxArrowClass(p.Placement),
+				),
+			}
+		>dddd</div>
+	</div>
+}
+
+func getxArrowClass(side PopoverPlacement) string {
+	switch side {
+	case PopoverTop:
+		return "bottom-[-4px] left-1/2 -translate-x-1/2"
+	case PopoverRight:
+		return "left-[-4px] top-1/2 -translate-y-1/2"
+	case PopoverBottom:
+		return "top-[-4px] left-1/2 -translate-x-1/2"
+	case PopoverLeft:
+		return "right-[-4px] top-1/2 -translate-y-1/2"
+	default:
+		return "bottom-[-4px] left-1/2 -translate-x-1/2"
+	}
+}
+
+// templ getArrowElement(placement PopoverPlacement) {
+// 	switch placement {
+// 		case PopoverTop:
+// 			// Top placement: arrow: ▼
+// 			<div
+// 				class={ utils.TwMerge("relative z-10 -mt-px h-0 w-0 flex-none border-e-8 border-s-8 border-t-8 border-e-transparent border-s-transparent border-t"), }
+// 				aria-hidden="true"
+// 			></div>
+// 			<div
+// 				class={ "relative z-0 -mb-[9px] h-0 w-0 flex-none border-e-8 border-s-8 border-t-8 border-e-transparent border-s-transparent border-t " }
+// 				aria-hidden="true"
+// 			></div>
+// 		case PopoverBottom:
+// 			// Bottom placement: arrow: ▲
+// 			<div
+// 				class={ utils.TwMerge("relative z-10 -mt-px h-0 w-0 flex-none border-e-8 border-s-8 border-b-8 border-e-transparent border-s-transparent border-b") }
+// 				aria-hidden="true"
+// 			></div>
+// 			<div
+// 				class={ "relative z-0 -mt-[9px] h-0 w-0 flex-none border-e-8 border-s-8 border-b-8 border-e-transparent border-s-transparent border-b " }
+// 				aria-hidden="true"
+// 			></div>
+// 		case PopoverLeft:
+// 			// Left placement: arrow: ►
+// 			<div
+// 				class={ utils.TwMerge("relative z-10 -ml-px -mb-[16px] h-0 w-0 flex-none border-t-8 border-b-8 border-l-8 border-t-transparent border-b-transparent border-l") }
+// 				aria-hidden="true"
+// 			></div>
+// 			<div
+// 				class={ "relative z-0 -mr-px h-0 w-0 flex-none border-t-8 border-b-8 border-l-8 border-t-transparent border-b-transparent border-l " }
+// 				aria-hidden="true"
+// 			></div>
+// 		case PopoverRight:
+// 			// Right placement: arrow: ◄
+// 			<div
+// 				class={ utils.TwMerge("relative z-10 -mr-px -mb-[16px] h-0 w-0 flex-none border-t-8 border-b-8 border-r-8 border-t-transparent border-b-transparent border-r") }
+// 				aria-hidden="true"
+// 			></div>
+// 			<div
+// 				class={ "relative z-0 -ml-[8px] h-0 w-0 flex-none border-t-8 border-b-8 border-r-8 border-t-transparent border-b-transparent border-r " }
+// 				aria-hidden="true"
+// 			></div>
+// 	}
+// }
 templ PopoverScript() {
 	{{ handler := templ.NewOnceHandle() }}
 	@handler.Once() {
@@ -79,14 +219,14 @@ templ PopoverScript() {
 
                 Alpine.data('popoverTrigger', () => ({
                     openPopover() {
-                        if (this.$el.dataset.popoverTrigger != "click"){
+                        if (this.$el.dataset.popoverTrigger === "hover"){
                             this.$dispatch('open-popover', {
                                 id: this.$el.dataset.popoverId
                             })
                         }
                     },
                     closePopover() {
-                        if (this.$el.dataset.popoverTrigger != "click"){
+                        if (this.$el.dataset.popoverTrigger === "hover"){
                             this.$dispatch('close-popover', {
                                 id: this.$el.dataset.popoverId
                             })
@@ -100,175 +240,5 @@ templ PopoverScript() {
                 }))
             })
         </script>
-	}
-}
-
-templ PopoverTrigger(props PopoverTriggerProps) {
-    if props.TriggerType == "" {
-        {{ props.TriggerType = "default" }}
-    }
-	<span
-		x-data="popoverTrigger"
-		data-popover-id={ props.ID }
-		data-popover-trigger={ string(props.TriggerType) }
-		@mouseenter="openPopover"
-		@mouseleave="closePopover"
-		@focus="openPopover"
-		@blur="closePopover"
-		@click="togglePopover"
-	>
-		{ children... }
-	</span>
-}
-
-templ Popover(props ...PopoverProps) {
-    if len(props) == 0 {
-      {{ props = []PopoverProps{PopoverProps{}} }}
-    }
-	<div class={"relative "+ props[0].Class}>
-		{ children... }
-	</div>
-}
-
-templ PopoverHeader(props ...PopoverHeaderProps) {
-    if len(props) == 0 {
-     {{ props = []PopoverHeaderProps{PopoverHeaderProps{}} }}
-    }
-    if props[0].Variant == "" {
-        {{ props[0].Variant = PopoverDefault }}
-    }
-	<h4
-		class={ utils.TwMerge("border-b px-3 py-2 font-medium",
-                    utils.If(props[0].Variant==PopoverDefault, "bg-secondary"),
-                    utils.If(props[0].Variant==PopoverSecondary, "bg-background"),
-                    utils.If(props[0].Variant==PopoverDestructive, "bg-destructive"),
-                    props[0].Class,
-                ) }
-	>
-		{ children... }
-	</h4>
-}
-
-
-templ PopoverContent(props PopoverContentProps) {
-    if props.Variant == "" {
-        {{ props.Variant = PopoverDefault }}
-    }
-    if props.Placement == "" {
-        {{ props.Placement = PopoverBottom }}
-    }
-	<div
-		x-data="popover"
-		x-on:open-popover.window="handleOpenPopover"
-		x-on:close-popover.window="handleClosePopover"
-		x-on:toggle-popover.window="handleTogglePopover"
-		data-popover-id={ props.ID }
-		x-show="open"
-		x-cloak
-		x-transition:enter="transition ease-out duration-100"
-		x-transition:enter-start="opacity-0 scale-95"
-		x-transition:enter-end="opacity-100 scale-100"
-		x-transition:leave="transition ease-in duration-75"
-		x-transition:leave-start="opacity-100 scale-100"
-		x-transition:leave-end="opacity-0 scale-95"
-		class={ utils.TwMerge("absolute z-50 flex w-56 origin-center flex-col items-center justify-center will-change-transform",
-        	    utils.If(props.Placement==PopoverBottom, "top-full start-1/2 -translate-x-1/2 mt-3"),
-        	    utils.If(props.Placement==PopoverLeft, "end-full top-1/2 -translate-y-1/2 mr-3"),
-        	    utils.If(props.Placement==PopoverRight, "start-full top-1/2 -translate-y-1/2 ml-3"),
-        	    utils.If(props.Placement==PopoverTop, "bottom-full start-1/2 -translate-x-1/2 mb-3"),
-        	    props.ContainerClass,
-        	  ) }
-	>
-		<div
-			if !props.DisableClickAway {
-				x-on:click.outside="handleClosePopover"
-			}
-			if !props.DisableESC {
-				x-on:keydown.esc.window="handleClosePopover"
-			}
-			class={ utils.TwMerge("w-full overflow-hidden rounded-lg border transition-opacity text-start text-sm",
-                        utils.If(props.Variant==PopoverDefault, "bg-background"),
-                        utils.If(props.Variant==PopoverSecondary, "bg-secondary"),
-                        utils.If(props.Variant==PopoverDestructive, "bg-background border-destructive"),
-                        props.Class,
-                    ) }
-		>
-			{ children... }
-		</div>
-		<div
-			class={ utils.TwMerge("absolute",
-                            utils.If(props.Placement==PopoverTop, "top-full left-1/2 -translate-x-1/2"),
-                            utils.If(props.Placement==PopoverBottom, "bottom-full left-1/2 -translate-x-1/2"),
-                            utils.If(props.Placement==PopoverLeft, "left-full top-1/2 -translate-y-1/2"),
-                            utils.If(props.Placement==PopoverRight, "right-full top-1/2 -translate-y-1/2"),
-                       ) }
-		>
-			@getArrowElement(props.Placement, props.Variant)
-		</div>
-	</div>
-}
-
-templ getArrowElement(placement PopoverPlacement, variant PopoverVariant) {
-	switch placement {
-		case PopoverTop:
-			// Top placement: arrow: ▼
-			<div
-				class={ utils.TwMerge("relative z-10 -mt-px h-0 w-0 flex-none border-e-8 border-s-8 border-t-8 border-e-transparent border-s-transparent border-t",
-                			    utils.If(variant==PopoverDestructive, "border-destructive"),
-                                utils.If(variant==PopoverDefault, "border-secondary"),
-                                utils.If(variant==PopoverSecondary, "border-secondary"),
-                             ) }
-				aria-hidden="true"
-			></div>
-			<div class={"relative z-0 -mb-[9px] h-0 w-0 flex-none border-e-8 border-s-8 border-t-8 border-e-transparent border-s-transparent border-t " +
-                         utils.If(variant==PopoverDestructive, "border-destructive ") +
-                         utils.If(variant==PopoverDefault, "border-secondary ")+
-                         utils.If(variant==PopoverSecondary, "border-secondary ")}
-			aria-hidden="true"></div>
-		case PopoverBottom:
-			// Bottom placement: arrow: ▲
-			<div
-				class={ utils.TwMerge("relative z-10 -mt-px h-0 w-0 flex-none border-e-8 border-s-8 border-b-8 border-e-transparent border-s-transparent border-b",
-			                utils.If(variant==PopoverDestructive, "border-destructive"),
-			                utils.If(variant==PopoverDefault, "border-secondary"),
-			                utils.If(variant==PopoverSecondary, "border-secondary"),
-			            ) }
-				aria-hidden="true"
-			></div>
-			<div class={ "relative z-0 -mt-[9px] h-0 w-0 flex-none border-e-8 border-s-8 border-b-8 border-e-transparent border-s-transparent border-b "+
-			                 utils.If(variant==PopoverDestructive, "border-destructive ") +
-             			     utils.If(variant==PopoverDefault, "border-secondary ")+
-             			     utils.If(variant==PopoverSecondary, "border-secondary ")}
-			    aria-hidden="true"></div>
-		case PopoverLeft:
-			// Left placement: arrow: ►
-			<div
-				class={ utils.TwMerge("relative z-10 -ml-px -mb-[16px] h-0 w-0 flex-none border-t-8 border-b-8 border-l-8 border-t-transparent border-b-transparent border-l",
-			               	utils.If(variant==PopoverDestructive, "border-destructive"),
-                            utils.If(variant==PopoverDefault, "border-secondary ", ),
-                            utils.If(variant==PopoverSecondary,"border-secondary"),
-                        ) }
-				aria-hidden="true"
-			></div>
-			<div class={ "relative z-0 -mr-px h-0 w-0 flex-none border-t-8 border-b-8 border-l-8 border-t-transparent border-b-transparent border-l " +
-                             utils.If(variant==PopoverDestructive, "border-destructive ") +
-                             utils.If(variant==PopoverDefault, "border-secondary ")+
-                             utils.If(variant==PopoverSecondary, "border-secondary ")}
-			aria-hidden="true"></div>
-		case PopoverRight:
-			// Right placement: arrow: ◄
-			<div
-				class={ utils.TwMerge("relative z-10 -mr-px -mb-[16px] h-0 w-0 flex-none border-t-8 border-b-8 border-r-8 border-t-transparent border-b-transparent border-r",
-			            	 utils.If(variant==PopoverDestructive, "border-destructive"),
-                             utils.If(variant==PopoverDefault, "border-secondary"),
-                             utils.If(variant==PopoverSecondary, "border-secondary"),
-                         ) }
-				aria-hidden="true"
-			></div>
-			<div class={ "relative z-0 -ml-[8px] h-0 w-0 flex-none border-t-8 border-b-8 border-r-8 border-t-transparent border-b-transparent border-r " +
-                             utils.If(variant==PopoverDestructive, "border-destructive ") +
-                             utils.If(variant==PopoverDefault, "border-secondary ")+
-                             utils.If(variant==PopoverSecondary, "border-secondary ")}
-			aria-hidden="true"></div>
 	}
 }

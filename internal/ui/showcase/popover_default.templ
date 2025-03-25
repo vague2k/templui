@@ -3,28 +3,60 @@ package showcase
 import "github.com/axzilla/templui/components"
 
 templ PopoverDefault() {
-	@components.Popover() {
+	@components.Popover(
+		components.PopoverProps{},
+	) {
 		@components.PopoverTrigger(components.PopoverTriggerProps{
 			ID: "default-popover",
 		}) {
-			@components.Button(components.ButtonProps{}) {
-				Default
+			@components.Button(components.ButtonProps{
+				Variant: components.ButtonVariantOutline,
+			}) {
+				Open Popover
 			}
 		}
 		@components.PopoverContent(components.PopoverContentProps{
-			ID: "default-popover",
+			ID:    "default-popover",
+			Class: "w-full min-w-2xs",
 		}) {
-			@components.PopoverHeader() {
-				Header
-			}
-			<div class="p-2 space-y-1">
-				<p>Popover content </p>
-				<p>Popover content </p>
-				<p>Popover content </p>
-				<p>Popover content </p>
-				<p>Popover content </p>
-				<p>Popover content </p>
-			</div>
+			@PopoverContent()
 		}
 	}
+}
+
+templ PopoverContent() {
+	<div class="p-4 space-y-4 min-w-2xs">
+		<div>
+			<h3 class="text-lg font-semibold">Dimensions</h3>
+			<p>Set the dimensions for the layer.</p>
+		</div>
+		<div class="flex flex-col gap-2">
+			<div class="grid grid-cols-3 items-center gap-2">
+				@components.Label(components.LabelProps{
+					For: "width",
+				}) {
+					Width
+				}
+				@components.Input(components.InputProps{
+					ID:          "width",
+					Placeholder: "Width",
+					Value:       "100%",
+					Class:       "col-span-2",
+				})
+			</div>
+			<div class="grid grid-cols-3 items-center gap-2">
+				@components.Label(components.LabelProps{
+					For: "height",
+				}) {
+					Height
+				}
+				@components.Input(components.InputProps{
+					ID:          "height",
+					Placeholder: "Height",
+					Value:       "100%",
+					Class:       "col-span-2",
+				})
+			</div>
+		</div>
+	</div>
 }

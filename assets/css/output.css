@@ -322,6 +322,9 @@
   .top-\[-4px\] {
     top: -4px;
   }
+  .top-\[-40px\] {
+    top: -40px;
+  }
   .top-full {
     top: 100%;
   }
@@ -346,8 +349,14 @@
   .bottom-4 {
     bottom: calc(var(--spacing) * 4);
   }
+  .bottom-\[-04px\] {
+    bottom: -04px;
+  }
   .bottom-\[-4px\] {
     bottom: -4px;
+  }
+  .bottom-\[-40px\] {
+    bottom: -40px;
   }
   .bottom-full {
     bottom: 100%;
@@ -373,6 +382,9 @@
   .left-full {
     left: 100%;
   }
+  .z-0 {
+    z-index: 0;
+  }
   .z-10 {
     z-index: 10;
   }
@@ -390,6 +402,9 @@
   }
   .z-\[9999\] {
     z-index: 9999;
+  }
+  .z-\[hK�P�-h�m����\16 \~���\11 \1e ߧ\4 B3�\6 \1a 㔛\] {
+    z-index: hK�P�-h�m����~���ߧB3�㔛;
   }
   .col-span-2 {
     grid-column: span 2 / span 2;
@@ -415,6 +430,9 @@
   .m-7 {
     margin: calc(var(--spacing) * 7);
   }
+  .m-9 {
+    margin: calc(var(--spacing) * 9);
+  }
   .-mx-1 {
     margin-inline: calc(var(--spacing) * -1);
   }
@@ -432,6 +450,12 @@
   }
   .my-auto {
     margin-block: auto;
+  }
+  .-mt-\[9px\] {
+    margin-top: calc(9px * -1);
+  }
+  .-mt-px {
+    margin-top: -1px;
   }
   .mt-1 {
     margin-top: calc(var(--spacing) * 1);
@@ -451,6 +475,9 @@
   .mt-auto {
     margin-top: auto;
   }
+  .-mr-px {
+    margin-right: -1px;
+  }
   .mr-1 {
     margin-right: calc(var(--spacing) * 1);
   }
@@ -459,6 +486,12 @@
   }
   .mr-3 {
     margin-right: calc(var(--spacing) * 3);
+  }
+  .-mb-\[9px\] {
+    margin-bottom: calc(9px * -1);
+  }
+  .-mb-\[16px\] {
+    margin-bottom: calc(16px * -1);
   }
   .mb-1 {
     margin-bottom: calc(var(--spacing) * 1);
@@ -483,6 +516,12 @@
   }
   .mb-16 {
     margin-bottom: calc(var(--spacing) * 16);
+  }
+  .-ml-\[8px\] {
+    margin-left: calc(8px * -1);
+  }
+  .-ml-px {
+    margin-left: -1px;
   }
   .ml-1 {
     margin-left: calc(var(--spacing) * 1);
@@ -549,6 +588,9 @@
     width: calc(var(--spacing) * 4);
     height: calc(var(--spacing) * 4);
   }
+  .h-0 {
+    height: calc(var(--spacing) * 0);
+  }
   .h-1 {
     height: calc(var(--spacing) * 1);
   }
@@ -599,9 +641,6 @@
   }
   .h-\[1px\] {
     height: 1px;
-  }
-  .h-\[10rem\] {
-    height: 10rem;
   }
   .h-\[200px\] {
     height: 200px;
@@ -726,9 +765,6 @@
   .w-\[1px\] {
     width: 1px;
   }
-  .w-\[600px\] {
-    width: 600px;
-  }
   .w-auto {
     width: auto;
   }
@@ -780,9 +816,6 @@
   .min-w-\[8rem\] {
     min-width: 8rem;
   }
-  .min-w-\[500px\] {
-    min-width: 500px;
-  }
   .min-w-lg {
     min-width: var(--container-lg);
   }
@@ -797,6 +830,9 @@
   }
   .flex-1 {
     flex: 1;
+  }
+  .flex-none {
+    flex: none;
   }
   .flex-shrink {
     flex-shrink: 1;
@@ -1193,17 +1229,37 @@
     border-style: var(--tw-border-style);
     border-width: 5px;
   }
+  .border-s-8 {
+    border-inline-start-style: var(--tw-border-style);
+    border-inline-start-width: 8px;
+  }
+  .border-e-8 {
+    border-inline-end-style: var(--tw-border-style);
+    border-inline-end-width: 8px;
+  }
   .border-t {
     border-top-style: var(--tw-border-style);
     border-top-width: 1px;
+  }
+  .border-t-8 {
+    border-top-style: var(--tw-border-style);
+    border-top-width: 8px;
   }
   .border-r {
     border-right-style: var(--tw-border-style);
     border-right-width: 1px;
   }
+  .border-r-8 {
+    border-right-style: var(--tw-border-style);
+    border-right-width: 8px;
+  }
   .border-b {
     border-bottom-style: var(--tw-border-style);
     border-bottom-width: 1px;
+  }
+  .border-b-8 {
+    border-bottom-style: var(--tw-border-style);
+    border-bottom-width: 8px;
   }
   .border-l {
     border-left-style: var(--tw-border-style);
@@ -1212,6 +1268,10 @@
   .border-l-4 {
     border-left-style: var(--tw-border-style);
     border-left-width: 4px;
+  }
+  .border-l-8 {
+    border-left-style: var(--tw-border-style);
+    border-left-width: 8px;
   }
   .border-dashed {
     --tw-border-style: dashed;
@@ -1243,8 +1303,20 @@
   .border-primary {
     border-color: var(--primary);
   }
+  .border-secondary {
+    border-color: var(--secondary);
+  }
   .border-transparent {
     border-color: transparent;
+  }
+  .border-s-transparent {
+    border-inline-start-color: transparent;
+  }
+  .border-e-transparent {
+    border-inline-end-color: transparent;
+  }
+  .border-t-transparent {
+    border-top-color: transparent;
   }
   .border-b-transparent {
     border-bottom-color: transparent;

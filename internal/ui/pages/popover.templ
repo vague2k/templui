@@ -27,28 +27,20 @@ templ Popover() {
 				NeedsHandler:  true,
 				PropsExample:  "...",
 			})
-
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
-                @modules.ExampleWrapper(modules.ExampleWrapperProps{
-                               SectionName:       "Trigger & Closing",
-                               ShowcaseFile:      showcase.PopoverTriggers(),
-                               PreviewCodeFile:   "popover_triggers.templ",
-                               ComponentCodeFile: "popover.templ",
-                })
-
-                @modules.ExampleWrapper(modules.ExampleWrapperProps{
-                    SectionName:       "Variants",
-                    ShowcaseFile:      showcase.PopoverVariants(),
-                    PreviewCodeFile:   "popover_variants.templ",
-                    ComponentCodeFile: "popover.templ",
-                })
-                @modules.ExampleWrapper(modules.ExampleWrapperProps{
-                    SectionName:       "Positions",
-                    ShowcaseFile:      showcase.PopoverPositions(),
-                    PreviewCodeFile:   "popover_positions.templ",
-                    ComponentCodeFile: "popover.templ",
-                })
-            }
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Trigger & Closing",
+					ShowcaseFile:      showcase.PopoverTriggers(),
+					PreviewCodeFile:   "popover_triggers.templ",
+					ComponentCodeFile: "popover.templ",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "Positions",
+					ShowcaseFile:      showcase.PopoverPositions(),
+					PreviewCodeFile:   "popover_positions.templ",
+					ComponentCodeFile: "popover.templ",
+				})
+			}
 		}
 	}
 }
