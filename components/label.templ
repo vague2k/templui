@@ -45,56 +45,88 @@ templ LabelScript() {
 	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
+			// Inside LabelScript
 			document.addEventListener('DOMContentLoaded', function() {
-				function updateLabelStyles() {
-					// Find all labels that are connected to form elements
-					document.querySelectorAll('label[for]').forEach(function(label) {
-						const forId = label.getAttribute('for');
-						const element = document.getElementById(forId);
+			  // Label click handler - automatically works for standard inputs
+			  // For buttons, we only need to add a click handler
+			  document.querySelectorAll('label[for]').forEach(function(label) {
+				label.addEventListener('click', function(e) {
+				  // Get the for-ID at the time of the click, not during initialization
+				  const forId = this.getAttribute('for');
+				  
+				  // Find the target element with the corresponding ID
+				  const targetElement = document.getElementById(forId);
+				  
+				  // If the target element is a button, process the click
+				  if (targetElement && targetElement.tagName === 'BUTTON') {
+					// Prevent the default label behavior
+					e.preventDefault();
+					
+					// Stop event propagation to avoid duplicate clicks
+					e.stopPropagation();
+					
+					if (!targetElement.disabled) {
+					  // Ensure the button receives focus
+					  targetElement.focus();
+					  
+					  // Slightly delay the click to avoid event conflicts
+					  setTimeout(function() {
+						// Create a new click event for the button
+						const clickEvent = new MouseEvent('click', {
+						  bubbles: true,
+						  cancelable: true,
+						  view: window
+						});
 						
-						if (element && element.disabled) {
-							// Element is disabled, apply disabled style
-							const disabledStyle = label.getAttribute('data-disabled-style') || 'opacity-50 cursor-not-allowed';
-							
-							// Add classes from disabled style
-							disabledStyle.split(' ').forEach(function(className) {
-								if (className) {
-									label.classList.add(className);
-								}
-							});
-						} else {
-							// Element is not disabled, remove disabled style
-							const disabledStyle = label.getAttribute('data-disabled-style') || 'opacity-50 cursor-not-allowed';
-							
-							// Remove classes from disabled style
-							disabledStyle.split(' ').forEach(function(className) {
-								if (className) {
-									label.classList.remove(className);
-								}
-							});
-						}
+						// Dispatch the click event on the button
+						targetElement.dispatchEvent(clickEvent);
+					  }, 10);
+					}
+				  }
+				});
+				
+				// Disabled style handler
+				function updateLabelStyle(label) {
+				  const forId = label.getAttribute('for');
+				  const targetElement = document.getElementById(forId);
+				  
+				  if (targetElement && targetElement.disabled) {
+					// Retrieve the custom disabled style or use the default
+					const disabledStyle = label.getAttribute('data-disabled-style') || 'opacity-50 cursor-not-allowed';
+					disabledStyle.split(' ').forEach(function(className) {
+					  if (className) {
+						label.classList.add(className);
+					  }
 					});
+				  } else {
+					// Remove the disabled style
+					const disabledStyle = label.getAttribute('data-disabled-style') || 'opacity-50 cursor-not-allowed';
+					disabledStyle.split(' ').forEach(function(className) {
+					  if (className) {
+						label.classList.remove(className);
+					  }
+					});
+				  }
 				}
 				
-				// Run once on load
-				updateLabelStyles();
+				// Update the initial style
+				updateLabelStyle(label);
 				
-				// Set up mutation observer to watch for disabled attribute changes
-				const observer = new MutationObserver(function(mutations) {
-					mutations.forEach(function(mutation) {
-						if (mutation.type === 'attributes' && mutation.attributeName === 'disabled') {
-							updateLabelStyles();
-						}
-					});
-				});
+				// Create a MutationObserver for this specific label
+				const forId = label.getAttribute('for');
+				const targetElement = document.getElementById(forId);
 				
-				// Observe all form elements for disabled attribute changes
-				document.querySelectorAll('input, select, textarea, button').forEach(function(element) {
-					observer.observe(element, { attributes: true });
-				});
-				
-				// Also update on any change events in the form
-				document.addEventListener('change', updateLabelStyles);
+				if (targetElement) {
+				  const observer = new MutationObserver(function() {
+					updateLabelStyle(label);
+				  });
+				  
+				  observer.observe(targetElement, { 
+					attributes: true, 
+					attributeFilter: ['disabled'] 
+				  });
+				}
+			  });
 			});
 		</script>
 	}

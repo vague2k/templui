@@ -259,7 +259,7 @@ func SelectTrigger(props ...SelectTriggerProps) templ.Component {
 			return nil
 		})
 		templ_7745c5c3_Err = Button(ButtonProps{
-			ID:      p.ID + "-trigger",
+			ID:      p.ID,
 			Type:    "button",
 			Variant: ButtonVariantOutline,
 			Class: utils.TwMerge(

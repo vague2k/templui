@@ -79,7 +79,7 @@ templ SelectTrigger(props ...SelectTriggerProps) {
 		{{ p = props[0] }}
 	}
 	@Button(ButtonProps{
-		ID:      p.ID + "-trigger",
+		ID:      p.ID,
 		Type:    "button",
 		Variant: ButtonVariantOutline,
 		Class: utils.TwMerge(
