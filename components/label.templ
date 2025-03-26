@@ -55,7 +55,7 @@ templ LabelScript() {
 				  const forId = this.getAttribute('for');
 				  
 				  // Find the target element with the corresponding ID
-				  const targetElement = document.getElementById(forId);
+				  const targetElement = document.getElementById(forId + '-trigger');
 				  
 				  // If the target element is a button, process the click
 				  if (targetElement && targetElement.tagName === 'BUTTON') {
