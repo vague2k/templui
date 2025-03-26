@@ -15,7 +15,7 @@ templ PopoverPositions() {
 			@components.PopoverContent(components.PopoverContentProps{
 				ID:        "top-popover",
 				Placement: components.PopoverTop,
-				Class:     "w-full min-w-2xs",
+				ShowArrow: true,
 			}) {
 				@PopoverContent()
 			}
@@ -31,7 +31,7 @@ templ PopoverPositions() {
 			@components.PopoverContent(components.PopoverContentProps{
 				ID:        "right-popover",
 				Placement: components.PopoverRight,
-				Class:     "w-full min-w-2xs",
+				ShowArrow: true,
 			}) {
 				@PopoverContent()
 			}
@@ -47,7 +47,7 @@ templ PopoverPositions() {
 			@components.PopoverContent(components.PopoverContentProps{
 				ID:        "bottom-popover",
 				Placement: components.PopoverBottom,
-				Class:     "w-full min-w-2xs",
+				ShowArrow: true,
 			}) {
 				@PopoverContent()
 			}
@@ -63,6 +63,7 @@ templ PopoverPositions() {
 			@components.PopoverContent(components.PopoverContentProps{
 				ID:        "left-popover",
 				Placement: components.PopoverLeft,
+				ShowArrow: true,
 			}) {
 				@PopoverContent()
 			}

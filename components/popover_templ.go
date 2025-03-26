@@ -9,7 +9,6 @@ import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
 import "github.com/axzilla/templui/utils"
-import "fmt"
 
 type PopoverPlacement string
 
@@ -44,6 +43,7 @@ type PopoverContentProps struct {
 	ContainerClass   string
 	DisableClickAway bool
 	DisableESC       bool
+	ShowArrow        bool
 }
 
 func PopoverTrigger(props ...PopoverTriggerProps) templ.Component {
@@ -206,10 +206,7 @@ func PopoverContent(props ...PopoverContentProps) templ.Component {
 		var templ_7745c5c3_Var8 = []any{
 			utils.TwMerge(
 				"absolute z-50 flex origin-center flex-col items-center justify-center will-change-transform",
-				utils.If(p.Placement == PopoverBottom, "top-full start-1/2 -translate-x-1/2 mt-1"),
-				utils.If(p.Placement == PopoverLeft, "end-full top-1/2 -translate-y-1/2 mr-1"),
-				utils.If(p.Placement == PopoverRight, "start-full top-1/2 -translate-y-1/2 ml-1"),
-				utils.If(p.Placement == PopoverTop, "bottom-full start-1/2 -translate-x-1/2 mb-1"),
+				popoverContentClass(p.Placement, p.ShowArrow),
 				p.ContainerClass,
 			),
 		}
@@ -299,30 +296,36 @@ func PopoverContent(props ...PopoverContentProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var13 = []any{
-			utils.TwMerge(
-				"absolute h-2 w-2 rotate-45 bg-forground",
-				getxArrowClass(p.Placement),
-			),
+		if p.ShowArrow {
+			var templ_7745c5c3_Var13 = []any{
+				utils.TwMerge(
+					"absolute h-2 w-2 rotate-45 bg-background",
+					popoverArrowClass(p.Placement),
+				),
+			}
+			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var13...)
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "<div class=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var14 string
+			templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var13).String())
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/popover.templ`, Line: 1, Col: 0}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "\"></div>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
 		}
-		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var13...)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "<div class=\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var14 string
-		templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var13).String())
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/popover.templ`, Line: 1, Col: 0}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "\">dddd</div></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "</div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -330,65 +333,41 @@ func PopoverContent(props ...PopoverContentProps) templ.Component {
 	})
 }
 
-func getxArrowClass(side PopoverPlacement) string {
+func popoverContentClass(side PopoverPlacement, showArrow bool) string {
+	margin := "1"
+	if showArrow {
+		margin = "2"
+	}
+
 	switch side {
 	case PopoverTop:
-		return "bottom-[-4px] left-1/2 -translate-x-1/2"
+		return "bottom-full start-1/2 -translate-x-1/2 mb-" + margin
 	case PopoverRight:
-		return "left-[-4px] top-1/2 -translate-y-1/2"
+		return "start-full top-1/2 -translate-y-1/2 ml-" + margin
 	case PopoverBottom:
-		return "top-[-4px] left-1/2 -translate-x-1/2"
+		return "top-full start-1/2 -translate-x-1/2 mt-" + margin
 	case PopoverLeft:
-		return "right-[-4px] top-1/2 -translate-y-1/2"
+		return "end-full top-1/2 -translate-y-1/2 mr-" + margin
 	default:
-		return "bottom-[-4px] left-1/2 -translate-x-1/2"
+		return "bottom-full start-1/2 -translate-x-1/2 mb-" + margin
 	}
 }
 
-//	templ getArrowElement(placement PopoverPlacement) {
-//		switch placement {
-//			case PopoverTop:
-//				// Top placement: arrow: ▼
-//				<div
-//					class={ utils.TwMerge("relative z-10 -mt-px h-0 w-0 flex-none border-e-8 border-s-8 border-t-8 border-e-transparent border-s-transparent border-t"), }
-//					aria-hidden="true"
-//				></div>
-//				<div
-//					class={ "relative z-0 -mb-[9px] h-0 w-0 flex-none border-e-8 border-s-8 border-t-8 border-e-transparent border-s-transparent border-t " }
-//					aria-hidden="true"
-//				></div>
-//			case PopoverBottom:
-//				// Bottom placement: arrow: ▲
-//				<div
-//					class={ utils.TwMerge("relative z-10 -mt-px h-0 w-0 flex-none border-e-8 border-s-8 border-b-8 border-e-transparent border-s-transparent border-b") }
-//					aria-hidden="true"
-//				></div>
-//				<div
-//					class={ "relative z-0 -mt-[9px] h-0 w-0 flex-none border-e-8 border-s-8 border-b-8 border-e-transparent border-s-transparent border-b " }
-//					aria-hidden="true"
-//				></div>
-//			case PopoverLeft:
-//				// Left placement: arrow: ►
-//				<div
-//					class={ utils.TwMerge("relative z-10 -ml-px -mb-[16px] h-0 w-0 flex-none border-t-8 border-b-8 border-l-8 border-t-transparent border-b-transparent border-l") }
-//					aria-hidden="true"
-//				></div>
-//				<div
-//					class={ "relative z-0 -mr-px h-0 w-0 flex-none border-t-8 border-b-8 border-l-8 border-t-transparent border-b-transparent border-l " }
-//					aria-hidden="true"
-//				></div>
-//			case PopoverRight:
-//				// Right placement: arrow: ◄
-//				<div
-//					class={ utils.TwMerge("relative z-10 -mr-px -mb-[16px] h-0 w-0 flex-none border-t-8 border-b-8 border-r-8 border-t-transparent border-b-transparent border-r") }
-//					aria-hidden="true"
-//				></div>
-//				<div
-//					class={ "relative z-0 -ml-[8px] h-0 w-0 flex-none border-t-8 border-b-8 border-r-8 border-t-transparent border-b-transparent border-r " }
-//					aria-hidden="true"
-//				></div>
-//		}
-//	}
+func popoverArrowClass(side PopoverPlacement) string {
+	switch side {
+	case PopoverTop:
+		return "bottom-[-4px] left-1/2 -translate-x-1/2 border-b border-r"
+	case PopoverRight:
+		return "left-[-4px] top-1/2 -translate-y-1/2 border-b border-l"
+	case PopoverBottom:
+		return "top-[-4px] left-1/2 -translate-x-1/2 border-t border-l"
+	case PopoverLeft:
+		return "right-[-4px] top-1/2 -translate-y-1/2 border-t border-r"
+	default:
+		return "bottom-[-4px] left-1/2 -translate-x-1/2 border-b border-r"
+	}
+}
+
 func PopoverScript() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -423,20 +402,20 @@ func PopoverScript() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "<script defer nonce=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "<script defer nonce=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var17 string
 			templ_7745c5c3_Var17, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/popover.templ`, Line: 196, Col: 43}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/popover.templ`, Line: 171, Col: 43}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var17))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "\">\n            document.addEventListener('alpine:init', () => {\n                Alpine.data('popover', () => ({\n                    open: false,\n\n                    handleOpenPopover(event) {\n                        if (event.detail.id === this.$el.dataset.popoverId) {\n                            this.open = true;\n                        }\n                    },\n\n                    handleClosePopover(event) {\n                        if (event.detail.id === this.$el.dataset.popoverId) {\n                            this.open = false;\n                        }\n                    },\n\n                    handleTogglePopover(event) {\n                        if (event.detail.id === this.$el.dataset.popoverId) {\n                            this.open = !this.open;\n                        }\n                    },\n                }));\n\n                Alpine.data('popoverTrigger', () => ({\n                    openPopover() {\n                        if (this.$el.dataset.popoverTrigger === \"hover\"){\n                            this.$dispatch('open-popover', {\n                                id: this.$el.dataset.popoverId\n                            })\n                        }\n                    },\n                    closePopover() {\n                        if (this.$el.dataset.popoverTrigger === \"hover\"){\n                            this.$dispatch('close-popover', {\n                                id: this.$el.dataset.popoverId\n                            })\n                        }\n                    },\n                    togglePopover() {\n                        this.$dispatch('toggle-popover', {\n                            id: this.$el.dataset.popoverId\n                        })\n                    }\n                }))\n            })\n        </script>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, "\">\n            document.addEventListener('alpine:init', () => {\n                Alpine.data('popover', () => ({\n                    open: false,\n\n                    handleOpenPopover(event) {\n                        if (event.detail.id === this.$el.dataset.popoverId) {\n                            this.open = true;\n                        }\n                    },\n\n                    handleClosePopover(event) {\n                        if (event.detail.id === this.$el.dataset.popoverId) {\n                            this.open = false;\n                        }\n                    },\n\n                    handleTogglePopover(event) {\n                        if (event.detail.id === this.$el.dataset.popoverId) {\n                            this.open = !this.open;\n                        }\n                    },\n                }));\n\n                Alpine.data('popoverTrigger', () => ({\n                    openPopover() {\n                        if (this.$el.dataset.popoverTrigger === \"hover\"){\n                            this.$dispatch('open-popover', {\n                                id: this.$el.dataset.popoverId\n                            })\n                        }\n                    },\n                    closePopover() {\n                        if (this.$el.dataset.popoverTrigger === \"hover\"){\n                            this.$dispatch('close-popover', {\n                                id: this.$el.dataset.popoverId\n                            })\n                        }\n                    },\n                    togglePopover() {\n                        this.$dispatch('toggle-popover', {\n                            id: this.$el.dataset.popoverId\n                        })\n                    }\n                }))\n            })\n        </script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
