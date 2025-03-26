@@ -3,70 +3,236 @@ package showcase
 import "github.com/axzilla/templui/components"
 
 templ PopoverPositions() {
-	<div class="flex gap-2">
-		@components.Popover() {
-			@components.PopoverTrigger(components.PopoverTriggerProps{
-				ID: "top-popover",
-			}) {
-				@components.Button(components.ButtonProps{Variant: components.ButtonVariantOutline}) {
-					Top
+	<div class="flex flex-col w-full max-w-md">
+		<div class="grid grid-cols-3 gap-2">
+			@components.Popover() {
+				@components.PopoverTrigger(components.PopoverTriggerProps{
+					ID: "top-start-popover",
+				}) {
+					@components.Button(components.ButtonProps{
+						Class:   "w-full",
+						Variant: components.ButtonVariantOutline,
+					}) {
+						Top Start
+					}
+				}
+				@components.PopoverContent(components.PopoverContentProps{
+					ID:        "top-start-popover",
+					Placement: components.PopoverTopStart,
+					ShowArrow: true,
+				}) {
+					@PopoverContent()
 				}
 			}
-			@components.PopoverContent(components.PopoverContentProps{
-				ID:        "top-popover",
-				Placement: components.PopoverTop,
-				ShowArrow: true,
-			}) {
-				@PopoverContent()
-			}
-		}
-		@components.Popover() {
-			@components.PopoverTrigger(components.PopoverTriggerProps{
-				ID: "right-popover",
-			}) {
-				@components.Button(components.ButtonProps{Variant: components.ButtonVariantOutline}) {
-					Right
+			@components.Popover() {
+				@components.PopoverTrigger(components.PopoverTriggerProps{
+					ID: "top-popover",
+				}) {
+					@components.Button(components.ButtonProps{
+						Class:   "w-full",
+						Variant: components.ButtonVariantOutline,
+					}) {
+						Top
+					}
+				}
+				@components.PopoverContent(components.PopoverContentProps{
+					ID:        "top-popover",
+					Placement: components.PopoverTop,
+					ShowArrow: true,
+				}) {
+					@PopoverContent()
 				}
 			}
-			@components.PopoverContent(components.PopoverContentProps{
-				ID:        "right-popover",
-				Placement: components.PopoverRight,
-				ShowArrow: true,
-			}) {
-				@PopoverContent()
-			}
-		}
-		@components.Popover() {
-			@components.PopoverTrigger(components.PopoverTriggerProps{
-				ID: "bottom-popover",
-			}) {
-				@components.Button(components.ButtonProps{Variant: components.ButtonVariantOutline}) {
-					Bottom
+			@components.Popover() {
+				@components.PopoverTrigger(components.PopoverTriggerProps{
+					ID: "top-end-popover",
+				}) {
+					@components.Button(components.ButtonProps{
+						Class:   "w-full",
+						Variant: components.ButtonVariantOutline,
+					}) {
+						Top End
+					}
+				}
+				@components.PopoverContent(components.PopoverContentProps{
+					ID:        "top-end-popover",
+					Placement: components.PopoverTopEnd,
+					ShowArrow: true,
+				}) {
+					@PopoverContent()
 				}
 			}
-			@components.PopoverContent(components.PopoverContentProps{
-				ID:        "bottom-popover",
-				Placement: components.PopoverBottom,
-				ShowArrow: true,
-			}) {
-				@PopoverContent()
-			}
-		}
-		@components.Popover() {
-			@components.PopoverTrigger(components.PopoverTriggerProps{
-				ID: "left-popover",
-			}) {
-				@components.Button(components.ButtonProps{Variant: components.ButtonVariantOutline}) {
-					Left
+			@components.Popover() {
+				@components.PopoverTrigger(components.PopoverTriggerProps{
+					ID: "right-start-popover",
+				}) {
+					@components.Button(components.ButtonProps{
+						Class:   "w-full",
+						Variant: components.ButtonVariantOutline,
+					}) {
+						Right Start
+					}
+				}
+				@components.PopoverContent(components.PopoverContentProps{
+					ID:        "right-start-popover",
+					Placement: components.PopoverRightStart,
+					ShowArrow: true,
+				}) {
+					@PopoverContent()
 				}
 			}
-			@components.PopoverContent(components.PopoverContentProps{
-				ID:        "left-popover",
-				Placement: components.PopoverLeft,
-				ShowArrow: true,
-			}) {
-				@PopoverContent()
+			@components.Popover() {
+				@components.PopoverTrigger(components.PopoverTriggerProps{
+					ID: "right-popover",
+				}) {
+					@components.Button(components.ButtonProps{
+						Class:   "w-full",
+						Variant: components.ButtonVariantOutline,
+					}) {
+						Right
+					}
+				}
+				@components.PopoverContent(components.PopoverContentProps{
+					ID:        "right-popover",
+					Placement: components.PopoverRight,
+					ShowArrow: true,
+				}) {
+					@PopoverContent()
+				}
 			}
-		}
+			@components.Popover() {
+				@components.PopoverTrigger(components.PopoverTriggerProps{
+					ID: "right-end-popover",
+				}) {
+					@components.Button(components.ButtonProps{
+						Class:   "w-full",
+						Variant: components.ButtonVariantOutline,
+					}) {
+						Right End
+					}
+				}
+				@components.PopoverContent(components.PopoverContentProps{
+					ID:        "right-end-popover",
+					Placement: components.PopoverRightEnd,
+					ShowArrow: true,
+				}) {
+					@PopoverContent()
+				}
+			}
+			@components.Popover() {
+				@components.PopoverTrigger(components.PopoverTriggerProps{
+					ID: "bottom-start-popover",
+				}) {
+					@components.Button(components.ButtonProps{
+						Class:   "w-full",
+						Variant: components.ButtonVariantOutline,
+					}) {
+						Bottom Start
+					}
+				}
+				@components.PopoverContent(components.PopoverContentProps{
+					ID:        "bottom-start-popover",
+					Placement: components.PopoverBottomStart,
+					ShowArrow: true,
+				}) {
+					@PopoverContent()
+				}
+			}
+			@components.Popover() {
+				@components.PopoverTrigger(components.PopoverTriggerProps{
+					ID: "bottom-popover",
+				}) {
+					@components.Button(components.ButtonProps{
+						Class:   "w-full",
+						Variant: components.ButtonVariantOutline,
+					}) {
+						Bottom
+					}
+				}
+				@components.PopoverContent(components.PopoverContentProps{
+					ID:        "bottom-popover",
+					Placement: components.PopoverBottom,
+					ShowArrow: true,
+				}) {
+					@PopoverContent()
+				}
+			}
+			@components.Popover() {
+				@components.PopoverTrigger(components.PopoverTriggerProps{
+					ID: "bottom-end-popover",
+				}) {
+					@components.Button(components.ButtonProps{
+						Class:   "w-full",
+						Variant: components.ButtonVariantOutline,
+					}) {
+						Bottom End
+					}
+				}
+				@components.PopoverContent(components.PopoverContentProps{
+					ID:        "bottom-end-popover",
+					Placement: components.PopoverBottomEnd,
+					ShowArrow: true,
+				}) {
+					@PopoverContent()
+				}
+			}
+			@components.Popover() {
+				@components.PopoverTrigger(components.PopoverTriggerProps{
+					ID: "left-start-popover",
+				}) {
+					@components.Button(components.ButtonProps{
+						Class:   "w-full",
+						Variant: components.ButtonVariantOutline,
+					}) {
+						Left Start
+					}
+				}
+				@components.PopoverContent(components.PopoverContentProps{
+					ID:        "left-start-popover",
+					Placement: components.PopoverLeftStart,
+					ShowArrow: true,
+				}) {
+					@PopoverContent()
+				}
+			}
+			@components.Popover() {
+				@components.PopoverTrigger(components.PopoverTriggerProps{
+					ID: "left-popover",
+				}) {
+					@components.Button(components.ButtonProps{
+						Class:   "w-full",
+						Variant: components.ButtonVariantOutline,
+					}) {
+						Left
+					}
+				}
+				@components.PopoverContent(components.PopoverContentProps{
+					ID:        "left-popover",
+					Placement: components.PopoverLeft,
+					ShowArrow: true,
+				}) {
+					@PopoverContent()
+				}
+			}
+			@components.Popover() {
+				@components.PopoverTrigger(components.PopoverTriggerProps{
+					ID: "left-end-popover",
+				}) {
+					@components.Button(components.ButtonProps{
+						Class:   "w-full",
+						Variant: components.ButtonVariantOutline,
+					}) {
+						Left End
+					}
+				}
+				@components.PopoverContent(components.PopoverContentProps{
+					ID:        "left-end-popover",
+					Placement: components.PopoverLeftEnd,
+					ShowArrow: true,
+				}) {
+					@PopoverContent()
+				}
+			}
+		</div>
 	</div>
 }

@@ -13,10 +13,18 @@ import "github.com/axzilla/templui/utils"
 type PopoverPlacement string
 
 const (
-	PopoverBottom PopoverPlacement = "bottom"
-	PopoverTop    PopoverPlacement = "top"
-	PopoverLeft   PopoverPlacement = "left"
-	PopoverRight  PopoverPlacement = "right"
+	PopoverTop         PopoverPlacement = "top"
+	PopoverTopStart    PopoverPlacement = "top-start"
+	PopoverTopEnd      PopoverPlacement = "top-end"
+	PopoverRight       PopoverPlacement = "right"
+	PopoverRightStart  PopoverPlacement = "right-start"
+	PopoverRightEnd    PopoverPlacement = "right-end"
+	PopoverBottom      PopoverPlacement = "bottom"
+	PopoverBottomStart PopoverPlacement = "bottom-start"
+	PopoverBottomEnd   PopoverPlacement = "bottom-end"
+	PopoverLeft        PopoverPlacement = "left"
+	PopoverLeftStart   PopoverPlacement = "left-start"
+	PopoverLeftEnd     PopoverPlacement = "left-end"
 )
 
 type PopoverTriggerType string
@@ -81,7 +89,7 @@ func PopoverTrigger(props ...PopoverTriggerProps) templ.Component {
 		var templ_7745c5c3_Var2 string
 		templ_7745c5c3_Var2, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/popover.templ`, Line: 51, Col: 24}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/popover.templ`, Line: 59, Col: 24}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var2))
 		if templ_7745c5c3_Err != nil {
@@ -94,7 +102,7 @@ func PopoverTrigger(props ...PopoverTriggerProps) templ.Component {
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(string(p.TriggerType))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/popover.templ`, Line: 52, Col: 46}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/popover.templ`, Line: 60, Col: 46}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
@@ -221,7 +229,7 @@ func PopoverContent(props ...PopoverContentProps) templ.Component {
 		var templ_7745c5c3_Var9 string
 		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/popover.templ`, Line: 86, Col: 24}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/popover.templ`, Line: 94, Col: 24}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {
@@ -340,14 +348,38 @@ func popoverContentClass(side PopoverPlacement, showArrow bool) string {
 	}
 
 	switch side {
+	// Top placements
 	case PopoverTop:
 		return "bottom-full start-1/2 -translate-x-1/2 mb-" + margin
+	case PopoverTopStart:
+		return "bottom-full start-0 mb-" + margin
+	case PopoverTopEnd:
+		return "bottom-full end-0 mb-" + margin
+
+	// Right placements
 	case PopoverRight:
 		return "start-full top-1/2 -translate-y-1/2 ml-" + margin
+	case PopoverRightStart:
+		return "start-full top-0 ml-" + margin
+	case PopoverRightEnd:
+		return "start-full bottom-0 ml-" + margin
+
+	// Bottom placements
 	case PopoverBottom:
 		return "top-full start-1/2 -translate-x-1/2 mt-" + margin
+	case PopoverBottomStart:
+		return "top-full start-0 mt-" + margin
+	case PopoverBottomEnd:
+		return "top-full end-0 mt-" + margin
+
+	// Left placements
 	case PopoverLeft:
 		return "end-full top-1/2 -translate-y-1/2 mr-" + margin
+	case PopoverLeftStart:
+		return "end-full top-0 mr-" + margin
+	case PopoverLeftEnd:
+		return "end-full bottom-0 mr-" + margin
+
 	default:
 		return "bottom-full start-1/2 -translate-x-1/2 mb-" + margin
 	}
@@ -355,14 +387,38 @@ func popoverContentClass(side PopoverPlacement, showArrow bool) string {
 
 func popoverArrowClass(side PopoverPlacement) string {
 	switch side {
+	// Top placements
 	case PopoverTop:
 		return "bottom-[-4px] left-1/2 -translate-x-1/2 border-b border-r"
+	case PopoverTopStart:
+		return "bottom-[-4px] left-4 border-b border-r"
+	case PopoverTopEnd:
+		return "bottom-[-4px] right-4 border-b border-r"
+
+	// Right placements
 	case PopoverRight:
 		return "left-[-4px] top-1/2 -translate-y-1/2 border-b border-l"
+	case PopoverRightStart:
+		return "left-[-4px] top-4 border-b border-l"
+	case PopoverRightEnd:
+		return "left-[-4px] bottom-4 border-b border-l"
+
+	// Bottom placements
 	case PopoverBottom:
 		return "top-[-4px] left-1/2 -translate-x-1/2 border-t border-l"
+	case PopoverBottomStart:
+		return "top-[-4px] left-4 border-t border-l"
+	case PopoverBottomEnd:
+		return "top-[-4px] right-4 border-t border-l"
+
+	// Left placements
 	case PopoverLeft:
 		return "right-[-4px] top-1/2 -translate-y-1/2 border-t border-r"
+	case PopoverLeftStart:
+		return "right-[-4px] top-4 border-t border-r"
+	case PopoverLeftEnd:
+		return "right-[-4px] bottom-4 border-t border-r"
+
 	default:
 		return "bottom-[-4px] left-1/2 -translate-x-1/2 border-b border-r"
 	}
@@ -409,7 +465,7 @@ func PopoverScript() templ.Component {
 			var templ_7745c5c3_Var17 string
 			templ_7745c5c3_Var17, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/popover.templ`, Line: 171, Col: 43}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/popover.templ`, Line: 227, Col: 43}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var17))
 			if templ_7745c5c3_Err != nil {
