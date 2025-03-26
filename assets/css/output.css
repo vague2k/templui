@@ -357,6 +357,9 @@
   .left-full {
     left: 100%;
   }
+  .z-3 {
+    z-index: 3;
+  }
   .z-10 {
     z-index: 10;
   }
@@ -739,6 +742,12 @@
   }
   .shrink-0 {
     flex-shrink: 0;
+  }
+  .flex-grow {
+    flex-grow: 1;
+  }
+  .grow {
+    flex-grow: 1;
   }
   .caption-bottom {
     caption-side: bottom;
@@ -1277,6 +1286,9 @@
   .object-cover {
     object-fit: cover;
   }
+  .p-0 {
+    padding: calc(var(--spacing) * 0);
+  }
   .p-1 {
     padding: calc(var(--spacing) * 1);
   }
@@ -1686,6 +1698,9 @@
   .select-none {
     -webkit-user-select: none;
     user-select: none;
+  }
+  .\[d\:O\&\] {
+    d: O&;
   }
   .group-hover\:translate-x-0 {
     &:is(:where(.group):hover *) {
@@ -2167,6 +2182,12 @@
         outline: 2px solid transparent;
         outline-offset: 2px;
       }
+    }
+  }
+  .focus-visible\:outline-none {
+    &:focus-visible {
+      --tw-outline-style: none;
+      outline-style: none;
     }
   }
   .disabled\:pointer-events-none {
