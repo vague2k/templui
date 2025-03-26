@@ -10,21 +10,21 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import "github.com/axzilla/templui/utils"
 
-type PopoverPlacement string
+type PopoverPosition string
 
 const (
-	PopoverTop         PopoverPlacement = "top"
-	PopoverTopStart    PopoverPlacement = "top-start"
-	PopoverTopEnd      PopoverPlacement = "top-end"
-	PopoverRight       PopoverPlacement = "right"
-	PopoverRightStart  PopoverPlacement = "right-start"
-	PopoverRightEnd    PopoverPlacement = "right-end"
-	PopoverBottom      PopoverPlacement = "bottom"
-	PopoverBottomStart PopoverPlacement = "bottom-start"
-	PopoverBottomEnd   PopoverPlacement = "bottom-end"
-	PopoverLeft        PopoverPlacement = "left"
-	PopoverLeftStart   PopoverPlacement = "left-start"
-	PopoverLeftEnd     PopoverPlacement = "left-end"
+	PopoverTop         PopoverPosition = "top"
+	PopoverTopStart    PopoverPosition = "top-start"
+	PopoverTopEnd      PopoverPosition = "top-end"
+	PopoverRight       PopoverPosition = "right"
+	PopoverRightStart  PopoverPosition = "right-start"
+	PopoverRightEnd    PopoverPosition = "right-end"
+	PopoverBottom      PopoverPosition = "bottom"
+	PopoverBottomStart PopoverPosition = "bottom-start"
+	PopoverBottomEnd   PopoverPosition = "bottom-end"
+	PopoverLeft        PopoverPosition = "left"
+	PopoverLeftStart   PopoverPosition = "left-start"
+	PopoverLeftEnd     PopoverPosition = "left-end"
 )
 
 type PopoverTriggerType string
@@ -47,7 +47,7 @@ type PopoverContentProps struct {
 	ID               string
 	Class            string
 	Attributes       templ.Attributes
-	Placement        PopoverPlacement
+	Position         PopoverPosition
 	ContainerClass   string
 	DisableClickAway bool
 	DisableESC       bool
@@ -208,13 +208,13 @@ func PopoverContent(props ...PopoverContentProps) templ.Component {
 		if len(props) > 0 {
 			p = props[0]
 		}
-		if p.Placement == "" {
-			p.Placement = PopoverBottom
+		if p.Position == "" {
+			p.Position = PopoverBottom
 		}
 		var templ_7745c5c3_Var8 = []any{
 			utils.TwMerge(
 				"absolute z-50 flex origin-center flex-col items-center justify-center will-change-transform",
-				popoverContentClass(p.Placement, p.ShowArrow),
+				popoverContentClass(p.Position, p.ShowArrow),
 				p.ContainerClass,
 			),
 		}
@@ -308,7 +308,7 @@ func PopoverContent(props ...PopoverContentProps) templ.Component {
 			var templ_7745c5c3_Var13 = []any{
 				utils.TwMerge(
 					"absolute h-2 w-2 rotate-45 bg-background",
-					popoverArrowClass(p.Placement),
+					popoverArrowClass(p.Position),
 				),
 			}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var13...)
@@ -341,14 +341,13 @@ func PopoverContent(props ...PopoverContentProps) templ.Component {
 	})
 }
 
-func popoverContentClass(side PopoverPlacement, showArrow bool) string {
+func popoverContentClass(side PopoverPosition, showArrow bool) string {
 	margin := "1"
 	if showArrow {
 		margin = "2"
 	}
 
 	switch side {
-	// Top placements
 	case PopoverTop:
 		return "bottom-full start-1/2 -translate-x-1/2 mb-" + margin
 	case PopoverTopStart:
@@ -356,7 +355,6 @@ func popoverContentClass(side PopoverPlacement, showArrow bool) string {
 	case PopoverTopEnd:
 		return "bottom-full end-0 mb-" + margin
 
-	// Right placements
 	case PopoverRight:
 		return "start-full top-1/2 -translate-y-1/2 ml-" + margin
 	case PopoverRightStart:
@@ -364,7 +362,6 @@ func popoverContentClass(side PopoverPlacement, showArrow bool) string {
 	case PopoverRightEnd:
 		return "start-full bottom-0 ml-" + margin
 
-	// Bottom placements
 	case PopoverBottom:
 		return "top-full start-1/2 -translate-x-1/2 mt-" + margin
 	case PopoverBottomStart:
@@ -372,7 +369,6 @@ func popoverContentClass(side PopoverPlacement, showArrow bool) string {
 	case PopoverBottomEnd:
 		return "top-full end-0 mt-" + margin
 
-	// Left placements
 	case PopoverLeft:
 		return "end-full top-1/2 -translate-y-1/2 mr-" + margin
 	case PopoverLeftStart:
@@ -385,9 +381,8 @@ func popoverContentClass(side PopoverPlacement, showArrow bool) string {
 	}
 }
 
-func popoverArrowClass(side PopoverPlacement) string {
+func popoverArrowClass(side PopoverPosition) string {
 	switch side {
-	// Top placements
 	case PopoverTop:
 		return "bottom-[-4px] left-1/2 -translate-x-1/2 border-b border-r"
 	case PopoverTopStart:
@@ -395,7 +390,6 @@ func popoverArrowClass(side PopoverPlacement) string {
 	case PopoverTopEnd:
 		return "bottom-[-4px] right-4 border-b border-r"
 
-	// Right placements
 	case PopoverRight:
 		return "left-[-4px] top-1/2 -translate-y-1/2 border-b border-l"
 	case PopoverRightStart:
@@ -403,7 +397,6 @@ func popoverArrowClass(side PopoverPlacement) string {
 	case PopoverRightEnd:
 		return "left-[-4px] bottom-4 border-b border-l"
 
-	// Bottom placements
 	case PopoverBottom:
 		return "top-[-4px] left-1/2 -translate-x-1/2 border-t border-l"
 	case PopoverBottomStart:
@@ -411,7 +404,6 @@ func popoverArrowClass(side PopoverPlacement) string {
 	case PopoverBottomEnd:
 		return "top-[-4px] right-4 border-t border-l"
 
-	// Left placements
 	case PopoverLeft:
 		return "right-[-4px] top-1/2 -translate-y-1/2 border-t border-r"
 	case PopoverLeftStart:
@@ -465,7 +457,7 @@ func PopoverScript() templ.Component {
 			var templ_7745c5c3_Var17 string
 			templ_7745c5c3_Var17, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/popover.templ`, Line: 227, Col: 43}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/popover.templ`, Line: 219, Col: 43}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var17))
 			if templ_7745c5c3_Err != nil {
