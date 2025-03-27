@@ -107,7 +107,6 @@ type DatePickerConfig struct {
 	Locale DateLocale
 }
 
-// All other DateFormat, DateLocale, etc. definitions remain unchanged
 type DatePickerProps struct {
 	ID          string
 	Class       string
@@ -280,6 +279,13 @@ templ DatePickerScript() {
 								
 								// Update hidden input
 								this.$refs.hiddenInput.value = this.value;
+								
+								// Update display text with localized format
+								if (this.$refs.displayText) {
+								    this.$refs.displayText.innerHTML = '';
+								    this.$refs.displayText.textContent = this.value;
+								    this.$refs.displayText.classList.remove('text-muted-foreground');
+								}
 							}
 							
 							// Initialize month display
