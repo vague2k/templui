@@ -159,29 +159,25 @@ func DatePicker(props ...DatePickerProps) templ.Component {
 		if p.Placeholder == "" {
 			p.Placeholder = "Select a date"
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<!-- Container for the entire DatePicker -->")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
 		var templ_7745c5c3_Var2 = []any{utils.TwMerge("relative", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<div id=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div id=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var3 string
-		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
+		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID + "-container")
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/date_picker.templ`, Line: 136, Col: 11}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/date_picker.templ`, Line: 135, Col: 26}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\" class=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\" class=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -194,65 +190,78 @@ func DatePicker(props ...DatePickerProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		if p.Value != (time.Time{}) {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, " data-value=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, " data-value=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var5 string
 			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(p.Value.Format(p.Config.getGoFormat()))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/date_picker.templ`, Line: 139, Col: 54}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/date_picker.templ`, Line: 138, Col: 54}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, " data-format=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, " data-format=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(string(p.Config.Format))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/date_picker.templ`, Line: 141, Col: 39}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/date_picker.templ`, Line: 140, Col: 39}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "\" data-monthnames=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "\" data-monthnames=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var7 string
 		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(templ.JSONString(p.Config.Locale.MonthNames))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/date_picker.templ`, Line: 142, Col: 64}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/date_picker.templ`, Line: 141, Col: 64}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "\" data-daynames=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "\" data-daynames=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(templ.JSONString(p.Config.Locale.DayNames))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/date_picker.templ`, Line: 143, Col: 60}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/date_picker.templ`, Line: 142, Col: 60}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "\" data-placeholder=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var9 string
+		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(p.Placeholder)
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/date_picker.templ`, Line: 143, Col: 34}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -264,16 +273,16 @@ func DatePicker(props ...DatePickerProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "><!-- Hidden input for form value --><input type=\"hidden\" id=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "><input type=\"hidden\" id=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var9 string
-		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID + "-hidden")
+		var templ_7745c5c3_Var10 string
+		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID + "-hidden")
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/date_picker.templ`, Line: 151, Col: 24}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/date_picker.templ`, Line: 150, Col: 24}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -281,12 +290,12 @@ func DatePicker(props ...DatePickerProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var10 string
-		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(p.Name)
+		var templ_7745c5c3_Var11 string
+		templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(p.Name)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/date_picker.templ`, Line: 152, Col: 16}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/date_picker.templ`, Line: 151, Col: 16}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -300,11 +309,17 @@ func DatePicker(props ...DatePickerProps) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "><div class=\"relative\">")
+		if p.Required {
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, " required")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "><div class=\"relative\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Var11 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_Var12 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 			templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 			templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
 			if !templ_7745c5c3_IsBuffer {
@@ -316,40 +331,40 @@ func DatePicker(props ...DatePickerProps) templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "<span x-ref=\"displayText\" class=\"text-left grow\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "<span x-ref=\"displayText\" class=\"text-left grow\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			if p.Value != (time.Time{}) {
-				var templ_7745c5c3_Var12 string
-				templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs(p.Value.Format(p.Config.getGoFormat()))
+				var templ_7745c5c3_Var13 string
+				templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(p.Value.Format(p.Config.getGoFormat()))
 				if templ_7745c5c3_Err != nil {
 					return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/date_picker.templ`, Line: 181, Col: 46}
-				}
-				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-			} else {
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "<span class=\"text-muted-foreground\">")
-				if templ_7745c5c3_Err != nil {
-					return templ_7745c5c3_Err
-				}
-				var templ_7745c5c3_Var13 string
-				templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(p.Placeholder)
-				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/date_picker.templ`, Line: 183, Col: 57}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "</span>")
+			} else {
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "<span class=\"text-muted-foreground\">")
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				var templ_7745c5c3_Var14 string
+				templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(p.Placeholder)
+				if templ_7745c5c3_Err != nil {
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/date_picker.templ`, Line: 183, Col: 57}
+				}
+				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
+				if templ_7745c5c3_Err != nil {
+					return templ_7745c5c3_Err
+				}
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "</span>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "</span><!-- Calendar icon --> <span class=\"text-muted-foreground flex items-center\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "</span><!-- Calendar icon --> <span class=\"text-muted-foreground flex items-center\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -357,7 +372,7 @@ func DatePicker(props ...DatePickerProps) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "</span>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, "</span>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -381,38 +396,38 @@ func DatePicker(props ...DatePickerProps) templ.Component {
 				},
 				p.Attributes,
 			),
-		}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var11), templ_7745c5c3_Buffer)
+		}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var12), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, "</div><!-- DatePicker popup with DOM-generated content -->")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "</div><!-- DatePicker Popup -->")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var14 = []any{
+		var templ_7745c5c3_Var15 = []any{
 			utils.TwMerge(
 				"absolute left-0 z-50 w-64 p-4",
 				"rounded-lg border bg-popover shadow-md",
 			),
 		}
-		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var14...)
+		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var15...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "<div x-show=\"open\" x-ref=\"datePickerPopup\" @click.away=\"closeDatePicker\" x-transition.opacity class=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 23, "<div x-show=\"open\" x-ref=\"datePickerPopup\" @click.away=\"closeDatePicker\" x-transition.opacity class=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var15 string
-		templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var14).String())
+		var templ_7745c5c3_Var16 string
+		templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var15).String())
 		if templ_7745c5c3_Err != nil {
 			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/date_picker.templ`, Line: 1, Col: 0}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var15))
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 23, "\" style=\"display: none;\"><div class=\"flex items-center justify-between mb-4\"><span x-ref=\"monthDisplay\" class=\"text-sm font-medium\"></span><div class=\"flex gap-1\"><button type=\"button\" @click=\"prevMonth\" class=\"inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-7 w-7\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 24, "\" style=\"display: none;\"><div class=\"flex items-center justify-between mb-4\"><span x-ref=\"monthDisplay\" class=\"text-sm font-medium\"></span><div class=\"flex gap-1\"><button type=\"button\" @click=\"prevMonth\" class=\"inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-7 w-7\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -420,7 +435,7 @@ func DatePicker(props ...DatePickerProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 24, "</button> <button type=\"button\" @click=\"nextMonth\" class=\"inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-7 w-7\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 25, "</button> <button type=\"button\" @click=\"nextMonth\" class=\"inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-7 w-7\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -428,7 +443,7 @@ func DatePicker(props ...DatePickerProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 25, "</button></div></div><!-- Weekday container --><div x-ref=\"weekdaysContainer\" class=\"grid grid-cols-7 gap-1 mb-2\"></div><!-- Calendar days container --><div x-ref=\"daysContainer\" class=\"grid grid-cols-7 gap-1\"></div></div></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 26, "</button></div></div><!-- Weekday container --><div x-ref=\"weekdaysContainer\" class=\"grid grid-cols-7 gap-1 mb-2\"></div><!-- Calendar days container --><div x-ref=\"daysContainer\" class=\"grid grid-cols-7 gap-1\"></div></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -459,13 +474,13 @@ func DatePickerScript() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var16 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var16 == nil {
-			templ_7745c5c3_Var16 = templ.NopComponent
+		templ_7745c5c3_Var17 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var17 == nil {
+			templ_7745c5c3_Var17 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
 		handle := templ.NewOnceHandle()
-		templ_7745c5c3_Var17 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_Var18 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 			templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 			templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
 			if !templ_7745c5c3_IsBuffer {
@@ -477,26 +492,26 @@ func DatePickerScript() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 26, "<script defer nonce=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 27, "<script defer nonce=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var18 string
-			templ_7745c5c3_Var18, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
+			var templ_7745c5c3_Var19 string
+			templ_7745c5c3_Var19, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
 				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/date_picker.templ`, Line: 243, Col: 43}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var18))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var19))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 27, "\">\n\t\t\tdocument.addEventListener('alpine:init', () => {\n\t\t\t\tAlpine.data('datePicker', () => ({\n\t\t\t\t\topen: false,\n\t\t\t\t\tvalue: null,\n\t\t\t\t\tformat: null,\n\t\t\t\t\tcurrentMonth: new Date().getMonth(),\n\t\t\t\t\tcurrentYear: new Date().getFullYear(),\n\t\t\t\t\tmonthNames: [],\n\t\t\t\t\tdayNames: [],\n\t\t\t\t\tposition: 'bottom',\n\n\t\t\t\t\tinit() {\n\t\t\t\t\t\ttry {\n\t\t\t\t\t\t    // Parse month names\n\t\t\t\t\t\t    this.monthNames = JSON.parse(this.$el.dataset.monthnames || '[]');\n\t\t\t\t\t\t    if (!this.monthNames || !this.monthNames.length) {\n\t\t\t\t\t\t        this.monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];\n\t\t\t\t\t\t    }\n\t\t\t\t\t\t    \n\t\t\t\t\t\t    // Parse day names\n\t\t\t\t\t\t    this.dayNames = JSON.parse(this.$el.dataset.daynames || '[]');\n\t\t\t\t\t\t    if (!this.dayNames || !this.dayNames.length) {\n\t\t\t\t\t\t        this.dayNames = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];\n\t\t\t\t\t\t    }\n\t\t\t\t\t\t    \n                            // Set format\n\t\t\t\t\t\t\tthis.format = this.$el.dataset.format;\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t// Process initial value\n\t\t\t\t\t\t\tconst initialValue = this.$el.dataset.value;\n\t\t\t\t\t\t\tif (initialValue) {\n\t\t\t\t\t\t\t\tconst initialDate = new Date(this.parseDate(initialValue));\n\t\t\t\t\t\t\t\tthis.currentMonth = initialDate.getMonth();\n\t\t\t\t\t\t\t\tthis.currentYear = initialDate.getFullYear();\n\t\t\t\t\t\t\t\tthis.value = this.formatDate(initialDate);\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t// Update hidden input\n\t\t\t\t\t\t\t\tthis.$refs.hiddenInput.value = this.value;\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t// Update display text with localized format\n\t\t\t\t\t\t\t\tif (this.$refs.displayText) {\n\t\t\t\t\t\t\t\t    this.$refs.displayText.innerHTML = '';\n\t\t\t\t\t\t\t\t    this.$refs.displayText.textContent = this.value;\n\t\t\t\t\t\t\t\t    this.$refs.displayText.classList.remove('text-muted-foreground');\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t// Initialize month display\n\t\t\t\t\t\t\tthis.updateMonthDisplay();\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t// Set weekdays\n\t\t\t\t\t\t\tthis.renderWeekdayLabels();\n\t\t\t\t\t\t} catch(e) {\n\t\t\t\t\t\t    console.error('DatePicker initialization error:', e);\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\n\t\t\t\t\ttoggleDatePicker() {\n\t\t\t\t\t\tif (this.$refs.triggerButton.disabled) {\n\t\t\t\t\t\t\treturn;\n\t\t\t\t\t\t}\n\t\t\t\t\t\t\n\t\t\t\t\t\tthis.open = !this.open;\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (this.open) {\n\t\t\t\t\t\t\t// Adjust position and fill calendar\n\t\t\t\t\t\t\tthis.$nextTick(() => {\n\t\t\t\t\t\t\t\tthis.updatePosition();\n\t\t\t\t\t\t\t\tthis.renderCalendarDays();\n\t\t\t\t\t\t\t});\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\tupdateMonthDisplay() {\n\t\t\t\t\t    if (this.$refs.monthDisplay) {\n\t\t\t\t\t        this.$refs.monthDisplay.textContent = this.monthNames[this.currentMonth] + ' ' + this.currentYear;\n\t\t\t\t\t    }\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\trenderWeekdayLabels() {\n\t\t\t\t\t    const container = this.$refs.weekdaysContainer;\n\t\t\t\t\t    if (!container) return;\n\t\t\t\t\t    \n\t\t\t\t\t    // Clear container\n\t\t\t\t\t    container.innerHTML = '';\n\t\t\t\t\t    \n\t\t\t\t\t    // Add weekdays\n\t\t\t\t\t    for (let i = 0; i < this.dayNames.length; i++) {\n\t\t\t\t\t        const dayEl = document.createElement('div');\n\t\t\t\t\t        dayEl.className = 'text-center text-xs text-muted-foreground';\n\t\t\t\t\t        dayEl.textContent = this.dayNames[i];\n\t\t\t\t\t        container.appendChild(dayEl);\n\t\t\t\t\t    }\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\trenderCalendarDays() {\n\t\t\t\t\t    const container = this.$refs.daysContainer;\n\t\t\t\t\t    if (!container) return;\n\t\t\t\t\t    \n\t\t\t\t\t    // Clear container\n\t\t\t\t\t    container.innerHTML = '';\n\t\t\t\t\t    \n\t\t\t\t\t    // Calculate the first day of the month and number of days\n\t\t\t\t\t    let firstDay = new Date(this.currentYear, this.currentMonth, 1).getDay();\n\t\t\t\t\t    firstDay = firstDay === 0 ? 6 : firstDay - 1; // Convert Sunday (0) to position 6\n\t\t\t\t\t    \n\t\t\t\t\t    const daysInMonth = new Date(this.currentYear, this.currentMonth + 1, 0).getDate();\n\t\t\t\t\t    \n\t\t\t\t\t    // Empty days at the beginning\n\t\t\t\t\t    for (let i = 0; i < firstDay; i++) {\n\t\t\t\t\t        const blankDay = document.createElement('div');\n\t\t\t\t\t        blankDay.className = 'h-8 w-8';\n\t\t\t\t\t        container.appendChild(blankDay);\n\t\t\t\t\t    }\n\t\t\t\t\t    \n\t\t\t\t\t    // Days of the month\n\t\t\t\t\t    for (let day = 1; day <= daysInMonth; day++) {\n\t\t\t\t\t        const dayBtn = document.createElement('button');\n\t\t\t\t\t        dayBtn.type = 'button';\n\t\t\t\t\t        dayBtn.className = 'inline-flex h-8 w-8 items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2';\n\t\t\t\t\t        dayBtn.textContent = day;\n\t\t\t\t\t        dayBtn.dataset.day = day;\n\t\t\t\t\t        \n\t\t\t\t\t        // Click handler\n\t\t\t\t\t        dayBtn.addEventListener('click', (e) => this.selectDate(e));\n\t\t\t\t\t        \n\t\t\t\t\t        // Determine if today or selected\n\t\t\t\t\t        this.styleDayButton(dayBtn, day);\n\t\t\t\t\t        \n\t\t\t\t\t        // Add to container\n\t\t\t\t\t        container.appendChild(dayBtn);\n\t\t\t\t\t    }\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\tstyleDayButton(button, day) {\n\t\t\t\t\t    // Mark today\n\t\t\t\t\t    const today = new Date();\n\t\t\t\t\t    const isToday = today.getDate() === day && \n\t\t\t\t\t                   today.getMonth() === this.currentMonth && \n\t\t\t\t\t                   today.getFullYear() === this.currentYear;\n\t\t\t\t\t                   \n\t\t\t\t\t    // Mark selected date\n\t\t\t\t\t    const isSelected = this.isSelectedDate(day);\n\t\t\t\t\t    \n\t\t\t\t\t    if (isSelected) {\n\t\t\t\t\t        button.classList.add('bg-primary', 'text-primary-foreground');\n\t\t\t\t\t    } else if (isToday) {\n\t\t\t\t\t        button.classList.add('text-red-500');\n\t\t\t\t\t    } else {\n\t\t\t\t\t        button.classList.add('hover:bg-accent', 'hover:text-accent-foreground');\n\t\t\t\t\t    }\n\t\t\t\t\t},\n\n\t\t\t\t\tcloseDatePicker() {\n\t\t\t\t\t\tthis.open = false;\n\t\t\t\t\t},\n\n\t\t\t\t\tupdatePosition() {\n    \t\t\t\t\tconst trigger = this.$refs.triggerButton;\n\t\t\t\t\t\tconst popup = this.$refs.datePickerPopup;\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (!trigger || !popup) return;\n\t\t\t\t\t\t\n\t\t\t\t\t\tconst rect = trigger.getBoundingClientRect();\n\t\t\t\t\t\tconst popupRect = popup.getBoundingClientRect();\n\t\t\t\t\t\tconst viewportHeight = window.innerHeight;\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (rect.bottom + popupRect.height > viewportHeight && rect.top > popupRect.height) {\n\t\t\t\t\t\t\tpopup.classList.add('bottom-full', 'mb-1');\n\t\t\t\t\t\t\tpopup.classList.remove('top-full', 'mt-1');\n\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\tpopup.classList.add('top-full', 'mt-1');\n\t\t\t\t\t\t\tpopup.classList.remove('bottom-full', 'mb-1');\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\n\t\t\t\t\tprevMonth() {\n\t\t\t\t\t\tthis.currentMonth--;\n\t\t\t\t\t\tif (this.currentMonth < 0) {\n\t\t\t\t\t\t\tthis.currentMonth = 11;\n\t\t\t\t\t\t\tthis.currentYear--;\n\t\t\t\t\t\t}\n\t\t\t\t\t\tthis.updateMonthDisplay();\n\t\t\t\t\t\tthis.renderCalendarDays();\n\t\t\t\t\t},\n\n\t\t\t\t\tnextMonth() {\n\t\t\t\t\t\tthis.currentMonth++;\n\t\t\t\t\t\tif (this.currentMonth > 11) {\n\t\t\t\t\t\t\tthis.currentMonth = 0;\n\t\t\t\t\t\t\tthis.currentYear++;\n\t\t\t\t\t\t}\n\t\t\t\t\t\tthis.updateMonthDisplay();\n\t\t\t\t\t\tthis.renderCalendarDays();\n\t\t\t\t\t},\n\n\t\t\t\t\tparseDate(dateStr) {\n\t\t\t\t\t\tconst parts = dateStr.split(/[-/.]/);\n\t\t\t\t\t\tswitch(this.format) {\n\t\t\t\t\t\t\tcase 'eu':\n\t\t\t\t\t\t\t\treturn `${parts[2]}-${parts[1]}-${parts[0]}`;\n\t\t\t\t\t\t\tcase 'us':\n\t\t\t\t\t\t\t\treturn `${parts[2]}-${parts[0]}-${parts[1]}`;\n\t\t\t\t\t\t\tcase 'uk':\n\t\t\t\t\t\t\t\treturn `${parts[2]}-${parts[1]}-${parts[0]}`;\n\t\t\t\t\t\t\tcase 'long':\n\t\t\t\t\t\t\tcase 'iso':\n\t\t\t\t\t\t\tdefault:\n\t\t\t\t\t\t\t\treturn dateStr;\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\n\t\t\t\t\tformatDate(date) {\n\t\t\t\t\t\tconst d = date.getDate().toString().padStart(2, '0');\n\t\t\t\t\t\tconst m = (date.getMonth() + 1).toString().padStart(2, '0');\n\t\t\t\t\t\tconst y = date.getFullYear();\n\n\t\t\t\t\t\tswitch(this.format) {\n\t\t\t\t\t\t\tcase 'eu':\n\t\t\t\t\t\t\t\treturn `${d}.${m}.${y}`;\n\t\t\t\t\t\t\tcase 'uk':\n\t\t\t\t\t\t\t\treturn `${d}/${m}/${y}`;\n\t\t\t\t\t\t\tcase 'us':\n\t\t\t\t\t\t\t\treturn `${m}/${d}/${y}`;\n\t\t\t\t\t\t\tcase 'long':\n\t\t\t\t\t\t\t\treturn `${this.monthNames[date.getMonth()]} ${d}, ${y}`;\n\t\t\t\t\t\t\tcase 'iso':\n\t\t\t\t\t\t\tdefault:\n\t\t\t\t\t\t\t\treturn `${y}-${m}-${d}`;\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\n\t\t\t\t\tisSelectedDate(day) {\n\t\t\t\t\t\tif (!this.value) return false;\n\t\t\t\t\t\t\n\t\t\t\t\t\ttry {\n\t\t\t\t\t\t\tconst date = new Date(this.currentYear, this.currentMonth, day);\n\t\t\t\t\t\t\tconst selected = new Date(this.parseDate(this.value));\n\t\t\t\t\t\t\treturn date.toDateString() === selected.toDateString();\n\t\t\t\t\t\t} catch(e) {\n\t\t\t\t\t\t\treturn false;\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\n\t\t\t\t\tselectDate(e) {\n\t\t\t\t\t\tconst day = e.target.dataset.day;\n\t\t\t\t\t\tif (!day) return;\n\t\t\t\t\t\t\n\t\t\t\t\t\tconst date = new Date(this.currentYear, this.currentMonth, parseInt(day));\n\t\t\t\t\t\tthis.value = this.formatDate(date);\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Update hidden input\n\t\t\t\t\t\tthis.$refs.hiddenInput.value = this.value;\n\t\t\t\t\t\tthis.$refs.hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Update display text\n\t\t\t\t\t\tthis.$refs.displayText.innerHTML = '';\n\t\t\t\t\t\tthis.$refs.displayText.textContent = this.value;\n\t\t\t\t\t\tthis.$refs.displayText.classList.remove('text-muted-foreground');\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Close DatePicker\n\t\t\t\t\t\tthis.open = false;\n\n\t\t\t\t\t\t// Focus trigger button\n\t\t\t\t\t\tthis.$refs.triggerButton.focus();\n\t\t\t\t\t}\n\t\t\t\t}));\n\t\t\t});\n\t\t</script>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 28, "\">\n\t\t\tdocument.addEventListener('alpine:init', () => {\n\t\t\t\tAlpine.data('datePicker', () => ({\n\t\t\t\t\topen: false,\n\t\t\t\t\tvalue: null,\n\t\t\t\t\tformat: null,\n\t\t\t\t\tcurrentMonth: new Date().getMonth(),\n\t\t\t\t\tcurrentYear: new Date().getFullYear(),\n\t\t\t\t\tmonthNames: [],\n\t\t\t\t\tdayNames: [],\n\t\t\t\t\tposition: 'bottom',\n\n\t\t\t\t\tinit() {\n\t\t\t\t\t\t\t// Parse Month and Day names\n\t\t\t\t\t\ttry {\n\t\t\t\t\t\t\tthis.monthNames = JSON.parse(this.$el.dataset.monthnames) || [];\n\t\t\t\t\t\t\tthis.dayNames = JSON.parse(this.$el.dataset.daynames) || [];\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\tif (!this.monthNames.length) {\n\t\t\t\t\t\t\t\tthis.monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\tif (!this.dayNames.length) {\n\t\t\t\t\t\t\t\tthis.dayNames = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t// Format and Placeholder\n\t\t\t\t\t\t\tthis.format = this.$el.dataset.format || 'iso';\n\t\t\t\t\t\t\tthis.placeholder = this.$el.dataset.placeholder || 'Select a date';\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t// Process initial value\n\t\t\t\t\t\t\tconst initialValue = this.$el.dataset.value;\n\t\t\t\t\t\t\tif (initialValue) {\n\t\t\t\t\t\t\t\tconst initialDate = new Date(this.parseDate(initialValue));\n\t\t\t\t\t\t\t\tthis.currentMonth = initialDate.getMonth();\n\t\t\t\t\t\t\t\tthis.currentYear = initialDate.getFullYear();\n\t\t\t\t\t\t\t\tthis.value = this.formatDate(initialDate);\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t// Update hidden input\n\t\t\t\t\t\t\t\tthis.$refs.hiddenInput.value = this.value;\n\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t// Update display text\n\t\t\t\t\t\t\t\tthis.updateDisplayText();\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t// Initialize UI\n\t\t\t\t\t\t\tthis.updateMonthDisplay();\n\t\t\t\t\t\t\tthis.renderWeekdays();\n\t\t\t\t\t\t} catch(e) {\n\t\t\t\t\t\t\tconsole.error('DatePicker initialization error:', e);\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\tupdateDisplayText() {\n\t\t\t\t\t\tconst displayTextEl = this.$refs.displayText;\n\t\t\t\t\t\tif (!displayTextEl) return;\n\t\t\t\t\t\t\n\t\t\t\t\t\tdisplayTextEl.innerHTML = '';\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (this.value) {\n\t\t\t\t\t\t\tdisplayTextEl.textContent = this.value;\n\t\t\t\t\t\t\t// Remove muted style\n\t\t\t\t\t\t\tconst muted = displayTextEl.querySelector('.text-muted-foreground');\n\t\t\t\t\t\t\tif (muted) {\n\t\t\t\t\t\t\t\tmuted.classList.remove('text-muted-foreground');\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\tconst span = document.createElement('span');\n\t\t\t\t\t\t\tspan.className = 'text-muted-foreground';\n\t\t\t\t\t\t\tspan.textContent = this.placeholder;\n\t\t\t\t\t\t\tdisplayTextEl.appendChild(span);\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\n\t\t\t\t\ttoggleDatePicker() {\n\t\t\t\t\t\tif (this.$refs.triggerButton.disabled) return;\n\t\t\t\t\t\t\n\t\t\t\t\t\tthis.open = !this.open;\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (this.open) {\n\t\t\t\t\t\t\tthis.$nextTick(() => {\n\t\t\t\t\t\t\t\tthis.updatePosition();\n\t\t\t\t\t\t\t\tthis.renderCalendar();\n\t\t\t\t\t\t\t});\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t   closeDatePicker(event) {\n\t\t\t\t\t\tconst trigger = this.$refs.triggerButton;\n                        if (event.target.tagName === 'LABEL' && event.target.htmlFor === trigger.id) {\n                            return; \n\t\t\t\t\t\t}\n                        this.open = false;\n                    },\t\n\t\t\t\t\t\n\t\t\t\t\tupdateMonthDisplay() {\n\t\t\t\t\t\tif (this.$refs.monthDisplay) {\n\t\t\t\t\t\t\tthis.$refs.monthDisplay.textContent = this.monthNames[this.currentMonth] + ' ' + this.currentYear;\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\tupdatePosition() {\n\t\t\t\t\t\tconst trigger = this.$refs.triggerButton;\n\t\t\t\t\t\tconst popup = this.$refs.datePickerPopup;\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (!trigger || !popup) return;\n\t\t\t\t\t\t\n\t\t\t\t\t\tconst rect = trigger.getBoundingClientRect();\n\t\t\t\t\t\tconst popupRect = popup.getBoundingClientRect();\n\t\t\t\t\t\tconst viewportHeight = window.innerHeight;\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Positioniere oben oder unten, je nach verfügbarem Platz\n\t\t\t\t\t\tif (rect.bottom + popupRect.height > viewportHeight && rect.top > popupRect.height) {\n\t\t\t\t\t\t\tpopup.classList.add('bottom-full', 'mb-1');\n\t\t\t\t\t\t\tpopup.classList.remove('top-full', 'mt-1');\n\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\tpopup.classList.add('top-full', 'mt-1');\n\t\t\t\t\t\t\tpopup.classList.remove('bottom-full', 'mb-1');\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\trenderWeekdays() {\n\t\t\t\t\t\tconst container = this.$refs.weekdaysContainer;\n\t\t\t\t\t\tif (!container) return;\n\t\t\t\t\t\t\n\t\t\t\t\t\tcontainer.innerHTML = '';\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Day headers\n\t\t\t\t\t\tthis.dayNames.forEach(day => {\n\t\t\t\t\t\t\tconst el = document.createElement('div');\n\t\t\t\t\t\t\tel.className = 'text-center text-xs text-muted-foreground';\n\t\t\t\t\t\t\tel.textContent = day;\n\t\t\t\t\t\t\tcontainer.appendChild(el);\n\t\t\t\t\t\t});\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\trenderCalendar() {\n\t\t\t\t\t\t// Calculate first day and days in month\n\t\t\t\t\t\tlet firstDay = new Date(this.currentYear, this.currentMonth, 1).getDay();\n\t\t\t\t\t\tfirstDay = firstDay === 0 ? 6 : firstDay - 1; // Sunday = 6\n\t\t\t\t\t\t\n\t\t\t\t\t\tconst daysInMonth = new Date(this.currentYear, this.currentMonth + 1, 0).getDate();\n\t\t\t\t\t\tconst today = new Date();\n\t\t\t\t\t\tconst container = this.$refs.daysContainer;\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (!container) return;\n\t\t\t\t\t\tcontainer.innerHTML = '';\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Empty days at the beginning\n\t\t\t\t\t\tfor (let i = 0; i < firstDay; i++) {\n\t\t\t\t\t\t\tconst blank = document.createElement('div');\n\t\t\t\t\t\t\tblank.className = 'h-8 w-8';\n\t\t\t\t\t\t\tcontainer.appendChild(blank);\n\t\t\t\t\t\t}\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Days in the month\n\t\t\t\t\t\tfor (let day = 1; day <= daysInMonth; day++) {\n\t\t\t\t\t\t\tconst button = document.createElement('button');\n\t\t\t\t\t\t\tbutton.type = 'button';\n\t\t\t\t\t\t\tbutton.className = 'inline-flex h-8 w-8 items-center justify-center rounded-md text-sm font-medium';\n\t\t\t\t\t\t\tbutton.textContent = day;\n\t\t\t\t\t\t\tbutton.dataset.day = day;\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t// Click handler\n\t\t\t\t\t\t\tbutton.addEventListener('click', e => this.selectDate(e));\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t// Highlight today or selected\n\t\t\t\t\t\t\tconst isToday = today.getDate() === day && \n\t\t\t\t\t\t\t\t\t\t   today.getMonth() === this.currentMonth && \n\t\t\t\t\t\t\t\t\t\t   today.getFullYear() === this.currentYear;\n\t\t\t\t\t\t\t\t\t\t   \n\t\t\t\t\t\t\tconst isSelected = this.isSelectedDate(day);\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\tif (isSelected) {\n\t\t\t\t\t\t\t\tbutton.classList.add('bg-primary', 'text-primary-foreground');\n\t\t\t\t\t\t\t} else if (isToday) {\n\t\t\t\t\t\t\t\tbutton.classList.add('text-red-500');\n\t\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\t\tbutton.classList.add('hover:bg-accent', 'hover:text-accent-foreground');\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\tcontainer.appendChild(button);\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\tprevMonth() {\n\t\t\t\t\t\tthis.currentMonth--;\n\t\t\t\t\t\tif (this.currentMonth < 0) {\n\t\t\t\t\t\t\tthis.currentMonth = 11;\n\t\t\t\t\t\t\tthis.currentYear--;\n\t\t\t\t\t\t}\n\t\t\t\t\t\tthis.updateMonthDisplay();\n\t\t\t\t\t\tthis.renderCalendar();\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\tnextMonth() {\n\t\t\t\t\t\tthis.currentMonth++;\n\t\t\t\t\t\tif (this.currentMonth > 11) {\n\t\t\t\t\t\t\tthis.currentMonth = 0;\n\t\t\t\t\t\t\tthis.currentYear++;\n\t\t\t\t\t\t}\n\t\t\t\t\t\tthis.updateMonthDisplay();\n\t\t\t\t\t\tthis.renderCalendar();\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\tparseDate(dateStr) {\n\t\t\t\t\t\tconst parts = dateStr.split(/[-/.]/);\n\t\t\t\t\t\tswitch(this.format) {\n\t\t\t\t\t\t\tcase 'eu':\n\t\t\t\t\t\t\t\treturn `${parts[2]}-${parts[1]}-${parts[0]}`;\n\t\t\t\t\t\t\tcase 'us':\n\t\t\t\t\t\t\t\treturn `${parts[2]}-${parts[0]}-${parts[1]}`;\n\t\t\t\t\t\t\tcase 'uk':\n\t\t\t\t\t\t\t\treturn `${parts[2]}-${parts[1]}-${parts[0]}`;\n\t\t\t\t\t\t\tcase 'long':\n\t\t\t\t\t\t\tcase 'iso':\n\t\t\t\t\t\t\tdefault:\n\t\t\t\t\t\t\t\treturn dateStr;\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\tformatDate(date) {\n\t\t\t\t\t\tconst d = date.getDate().toString().padStart(2, '0');\n\t\t\t\t\t\tconst m = (date.getMonth() + 1).toString().padStart(2, '0');\n\t\t\t\t\t\tconst y = date.getFullYear();\n\t\t\t\t\t\t\n\t\t\t\t\t\tswitch(this.format) {\n\t\t\t\t\t\t\tcase 'eu':\n\t\t\t\t\t\t\t\treturn `${d}.${m}.${y}`;\n\t\t\t\t\t\t\tcase 'uk':\n\t\t\t\t\t\t\t\treturn `${d}/${m}/${y}`;\n\t\t\t\t\t\t\tcase 'us':\n\t\t\t\t\t\t\t\treturn `${m}/${d}/${y}`;\n\t\t\t\t\t\t\tcase 'long':\n\t\t\t\t\t\t\t\treturn `${this.monthNames[date.getMonth()]} ${d}, ${y}`;\n\t\t\t\t\t\t\tcase 'iso':\n\t\t\t\t\t\t\tdefault:\n\t\t\t\t\t\t\t\treturn `${y}-${m}-${d}`;\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\tisSelectedDate(day) {\n\t\t\t\t\t\tif (!this.value) return false;\n\t\t\t\t\t\t\n\t\t\t\t\t\ttry {\n\t\t\t\t\t\t\tconst date = new Date(this.currentYear, this.currentMonth, parseInt(day));\n\t\t\t\t\t\t\tconst selected = new Date(this.parseDate(this.value));\n\t\t\t\t\t\t\treturn date.toDateString() === selected.toDateString();\n\t\t\t\t\t\t} catch(e) {\n\t\t\t\t\t\t\treturn false;\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\tselectDate(e) {\n\t\t\t\t\t\tconst day = e.target.dataset.day;\n\t\t\t\t\t\tif (!day) return;\n\t\t\t\t\t\t\n\t\t\t\t\t\tconst date = new Date(this.currentYear, this.currentMonth, parseInt(day));\n\t\t\t\t\t\tthis.value = this.formatDate(date);\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Update hidden input\n\t\t\t\t\t\tthis.$refs.hiddenInput.value = this.value;\n\t\t\t\t\t\tthis.$refs.hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Update display text\n\t\t\t\t\t\tthis.updateDisplayText();\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Close DatePicker\n\t\t\t\t\t\tthis.open = false;\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Focus on button\n\t\t\t\t\t\tthis.$refs.triggerButton.focus();\n\t\t\t\t\t}\n\t\t\t\t}));\n\t\t\t});\n\t\t</script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = handle.Once().Render(templ.WithChildren(ctx, templ_7745c5c3_Var17), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = handle.Once().Render(templ.WithChildren(ctx, templ_7745c5c3_Var18), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

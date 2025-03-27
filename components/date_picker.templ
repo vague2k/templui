@@ -131,9 +131,8 @@ templ DatePicker(props ...DatePickerProps) {
 	if p.Placeholder == "" {
 		{{ p.Placeholder = "Select a date" }}
 	}
-	<!-- Container for the entire DatePicker -->
 	<div
-		id={ p.ID }
+		id={ p.ID + "-container" }
 		class={ utils.TwMerge("relative", p.Class) }
 		if p.Value != (time.Time{}) {
 			data-value={ p.Value.Format(p.Config.getGoFormat()) }
@@ -141,17 +140,18 @@ templ DatePicker(props ...DatePickerProps) {
 		data-format={ string(p.Config.Format) }
 		data-monthnames={ templ.JSONString(p.Config.Locale.MonthNames) }
 		data-daynames={ templ.JSONString(p.Config.Locale.DayNames) }
+		data-placeholder={ p.Placeholder }
 		x-data="datePicker"
 		@resize.window="updatePosition"
 		{ p.Attributes... }
 	>
-		<!-- Hidden input for form value -->
 		<input
 			type="hidden"
 			id={ p.ID + "-hidden" }
 			name={ p.Name }
 			x-ref="hiddenInput"
 			disabled?={ p.Disabled }
+			required?={ p.Required }
 		/>
 		<div class="relative">
 			@Button(ButtonProps{
@@ -189,7 +189,7 @@ templ DatePicker(props ...DatePickerProps) {
 				</span>
 			}
 		</div>
-		<!-- DatePicker popup with DOM-generated content -->
+		<!-- DatePicker Popup -->
 		<div
 			x-show="open"
 			x-ref="datePickerPopup"
@@ -253,21 +253,21 @@ templ DatePickerScript() {
 					position: 'bottom',
 
 					init() {
+							// Parse Month and Day names
 						try {
-						    // Parse month names
-						    this.monthNames = JSON.parse(this.$el.dataset.monthnames || '[]');
-						    if (!this.monthNames || !this.monthNames.length) {
-						        this.monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-						    }
-						    
-						    // Parse day names
-						    this.dayNames = JSON.parse(this.$el.dataset.daynames || '[]');
-						    if (!this.dayNames || !this.dayNames.length) {
-						        this.dayNames = ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'];
-						    }
-						    
-                            // Set format
-							this.format = this.$el.dataset.format;
+							this.monthNames = JSON.parse(this.$el.dataset.monthnames) || [];
+							this.dayNames = JSON.parse(this.$el.dataset.daynames) || [];
+							
+							if (!this.monthNames.length) {
+								this.monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+							}
+							if (!this.dayNames.length) {
+								this.dayNames = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+							}
+							
+							// Format and Placeholder
+							this.format = this.$el.dataset.format || 'iso';
+							this.placeholder = this.$el.dataset.placeholder || 'Select a date';
 							
 							// Process initial value
 							const initialValue = this.$el.dataset.value;
@@ -280,126 +280,68 @@ templ DatePickerScript() {
 								// Update hidden input
 								this.$refs.hiddenInput.value = this.value;
 								
-								// Update display text with localized format
-								if (this.$refs.displayText) {
-								    this.$refs.displayText.innerHTML = '';
-								    this.$refs.displayText.textContent = this.value;
-								    this.$refs.displayText.classList.remove('text-muted-foreground');
-								}
+								// Update display text
+								this.updateDisplayText();
 							}
 							
-							// Initialize month display
+							// Initialize UI
 							this.updateMonthDisplay();
-							
-							// Set weekdays
-							this.renderWeekdayLabels();
+							this.renderWeekdays();
 						} catch(e) {
-						    console.error('DatePicker initialization error:', e);
+							console.error('DatePicker initialization error:', e);
+						}
+					},
+					
+					updateDisplayText() {
+						const displayTextEl = this.$refs.displayText;
+						if (!displayTextEl) return;
+						
+						displayTextEl.innerHTML = '';
+						
+						if (this.value) {
+							displayTextEl.textContent = this.value;
+							// Remove muted style
+							const muted = displayTextEl.querySelector('.text-muted-foreground');
+							if (muted) {
+								muted.classList.remove('text-muted-foreground');
+							}
+						} else {
+							const span = document.createElement('span');
+							span.className = 'text-muted-foreground';
+							span.textContent = this.placeholder;
+							displayTextEl.appendChild(span);
 						}
 					},
 
 					toggleDatePicker() {
-						if (this.$refs.triggerButton.disabled) {
-							return;
-						}
+						if (this.$refs.triggerButton.disabled) return;
 						
 						this.open = !this.open;
 						
 						if (this.open) {
-							// Adjust position and fill calendar
 							this.$nextTick(() => {
 								this.updatePosition();
-								this.renderCalendarDays();
+								this.renderCalendar();
 							});
 						}
 					},
 					
+				   closeDatePicker(event) {
+						const trigger = this.$refs.triggerButton;
+                        if (event.target.tagName === 'LABEL' && event.target.htmlFor === trigger.id) {
+                            return; 
+						}
+                        this.open = false;
+                    },	
+					
 					updateMonthDisplay() {
-					    if (this.$refs.monthDisplay) {
-					        this.$refs.monthDisplay.textContent = this.monthNames[this.currentMonth] + ' ' + this.currentYear;
-					    }
+						if (this.$refs.monthDisplay) {
+							this.$refs.monthDisplay.textContent = this.monthNames[this.currentMonth] + ' ' + this.currentYear;
+						}
 					},
 					
-					renderWeekdayLabels() {
-					    const container = this.$refs.weekdaysContainer;
-					    if (!container) return;
-					    
-					    // Clear container
-					    container.innerHTML = '';
-					    
-					    // Add weekdays
-					    for (let i = 0; i < this.dayNames.length; i++) {
-					        const dayEl = document.createElement('div');
-					        dayEl.className = 'text-center text-xs text-muted-foreground';
-					        dayEl.textContent = this.dayNames[i];
-					        container.appendChild(dayEl);
-					    }
-					},
-					
-					renderCalendarDays() {
-					    const container = this.$refs.daysContainer;
-					    if (!container) return;
-					    
-					    // Clear container
-					    container.innerHTML = '';
-					    
-					    // Calculate the first day of the month and number of days
-					    let firstDay = new Date(this.currentYear, this.currentMonth, 1).getDay();
-					    firstDay = firstDay === 0 ? 6 : firstDay - 1; // Convert Sunday (0) to position 6
-					    
-					    const daysInMonth = new Date(this.currentYear, this.currentMonth + 1, 0).getDate();
-					    
-					    // Empty days at the beginning
-					    for (let i = 0; i < firstDay; i++) {
-					        const blankDay = document.createElement('div');
-					        blankDay.className = 'h-8 w-8';
-					        container.appendChild(blankDay);
-					    }
-					    
-					    // Days of the month
-					    for (let day = 1; day <= daysInMonth; day++) {
-					        const dayBtn = document.createElement('button');
-					        dayBtn.type = 'button';
-					        dayBtn.className = 'inline-flex h-8 w-8 items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2';
-					        dayBtn.textContent = day;
-					        dayBtn.dataset.day = day;
-					        
-					        // Click handler
-					        dayBtn.addEventListener('click', (e) => this.selectDate(e));
-					        
-					        // Determine if today or selected
-					        this.styleDayButton(dayBtn, day);
-					        
-					        // Add to container
-					        container.appendChild(dayBtn);
-					    }
-					},
-					
-					styleDayButton(button, day) {
-					    // Mark today
-					    const today = new Date();
-					    const isToday = today.getDate() === day && 
-					                   today.getMonth() === this.currentMonth && 
-					                   today.getFullYear() === this.currentYear;
-					                   
-					    // Mark selected date
-					    const isSelected = this.isSelectedDate(day);
-					    
-					    if (isSelected) {
-					        button.classList.add('bg-primary', 'text-primary-foreground');
-					    } else if (isToday) {
-					        button.classList.add('text-red-500');
-					    } else {
-					        button.classList.add('hover:bg-accent', 'hover:text-accent-foreground');
-					    }
-					},
-
-					closeDatePicker() {
-						this.open = false;
-					},
-
 					updatePosition() {
-    					const trigger = this.$refs.triggerButton;
+						const trigger = this.$refs.triggerButton;
 						const popup = this.$refs.datePickerPopup;
 						
 						if (!trigger || !popup) return;
@@ -408,6 +350,7 @@ templ DatePickerScript() {
 						const popupRect = popup.getBoundingClientRect();
 						const viewportHeight = window.innerHeight;
 						
+						// Positioniere oben oder unten, je nach verfügbarem Platz
 						if (rect.bottom + popupRect.height > viewportHeight && rect.top > popupRect.height) {
 							popup.classList.add('bottom-full', 'mb-1');
 							popup.classList.remove('top-full', 'mt-1');
@@ -416,7 +359,71 @@ templ DatePickerScript() {
 							popup.classList.remove('bottom-full', 'mb-1');
 						}
 					},
-
+					
+					renderWeekdays() {
+						const container = this.$refs.weekdaysContainer;
+						if (!container) return;
+						
+						container.innerHTML = '';
+						
+						// Day headers
+						this.dayNames.forEach(day => {
+							const el = document.createElement('div');
+							el.className = 'text-center text-xs text-muted-foreground';
+							el.textContent = day;
+							container.appendChild(el);
+						});
+					},
+					
+					renderCalendar() {
+						// Calculate first day and days in month
+						let firstDay = new Date(this.currentYear, this.currentMonth, 1).getDay();
+						firstDay = firstDay === 0 ? 6 : firstDay - 1; // Sunday = 6
+						
+						const daysInMonth = new Date(this.currentYear, this.currentMonth + 1, 0).getDate();
+						const today = new Date();
+						const container = this.$refs.daysContainer;
+						
+						if (!container) return;
+						container.innerHTML = '';
+						
+						// Empty days at the beginning
+						for (let i = 0; i < firstDay; i++) {
+							const blank = document.createElement('div');
+							blank.className = 'h-8 w-8';
+							container.appendChild(blank);
+						}
+						
+						// Days in the month
+						for (let day = 1; day <= daysInMonth; day++) {
+							const button = document.createElement('button');
+							button.type = 'button';
+							button.className = 'inline-flex h-8 w-8 items-center justify-center rounded-md text-sm font-medium';
+							button.textContent = day;
+							button.dataset.day = day;
+							
+							// Click handler
+							button.addEventListener('click', e => this.selectDate(e));
+							
+							// Highlight today or selected
+							const isToday = today.getDate() === day && 
+										   today.getMonth() === this.currentMonth && 
+										   today.getFullYear() === this.currentYear;
+										   
+							const isSelected = this.isSelectedDate(day);
+							
+							if (isSelected) {
+								button.classList.add('bg-primary', 'text-primary-foreground');
+							} else if (isToday) {
+								button.classList.add('text-red-500');
+							} else {
+								button.classList.add('hover:bg-accent', 'hover:text-accent-foreground');
+							}
+							
+							container.appendChild(button);
+						}
+					},
+					
 					prevMonth() {
 						this.currentMonth--;
 						if (this.currentMonth < 0) {
@@ -424,9 +431,9 @@ templ DatePickerScript() {
 							this.currentYear--;
 						}
 						this.updateMonthDisplay();
-						this.renderCalendarDays();
+						this.renderCalendar();
 					},
-
+					
 					nextMonth() {
 						this.currentMonth++;
 						if (this.currentMonth > 11) {
@@ -434,9 +441,9 @@ templ DatePickerScript() {
 							this.currentYear++;
 						}
 						this.updateMonthDisplay();
-						this.renderCalendarDays();
+						this.renderCalendar();
 					},
-
+					
 					parseDate(dateStr) {
 						const parts = dateStr.split(/[-/.]/);
 						switch(this.format) {
@@ -452,12 +459,12 @@ templ DatePickerScript() {
 								return dateStr;
 						}
 					},
-
+					
 					formatDate(date) {
 						const d = date.getDate().toString().padStart(2, '0');
 						const m = (date.getMonth() + 1).toString().padStart(2, '0');
 						const y = date.getFullYear();
-
+						
 						switch(this.format) {
 							case 'eu':
 								return `${d}.${m}.${y}`;
@@ -472,19 +479,19 @@ templ DatePickerScript() {
 								return `${y}-${m}-${d}`;
 						}
 					},
-
+					
 					isSelectedDate(day) {
 						if (!this.value) return false;
 						
 						try {
-							const date = new Date(this.currentYear, this.currentMonth, day);
+							const date = new Date(this.currentYear, this.currentMonth, parseInt(day));
 							const selected = new Date(this.parseDate(this.value));
 							return date.toDateString() === selected.toDateString();
 						} catch(e) {
 							return false;
 						}
 					},
-
+					
 					selectDate(e) {
 						const day = e.target.dataset.day;
 						if (!day) return;
@@ -497,14 +504,12 @@ templ DatePickerScript() {
 						this.$refs.hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));
 						
 						// Update display text
-						this.$refs.displayText.innerHTML = '';
-						this.$refs.displayText.textContent = this.value;
-						this.$refs.displayText.classList.remove('text-muted-foreground');
+						this.updateDisplayText();
 						
 						// Close DatePicker
 						this.open = false;
-
-						// Focus trigger button
+						
+						// Focus on button
 						this.$refs.triggerButton.focus();
 					}
 				}));
