@@ -1,8 +1,6 @@
 package components
 
-import (
-	"github.com/axzilla/templui/utils"
-)
+import "github.com/axzilla/templui/utils"
 
 type PopoverPosition string
 
@@ -50,7 +48,7 @@ type PopoverContentProps struct {
 templ popoverPortalContainer() {
 	<div
 		id="popover-portal-container"
-		class="fixed top-0 left-0 z-[9999] pointer-events-none"
+		class="fixed inset-0 z-[9999] pointer-events-none"
 	></div>
 }
 
@@ -96,11 +94,10 @@ templ PopoverContent(props ...PopoverContentProps) {
 		data-popover-position={ string(p.Position) }
 		class={
 			utils.TwMerge(
-				"bg-background rounded-lg border text-sm shadow-lg hidden pointer-events-auto",
+				"bg-background rounded-lg border text-sm shadow-lg hidden pointer-events-auto absolute z-[9999]",
 				p.Class,
 			),
 		}
-		style="position: fixed; z-index: 9999;"
 		{ p.Attributes... }
 	>
 		<div class="w-full overflow-hidden">
@@ -154,6 +151,8 @@ templ PopoverScript() {
 	<script defer nonce={ templ.GetNonce(ctx) }>
         document.addEventListener('DOMContentLoaded', () => {
             const portalContainer = document.getElementById('popover-portal-container');
+            if (!portalContainer) return;
+            
             const triggers = document.querySelectorAll('[data-popover-trigger]');
             const contents = document.querySelectorAll('[data-popover-content]');
 
@@ -164,7 +163,7 @@ templ PopoverScript() {
             const positionPopover = (trigger, content) => {
                 const triggerRect = trigger.getBoundingClientRect();
                 const contentRect = content.getBoundingClientRect();
-                const margin = 8; // Konsistenter Margin
+                const margin = 8;
                 const scrollY = window.scrollY || window.pageYOffset;
                 const scrollX = window.scrollX || window.pageXOffset;
 
@@ -173,66 +172,62 @@ templ PopoverScript() {
 
                 switch (position) {
                     case 'top':
-                        top = triggerRect.top - contentRect.height - margin;
-                        left = triggerRect.left + (triggerRect.width / 2) - (contentRect.width / 2);
+                        top = triggerRect.top + scrollY - contentRect.height - margin;
+                        left = triggerRect.left + scrollX + (triggerRect.width / 2) - (contentRect.width / 2);
                         break;
                     case 'top-start':
-                        top = triggerRect.top - contentRect.height - margin;
-                        left = triggerRect.left;
+                        top = triggerRect.top + scrollY - contentRect.height - margin;
+                        left = triggerRect.left + scrollX;
                         break;
                     case 'top-end':
-                        top = triggerRect.top - contentRect.height - margin;
-                        left = triggerRect.right - contentRect.width;
+                        top = triggerRect.top + scrollY - contentRect.height - margin;
+                        left = triggerRect.right + scrollX - contentRect.width;
                         break;
                     case 'right':
-                        top = triggerRect.top + (triggerRect.height / 2) - (contentRect.height / 2);
-                        left = triggerRect.right + margin;
+                        top = triggerRect.top + scrollY + (triggerRect.height / 2) - (contentRect.height / 2);
+                        left = triggerRect.right + scrollX + margin;
                         break;
                     case 'right-start':
-                        top = triggerRect.top - 2; // Fix: Minimaler Margin nach oben
-                        left = triggerRect.right + margin;
+                        top = triggerRect.top + scrollY - 2;
+                        left = triggerRect.right + scrollX + margin;
                         break;
                     case 'right-end':
-                        top = triggerRect.bottom - contentRect.height + 2; // Fix: Minimaler Margin nach unten
-                        left = triggerRect.right + margin;
+                        top = triggerRect.bottom + scrollY - contentRect.height + 2;
+                        left = triggerRect.right + scrollX + margin;
                         break;
                     case 'bottom':
-                        top = triggerRect.bottom + margin;
-                        left = triggerRect.left + (triggerRect.width / 2) - (contentRect.width / 2);
+                        top = triggerRect.bottom + scrollY + margin;
+                        left = triggerRect.left + scrollX + (triggerRect.width / 2) - (contentRect.width / 2);
                         break;
                     case 'bottom-start':
-                        top = triggerRect.bottom + margin;
-                        left = triggerRect.left;
+                        top = triggerRect.bottom + scrollY + margin;
+                        left = triggerRect.left + scrollX;
                         break;
                     case 'bottom-end':
-                        top = triggerRect.bottom + margin;
-                        left = triggerRect.right - contentRect.width;
+                        top = triggerRect.bottom + scrollY + margin;
+                        left = triggerRect.right + scrollX - contentRect.width;
                         break;
                     case 'left':
-                        top = triggerRect.top + (triggerRect.height / 2) - (contentRect.height / 2);
-                        left = triggerRect.left - contentRect.width - margin;
+                        top = triggerRect.top + scrollY + (triggerRect.height / 2) - (contentRect.height / 2);
+                        left = triggerRect.left + scrollX - contentRect.width - margin;
                         break;
                     case 'left-start':
-                        top = triggerRect.top - 2; // Fix: Minimaler Margin nach oben
-                        left = triggerRect.left - contentRect.width - margin;
+                        top = triggerRect.top + scrollY - 2;
+                        left = triggerRect.left + scrollX - contentRect.width - margin;
                         break;
                     case 'left-end':
-                        top = triggerRect.bottom - contentRect.height + 2; // Fix: Minimaler Margin nach unten
-                        left = triggerRect.left - contentRect.width - margin;
+                        top = triggerRect.bottom + scrollY - contentRect.height + 2;
+                        left = triggerRect.left + scrollX - contentRect.width - margin;
                         break;
                     default:
-                        top = triggerRect.bottom + margin;
-                        left = triggerRect.left + (triggerRect.width / 2) - (contentRect.width / 2);
+                        top = triggerRect.bottom + scrollY + margin;
+                        left = triggerRect.left + scrollX + (triggerRect.width / 2) - (contentRect.width / 2);
                 }
-
-                // Scroll-Offset hinzufügen
-                top += scrollY;
-                left += scrollX;
 
                 content.style.top = `${top}px`;
                 content.style.left = `${left}px`;
-
-                console.log(`Positioning ${position}: top=${top}, left=${left}, triggerX=${triggerRect.left}, triggerY=${triggerRect.top}, triggerWidth=${triggerRect.width}, triggerHeight=${triggerRect.height}, contentWidth=${contentRect.width}, contentHeight=${contentRect.height}`);
+                
+                console.log(`Positioning ${position}: top=${top}, left=${left}, triggerRect.top=${triggerRect.top}, scrollY=${scrollY}, triggerX=${triggerRect.left}, triggerY=${triggerRect.top}, contentWidth=${contentRect.width}, contentHeight=${contentRect.height}`);
             };
 
             triggers.forEach(trigger => {
@@ -275,17 +270,51 @@ templ PopoverScript() {
                         content.classList.add('hidden');
                     });
                 }
+            });
 
-                window.addEventListener('scroll', () => {
-                    if (!content.classList.contains('hidden')) {
-                        positionPopover(trigger, content);
-                    }
+            // Global scroll and resize event for all popovers
+            window.addEventListener('scroll', () => {
+                triggers.forEach(trigger => {
+                    const popoverId = trigger.dataset.popoverId;
+                    const content = document.querySelector(`[data-popover-content][data-popover-id="${popoverId}"]`);
+                    if (!content || content.classList.contains('hidden')) return;
+                    
+                    positionPopover(trigger, content);
                 });
+            }, { passive: true }); // Using passive for better scroll performance
 
-                window.addEventListener('resize', () => {
-                    if (!content.classList.contains('hidden')) {
-                        positionPopover(trigger, content);
+            // Identify and attach scroll events to all scrollable parents
+            triggers.forEach(trigger => {
+                let element = trigger;
+                const scrollableParents = [];
+                
+                // Find all scrollable parents
+                while (element) {
+                    if (element.scrollHeight > element.clientHeight) {
+                        scrollableParents.push(element);
                     }
+                    element = element.parentElement;
+                }
+                
+                // Attach scroll event to each scrollable parent
+                scrollableParents.forEach(scrollParent => {
+                    scrollParent.addEventListener('scroll', () => {
+                        const popoverId = trigger.dataset.popoverId;
+                        const content = document.querySelector(`[data-popover-content][data-popover-id="${popoverId}"]`);
+                        if (!content || content.classList.contains('hidden')) return;
+                        
+                        positionPopover(trigger, content);
+                    }, { passive: true });
+                });
+            });
+
+            window.addEventListener('resize', () => {
+                triggers.forEach(trigger => {
+                    const popoverId = trigger.dataset.popoverId;
+                    const content = document.querySelector(`[data-popover-content][data-popover-id="${popoverId}"]`);
+                    if (!content || content.classList.contains('hidden')) return;
+                    
+                    positionPopover(trigger, content);
                 });
             });
         });
