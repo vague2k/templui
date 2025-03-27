@@ -343,21 +343,20 @@ templ DatePickerScript() {
 					updatePosition() {
 						const trigger = this.$refs.triggerButton;
 						const popup = this.$refs.datePickerPopup;
-						
 						if (!trigger || !popup) return;
 						
-						const rect = trigger.getBoundingClientRect();
-						const popupRect = popup.getBoundingClientRect();
-						const viewportHeight = window.innerHeight;
-						
-						// Positioniere oben oder unten, je nach verfügbarem Platz
-						if (rect.bottom + popupRect.height > viewportHeight && rect.top > popupRect.height) {
-							popup.classList.add('bottom-full', 'mb-1');
-							popup.classList.remove('top-full', 'mt-1');
-						} else {
-							popup.classList.add('top-full', 'mt-1');
-							popup.classList.remove('bottom-full', 'mb-1');
-						}
+						setTimeout(() => {
+							const rect = trigger.getBoundingClientRect();
+							const popupRect = popup.getBoundingClientRect();
+							const viewportHeight = window.innerHeight;
+							if (rect.bottom + popupRect.height > viewportHeight && rect.top > popupRect.height) {
+								popup.classList.add('bottom-full', 'mb-1');
+								popup.classList.remove('top-full', 'mt-1');
+							} else {
+								popup.classList.add('top-full', 'mt-1');
+								popup.classList.remove('bottom-full', 'mb-1');
+							}
+						}, 0); // 0ms is enough to wait for the next tick
 					},
 					
 					renderWeekdays() {
