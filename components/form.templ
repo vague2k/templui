@@ -74,11 +74,10 @@ templ FormLabel(props ...FormLabelProps) {
 		{{ p = props[0] }}
 	}
 	@Label(LabelProps{
-		ID:            p.ID,
-		Class:         p.Class,
-		DisabledClass: p.DisabledClass,
-		Attributes:    p.Attributes,
-		For:           p.For,
+		ID:         p.ID,
+		Class:      p.Class,
+		Attributes: p.Attributes,
+		For:        p.For,
 	}) {
 		{ children... }
 	}
