@@ -161,7 +161,9 @@ templ PopoverScript() {
             });
 
             const positionPopover = (trigger, content) => {
-                const triggerRect = trigger.getBoundingClientRect();
+                // Finde den Button innerhalb des Triggers oder verwende den Trigger selbst
+                const triggerElement = trigger.querySelector('button') || trigger;
+                const triggerRect = triggerElement.getBoundingClientRect();
                 const contentRect = content.getBoundingClientRect();
                 const margin = 8;
                 const scrollY = window.scrollY || window.pageYOffset;
@@ -170,64 +172,82 @@ templ PopoverScript() {
                 let top, left;
                 const position = content.dataset.popoverPosition || 'bottom';
 
+                // Get element heights
+                const triggerHeight = triggerRect.height;
+                const contentHeight = contentRect.height;
+                
+                // Definiere Ankerpunkte
+                const triggerTop = triggerRect.top + scrollY;
+                const triggerBottom = triggerRect.bottom + scrollY;
+                const triggerLeft = triggerRect.left + scrollX;
+                const triggerRight = triggerRect.right + scrollX;
+                
+                console.log(`Trigger Element:`, triggerElement);
+                console.log(`Trigger: top=${triggerTop}, bottom=${triggerBottom}, height=${triggerHeight}`);
+                console.log(`Content: height=${contentHeight}`);
+
                 switch (position) {
                     case 'top':
-                        top = triggerRect.top + scrollY - contentRect.height - margin;
-                        left = triggerRect.left + scrollX + (triggerRect.width / 2) - (contentRect.width / 2);
+                        top = triggerTop - contentHeight - margin;
+                        left = triggerLeft + (triggerRect.width / 2) - (contentRect.width / 2);
                         break;
                     case 'top-start':
-                        top = triggerRect.top + scrollY - contentRect.height - margin;
-                        left = triggerRect.left + scrollX;
+                        top = triggerTop - contentHeight - margin;
+                        left = triggerLeft;
                         break;
                     case 'top-end':
-                        top = triggerRect.top + scrollY - contentRect.height - margin;
-                        left = triggerRect.right + scrollX - contentRect.width;
+                        top = triggerTop - contentHeight - margin;
+                        left = triggerRight - contentRect.width;
                         break;
                     case 'right':
-                        top = triggerRect.top + scrollY + (triggerRect.height / 2) - (contentRect.height / 2);
-                        left = triggerRect.right + scrollX + margin;
+                        top = triggerTop + (triggerHeight / 2) - (contentHeight / 2);
+                        left = triggerRight + margin;
                         break;
                     case 'right-start':
-                        top = triggerRect.top + scrollY - 2;
-                        left = triggerRect.right + scrollX + margin;
+                        // Rechts vom Trigger, oben ausgerichtet
+                        top = triggerTop;
+                        left = triggerRight + margin;
                         break;
                     case 'right-end':
-                        top = triggerRect.bottom + scrollY - contentRect.height + 2;
-                        left = triggerRect.right + scrollX + margin;
+                        // Rechts vom Trigger, unten ausgerichtet
+                        top = triggerBottom - contentHeight;
+                        left = triggerRight + margin;
                         break;
                     case 'bottom':
-                        top = triggerRect.bottom + scrollY + margin;
-                        left = triggerRect.left + scrollX + (triggerRect.width / 2) - (contentRect.width / 2);
+                        top = triggerBottom + margin;
+                        left = triggerLeft + (triggerRect.width / 2) - (contentRect.width / 2);
                         break;
                     case 'bottom-start':
-                        top = triggerRect.bottom + scrollY + margin;
-                        left = triggerRect.left + scrollX;
+                        top = triggerBottom + margin;
+                        left = triggerLeft;
                         break;
                     case 'bottom-end':
-                        top = triggerRect.bottom + scrollY + margin;
-                        left = triggerRect.right + scrollX - contentRect.width;
+                        top = triggerBottom + margin;
+                        left = triggerRight - contentRect.width;
                         break;
                     case 'left':
-                        top = triggerRect.top + scrollY + (triggerRect.height / 2) - (contentRect.height / 2);
-                        left = triggerRect.left + scrollX - contentRect.width - margin;
+                        top = triggerTop + (triggerHeight / 2) - (contentHeight / 2);
+                        left = triggerLeft - contentRect.width - margin;
                         break;
                     case 'left-start':
-                        top = triggerRect.top + scrollY - 2;
-                        left = triggerRect.left + scrollX - contentRect.width - margin;
+                        // Links vom Trigger, oben ausgerichtet
+                        top = triggerTop;
+                        left = triggerLeft - contentRect.width - margin;
                         break;
                     case 'left-end':
-                        top = triggerRect.bottom + scrollY - contentRect.height + 2;
-                        left = triggerRect.left + scrollX - contentRect.width - margin;
+                        // Links vom Trigger, unten ausgerichtet
+                        top = triggerBottom - contentHeight;
+                        left = triggerLeft - contentRect.width - margin;
                         break;
                     default:
-                        top = triggerRect.bottom + scrollY + margin;
-                        left = triggerRect.left + scrollX + (triggerRect.width / 2) - (contentRect.width / 2);
+                        top = triggerBottom + margin;
+                        left = triggerLeft + (triggerRect.width / 2) - (contentRect.width / 2);
                 }
 
                 content.style.top = `${top}px`;
                 content.style.left = `${left}px`;
                 
-                console.log(`Positioning ${position}: top=${top}, left=${left}, triggerRect.top=${triggerRect.top}, scrollY=${scrollY}, triggerX=${triggerRect.left}, triggerY=${triggerRect.top}, contentWidth=${contentRect.width}, contentHeight=${contentRect.height}`);
+                console.log(`Positioning ${position}: top=${top}, left=${left}`);
             };
 
             triggers.forEach(trigger => {
