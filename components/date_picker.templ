@@ -4,6 +4,7 @@ import (
 	"github.com/axzilla/templui/icons"
 	"github.com/axzilla/templui/utils"
 	"time"
+	"strconv"
 )
 
 type DateFormat string
@@ -115,6 +116,7 @@ type DatePickerProps struct {
 	Config      DatePickerConfig
 	Placeholder string
 	Disabled    bool
+	Required    bool
 	HasError    bool
 	Name        string
 }
@@ -153,21 +155,25 @@ templ DatePicker(props ...DatePickerProps) {
 			disabled?={ p.Disabled }
 		/>
 		<div class="relative">
-			<!-- Button instead of input -->
-			<button
-				type="button"
-				id={ p.ID + "-trigger" }
-				@click="toggleDatePicker"
-				x-ref="triggerButton"
-				disabled?={ p.Disabled }
-				class={ utils.TwMerge(
-						"w-full h-10 px-3 py-2 rounded-md border bg-background text-sm flex items-center justify-between",
-						"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-						"disabled:cursor-not-allowed disabled:opacity-50",
-						utils.IfElse(p.HasError, "border-destructive ring-destructive", "border-input"),
-					) }
-			>
-				<!-- Display for the selected date -->
+			@Button(ButtonProps{
+				ID:      p.ID,
+				Type:    "button",
+				Variant: ButtonVariantOutline,
+				Class: utils.TwMerge(
+					"w-full select-trigger flex items-center justify-between focus:ring-2 focus:ring-offset-2",
+					utils.If(p.HasError, "border-destructive ring-destructive"),
+					p.Class,
+				),
+				Disabled: p.Disabled,
+				Attributes: utils.MergeAttributes(
+					templ.Attributes{
+						"@click":   "toggleDatePicker",
+						"x-ref":    "triggerButton",
+						"required": strconv.FormatBool(p.Required),
+					},
+					p.Attributes,
+				),
+			}) {
 				<span
 					x-ref="displayText"
 					class="text-left grow"
@@ -182,7 +188,7 @@ templ DatePicker(props ...DatePickerProps) {
 				<span class="text-muted-foreground flex items-center">
 					@icons.Calendar()
 				</span>
-			</button>
+			}
 		</div>
 		<!-- DatePicker popup with DOM-generated content -->
 		<div
@@ -491,6 +497,9 @@ templ DatePickerScript() {
 						
 						// Close DatePicker
 						this.open = false;
+
+						// Focus trigger button
+						this.$refs.triggerButton.focus();
 					}
 				}));
 			});

@@ -263,7 +263,7 @@ func SelectTrigger(props ...SelectTriggerProps) templ.Component {
 			Type:    "button",
 			Variant: ButtonVariantOutline,
 			Class: utils.TwMerge(
-				"w-full select-trigger flex items-center justify-between",
+				"w-full select-trigger flex items-center justify-between focus:ring-2 focus:ring-offset-2",
 				utils.If(p.HasError, "border-destructive ring-destructive"),
 				p.Class,
 			),
