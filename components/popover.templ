@@ -1,6 +1,9 @@
 package components
 
-import "github.com/axzilla/templui/utils"
+import (
+	"github.com/axzilla/templui/utils"
+	"strconv"
+)
 
 type PopoverPosition string
 
@@ -92,6 +95,8 @@ templ PopoverContent(props ...PopoverContentProps) {
 		data-popover-content
 		data-popover-id={ p.ID }
 		data-popover-position={ string(p.Position) }
+		data-popover-disable-clickaway={ strconv.FormatBool(p.DisableClickAway) }
+		data-popover-disable-esc={ strconv.FormatBool(p.DisableESC) }
 		class={
 			utils.TwMerge(
 				"bg-background rounded-lg border text-sm shadow-lg hidden pointer-events-auto absolute z-[9999]",
@@ -107,7 +112,7 @@ templ PopoverContent(props ...PopoverContentProps) {
 			<div
 				class={
 					utils.TwMerge(
-						"absolute h-2 w-2 rotate-45 bg-background border",
+						"absolute h-2.5 w-2.5 rotate-45 bg-background",
 						popoverArrowClass(p.Position),
 					),
 				}
@@ -119,31 +124,31 @@ templ PopoverContent(props ...PopoverContentProps) {
 func popoverArrowClass(side PopoverPosition) string {
 	switch side {
 	case PopoverTop:
-		return "bottom-[-4px] left-1/2 -translate-x-1/2 border-b border-r"
+		return "bottom-[-5px] left-1/2 -translate-x-1/2 border-b border-r"
 	case PopoverTopStart:
-		return "bottom-[-4px] left-4 border-b border-r"
+		return "bottom-[-5px] left-4 border-b border-r"
 	case PopoverTopEnd:
-		return "bottom-[-4px] right-4 border-b border-r"
+		return "bottom-[-5px] right-4 border-b border-r"
 	case PopoverRight:
-		return "left-[-4px] top-1/2 -translate-y-1/2 border-b border-l"
+		return "left-[-5px] top-1/2 -translate-y-1/2 border-b border-l"
 	case PopoverRightStart:
-		return "left-[-4px] top-0 border-b border-l" // Fix: Ganz oben
+		return "left-[-5px] top-2 border-b border-l"
 	case PopoverRightEnd:
-		return "left-[-4px] bottom-0 border-b border-l" // Fix: Ganz unten
+		return "left-[-5px] bottom-2 border-b border-l"
 	case PopoverBottom:
-		return "top-[-4px] left-1/2 -translate-x-1/2 border-t border-l"
+		return "top-[-5px] left-1/2 -translate-x-1/2 border-t border-l"
 	case PopoverBottomStart:
-		return "top-[-4px] left-4 border-t border-l"
+		return "top-[-5px] left-4 border-t border-l"
 	case PopoverBottomEnd:
-		return "top-[-4px] right-4 border-t border-l"
+		return "top-[-5px] right-4 border-t border-l"
 	case PopoverLeft:
-		return "right-[-4px] top-1/2 -translate-y-1/2 border-t border-r"
+		return "right-[-5px] top-1/2 -translate-y-1/2 border-t border-r"
 	case PopoverLeftStart:
-		return "right-[-4px] top-0 border-t border-r" // Fix: Ganz oben
+		return "right-[-5px] top-2 border-t border-r"
 	case PopoverLeftEnd:
-		return "right-[-4px] bottom-0 border-t border-r" // Fix: Ganz unten
+		return "right-[-5px] bottom-2 border-t border-r"
 	default:
-		return "top-[-4px] left-1/2 -translate-x-1/2 border-t border-l"
+		return "top-[-5px] left-1/2 -translate-x-1/2 border-t border-l"
 	}
 }
 
