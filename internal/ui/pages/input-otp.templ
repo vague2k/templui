@@ -35,6 +35,13 @@ templ InputOtp() {
 					ComponentCodeFile: "otp_input.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:       "With Label",
+					ShowcaseFile:      showcase.InputOTPWithLabel(),
+					PreviewCodeFile:   "input_otp_with_lael.templ",
+					ComponentCodeFile: "otp_input.templ",
+					ID:                "label",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "Custom Length",
 					ShowcaseFile:      showcase.InputOTPCustomLength(),
 					PreviewCodeFile:   "input_otp_custom_length.templ",

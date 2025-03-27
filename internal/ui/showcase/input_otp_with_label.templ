@@ -1,0 +1,39 @@
+package showcase
+
+import "github.com/axzilla/templui/components"
+
+templ InputOTPWithLabel() {
+	<div class="w-full max-w-sm flex flex-col gap-2">
+		@components.Label(components.LabelProps{
+			For: "otp-with-label",
+		}) {
+			Verification Code
+		}
+		@components.InputOTP(components.InputOTPProps{
+			ID:       "otp-with-label",
+			Required: true,
+			HasError: true,
+		}) {
+			@components.InputOTPGroup() {
+				@components.InputOTPSlot(components.InputOTPSlotProps{
+					Index: 0,
+				})
+				@components.InputOTPSlot(components.InputOTPSlotProps{
+					Index: 1,
+				})
+				@components.InputOTPSlot(components.InputOTPSlotProps{
+					Index: 2,
+				})
+				@components.InputOTPSlot(components.InputOTPSlotProps{
+					Index: 3,
+				})
+				@components.InputOTPSlot(components.InputOTPSlotProps{
+					Index: 4,
+				})
+				@components.InputOTPSlot(components.InputOTPSlotProps{
+					Index: 5,
+				})
+			}
+		}
+	</div>
+}
