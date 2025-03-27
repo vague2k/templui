@@ -161,8 +161,26 @@ templ PopoverScript() {
             });
 
             const positionPopover = (trigger, content) => {
-                // Finde den Button innerhalb des Triggers oder verwende den Trigger selbst
-                const triggerElement = trigger.querySelector('button') || trigger;
+                // Wir müssen das tatsächliche Element finden, auf das sich der Popover bezieht
+                // Das kann der Trigger selbst sein oder ein Kind-Element
+                // Wir analysieren die Boundingbox und nehmen das größte Element
+                let triggerElement = trigger;
+                let largestArea = 0;
+                
+                // Prüfe alle direkten Kinder des Triggers
+                const children = trigger.children;
+                for (let i = 0; i < children.length; i++) {
+                    const child = children[i];
+                    const rect = child.getBoundingClientRect();
+                    const area = rect.width * rect.height;
+                    
+                    // Wenn das Kind eine größere Fläche hat, ist es wahrscheinlich das sichtbare Element
+                    if (area > largestArea) {
+                        largestArea = area;
+                        triggerElement = child;
+                    }
+                }
+                
                 const triggerRect = triggerElement.getBoundingClientRect();
                 const contentRect = content.getBoundingClientRect();
                 const margin = 8;
@@ -182,7 +200,7 @@ templ PopoverScript() {
                 const triggerLeft = triggerRect.left + scrollX;
                 const triggerRight = triggerRect.right + scrollX;
                 
-                console.log(`Trigger Element:`, triggerElement);
+                console.log(`Selected Trigger Element:`, triggerElement);
                 console.log(`Trigger: top=${triggerTop}, bottom=${triggerBottom}, height=${triggerHeight}`);
                 console.log(`Content: height=${contentHeight}`);
 
