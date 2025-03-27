@@ -11,12 +11,11 @@ import templruntime "github.com/a-h/templ/runtime"
 import "github.com/axzilla/templui/utils"
 
 type LabelProps struct {
-	ID            string
-	Class         string
-	Attributes    templ.Attributes
-	For           string
-	Error         string
-	DisabledClass string
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+	For        string
+	Error      string
 }
 
 func Label(props ...LabelProps) templ.Component {
@@ -67,7 +66,7 @@ func Label(props ...LabelProps) templ.Component {
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/label.templ`, Line: 21, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/label.templ`, Line: 20, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -86,7 +85,7 @@ func Label(props ...LabelProps) templ.Component {
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(p.For)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/label.templ`, Line: 24, Col: 14}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/label.templ`, Line: 23, Col: 14}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
@@ -110,39 +109,15 @@ func Label(props ...LabelProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "\" data-disabled-style=\"opacity-50 cursor-not-allowed\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
-		}
-		if p.DisabledClass != "" {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, " data-disabled-style=\"")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			var templ_7745c5c3_Var6 string
-			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(p.DisabledClass)
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/label.templ`, Line: 34, Col: 40}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "\"")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		} else {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, " data-disabled-style=\"opacity-50 cursor-not-allowed\"")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
 		}
 		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, p.Attributes)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, ">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, ">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -150,7 +125,7 @@ func Label(props ...LabelProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "</label>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "</label>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -174,13 +149,13 @@ func LabelScript() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var7 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var7 == nil {
-			templ_7745c5c3_Var7 = templ.NopComponent
+		templ_7745c5c3_Var6 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var6 == nil {
+			templ_7745c5c3_Var6 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
 		handle := templ.NewOnceHandle()
-		templ_7745c5c3_Var8 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_Var7 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 			templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 			templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
 			if !templ_7745c5c3_IsBuffer {
@@ -192,26 +167,26 @@ func LabelScript() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "<script defer nonce=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<script defer nonce=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var9 string
-			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
+			var templ_7745c5c3_Var8 string
+			templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/label.templ`, Line: 47, Col: 43}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/label.templ`, Line: 42, Col: 43}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "\">\n\t\t\tdocument.addEventListener('DOMContentLoaded', function() {\n\t\t\t\tfunction updateLabelStyles() {\n\t\t\t\t\t// Find all labels that are connected to form elements\n\t\t\t\t\tdocument.querySelectorAll('label[for]').forEach(function(label) {\n\t\t\t\t\t\tconst forId = label.getAttribute('for');\n\t\t\t\t\t\tconst element = document.getElementById(forId);\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (element && element.disabled) {\n\t\t\t\t\t\t\t// Element is disabled, apply disabled style\n\t\t\t\t\t\t\tconst disabledStyle = label.getAttribute('data-disabled-style') || 'opacity-50 cursor-not-allowed';\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t// Add classes from disabled style\n\t\t\t\t\t\t\tdisabledStyle.split(' ').forEach(function(className) {\n\t\t\t\t\t\t\t\tif (className) {\n\t\t\t\t\t\t\t\t\tlabel.classList.add(className);\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t});\n\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\t// Element is not disabled, remove disabled style\n\t\t\t\t\t\t\tconst disabledStyle = label.getAttribute('data-disabled-style') || 'opacity-50 cursor-not-allowed';\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t// Remove classes from disabled style\n\t\t\t\t\t\t\tdisabledStyle.split(' ').forEach(function(className) {\n\t\t\t\t\t\t\t\tif (className) {\n\t\t\t\t\t\t\t\t\tlabel.classList.remove(className);\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t});\n\t\t\t\t\t\t}\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\t// Run once on load\n\t\t\t\tupdateLabelStyles();\n\t\t\t\t\n\t\t\t\t// Set up mutation observer to watch for disabled attribute changes\n\t\t\t\tconst observer = new MutationObserver(function(mutations) {\n\t\t\t\t\tmutations.forEach(function(mutation) {\n\t\t\t\t\t\tif (mutation.type === 'attributes' && mutation.attributeName === 'disabled') {\n\t\t\t\t\t\t\tupdateLabelStyles();\n\t\t\t\t\t\t}\n\t\t\t\t\t});\n\t\t\t\t});\n\t\t\t\t\n\t\t\t\t// Observe all form elements for disabled attribute changes\n\t\t\t\tdocument.querySelectorAll('input, select, textarea, button').forEach(function(element) {\n\t\t\t\t\tobserver.observe(element, { attributes: true });\n\t\t\t\t});\n\t\t\t\t\n\t\t\t\t// Also update on any change events in the form\n\t\t\t\tdocument.addEventListener('change', updateLabelStyles);\n\t\t\t});\n\t\t</script>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "\">\n\t\t\tdocument.addEventListener('DOMContentLoaded', function() {\n\t\t\t  document.querySelectorAll('label[for]').forEach(function(label) {\n\t\t\t\t// Disabled style handler\n\t\t\t\tfunction updateLabelStyle(label) {\n\t\t\t\t  const forId = label.getAttribute('for');\n\t\t\t\t  const targetElement = document.getElementById(forId);\n\t\t\t\t  \n\t\t\t\t  if (targetElement && targetElement.disabled) {\n\t\t\t\t\t// Retrieve the custom disabled style or use the default\n\t\t\t\t\tconst disabledStyle = label.getAttribute('data-disabled-style');\n\t\t\t\t\tdisabledStyle.split(' ').forEach(function(className) {\n\t\t\t\t\t  if (className) {\n\t\t\t\t\t\tlabel.classList.add(className);\n\t\t\t\t\t  }\n\t\t\t\t\t});\n\t\t\t\t  } else {\n\t\t\t\t\t// Remove the disabled style\n\t\t\t\t\tconst disabledStyle = label.getAttribute('data-disabled-style');\n\t\t\t\t\tdisabledStyle.split(' ').forEach(function(className) {\n\t\t\t\t\t  if (className) {\n\t\t\t\t\t\tlabel.classList.remove(className);\n\t\t\t\t\t  }\n\t\t\t\t\t});\n\t\t\t\t  }\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\t// Update the initial style\n\t\t\t\tupdateLabelStyle(label);\n\t\t\t\t\n\t\t\t\t// Create a MutationObserver for this specific label\n\t\t\t\tconst forId = label.getAttribute('for');\n\t\t\t\tconst targetElement = document.getElementById(forId);\n\t\t\t\t\n\t\t\t\tif (targetElement) {\n\t\t\t\t  const observer = new MutationObserver(function() {\n\t\t\t\t\tupdateLabelStyle(label);\n\t\t\t\t  });\n\t\t\t\t  \n\t\t\t\t  observer.observe(targetElement, { \n\t\t\t\t\tattributes: true, \n\t\t\t\t\tattributeFilter: ['disabled'] \n\t\t\t\t  });\n\t\t\t\t}\n\t\t\t  });\n\t\t\t});\n\t\t</script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = handle.Once().Render(templ.WithChildren(ctx, templ_7745c5c3_Var8), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = handle.Once().Render(templ.WithChildren(ctx, templ_7745c5c3_Var7), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

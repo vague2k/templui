@@ -3,12 +3,11 @@ package components
 import "github.com/axzilla/templui/utils"
 
 type LabelProps struct {
-	ID            string
-	Class         string
-	Attributes    templ.Attributes
-	For           string
-	Error         string
-	DisabledClass string
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+	For        string
+	Error      string
 }
 
 templ Label(props ...LabelProps) {
@@ -30,11 +29,7 @@ templ Label(props ...LabelProps) {
 				p.Class,
 			),
 		}
-		if p.DisabledClass != "" {
-			data-disabled-style={ p.DisabledClass }
-		} else {
-			data-disabled-style="opacity-50 cursor-not-allowed"
-		}
+		data-disabled-style="opacity-50 cursor-not-allowed"
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -46,55 +41,49 @@ templ LabelScript() {
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
 			document.addEventListener('DOMContentLoaded', function() {
-				function updateLabelStyles() {
-					// Find all labels that are connected to form elements
-					document.querySelectorAll('label[for]').forEach(function(label) {
-						const forId = label.getAttribute('for');
-						const element = document.getElementById(forId);
-						
-						if (element && element.disabled) {
-							// Element is disabled, apply disabled style
-							const disabledStyle = label.getAttribute('data-disabled-style') || 'opacity-50 cursor-not-allowed';
-							
-							// Add classes from disabled style
-							disabledStyle.split(' ').forEach(function(className) {
-								if (className) {
-									label.classList.add(className);
-								}
-							});
-						} else {
-							// Element is not disabled, remove disabled style
-							const disabledStyle = label.getAttribute('data-disabled-style') || 'opacity-50 cursor-not-allowed';
-							
-							// Remove classes from disabled style
-							disabledStyle.split(' ').forEach(function(className) {
-								if (className) {
-									label.classList.remove(className);
-								}
-							});
-						}
+			  document.querySelectorAll('label[for]').forEach(function(label) {
+				// Disabled style handler
+				function updateLabelStyle(label) {
+				  const forId = label.getAttribute('for');
+				  const targetElement = document.getElementById(forId);
+				  
+				  if (targetElement && targetElement.disabled) {
+					// Retrieve the custom disabled style or use the default
+					const disabledStyle = label.getAttribute('data-disabled-style');
+					disabledStyle.split(' ').forEach(function(className) {
+					  if (className) {
+						label.classList.add(className);
+					  }
 					});
+				  } else {
+					// Remove the disabled style
+					const disabledStyle = label.getAttribute('data-disabled-style');
+					disabledStyle.split(' ').forEach(function(className) {
+					  if (className) {
+						label.classList.remove(className);
+					  }
+					});
+				  }
 				}
 				
-				// Run once on load
-				updateLabelStyles();
+				// Update the initial style
+				updateLabelStyle(label);
 				
-				// Set up mutation observer to watch for disabled attribute changes
-				const observer = new MutationObserver(function(mutations) {
-					mutations.forEach(function(mutation) {
-						if (mutation.type === 'attributes' && mutation.attributeName === 'disabled') {
-							updateLabelStyles();
-						}
-					});
-				});
+				// Create a MutationObserver for this specific label
+				const forId = label.getAttribute('for');
+				const targetElement = document.getElementById(forId);
 				
-				// Observe all form elements for disabled attribute changes
-				document.querySelectorAll('input, select, textarea, button').forEach(function(element) {
-					observer.observe(element, { attributes: true });
-				});
-				
-				// Also update on any change events in the form
-				document.addEventListener('change', updateLabelStyles);
+				if (targetElement) {
+				  const observer = new MutationObserver(function() {
+					updateLabelStyle(label);
+				  });
+				  
+				  observer.observe(targetElement, { 
+					attributes: true, 
+					attributeFilter: ['disabled'] 
+				  });
+				}
+			  });
 			});
 		</script>
 	}

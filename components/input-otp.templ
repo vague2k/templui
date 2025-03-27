@@ -168,16 +168,31 @@ templ InputOTPScript() {
 					otpValue: '',
 					inputRefs: [],
 					
-					init() {
-						// Initialize on first load
-						this.$nextTick(() => {
-							if (this.$el.dataset.value) {
-								this.otpValue = this.$el.dataset.value;
-								this.fillInputsFromValue();
-							}
-						});
-					},
-					
+				    init() {
+                        // Initialize on first load
+                        this.$nextTick(() => {
+                            if (this.$el.dataset.value) {
+                                this.otpValue = this.$el.dataset.value;
+                                this.fillInputsFromValue();
+                            }
+
+							// Add event listeners for label clicks
+                            const container = this.$el;
+                            const inputId = container.querySelector('input[type="hidden"]').id;
+                            if (inputId) {
+                                document.querySelectorAll(`label[for="${inputId}"]`).forEach(label => {
+                                    label.addEventListener('click', (event) => {
+                                        event.preventDefault();
+                                        const inputs = this.getInputRefs();
+                                        if (inputs.length > 0) {
+                                            inputs[0].focus();
+                                        }
+                                    });
+                                });
+                            }
+                        });
+                    },
+                    
 					getInputRefs() {
 						// Use Alpine's magic $refs
 						const refs = this.$refs;
