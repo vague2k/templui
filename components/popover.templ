@@ -91,35 +91,35 @@ templ PopoverContent(props ...PopoverContentProps) {
 	if p.Position == "" {
 		{{ p.Position = PopoverBottom }}
 	}
-	<div
-		data-popover-content
+	<template
+		data-popover-content-template
 		data-popover-id={ p.ID }
 		data-popover-position={ string(p.Position) }
 		data-popover-disable-clickaway={ strconv.FormatBool(p.DisableClickAway) }
 		data-popover-disable-esc={ strconv.FormatBool(p.DisableESC) }
 		data-popover-show-arrow={ strconv.FormatBool(p.ShowArrow) }
-		class={
-			utils.TwMerge(
-				"bg-background rounded-lg border text-sm shadow-lg hidden pointer-events-auto absolute z-[9999]",
-				p.Class,
-			),
-		}
-		{ p.Attributes... }
 	>
-		<div class="w-full overflow-hidden">
-			{ children... }
+		<div
+			class={ utils.TwMerge(
+			"bg-background rounded-lg border text-sm shadow-lg pointer-events-auto absolute z-[9999]",
+			p.Class,
+		) }
+		>
+			<div class="w-full overflow-hidden">
+				{ children... }
+			</div>
+			if p.ShowArrow {
+				<div
+					class={
+						utils.TwMerge(
+							"absolute h-2.5 w-2.5 rotate-45 bg-background",
+							popoverArrowClass(p.Position),
+						),
+					}
+				></div>
+			}
 		</div>
-		if p.ShowArrow {
-			<div
-				class={
-					utils.TwMerge(
-						"absolute h-2.5 w-2.5 rotate-45 bg-background",
-						popoverArrowClass(p.Position),
-					),
-				}
-			></div>
-		}
-	</div>
+	</template>
 }
 
 func popoverArrowClass(side PopoverPosition) string {
@@ -157,19 +157,15 @@ templ PopoverScript() {
 	<script defer nonce={ templ.GetNonce(ctx) }>
         document.addEventListener('DOMContentLoaded', () => {
             const portalContainer = document.getElementById('popover-portal-container');
-            if (!portalContainer) return;
-            
             const triggers = document.querySelectorAll('[data-popover-trigger]');
-            const contents = document.querySelectorAll('[data-popover-content]');
-
-            contents.forEach(content => {
-                portalContainer.appendChild(content);
-            });
-
-            const positionPopover = (trigger, content) => {
-                // Wir müssen das tatsächliche Element finden, auf das sich der Popover bezieht
-                // Das kann der Trigger selbst sein oder ein Kind-Element
-                // Wir analysieren die Boundingbox und nehmen das größte Element
+            const templates = document.querySelectorAll('[data-popover-content-template]');
+            
+            // Aktive Popovers
+            const activePopovers = new Map();
+            
+            // Positionierungsfunktion
+            const positionPopover = (trigger, popoverElement) => {
+                // Finde das tatsächliche Element, auf das sich der Popover bezieht
                 let triggerElement = trigger;
                 let largestArea = 0;
                 
@@ -180,7 +176,6 @@ templ PopoverScript() {
                     const rect = child.getBoundingClientRect();
                     const area = rect.width * rect.height;
                     
-                    // Wenn das Kind eine größere Fläche hat, ist es wahrscheinlich das sichtbare Element
                     if (area > largestArea) {
                         largestArea = area;
                         triggerElement = child;
@@ -188,15 +183,12 @@ templ PopoverScript() {
                 }
                 
                 const triggerRect = triggerElement.getBoundingClientRect();
-                const contentRect = content.getBoundingClientRect();
-                // Dynamischer Margin basierend auf dem data-popover-show-arrow Attribut
-                const hasArrow = content.dataset.popoverShowArrow === 'true';
-                const margin = hasArrow ? 8 : 4;
+                const contentRect = popoverElement.getBoundingClientRect();
+                const margin = popoverElement.dataset.popoverShowArrow === 'true' ? 8 : 4;
                 const scrollY = window.scrollY || window.pageYOffset;
                 const scrollX = window.scrollX || window.pageXOffset;
 
-                let top, left;
-                const position = content.dataset.popoverPosition || 'bottom';
+                const position = popoverElement.dataset.popoverPosition || 'bottom';
 
                 // Get element heights
                 const triggerHeight = triggerRect.height;
@@ -208,10 +200,9 @@ templ PopoverScript() {
                 const triggerLeft = triggerRect.left + scrollX;
                 const triggerRight = triggerRect.right + scrollX;
                 
-                console.log(`Selected Trigger Element:`, triggerElement);
-                console.log(`Trigger: top=${triggerTop}, bottom=${triggerBottom}, height=${triggerHeight}`);
-                console.log(`Content: height=${contentHeight}`);
-
+                let top, left;
+                
+                // Hier den restlichen Code für verschiedene Positionen einfügen...
                 switch (position) {
                     case 'top':
                         top = triggerTop - contentHeight - margin;
@@ -230,12 +221,10 @@ templ PopoverScript() {
                         left = triggerRight + margin;
                         break;
                     case 'right-start':
-                        // Rechts vom Trigger, oben ausgerichtet
                         top = triggerTop;
                         left = triggerRight + margin;
                         break;
                     case 'right-end':
-                        // Rechts vom Trigger, unten ausgerichtet
                         top = triggerBottom - contentHeight;
                         left = triggerRight + margin;
                         break;
@@ -256,12 +245,10 @@ templ PopoverScript() {
                         left = triggerLeft - contentRect.width - margin;
                         break;
                     case 'left-start':
-                        // Links vom Trigger, oben ausgerichtet
                         top = triggerTop;
                         left = triggerLeft - contentRect.width - margin;
                         break;
                     case 'left-end':
-                        // Links vom Trigger, unten ausgerichtet
                         top = triggerBottom - contentHeight;
                         left = triggerLeft - contentRect.width - margin;
                         break;
@@ -270,99 +257,177 @@ templ PopoverScript() {
                         left = triggerLeft + (triggerRect.width / 2) - (contentRect.width / 2);
                 }
 
-                content.style.top = `${top}px`;
-                content.style.left = `${left}px`;
-                
-                console.log(`Positioning ${position}: top=${top}, left=${left}`);
+                popoverElement.style.top = `${top}px`;
+                popoverElement.style.left = `${left}px`;
             };
-
-            triggers.forEach(trigger => {
+            
+            // Event-Handler einrichten
+            function setupTrigger(trigger) {
                 const popoverId = trigger.dataset.popoverId;
-                const content = document.querySelector(`[data-popover-content][data-popover-id="${popoverId}"]`);
-                if (!content) return;
-
+                const template = document.querySelector(`[data-popover-content-template][data-popover-id="${popoverId}"]`);
+                
+                if (!template) return;
+                
                 const triggerType = trigger.dataset.popoverType;
-
+                
+                // Click-Handler
                 if (triggerType === 'click') {
                     trigger.addEventListener('click', () => {
-                        const isOpen = content.classList.contains('hidden');
-                        content.classList.toggle('hidden', !isOpen);
-                        if (isOpen) positionPopover(trigger, content);
-                    });
-
-                    if (content.dataset.popoverDisableClickaway !== 'true') {
-                        document.addEventListener('click', (e) => {
-                            if (!content.classList.contains('hidden') && 
-                                !trigger.contains(e.target) && 
-                                !content.contains(e.target)) {
-                                content.classList.add('hidden');
-                            }
-                        });
-                    }
-
-                    if (content.dataset.popoverDisableEsc !== 'true') {
-                        document.addEventListener('keydown', (e) => {
-                            if (e.key === 'Escape' && !content.classList.contains('hidden')) {
-                                content.classList.add('hidden');
-                            }
-                        });
-                    }
-                } else if (triggerType === 'hover') {
-                    trigger.addEventListener('mouseenter', () => {
-                        content.classList.remove('hidden');
-                        positionPopover(trigger, content);
-                    });
-                    trigger.addEventListener('mouseleave', () => {
-                        content.classList.add('hidden');
-                    });
-                }
-            });
-
-            // Global scroll and resize event for all popovers
-            window.addEventListener('scroll', () => {
-                triggers.forEach(trigger => {
-                    const popoverId = trigger.dataset.popoverId;
-                    const content = document.querySelector(`[data-popover-content][data-popover-id="${popoverId}"]`);
-                    if (!content || content.classList.contains('hidden')) return;
-                    
-                    positionPopover(trigger, content);
-                });
-            }, { passive: true }); // Using passive for better scroll performance
-
-            // Identify and attach scroll events to all scrollable parents
-            triggers.forEach(trigger => {
-                let element = trigger;
-                const scrollableParents = [];
-                
-                // Find all scrollable parents
-                while (element) {
-                    if (element.scrollHeight > element.clientHeight) {
-                        scrollableParents.push(element);
-                    }
-                    element = element.parentElement;
-                }
-                
-                // Attach scroll event to each scrollable parent
-                scrollableParents.forEach(scrollParent => {
-                    scrollParent.addEventListener('scroll', () => {
-                        const popoverId = trigger.dataset.popoverId;
-                        const content = document.querySelector(`[data-popover-content][data-popover-id="${popoverId}"]`);
-                        if (!content || content.classList.contains('hidden')) return;
+                        // Wenn Popover bereits aktiv ist, entfernen
+                        if (activePopovers.has(popoverId)) {
+                            const popover = activePopovers.get(popoverId);
+                            popover.remove();
+                            activePopovers.delete(popoverId);
+                            return;
+                        }
                         
+                        // Sonst neues Popover erstellen
+                        const content = template.content.cloneNode(true).firstElementChild;
+                        
+                        // Attribute vom Template übertragen
+                        Object.keys(template.dataset).forEach(key => {
+                            if (key.startsWith('popover')) {
+                                content.dataset[key] = template.dataset[key];
+                            }
+                        });
+                        
+                        // Zum Portal-Container hinzufügen
+                        portalContainer.appendChild(content);
+                        
+                        // Positionieren
                         positionPopover(trigger, content);
+                        
+                        // In aktive Popovers einfügen
+                        activePopovers.set(popoverId, content);
+                        
+                        // Clickaway-Handler hinzufügen
+                        if (content.dataset.popoverDisableClickaway !== 'true') {
+                            const clickHandler = (e) => {
+                                if (!trigger.contains(e.target) && !content.contains(e.target)) {
+                                    content.remove();
+                                    activePopovers.delete(popoverId);
+                                    document.removeEventListener('click', clickHandler);
+                                }
+                            };
+                            
+                            // Verzögerung, damit der aktuelle Klick nicht sofort wieder schließt
+                            setTimeout(() => {
+                                document.addEventListener('click', clickHandler);
+                            }, 0);
+                        }
+                        
+                        // ESC-Handler hinzufügen
+                        if (content.dataset.popoverDisableEsc !== 'true') {
+                            const keyHandler = (e) => {
+                                if (e.key === 'Escape') {
+                                    content.remove();
+                                    activePopovers.delete(popoverId);
+                                    document.removeEventListener('keydown', keyHandler);
+                                }
+                            };
+                            document.addEventListener('keydown', keyHandler);
+                        }
+                    });
+                } else if (triggerType === 'hover') {
+                    // Hover-Handlers
+                    let hoverTimeout;
+                    
+                    trigger.addEventListener('mouseenter', () => {
+                        clearTimeout(hoverTimeout);
+                        
+                        // Wenn Popover bereits aktiv, nicht neu erstellen
+                        if (activePopovers.has(popoverId)) return;
+                        
+                        // Neues Popover erstellen
+                        const content = template.content.cloneNode(true).firstElementChild;
+                        
+                        // Attribute übertragen
+                        Object.keys(template.dataset).forEach(key => {
+                            if (key.startsWith('popover')) {
+                                content.dataset[key] = template.dataset[key];
+                            }
+                        });
+                        
+                        // Zum Portal-Container hinzufügen
+                        portalContainer.appendChild(content);
+                        
+                        // Positionieren
+                        positionPopover(trigger, content);
+                        
+                        // In aktive Popovers einfügen
+                        activePopovers.set(popoverId, content);
+                    });
+                    
+                    trigger.addEventListener('mouseleave', () => {
+                        hoverTimeout = setTimeout(() => {
+                            if (activePopovers.has(popoverId)) {
+                                const popover = activePopovers.get(popoverId);
+                                popover.remove();
+                                activePopovers.delete(popoverId);
+                            }
+                        }, 100);
+                    });
+                }
+            }
+            
+            // Für jeden Trigger die Handler einrichten
+            triggers.forEach(setupTrigger);
+            
+            // Scrolling-Handler für alle Popovers
+            window.addEventListener('scroll', () => {
+                activePopovers.forEach((content, popoverId) => {
+                    const trigger = document.querySelector(`[data-popover-trigger][data-popover-id="${popoverId}"]`);
+                    if (trigger) {
+                        positionPopover(trigger, content);
+                    }
+                });
+            }, { passive: true });
+            
+            // Resize-Handler
+            window.addEventListener('resize', () => {
+                activePopovers.forEach((content, popoverId) => {
+                    const trigger = document.querySelector(`[data-popover-trigger][data-popover-id="${popoverId}"]`);
+                    if (trigger) {
+                        positionPopover(trigger, content);
+                    }
+                });
+            });
+            
+            // Finde alle scrollbaren Elternelemente und füge Scroll-Handler hinzu
+            function setupScrollHandlers() {
+                const scrollableElements = new Set();
+                
+                // Für jeden Trigger die scrollbaren Eltern finden
+                triggers.forEach(trigger => {
+                    let element = trigger.parentElement;
+                    
+                    while (element) {
+                        const style = window.getComputedStyle(element);
+                        const overflow = style.overflow + style.overflowY + style.overflowX;
+                        
+                        if (overflow.includes('scroll') || overflow.includes('auto') || 
+                            element.scrollHeight > element.clientHeight) {
+                            scrollableElements.add(element);
+                        }
+                        
+                        element = element.parentElement;
+                    }
+                });
+                
+                // Scroll-Handler für jedes scrollbare Element
+                scrollableElements.forEach(element => {
+                    element.addEventListener('scroll', () => {
+                        activePopovers.forEach((content, popoverId) => {
+                            const trigger = document.querySelector(`[data-popover-trigger][data-popover-id="${popoverId}"]`);
+                            if (trigger) {
+                                positionPopover(trigger, content);
+                            }
+                        });
                     }, { passive: true });
                 });
-            });
-
-            window.addEventListener('resize', () => {
-                triggers.forEach(trigger => {
-                    const popoverId = trigger.dataset.popoverId;
-                    const content = document.querySelector(`[data-popover-content][data-popover-id="${popoverId}"]`);
-                    if (!content || content.classList.contains('hidden')) return;
-                    
-                    positionPopover(trigger, content);
-                });
-            });
+            }
+            
+            setupScrollHandlers();
         });
     </script>
 }
