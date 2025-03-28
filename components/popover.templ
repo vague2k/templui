@@ -111,21 +111,57 @@ templ PopoverContent(props ...PopoverContentProps) {
 			if p.ShowArrow {
 				<!-- We generate all arrows with unique data attributes for easier identification -->
 				<!-- Top arrows -->
-				<div data-arrow="top" class="absolute h-2.5 w-2.5 rotate-45 bg-background top-[-5px] left-1/2 -translate-x-1/2 border-t border-l hidden"></div>
-				<div data-arrow="top-start" class="absolute h-2.5 w-2.5 rotate-45 bg-background top-[-5px] left-4 border-t border-l hidden"></div>
-				<div data-arrow="top-end" class="absolute h-2.5 w-2.5 rotate-45 bg-background top-[-5px] right-4 border-t border-l hidden"></div>
+				<div
+					data-arrow={ string(PopoverTop) }
+					class="absolute h-2.5 w-2.5 rotate-45 bg-background top-[-5px] left-1/2 -translate-x-1/2 border-t border-l hidden"
+				></div>
+				<div
+					data-arrow={ string(PopoverTopStart) }
+					class="absolute h-2.5 w-2.5 rotate-45 bg-background top-[-5px] left-4 border-t border-l hidden"
+				></div>
+				<div
+					data-arrow={ string(PopoverTopEnd) }
+					class="absolute h-2.5 w-2.5 rotate-45 bg-background top-[-5px] right-4 border-t border-l hidden"
+				></div>
 				<!-- Bottom arrows -->
-				<div data-arrow="bottom" class="absolute h-2.5 w-2.5 rotate-45 bg-background bottom-[-5px] left-1/2 -translate-x-1/2 border-b border-r hidden"></div>
-				<div data-arrow="bottom-start" class="absolute h-2.5 w-2.5 rotate-45 bg-background bottom-[-5px] left-4 border-b border-r hidden"></div>
-				<div data-arrow="bottom-end" class="absolute h-2.5 w-2.5 rotate-45 bg-background bottom-[-5px] right-4 border-b border-r hidden"></div>
+				<div
+					data-arrow={ string(PopoverBottom) }
+					class="absolute h-2.5 w-2.5 rotate-45 bg-background bottom-[-5px] left-1/2 -translate-x-1/2 border-b border-r hidden"
+				></div>
+				<div
+					data-arrow={ string(PopoverBottomStart) }
+					class="absolute h-2.5 w-2.5 rotate-45 bg-background bottom-[-5px] left-4 border-b border-r hidden"
+				></div>
+				<div
+					data-arrow={ string(PopoverBottomEnd) }
+					class="absolute h-2.5 w-2.5 rotate-45 bg-background bottom-[-5px] right-4 border-b border-r hidden"
+				></div>
 				<!-- Left arrows -->
-				<div data-arrow="left" class="absolute h-2.5 w-2.5 rotate-45 bg-background left-[-5px] top-1/2 -translate-y-1/2 border-b border-l hidden"></div>
-				<div data-arrow="left-start" class="absolute h-2.5 w-2.5 rotate-45 bg-background left-[-5px] top-2 border-b border-l hidden"></div>
-				<div data-arrow="left-end" class="absolute h-2.5 w-2.5 rotate-45 bg-background left-[-5px] bottom-2 border-b border-l hidden"></div>
+				<div
+					data-arrow={ string(PopoverLeft) }
+					class="absolute h-2.5 w-2.5 rotate-45 bg-background left-[-5px] top-1/2 -translate-y-1/2 border-b border-l hidden"
+				></div>
+				<div
+					data-arrow={ string(PopoverLeftStart) }
+					class="absolute h-2.5 w-2.5 rotate-45 bg-background left-[-5px] top-2 border-b border-l hidden"
+				></div>
+				<div
+					data-arrow={ string(PopoverLeftEnd) }
+					class="absolute h-2.5 w-2.5 rotate-45 bg-background left-[-5px] bottom-2 border-b border-l hidden"
+				></div>
 				<!-- Right arrows -->
-				<div data-arrow="right" class="absolute h-2.5 w-2.5 rotate-45 bg-background right-[-5px] top-1/2 -translate-y-1/2 border-t border-r hidden"></div>
-				<div data-arrow="right-start" class="absolute h-2.5 w-2.5 rotate-45 bg-background right-[-5px] top-2 border-t border-r hidden"></div>
-				<div data-arrow="right-end" class="absolute h-2.5 w-2.5 rotate-45 bg-background right-[-5px] bottom-2 border-t border-r hidden"></div>
+				<div
+					data-arrow={ string(PopoverRight) }
+					class="absolute h-2.5 w-2.5 rotate-45 bg-background right-[-5px] top-1/2 -translate-y-1/2 border-t border-r hidden"
+				></div>
+				<div
+					data-arrow={ string(PopoverRightStart) }
+					class="absolute h-2.5 w-2.5 rotate-45 bg-background right-[-5px] top-2 border-t border-r hidden"
+				></div>
+				<div
+					data-arrow={ string(PopoverRightEnd) }
+					class="absolute h-2.5 w-2.5 rotate-45 bg-background right-[-5px] bottom-2 border-t border-r hidden"
+				></div>
 			}
 		</div>
 	</template>
