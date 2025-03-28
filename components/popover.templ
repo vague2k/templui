@@ -156,6 +156,52 @@ func popoverArrowClass(side PopoverPosition) string {
 templ PopoverScript() {
 	<script defer nonce={ templ.GetNonce(ctx) }>
         document.addEventListener('DOMContentLoaded', () => {
+            // Animation-Styles und dynamische Pfeil-Anpassung
+            const style = document.createElement('style');
+            style.textContent = `
+                /* Pfeilpositionen für verschiedene Platzierungen */
+                /* Top-Position - Pfeil unten */
+                [data-popover-current-position^="top"] [class*="bottom-[-5px]"] {
+                    display: block;
+                }
+                [data-popover-current-position^="top"] [class*="top-[-5px]"],
+                [data-popover-current-position^="top"] [class*="left-[-5px]"],
+                [data-popover-current-position^="top"] [class*="right-[-5px]"] {
+                    display: none;
+                }
+                
+                /* Bottom-Position - Pfeil oben */
+                [data-popover-current-position^="bottom"] [class*="top-[-5px]"] {
+                    display: block;
+                }
+                [data-popover-current-position^="bottom"] [class*="bottom-[-5px]"],
+                [data-popover-current-position^="bottom"] [class*="left-[-5px]"],
+                [data-popover-current-position^="bottom"] [class*="right-[-5px]"] {
+                    display: none;
+                }
+                
+                /* Left-Position - Pfeil rechts */
+                [data-popover-current-position^="left"] [class*="right-[-5px]"] {
+                    display: block;
+                }
+                [data-popover-current-position^="left"] [class*="left-[-5px]"],
+                [data-popover-current-position^="left"] [class*="top-[-5px]"],
+                [data-popover-current-position^="left"] [class*="bottom-[-5px]"] {
+                    display: none;
+                }
+                
+                /* Right-Position - Pfeil links */
+                [data-popover-current-position^="right"] [class*="left-[-5px]"] {
+                    display: block;
+                }
+                [data-popover-current-position^="right"] [class*="right-[-5px]"],
+                [data-popover-current-position^="right"] [class*="top-[-5px]"],
+                [data-popover-current-position^="right"] [class*="bottom-[-5px]"] {
+                    display: none;
+                }
+            `;
+            document.head.appendChild(style);
+            
             const portalContainer = document.getElementById('popover-portal-container');
             const triggers = document.querySelectorAll('[data-popover-trigger]');
             const templates = document.querySelectorAll('[data-popover-content-template]');
@@ -188,11 +234,19 @@ templ PopoverScript() {
                 const scrollY = window.scrollY || window.pageYOffset;
                 const scrollX = window.scrollX || window.pageXOffset;
 
-                const position = popoverElement.dataset.popoverPosition || 'bottom';
+                // Position aus dem Datensatz abrufen
+                const requestedPosition = popoverElement.dataset.popoverPosition || 'bottom';
+                // Wir speichern die finale Position, die je nach Viewport-Raum angepasst werden kann
+                let finalPosition = requestedPosition;
 
-                // Get element heights
+                // Viewport-Dimensionen
+                const viewportWidth = window.innerWidth;
+                const viewportHeight = window.innerHeight;
+
+                // Get element heights and widths
                 const triggerHeight = triggerRect.height;
                 const contentHeight = contentRect.height;
+                const contentWidth = contentRect.width;
                 
                 // Definiere Ankerpunkte
                 const triggerTop = triggerRect.top + scrollY;
@@ -200,10 +254,35 @@ templ PopoverScript() {
                 const triggerLeft = triggerRect.left + scrollX;
                 const triggerRight = triggerRect.right + scrollX;
                 
+                // Berechne verfügbaren Platz in jede Richtung
+                const spaceAbove = triggerRect.top;
+                const spaceBelow = viewportHeight - triggerRect.bottom;
+                const spaceLeft = triggerRect.left;
+                const spaceRight = viewportWidth - triggerRect.right;
+
+                // Intelligente Positionsanpassung
+                // Wir prüfen die gegensätzliche Position, wenn nicht genug Platz vorhanden ist
+                if (finalPosition.startsWith('top') && spaceAbove < contentHeight + margin) {
+                    // Wenn oben nicht genug Platz ist, unten anzeigen
+                    finalPosition = finalPosition.replace('top', 'bottom');
+                } else if (finalPosition.startsWith('bottom') && spaceBelow < contentHeight + margin) {
+                    // Wenn unten nicht genug Platz ist, oben anzeigen
+                    finalPosition = finalPosition.replace('bottom', 'top');
+                } else if (finalPosition.startsWith('left') && spaceLeft < contentWidth + margin) {
+                    // Wenn links nicht genug Platz ist, rechts anzeigen
+                    finalPosition = finalPosition.replace('left', 'right');
+                } else if (finalPosition.startsWith('right') && spaceRight < contentWidth + margin) {
+                    // Wenn rechts nicht genug Platz ist, links anzeigen
+                    finalPosition = finalPosition.replace('right', 'left');
+                }
+
+                // Speichere die aktuelle Position im Element für CSS-Anpassungen (z.B. Pfeil-Position)
+                popoverElement.dataset.popoverCurrentPosition = finalPosition;
+                
                 let top, left;
                 
-                // Hier den restlichen Code für verschiedene Positionen einfügen...
-                switch (position) {
+                // Positionierungslogik mit der finalen Position
+                switch (finalPosition) {
                     case 'top':
                         top = triggerTop - contentHeight - margin;
                         left = triggerLeft + (triggerRect.width / 2) - (contentRect.width / 2);
@@ -221,11 +300,11 @@ templ PopoverScript() {
                         left = triggerRight + margin;
                         break;
                     case 'right-start':
-                        top = triggerTop;  // Exakt am oberen Rand ausrichten
+                        top = triggerTop;
                         left = triggerRight + margin;
                         break;
                     case 'right-end':
-                        top = triggerBottom - contentHeight;  // Exakt am unteren Rand ausrichten
+                        top = triggerBottom - contentHeight;
                         left = triggerRight + margin;
                         break;
                     case 'bottom':
@@ -245,16 +324,30 @@ templ PopoverScript() {
                         left = triggerLeft - contentRect.width - margin;
                         break;
                     case 'left-start':
-                        top = triggerTop;  // Exakt am oberen Rand ausrichten
+                        top = triggerTop;
                         left = triggerLeft - contentRect.width - margin;
                         break;
                     case 'left-end':
-                        top = triggerBottom - contentHeight;  // Exakt am unteren Rand ausrichten
+                        top = triggerBottom - contentHeight;
                         left = triggerLeft - contentRect.width - margin;
                         break;
                     default:
                         top = triggerBottom + margin;
                         left = triggerLeft + (triggerRect.width / 2) - (contentRect.width / 2);
+                }
+
+                // Horizontale Begrenzung - sorgt dafür, dass der Popover nicht aus dem Viewport ragt
+                if (left < 10) {
+                    left = 10; // Minimaler Abstand vom linken Rand
+                } else if (left + contentWidth > viewportWidth - 10) {
+                    left = viewportWidth - contentWidth - 10; // Minimaler Abstand vom rechten Rand
+                }
+
+                // Vertikale Begrenzung - Optional, kann in manchen Fällen problematisch sein
+                if (top < 10) {
+                    top = 10; // Minimaler Abstand vom oberen Rand
+                } else if (top + contentHeight > viewportHeight - 10) {
+                    top = viewportHeight - contentHeight - 10; // Minimaler Abstand vom unteren Rand
                 }
 
                 popoverElement.style.top = `${top}px`;
@@ -290,6 +383,9 @@ templ PopoverScript() {
                                 content.dataset[key] = template.dataset[key];
                             }
                         });
+                        
+                        // Initiale Position setzen (kann später durch Smart Positioning geändert werden)
+                        content.dataset.popoverCurrentPosition = content.dataset.popoverPosition;
                         
                         // Zum Portal-Container hinzufügen
                         portalContainer.appendChild(content);
