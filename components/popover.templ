@@ -109,23 +109,23 @@ templ PopoverContent(props ...PopoverContentProps) {
 				{ children... }
 			</div>
 			if p.ShowArrow {
-				<!-- Alle möglichen Pfeil-Varianten einfügen, damit sie bei Positionswechseln korrekt angezeigt werden -->
+				<!-- Wir erzeugen alle Pfeile mit eindeutigen Data-Attributen zur einfacheren Identifikation -->
 				<!-- Top-Pfeile -->
-				<div class="absolute h-2.5 w-2.5 rotate-45 bg-background top-[-5px] left-1/2 -translate-x-1/2 border-t border-l"></div>
-				<div class="absolute h-2.5 w-2.5 rotate-45 bg-background top-[-5px] left-4 border-t border-l"></div>
-				<div class="absolute h-2.5 w-2.5 rotate-45 bg-background top-[-5px] right-4 border-t border-l"></div>
+				<div data-arrow="top" class="absolute h-2.5 w-2.5 rotate-45 bg-background top-[-5px] left-1/2 -translate-x-1/2 border-t border-l hidden"></div>
+				<div data-arrow="top-start" class="absolute h-2.5 w-2.5 rotate-45 bg-background top-[-5px] left-4 border-t border-l hidden"></div>
+				<div data-arrow="top-end" class="absolute h-2.5 w-2.5 rotate-45 bg-background top-[-5px] right-4 border-t border-l hidden"></div>
 				<!-- Bottom-Pfeile -->
-				<div class="absolute h-2.5 w-2.5 rotate-45 bg-background bottom-[-5px] left-1/2 -translate-x-1/2 border-b border-r"></div>
-				<div class="absolute h-2.5 w-2.5 rotate-45 bg-background bottom-[-5px] left-4 border-b border-r"></div>
-				<div class="absolute h-2.5 w-2.5 rotate-45 bg-background bottom-[-5px] right-4 border-b border-r"></div>
+				<div data-arrow="bottom" class="absolute h-2.5 w-2.5 rotate-45 bg-background bottom-[-5px] left-1/2 -translate-x-1/2 border-b border-r hidden"></div>
+				<div data-arrow="bottom-start" class="absolute h-2.5 w-2.5 rotate-45 bg-background bottom-[-5px] left-4 border-b border-r hidden"></div>
+				<div data-arrow="bottom-end" class="absolute h-2.5 w-2.5 rotate-45 bg-background bottom-[-5px] right-4 border-b border-r hidden"></div>
 				<!-- Left-Pfeile -->
-				<div class="absolute h-2.5 w-2.5 rotate-45 bg-background left-[-5px] top-1/2 -translate-y-1/2 border-b border-l"></div>
-				<div class="absolute h-2.5 w-2.5 rotate-45 bg-background left-[-5px] top-2 border-b border-l"></div>
-				<div class="absolute h-2.5 w-2.5 rotate-45 bg-background left-[-5px] bottom-2 border-b border-l"></div>
+				<div data-arrow="left" class="absolute h-2.5 w-2.5 rotate-45 bg-background left-[-5px] top-1/2 -translate-y-1/2 border-b border-l hidden"></div>
+				<div data-arrow="left-start" class="absolute h-2.5 w-2.5 rotate-45 bg-background left-[-5px] top-2 border-b border-l hidden"></div>
+				<div data-arrow="left-end" class="absolute h-2.5 w-2.5 rotate-45 bg-background left-[-5px] bottom-2 border-b border-l hidden"></div>
 				<!-- Right-Pfeile -->
-				<div class="absolute h-2.5 w-2.5 rotate-45 bg-background right-[-5px] top-1/2 -translate-y-1/2 border-t border-r"></div>
-				<div class="absolute h-2.5 w-2.5 rotate-45 bg-background right-[-5px] top-2 border-t border-r"></div>
-				<div class="absolute h-2.5 w-2.5 rotate-45 bg-background right-[-5px] bottom-2 border-t border-r"></div>
+				<div data-arrow="right" class="absolute h-2.5 w-2.5 rotate-45 bg-background right-[-5px] top-1/2 -translate-y-1/2 border-t border-r hidden"></div>
+				<div data-arrow="right-start" class="absolute h-2.5 w-2.5 rotate-45 bg-background right-[-5px] top-2 border-t border-r hidden"></div>
+				<div data-arrow="right-end" class="absolute h-2.5 w-2.5 rotate-45 bg-background right-[-5px] bottom-2 border-t border-r hidden"></div>
 			}
 		</div>
 	</template>
@@ -134,75 +134,49 @@ templ PopoverContent(props ...PopoverContentProps) {
 templ PopoverScript() {
 	<script defer nonce={ templ.GetNonce(ctx) }>
         document.addEventListener('DOMContentLoaded', () => {
-            // Animation-Styles und dynamische Pfeil-Anpassung
-            const style = document.createElement('style');
-            style.textContent = `
-                /* Alle Pfeile standardmäßig ausblenden */
-                [data-popover-position] [class*="-[-5px]"] {
-                    display: none;
-                }
-                
-                /* Korrekte Pfeile basierend auf aktueller Position anzeigen */
-                /* Top-Position - Pfeil unten */
-                [data-popover-current-position="top"] [class*="bottom-[-5px]"].left-1\\/2 {
-                    display: block;
-                }
-                
-                [data-popover-current-position="top-start"] [class*="bottom-[-5px]"].left-4 {
-                    display: block;
-                }
-                
-                [data-popover-current-position="top-end"] [class*="bottom-[-5px]"].right-4 {
-                    display: block;
-                }
-                
-                /* Bottom-Position - Pfeil oben */
-                [data-popover-current-position="bottom"] [class*="top-[-5px]"].left-1\\/2 {
-                    display: block;
-                }
-                
-                [data-popover-current-position="bottom-start"] [class*="top-[-5px]"].left-4 {
-                    display: block;
-                }
-                
-                [data-popover-current-position="bottom-end"] [class*="top-[-5px]"].right-4 {
-                    display: block;
-                }
-                
-                /* Left-Position - Pfeil rechts */
-                [data-popover-current-position="left"] [class*="right-[-5px]"].top-1\\/2 {
-                    display: block;
-                }
-                
-                [data-popover-current-position="left-start"] [class*="right-[-5px]"].top-2 {
-                    display: block;
-                }
-                
-                [data-popover-current-position="left-end"] [class*="right-[-5px]"].bottom-2 {
-                    display: block;
-                }
-                
-                /* Right-Position - Pfeil links */
-                [data-popover-current-position="right"] [class*="left-[-5px]"].top-1\\/2 {
-                    display: block;
-                }
-                
-                [data-popover-current-position="right-start"] [class*="left-[-5px]"].top-2 {
-                    display: block;
-                }
-                
-                [data-popover-current-position="right-end"] [class*="left-[-5px]"].bottom-2 {
-                    display: block;
-                }
-            `;
-            document.head.appendChild(style);
-            
             const portalContainer = document.getElementById('popover-portal-container');
             const triggers = document.querySelectorAll('[data-popover-trigger]');
             const templates = document.querySelectorAll('[data-popover-content-template]');
             
             // Aktive Popovers
             const activePopovers = new Map();
+            
+            // Funktion zum Aktualisieren des Pfeils basierend auf der Position
+            const updateArrow = (popoverElement, position) => {
+                if (popoverElement.dataset.popoverShowArrow !== 'true') return;
+                
+                // Alle Pfeile zunächst verstecken
+                popoverElement.querySelectorAll('[data-arrow]').forEach(arrow => {
+                    arrow.classList.add('hidden');
+                });
+                
+                // Pfeilrichtung ist immer gegenteilig zur Position
+                // z.B. wenn Popover unten ist, muss der Pfeil nach oben zeigen
+                let arrowPosition;
+                
+                if (position.startsWith('top')) {
+                    // Wenn Popover oben ist, muss Pfeil nach unten zeigen
+                    arrowPosition = position.replace('top', 'bottom');
+                } else if (position.startsWith('bottom')) {
+                    // Wenn Popover unten ist, muss Pfeil nach oben zeigen
+                    arrowPosition = position.replace('bottom', 'top');
+                } else if (position.startsWith('left')) {
+                    // Wenn Popover links ist, muss Pfeil nach rechts zeigen
+                    arrowPosition = position.replace('left', 'right');
+                } else if (position.startsWith('right')) {
+                    // Wenn Popover rechts ist, muss Pfeil nach links zeigen
+                    arrowPosition = position.replace('right', 'left');
+                } else {
+                    // Fallback
+                    arrowPosition = position;
+                }
+                
+                // Den korrekten Pfeil basierend auf der Richtung anzeigen
+                const arrow = popoverElement.querySelector(`[data-arrow="${arrowPosition}"]`);
+                if (arrow) {
+                    arrow.classList.remove('hidden');
+                }
+            };
             
             // Positionierungsfunktion
             const positionPopover = (trigger, popoverElement) => {
@@ -273,6 +247,9 @@ templ PopoverScript() {
 
                 // Speichere die aktuelle Position im Element für CSS-Anpassungen (z.B. Pfeil-Position)
                 popoverElement.dataset.popoverCurrentPosition = finalPosition;
+                
+                // Den richtigen Pfeil anzeigen
+                updateArrow(popoverElement, finalPosition);
                 
                 let top, left;
                 
@@ -379,7 +356,7 @@ templ PopoverScript() {
                             }
                         });
                         
-                        // Initiale Position setzen (kann später durch Smart Positioning geändert werden)
+                        // Initiale Position setzen
                         content.dataset.popoverCurrentPosition = content.dataset.popoverPosition;
                         
                         // Zum Portal-Container hinzufügen
