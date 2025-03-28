@@ -54,8 +54,8 @@ type PopoverContentProps struct {
 	DisableClickAway bool
 	DisableESC       bool
 	ShowArrow        bool
-	HoverDelay       int // Delay in ms before showing on hover
-	HoverOutDelay    int // Delay in ms before hiding on hover out
+	HoverDelay       int
+	HoverOutDelay    int
 }
 
 func popoverPortalContainer() templ.Component {

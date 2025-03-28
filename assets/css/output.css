@@ -1707,6 +1707,10 @@
     --tw-duration: 500ms;
     transition-duration: 500ms;
   }
+  .duration-850 {
+    --tw-duration: 850ms;
+    transition-duration: 850ms;
+  }
   .ease-in {
     --tw-ease: var(--ease-in);
     transition-timing-function: var(--ease-in);
