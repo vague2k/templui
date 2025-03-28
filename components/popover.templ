@@ -97,6 +97,7 @@ templ PopoverContent(props ...PopoverContentProps) {
 		data-popover-position={ string(p.Position) }
 		data-popover-disable-clickaway={ strconv.FormatBool(p.DisableClickAway) }
 		data-popover-disable-esc={ strconv.FormatBool(p.DisableESC) }
+		data-popover-show-arrow={ strconv.FormatBool(p.ShowArrow) }
 		class={
 			utils.TwMerge(
 				"bg-background rounded-lg border text-sm shadow-lg hidden pointer-events-auto absolute z-[9999]",
@@ -188,7 +189,9 @@ templ PopoverScript() {
                 
                 const triggerRect = triggerElement.getBoundingClientRect();
                 const contentRect = content.getBoundingClientRect();
-                const margin = 8;
+                // Dynamischer Margin basierend auf dem data-popover-show-arrow Attribut
+                const hasArrow = content.dataset.popoverShowArrow === 'true';
+                const margin = hasArrow ? 8 : 4;
                 const scrollY = window.scrollY || window.pageYOffset;
                 const scrollX = window.scrollX || window.pageXOffset;
 
