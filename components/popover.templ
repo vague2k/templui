@@ -46,6 +46,8 @@ type PopoverContentProps struct {
 	DisableClickAway bool
 	DisableESC       bool
 	ShowArrow        bool
+	HoverDelay       int // Delay in ms before showing on hover
+	HoverOutDelay    int // Delay in ms before hiding on hover out
 }
 
 templ popoverPortalContainer() {
@@ -98,6 +100,8 @@ templ PopoverContent(props ...PopoverContentProps) {
 		data-popover-disable-clickaway={ strconv.FormatBool(p.DisableClickAway) }
 		data-popover-disable-esc={ strconv.FormatBool(p.DisableESC) }
 		data-popover-show-arrow={ strconv.FormatBool(p.ShowArrow) }
+		data-popover-hover-delay={ strconv.Itoa(p.HoverDelay) }
+		data-popover-hover-out-delay={ strconv.Itoa(p.HoverOutDelay) }
 	>
 		<div
 			class={ utils.TwMerge(
@@ -170,6 +174,29 @@ templ PopoverContent(props ...PopoverContentProps) {
 templ PopoverScript() {
 	<script defer nonce={ templ.GetNonce(ctx) }>
         document.addEventListener('DOMContentLoaded', () => {
+            // Minimal CSS-Animation for the rubber effect
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes popover-in {
+                    0% { opacity: 0; transform: scale(0.95); }
+                    100% { opacity: 1; transform: scale(1); }
+                }
+                
+                @keyframes popover-out {
+                    0% { opacity: 1; transform: scale(1); }
+                    100% { opacity: 0; transform: scale(0.95); }
+                }
+                
+                .popover-animate-in {
+                    animation: popover-in 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+                }
+                
+                .popover-animate-out {
+                    animation: popover-out 0.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+                }
+            `;
+            document.head.appendChild(style);
+            
             const portalContainer = document.getElementById('popover-portal-container');
             const triggers = document.querySelectorAll('[data-popover-trigger]');
             const templates = document.querySelectorAll('[data-popover-content-template]');
@@ -401,6 +428,11 @@ templ PopoverScript() {
                         // Position it
                         positionPopover(trigger, content);
                         
+                        // Apply transition effect
+                        content.classList.remove('popover-transition');
+                        content.classList.remove('show');
+                        content.classList.add('popover-animate-in');
+                        
                         // Add to active popovers
                         activePopovers.set(popoverId, content);
                         
@@ -408,8 +440,16 @@ templ PopoverScript() {
                         if (content.dataset.popoverDisableClickaway !== 'true') {
                             const clickHandler = (e) => {
                                 if (!trigger.contains(e.target) && !content.contains(e.target)) {
-                                    content.remove();
-                                    activePopovers.delete(popoverId);
+                                    // Apply exit animation
+                                    content.classList.remove('popover-animate-in');
+                                    content.classList.add('popover-animate-out');
+                                    
+                                    // Wait for transition to complete before removing
+                                    setTimeout(() => {
+                                        content.remove();
+                                        activePopovers.delete(popoverId);
+                                    }, 100);
+                                    
                                     document.removeEventListener('click', clickHandler);
                                 }
                             };
@@ -424,8 +464,16 @@ templ PopoverScript() {
                         if (content.dataset.popoverDisableEsc !== 'true') {
                             const keyHandler = (e) => {
                                 if (e.key === 'Escape') {
-                                    content.remove();
-                                    activePopovers.delete(popoverId);
+                                    // Apply exit animation
+                                    content.classList.remove('popover-animate-in');
+                                    content.classList.add('popover-animate-out');
+                                    
+                                    // Wait for transition to complete before removing
+                                    setTimeout(() => {
+                                        content.remove();
+                                        activePopovers.delete(popoverId);
+                                    }, 100);
+                                    
                                     document.removeEventListener('keydown', keyHandler);
                                 }
                             };
@@ -440,45 +488,68 @@ templ PopoverScript() {
                     trigger.addEventListener('mouseenter', () => {
                         clearTimeout(leaveTimeout);
                         
+                        // Get hover delay from template or use default
+                        const hoverDelay = parseInt(template.dataset.popoverHoverDelay) || 100;
+                        
                         // If the popover is already active, do not recreate it
                         if (activePopovers.has(popoverId)) return;
                         
-                        // Create a new popover
-                        const content = template.content.cloneNode(true).firstElementChild;
-                        
-                        // Transfer attributes
-                        Object.keys(template.dataset).forEach(key => {
-                            if (key.startsWith('popover')) {
-                                content.dataset[key] = template.dataset[key];
-                            }
-                        });
-                        
-                        // Add to the portal container
-                        portalContainer.appendChild(content);
-                        
-                        // Position it
-                        positionPopover(trigger, content);
-                        
-                        // Add to active popovers
-                        activePopovers.set(popoverId, content);
-                        
-                        // Hover handler for the content element
-                        content.addEventListener('mouseenter', () => {
-                            clearTimeout(leaveTimeout);
-                        });
-                        
-                        content.addEventListener('mouseleave', () => {
-                            leaveTimeout = setTimeout(() => {
-                                if (activePopovers.has(popoverId)) {
-                                    const popover = activePopovers.get(popoverId);
-                                    popover.remove();
-                                    activePopovers.delete(popoverId);
+                        // Delay for showing the popover
+                        hoverTimeout = setTimeout(() => {
+                            // Create a new popover
+                            const content = template.content.cloneNode(true).firstElementChild;
+                            
+                            // Transfer attributes
+                            Object.keys(template.dataset).forEach(key => {
+                                if (key.startsWith('popover')) {
+                                    content.dataset[key] = template.dataset[key];
                                 }
-                            }, 100);
-                        });
+                            });
+                            
+                            // Add to the portal container
+                            portalContainer.appendChild(content);
+                            
+                            // Position it
+                            positionPopover(trigger, content);
+                            
+                            // Apply animation
+                            content.classList.add('popover-animate-in');
+                            
+                            // Add to active popovers
+                            activePopovers.set(popoverId, content);
+                            
+                            // Hover handler for the content element
+                            content.addEventListener('mouseenter', () => {
+                                clearTimeout(leaveTimeout);
+                            });
+                            
+                            content.addEventListener('mouseleave', () => {
+                                // Get hover out delay from template or use default
+                                const hoverOutDelay = parseInt(content.dataset.popoverHoverOutDelay) || 200;
+                                
+                                leaveTimeout = setTimeout(() => {
+                                    if (activePopovers.has(popoverId)) {
+                                        const popover = activePopovers.get(popoverId);
+                                        
+                                        // Apply exit animation
+                                        popover.classList.remove('popover-animate-in');
+                                        popover.classList.add('popover-animate-out');
+                                        
+                                        // Wait for animation to complete before removing
+                                        setTimeout(() => {
+                                            popover.remove();
+                                            activePopovers.delete(popoverId);
+                                        }, 100);
+                                    }
+                                }, hoverOutDelay);
+                            });
+                        }, hoverDelay);
                     });
                     
                     trigger.addEventListener('mouseleave', (e) => {
+                        // Clear the show timeout if mouse leaves before popover is shown
+                        clearTimeout(hoverTimeout);
+                        
                         // Check if we are hovering over the content
                         const related = e.relatedTarget;
                         const content = activePopovers.get(popoverId);
@@ -488,13 +559,25 @@ templ PopoverScript() {
                             return;
                         }
                         
+                        // Get hover out delay from template or use default
+                        const hoverOutDelay = content ? 
+                            (parseInt(content.dataset.popoverHoverOutDelay) || 200) : 200;
+                        
                         leaveTimeout = setTimeout(() => {
                             if (activePopovers.has(popoverId)) {
                                 const popover = activePopovers.get(popoverId);
-                                popover.remove();
-                                activePopovers.delete(popoverId);
+                                
+                                // Apply exit animation
+                                popover.classList.remove('popover-animate-in');
+                                popover.classList.add('popover-animate-out');
+                                
+                                // Wait for animation to complete before removing
+                                setTimeout(() => {
+                                    popover.remove();
+                                    activePopovers.delete(popoverId);
+                                }, 100);
                             }
-                        }, 100);
+                        }, hoverOutDelay);
                     });
                 }
             }

@@ -14,7 +14,9 @@ templ PopoverTriggers() {
 				}
 			}
 			@components.PopoverContent(components.PopoverContentProps{
-				ID: "hover-popover",
+				ID:            "hover-popover",
+				HoverDelay:    500,
+				HoverOutDelay: 500,
 			}) {
 				@PopoverContent()
 			}
