@@ -109,20 +109,20 @@ templ PopoverContent(props ...PopoverContentProps) {
 				{ children... }
 			</div>
 			if p.ShowArrow {
-				<!-- Wir erzeugen alle Pfeile mit eindeutigen Data-Attributen zur einfacheren Identifikation -->
-				<!-- Top-Pfeile -->
+				<!-- We generate all arrows with unique data attributes for easier identification -->
+				<!-- Top arrows -->
 				<div data-arrow="top" class="absolute h-2.5 w-2.5 rotate-45 bg-background top-[-5px] left-1/2 -translate-x-1/2 border-t border-l hidden"></div>
 				<div data-arrow="top-start" class="absolute h-2.5 w-2.5 rotate-45 bg-background top-[-5px] left-4 border-t border-l hidden"></div>
 				<div data-arrow="top-end" class="absolute h-2.5 w-2.5 rotate-45 bg-background top-[-5px] right-4 border-t border-l hidden"></div>
-				<!-- Bottom-Pfeile -->
+				<!-- Bottom arrows -->
 				<div data-arrow="bottom" class="absolute h-2.5 w-2.5 rotate-45 bg-background bottom-[-5px] left-1/2 -translate-x-1/2 border-b border-r hidden"></div>
 				<div data-arrow="bottom-start" class="absolute h-2.5 w-2.5 rotate-45 bg-background bottom-[-5px] left-4 border-b border-r hidden"></div>
 				<div data-arrow="bottom-end" class="absolute h-2.5 w-2.5 rotate-45 bg-background bottom-[-5px] right-4 border-b border-r hidden"></div>
-				<!-- Left-Pfeile -->
+				<!-- Left arrows -->
 				<div data-arrow="left" class="absolute h-2.5 w-2.5 rotate-45 bg-background left-[-5px] top-1/2 -translate-y-1/2 border-b border-l hidden"></div>
 				<div data-arrow="left-start" class="absolute h-2.5 w-2.5 rotate-45 bg-background left-[-5px] top-2 border-b border-l hidden"></div>
 				<div data-arrow="left-end" class="absolute h-2.5 w-2.5 rotate-45 bg-background left-[-5px] bottom-2 border-b border-l hidden"></div>
-				<!-- Right-Pfeile -->
+				<!-- Right arrows -->
 				<div data-arrow="right" class="absolute h-2.5 w-2.5 rotate-45 bg-background right-[-5px] top-1/2 -translate-y-1/2 border-t border-r hidden"></div>
 				<div data-arrow="right-start" class="absolute h-2.5 w-2.5 rotate-45 bg-background right-[-5px] top-2 border-t border-r hidden"></div>
 				<div data-arrow="right-end" class="absolute h-2.5 w-2.5 rotate-45 bg-background right-[-5px] bottom-2 border-t border-r hidden"></div>
@@ -138,53 +138,53 @@ templ PopoverScript() {
             const triggers = document.querySelectorAll('[data-popover-trigger]');
             const templates = document.querySelectorAll('[data-popover-content-template]');
             
-            // Aktive Popovers
+            // Active popovers
             const activePopovers = new Map();
             
-            // Funktion zum Aktualisieren des Pfeils basierend auf der Position
+            // Function to update the arrow based on the position
             const updateArrow = (popoverElement, position) => {
                 if (popoverElement.dataset.popoverShowArrow !== 'true') return;
                 
-                // Alle Pfeile zunächst verstecken
+                // Initially hide all arrows
                 popoverElement.querySelectorAll('[data-arrow]').forEach(arrow => {
                     arrow.classList.add('hidden');
                 });
                 
-                // Pfeilrichtung ist immer gegenteilig zur Position
-                // z.B. wenn Popover unten ist, muss der Pfeil nach oben zeigen
+                // Arrow direction is always opposite to the position
+                // e.g., if the popover is at the bottom, the arrow must point up
                 let arrowPosition;
                 
                 if (position.startsWith('top')) {
-                    // Wenn Popover oben ist, muss Pfeil nach unten zeigen
+                    // If the popover is at the top, the arrow must point down
                     arrowPosition = position.replace('top', 'bottom');
                 } else if (position.startsWith('bottom')) {
-                    // Wenn Popover unten ist, muss Pfeil nach oben zeigen
+                    // If the popover is at the bottom, the arrow must point up
                     arrowPosition = position.replace('bottom', 'top');
                 } else if (position.startsWith('left')) {
-                    // Wenn Popover links ist, muss Pfeil nach rechts zeigen
+                    // If the popover is on the left, the arrow must point right
                     arrowPosition = position.replace('left', 'right');
                 } else if (position.startsWith('right')) {
-                    // Wenn Popover rechts ist, muss Pfeil nach links zeigen
+                    // If the popover is on the right, the arrow must point left
                     arrowPosition = position.replace('right', 'left');
                 } else {
                     // Fallback
                     arrowPosition = position;
                 }
                 
-                // Den korrekten Pfeil basierend auf der Richtung anzeigen
+                // Show the correct arrow based on the direction
                 const arrow = popoverElement.querySelector(`[data-arrow="${arrowPosition}"]`);
                 if (arrow) {
                     arrow.classList.remove('hidden');
                 }
             };
             
-            // Positionierungsfunktion
+            // Positioning function
             const positionPopover = (trigger, popoverElement) => {
-                // Finde das tatsächliche Element, auf das sich der Popover bezieht
+                // Find the actual element the popover refers to
                 let triggerElement = trigger;
                 let largestArea = 0;
                 
-                // Prüfe alle direkten Kinder des Triggers
+                // Check all direct children of the trigger
                 const children = trigger.children;
                 for (let i = 0; i < children.length; i++) {
                     const child = children[i];
@@ -203,12 +203,12 @@ templ PopoverScript() {
                 const scrollY = window.scrollY || window.pageYOffset;
                 const scrollX = window.scrollX || window.pageXOffset;
 
-                // Position aus dem Datensatz abrufen
+                // Position from the dataset
                 const requestedPosition = popoverElement.dataset.popoverPosition || 'bottom';
-                // Wir speichern die finale Position, die je nach Viewport-Raum angepasst werden kann
+                // We store the final position, which can be adjusted based on viewport space
                 let finalPosition = requestedPosition;
 
-                // Viewport-Dimensionen
+                // Viewport dimensions
                 const viewportWidth = window.innerWidth;
                 const viewportHeight = window.innerHeight;
 
@@ -217,43 +217,43 @@ templ PopoverScript() {
                 const contentHeight = contentRect.height;
                 const contentWidth = contentRect.width;
                 
-                // Definiere Ankerpunkte
+                // Define anchor points
                 const triggerTop = triggerRect.top + scrollY;
                 const triggerBottom = triggerRect.bottom + scrollY;
                 const triggerLeft = triggerRect.left + scrollX;
                 const triggerRight = triggerRect.right + scrollX;
                 
-                // Berechne verfügbaren Platz in jede Richtung
+                // Calculate available space in each direction
                 const spaceAbove = triggerRect.top;
                 const spaceBelow = viewportHeight - triggerRect.bottom;
                 const spaceLeft = triggerRect.left;
                 const spaceRight = viewportWidth - triggerRect.right;
 
-                // Intelligente Positionsanpassung
-                // Wir prüfen die gegensätzliche Position, wenn nicht genug Platz vorhanden ist
+                // Intelligent position adjustment
+                // We check the opposite position if there is not enough space
                 if (finalPosition.startsWith('top') && spaceAbove < contentHeight + margin) {
-                    // Wenn oben nicht genug Platz ist, unten anzeigen
+                    // If there is not enough space above, show below
                     finalPosition = finalPosition.replace('top', 'bottom');
                 } else if (finalPosition.startsWith('bottom') && spaceBelow < contentHeight + margin) {
-                    // Wenn unten nicht genug Platz ist, oben anzeigen
+                    // If there is not enough space below, show above
                     finalPosition = finalPosition.replace('bottom', 'top');
                 } else if (finalPosition.startsWith('left') && spaceLeft < contentWidth + margin) {
-                    // Wenn links nicht genug Platz ist, rechts anzeigen
+                    // If there is not enough space on the left, show on the right
                     finalPosition = finalPosition.replace('left', 'right');
                 } else if (finalPosition.startsWith('right') && spaceRight < contentWidth + margin) {
-                    // Wenn rechts nicht genug Platz ist, links anzeigen
+                    // If there is not enough space on the right, show on the left
                     finalPosition = finalPosition.replace('right', 'left');
                 }
 
-                // Speichere die aktuelle Position im Element für CSS-Anpassungen (z.B. Pfeil-Position)
+                // Store the current position in the element for CSS adjustments (e.g., arrow position)
                 popoverElement.dataset.popoverCurrentPosition = finalPosition;
                 
-                // Den richtigen Pfeil anzeigen
+                // Show the correct arrow
                 updateArrow(popoverElement, finalPosition);
                 
                 let top, left;
                 
-                // Positionierungslogik mit der finalen Position
+                // Positioning logic with the final position
                 switch (finalPosition) {
                     case 'top':
                         top = triggerTop - contentHeight - margin;
@@ -308,25 +308,25 @@ templ PopoverScript() {
                         left = triggerLeft + (triggerRect.width / 2) - (contentRect.width / 2);
                 }
 
-                // Horizontale Begrenzung - sorgt dafür, dass der Popover nicht aus dem Viewport ragt
+                // Horizontal boundary - ensures the popover does not overflow the viewport
                 if (left < 10) {
-                    left = 10; // Minimaler Abstand vom linken Rand
+                    left = 10; // Minimum distance from the left edge
                 } else if (left + contentWidth > viewportWidth - 10) {
-                    left = viewportWidth - contentWidth - 10; // Minimaler Abstand vom rechten Rand
+                    left = viewportWidth - contentWidth - 10; // Minimum distance from the right edge
                 }
 
-                // Vertikale Begrenzung - Optional, kann in manchen Fällen problematisch sein
+                // Vertical boundary - Optional, can be problematic in some cases
                 if (top < 10) {
-                    top = 10; // Minimaler Abstand vom oberen Rand
+                    top = 10; // Minimum distance from the top edge
                 } else if (top + contentHeight > viewportHeight - 10) {
-                    top = viewportHeight - contentHeight - 10; // Minimaler Abstand vom unteren Rand
+                    top = viewportHeight - contentHeight - 10; // Minimum distance from the bottom edge
                 }
 
                 popoverElement.style.top = `${top}px`;
                 popoverElement.style.left = `${left}px`;
             };
             
-            // Event-Handler einrichten
+            // Event handler setup
             function setupTrigger(trigger) {
                 const popoverId = trigger.dataset.popoverId;
                 const template = document.querySelector(`[data-popover-content-template][data-popover-id="${popoverId}"]`);
@@ -335,10 +335,10 @@ templ PopoverScript() {
                 
                 const triggerType = trigger.dataset.popoverType;
                 
-                // Click-Handler
+                // Click handler
                 if (triggerType === 'click') {
                     trigger.addEventListener('click', () => {
-                        // Wenn Popover bereits aktiv ist, entfernen
+                        // If the popover is already active, remove it
                         if (activePopovers.has(popoverId)) {
                             const popover = activePopovers.get(popoverId);
                             popover.remove();
@@ -346,29 +346,29 @@ templ PopoverScript() {
                             return;
                         }
                         
-                        // Sonst neues Popover erstellen
+                        // Otherwise, create a new popover
                         const content = template.content.cloneNode(true).firstElementChild;
                         
-                        // Attribute vom Template übertragen
+                        // Transfer attributes from the template
                         Object.keys(template.dataset).forEach(key => {
                             if (key.startsWith('popover')) {
                                 content.dataset[key] = template.dataset[key];
                             }
                         });
                         
-                        // Initiale Position setzen
+                        // Set initial position
                         content.dataset.popoverCurrentPosition = content.dataset.popoverPosition;
                         
-                        // Zum Portal-Container hinzufügen
+                        // Add to the portal container
                         portalContainer.appendChild(content);
                         
-                        // Positionieren
+                        // Position it
                         positionPopover(trigger, content);
                         
-                        // In aktive Popovers einfügen
+                        // Add to active popovers
                         activePopovers.set(popoverId, content);
                         
-                        // Clickaway-Handler hinzufügen
+                        // Clickaway handler
                         if (content.dataset.popoverDisableClickaway !== 'true') {
                             const clickHandler = (e) => {
                                 if (!trigger.contains(e.target) && !content.contains(e.target)) {
@@ -378,13 +378,13 @@ templ PopoverScript() {
                                 }
                             };
                             
-                            // Verzögerung, damit der aktuelle Klick nicht sofort wieder schließt
+                            // Delay to prevent immediate closing on the current click
                             setTimeout(() => {
                                 document.addEventListener('click', clickHandler);
                             }, 0);
                         }
                         
-                        // ESC-Handler hinzufügen
+                        // ESC handler
                         if (content.dataset.popoverDisableEsc !== 'true') {
                             const keyHandler = (e) => {
                                 if (e.key === 'Escape') {
@@ -397,36 +397,36 @@ templ PopoverScript() {
                         }
                     });
                 } else if (triggerType === 'hover') {
-                    // Hover-Handlers
+                    // Hover handlers
                     let hoverTimeout;
                     let leaveTimeout;
                     
                     trigger.addEventListener('mouseenter', () => {
                         clearTimeout(leaveTimeout);
                         
-                        // Wenn Popover bereits aktiv, nicht neu erstellen
+                        // If the popover is already active, do not recreate it
                         if (activePopovers.has(popoverId)) return;
                         
-                        // Neues Popover erstellen
+                        // Create a new popover
                         const content = template.content.cloneNode(true).firstElementChild;
                         
-                        // Attribute übertragen
+                        // Transfer attributes
                         Object.keys(template.dataset).forEach(key => {
                             if (key.startsWith('popover')) {
                                 content.dataset[key] = template.dataset[key];
                             }
                         });
                         
-                        // Zum Portal-Container hinzufügen
+                        // Add to the portal container
                         portalContainer.appendChild(content);
                         
-                        // Positionieren
+                        // Position it
                         positionPopover(trigger, content);
                         
-                        // In aktive Popovers einfügen
+                        // Add to active popovers
                         activePopovers.set(popoverId, content);
                         
-                        // Hover-Handler für das Content-Element
+                        // Hover handler for the content element
                         content.addEventListener('mouseenter', () => {
                             clearTimeout(leaveTimeout);
                         });
@@ -443,11 +443,11 @@ templ PopoverScript() {
                     });
                     
                     trigger.addEventListener('mouseleave', (e) => {
-                        // Prüfen, ob wir zum Content hovern
+                        // Check if we are hovering over the content
                         const related = e.relatedTarget;
                         const content = activePopovers.get(popoverId);
                         
-                        // Wenn wir direkt zum Content hovern, nicht schließen
+                        // If we are directly hovering over the content, do not close
                         if (content && content.contains(related)) {
                             return;
                         }
@@ -463,10 +463,10 @@ templ PopoverScript() {
                 }
             }
             
-            // Für jeden Trigger die Handler einrichten
+            // Set up handlers for each trigger
             triggers.forEach(setupTrigger);
             
-            // Scrolling-Handler für alle Popovers
+            // Scroll handler for all popovers
             window.addEventListener('scroll', () => {
                 activePopovers.forEach((content, popoverId) => {
                     const trigger = document.querySelector(`[data-popover-trigger][data-popover-id="${popoverId}"]`);
@@ -476,7 +476,7 @@ templ PopoverScript() {
                 });
             }, { passive: true });
             
-            // Resize-Handler
+            // Resize handler
             window.addEventListener('resize', () => {
                 activePopovers.forEach((content, popoverId) => {
                     const trigger = document.querySelector(`[data-popover-trigger][data-popover-id="${popoverId}"]`);
@@ -486,11 +486,11 @@ templ PopoverScript() {
                 });
             });
             
-            // Finde alle scrollbaren Elternelemente und füge Scroll-Handler hinzu
+            // Find all scrollable parent elements and add scroll handlers
             function setupScrollHandlers() {
                 const scrollableElements = new Set();
                 
-                // Für jeden Trigger die scrollbaren Eltern finden
+                // Find scrollable parents for each trigger
                 triggers.forEach(trigger => {
                     let element = trigger.parentElement;
                     
@@ -507,7 +507,7 @@ templ PopoverScript() {
                     }
                 });
                 
-                // Scroll-Handler für jedes scrollbare Element
+                // Scroll handler for each scrollable element
                 scrollableElements.forEach(element => {
                     element.addEventListener('scroll', () => {
                         activePopovers.forEach((content, popoverId) => {

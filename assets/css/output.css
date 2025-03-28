@@ -379,9 +379,6 @@
   .left-full {
     left: 100%;
   }
-  .z-2 {
-    z-index: 2;
-  }
   .z-10 {
     z-index: 10;
   }
@@ -1087,9 +1084,6 @@
   }
   .overflow-hidden\! {
     overflow: hidden !important;
-  }
-  .overflow-scroll {
-    overflow: scroll;
   }
   .overflow-x-auto {
     overflow-x: auto;
