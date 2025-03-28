@@ -221,11 +221,11 @@ templ PopoverScript() {
                         left = triggerRight + margin;
                         break;
                     case 'right-start':
-                        top = triggerTop;
+                        top = triggerTop;  // Exakt am oberen Rand ausrichten
                         left = triggerRight + margin;
                         break;
                     case 'right-end':
-                        top = triggerBottom - contentHeight;
+                        top = triggerBottom - contentHeight;  // Exakt am unteren Rand ausrichten
                         left = triggerRight + margin;
                         break;
                     case 'bottom':
@@ -245,11 +245,11 @@ templ PopoverScript() {
                         left = triggerLeft - contentRect.width - margin;
                         break;
                     case 'left-start':
-                        top = triggerTop;
+                        top = triggerTop;  // Exakt am oberen Rand ausrichten
                         left = triggerLeft - contentRect.width - margin;
                         break;
                     case 'left-end':
-                        top = triggerBottom - contentHeight;
+                        top = triggerBottom - contentHeight;  // Exakt am unteren Rand ausrichten
                         left = triggerLeft - contentRect.width - margin;
                         break;
                     default:
@@ -331,9 +331,10 @@ templ PopoverScript() {
                 } else if (triggerType === 'hover') {
                     // Hover-Handlers
                     let hoverTimeout;
+                    let leaveTimeout;
                     
                     trigger.addEventListener('mouseenter', () => {
-                        clearTimeout(hoverTimeout);
+                        clearTimeout(leaveTimeout);
                         
                         // Wenn Popover bereits aktiv, nicht neu erstellen
                         if (activePopovers.has(popoverId)) return;
@@ -356,10 +357,34 @@ templ PopoverScript() {
                         
                         // In aktive Popovers einfügen
                         activePopovers.set(popoverId, content);
+                        
+                        // Hover-Handler für das Content-Element
+                        content.addEventListener('mouseenter', () => {
+                            clearTimeout(leaveTimeout);
+                        });
+                        
+                        content.addEventListener('mouseleave', () => {
+                            leaveTimeout = setTimeout(() => {
+                                if (activePopovers.has(popoverId)) {
+                                    const popover = activePopovers.get(popoverId);
+                                    popover.remove();
+                                    activePopovers.delete(popoverId);
+                                }
+                            }, 100);
+                        });
                     });
                     
-                    trigger.addEventListener('mouseleave', () => {
-                        hoverTimeout = setTimeout(() => {
+                    trigger.addEventListener('mouseleave', (e) => {
+                        // Prüfen, ob wir zum Content hovern
+                        const related = e.relatedTarget;
+                        const content = activePopovers.get(popoverId);
+                        
+                        // Wenn wir direkt zum Content hovern, nicht schließen
+                        if (content && content.contains(related)) {
+                            return;
+                        }
+                        
+                        leaveTimeout = setTimeout(() => {
                             if (activePopovers.has(popoverId)) {
                                 const popover = activePopovers.get(popoverId);
                                 popover.remove();
