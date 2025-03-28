@@ -1088,6 +1088,9 @@
   .overflow-hidden\! {
     overflow: hidden !important;
   }
+  .overflow-scroll {
+    overflow: scroll;
+  }
   .overflow-x-auto {
     overflow-x: auto;
   }
