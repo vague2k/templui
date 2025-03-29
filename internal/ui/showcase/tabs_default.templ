@@ -38,16 +38,16 @@ templ TabsDefault() {
 }
 
 templ AccountTab() {
-	@components.Card(components.CardProps{}) {
-		@components.CardHeader(components.CardHeaderProps{}) {
-			@components.CardTitle(components.CardTitleProps{}) {
+	@components.Card() {
+		@components.CardHeader() {
+			@components.CardTitle() {
 				Account 
 			}
-			@components.CardDescription(components.CardDescriptionProps{}) {
+			@components.CardDescription() {
 				Make changes to your account here. Click save when you are done.
 			}
 		}
-		@components.CardContent(components.CardContentProps{}) {
+		@components.CardContent() {
 			<div class="flex flex-col gap-4">
 				@components.Input(components.InputProps{
 					Type:        components.InputTypeText,
@@ -56,15 +56,15 @@ templ AccountTab() {
 					Value:       "John Doe",
 				})
 				@components.Input(components.InputProps{
-					Type:        components.InputTypeText,
-					Placeholder: "Username",
-					ID:          "username",
-					Value:       "@johndoe",
+					Type:        components.InputTypeEmail,
+					Placeholder: "Email",
+					ID:          "email",
+					Value:       "john.doe@example.com",
 				})
 			</div>
 		}
-		@components.CardFooter(components.CardFooterProps{}) {
-			@components.Button(components.ButtonProps{}) {
+		@components.CardFooter() {
+			@components.Button() {
 				Save changes
 			}
 		}
@@ -72,16 +72,16 @@ templ AccountTab() {
 }
 
 templ PasswordTab() {
-	@components.Card(components.CardProps{}) {
-		@components.CardHeader(components.CardHeaderProps{}) {
-			@components.CardTitle(components.CardTitleProps{}) {
+	@components.Card() {
+		@components.CardHeader() {
+			@components.CardTitle() {
 				Password 
 			}
-			@components.CardDescription(components.CardDescriptionProps{}) {
+			@components.CardDescription() {
 				Change your password here. After saving, you will be logged out.
 			}
 		}
-		@components.CardContent(components.CardContentProps{}) {
+		@components.CardContent() {
 			<div class="flex flex-col gap-4">
 				@components.Input(components.InputProps{
 					Type:        components.InputTypePassword,
@@ -95,8 +95,8 @@ templ PasswordTab() {
 				})
 			</div>
 		}
-		@components.CardFooter(components.CardFooterProps{}) {
-			@components.Button(components.ButtonProps{}) {
+		@components.CardFooter() {
+			@components.Button() {
 				Save password
 			}
 		}

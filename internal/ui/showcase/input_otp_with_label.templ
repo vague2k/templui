@@ -2,15 +2,15 @@ package showcase
 
 import "github.com/axzilla/templui/components"
 
-templ InputOTPForm() {
-	@components.FormItem() {
-		@components.FormLabel(components.FormLabelProps{
-			For: "otp-form",
+templ InputOTPWithLabel() {
+	<div class="w-full max-w-sm flex flex-col gap-2">
+		@components.Label(components.LabelProps{
+			For: "otp-with-label",
 		}) {
 			Verification Code
 		}
 		@components.InputOTP(components.InputOTPProps{
-			ID:       "otp-form",
+			ID:       "otp-with-label",
 			Required: true,
 			HasError: true,
 		}) {
@@ -24,7 +24,6 @@ templ InputOTPForm() {
 				@components.InputOTPSlot(components.InputOTPSlotProps{
 					Index: 2,
 				})
-				@components.InputOTPSeparator()
 				@components.InputOTPSlot(components.InputOTPSlotProps{
 					Index: 3,
 				})
@@ -36,13 +35,5 @@ templ InputOTPForm() {
 				})
 			}
 		}
-		@components.FormDescription() {
-			Enter the 6-digit code sent to your phone
-		}
-		@components.FormMessage(components.FormMessageProps{
-			Variant: components.FormMessageVariantError,
-		}) {
-			Invalid verification code.
-		}
-	}
+	</div>
 }

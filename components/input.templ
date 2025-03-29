@@ -21,10 +21,10 @@ type InputProps struct {
 	ID          string
 	Class       string
 	Attributes  templ.Attributes
+	Name        string
 	Type        InputType
 	Placeholder string
 	Value       string
-	Name        string
 	Disabled    bool
 	Readonly    bool
 	Required    bool
@@ -32,34 +32,46 @@ type InputProps struct {
 	HasError    bool
 }
 
-templ Input(props InputProps) {
+templ Input(props ...InputProps) {
+	{{ var p InputProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
+	if p.Type == "" {
+		{{ p.Type = InputTypeText }}
+	}
 	<input
-		x-ref={ props.ID }
-		type={ string(props.Type) }
-		placeholder={ props.Placeholder }
-		disabled?={ props.Disabled }
-		readonly?={ props.Readonly }
-		required?={ props.Required }
-		name={ props.Name }
-		if props.Value != "" {
-			value={ props.Value }
+		if p.ID != "" {
+			id={ p.ID }
 		}
-		id={ props.ID }
+		type={ string(p.Type) }
+		if p.Name != "" {
+			name={ p.Name }
+		}
+		if p.Placeholder != "" {
+			placeholder={ p.Placeholder }
+		}
+		if p.Value != "" {
+			value={ p.Value }
+		}
+		if p.Type == InputTypeFile && p.FileAccept != "" {
+			accept={ p.FileAccept }
+		}
+		disabled?={ p.Disabled }
+		readonly?={ p.Readonly }
+		required?={ p.Required }
 		class={
 			utils.TwMerge(
 				"peer flex h-10 w-full px-3 py-2",
 				"rounded-md border border-input bg-background text-sm ring-offset-background",
-				"file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground ",
+				"file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground",
 				"placeholder:text-muted-foreground",
 				"focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
 				"disabled:cursor-not-allowed disabled:opacity-50",
-				utils.If(props.HasError, "border-destructive ring-destructive"),
-				props.Class,
+				utils.If(p.HasError, "border-destructive ring-destructive"),
+				p.Class,
 			),
 		}
-		if props.Type == InputTypeFile {
-			accept={ props.FileAccept }
-		}
-		{ props.Attributes... }
+		{ p.Attributes... }
 	/>
 }

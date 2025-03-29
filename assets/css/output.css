@@ -391,8 +391,23 @@
   .z-\[9999\] {
     z-index: 9999;
   }
-  .col-span-2 {
-    grid-column: span 2 / span 2;
+  .\!container {
+    width: 100% !important;
+    @media (width >= 40rem) {
+      max-width: 40rem !important;
+    }
+    @media (width >= 48rem) {
+      max-width: 48rem !important;
+    }
+    @media (width >= 64rem) {
+      max-width: 64rem !important;
+    }
+    @media (width >= 80rem) {
+      max-width: 80rem !important;
+    }
+    @media (width >= 96rem) {
+      max-width: 96rem !important;
+    }
   }
   .container {
     width: 100%;
@@ -411,6 +426,9 @@
     @media (width >= 96rem) {
       max-width: 96rem;
     }
+  }
+  .m-8 {
+    margin: calc(var(--spacing) * 8);
   }
   .-mx-1 {
     margin-inline: calc(var(--spacing) * -1);
@@ -773,6 +791,12 @@
   }
   .shrink-0 {
     flex-shrink: 0;
+  }
+  .flex-grow {
+    flex-grow: 1;
+  }
+  .grow {
+    flex-grow: 1;
   }
   .caption-bottom {
     caption-side: bottom;
@@ -1767,16 +1791,6 @@
   .peer-checked\:ring-primary {
     &:is(:where(.peer):checked ~ *) {
       --tw-ring-color: var(--primary);
-    }
-  }
-  .peer-disabled\:pointer-events-none {
-    &:is(:where(.peer):disabled ~ *) {
-      pointer-events: none;
-    }
-  }
-  .peer-disabled\:cursor-not-allowed {
-    &:is(:where(.peer):disabled ~ *) {
-      cursor: not-allowed;
     }
   }
   .peer-disabled\:opacity-50 {

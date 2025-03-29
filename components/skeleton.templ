@@ -8,13 +8,21 @@ type SkeletonProps struct {
 	Attributes templ.Attributes
 }
 
-templ Skeleton(props SkeletonProps) {
+templ Skeleton(props ...SkeletonProps) {
+	{{ var p SkeletonProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<div
-		id={ props.ID }
-		class={ utils.TwMerge(
-			"animate-pulse rounded bg-muted",
-			props.Class,
-		) }
-		{ props.Attributes... }
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		class={
+			utils.TwMerge(
+				"animate-pulse rounded bg-muted",
+				p.Class,
+			),
+		}
+		{ p.Attributes... }
 	></div>
 }

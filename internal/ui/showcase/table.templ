@@ -3,81 +3,81 @@ package showcase
 import "github.com/axzilla/templui/components"
 
 templ Table() {
-	@components.Table(components.TableProps{}) {
-		@components.TableCaption(components.TableCaptionProps{}) {
+	@components.Table() {
+		@components.TableCaption() {
 			A list of your recent hires.
 		}
-		@components.TableHeader(components.TableHeaderProps{}) {
-			@components.TableRow(components.TableRowProps{}) {
-				@components.TableHead(components.TableHeadProps{}) {
+		@components.TableHeader() {
+			@components.TableRow() {
+				@components.TableHead() {
 					Name 
 				}
-				@components.TableHead(components.TableHeadProps{}) {
+				@components.TableHead() {
 					Role 
 				}
-				@components.TableHead(components.TableHeadProps{}) {
+				@components.TableHead() {
 					Status 
 				}
-				@components.TableHead(components.TableHeadProps{}) {
+				@components.TableHead() {
 					Actions 
 				}
 			}
 		}
-		@components.TableBody(components.TableBodyProps{}) {
-			@components.TableRow(components.TableRowProps{}) {
-				@components.TableCell(components.TableCellProps{}) {
+		@components.TableBody() {
+			@components.TableRow() {
+				@components.TableCell() {
 					John Doe 
 				}
-				@components.TableCell(components.TableCellProps{}) {
+				@components.TableCell() {
 					Software Engineer 
 				}
-				@components.TableCell(components.TableCellProps{}) {
+				@components.TableCell() {
 					Active 
 				}
-				@components.TableCell(components.TableCellProps{}) {
+				@components.TableCell() {
 					Edit 
 				}
 			}
-			@components.TableRow(components.TableRowProps{}) {
-				@components.TableCell(components.TableCellProps{}) {
+			@components.TableRow() {
+				@components.TableCell() {
 					Jane Smith 
 				}
-				@components.TableCell(components.TableCellProps{}) {
+				@components.TableCell() {
 					Designer 
 				}
-				@components.TableCell(components.TableCellProps{}) {
+				@components.TableCell() {
 					Active 
 				}
-				@components.TableCell(components.TableCellProps{}) {
+				@components.TableCell() {
 					Edit 
 				}
 			}
-			@components.TableRow(components.TableRowProps{}) {
-				@components.TableCell(components.TableCellProps{}) {
+			@components.TableRow() {
+				@components.TableCell() {
 					Bob Johnson 
 				}
-				@components.TableCell(components.TableCellProps{}) {
+				@components.TableCell() {
 					Product Manager 
 				}
-				@components.TableCell(components.TableCellProps{}) {
+				@components.TableCell() {
 					Inactive 
 				}
-				@components.TableCell(components.TableCellProps{}) {
+				@components.TableCell() {
 					Edit 
 				}
 			}
-			@components.TableFooter(components.TableFooterProps{}) {
-				@components.TableRow(components.TableRowProps{}) {
-					@components.TableHead(components.TableHeadProps{}) {
+			@components.TableFooter() {
+				@components.TableRow() {
+					@components.TableHead() {
 						3 items 
 					}
-					@components.TableHead(components.TableHeadProps{}) {
+					@components.TableHead() {
 						1 page 
 					}
-					@components.TableHead(components.TableHeadProps{}) {
+					@components.TableHead() {
 						1-3 of 3 
 					}
-					@components.TableHead(components.TableHeadProps{}) {
+					@components.TableHead() {
 						Next 
 					}
 				}

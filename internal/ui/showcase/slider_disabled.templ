@@ -14,9 +14,7 @@ templ SliderDisabled() {
 			Disabled: true,
 		}) {
 			<div class="flex justify-between items-center mb-1">
-				@components.Label(components.LabelProps{
-					For: "slider-disabled",
-				}) {
+				@components.Label() {
 					Volume
 				}
 				@components.SliderValue(components.SliderValueProps{

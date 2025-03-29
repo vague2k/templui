@@ -7,27 +7,27 @@ templ AccordionDefault() {
 		@components.Accordion(components.AccordionProps{
 			Class: "w-full",
 		}) {
-			@components.AccordionItem(components.AccordionItemProps{}) {
-				@components.AccordionTrigger(components.AccordionTriggerProps{}) {
+			@components.AccordionItem() {
+				@components.AccordionTrigger() {
 					Is it accessible?
 				}
-				@components.AccordionContent(components.AccordionContentProps{}) {
+				@components.AccordionContent() {
 					Yes. It adheres to the WAI-ARIA design pattern.
 				}
 			}
-			@components.AccordionItem(components.AccordionItemProps{}) {
-				@components.AccordionTrigger(components.AccordionTriggerProps{}) {
+			@components.AccordionItem() {
+				@components.AccordionTrigger() {
 					Is it styled?
 				}
-				@components.AccordionContent(components.AccordionContentProps{}) {
+				@components.AccordionContent() {
 					Yes. It comes with default styles that matches the other components aesthetic.
 				}
 			}
-			@components.AccordionItem(components.AccordionItemProps{}) {
-				@components.AccordionTrigger(components.AccordionTriggerProps{}) {
+			@components.AccordionItem() {
+				@components.AccordionTrigger() {
 					Is it animated?
 				}
-				@components.AccordionContent(components.AccordionContentProps{}) {
+				@components.AccordionContent() {
 					Yes. It's animated by default, but you can disable it if you prefer.
 				}
 			}

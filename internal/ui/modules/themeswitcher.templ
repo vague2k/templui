@@ -27,17 +27,21 @@ type ThemeSwitcherProps struct {
 	Class string
 }
 
-templ ThemeSwitcher(props ThemeSwitcherProps) {
+templ ThemeSwitcher(props ...ThemeSwitcherProps) {
+	{{ var p ThemeSwitcherProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	@themeSwitcherHandler()
 	@components.Button(components.ButtonProps{
 		Size:    components.ButtonSizeIcon,
 		Variant: components.ButtonVariantGhost,
-		Class:   props.Class,
+		Class:   p.Class,
 		Attributes: templ.Attributes{
 			"@click": "toggleTheme",
 		},
 	}) {
-		@icons.SunMedium(icons.IconProps{})
+		@icons.SunMedium()
 	}
 }
 
@@ -53,9 +57,9 @@ templ DynamicThemeIcon() {
 }
 
 templ DarkIcon() {
-	@icons.Moon(icons.IconProps{})
+	@icons.Moon()
 }
 
 templ LightIcon() {
-	@icons.SunMedium(icons.IconProps{})
+	@icons.SunMedium()
 }

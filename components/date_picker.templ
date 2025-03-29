@@ -1,10 +1,10 @@
-
 package components
 
 import (
 	"github.com/axzilla/templui/icons"
 	"github.com/axzilla/templui/utils"
 	"time"
+	"strconv"
 )
 
 type DateFormat string
@@ -111,72 +111,85 @@ type DatePickerProps struct {
 	ID          string
 	Class       string
 	Attributes  templ.Attributes
-	Name        string
 	Value       time.Time
 	Config      DatePickerConfig
 	Placeholder string
 	Disabled    bool
+	Required    bool
 	HasError    bool
+	Name        string
 }
 
-templ DatePicker(props DatePickerProps) {
-	if props.ID == "" {
-		{{ props.ID = utils.RandomID() }}
+templ DatePicker(props ...DatePickerProps) {
+	{{ var p DatePickerProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
 	}
-	if props.Placeholder == "" {
-		{{ props.Placeholder = "Select a date" }}
+	if p.ID == "" {
+		{{ p.ID = utils.RandomID() }}
+	}
+	if p.Placeholder == "" {
+		{{ p.Placeholder = "Select a date" }}
 	}
 	<div
-		id={ props.ID }
-		class={ utils.TwMerge("relative", props.Class) }
-		if props.Value != (time.Time{}) {
-			data-value={ props.Value.Format(props.Config.getGoFormat()) }
+		id={ p.ID + "-container" }
+		class={ utils.TwMerge("relative", p.Class) }
+		if p.Value != (time.Time{}) {
+			data-value={ p.Value.Format(p.Config.getGoFormat()) }
 		}
-		data-format={ string(props.Config.Format) }
-		data-monthnames={ templ.JSONString(props.Config.Locale.MonthNames) }
-		data-daynames={ templ.JSONString(props.Config.Locale.DayNames) }
-		x-data="date-picker"
-		data-input-id={ props.ID }
+		data-format={ string(p.Config.Format) }
+		data-monthnames={ templ.JSONString(p.Config.Locale.MonthNames) }
+		data-daynames={ templ.JSONString(p.Config.Locale.DayNames) }
+		data-placeholder={ p.Placeholder }
+		x-data="datePicker"
 		@resize.window="updatePosition"
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
+		<input
+			type="hidden"
+			id={ p.ID + "-hidden" }
+			name={ p.Name }
+			x-ref="hiddenInput"
+			disabled?={ p.Disabled }
+			required?={ p.Required }
+		/>
 		<div class="relative">
-			@Input(InputProps{
-				ID:          props.ID,
-				Name:        props.Name,
-				Value:       props.Value.Format(props.Config.getGoFormat()),
-				Placeholder: props.Placeholder,
-				Disabled:    props.Disabled,
-				Class:       utils.TwMerge(props.Class, "peer"),
-				HasError:    props.HasError,
-				Type:        "text",
-				Readonly:    true,
+			@Button(ButtonProps{
+				ID:      p.ID,
+				Type:    "button",
+				Variant: ButtonVariantOutline,
+				Class: utils.TwMerge(
+					"w-full select-trigger flex items-center justify-between focus:ring-2 focus:ring-offset-2",
+					utils.If(p.HasError, "border-destructive ring-destructive"),
+					p.Class,
+				),
+				Disabled: p.Disabled,
 				Attributes: utils.MergeAttributes(
 					templ.Attributes{
-						"x-ref":        "datePickerInput",
-						":x-modelable": "value",
-						":value":       "value",
-						"@click":       "toggleDatePicker",
+						"@click":   "toggleDatePicker",
+						"x-ref":    "triggerButton",
+						"required": strconv.FormatBool(p.Required),
 					},
-					props.Attributes,
+					p.Attributes,
 				),
-			})
-			<button
-				type="button"
-				@click="toggleDatePicker"
-				disabled?={ props.Disabled }
-				class={
-					utils.TwMerge(
-						"absolute top-0 right-0 px-3 py-2",
-						"cursor-pointer text-muted-foreground",
-						"hover:text-foreground",
-						"peer-disabled:pointer-events-none peer-disabled:opacity-50",
-					),
-				}
-			>
-				@icons.Calendar(icons.IconProps{})
-			</button>
+			}) {
+				<span
+					x-ref="displayText"
+					class="text-left grow"
+				>
+					if p.Value != (time.Time{}) {
+						{ p.Value.Format(p.Config.getGoFormat()) }
+					} else {
+						<span class="text-muted-foreground">{ p.Placeholder }</span>
+					}
+				</span>
+				<!-- Calendar icon -->
+				<span class="text-muted-foreground flex items-center">
+					@icons.Calendar()
+				</span>
+			}
 		</div>
+		<!-- DatePicker Popup -->
 		<div
 			x-show="open"
 			x-ref="datePickerPopup"
@@ -188,47 +201,31 @@ templ DatePicker(props DatePickerProps) {
 					"rounded-lg border bg-popover shadow-md",
 				),
 			}
-			x-bind:class="positionClass"
+			style="display: none;"
 		>
 			<div class="flex items-center justify-between mb-4">
-				<span x-text="getCurrentMonth" class="text-sm font-medium"></span>
+				<span x-ref="monthDisplay" class="text-sm font-medium"></span>
 				<div class="flex gap-1">
 					<button
 						type="button"
-						@click="atClickPrevMonth"
+						@click="prevMonth"
 						class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-7 w-7"
 					>
-						@icons.ChevronLeft(icons.IconProps{})
+						@icons.ChevronLeft()
 					</button>
 					<button
 						type="button"
-						@click="atClickNextMonth"
+						@click="nextMonth"
 						class="inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-7 w-7"
 					>
-						@icons.ChevronRight(icons.IconProps{})
+						@icons.ChevronRight()
 					</button>
 				</div>
 			</div>
-			<div class="grid grid-cols-7 gap-1 mb-2">
-				<template x-for="day in days" :key="day">
-					<div class="text-center text-xs text-muted-foreground" x-text="day"></div>
-				</template>
-			</div>
-			<div class="grid grid-cols-7 gap-1">
-				<template x-for="blank in blankDays" key="'blank' + blank">
-					<div class="h-8 w-8"></div>
-				</template>
-				<template x-for="day in monthDays">
-					<button
-						x-bind:data-day="day"
-						type="button"
-						@click="selectDate"
-						:class="activeDayClass"
-						x-text="day"
-						class="inline-flex h-8 w-8 items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-					></button>
-				</template>
-			</div>
+			<!-- Weekday container -->
+			<div x-ref="weekdaysContainer" class="grid grid-cols-7 gap-1 mb-2"></div>
+			<!-- Calendar days container -->
+			<div x-ref="daysContainer" class="grid grid-cols-7 gap-1"></div>
 		</div>
 	</div>
 }
@@ -245,101 +242,207 @@ templ DatePickerScript() {
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
 			document.addEventListener('alpine:init', () => {
-				Alpine.data('date-picker', () => ({
+				Alpine.data('datePicker', () => ({
 					open: false,
 					value: null,
 					format: null,
-					currentMonth: 5,
+					currentMonth: new Date().getMonth(),
 					currentYear: new Date().getFullYear(),
-					monthDays: [],
-					blankDays: [],
-					months: this.$el?.dataset?.monthnames || ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-					days: this.$el?.dataset?.daynames || ['Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa', 'Su'],
+					monthNames: [],
+					dayNames: [],
 					position: 'bottom',
 
 					init() {
-					    const monthNames = JSON.parse(this.$el?.dataset?.monthnames);
-    					if (monthNames) {
-        					this.months = monthNames;
-   						}
-
-   						const dayNames = JSON.parse(this.$el?.dataset?.daynames);
-    					if (dayNames) {
-        					this.days = dayNames;
-    					}				
-
-						this.format = this.$el.dataset.format;
-						const initialDate = this.$el?.dataset?.value ? new Date(this.parseDate(this.$el?.dataset?.value)) : new Date();
-						this.currentMonth = initialDate.getMonth();
-						this.currentYear = initialDate.getFullYear();
-						this.calculateDays();
-						// Format the initial value using the correct locale
-						if (this.$el.dataset?.value) {
-							this.value = this.formatDate(initialDate);
+							// Parse Month and Day names
+						try {
+							this.monthNames = JSON.parse(this.$el.dataset.monthnames) || [];
+							this.dayNames = JSON.parse(this.$el.dataset.daynames) || [];
+							
+							if (!this.monthNames.length) {
+								this.monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+							}
+							if (!this.dayNames.length) {
+								this.dayNames = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
+							}
+							
+							// Format and Placeholder
+							this.format = this.$el.dataset.format || 'iso';
+							this.placeholder = this.$el.dataset.placeholder || 'Select a date';
+							
+							// Process initial value
+							const initialValue = this.$el.dataset.value;
+							if (initialValue) {
+								const initialDate = new Date(this.parseDate(initialValue));
+								this.currentMonth = initialDate.getMonth();
+								this.currentYear = initialDate.getFullYear();
+								this.value = this.formatDate(initialDate);
+								
+								// Update hidden input
+								this.$refs.hiddenInput.value = this.value;
+								
+								// Update display text
+								this.updateDisplayText();
+							}
+							
+							// Initialize UI
+							this.updateMonthDisplay();
+							this.renderWeekdays();
+						} catch(e) {
+							console.error('DatePicker initialization error:', e);
+						}
+					},
+					
+					updateDisplayText() {
+						const displayTextEl = this.$refs.displayText;
+						if (!displayTextEl) return;
+						
+						displayTextEl.innerHTML = '';
+						
+						if (this.value) {
+							displayTextEl.textContent = this.value;
+							// Remove muted style
+							const muted = displayTextEl.querySelector('.text-muted-foreground');
+							if (muted) {
+								muted.classList.remove('text-muted-foreground');
+							}
+						} else {
+							const span = document.createElement('span');
+							span.className = 'text-muted-foreground';
+							span.textContent = this.placeholder;
+							displayTextEl.appendChild(span);
 						}
 					},
 
 					toggleDatePicker() {
+						if (this.$refs.triggerButton.disabled) return;
+						
 						this.open = !this.open;
+						
 						if (this.open) {
-							this.$nextTick(() => this.updatePosition());
+							this.$nextTick(() => {
+								this.updatePosition();
+								this.renderCalendar();
+							});
 						}
 					},
-
-					getCurrentMonth() {
-						return this.months[this.currentMonth] + ' ' + this.currentYear;
+					
+				   closeDatePicker(event) {
+						const trigger = this.$refs.triggerButton;
+                        if (event.target.tagName === 'LABEL' && event.target.htmlFor === trigger.id) {
+                            return; 
+						}
+                        this.open = false;
+                    },	
+					
+					updateMonthDisplay() {
+						if (this.$refs.monthDisplay) {
+							this.$refs.monthDisplay.textContent = this.monthNames[this.currentMonth] + ' ' + this.currentYear;
+						}
 					},
-
-					closeDatePicker() {
-						this.open = false;
-					},
-
+					
 					updatePosition() {
-					    const inputId = this.$root.dataset.inputId;
-    					const trigger = document.getElementById(inputId);
+						const trigger = this.$refs.triggerButton;
 						const popup = this.$refs.datePickerPopup;
-						
 						if (!trigger || !popup) return;
 						
-						const rect = trigger.getBoundingClientRect();
-						const popupRect = popup.getBoundingClientRect();
-						const viewportHeight = window.innerHeight;
+						setTimeout(() => {
+							const rect = trigger.getBoundingClientRect();
+							const popupRect = popup.getBoundingClientRect();
+							const viewportHeight = window.innerHeight;
+							if (rect.bottom + popupRect.height > viewportHeight && rect.top > popupRect.height) {
+								popup.classList.add('bottom-full', 'mb-1');
+								popup.classList.remove('top-full', 'mt-1');
+							} else {
+								popup.classList.add('top-full', 'mt-1');
+								popup.classList.remove('bottom-full', 'mb-1');
+							}
+						}, 0); // 0ms is enough to wait for the next tick
+					},
+					
+					renderWeekdays() {
+						const container = this.$refs.weekdaysContainer;
+						if (!container) return;
 						
-						if (rect.bottom + popupRect.height > viewportHeight && rect.top > popupRect.height) {
-							this.position = 'top';
-						} else {
-							this.position = 'bottom';
+						container.innerHTML = '';
+						
+						// Day headers
+						this.dayNames.forEach(day => {
+							const el = document.createElement('div');
+							el.className = 'text-center text-xs text-muted-foreground';
+							el.textContent = day;
+							container.appendChild(el);
+						});
+					},
+					
+					renderCalendar() {
+						// Calculate first day and days in month
+						let firstDay = new Date(this.currentYear, this.currentMonth, 1).getDay();
+						firstDay = firstDay === 0 ? 6 : firstDay - 1; // Sunday = 6
+						
+						const daysInMonth = new Date(this.currentYear, this.currentMonth + 1, 0).getDate();
+						const today = new Date();
+						const container = this.$refs.daysContainer;
+						
+						if (!container) return;
+						container.innerHTML = '';
+						
+						// Empty days at the beginning
+						for (let i = 0; i < firstDay; i++) {
+							const blank = document.createElement('div');
+							blank.className = 'h-8 w-8';
+							container.appendChild(blank);
+						}
+						
+						// Days in the month
+						for (let day = 1; day <= daysInMonth; day++) {
+							const button = document.createElement('button');
+							button.type = 'button';
+							button.className = 'inline-flex h-8 w-8 items-center justify-center rounded-md text-sm font-medium';
+							button.textContent = day;
+							button.dataset.day = day;
+							
+							// Click handler
+							button.addEventListener('click', e => this.selectDate(e));
+							
+							// Highlight today or selected
+							const isToday = today.getDate() === day && 
+										   today.getMonth() === this.currentMonth && 
+										   today.getFullYear() === this.currentYear;
+										   
+							const isSelected = this.isSelectedDate(day);
+							
+							if (isSelected) {
+								button.classList.add('bg-primary', 'text-primary-foreground');
+							} else if (isToday) {
+								button.classList.add('text-red-500');
+							} else {
+								button.classList.add('hover:bg-accent', 'hover:text-accent-foreground');
+							}
+							
+							container.appendChild(button);
 						}
 					},
-
-					calculateDays() {
-						let firstDay = new Date(this.currentYear, this.currentMonth, 1).getDay();
-						const daysInMonth = new Date(this.currentYear, this.currentMonth + 1, 0).getDate();
-						
-						firstDay = firstDay === 0 ? 6 : firstDay - 1;
-						
-						this.blankDays = Array.from({ length: firstDay }, (_, i) => i);
-						this.monthDays = Array.from({ length: daysInMonth }, (_, i) => i + 1);
-					},
-
-					atClickPrevMonth() {
+					
+					prevMonth() {
 						this.currentMonth--;
 						if (this.currentMonth < 0) {
 							this.currentMonth = 11;
 							this.currentYear--;
 						}
-						this.calculateDays();
+						this.updateMonthDisplay();
+						this.renderCalendar();
 					},
-
-					atClickNextMonth() {
+					
+					nextMonth() {
 						this.currentMonth++;
 						if (this.currentMonth > 11) {
 							this.currentMonth = 0;
 							this.currentYear++;
 						}
-						this.calculateDays();
+						this.updateMonthDisplay();
+						this.renderCalendar();
 					},
-
+					
 					parseDate(dateStr) {
 						const parts = dateStr.split(/[-/.]/);
 						switch(this.format) {
@@ -355,12 +458,12 @@ templ DatePickerScript() {
 								return dateStr;
 						}
 					},
-
+					
 					formatDate(date) {
 						const d = date.getDate().toString().padStart(2, '0');
 						const m = (date.getMonth() + 1).toString().padStart(2, '0');
 						const y = date.getFullYear();
-
+						
 						switch(this.format) {
 							case 'eu':
 								return `${d}.${m}.${y}`;
@@ -369,48 +472,45 @@ templ DatePickerScript() {
 							case 'us':
 								return `${m}/${d}/${y}`;
 							case 'long':
-								// Use the months array from the provided locale
-								return `${this.months[date.getMonth()]} ${d}, ${y}`;
+								return `${this.monthNames[date.getMonth()]} ${d}, ${y}`;
 							case 'iso':
 							default:
 								return `${y}-${m}-${d}`;
 						}
 					},
-
-					isToday(day) {
-						const today = new Date();
-						const date = new Date(this.currentYear, this.currentMonth, day);
-						return date.toDateString() === today.toDateString();
-					},
-
-					isSelected(day) {
+					
+					isSelectedDate(day) {
 						if (!this.value) return false;
-						const date = new Date(this.currentYear, this.currentMonth, day);
-						const selected = new Date(this.parseDate(this.value));
-						return date.toDateString() === selected.toDateString();
+						
+						try {
+							const date = new Date(this.currentYear, this.currentMonth, parseInt(day));
+							const selected = new Date(this.parseDate(this.value));
+							return date.toDateString() === selected.toDateString();
+						} catch(e) {
+							return false;
+						}
 					},
-
-					selectDate() {
-						const day = this.$el.getAttribute('data-day');
-						const date = new Date(this.currentYear, this.currentMonth, day);
+					
+					selectDate(e) {
+						const day = e.target.dataset.day;
+						if (!day) return;
+						
+						const date = new Date(this.currentYear, this.currentMonth, parseInt(day));
 						this.value = this.formatDate(date);
+						
+						// Update hidden input
+						this.$refs.hiddenInput.value = this.value;
+						this.$refs.hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));
+						
+						// Update display text
+						this.updateDisplayText();
+						
+						// Close DatePicker
 						this.open = false;
-					},
-
-					activeDayClass() {
-						const day = this.$el.getAttribute('data-day');
-						if (this.isSelected(day)) {
-							return 'bg-primary text-primary-foreground';
-						}
-						if (this.isToday(day) && !this.isSelected(day)) {
-							return 'text-red-500';
-						}
-						return 'hover:bg-accent hover:text-accent-foreground';
-					},
-
-					positionClass() {
-						return this.position === 'bottom' ? 'top-full mt-1' : 'bottom-full mb-1';
-					},
+						
+						// Focus on button
+						this.$refs.triggerButton.focus();
+					}
 				}));
 			});
 		</script>

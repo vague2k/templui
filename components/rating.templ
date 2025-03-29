@@ -1,10 +1,10 @@
 package components
 
 import (
+	"context"
 	"github.com/axzilla/templui/icons"
 	"github.com/axzilla/templui/utils"
 	"strconv"
-	"context"
 )
 
 type RatingStyle string
@@ -40,72 +40,100 @@ type RatingItemProps struct {
 	Style      RatingStyle
 }
 
-templ Rating(props RatingProps) {
-	{{ props.setDefaults() }}
-	{{ ctx = context.WithValue(ctx, "readOnly", props.ReadOnly) }}
+templ Rating(props ...RatingProps) {
+	{{ var p RatingProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
+	{{ p.setDefaults() }}
+	{{ ctx = context.WithValue(ctx, "readOnly", p.ReadOnly) }}
 	<div
-		id={ props.ID }
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		x-data="rating"
-		data-value={ strconv.FormatFloat(props.Value, 'f', -1, 64) }
-		data-precision={ strconv.FormatFloat(props.Precision, 'f', -1, 64) }
-		data-readonly={ strconv.FormatBool(props.ReadOnly) }
-		data-name={ props.Name }
-		data-onlyinteger={ strconv.FormatBool(props.OnlyInteger) }
-		class={ utils.TwMerge(
-			"flex flex-col items-start gap-1",
-			props.Class,
-		) }
-		{ props.Attributes... }
+		data-value={ strconv.FormatFloat(p.Value, 'f', -1, 64) }
+		data-precision={ strconv.FormatFloat(p.Precision, 'f', -1, 64) }
+		data-readonly={ strconv.FormatBool(p.ReadOnly) }
+		if p.Name != "" {
+			data-name={ p.Name }
+		}
+		data-onlyinteger={ strconv.FormatBool(p.OnlyInteger) }
+		class={
+			utils.TwMerge(
+				"flex flex-col items-start gap-1",
+				p.Class,
+			),
+		}
+		{ p.Attributes... }
 	>
 		{ children... }
 		<input
 			type="hidden"
-			name={ props.Name }
+			if p.Name != "" {
+				name={ p.Name }
+			}
 			x-bind:value="value"
-			disabled?={ props.Name == "" }
+			disabled?={ p.Name == "" }
 			x-ref="input"
 		/>
 	</div>
 }
 
-templ RatingGroup(props RatingGroupProps) {
+templ RatingGroup(props ...RatingGroupProps) {
+	{{ var p RatingGroupProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<div
-		id={ props.ID }
-		class={ utils.TwMerge("flex flex-row items-center gap-1", props.Class) }
-		{ props.Attributes... }
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		class={ utils.TwMerge("flex flex-row items-center gap-1", p.Class) }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</div>
 }
 
-templ RatingItem(props RatingItemProps) {
-	{{ props.setDefaults() }}
+templ RatingItem(props ...RatingItemProps) {
+	{{ var p RatingItemProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
+	{{ p.setDefaults() }}
 	{{ readOnly, _ := ctx.Value("readOnly").(bool) }}
 	<div
-		id={ props.ID }
-		class={ utils.TwMerge(
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		class={
+			utils.TwMerge(
 				"relative",
-				getColorClass(props.Style),
+				getColorClass(p.Style),
 				"transition-opacity",
 				"cursor-pointer",
 				utils.If(readOnly, "cursor-default"),
-				props.Class,
-			) }
-		data-rating-value={ strconv.Itoa(props.Value) }
-		@click="setValue"
-		@mouseover="hover"
-		@mouseleave="resetPreview"
-		{ props.Attributes... }
+				p.Class,
+			),
+		}
+		data-rating-value={ strconv.Itoa(p.Value) }
+		if !readOnly {
+			@click="setValue"
+			@mouseover="hover"
+			@mouseleave="resetPreview"
+		}
+		{ p.Attributes... }
 	>
 		<div class="opacity-30">
-			@getRatingIcon(props.Style, false, float64(props.Value))
+			@getRatingIcon(p.Style, false, float64(p.Value))
 		</div>
 		<div
 			class="absolute inset-0 overflow-hidden"
 			x-bind:style="getItemStyle"
-			data-index={ strconv.Itoa(props.Value) }
+			data-index={ strconv.Itoa(p.Value) }
 		>
-			@getRatingIcon(props.Style, true, float64(props.Value))
+			@getRatingIcon(p.Style, true, float64(p.Value))
 		</div>
 	</div>
 }
@@ -126,18 +154,18 @@ func getRatingIcon(style RatingStyle, filled bool, value float64) templ.Componen
 		if filled {
 			switch {
 			case value <= 1:
-				return icons.Angry(icons.IconProps{})
+				return icons.Angry()
 			case value <= 2:
-				return icons.Frown(icons.IconProps{})
+				return icons.Frown()
 			case value <= 3:
-				return icons.Meh(icons.IconProps{})
+				return icons.Meh()
 			case value <= 4:
-				return icons.Smile(icons.IconProps{})
+				return icons.Smile()
 			default:
-				return icons.Laugh(icons.IconProps{})
+				return icons.Laugh()
 			}
 		}
-		return icons.Meh(icons.IconProps{})
+		return icons.Meh()
 	}
 	if filled {
 		switch style {
@@ -149,9 +177,9 @@ func getRatingIcon(style RatingStyle, filled bool, value float64) templ.Componen
 	} else {
 		switch style {
 		case RatingStyleHeart:
-			return icons.Heart(icons.IconProps{})
+			return icons.Heart()
 		default:
-			return icons.Star(icons.IconProps{})
+			return icons.Star()
 		}
 	}
 }

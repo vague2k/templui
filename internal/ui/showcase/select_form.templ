@@ -4,15 +4,15 @@ import "github.com/axzilla/templui/components"
 
 templ SelectForm() {
 	<div class="w-full max-w-sm">
-		@components.FormItem(components.FormItemProps{}) {
+		@components.FormItem() {
 			@components.FormLabel(components.FormLabelProps{
-				For: "select-with-label",
+				For: "select-form",
 			}) {
 				Fruit
 			}
-			@components.Select(components.SelectProps{}) {
+			@components.Select() {
 				@components.SelectTrigger(components.SelectTriggerProps{
-					ID:       "select-with-label",
+					ID:       "select-form",
 					Name:     "fruit",
 					Required: true,
 					HasError: true,
@@ -21,7 +21,7 @@ templ SelectForm() {
 						Placeholder: "Select a fruit",
 					})
 				}
-				@components.SelectContent(components.SelectContentProps{}) {
+				@components.SelectContent() {
 					@components.SelectItem(components.SelectItemProps{
 						Value: "apple",
 					}) {
@@ -51,7 +51,7 @@ templ SelectForm() {
 					}
 				}
 			}
-			@components.FormDescription(components.FormDescriptionProps{}) {
+			@components.FormDescription() {
 				Select a fruit category.
 			}
 			@components.FormMessage(components.FormMessageProps{

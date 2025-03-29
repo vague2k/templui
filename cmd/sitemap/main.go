@@ -143,6 +143,7 @@ func main() {
 
 	// Create robots.txt
 	robotsContent := fmt.Sprintf(`User-agent: *
+Allow: /assets/img/social-preview.png
 Allow: /
 Disallow: /assets/
 

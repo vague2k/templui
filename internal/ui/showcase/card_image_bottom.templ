@@ -4,30 +4,31 @@ import "github.com/axzilla/templui/components"
 
 templ CardImageBottom() {
 	<div class="w-full max-w-sm">
-		@components.Card(components.CardProps{}) {
-			@components.CardHeader(components.CardHeaderProps{}) {
-				@components.CardTitle(components.CardTitleProps{}) {
+		@components.Card() {
+			@components.CardHeader() {
+				@components.CardTitle() {
 					Featured Card
 				}
-				@components.CardDescription(components.CardDescriptionProps{}) {
+				@components.CardDescription() {
 					With bottom image
 				}
 			}
-			@components.CardContent(components.CardContentProps{}) {
+			@components.CardContent() {
 				<p>This card shows bottom image usage.</p>
 			}
-			@components.CardFooter(components.CardFooterProps{}) {
-				@components.Button(components.ButtonProps{}) {
+			@components.CardFooter() {
+				@components.Button() {
 					Learn more
 				}
 			}
 			@components.CardMedia(components.CardMediaProps{
 				ID:          "bottom-media",
-				Src:         "/assets/img/card_placeholder.jpeg",
 				Alt:         "Card image",
 				Position:    components.CardMediaBottom,
 				AspectRatio: components.AspectRatioVideo,
-			})
+				Src:         "/assets/img/card_placeholder.jpeg",
+			},
+			)
 		}
 	</div>
 }

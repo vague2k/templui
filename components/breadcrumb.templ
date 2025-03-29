@@ -38,86 +38,136 @@ type BreadcrumbSeparatorProps struct {
 	UseCustom  bool
 }
 
-templ Breadcrumb(props BreadcrumbProps) {
+templ Breadcrumb(props ...BreadcrumbProps) {
+	{{ var p BreadcrumbProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<nav
-		id={ props.ID }
-		class={ utils.TwMerge(
-			"flex",
-			props.Class,
-		) }
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		class={
+			utils.TwMerge(
+				"flex",
+				p.Class,
+			),
+		}
 		aria-label="Breadcrumb"
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</nav>
 }
 
-templ BreadcrumbList(props BreadcrumbListProps) {
+templ BreadcrumbList(props ...BreadcrumbListProps) {
+	{{ var p BreadcrumbListProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<ol
-		id={ props.ID }
-		class={ utils.TwMerge(
-			"flex items-center flex-wrap gap-1 text-sm",
-			props.Class,
-		) }
-		{ props.Attributes... }
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		class={
+			utils.TwMerge(
+				"flex items-center flex-wrap gap-1 text-sm",
+				p.Class,
+			),
+		}
+		{ p.Attributes... }
 	>
 		{ children... }
 	</ol>
 }
 
-templ BreadcrumbItem(props BreadcrumbItemProps) {
+templ BreadcrumbItem(props ...BreadcrumbItemProps) {
+	{{ var p BreadcrumbItemProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<li
-		id={ props.ID }
-		class={ utils.TwMerge(
-			"flex items-center",
-			props.Class,
-		) }
-		{ props.Attributes... }
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		class={
+			utils.TwMerge(
+				"flex items-center",
+				p.Class,
+			),
+		}
+		{ p.Attributes... }
 	>
 		{ children... }
 	</li>
 }
 
-templ BreadcrumbLink(props BreadcrumbLinkProps) {
+templ BreadcrumbLink(props ...BreadcrumbLinkProps) {
+	{{ var p BreadcrumbLinkProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<a
-		id={ props.ID }
-		href={ templ.SafeURL(props.Href) }
-		class={ utils.TwMerge(
-			"text-muted-foreground hover:text-foreground hover:underline flex items-center gap-1.5 transition-colors",
-			props.Class,
-		) }
-		{ props.Attributes... }
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		if p.Href != "" {
+			href={ templ.SafeURL(p.Href) }
+		}
+		class={
+			utils.TwMerge(
+				"text-muted-foreground hover:text-foreground hover:underline flex items-center gap-1.5 transition-colors",
+				p.Class,
+			),
+		}
+		{ p.Attributes... }
 	>
 		{ children... }
 	</a>
 }
 
-templ BreadcrumbSeparator(props BreadcrumbSeparatorProps) {
+templ BreadcrumbSeparator(props ...BreadcrumbSeparatorProps) {
+	{{ var p BreadcrumbSeparatorProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<span
-		id={ props.ID }
-		class={ utils.TwMerge(
-			"mx-2 text-muted-foreground",
-			props.Class,
-		) }
-		{ props.Attributes... }
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		class={
+			utils.TwMerge(
+				"mx-2 text-muted-foreground",
+				p.Class,
+			),
+		}
+		{ p.Attributes... }
 	>
-		if props.UseCustom {
+		if p.UseCustom {
 			{ children... }
 		} else {
-			@icons.ChevronRight(icons.IconProps{Size: "14", Class: "text-muted-foreground"})
+			@icons.ChevronRight(icons.IconProps{Size: 14, Class: "text-muted-foreground"})
 		}
 	</span>
 }
 
-templ BreadcrumbPage(props BreadcrumbItemProps) {
+templ BreadcrumbPage(props ...BreadcrumbItemProps) {
+	{{ var p BreadcrumbItemProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
 	<span
-		id={ props.ID }
-		class={ utils.TwMerge(
-			"font-medium text-foreground flex items-center gap-1.5",
-			props.Class,
-		) }
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		class={
+			utils.TwMerge(
+				"font-medium text-foreground flex items-center gap-1.5",
+				p.Class,
+			),
+		}
 		aria-current="page"
-		{ props.Attributes... }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</span>

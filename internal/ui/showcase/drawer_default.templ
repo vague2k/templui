@@ -1,27 +1,27 @@
 package showcase
 
-import (
-	"github.com/axzilla/templui/components"
-)
+import "github.com/axzilla/templui/components"
 
 templ DrawerDefault() {
-	@components.Drawer(components.DrawerProps{}) {
+	@components.Drawer() {
 		@components.DrawerTrigger(components.DrawerTriggerProps{Class: "mb-4"}) {
-			@components.Button(components.ButtonProps{}) {
+			@components.Button() {
 				Open
 			}
 		}
-		@components.DrawerContent(components.DrawerContentProps{Side: components.DrawerPositionRight}) {
-			@components.DrawerHeader(components.DrawerHeaderProps{}) {
-				@components.DrawerTitle(components.DrawerTitleProps{}) {
+		@components.DrawerContent(components.DrawerContentProps{
+			Side: components.DrawerPositionRight,
+		}) {
+			@components.DrawerHeader() {
+				@components.DrawerTitle() {
 					Account
 				}
-				@components.DrawerDescription(components.DrawerDescriptionProps{}) {
+				@components.DrawerDescription() {
 					Make changes to your account here. Click save when you are done.
 				}
 			}
-			@components.Card(components.CardProps{}) {
-				@components.CardContent(components.CardContentProps{}) {
+			@components.Card() {
+				@components.CardContent() {
 					<div class="flex flex-col gap-4">
 						@components.Input(components.InputProps{
 							Type:        components.InputTypeText,
@@ -38,11 +38,11 @@ templ DrawerDefault() {
 					</div>
 				}
 			}
-			@components.DrawerFooter(components.DrawerFooterProps{}) {
-				@components.DrawerClose(components.DrawerCloseProps{}) {
+			@components.DrawerFooter() {
+				@components.DrawerClose() {
 					Cancel
 				}
-				@components.Button(components.ButtonProps{}) {
+				@components.Button() {
 					Save
 				}
 			}

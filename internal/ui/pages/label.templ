@@ -25,16 +25,16 @@ templ Label() {
 				ComponentCodeFile: "label.templ",
 			})
 			<div>
-				@components.Card(components.CardProps{}) {
-					@components.CardHeader(components.CardHeaderProps{}) {
-						@components.CardTitle(components.CardTitleProps{}) {
+				@components.Card() {
+					@components.CardHeader() {
+						@components.CardTitle() {
 							Usage
 						}
-						@components.CardDescription(components.CardDescriptionProps{}) {
+						@components.CardDescription() {
 							The Label component enhances the following form controls:
 						}
 					}
-					@components.CardContent(components.CardContentProps{}) {
+					@components.CardContent() {
 						<ul class="list-disc pl-6 space-y-2">
 							<ul class="list-disc pl-6 space-y-2">
 								<li>
