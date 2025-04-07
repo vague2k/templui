@@ -35,6 +35,7 @@ type PopoverProps struct {
 
 type PopoverTriggerProps struct {
 	ID          string
+	For         string
 	TriggerType PopoverTriggerType
 }
 
@@ -50,7 +51,14 @@ type PopoverContentProps struct {
 	HoverOutDelay    int
 }
 
-templ popoverPortalContainer() {
+templ Popover(props ...PopoverProps) {
+	{{ var p PopoverProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
+	<div class={ utils.TwMerge("relative inline-block", p.Class) }>
+		{ children... }
+	</div>
 	<div
 		id="popover-portal-container"
 		class="fixed inset-0 z-[9999] pointer-events-none"
@@ -66,23 +74,15 @@ templ PopoverTrigger(props ...PopoverTriggerProps) {
 		{{ p.TriggerType = PopoverTriggerTypeClick }}
 	}
 	<span
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		data-popover-trigger
-		data-popover-id={ p.ID }
+		data-popover-for={ p.For }
 		data-popover-type={ string(p.TriggerType) }
 	>
 		{ children... }
 	</span>
-}
-
-templ Popover(props ...PopoverProps) {
-	{{ var p PopoverProps }}
-	if len(props) > 0 {
-		{{ p = props[0] }}
-	}
-	<div class={ utils.TwMerge("relative inline-block", p.Class) }>
-		{ children... }
-	</div>
-	@popoverPortalContainer()
 }
 
 templ PopoverContent(props ...PopoverContentProps) {
@@ -391,7 +391,7 @@ templ PopoverScript() {
             
             // Event handler setup
             function setupTrigger(trigger) {
-                const popoverId = trigger.dataset.popoverId;
+                const popoverId = trigger.dataset.popoverFor
                 const template = document.querySelector(`[data-popover-content-template][data-popover-id="${popoverId}"]`);
                 
                 if (!template) return;
@@ -588,7 +588,7 @@ templ PopoverScript() {
             // Scroll handler for all popovers
             window.addEventListener('scroll', () => {
                 activePopovers.forEach((content, popoverId) => {
-                    const trigger = document.querySelector(`[data-popover-trigger][data-popover-id="${popoverId}"]`);
+                    const trigger = document.querySelector(`[data-popover-trigger][data-popover-for="${popoverId}"]`);
                     if (trigger) {
                         positionPopover(trigger, content);
                     }
@@ -598,7 +598,7 @@ templ PopoverScript() {
             // Resize handler
             window.addEventListener('resize', () => {
                 activePopovers.forEach((content, popoverId) => {
-                    const trigger = document.querySelector(`[data-popover-trigger][data-popover-id="${popoverId}"]`);
+                    const trigger = document.querySelector(`[data-popover-trigger][data-popover-for="${popoverId}"]`);
                     if (trigger) {
                         positionPopover(trigger, content);
                     }
@@ -630,7 +630,7 @@ templ PopoverScript() {
                 scrollableElements.forEach(element => {
                     element.addEventListener('scroll', () => {
                         activePopovers.forEach((content, popoverId) => {
-                            const trigger = document.querySelector(`[data-popover-trigger][data-popover-id="${popoverId}"]`);
+                            const trigger = document.querySelector(`[data-popover-trigger][data-popover-for="${popoverId}"]`);
                             if (trigger) {
                                 positionPopover(trigger, content);
                             }

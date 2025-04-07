@@ -27,15 +27,9 @@ templ Tooltip() {
 			})
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Variants",
-					ShowcaseFile:      showcase.TooltipVariants(),
-					PreviewCodeFile:   "tooltip_variants.templ",
-					ComponentCodeFile: "tooltip.templ",
-				})
-				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Sides",
+					SectionName:       "Positions",
+					PreviewCodeFile:   "tooltip_positions.templ",
 					ShowcaseFile:      showcase.TooltipPositions(),
-					PreviewCodeFile:   "tooltip_sides.templ",
 					ComponentCodeFile: "tooltip.templ",
 				})
 			}

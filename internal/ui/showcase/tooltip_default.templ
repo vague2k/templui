@@ -4,7 +4,9 @@ import "github.com/axzilla/templui/components"
 
 templ TooltipDefault() {
 	@components.Tooltip() {
-		@components.TooltipTrigger() {
+		@components.TooltipTrigger(components.TooltipTriggerProps{
+			For: "tooltip-default",
+		}) {
 			@components.Button(components.ButtonProps{
 				Variant: components.ButtonVariantOutline,
 			}) {
@@ -12,8 +14,8 @@ templ TooltipDefault() {
 			}
 		}
 		@components.TooltipContent(components.TooltipContentProps{
-			Side:    components.TooltipPositionTop,
-			Variant: components.TooltipVariantDefault,
+			ID:       "tooltip-default",
+			Position: components.TooltipPositionTop,
 		}) {
 			Add to cart
 		}

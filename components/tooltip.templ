@@ -3,7 +3,6 @@ package components
 import "github.com/axzilla/templui/utils"
 
 type TooltipPosition string
-type TooltipVariant string
 
 const (
 	TooltipPositionTop    TooltipPosition = "top"
@@ -12,55 +11,49 @@ const (
 	TooltipPositionLeft   TooltipPosition = "left"
 )
 
-const (
-	TooltipVariantDefault     TooltipVariant = "default"
-	TooltipVariantSecondary   TooltipVariant = "secondary"
-	TooltipVariantDestructive TooltipVariant = "destructive"
-)
+// Map tooltip positions to popover positions
+func mapTooltipPositionToPopover(position TooltipPosition) PopoverPosition {
+	switch position {
+	case TooltipPositionTop:
+		return PopoverTop
+	case TooltipPositionRight:
+		return PopoverRight
+	case TooltipPositionBottom:
+		return PopoverBottom
+	case TooltipPositionLeft:
+		return PopoverLeft
+	default:
+		return PopoverTop
+	}
+}
 
 type TooltipProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
-	Side       TooltipPosition
-	Variant    TooltipVariant
 }
 
 type TooltipTriggerProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
+	For        string
 }
 
 type TooltipContentProps struct {
-	ID         string
-	Class      string
-	Attributes templ.Attributes
-	ShowArrow  bool
-	Side       TooltipPosition
-	Variant    TooltipVariant
+	ID            string
+	Class         string
+	Attributes    templ.Attributes
+	ShowArrow     bool
+	Position      TooltipPosition
+	HoverDelay    int
+	HoverOutDelay int
 }
 
 templ Tooltip(props ...TooltipProps) {
-	{{ var p TooltipProps }}
-	if len(props) > 0 {
-		{{ p = props[0] }}
-	}
-	if p.Side == "" {
-		{{ p.Side = TooltipPositionTop }}
-	}
-	if p.Variant == "" {
-		{{ p.Variant = TooltipVariantDefault }}
-	}
-	<div
-		if p.ID != "" {
-			id={ p.ID }
-		}
-		class={ utils.TwMerge("relative inline-block group", p.Class) }
-		{ p.Attributes... }
-	>
+	@Popover() {
 		{ children... }
-	</div>
+	}
 }
 
 templ TooltipTrigger(props ...TooltipTriggerProps) {
@@ -68,15 +61,13 @@ templ TooltipTrigger(props ...TooltipTriggerProps) {
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
-	<div
-		if p.ID != "" {
-			id={ p.ID }
-		}
-		class={ utils.TwMerge("inline-block", p.Class) }
-		{ p.Attributes... }
-	>
+	@PopoverTrigger(PopoverTriggerProps{
+		ID:          p.ID,
+		TriggerType: PopoverTriggerTypeHover,
+		For:         p.For,
+	}) {
 		{ children... }
-	</div>
+	}
 }
 
 templ TooltipContent(props ...TooltipContentProps) {
@@ -84,96 +75,15 @@ templ TooltipContent(props ...TooltipContentProps) {
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
-	if p.Side == "" {
-		{{ p.Side = TooltipPositionTop }}
-	}
-	if p.Variant == "" {
-		{{ p.Variant = TooltipVariantDefault }}
-	}
-	<div
-		if p.ID != "" {
-			id={ p.ID }
-		}
-		class={
-			utils.TwMerge(
-				"absolute w-max z-50 pointer-events-none",
-				"text-xs px-4 py-1 rounded-lg",
-				"transition-opacity duration-200 delay-500 opacity-0 group-hover:opacity-100",
-				"whitespace-nowrap",
-				getTooltipSideClass(p.Side),
-				getTooltipVariantClass(p.Variant),
-				p.Class,
-			),
-		}
-		{ p.Attributes... }
-	>
-		if p.ShowArrow {
-			<div
-				class={
-					utils.TwMerge(
-						"absolute h-2 w-2 rotate-45",
-						getArrowClass(p.Side),
-						getArrowColor(p.Variant),
-					),
-				}
-			></div>
-		}
+	@PopoverContent(PopoverContentProps{
+		ID:            p.ID,
+		Class:         utils.TwMerge("px-4 py-1 bg-secondary ", p.Class),
+		Attributes:    p.Attributes,
+		Position:      mapTooltipPositionToPopover(p.Position),
+		ShowArrow:     p.ShowArrow,
+		HoverDelay:    p.HoverDelay,
+		HoverOutDelay: p.HoverOutDelay,
+	}) {
 		{ children... }
-	</div>
-}
-
-func getTooltipSideClass(side TooltipPosition) string {
-	switch side {
-	case TooltipPositionTop:
-		return "bottom-full left-1/2 -translate-x-1/2 mb-2"
-	case TooltipPositionRight:
-		return "left-full top-1/2 -translate-y-1/2 ml-2"
-	case TooltipPositionBottom:
-		return "top-full left-1/2 -translate-x-1/2 mt-2"
-	case TooltipPositionLeft:
-		return "right-full top-1/2 -translate-y-1/2 mr-2"
-	default:
-		return "bottom-full left-1/2 -translate-x-1/2 mb-2"
-	}
-}
-
-func getTooltipVariantClass(variant TooltipVariant) string {
-	switch variant {
-	case TooltipVariantDefault:
-		return "bg-foreground text-background"
-	case TooltipVariantSecondary:
-		return "bg-secondary text-secondary-foreground"
-	case TooltipVariantDestructive:
-		return "bg-destructive text-destructive-foreground"
-	default:
-		return "bg-foreground text-background"
-	}
-}
-
-func getArrowClass(side TooltipPosition) string {
-	switch side {
-	case TooltipPositionTop:
-		return "bottom-[-4px] left-1/2 -translate-x-1/2"
-	case TooltipPositionRight:
-		return "left-[-4px] top-1/2 -translate-y-1/2"
-	case TooltipPositionBottom:
-		return "top-[-4px] left-1/2 -translate-x-1/2"
-	case TooltipPositionLeft:
-		return "right-[-4px] top-1/2 -translate-y-1/2"
-	default:
-		return "bottom-[-4px] left-1/2 -translate-x-1/2"
-	}
-}
-
-func getArrowColor(variant TooltipVariant) string {
-	switch variant {
-	case TooltipVariantDefault:
-		return "bg-foreground"
-	case TooltipVariantSecondary:
-		return "bg-secondary"
-	case TooltipVariantDestructive:
-		return "bg-destructive"
-	default:
-		return "bg-foreground"
 	}
 }
