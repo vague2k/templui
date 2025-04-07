@@ -273,9 +273,11 @@ templ DrawerScript() {
                     isOpen: false,
                     open() {
                         this.isOpen = true
+                        document.body.style.overflow = 'hidden'
                     },
                     close() {
                         this.isOpen = false
+                        document.body.style.overflow = ''
                     },
                 }))
             })
