@@ -42,11 +42,6 @@ templ LabelScript() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
 			document.addEventListener('DOMContentLoaded', function() {
 			  document.querySelectorAll('label[for]').forEach(function(label) {
-				// Check if this is our enhanced label with data-disabled-style
-				if (!label.hasAttribute('data-disabled-style')) {
-				  return; // Skip regular labels without data-disabled-style attribute
-				}
-				
 				// Disabled style handler
 				function updateLabelStyle(label) {
 				  const forId = label.getAttribute('for');
