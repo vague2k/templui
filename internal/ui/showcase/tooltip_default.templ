@@ -14,8 +14,10 @@ templ TooltipDefault() {
 			}
 		}
 		@components.TooltipContent(components.TooltipContentProps{
-			ID:       "tooltip-default",
-			Position: components.TooltipPositionTop,
+			ID:            "tooltip-default",
+			Position:      components.TooltipPositionTop,
+			HoverDelay:    500,
+			HoverOutDelay: 100,
 		}) {
 			Add to cart
 		}

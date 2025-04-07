@@ -1242,6 +1242,9 @@
   .bg-destructive {
     background-color: var(--destructive);
   }
+  .bg-foreground {
+    background-color: var(--foreground);
+  }
   .bg-gray-100 {
     background-color: var(--color-gray-100);
   }
@@ -1504,6 +1507,9 @@
   }
   .text-accent-foreground {
     color: var(---accent-foreground);
+  }
+  .text-background {
+    color: var(--background);
   }
   .text-black {
     color: var(--color-black);

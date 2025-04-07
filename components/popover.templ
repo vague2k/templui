@@ -213,24 +213,22 @@ templ PopoverScript() {
                     arrow.classList.add('hidden');
                 });
                 
+                // Get the background and border color from the parent element
+                const computedStyle = window.getComputedStyle(popoverElement);
+                const bgColor = computedStyle.backgroundColor;
+                
                 // Arrow direction is always opposite to the position
-                // e.g., if the popover is at the bottom, the arrow must point up
                 let arrowPosition;
                 
                 if (position.startsWith('top')) {
-                    // If the popover is at the top, the arrow must point down
                     arrowPosition = position.replace('top', 'bottom');
                 } else if (position.startsWith('bottom')) {
-                    // If the popover is at the bottom, the arrow must point up
                     arrowPosition = position.replace('bottom', 'top');
                 } else if (position.startsWith('left')) {
-                    // If the popover is on the left, the arrow must point right
                     arrowPosition = position.replace('left', 'right');
                 } else if (position.startsWith('right')) {
-                    // If the popover is on the right, the arrow must point left
                     arrowPosition = position.replace('right', 'left');
                 } else {
-                    // Fallback
                     arrowPosition = position;
                 }
                 
@@ -238,6 +236,8 @@ templ PopoverScript() {
                 const arrow = popoverElement.querySelector(`[data-arrow="${arrowPosition}"]`);
                 if (arrow) {
                     arrow.classList.remove('hidden');
+                    arrow.style.backgroundColor = bgColor;
+                    arrow.style.borderColor = bgColor;
                 }
             };
             
