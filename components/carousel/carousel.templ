@@ -1,4 +1,4 @@
-package components
+package carousel
 
 import (
 	"fmt"
@@ -7,7 +7,7 @@ import (
 	"strconv"
 )
 
-type CarouselProps struct {
+type Props struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
@@ -16,39 +16,39 @@ type CarouselProps struct {
 	Loop       bool
 }
 
-type CarouselContentProps struct {
+type ContentProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-type CarouselItemProps struct {
+type ItemProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-type CarouselPreviousProps struct {
+type PreviousProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-type CarouselNextProps struct {
+type NextProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-type CarouselIndicatorsProps struct {
+type IndicatorsProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 	Count      int
 }
 
-templ Carousel(props ...CarouselProps) {
-	{{ var p CarouselProps }}
+templ Carousel(props ...Props) {
+	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -76,8 +76,8 @@ templ Carousel(props ...CarouselProps) {
 	</div>
 }
 
-templ CarouselContent(props ...CarouselContentProps) {
-	{{ var p CarouselContentProps }}
+templ Content(props ...ContentProps) {
+	{{ var p ContentProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -97,8 +97,8 @@ templ CarouselContent(props ...CarouselContentProps) {
 	</div>
 }
 
-templ CarouselItem(props ...CarouselItemProps) {
-	{{ var p CarouselItemProps }}
+templ Item(props ...ItemProps) {
+	{{ var p ItemProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -118,8 +118,8 @@ templ CarouselItem(props ...CarouselItemProps) {
 	</div>
 }
 
-templ CarouselPrevious(props ...CarouselPreviousProps) {
-	{{ var p CarouselPreviousProps }}
+templ Previous(props ...PreviousProps) {
+	{{ var p PreviousProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -141,8 +141,8 @@ templ CarouselPrevious(props ...CarouselPreviousProps) {
 	</button>
 }
 
-templ CarouselNext(props ...CarouselNextProps) {
-	{{ var p CarouselNextProps }}
+templ Next(props ...NextProps) {
+	{{ var p NextProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -164,8 +164,8 @@ templ CarouselNext(props ...CarouselNextProps) {
 	</button>
 }
 
-templ CarouselIndicators(props ...CarouselIndicatorsProps) {
-	{{ var p CarouselIndicatorsProps }}
+templ Indicators(props ...IndicatorsProps) {
+	{{ var p IndicatorsProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -196,7 +196,7 @@ templ CarouselIndicators(props ...CarouselIndicatorsProps) {
 	</div>
 }
 
-templ CarouselScript() {
+templ Script() {
 	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
