@@ -1,35 +1,35 @@
-package components
+package alert
 
 import "github.com/axzilla/templui/utils"
 
-type AlertVariant string
+type Variant string
 
 const (
-	AlertVariantDefault     AlertVariant = "default"
-	AlertVariantDestructive AlertVariant = "destructive"
+	VariantDefault     Variant = "default"
+	VariantDestructive Variant = "destructive"
 )
 
-type AlertProps struct {
+type Props struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
-	Variant    AlertVariant
+	Variant    Variant
 }
 
-type AlertTitleProps struct {
-	ID         string
-	Class      string
-	Attributes templ.Attributes
-}
-
-type AlertDescriptionProps struct {
+type TitleProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-templ Alert(props ...AlertProps) {
-	{{ var p AlertProps }}
+type DescriptionProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+}
+
+templ Alert(props ...Props) {
+	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -43,7 +43,7 @@ templ Alert(props ...AlertProps) {
 				"[&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4",
 				"[&>svg+div]:translate-y-[-3px] [&:has(svg)]:pl-11",
 				"rounded-lg border",
-				getAlertVariantClasses(p.Variant),
+				variantClasses(p.Variant),
 				p.Class,
 			),
 		}
@@ -54,8 +54,8 @@ templ Alert(props ...AlertProps) {
 	</div>
 }
 
-templ AlertTitle(props ...AlertTitleProps) {
-	{{ var p AlertTitleProps }}
+templ Title(props ...TitleProps) {
+	{{ var p TitleProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -75,8 +75,8 @@ templ AlertTitle(props ...AlertTitleProps) {
 	</h5>
 }
 
-templ AlertDescription(props ...AlertDescriptionProps) {
-	{{ var p AlertDescriptionProps }}
+templ Description(props ...DescriptionProps) {
+	{{ var p DescriptionProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -96,9 +96,9 @@ templ AlertDescription(props ...AlertDescriptionProps) {
 	</div>
 }
 
-func getAlertVariantClasses(variant AlertVariant) string {
+func variantClasses(variant Variant) string {
 	switch variant {
-	case AlertVariantDestructive:
+	case VariantDestructive:
 		return "border-destructive text-destructive"
 	default:
 		return "border-border text-foreground"
