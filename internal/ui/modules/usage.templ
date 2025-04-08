@@ -3,6 +3,7 @@ package modules
 import (
 	"fmt"
 	"github.com/axzilla/templui/components"
+	"strings"
 )
 
 type UsageProps struct {
@@ -21,22 +22,22 @@ templ Usage(props UsageProps) {
 					{ fmt.Sprintf(`// Option A: All components (recommended)
 @utils.ComponentScripts()
 
-// Option B: Just %s
-@components.%sScript()`, props.ComponentName, props.ComponentName) }
+// Option B: Only %s
+@%s.Script()`, props.ComponentName, strings.ToLower(props.ComponentName)) }
 				}
 			</div>
 		}
-		<div>
-			if props.NeedsHandler {
-				<p class="text-muted-foreground mb-2">2. Use the component:</p>
-			}
-			@components.Code(components.CodeProps{Language: "go"}) {
-				{ fmt.Sprintf(`@components.%s(components.%sProps{%s})`,
-			props.ComponentName,
-			props.ComponentName,
-			props.PropsExample,
-		) }
-			}
-		</div>
+		// <div>
+		// 	if props.NeedsHandler {
+		// 		<p class="text-muted-foreground mb-2">2. Use the component:</p>
+		// 	}
+		// 	@components.Code(components.CodeProps{Language: "go"}) {
+		// 		{ fmt.Sprintf(`@components.%s(components.%sProps{%s})`,
+		// 	props.ComponentName,
+		// 	props.ComponentName,
+		// 	props.PropsExample,
+		// ) }
+		// 	}
+		// </div>
 	</div>
 }

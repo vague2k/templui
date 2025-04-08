@@ -1,36 +1,36 @@
-package components
+package accordion
 
 import (
 	"github.com/axzilla/templui/icons"
 	"github.com/axzilla/templui/utils"
 )
 
-type AccordionProps struct {
+type Props struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-type AccordionItemProps struct {
+type ItemProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-type AccordionTriggerProps struct {
+type TriggerProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-type AccordionContentProps struct {
+type ContentProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-templ Accordion(props ...AccordionProps) {
-	{{ var p AccordionProps }}
+templ Accordion(props ...Props) {
+	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -50,8 +50,8 @@ templ Accordion(props ...AccordionProps) {
 	</div>
 }
 
-templ AccordionItem(props ...AccordionItemProps) {
-	{{ var p AccordionItemProps }}
+templ Item(props ...ItemProps) {
+	{{ var p ItemProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -73,8 +73,8 @@ templ AccordionItem(props ...AccordionItemProps) {
 	</details>
 }
 
-templ AccordionTrigger(props ...AccordionTriggerProps) {
-	{{ var p AccordionTriggerProps }}
+templ Trigger(props ...TriggerProps) {
+	{{ var p TriggerProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -100,8 +100,8 @@ templ AccordionTrigger(props ...AccordionTriggerProps) {
 	</summary>
 }
 
-templ AccordionContent(props ...AccordionContentProps) {
-	{{ var p AccordionContentProps }}
+templ Content(props ...ContentProps) {
+	{{ var p ContentProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
