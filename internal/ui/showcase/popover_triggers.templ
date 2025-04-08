@@ -6,7 +6,7 @@ templ PopoverTriggers() {
 	<div class="flex gap-2">
 		@components.Popover() {
 			@components.PopoverTrigger(components.PopoverTriggerProps{
-				ID:          "hover-popover",
+				For:         "hover-popover",
 				TriggerType: components.PopoverTriggerTypeHover,
 			}) {
 				@components.Button(components.ButtonProps{Variant: components.ButtonVariantOutline}) {
@@ -23,7 +23,7 @@ templ PopoverTriggers() {
 		}
 		@components.Popover() {
 			@components.PopoverTrigger(components.PopoverTriggerProps{
-				ID: "click-popover",
+				For: "click-popover",
 			}) {
 				@components.Button(components.ButtonProps{Variant: components.ButtonVariantOutline}) {
 					Click
@@ -37,7 +37,7 @@ templ PopoverTriggers() {
 		}
 		@components.Popover() {
 			@components.PopoverTrigger(components.PopoverTriggerProps{
-				ID: "no-clickaway-popover",
+				For: "no-clickaway-popover",
 			}) {
 				@components.Button(components.ButtonProps{Variant: components.ButtonVariantOutline}) {
 					No ClickAway
@@ -52,7 +52,7 @@ templ PopoverTriggers() {
 		}
 		@components.Popover() {
 			@components.PopoverTrigger(components.PopoverTriggerProps{
-				ID: "no-clickaway-esc",
+				For: "no-clickaway-esc",
 			}) {
 				@components.Button(components.ButtonProps{Variant: components.ButtonVariantOutline}) {
 					No ClickAway-ESC

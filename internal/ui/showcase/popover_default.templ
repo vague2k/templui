@@ -5,7 +5,7 @@ import "github.com/axzilla/templui/components"
 templ PopoverDefault() {
 	@components.Popover() {
 		@components.PopoverTrigger(components.PopoverTriggerProps{
-			ID: "default-popover",
+			For: "default-popover",
 		}) {
 			@components.Button(components.ButtonProps{
 				Variant: components.ButtonVariantOutline,

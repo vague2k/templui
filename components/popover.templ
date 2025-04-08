@@ -35,6 +35,7 @@ type PopoverProps struct {
 
 type PopoverTriggerProps struct {
 	ID          string
+	For         string
 	TriggerType PopoverTriggerType
 }
 
@@ -50,7 +51,14 @@ type PopoverContentProps struct {
 	HoverOutDelay    int
 }
 
-templ popoverPortalContainer() {
+templ Popover(props ...PopoverProps) {
+	{{ var p PopoverProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
+	<div class={ utils.TwMerge("relative inline-block", p.Class) }>
+		{ children... }
+	</div>
 	<div
 		id="popover-portal-container"
 		class="fixed inset-0 z-[9999] pointer-events-none"
@@ -66,23 +74,15 @@ templ PopoverTrigger(props ...PopoverTriggerProps) {
 		{{ p.TriggerType = PopoverTriggerTypeClick }}
 	}
 	<span
+		if p.ID != "" {
+			id={ p.ID }
+		}
 		data-popover-trigger
-		data-popover-id={ p.ID }
+		data-popover-for={ p.For }
 		data-popover-type={ string(p.TriggerType) }
 	>
 		{ children... }
 	</span>
-}
-
-templ Popover(props ...PopoverProps) {
-	{{ var p PopoverProps }}
-	if len(props) > 0 {
-		{{ p = props[0] }}
-	}
-	<div class={ utils.TwMerge("relative inline-block", p.Class) }>
-		{ children... }
-	</div>
-	@popoverPortalContainer()
 }
 
 templ PopoverContent(props ...PopoverContentProps) {
@@ -213,24 +213,22 @@ templ PopoverScript() {
                     arrow.classList.add('hidden');
                 });
                 
+                // Get the background and border color from the parent element
+                const computedStyle = window.getComputedStyle(popoverElement);
+                const bgColor = computedStyle.backgroundColor;
+                
                 // Arrow direction is always opposite to the position
-                // e.g., if the popover is at the bottom, the arrow must point up
                 let arrowPosition;
                 
                 if (position.startsWith('top')) {
-                    // If the popover is at the top, the arrow must point down
                     arrowPosition = position.replace('top', 'bottom');
                 } else if (position.startsWith('bottom')) {
-                    // If the popover is at the bottom, the arrow must point up
                     arrowPosition = position.replace('bottom', 'top');
                 } else if (position.startsWith('left')) {
-                    // If the popover is on the left, the arrow must point right
                     arrowPosition = position.replace('left', 'right');
                 } else if (position.startsWith('right')) {
-                    // If the popover is on the right, the arrow must point left
                     arrowPosition = position.replace('right', 'left');
                 } else {
-                    // Fallback
                     arrowPosition = position;
                 }
                 
@@ -238,6 +236,8 @@ templ PopoverScript() {
                 const arrow = popoverElement.querySelector(`[data-arrow="${arrowPosition}"]`);
                 if (arrow) {
                     arrow.classList.remove('hidden');
+                    arrow.style.backgroundColor = bgColor;
+                    arrow.style.borderColor = bgColor;
                 }
             };
             
@@ -391,7 +391,7 @@ templ PopoverScript() {
             
             // Event handler setup
             function setupTrigger(trigger) {
-                const popoverId = trigger.dataset.popoverId;
+                const popoverId = trigger.dataset.popoverFor
                 const template = document.querySelector(`[data-popover-content-template][data-popover-id="${popoverId}"]`);
                 
                 if (!template) return;
@@ -588,7 +588,7 @@ templ PopoverScript() {
             // Scroll handler for all popovers
             window.addEventListener('scroll', () => {
                 activePopovers.forEach((content, popoverId) => {
-                    const trigger = document.querySelector(`[data-popover-trigger][data-popover-id="${popoverId}"]`);
+                    const trigger = document.querySelector(`[data-popover-trigger][data-popover-for="${popoverId}"]`);
                     if (trigger) {
                         positionPopover(trigger, content);
                     }
@@ -598,7 +598,7 @@ templ PopoverScript() {
             // Resize handler
             window.addEventListener('resize', () => {
                 activePopovers.forEach((content, popoverId) => {
-                    const trigger = document.querySelector(`[data-popover-trigger][data-popover-id="${popoverId}"]`);
+                    const trigger = document.querySelector(`[data-popover-trigger][data-popover-for="${popoverId}"]`);
                     if (trigger) {
                         positionPopover(trigger, content);
                     }
@@ -630,7 +630,7 @@ templ PopoverScript() {
                 scrollableElements.forEach(element => {
                     element.addEventListener('scroll', () => {
                         activePopovers.forEach((content, popoverId) => {
-                            const trigger = document.querySelector(`[data-popover-trigger][data-popover-id="${popoverId}"]`);
+                            const trigger = document.querySelector(`[data-popover-trigger][data-popover-for="${popoverId}"]`);
                             if (trigger) {
                                 positionPopover(trigger, content);
                             }
