@@ -59,8 +59,6 @@ func main() {
 		),
 	)
 
-	// SEO
-	// Sitemap.xml Handler mit eingebetteter Datei
 	mux.HandleFunc("GET /sitemap.xml", func(w http.ResponseWriter, r *http.Request) {
 		content, err := static.Files.ReadFile("sitemap.xml")
 		if err != nil {
@@ -72,7 +70,6 @@ func main() {
 		w.Write(content)
 	})
 
-	// Robots.txt Handler mit eingebetteter Datei
 	mux.HandleFunc("GET /robots.txt", func(w http.ResponseWriter, r *http.Request) {
 		content, err := static.Files.ReadFile("robots.txt")
 		if err != nil {
@@ -83,7 +80,7 @@ func main() {
 		w.Header().Set("Content-Type", "text/plain")
 		w.Write(content)
 	})
-	//
+
 	mux.Handle("GET /", templ.Handler(pages.Landing()))
 	mux.Handle("GET /docs/getting-started", http.RedirectHandler("/docs/introduction", http.StatusSeeOther))
 	mux.Handle("GET /docs/components", http.RedirectHandler("/docs/components/accordion", http.StatusSeeOther))
