@@ -103,7 +103,7 @@ func main() {
 	mux.Handle("GET /docs/components/code", templ.Handler(pages.Code()))
 	mux.Handle("GET /docs/components/date-picker", templ.Handler(pages.DatePicker()))
 	mux.Handle("GET /docs/components/drawer", templ.Handler(pages.Drawer()))
-	mux.Handle("GET /docs/components/dropdown-menu", templ.Handler(pages.DropdownMenu()))
+	mux.Handle("GET /docs/components/dropdown-menu", templ.Handler(pages.Dropdown()))
 	mux.Handle("GET /docs/components/form", templ.Handler(pages.Form()))
 	mux.Handle("GET /docs/components/icon", templ.Handler(pages.Icon()))
 	mux.Handle("GET /docs/components/input", templ.Handler(pages.Input()))

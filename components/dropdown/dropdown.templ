@@ -1,20 +1,20 @@
-package components
+package dropdown
 
 import "github.com/axzilla/templui/utils"
 
-type DropdownMenuProps struct {
+type Props struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-type DropdownMenuTriggerProps struct {
+type TriggerProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-type DropdownMenuContentProps struct {
+type ContentProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
@@ -24,19 +24,19 @@ type DropdownMenuContentProps struct {
 	Side       string
 }
 
-type DropdownMenuGroupProps struct {
+type GroupProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-type DropdownMenuLabelProps struct {
+type LabelProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-type DropdownMenuItemProps struct {
+type ItemProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
@@ -45,44 +45,44 @@ type DropdownMenuItemProps struct {
 	Target     string
 }
 
-type DropdownMenuSeparatorProps struct {
+type SeparatorProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-type DropdownMenuShortcutProps struct {
+type ShortcutProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-type DropdownMenuSubProps struct {
+type SubProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-type DropdownMenuSubTriggerProps struct {
+type SubTriggerProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-type DropdownMenuSubContentProps struct {
+type SubContentProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-type DropdownMenuPortalProps struct {
+type PortalProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-templ DropdownMenu(props ...DropdownMenuProps) {
-	{{ var p DropdownMenuProps }}
+templ Dropdown(props ...Props) {
+	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -99,8 +99,8 @@ templ DropdownMenu(props ...DropdownMenuProps) {
 	</div>
 }
 
-templ DropdownMenuTrigger(props ...DropdownMenuTriggerProps) {
-	{{ var p DropdownMenuTriggerProps }}
+templ Trigger(props ...TriggerProps) {
+	{{ var p TriggerProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -117,8 +117,8 @@ templ DropdownMenuTrigger(props ...DropdownMenuTriggerProps) {
 	</div>
 }
 
-templ DropdownMenuContent(props ...DropdownMenuContentProps) {
-	{{ var p DropdownMenuContentProps }}
+templ Content(props ...ContentProps) {
+	{{ var p ContentProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -152,8 +152,8 @@ templ DropdownMenuContent(props ...DropdownMenuContentProps) {
 	</div>
 }
 
-templ DropdownMenuGroup(props ...DropdownMenuGroupProps) {
-	{{ var p DropdownMenuGroupProps }}
+templ Group(props ...GroupProps) {
+	{{ var p GroupProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -169,8 +169,8 @@ templ DropdownMenuGroup(props ...DropdownMenuGroupProps) {
 	</div>
 }
 
-templ DropdownMenuLabel(props ...DropdownMenuLabelProps) {
-	{{ var p DropdownMenuLabelProps }}
+templ Label(props ...LabelProps) {
+	{{ var p LabelProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -185,8 +185,8 @@ templ DropdownMenuLabel(props ...DropdownMenuLabelProps) {
 	</div>
 }
 
-templ DropdownMenuItem(props ...DropdownMenuItemProps) {
-	{{ var p DropdownMenuItemProps }}
+templ Item(props ...ItemProps) {
+	{{ var p ItemProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -237,8 +237,8 @@ templ DropdownMenuItem(props ...DropdownMenuItemProps) {
 	}
 }
 
-templ DropdownMenuSeparator(props ...DropdownMenuSeparatorProps) {
-	{{ var p DropdownMenuSeparatorProps }}
+templ Separator(props ...SeparatorProps) {
+	{{ var p SeparatorProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -252,8 +252,8 @@ templ DropdownMenuSeparator(props ...DropdownMenuSeparatorProps) {
 	></div>
 }
 
-templ DropdownMenuShortcut(props ...DropdownMenuShortcutProps) {
-	{{ var p DropdownMenuShortcutProps }}
+templ Shortcut(props ...ShortcutProps) {
+	{{ var p ShortcutProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -268,8 +268,8 @@ templ DropdownMenuShortcut(props ...DropdownMenuShortcutProps) {
 	</span>
 }
 
-templ DropdownMenuSub(props ...DropdownMenuSubProps) {
-	{{ var p DropdownMenuSubProps }}
+templ Sub(props ...SubProps) {
+	{{ var p SubProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -285,8 +285,8 @@ templ DropdownMenuSub(props ...DropdownMenuSubProps) {
 	</div>
 }
 
-templ DropdownMenuSubTrigger(props ...DropdownMenuSubTriggerProps) {
-	{{ var p DropdownMenuSubTriggerProps }}
+templ SubTrigger(props ...SubTriggerProps) {
+	{{ var p SubTriggerProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -316,8 +316,8 @@ templ DropdownMenuSubTrigger(props ...DropdownMenuSubTriggerProps) {
 	</button>
 }
 
-templ DropdownMenuPortal(props ...DropdownMenuPortalProps) {
-	{{ var p DropdownMenuPortalProps }}
+templ Portal(props ...PortalProps) {
+	{{ var p PortalProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -332,8 +332,8 @@ templ DropdownMenuPortal(props ...DropdownMenuPortalProps) {
 	</div>
 }
 
-templ DropdownMenuSubContent(props ...DropdownMenuSubContentProps) {
-	{{ var p DropdownMenuSubContentProps }}
+templ SubContent(props ...SubContentProps) {
+	{{ var p SubContentProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -356,7 +356,7 @@ templ DropdownMenuSubContent(props ...DropdownMenuSubContentProps) {
 	</div>
 }
 
-templ DropdownMenuScript() {
+templ Script() {
 	<script defer nonce={ templ.GetNonce(ctx) }>
 	document.addEventListener('alpine:init', () => {
 		// Dropdown component with improved positioning

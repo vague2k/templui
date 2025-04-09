@@ -6,26 +6,21 @@ import (
 	"github.com/axzilla/templui/internal/ui/showcase"
 )
 
-templ DropdownMenu() {
+templ Dropdown() {
 	@layouts.DocsLayout(
-		"Dropdown Menu",
+		"Dropdown",
 		"Floating menu for displaying a list of actions or options.",
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
-			Name:        "Dropdown Menu",
+			Name:        "Dropdown",
 			Description: templ.Raw("Floating menu for displaying a list of actions or options."),
 			Tailwind:    true,
 			Alpine:      true,
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				ShowcaseFile:      showcase.DropdownMenuDefault(),
-				PreviewCodeFile:   "dropdown_menu_default.templ",
-				ComponentCodeFile: "dropdown_menu.templ",
-			})
-			@modules.Usage(modules.UsageProps{
-				ComponentName: "DropdownMenu",
-				NeedsHandler:  true,
-				PropsExample:  "...",
+				ShowcaseFile:      showcase.DropdownDefault(),
+				PreviewCodeFile:   "dropdown_default.templ",
+				ComponentCodeFile: "dropdown/dropdown.templ",
 			})
 		}
 	}
