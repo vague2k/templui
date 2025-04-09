@@ -1,4 +1,4 @@
-package components
+package rating
 
 import (
 	"context"
@@ -7,15 +7,15 @@ import (
 	"strconv"
 )
 
-type RatingStyle string
+type Style string
 
 const (
-	RatingStyleStar  RatingStyle = "star"
-	RatingStyleHeart RatingStyle = "heart"
-	RatingStyleEmoji RatingStyle = "emoji"
+	StyleStar  Style = "star"
+	StyleHeart Style = "heart"
+	StyleEmoji Style = "emoji"
 )
 
-type RatingProps struct {
+type Props struct {
 	ID          string
 	Class       string
 	Attributes  templ.Attributes
@@ -26,22 +26,22 @@ type RatingProps struct {
 	OnlyInteger bool
 }
 
-type RatingGroupProps struct {
+type GroupProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-type RatingItemProps struct {
+type ItemProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 	Value      int
-	Style      RatingStyle
+	Style      Style
 }
 
-templ Rating(props ...RatingProps) {
-	{{ var p RatingProps }}
+templ Rating(props ...Props) {
+	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -80,8 +80,8 @@ templ Rating(props ...RatingProps) {
 	</div>
 }
 
-templ RatingGroup(props ...RatingGroupProps) {
-	{{ var p RatingGroupProps }}
+templ Group(props ...GroupProps) {
+	{{ var p GroupProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -96,8 +96,8 @@ templ RatingGroup(props ...RatingGroupProps) {
 	</div>
 }
 
-templ RatingItem(props ...RatingItemProps) {
-	{{ var p RatingItemProps }}
+templ Item(props ...ItemProps) {
+	{{ var p ItemProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -110,7 +110,7 @@ templ RatingItem(props ...RatingItemProps) {
 		class={
 			utils.TwMerge(
 				"relative",
-				getColorClass(p.Style),
+				colorClass(p.Style),
 				"transition-opacity",
 				"cursor-pointer",
 				utils.If(readOnly, "cursor-default"),
@@ -126,31 +126,31 @@ templ RatingItem(props ...RatingItemProps) {
 		{ p.Attributes... }
 	>
 		<div class="opacity-30">
-			@getRatingIcon(p.Style, false, float64(p.Value))
+			@ratingIcon(p.Style, false, float64(p.Value))
 		</div>
 		<div
 			class="absolute inset-0 overflow-hidden"
 			x-bind:style="getItemStyle"
 			data-index={ strconv.Itoa(p.Value) }
 		>
-			@getRatingIcon(p.Style, true, float64(p.Value))
+			@ratingIcon(p.Style, true, float64(p.Value))
 		</div>
 	</div>
 }
 
-func getColorClass(style RatingStyle) string {
+func colorClass(style Style) string {
 	switch style {
-	case RatingStyleHeart:
+	case StyleHeart:
 		return "text-destructive"
-	case RatingStyleEmoji:
+	case StyleEmoji:
 		return "text-yellow-500"
 	default:
 		return "text-yellow-400"
 	}
 }
 
-func getRatingIcon(style RatingStyle, filled bool, value float64) templ.Component {
-	if style == RatingStyleEmoji {
+func ratingIcon(style Style, filled bool, value float64) templ.Component {
+	if style == StyleEmoji {
 		if filled {
 			switch {
 			case value <= 1:
@@ -169,14 +169,14 @@ func getRatingIcon(style RatingStyle, filled bool, value float64) templ.Componen
 	}
 	if filled {
 		switch style {
-		case RatingStyleHeart:
+		case StyleHeart:
 			return icons.Heart(icons.IconProps{Fill: "currentColor"})
 		default:
 			return icons.Star(icons.IconProps{Fill: "currentColor"})
 		}
 	} else {
 		switch style {
-		case RatingStyleHeart:
+		case StyleHeart:
 			return icons.Heart()
 		default:
 			return icons.Star()
@@ -184,19 +184,19 @@ func getRatingIcon(style RatingStyle, filled bool, value float64) templ.Componen
 	}
 }
 
-func (p *RatingItemProps) setDefaults() {
+func (p *ItemProps) setDefaults() {
 	if p.Style == "" {
-		p.Style = RatingStyleStar
+		p.Style = StyleStar
 	}
 }
 
-func (p *RatingProps) setDefaults() {
+func (p *Props) setDefaults() {
 	if p.Precision <= 0 {
 		p.Precision = 1.0
 	}
 }
 
-templ RatingScript() {
+templ Script() {
 	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
