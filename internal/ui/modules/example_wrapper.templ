@@ -2,6 +2,7 @@ package modules
 
 import (
 	"github.com/axzilla/templui/components"
+	"github.com/axzilla/templui/components/tabs"
 	"github.com/axzilla/templui/internal/ui/showcase"
 )
 
@@ -30,25 +31,25 @@ templ ExampleWrapper(p ExampleWrapperProps) {
 		}
 	>
 		<p class="mb-2 font-semibold">{ p.SectionName }</p>
-		@components.Tabs(components.TabsProps{
+		@tabs.Tabs(tabs.Props{
 			ID: "example-" + p.ID,
 		}) {
-			@components.TabsList(components.TabsListProps{
+			@tabs.List(tabs.ListProps{
 				Class: "md:w-1/2",
 			}) {
-				@components.TabTrigger(components.TabTriggerProps{
+				@tabs.Trigger(tabs.TriggerProps{
 					Value:    "preview",
 					IsActive: true,
 				}) {
 					Preview
 				}
-				@components.TabTrigger(components.TabTriggerProps{
+				@tabs.Trigger(tabs.TriggerProps{
 					Value: "code",
 				}) {
 					Code
 				}
 				if p.ComponentCodeFile != "" {
-					@components.TabTrigger(components.TabTriggerProps{
+					@tabs.Trigger(tabs.TriggerProps{
 						Value: "component",
 					}) {
 						Component
@@ -56,7 +57,7 @@ templ ExampleWrapper(p ExampleWrapperProps) {
 				}
 			}
 			<div class="w-full relative mt-2">
-				@components.TabContent(components.TabContentProps{
+				@tabs.Content(tabs.ContentProps{
 					Value:    "preview",
 					IsActive: true,
 				}) {
@@ -64,13 +65,13 @@ templ ExampleWrapper(p ExampleWrapperProps) {
 						Content: p.ShowcaseFile,
 					})
 				}
-				@components.TabContent(components.TabContentProps{
+				@tabs.Content(tabs.ContentProps{
 					Value: "code",
 				}) {
 					@CodeSnippetFromEmbedded(p.PreviewCodeFile, "go", showcase.TemplFiles)
 				}
 				if p.ComponentCodeFile != "" {
-					@components.TabContent(components.TabContentProps{
+					@tabs.Content(tabs.ContentProps{
 						Value: "component",
 					}) {
 						@CodeSnippetFromEmbedded(p.ComponentCodeFile, "go", components.TemplFiles)

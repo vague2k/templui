@@ -1,32 +1,23 @@
-package components
+package tabs
 
 import (
 	"context"
 	"github.com/axzilla/templui/utils"
 )
 
-type TabsProps struct {
+type Props struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-type TabsListProps struct {
+type ListProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-type TabTriggerProps struct {
-	ID         string
-	Class      string
-	Attributes templ.Attributes
-	Value      string
-	IsActive   bool
-	TabsID     string
-}
-
-type TabContentProps struct {
+type TriggerProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
@@ -35,8 +26,17 @@ type TabContentProps struct {
 	TabsID     string
 }
 
-templ Tabs(props ...TabsProps) {
-	{{ var p TabsProps }}
+type ContentProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+	Value      string
+	IsActive   bool
+	TabsID     string
+}
+
+templ Tabs(props ...Props) {
+	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -58,8 +58,8 @@ templ Tabs(props ...TabsProps) {
 	</div>
 }
 
-templ TabsList(props ...TabsListProps) {
-	{{ var p TabsListProps }}
+templ List(props ...ListProps) {
+	{{ var p ListProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -78,7 +78,7 @@ templ TabsList(props ...TabsListProps) {
 		{ children... }
 		<div
 			data-tabs-marker
-			data-tabs-id={ getTabsID(ctx) }
+			data-tabs-id={ ID(ctx) }
 			class="absolute left-0 z-10 h-full duration-300 ease-out"
 		>
 			<div class="w-full h-full bg-background rounded-md shadow-xs"></div>
@@ -86,14 +86,14 @@ templ TabsList(props ...TabsListProps) {
 	</div>
 }
 
-templ TabTrigger(props ...TabTriggerProps) {
-	{{ var p TabTriggerProps }}
+templ Trigger(props ...TriggerProps) {
+	{{ var p TriggerProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
 	{{ tabsID := p.TabsID }}
 	if tabsID == "" {
-		{{ tabsID = getTabsID(ctx) }}
+		{{ tabsID = ID(ctx) }}
 	}
 	<button
 		if p.ID != "" {
@@ -117,14 +117,14 @@ templ TabTrigger(props ...TabTriggerProps) {
 	</button>
 }
 
-templ TabContent(props ...TabContentProps) {
-	{{ var p TabContentProps }}
+templ Content(props ...ContentProps) {
+	{{ var p ContentProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
 	{{ tabsID := p.TabsID }}
 	if tabsID == "" {
-		{{ tabsID = getTabsID(ctx) }}
+		{{ tabsID = ID(ctx) }}
 	}
 	<div
 		if p.ID != "" {
@@ -147,14 +147,14 @@ templ TabContent(props ...TabContentProps) {
 	</div>
 }
 
-func getTabsID(ctx context.Context) string {
+func ID(ctx context.Context) string {
 	if tabsID, ok := ctx.Value("tabsId").(string); ok {
 		return tabsID
 	}
 	return ""
 }
 
-templ TabsScript() {
+templ Script() {
 	<script nonce={ templ.GetNonce(ctx) }>
 		document.addEventListener('DOMContentLoaded', () => {
 			document.querySelectorAll('[data-tabs]').forEach(tabs => {

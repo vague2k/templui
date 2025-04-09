@@ -1,39 +1,39 @@
 package showcase
 
 import (
-	"github.com/axzilla/templui/components"
 	"github.com/axzilla/templui/components/button"
 	"github.com/axzilla/templui/components/card"
 	"github.com/axzilla/templui/components/input"
+	"github.com/axzilla/templui/components/tabs"
 )
 
 templ TabsDefault() {
-	@components.Tabs(components.TabsProps{
+	@tabs.Tabs(tabs.Props{
 		ID: "account-tabs",
 	}) {
-		@components.TabsList(components.TabsListProps{
+		@tabs.List(tabs.ListProps{
 			Class: "w-full max-w-xs",
 		}) {
-			@components.TabTrigger(components.TabTriggerProps{
+			@tabs.Trigger(tabs.TriggerProps{
 				Value:    "account",
 				IsActive: true,
 			}) {
 				Account
 			}
-			@components.TabTrigger(components.TabTriggerProps{
+			@tabs.Trigger(tabs.TriggerProps{
 				Value: "password",
 			}) {
 				Password
 			}
 		}
 		<div class="w-full max-w-xs mt-2">
-			@components.TabContent(components.TabContentProps{
+			@tabs.Content(tabs.ContentProps{
 				Value:    "account",
 				IsActive: true,
 			}) {
 				@AccountTab()
 			}
-			@components.TabContent(components.TabContentProps{
+			@tabs.Content(tabs.ContentProps{
 				Value: "password",
 			}) {
 				@PasswordTab()

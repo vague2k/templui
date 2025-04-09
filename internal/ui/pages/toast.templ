@@ -2,8 +2,8 @@ package pages
 
 import (
 	"fmt"
-	"github.com/axzilla/templui/components"
 	"github.com/axzilla/templui/components/code"
+	"github.com/axzilla/templui/components/tabs"
 	"github.com/axzilla/templui/internal/ui/layouts"
 	"github.com/axzilla/templui/internal/ui/modules"
 	"github.com/axzilla/templui/internal/ui/showcase"
@@ -43,32 +43,32 @@ templ Toast() {
 }
 
 templ UsageExamples() {
-	@components.Tabs(components.TabsProps{
+	@tabs.Tabs(tabs.Props{
 		ID: "usage-examples",
 	}) {
-		@components.TabsList(components.TabsListProps{
+		@tabs.List(tabs.ListProps{
 			Class: "w-full",
 		}) {
-			@components.TabTrigger(components.TabTriggerProps{
+			@tabs.Trigger(tabs.TriggerProps{
 				Value:    "with-htmx",
 				IsActive: true,
 			}) {
 				With HTMX
 			}
-			@components.TabTrigger(components.TabTriggerProps{
+			@tabs.Trigger(tabs.TriggerProps{
 				Value: "full-page-form",
 			}) {
 				Full Page Form
 			}
 		}
 		<div class="w-full mt-2">
-			@components.TabContent(components.TabContentProps{
+			@tabs.Content(tabs.ContentProps{
 				Value:    "with-htmx",
 				IsActive: true,
 			}) {
 				@withHtmx()
 			}
-			@components.TabContent(components.TabContentProps{
+			@tabs.Content(tabs.ContentProps{
 				Value: "full-page-form",
 			}) {
 				@fullPageForm()
