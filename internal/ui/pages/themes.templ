@@ -4,6 +4,7 @@ import (
 	"github.com/axzilla/templui/components"
 	"github.com/axzilla/templui/components/button"
 	"github.com/axzilla/templui/components/card"
+	"github.com/axzilla/templui/components/checkbox"
 	"github.com/axzilla/templui/icons"
 	"github.com/axzilla/templui/internal/ui/layouts"
 	"github.com/axzilla/templui/internal/ui/modules"
@@ -826,7 +827,7 @@ templ ThemePreview() {
 					@components.FormItem() {
 						<p class="text-sm text-muted-foreground">Terms and Conditions</p>
 						@components.FormItemFlex() {
-							@components.Checkbox(components.CheckboxProps{
+							@checkbox.Checkbox(checkbox.Props{
 								ID: "terms",
 							})
 							@components.FormLabel(components.FormLabelProps{
@@ -836,7 +837,7 @@ templ ThemePreview() {
 							}
 						}
 						@components.FormItemFlex() {
-							@components.Checkbox(components.CheckboxProps{
+							@checkbox.Checkbox(checkbox.Props{
 								ID: "newsletter",
 							})
 							@components.FormLabel(components.FormLabelProps{

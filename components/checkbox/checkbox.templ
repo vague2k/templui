@@ -1,11 +1,11 @@
-package components
+package checkbox
 
 import (
 	"github.com/axzilla/templui/icons"
 	"github.com/axzilla/templui/utils"
 )
 
-type CheckboxProps struct {
+type Props struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
@@ -17,8 +17,8 @@ type CheckboxProps struct {
 	Icon       templ.Component
 }
 
-templ Checkbox(props ...CheckboxProps) {
-	{{ var p CheckboxProps }}
+templ Checkbox(props ...Props) {
+	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
