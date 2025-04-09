@@ -1,25 +1,25 @@
-package components
+package badge
 
 import "github.com/axzilla/templui/utils"
 
-type BadgeVariant string
+type Variant string
 
 const (
-	BadgeVariantDefault     BadgeVariant = "default"
-	BadgeVariantSecondary   BadgeVariant = "secondary"
-	BadgeVariantDestructive BadgeVariant = "destructive"
-	BadgeVariantOutline     BadgeVariant = "outline"
+	VariantDefault     Variant = "default"
+	VariantSecondary   Variant = "secondary"
+	VariantDestructive Variant = "destructive"
+	VariantOutline     Variant = "outline"
 )
 
-type BadgeProps struct {
+type Props struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
-	Variant    BadgeVariant
+	Variant    Variant
 }
 
-templ Badge(props ...BadgeProps) {
-	{{ var p BadgeProps }}
+templ Badge(props ...Props) {
+	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -42,13 +42,13 @@ templ Badge(props ...BadgeProps) {
 	</div>
 }
 
-func (b BadgeProps) variantClasses() string {
-	switch b.Variant {
-	case BadgeVariantDestructive:
+func (p Props) variantClasses() string {
+	switch p.Variant {
+	case VariantDestructive:
 		return "border-transparent bg-destructive text-destructive-foreground"
-	case BadgeVariantOutline:
+	case VariantOutline:
 		return "text-foreground border-border"
-	case BadgeVariantSecondary:
+	case VariantSecondary:
 		return "border-transparent bg-secondary text-secondary-foreground"
 	default:
 		return "border-transparent bg-primary text-primary-foreground"
