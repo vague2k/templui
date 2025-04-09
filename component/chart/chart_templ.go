@@ -8,7 +8,7 @@ package chart
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "github.com/axzilla/templui/utils"
+import "github.com/axzilla/templui/util"
 
 type Variant string
 
@@ -101,12 +101,12 @@ func Chart(props ...Props) templ.Component {
 			p = props[0]
 		}
 		if p.ID == "" {
-			p.ID = "chart-" + utils.RandomID()
+			p.ID = "chart-" + util.RandomID()
 		}
 		canvasId := p.ID + "-canvas"
 		dataId := p.ID + "-data"
 		var templ_7745c5c3_Var2 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"chart-container relative",
 				p.Class),
 		}

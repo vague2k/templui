@@ -9,7 +9,7 @@ import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
 import (
-	"github.com/axzilla/templui/utils"
+	"github.com/axzilla/templui/util"
 	"strconv"
 )
 
@@ -71,7 +71,7 @@ func InputOTP(props ...Props) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var2 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"flex flex-row items-center gap-2 w-fit",
 				p.Class,
 			),
@@ -237,7 +237,7 @@ func Group(props ...GroupProps) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var9 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"flex gap-2",
 				p.Class,
 			),
@@ -370,7 +370,7 @@ func Slot(props ...SlotProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var14 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"w-10 h-12 text-center",
 				"rounded-md border border-input bg-background text-sm",
 				"file:border-0 file:bg-transparent file:text-sm file:font-medium",
@@ -503,7 +503,7 @@ func Separator(props ...SeparatorProps) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var21 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"flex items-center text-muted-foreground text-xl",
 				p.Class,
 			),

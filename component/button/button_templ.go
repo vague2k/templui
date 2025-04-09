@@ -9,7 +9,7 @@ import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
 import (
-	"github.com/axzilla/templui/utils"
+	"github.com/axzilla/templui/util"
 	"strings"
 )
 
@@ -77,7 +77,7 @@ func Button(props ...Props) templ.Component {
 		}
 		if p.Href != "" && !p.Disabled {
 			var templ_7745c5c3_Var2 = []any{
-				utils.TwMerge(
+				util.TwMerge(
 					"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors",
 					"focus-visible:outline-hidden focus-visible:ring-2 focus:ring-ring focus-visible:ring-offset-2",
 					"cursor-pointer",
@@ -181,7 +181,7 @@ func Button(props ...Props) templ.Component {
 			}
 		} else {
 			var templ_7745c5c3_Var7 = []any{
-				utils.TwMerge(
+				util.TwMerge(
 					"inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors",
 					"focus-visible:outline-hidden focus-visible:ring-2 focus:ring-ring focus-visible:ring-offset-2",
 					"disabled:opacity-50 disabled:cursor-not-allowed",

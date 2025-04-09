@@ -9,7 +9,7 @@ import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
 import (
-	"github.com/axzilla/templui/utils"
+	"github.com/axzilla/templui/util"
 	"strconv"
 )
 
@@ -52,10 +52,10 @@ func Textarea(props ...Props) templ.Component {
 			p = props[0]
 		}
 		if p.ID == "" {
-			p.ID = utils.RandomID()
+			p.ID = util.RandomID()
 		}
 		var templ_7745c5c3_Var2 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"flex w-full px-3 py-2",
 				"min-h-[80px]",
 				"rounded-md border border-input bg-background text-sm",

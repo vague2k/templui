@@ -3,7 +3,7 @@ package pagination
 import (
 	"github.com/axzilla/templui/component/button"
 	"github.com/axzilla/templui/icon"
-	"github.com/axzilla/templui/utils"
+	"github.com/axzilla/templui/util"
 )
 
 type Props struct {
@@ -69,7 +69,7 @@ templ Pagination(props ...Props) {
 		}
 		role="navigation"
 		aria-label="pagination"
-		class={ utils.TwMerge("flex flex-wrap justify-center", p.Class) }
+		class={ util.TwMerge("flex flex-wrap justify-center", p.Class) }
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -163,7 +163,7 @@ templ Previous(props ...PreviousProps) {
 		HxSwap:     p.HxSwap,
 		Disabled:   p.Disabled,
 		Variant:    button.VariantGhost,
-		Class:      utils.TwMerge("gap-1", p.Class),
+		Class:      util.TwMerge("gap-1", p.Class),
 		Attributes: p.Attributes,
 	}) {
 		@icon.ChevronLeft(icon.Props{Size: 16})
@@ -184,7 +184,7 @@ templ Next(props ...NextProps) {
 		HxSwap:     p.HxSwap,
 		Disabled:   p.Disabled,
 		Variant:    button.VariantGhost,
-		Class:      utils.TwMerge("gap-1", p.Class),
+		Class:      util.TwMerge("gap-1", p.Class),
 		Attributes: p.Attributes,
 	}) {
 		<span>Next</span>

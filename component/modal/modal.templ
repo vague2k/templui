@@ -1,6 +1,6 @@
 package modal
 
-import "github.com/axzilla/templui/utils"
+import "github.com/axzilla/templui/util"
 
 type Props struct {
 	ID               string
@@ -49,7 +49,7 @@ templ Modal(props ...Props) {
 		{{ p = props[0] }}
 	}
 	if p.ID == "" {
-		{{ p.ID = utils.RandomID() }}
+		{{ p.ID = util.RandomID() }}
 	}
 	<div
 		id={ p.ID }
@@ -74,7 +74,7 @@ templ Modal(props ...Props) {
 		<div
 			id={ p.ID + "-content" }
 			class={
-				utils.TwMerge(
+				util.TwMerge(
 					"relative bg-background rounded-lg border text-left overflow-hidden shadow-xl transform transition-all sm:my-8 w-full",
 					p.Class,
 				),
@@ -108,8 +108,8 @@ templ Trigger(props ...TriggerProps) {
 			@click="openModal"
 		}
 		class={
-			utils.TwMerge(
-				utils.IfElse(p.Disabled, "cursor-not-allowed", "cursor-pointer"),
+			util.TwMerge(
+				util.IfElse(p.Disabled, "cursor-not-allowed", "cursor-pointer"),
 				p.Class,
 			),
 		}
@@ -133,7 +133,7 @@ templ Close(props ...CloseProps) {
 			data-modal-id={ p.ModalID }
 		}
 		@click="closeModal"
-		class={ utils.TwMerge("", p.Class) }
+		class={ util.TwMerge("", p.Class) }
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -149,7 +149,7 @@ templ Header(props ...HeaderProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		class={ utils.TwMerge("px-4 pt-5 pb-4 sm:p-6 sm:pb-4", p.Class) }
+		class={ util.TwMerge("px-4 pt-5 pb-4 sm:p-6 sm:pb-4", p.Class) }
 		{ p.Attributes... }
 	>
 		<h3 class="text-lg leading-6 font-medium text-foreground" id="modal-title">
@@ -167,7 +167,7 @@ templ Body(props ...BodyProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		class={ utils.TwMerge("px-4 pt-5 pb-4 sm:p-6 sm:pb-4", p.Class) }
+		class={ util.TwMerge("px-4 pt-5 pb-4 sm:p-6 sm:pb-4", p.Class) }
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -183,7 +183,7 @@ templ Footer(props ...FooterProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		class={ utils.TwMerge("px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse", p.Class) }
+		class={ util.TwMerge("px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse", p.Class) }
 		{ p.Attributes... }
 	>
 		{ children... }

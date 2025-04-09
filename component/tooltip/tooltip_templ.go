@@ -8,8 +8,10 @@ package tooltip
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "github.com/axzilla/templui/utils"
-import "github.com/axzilla/templui/component/popover"
+import (
+	"github.com/axzilla/templui/component/popover"
+	"github.com/axzilla/templui/util"
+)
 
 type Position string
 
@@ -206,7 +208,7 @@ func Content(props ...ContentProps) templ.Component {
 		})
 		templ_7745c5c3_Err = popover.Content(popover.ContentProps{
 			ID:            p.ID,
-			Class:         utils.TwMerge("px-4 py-1 bg-foreground text-background border-foreground", p.Class),
+			Class:         util.TwMerge("px-4 py-1 bg-foreground text-background border-foreground", p.Class),
 			Attributes:    p.Attributes,
 			Position:      mapTooltipPositionToPopover(p.Position),
 			ShowArrow:     p.ShowArrow,

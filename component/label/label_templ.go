@@ -8,7 +8,7 @@ package label
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "github.com/axzilla/templui/utils"
+import "github.com/axzilla/templui/util"
 
 type Props struct {
 	ID         string
@@ -44,9 +44,9 @@ func Label(props ...Props) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var2 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"text-sm font-medium leading-none inline-block",
-				utils.If(len(p.Error) > 0, "text-destructive"),
+				util.If(len(p.Error) > 0, "text-destructive"),
 				p.Class,
 			),
 		}

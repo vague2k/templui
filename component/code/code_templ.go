@@ -10,7 +10,7 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import (
 	"github.com/axzilla/templui/icon"
-	"github.com/axzilla/templui/utils"
+	"github.com/axzilla/templui/util"
 )
 
 type Size string
@@ -57,9 +57,9 @@ func Code(props ...Props) templ.Component {
 			p = props[0]
 		}
 		if p.ID == "" {
-			p.ID = utils.RandomID()
+			p.ID = util.RandomID()
 		}
-		var templ_7745c5c3_Var2 = []any{utils.TwMerge("relative", p.Class)}
+		var templ_7745c5c3_Var2 = []any{util.TwMerge("relative", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -103,12 +103,12 @@ func Code(props ...Props) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var5 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"language-"+p.Language,
 				"overflow-y-auto! rounded-md block text-sm max-h-[501px]!",
-				utils.If(p.Size == SizeSm, "max-h-[250px]!"),
-				utils.If(p.Size == SizeLg, "max-h-[1000px]!"),
-				utils.If(p.Size == SizeFull, "max-h-full!"),
+				util.If(p.Size == SizeSm, "max-h-[250px]!"),
+				util.If(p.Size == SizeLg, "max-h-[1000px]!"),
+				util.If(p.Size == SizeFull, "max-h-full!"),
 				p.CodeClass,
 			),
 		}

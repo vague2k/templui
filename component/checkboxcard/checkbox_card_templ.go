@@ -8,7 +8,7 @@ package checkboxcard
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "github.com/axzilla/templui/utils"
+import "github.com/axzilla/templui/util"
 
 type Props struct {
 	ID         string
@@ -65,13 +65,13 @@ func CheckboxCard(props ...Props) templ.Component {
 			p = props[0]
 		}
 		if p.ID == "" {
-			p.ID = utils.RandomID()
+			p.ID = util.RandomID()
 		}
 		inputId := p.ID + "-input"
 		var templ_7745c5c3_Var2 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"relative",
-				utils.If(p.Disabled, "opacity-60"),
+				util.If(p.Disabled, "opacity-60"),
 				p.Class,
 			),
 		}
@@ -201,13 +201,13 @@ func CheckboxCard(props ...Props) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var8 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"block w-full rounded-lg border overflow-hidden h-full",
 				"bg-card text-card-foreground p-4 flex flex-col",
 				"cursor-pointer",
 				"hover:border-primary/50",
 				"peer-checked:ring-1 peer-checked:ring-primary peer-checked:border-primary",
-				utils.If(p.Disabled, "cursor-not-allowed"),
+				util.If(p.Disabled, "cursor-not-allowed"),
 				"transition-all duration-200",
 				p.Class,
 			),
@@ -284,7 +284,7 @@ func Header(props ...HeaderProps) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var12 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"flex items-center justify-between mb-2",
 				p.Class,
 			),
@@ -379,7 +379,7 @@ func Description(props ...DescriptionProps) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var16 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"text-sm text-muted-foreground",
 				p.Class,
 			),
@@ -474,7 +474,7 @@ func Footer(props ...FooterProps) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var20 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"mt-auto pt-4 w-full",
 				p.Class,
 			),

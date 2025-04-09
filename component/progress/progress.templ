@@ -2,7 +2,7 @@ package progress
 
 import (
 	"fmt"
-	"github.com/axzilla/templui/utils"
+	"github.com/axzilla/templui/util"
 )
 
 type Size string
@@ -43,11 +43,11 @@ templ Progress(props ...Props) {
 		{{ p = props[0] }}
 	}
 	if p.ID == "" {
-		{{ p.ID = utils.RandomID() }}
+		{{ p.ID = util.RandomID() }}
 	}
 	<div
 		id={ p.ID }
-		class={ utils.TwMerge("w-full", p.Class) }
+		class={ util.TwMerge("w-full", p.Class) }
 		if p.HxGet != "" {
 			hx-get={ p.HxGet }
 		}
@@ -81,7 +81,7 @@ templ Progress(props ...Props) {
 		<div class="w-full overflow-hidden rounded-full bg-secondary">
 			<div
 				class={
-					utils.TwMerge(
+					util.TwMerge(
 						"h-full rounded-full transition-all",
 						sizeClasses(p.Size),
 						variantClasses(p.Variant),

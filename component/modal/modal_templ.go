@@ -8,7 +8,7 @@ package modal
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "github.com/axzilla/templui/utils"
+import "github.com/axzilla/templui/util"
 
 type Props struct {
 	ID               string
@@ -77,7 +77,7 @@ func Modal(props ...Props) templ.Component {
 			p = props[0]
 		}
 		if p.ID == "" {
-			p.ID = utils.RandomID()
+			p.ID = util.RandomID()
 		}
 		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 1, "<div id=\"")
 		if templ_7745c5c3_Err != nil {
@@ -118,7 +118,7 @@ func Modal(props ...Props) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var4 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"relative bg-background rounded-lg border text-left overflow-hidden shadow-xl transform transition-all sm:my-8 w-full",
 				p.Class,
 			),
@@ -211,8 +211,8 @@ func Trigger(props ...TriggerProps) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var8 = []any{
-			utils.TwMerge(
-				utils.IfElse(p.Disabled, "cursor-not-allowed", "cursor-pointer"),
+			util.TwMerge(
+				util.IfElse(p.Disabled, "cursor-not-allowed", "cursor-pointer"),
 				p.Class,
 			),
 		}
@@ -334,7 +334,7 @@ func Close(props ...CloseProps) templ.Component {
 		if len(props) > 0 {
 			p = props[0]
 		}
-		var templ_7745c5c3_Var13 = []any{utils.TwMerge("", p.Class)}
+		var templ_7745c5c3_Var13 = []any{util.TwMerge("", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var13...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -447,7 +447,7 @@ func Header(props ...HeaderProps) templ.Component {
 		if len(props) > 0 {
 			p = props[0]
 		}
-		var templ_7745c5c3_Var18 = []any{utils.TwMerge("px-4 pt-5 pb-4 sm:p-6 sm:pb-4", p.Class)}
+		var templ_7745c5c3_Var18 = []any{util.TwMerge("px-4 pt-5 pb-4 sm:p-6 sm:pb-4", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var18...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -537,7 +537,7 @@ func Body(props ...BodyProps) templ.Component {
 		if len(props) > 0 {
 			p = props[0]
 		}
-		var templ_7745c5c3_Var22 = []any{utils.TwMerge("px-4 pt-5 pb-4 sm:p-6 sm:pb-4", p.Class)}
+		var templ_7745c5c3_Var22 = []any{util.TwMerge("px-4 pt-5 pb-4 sm:p-6 sm:pb-4", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var22...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -627,7 +627,7 @@ func Footer(props ...FooterProps) templ.Component {
 		if len(props) > 0 {
 			p = props[0]
 		}
-		var templ_7745c5c3_Var26 = []any{utils.TwMerge("px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse", p.Class)}
+		var templ_7745c5c3_Var26 = []any{util.TwMerge("px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var26...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err

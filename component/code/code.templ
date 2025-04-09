@@ -2,7 +2,7 @@ package code
 
 import (
 	"github.com/axzilla/templui/icon"
-	"github.com/axzilla/templui/utils"
+	"github.com/axzilla/templui/util"
 )
 
 type Size string
@@ -29,11 +29,11 @@ templ Code(props ...Props) {
 		{{ p = props[0] }}
 	}
 	if p.ID == "" {
-		{{ p.ID = utils.RandomID() }}
+		{{ p.ID = util.RandomID() }}
 	}
 	<div
 		id={ p.ID }
-		class={ utils.TwMerge("relative", p.Class) }
+		class={ util.TwMerge("relative", p.Class) }
 		{ p.Attrs... }
 		x-data="code"
 	>
@@ -41,12 +41,12 @@ templ Code(props ...Props) {
 			<code
 				x-ref="code"
 				class={
-					utils.TwMerge(
+					util.TwMerge(
 						"language-"+p.Language,
 						"overflow-y-auto! rounded-md block text-sm max-h-[501px]!",
-						utils.If(p.Size == SizeSm, "max-h-[250px]!"),
-						utils.If(p.Size == SizeLg, "max-h-[1000px]!"),
-						utils.If(p.Size == SizeFull, "max-h-full!"),
+						util.If(p.Size == SizeSm, "max-h-[250px]!"),
+						util.If(p.Size == SizeLg, "max-h-[1000px]!"),
+						util.If(p.Size == SizeFull, "max-h-full!"),
 						p.CodeClass,
 					),
 				}

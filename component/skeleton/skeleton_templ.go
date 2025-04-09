@@ -8,7 +8,7 @@ package skeleton
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "github.com/axzilla/templui/utils"
+import "github.com/axzilla/templui/util"
 
 type Props struct {
 	ID         string
@@ -42,7 +42,7 @@ func Skeleton(props ...Props) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var2 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"animate-pulse rounded bg-muted",
 				p.Class,
 			),

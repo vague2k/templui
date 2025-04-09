@@ -161,14 +161,6 @@ wrappedMux := middleware.WithCSP(cspConfig)(mux)
 mux.Handle("GET /", templ.Handler(pages.Landing()))
 http.ListenAndServe(":8090", wrappedMux)`
 
-var alpineHelpers = `// Option A: Include Alpine.js and all component scripts (recommended)
-@helpers.ComponentScripts()
-
-// Option B: Include Alpine.js and specific component scripts
-@components.AccordionScript()
-@components.ModalScript()
-// ... other specific component scripts as needed`
-
 var staticComponent = `// Static components (Tailwind only) can be used directly
 @components.Button(components.ButtonProps{...})
 @components.Card(components.CardProps{...})`

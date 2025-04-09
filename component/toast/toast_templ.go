@@ -11,7 +11,7 @@ import templruntime "github.com/a-h/templ/runtime"
 import (
 	"github.com/axzilla/templui/component/button"
 	"github.com/axzilla/templui/icon"
-	"github.com/axzilla/templui/utils"
+	"github.com/axzilla/templui/util"
 	"strconv"
 )
 
@@ -75,17 +75,17 @@ func Toast(props ...Props) templ.Component {
 			p = props[0]
 		}
 		if p.ID == "" {
-			p.ID = utils.RandomID()
+			p.ID = util.RandomID()
 		}
 		p = p.defaults()
 		var templ_7745c5c3_Var2 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"z-50 fixed pointer-events-auto p-4",
-				utils.If(p.Position == PositionTopRight || p.Position == PositionTopLeft || p.Position == PositionTopCenter, "top-0"),
-				utils.If(p.Position == PositionBottomRight || p.Position == PositionBottomLeft || p.Position == PositionBottomCenter, "bottom-0"),
-				utils.If(p.Position == PositionTopRight || p.Position == PositionBottomRight, "right-0"),
-				utils.If(p.Position == PositionTopLeft || p.Position == PositionBottomLeft, "left-0"),
-				utils.If(p.Position == PositionTopCenter || p.Position == PositionBottomCenter, "left-1/2 -translate-x-1/2"),
+				util.If(p.Position == PositionTopRight || p.Position == PositionTopLeft || p.Position == PositionTopCenter, "top-0"),
+				util.If(p.Position == PositionBottomRight || p.Position == PositionBottomLeft || p.Position == PositionBottomCenter, "bottom-0"),
+				util.If(p.Position == PositionTopRight || p.Position == PositionBottomRight, "right-0"),
+				util.If(p.Position == PositionTopLeft || p.Position == PositionBottomLeft, "left-0"),
+				util.If(p.Position == PositionTopCenter || p.Position == PositionBottomCenter, "left-1/2 -translate-x-1/2"),
 				"w-full md:max-w-[420px]",
 				p.Class,
 			),
@@ -213,7 +213,7 @@ func indicator(p Props) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var7 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"absolute inset-0",
 				typeClass(p.Variant),
 			),

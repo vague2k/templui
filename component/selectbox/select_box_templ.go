@@ -11,7 +11,7 @@ import templruntime "github.com/a-h/templ/runtime"
 import (
 	"github.com/axzilla/templui/component/button"
 	"github.com/axzilla/templui/icon"
-	"github.com/axzilla/templui/utils"
+	"github.com/axzilla/templui/util"
 	"strconv"
 )
 
@@ -90,7 +90,7 @@ func SelectBox(props ...Props) templ.Component {
 		if len(props) > 0 {
 			p = props[0]
 		}
-		var templ_7745c5c3_Var2 = []any{utils.TwMerge("w-full select-container relative", p.Class)}
+		var templ_7745c5c3_Var2 = []any{util.TwMerge("w-full select-container relative", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -263,13 +263,13 @@ func Trigger(props ...TriggerProps) templ.Component {
 			ID:      p.ID,
 			Type:    "button",
 			Variant: button.VariantOutline,
-			Class: utils.TwMerge(
+			Class: util.TwMerge(
 				"w-full select-trigger flex items-center justify-between focus:ring-2 focus:ring-offset-2",
-				utils.If(p.HasError, "border-destructive ring-destructive"),
+				util.If(p.HasError, "border-destructive ring-destructive"),
 				p.Class,
 			),
 			Disabled: p.Disabled,
-			Attributes: utils.MergeAttributes(
+			Attributes: util.MergeAttributes(
 				templ.Attributes{
 					"aria-haspopup":       "listbox",
 					"aria-expanded":       "false",
@@ -312,7 +312,7 @@ func Value(props ...ValueProps) templ.Component {
 		if len(props) > 0 {
 			p = props[0]
 		}
-		var templ_7745c5c3_Var10 = []any{utils.TwMerge("block truncate select-value text-muted-foreground", p.Class)}
+		var templ_7745c5c3_Var10 = []any{util.TwMerge("block truncate select-value text-muted-foreground", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var10...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -414,7 +414,7 @@ func Content(props ...ContentProps) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var15 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"p-1 select-content absolute z-50 w-full overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md",
 				"transition-all ease-out duration-100",
 				"transform opacity-0 -translate-y-1 scale-95", // initial condition
@@ -510,7 +510,7 @@ func Group(props ...GroupProps) templ.Component {
 		if len(props) > 0 {
 			p = props[0]
 		}
-		var templ_7745c5c3_Var19 = []any{utils.TwMerge("p-1", p.Class)}
+		var templ_7745c5c3_Var19 = []any{util.TwMerge("p-1", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var19...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -600,7 +600,7 @@ func Label(props ...LabelProps) templ.Component {
 		if len(props) > 0 {
 			p = props[0]
 		}
-		var templ_7745c5c3_Var23 = []any{utils.TwMerge("px-2 py-1.5 text-sm font-medium", p.Class)}
+		var templ_7745c5c3_Var23 = []any{util.TwMerge("px-2 py-1.5 text-sm font-medium", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var23...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -691,12 +691,12 @@ func Item(props ...ItemProps) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var27 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"select-item relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 px-2 text-sm font-light outline-none",
 				"hover:bg-accent hover:text-accent-foreground",
 				"focus:bg-accent focus:text-accent-foreground",
-				utils.If(p.Selected, "bg-accent text-accent-foreground"),
-				utils.If(p.Disabled, "pointer-events-none opacity-50"),
+				util.If(p.Selected, "bg-accent text-accent-foreground"),
+				util.If(p.Disabled, "pointer-events-none opacity-50"),
 				p.Class,
 			),
 		}
@@ -800,9 +800,9 @@ func Item(props ...ItemProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var33 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"select-check absolute right-2 flex h-3.5 w-3.5 items-center justify-center",
-				utils.IfElse(p.Selected, "opacity-100", "opacity-0"),
+				util.IfElse(p.Selected, "opacity-100", "opacity-0"),
 			),
 		}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var33...)

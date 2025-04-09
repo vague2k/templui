@@ -1,6 +1,6 @@
 package dropdown
 
-import "github.com/axzilla/templui/utils"
+import "github.com/axzilla/templui/util"
 
 type Props struct {
 	ID         string
@@ -87,12 +87,12 @@ templ Dropdown(props ...Props) {
 		{{ p = props[0] }}
 	}
 	if p.ID == "" {
-		{{ p.ID = utils.RandomID() }}
+		{{ p.ID = util.RandomID() }}
 	}
 	<div
 		id={ p.ID }
 		x-data="dropdown"
-		class={ utils.TwMerge("relative inline-block text-left", p.Class) }
+		class={ util.TwMerge("relative inline-block text-left", p.Class) }
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -109,7 +109,7 @@ templ Trigger(props ...TriggerProps) {
 			id={ p.ID }
 		}
 		@click="toggleMenu"
-		class={ utils.TwMerge("inline-block", p.Class) }
+		class={ util.TwMerge("inline-block", p.Class) }
 		data-trigger
 		{ p.Attributes... }
 	>
@@ -137,7 +137,7 @@ templ Content(props ...ContentProps) {
 		x-transition:leave-start="opacity-100 scale-100"
 		x-transition:leave-end="opacity-0 scale-95"
 		class={
-			utils.TwMerge(
+			util.TwMerge(
 				"absolute z-50 rounded-md bg-popover p-1 shadow-md focus:outline-none overflow-auto",
 				"border border-border",
 				"min-w-[8rem]",
@@ -161,7 +161,7 @@ templ Group(props ...GroupProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		class={ utils.TwMerge("py-1", p.Class) }
+		class={ util.TwMerge("py-1", p.Class) }
 		role="group"
 		{ p.Attributes... }
 	>
@@ -178,7 +178,7 @@ templ Label(props ...LabelProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		class={ utils.TwMerge("px-2 py-1.5 text-sm font-semibold", p.Class) }
+		class={ util.TwMerge("px-2 py-1.5 text-sm font-semibold", p.Class) }
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -191,7 +191,7 @@ templ Item(props ...ItemProps) {
 		{{ p = props[0] }}
 	}
 	if p.ID == "" {
-		{{ p.ID = utils.RandomID() }}
+		{{ p.ID = util.RandomID() }}
 	}
 	if p.Href != "" {
 		<a
@@ -203,10 +203,10 @@ templ Item(props ...ItemProps) {
 				target={ p.Target }
 			}
 			class={
-				utils.TwMerge(
+				util.TwMerge(
 					"flex text-left items-center px-2 py-1.5 text-sm rounded-sm",
-					utils.If(!p.Disabled, "focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground cursor-default"),
-					utils.If(p.Disabled, "opacity-50 pointer-events-none"),
+					util.If(!p.Disabled, "focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground cursor-default"),
+					util.If(p.Disabled, "opacity-50 pointer-events-none"),
 					p.Class,
 				),
 			}
@@ -220,10 +220,10 @@ templ Item(props ...ItemProps) {
 		<button
 			id={ p.ID }
 			class={
-				utils.TwMerge(
+				util.TwMerge(
 					"w-full text-left flex items-center justify-between px-2 py-1.5 text-sm rounded-sm",
-					utils.If(!p.Disabled, "focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground cursor-default"),
-					utils.If(p.Disabled, "opacity-50 pointer-events-none"),
+					util.If(!p.Disabled, "focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground cursor-default"),
+					util.If(p.Disabled, "opacity-50 pointer-events-none"),
 					p.Class,
 				),
 			}
@@ -246,7 +246,7 @@ templ Separator(props ...SeparatorProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		class={ utils.TwMerge("h-px my-1 -mx-1 bg-muted", p.Class) }
+		class={ util.TwMerge("h-px my-1 -mx-1 bg-muted", p.Class) }
 		role="separator"
 		{ p.Attributes... }
 	></div>
@@ -261,7 +261,7 @@ templ Shortcut(props ...ShortcutProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		class={ utils.TwMerge("ml-auto text-xs tracking-widest opacity-60", p.Class) }
+		class={ util.TwMerge("ml-auto text-xs tracking-widest opacity-60", p.Class) }
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -278,7 +278,7 @@ templ Sub(props ...SubProps) {
 			id={ p.ID }
 		}
 		x-data="dropdownSubmenu"
-		class={ utils.TwMerge("relative", p.Class) }
+		class={ util.TwMerge("relative", p.Class) }
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -298,7 +298,7 @@ templ SubTrigger(props ...SubTriggerProps) {
 		x-ref="subTrigger"
 		data-submenu-trigger
 		class={
-			utils.TwMerge(
+			util.TwMerge(
 				"w-full text-left flex items-center justify-between px-2 py-1.5 text-sm rounded-sm",
 				"focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground cursor-default",
 				"data-[state=open]:bg-accent data-[state=open]:text-accent-foreground",
@@ -325,7 +325,7 @@ templ Portal(props ...PortalProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		class={ utils.TwMerge("dropdown-portal", p.Class) }
+		class={ util.TwMerge("dropdown-portal", p.Class) }
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -344,7 +344,7 @@ templ SubContent(props ...SubContentProps) {
 		x-ref="subContent"
 		data-submenu-content
 		class={
-			utils.TwMerge(
+			util.TwMerge(
 				"z-[9999] min-w-[8rem] rounded-md border bg-popover p-1 shadow-lg",
 				p.Class,
 			),

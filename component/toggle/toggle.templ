@@ -1,6 +1,6 @@
 package toggle
 
-import "github.com/axzilla/templui/utils"
+import "github.com/axzilla/templui/util"
 
 type Props struct {
 	ID         string
@@ -17,13 +17,13 @@ templ Toggle(props ...Props) {
 		{{ p = props[0] }}
 	}
 	if p.ID == "" {
-		{{ p.ID = utils.RandomID() }}
+		{{ p.ID = util.RandomID() }}
 	}
 	<label
 		for={ p.ID }
-		class={ utils.TwMerge(
+		class={ util.TwMerge(
             "inline-flex cursor-pointer items-center gap-2",
-            utils.If(p.Disabled, "cursor-not-allowed"),
+            util.If(p.Disabled, "cursor-not-allowed"),
         ) }
 	>
 		<input
@@ -41,7 +41,7 @@ templ Toggle(props ...Props) {
 		/>
 		<div
 			class={
-				utils.TwMerge(
+				util.TwMerge(
 					"relative h-6 w-10",
 					"after:absolute after:left-0.5 after:top-0.5",
 					"after:h-5 after:w-5",

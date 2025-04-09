@@ -10,6 +10,7 @@ templ RadioForm() {
 		@form.Item() {
 			@form.ItemFlex() {
 				@radio.Radio(radio.Props{
+					Name:    "radio-form",
 					ID:      "r1",
 					Checked: true,
 				})
@@ -21,6 +22,7 @@ templ RadioForm() {
 			}
 			@form.ItemFlex() {
 				@radio.Radio(radio.Props{
+					Name:     "radio-form",
 					ID:       "r2",
 					Disabled: true,
 				})
@@ -32,7 +34,8 @@ templ RadioForm() {
 			}
 			@form.ItemFlex() {
 				@radio.Radio(radio.Props{
-					ID: "r3",
+					Name: "radio-form",
+					ID:   "r3",
 				})
 				@form.Label(form.LabelProps{
 					For: "r3",

@@ -20,7 +20,7 @@ templ Usage(props UsageProps) {
 				<p class="text-muted-foreground mb-2">1. Add the script to your page/layout:</p>
 				@code.Code(code.Props{Language: "go"}) {
 					{ fmt.Sprintf(`// Option A: All components (recommended)
-@utils.ComponentScripts()
+@util.ComponentScripts()
 
 // Option B: Only %s
 @%s.Script()`, props.ComponentName, strings.ToLower(props.ComponentName)) }

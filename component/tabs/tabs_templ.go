@@ -10,7 +10,7 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import (
 	"context"
-	"github.com/axzilla/templui/utils"
+	"github.com/axzilla/templui/util"
 )
 
 type Props struct {
@@ -70,9 +70,9 @@ func Tabs(props ...Props) templ.Component {
 		}
 		tabsID := p.ID
 		if tabsID == "" {
-			tabsID = utils.RandomID()
+			tabsID = util.RandomID()
 		}
-		var templ_7745c5c3_Var2 = []any{utils.TwMerge("relative", p.Class)}
+		var templ_7745c5c3_Var2 = []any{util.TwMerge("relative", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -177,7 +177,7 @@ func List(props ...ListProps) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var7 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"relative flex items-center justify-center h-10 p-1 rounded-lg select-none bg-muted text-muted-foreground",
 				p.Class,
 			),
@@ -289,9 +289,9 @@ func Trigger(props ...TriggerProps) templ.Component {
 			tabsID = ID(ctx)
 		}
 		var templ_7745c5c3_Var12 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"relative z-20 flex-1 inline-flex items-center justify-center h-8 px-3 text-sm font-medium transition-all rounded-md cursor-pointer whitespace-nowrap hover:text-foreground",
-				utils.If(p.IsActive, "text-foreground bg-background shadow-xs"),
+				util.If(p.IsActive, "text-foreground bg-background shadow-xs"),
 				p.Class,
 			),
 		}
@@ -366,9 +366,9 @@ func Trigger(props ...TriggerProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var17 string
-		templ_7745c5c3_Var17, templ_7745c5c3_Err = templ.JoinStringErrs(utils.IfElse(p.IsActive, "active", "inactive"))
+		templ_7745c5c3_Var17, templ_7745c5c3_Err = templ.JoinStringErrs(util.IfElse(p.IsActive, "active", "inactive"))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/tabs/tabs.templ`, Line: 113, Col: 61}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/tabs/tabs.templ`, Line: 113, Col: 60}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var17))
 		if templ_7745c5c3_Err != nil {
@@ -428,9 +428,9 @@ func Content(props ...ContentProps) templ.Component {
 			tabsID = ID(ctx)
 		}
 		var templ_7745c5c3_Var19 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"relative",
-				utils.If(!p.IsActive, "hidden"),
+				util.If(!p.IsActive, "hidden"),
 				p.Class,
 			),
 		}
@@ -505,9 +505,9 @@ func Content(props ...ContentProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var24 string
-		templ_7745c5c3_Var24, templ_7745c5c3_Err = templ.JoinStringErrs(utils.IfElse(p.IsActive, "active", "inactive"))
+		templ_7745c5c3_Var24, templ_7745c5c3_Err = templ.JoinStringErrs(util.IfElse(p.IsActive, "active", "inactive"))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/tabs/tabs.templ`, Line: 143, Col: 61}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/tabs/tabs.templ`, Line: 143, Col: 60}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var24))
 		if templ_7745c5c3_Err != nil {

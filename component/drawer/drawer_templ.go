@@ -8,7 +8,7 @@ package drawer
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "github.com/axzilla/templui/utils"
+import "github.com/axzilla/templui/util"
 
 type Position string
 
@@ -95,9 +95,9 @@ func Drawer(props ...Props) templ.Component {
 			p = props[0]
 		}
 		if p.ID == "" {
-			p.ID = utils.RandomID()
+			p.ID = util.RandomID()
 		}
-		var templ_7745c5c3_Var2 = []any{utils.TwMerge("relative", p.Class)}
+		var templ_7745c5c3_Var2 = []any{util.TwMerge("relative", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -177,7 +177,7 @@ func Trigger(props ...TriggerProps) templ.Component {
 		if len(props) > 0 {
 			p = props[0]
 		}
-		var templ_7745c5c3_Var6 = []any{utils.TwMerge("cursor-pointer", p.Class)}
+		var templ_7745c5c3_Var6 = []any{util.TwMerge("cursor-pointer", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var6...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -295,13 +295,13 @@ func Content(props ...ContentProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var11 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"fixed z-50",
 				p.Class,
-				utils.If(p.Position == PositionRight, "inset-y-0 right-0 w-3/4 md:w-1/2 lg:w-1/3"),
-				utils.If(p.Position == PositionLeft, "inset-y-0 left-0 w-3/4 md:w-1/2 lg:w-1/3"),
-				utils.If(p.Position == PositionTop, "inset-x-0 top-0 h-auto sm:h-1/2"),
-				utils.If(p.Position == PositionBottom, "inset-x-0 bottom-0 h-auto sm:h-1/2"),
+				util.If(p.Position == PositionRight, "inset-y-0 right-0 w-3/4 md:w-1/2 lg:w-1/3"),
+				util.If(p.Position == PositionLeft, "inset-y-0 left-0 w-3/4 md:w-1/2 lg:w-1/3"),
+				util.If(p.Position == PositionTop, "inset-x-0 top-0 h-auto sm:h-1/2"),
+				util.If(p.Position == PositionBottom, "inset-x-0 bottom-0 h-auto sm:h-1/2"),
 			),
 		}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var11...)
@@ -371,12 +371,12 @@ func Content(props ...ContentProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var14 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"h-full overflow-y-auto bg-background p-6 shadow-lg",
-				utils.If(p.Position == PositionRight, "border-l"),
-				utils.If(p.Position == PositionLeft, "border-r"),
-				utils.If(p.Position == PositionBottom, "border-t"),
-				utils.If(p.Position == PositionTop, "border-b"),
+				util.If(p.Position == PositionRight, "border-l"),
+				util.If(p.Position == PositionLeft, "border-r"),
+				util.If(p.Position == PositionBottom, "border-t"),
+				util.If(p.Position == PositionTop, "border-b"),
 			),
 		}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var14...)
@@ -437,7 +437,7 @@ func Header(props ...HeaderProps) templ.Component {
 		if len(props) > 0 {
 			p = props[0]
 		}
-		var templ_7745c5c3_Var17 = []any{utils.TwMerge("flex flex-col space-y-1.5 pb-4", p.Class)}
+		var templ_7745c5c3_Var17 = []any{util.TwMerge("flex flex-col space-y-1.5 pb-4", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var17...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -527,7 +527,7 @@ func Title(props ...TitleProps) templ.Component {
 		if len(props) > 0 {
 			p = props[0]
 		}
-		var templ_7745c5c3_Var21 = []any{utils.TwMerge("text-lg font-semibold leading-none tracking-tight", p.Class)}
+		var templ_7745c5c3_Var21 = []any{util.TwMerge("text-lg font-semibold leading-none tracking-tight", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var21...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -617,7 +617,7 @@ func Description(props ...DescriptionProps) templ.Component {
 		if len(props) > 0 {
 			p = props[0]
 		}
-		var templ_7745c5c3_Var25 = []any{utils.TwMerge("text-sm text-muted-foreground", p.Class)}
+		var templ_7745c5c3_Var25 = []any{util.TwMerge("text-sm text-muted-foreground", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var25...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -707,7 +707,7 @@ func Footer(props ...FooterProps) templ.Component {
 		if len(props) > 0 {
 			p = props[0]
 		}
-		var templ_7745c5c3_Var29 = []any{utils.TwMerge("flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 pt-4", p.Class)}
+		var templ_7745c5c3_Var29 = []any{util.TwMerge("flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 pt-4", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var29...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -798,7 +798,7 @@ func Close(props ...CloseProps) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var33 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background",
 				"transition-colors focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
 				"disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent",

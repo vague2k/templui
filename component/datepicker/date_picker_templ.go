@@ -11,7 +11,7 @@ import templruntime "github.com/a-h/templ/runtime"
 import (
 	"github.com/axzilla/templui/component/button"
 	"github.com/axzilla/templui/icon"
-	"github.com/axzilla/templui/utils"
+	"github.com/axzilla/templui/util"
 	"strconv"
 	"time"
 )
@@ -155,12 +155,12 @@ func DatePicker(props ...Props) templ.Component {
 			p = props[0]
 		}
 		if p.ID == "" {
-			p.ID = utils.RandomID()
+			p.ID = util.RandomID()
 		}
 		if p.Placeholder == "" {
 			p.Placeholder = "Select a date"
 		}
-		var templ_7745c5c3_Var2 = []any{utils.TwMerge("relative", p.Class)}
+		var templ_7745c5c3_Var2 = []any{util.TwMerge("relative", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -383,13 +383,13 @@ func DatePicker(props ...Props) templ.Component {
 			ID:      p.ID,
 			Type:    "button",
 			Variant: button.VariantOutline,
-			Class: utils.TwMerge(
+			Class: util.TwMerge(
 				"w-full select-trigger flex items-center justify-between focus:ring-2 focus:ring-offset-2",
-				utils.If(p.HasError, "border-destructive ring-destructive"),
+				util.If(p.HasError, "border-destructive ring-destructive"),
 				p.Class,
 			),
 			Disabled: p.Disabled,
-			Attributes: utils.MergeAttributes(
+			Attributes: util.MergeAttributes(
 				templ.Attributes{
 					"@click":   "toggleDatePicker",
 					"x-ref":    "triggerButton",
@@ -406,7 +406,7 @@ func DatePicker(props ...Props) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var15 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"absolute left-0 z-50 w-64 p-4",
 				"rounded-lg border bg-popover shadow-md",
 			),

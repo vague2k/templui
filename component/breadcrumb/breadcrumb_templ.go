@@ -10,7 +10,7 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import (
 	"github.com/axzilla/templui/icon"
-	"github.com/axzilla/templui/utils"
+	"github.com/axzilla/templui/util"
 )
 
 type Props struct {
@@ -72,7 +72,7 @@ func Breadcrumb(props ...Props) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var2 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"flex",
 				p.Class,
 			),
@@ -167,7 +167,7 @@ func List(props ...ListProps) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var6 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"flex items-center flex-wrap gap-1 text-sm",
 				p.Class,
 			),
@@ -262,7 +262,7 @@ func Item(props ...ItemProps) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var10 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"flex items-center",
 				p.Class,
 			),
@@ -357,7 +357,7 @@ func Link(props ...LinkProps) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var14 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"text-muted-foreground hover:text-foreground hover:underline flex items-center gap-1.5 transition-colors",
 				p.Class,
 			),
@@ -467,7 +467,7 @@ func Separator(props ...SeparatorProps) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var19 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"mx-2 text-muted-foreground",
 				p.Class,
 			),
@@ -569,7 +569,7 @@ func Page(props ...ItemProps) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var23 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"font-medium text-foreground flex items-center gap-1.5",
 				p.Class,
 			),

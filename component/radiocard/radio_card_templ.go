@@ -8,7 +8,7 @@ package radiocard
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "github.com/axzilla/templui/utils"
+import "github.com/axzilla/templui/util"
 
 type Props struct {
 	ID         string
@@ -65,12 +65,12 @@ func RadioCard(props ...Props) templ.Component {
 			p = props[0]
 		}
 		if p.ID == "" {
-			p.ID = utils.RandomID()
+			p.ID = util.RandomID()
 		}
 		var templ_7745c5c3_Var2 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"relative",
-				utils.If(p.Disabled, "opacity-60"),
+				util.If(p.Disabled, "opacity-60"),
 				p.Class,
 			),
 		}
@@ -190,13 +190,13 @@ func RadioCard(props ...Props) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var8 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"block w-full rounded-lg border overflow-hidden h-full",
 				"bg-card text-card-foreground p-4 flex flex-col",
 				"cursor-pointer",
 				"hover:border-primary/50",
 				"peer-checked:ring-1 peer-checked:ring-primary peer-checked:border-primary",
-				utils.If(p.Disabled, "cursor-not-allowed"),
+				util.If(p.Disabled, "cursor-not-allowed"),
 				"transition-all duration-200",
 				p.Class,
 			),
@@ -280,7 +280,7 @@ func Header(props ...HeaderProps) templ.Component {
 		if len(props) > 0 {
 			p = props[0]
 		}
-		var templ_7745c5c3_Var12 = []any{utils.TwMerge("flex items-center justify-between mb-2", p.Class)}
+		var templ_7745c5c3_Var12 = []any{util.TwMerge("flex items-center justify-between mb-2", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var12...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -370,7 +370,7 @@ func Description(props ...DescriptionProps) templ.Component {
 		if len(props) > 0 {
 			p = props[0]
 		}
-		var templ_7745c5c3_Var16 = []any{utils.TwMerge("text-sm text-muted-foreground", p.Class)}
+		var templ_7745c5c3_Var16 = []any{util.TwMerge("text-sm text-muted-foreground", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var16...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -460,7 +460,7 @@ func Footer(props ...FooterProps) templ.Component {
 		if len(props) > 0 {
 			p = props[0]
 		}
-		var templ_7745c5c3_Var20 = []any{utils.TwMerge("mt-auto pt-4 w-full", p.Class)}
+		var templ_7745c5c3_Var20 = []any{util.TwMerge("mt-auto pt-4 w-full", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var20...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err

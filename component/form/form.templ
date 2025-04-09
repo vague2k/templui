@@ -2,7 +2,7 @@ package form
 
 import (
 	"github.com/axzilla/templui/component/label"
-	"github.com/axzilla/templui/utils"
+	"github.com/axzilla/templui/util"
 )
 
 type MessageVariant string
@@ -48,7 +48,7 @@ templ Item(props ...ItemProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		class={ utils.TwMerge("space-y-2", p.Class) }
+		class={ util.TwMerge("space-y-2", p.Class) }
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -64,7 +64,7 @@ templ ItemFlex(props ...ItemProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		class={ utils.TwMerge("items-center flex space-x-2", p.Class) }
+		class={ util.TwMerge("items-center flex space-x-2", p.Class) }
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -95,7 +95,7 @@ templ Description(props ...DescriptionProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		class={ utils.TwMerge("text-sm text-muted-foreground", p.Class) }
+		class={ util.TwMerge("text-sm text-muted-foreground", p.Class) }
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -112,7 +112,7 @@ templ Message(props ...MessageProps) {
 			id={ p.ID }
 		}
 		class={
-			utils.TwMerge(
+			util.TwMerge(
 				"text-[0.8rem] font-medium",
 				messageVariantClass(p.Variant),
 				p.Class,

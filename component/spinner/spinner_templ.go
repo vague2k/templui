@@ -8,7 +8,7 @@ package spinner
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "github.com/axzilla/templui/utils"
+import "github.com/axzilla/templui/util"
 
 type Size string
 
@@ -52,7 +52,7 @@ func Spinner(props ...Props) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var2 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"inline-flex flex-col items-center justify-center",
 				p.Class,
 			),
@@ -110,16 +110,16 @@ func Spinner(props ...Props) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var5 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"animate-spin rounded-full",
 				sizeClass(p.Size),
 				borderSizeClass(p.Size),
-				utils.IfElse(
+				util.IfElse(
 					p.Color == "",
 					"border-primary border-b-transparent",
 					"border-current border-b-transparent",
 				),
-				utils.IfElse(
+				util.IfElse(
 					p.Color != "",
 					p.Color,
 					"",

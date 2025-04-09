@@ -8,7 +8,7 @@ package alert
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "github.com/axzilla/templui/utils"
+import "github.com/axzilla/templui/util"
 
 type Variant string
 
@@ -62,7 +62,7 @@ func Alert(props ...Props) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var2 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"relative w-full p-4",
 				"[&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4",
 				"[&>svg+div]:translate-y-[-3px] [&:has(svg)]:pl-11",
@@ -161,7 +161,7 @@ func Title(props ...TitleProps) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var6 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"mb-1 font-medium leading-none tracking-tight",
 				p.Class,
 			),
@@ -256,7 +256,7 @@ func Description(props ...DescriptionProps) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var10 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"[&_p]:leading-relaxed text-sm",
 				p.Class,
 			),

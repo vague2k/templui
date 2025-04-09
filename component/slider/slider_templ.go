@@ -10,7 +10,7 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import (
 	"fmt"
-	"github.com/axzilla/templui/utils"
+	"github.com/axzilla/templui/util"
 )
 
 type Props struct {
@@ -57,7 +57,7 @@ func Slider(props ...Props) templ.Component {
 		if len(props) > 0 {
 			p = props[0]
 		}
-		var templ_7745c5c3_Var2 = []any{utils.TwMerge("w-full", p.Class)}
+		var templ_7745c5c3_Var2 = []any{util.TwMerge("w-full", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -161,7 +161,7 @@ func Input(props ...Props) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var7 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"w-full h-2 rounded-full bg-secondary appearance-none cursor-pointer",
 				"focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
 				"[&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4",
@@ -350,7 +350,7 @@ func Value(props ...ValueProps) templ.Component {
 		if len(props) > 0 {
 			p = props[0]
 		}
-		var templ_7745c5c3_Var16 = []any{utils.TwMerge("text-sm text-muted-foreground", p.Class)}
+		var templ_7745c5c3_Var16 = []any{util.TwMerge("text-sm text-muted-foreground", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var16...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err

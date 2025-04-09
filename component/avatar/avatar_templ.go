@@ -10,7 +10,7 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import (
 	"fmt"
-	"github.com/axzilla/templui/utils"
+	"github.com/axzilla/templui/util"
 	"strings"
 )
 
@@ -84,11 +84,11 @@ func Avatar(props ...Props) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var2 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"inline-flex items-center justify-center",
 				SizeClasses(p.Size),
 				"rounded-full bg-muted",
-				utils.If(p.InGroup, "ring-2 ring-background"),
+				util.If(p.InGroup, "ring-2 ring-background"),
 				p.Class,
 			),
 		}
@@ -182,7 +182,7 @@ func Image(props ...ImageProps) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var6 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"w-full h-full",
 				"rounded-full object-cover",
 				p.Class,
@@ -308,7 +308,7 @@ func Fallback(props ...FallbackProps) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var12 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"font-medium text-muted-foreground",
 				p.Class,
 			),
@@ -403,7 +403,7 @@ func Group(props ...GroupProps) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var16 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"flex items-center -space-x-3",
 				groupSpacingClasses(p.Spacing),
 				p.Class,
@@ -499,7 +499,7 @@ func GroupOverflow(count int, props ...Props) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var20 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"inline-flex items-center justify-center",
 				SizeClasses(p.Size),
 				"rounded-full bg-muted ring-2 ring-background",

@@ -11,7 +11,7 @@ import templruntime "github.com/a-h/templ/runtime"
 import (
 	"context"
 	"github.com/axzilla/templui/icon"
-	"github.com/axzilla/templui/utils"
+	"github.com/axzilla/templui/util"
 	"strconv"
 )
 
@@ -76,7 +76,7 @@ func Rating(props ...Props) templ.Component {
 		p.setDefaults()
 		ctx = context.WithValue(ctx, "readOnly", p.ReadOnly)
 		var templ_7745c5c3_Var2 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"flex flex-col items-start gap-1",
 				p.Class,
 			),
@@ -278,7 +278,7 @@ func Group(props ...GroupProps) templ.Component {
 		if len(props) > 0 {
 			p = props[0]
 		}
-		var templ_7745c5c3_Var12 = []any{utils.TwMerge("flex flex-row items-center gap-1", p.Class)}
+		var templ_7745c5c3_Var12 = []any{util.TwMerge("flex flex-row items-center gap-1", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var12...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -371,12 +371,12 @@ func Item(props ...ItemProps) templ.Component {
 		p.setDefaults()
 		readOnly, _ := ctx.Value("readOnly").(bool)
 		var templ_7745c5c3_Var16 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"relative",
 				colorClass(p.Style),
 				"transition-opacity",
 				"cursor-pointer",
-				utils.If(readOnly, "cursor-default"),
+				util.If(readOnly, "cursor-default"),
 				p.Class,
 			),
 		}

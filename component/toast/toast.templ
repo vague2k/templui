@@ -3,7 +3,7 @@ package toast
 import (
 	"github.com/axzilla/templui/component/button"
 	"github.com/axzilla/templui/icon"
-	"github.com/axzilla/templui/utils"
+	"github.com/axzilla/templui/util"
 	"strconv"
 )
 
@@ -47,7 +47,7 @@ templ Toast(props ...Props) {
 		{{ p = props[0] }}
 	}
 	if p.ID == "" {
-		{{ p.ID = utils.RandomID() }}
+		{{ p.ID = util.RandomID() }}
 	}
 	{{ p = p.defaults() }}
 	<div
@@ -64,13 +64,13 @@ templ Toast(props ...Props) {
 		x-transition:leave-start="opacity-100 translate-y-0"
 		x-transition:leave-end="opacity-0 translate-y-4"
 		class={
-			utils.TwMerge(
+			util.TwMerge(
 				"z-50 fixed pointer-events-auto p-4",
-				utils.If(p.Position == PositionTopRight || p.Position == PositionTopLeft || p.Position == PositionTopCenter, "top-0"),
-				utils.If(p.Position == PositionBottomRight || p.Position == PositionBottomLeft || p.Position == PositionBottomCenter, "bottom-0"),
-				utils.If(p.Position == PositionTopRight || p.Position == PositionBottomRight, "right-0"),
-				utils.If(p.Position == PositionTopLeft || p.Position == PositionBottomLeft, "left-0"),
-				utils.If(p.Position == PositionTopCenter || p.Position == PositionBottomCenter, "left-1/2 -translate-x-1/2"),
+				util.If(p.Position == PositionTopRight || p.Position == PositionTopLeft || p.Position == PositionTopCenter, "top-0"),
+				util.If(p.Position == PositionBottomRight || p.Position == PositionBottomLeft || p.Position == PositionBottomCenter, "bottom-0"),
+				util.If(p.Position == PositionTopRight || p.Position == PositionBottomRight, "right-0"),
+				util.If(p.Position == PositionTopLeft || p.Position == PositionBottomLeft, "left-0"),
+				util.If(p.Position == PositionTopCenter || p.Position == PositionBottomCenter, "left-1/2 -translate-x-1/2"),
 				"w-full md:max-w-[420px]",
 				p.Class,
 			),
@@ -100,7 +100,7 @@ templ indicator(p Props) {
 		<div
 			x-ref="progress"
 			class={
-				utils.TwMerge(
+				util.TwMerge(
 					"absolute inset-0",
 					typeClass(p.Variant),
 				),

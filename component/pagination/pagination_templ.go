@@ -11,7 +11,7 @@ import templruntime "github.com/a-h/templ/runtime"
 import (
 	"github.com/axzilla/templui/component/button"
 	"github.com/axzilla/templui/icon"
-	"github.com/axzilla/templui/utils"
+	"github.com/axzilla/templui/util"
 )
 
 type Props struct {
@@ -91,7 +91,7 @@ func Pagination(props ...Props) templ.Component {
 		if len(props) > 0 {
 			p = props[0]
 		}
-		var templ_7745c5c3_Var2 = []any{utils.TwMerge("flex flex-wrap justify-center", p.Class)}
+		var templ_7745c5c3_Var2 = []any{util.TwMerge("flex flex-wrap justify-center", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -473,7 +473,7 @@ func Previous(props ...PreviousProps) templ.Component {
 			HxSwap:     p.HxSwap,
 			Disabled:   p.Disabled,
 			Variant:    button.VariantGhost,
-			Class:      utils.TwMerge("gap-1", p.Class),
+			Class:      util.TwMerge("gap-1", p.Class),
 			Attributes: p.Attributes,
 		}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var14), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
@@ -538,7 +538,7 @@ func Next(props ...NextProps) templ.Component {
 			HxSwap:     p.HxSwap,
 			Disabled:   p.Disabled,
 			Variant:    button.VariantGhost,
-			Class:      utils.TwMerge("gap-1", p.Class),
+			Class:      util.TwMerge("gap-1", p.Class),
 			Attributes: p.Attributes,
 		}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var16), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {

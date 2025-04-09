@@ -11,7 +11,7 @@ import templruntime "github.com/a-h/templ/runtime"
 import (
 	"fmt"
 	"github.com/axzilla/templui/icon"
-	"github.com/axzilla/templui/utils"
+	"github.com/axzilla/templui/util"
 	"strconv"
 )
 
@@ -81,7 +81,7 @@ func Carousel(props ...Props) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var2 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"carousel-component relative overflow-hidden w-full",
 				p.Class,
 			),
@@ -220,7 +220,7 @@ func Content(props ...ContentProps) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var9 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"carousel-track flex h-full w-full transition-transform duration-500 ease-in-out",
 				p.Class,
 			),
@@ -315,7 +315,7 @@ func Item(props ...ItemProps) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var13 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"carousel-item flex-shrink-0 w-full h-full relative",
 				p.Class,
 			),
@@ -410,7 +410,7 @@ func Previous(props ...PreviousProps) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var17 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"carousel-prev absolute left-2 top-1/2 transform -translate-y-1/2 p-2 rounded-full bg-black/20 text-white hover:bg-black/40 focus:outline-none",
 				p.Class,
 			),
@@ -505,7 +505,7 @@ func Next(props ...NextProps) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var21 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"carousel-next absolute right-2 top-1/2 transform -translate-y-1/2 p-2 rounded-full bg-black/20 text-white hover:bg-black/40 focus:outline-none",
 				p.Class,
 			),
@@ -600,7 +600,7 @@ func Indicators(props ...IndicatorsProps) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var25 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"absolute bottom-4 left-1/2 transform -translate-x-1/2 flex gap-2",
 				p.Class,
 			),
@@ -659,9 +659,9 @@ func Indicators(props ...IndicatorsProps) templ.Component {
 		}
 		for i := 0; i < p.Count; i++ {
 			var templ_7745c5c3_Var28 = []any{
-				utils.TwMerge(
+				util.TwMerge(
 					"carousel-indicator w-3 h-3 rounded-full bg-white/50 hover:bg-white/80 focus:outline-none transition-colors",
-					utils.If(i == 0, "bg-white"),
+					util.If(i == 0, "bg-white"),
 				),
 			}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var28...)

@@ -8,7 +8,7 @@ package table
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "github.com/axzilla/templui/utils"
+import "github.com/axzilla/templui/util"
 
 type Props struct {
 	ID         string
@@ -88,7 +88,7 @@ func Table(props ...Props) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var2 = []any{utils.TwMerge("w-full caption-bottom text-sm", p.Class)}
+		var templ_7745c5c3_Var2 = []any{util.TwMerge("w-full caption-bottom text-sm", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -178,7 +178,7 @@ func Header(props ...HeaderProps) templ.Component {
 		if len(props) > 0 {
 			p = props[0]
 		}
-		var templ_7745c5c3_Var6 = []any{utils.TwMerge("[&_tr]:border-b", p.Class)}
+		var templ_7745c5c3_Var6 = []any{util.TwMerge("[&_tr]:border-b", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var6...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -268,7 +268,7 @@ func Body(props ...BodyProps) templ.Component {
 		if len(props) > 0 {
 			p = props[0]
 		}
-		var templ_7745c5c3_Var10 = []any{utils.TwMerge("[&_tr:last-child]:border-0", p.Class)}
+		var templ_7745c5c3_Var10 = []any{util.TwMerge("[&_tr:last-child]:border-0", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var10...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -358,7 +358,7 @@ func Footer(props ...FooterProps) templ.Component {
 		if len(props) > 0 {
 			p = props[0]
 		}
-		var templ_7745c5c3_Var14 = []any{utils.TwMerge("border-t bg-muted/50 font-medium [&>tr]:last:border-b-0", p.Class)}
+		var templ_7745c5c3_Var14 = []any{util.TwMerge("border-t bg-muted/50 font-medium [&>tr]:last:border-b-0", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var14...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -449,9 +449,9 @@ func Row(props ...RowProps) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var18 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"border-b transition-colors hover:bg-muted/50",
-				utils.If(p.Selected, "data-[state=selected]:bg-muted"),
+				util.If(p.Selected, "data-[state=selected]:bg-muted"),
 				p.Class,
 			),
 		}
@@ -545,7 +545,7 @@ func Head(props ...HeadProps) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var22 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"h-10 px-2 text-left align-middle font-medium text-muted-foreground",
 				"[&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
 				p.Class,
@@ -641,7 +641,7 @@ func Cell(props ...CellProps) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var26 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"p-2 align-middle",
 				"[&:has([role=checkbox])]:pr-0 [&>[role=checkbox]]:translate-y-[2px]",
 				p.Class,
@@ -736,7 +736,7 @@ func Caption(props ...CaptionProps) templ.Component {
 		if len(props) > 0 {
 			p = props[0]
 		}
-		var templ_7745c5c3_Var30 = []any{utils.TwMerge("mt-4 text-sm text-muted-foreground", p.Class)}
+		var templ_7745c5c3_Var30 = []any{util.TwMerge("mt-4 text-sm text-muted-foreground", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var30...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err

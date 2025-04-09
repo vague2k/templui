@@ -10,7 +10,7 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import (
 	"github.com/axzilla/templui/component/aspectratio"
-	"github.com/axzilla/templui/utils"
+	"github.com/axzilla/templui/util"
 )
 
 type MediaPosition string
@@ -112,7 +112,7 @@ func Card(props ...Props) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var2 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"w-full rounded-lg border bg-card text-card-foreground shadow-xs",
 				p.Class,
 			),
@@ -207,7 +207,7 @@ func Header(props ...HeaderProps) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var6 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"flex flex-col space-y-1.5 p-6 pb-0",
 				p.Class,
 			),
@@ -302,7 +302,7 @@ func Title(props ...TitleProps) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var10 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"text-lg font-semibold leading-none tracking-tight",
 				p.Class,
 			),
@@ -397,7 +397,7 @@ func Description(props ...DescriptionProps) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var14 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"text-sm text-muted-foreground",
 				p.Class,
 			),
@@ -492,7 +492,7 @@ func Content(props ...ContentProps) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var18 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"p-6",
 				p.Class,
 			),
@@ -587,7 +587,7 @@ func Footer(props ...FooterProps) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var22 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"flex items-center p-6 pt-0",
 				p.Class,
 			),
@@ -682,7 +682,7 @@ func Horizontal(props ...HorizontalProps) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var26 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"flex overflow-hidden",
 				p.Class,
 			),
@@ -777,7 +777,7 @@ func Media(props ...MediaProps) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var30 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"overflow-hidden",
 				mediaPositionClasses(p.Position, p.Width),
 				p.Class,

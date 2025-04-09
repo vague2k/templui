@@ -13,7 +13,7 @@ import (
 	"github.com/axzilla/templui/component/button"
 	"github.com/axzilla/templui/component/selectbox"
 	"github.com/axzilla/templui/icon"
-	"github.com/axzilla/templui/utils"
+	"github.com/axzilla/templui/util"
 	"strconv"
 	"time"
 )
@@ -64,7 +64,7 @@ func TimePicker(props ...Props) templ.Component {
 			p = props[0]
 		}
 		if p.ID == "" {
-			p.ID = utils.RandomID()
+			p.ID = util.RandomID()
 		}
 		if p.Placeholder == "" {
 			p.Placeholder = "Select time"
@@ -75,7 +75,7 @@ func TimePicker(props ...Props) templ.Component {
 		if p.PMLabel == "" {
 			p.PMLabel = "PM"
 		}
-		var templ_7745c5c3_Var2 = []any{utils.TwMerge("relative", p.Class)}
+		var templ_7745c5c3_Var2 = []any{util.TwMerge("relative", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -182,9 +182,9 @@ func TimePicker(props ...Props) templ.Component {
 			}
 			ctx = templ.InitializeContext(ctx)
 			var templ_7745c5c3_Var9 = []any{
-				utils.TwMerge(
+				util.TwMerge(
 					"timepicker-display truncate",
-					utils.If(p.Value == (time.Time{}), "text-muted-foreground"),
+					util.If(p.Value == (time.Time{}), "text-muted-foreground"),
 				),
 			}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var9...)
@@ -257,12 +257,12 @@ func TimePicker(props ...Props) templ.Component {
 			ID:      p.ID,
 			Type:    "button",
 			Variant: button.VariantOutline,
-			Class: utils.TwMerge(
+			Class: util.TwMerge(
 				"w-full flex justify-between items-center",
-				utils.If(p.HasError, "border-destructive ring-destructive"),
+				util.If(p.HasError, "border-destructive ring-destructive"),
 			),
 			Disabled: p.Disabled,
-			Attributes: utils.MergeAttributes(
+			Attributes: util.MergeAttributes(
 				templ.Attributes{
 					"@click": "toggleTimePicker",
 				},
@@ -603,9 +603,9 @@ func TimePicker(props ...Props) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var31 = []any{
-				utils.TwMerge(
+				util.TwMerge(
 					"px-3 py-1 text-sm rounded-md hover:bg-muted",
-					utils.If(p.Value != (time.Time{}) && p.Value.Hour() < 12, "bg-primary text-primary-foreground"),
+					util.If(p.Value != (time.Time{}) && p.Value.Hour() < 12, "bg-primary text-primary-foreground"),
 				),
 			}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var31...)
@@ -643,9 +643,9 @@ func TimePicker(props ...Props) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var34 = []any{
-				utils.TwMerge(
+				util.TwMerge(
 					"px-3 py-1 text-sm rounded-md hover:bg-muted",
-					utils.If(p.Value != (time.Time{}) && p.Value.Hour() >= 12, "bg-primary text-primary-foreground"),
+					util.If(p.Value != (time.Time{}) && p.Value.Hour() >= 12, "bg-primary text-primary-foreground"),
 				),
 			}
 			templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var34...)

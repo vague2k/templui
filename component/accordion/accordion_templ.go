@@ -10,7 +10,7 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import (
 	"github.com/axzilla/templui/icon"
-	"github.com/axzilla/templui/utils"
+	"github.com/axzilla/templui/util"
 )
 
 type Props struct {
@@ -63,7 +63,7 @@ func Accordion(props ...Props) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var2 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"divide-y rounded-md divide-border border",
 				p.Class,
 			),
@@ -158,7 +158,7 @@ func Item(props ...ItemProps) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var6 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"group",
 				"open:[&>summary_svg]:rotate-180",
 				p.Class,
@@ -254,7 +254,7 @@ func Trigger(props ...TriggerProps) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var10 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"flex w-full items-center justify-between py-4 px-5",
 				"text-left font-medium cursor-pointer",
 				"transition-all hover:underline",
@@ -363,7 +363,7 @@ func Content(props ...ContentProps) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var14 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"px-5 pb-4 pt-0",
 				p.Class,
 			),

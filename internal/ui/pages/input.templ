@@ -23,30 +23,27 @@ templ Input() {
 			})
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "File",
-					ShowcaseFile:      showcase.InputFile(),
-					PreviewCodeFile:   "input_file.templ",
-					ComponentCodeFile: "input/input.templ",
+					SectionName:     "File",
+					ShowcaseFile:    showcase.InputFile(),
+					PreviewCodeFile: "input_file.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Disabled",
-					ShowcaseFile:      showcase.InputDisabled(),
-					PreviewCodeFile:   "input_disabled.templ",
-					ComponentCodeFile: "input/input.templ",
+					SectionName:     "Disabled",
+					ShowcaseFile:    showcase.InputDisabled(),
+					PreviewCodeFile: "input_disabled.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "With Label",
-					ShowcaseFile:      showcase.InputWithLabel(),
-					PreviewCodeFile:   "input_with_label.templ",
-					ComponentCodeFile: "input/input.templ",
-					ID:                "label",
+					SectionName:     "With Label",
+					ShowcaseFile:    showcase.InputWithLabel(),
+					PreviewCodeFile: "input_with_label.templ",
+				
+					ID: "label",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Form",
-					ShowcaseFile:      showcase.InputForm(),
-					PreviewCodeFile:   "input_form.templ",
-					ComponentCodeFile: "input/input.templ",
-					ID:                "form",
+					SectionName:     "Form",
+					ShowcaseFile:    showcase.InputForm(),
+					PreviewCodeFile: "input_form.templ",
+					ID:              "form",
 				})
 			}
 		}

@@ -2,7 +2,7 @@ package breadcrumb
 
 import (
 	"github.com/axzilla/templui/icon"
-	"github.com/axzilla/templui/utils"
+	"github.com/axzilla/templui/util"
 )
 
 type Props struct {
@@ -48,7 +48,7 @@ templ Breadcrumb(props ...Props) {
 			id={ p.ID }
 		}
 		class={
-			utils.TwMerge(
+			util.TwMerge(
 				"flex",
 				p.Class,
 			),
@@ -70,7 +70,7 @@ templ List(props ...ListProps) {
 			id={ p.ID }
 		}
 		class={
-			utils.TwMerge(
+			util.TwMerge(
 				"flex items-center flex-wrap gap-1 text-sm",
 				p.Class,
 			),
@@ -91,7 +91,7 @@ templ Item(props ...ItemProps) {
 			id={ p.ID }
 		}
 		class={
-			utils.TwMerge(
+			util.TwMerge(
 				"flex items-center",
 				p.Class,
 			),
@@ -115,7 +115,7 @@ templ Link(props ...LinkProps) {
 			href={ templ.SafeURL(p.Href) }
 		}
 		class={
-			utils.TwMerge(
+			util.TwMerge(
 				"text-muted-foreground hover:text-foreground hover:underline flex items-center gap-1.5 transition-colors",
 				p.Class,
 			),
@@ -136,7 +136,7 @@ templ Separator(props ...SeparatorProps) {
 			id={ p.ID }
 		}
 		class={
-			utils.TwMerge(
+			util.TwMerge(
 				"mx-2 text-muted-foreground",
 				p.Class,
 			),
@@ -161,7 +161,7 @@ templ Page(props ...ItemProps) {
 			id={ p.ID }
 		}
 		class={
-			utils.TwMerge(
+			util.TwMerge(
 				"font-medium text-foreground flex items-center gap-1.5",
 				p.Class,
 			),

@@ -8,7 +8,7 @@ package aspectratio
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "github.com/axzilla/templui/utils"
+import "github.com/axzilla/templui/util"
 
 type Ratio string
 
@@ -53,7 +53,7 @@ func AspectRatio(props ...Props) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var2 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"relative w-full",
 				ratioClass(p.Ratio),
 				p.Class,

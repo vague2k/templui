@@ -8,7 +8,7 @@ package input
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "github.com/axzilla/templui/utils"
+import "github.com/axzilla/templui/util"
 
 type Type string
 
@@ -69,14 +69,14 @@ func Input(props ...Props) templ.Component {
 			p.Type = TypeText
 		}
 		var templ_7745c5c3_Var2 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"peer flex h-10 w-full px-3 py-2",
 				"rounded-md border border-input bg-background text-sm ring-offset-background",
 				"file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground",
 				"placeholder:text-muted-foreground",
 				"focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
 				"disabled:cursor-not-allowed disabled:opacity-50",
-				utils.If(p.HasError, "border-destructive ring-destructive"),
+				util.If(p.HasError, "border-destructive ring-destructive"),
 				p.Class,
 			),
 		}

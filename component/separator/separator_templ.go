@@ -8,7 +8,7 @@ package separator
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "github.com/axzilla/templui/utils"
+import "github.com/axzilla/templui/util"
 
 type Orientation string
 type Decoration string
@@ -61,17 +61,17 @@ func Separator(props ...Props) templ.Component {
 			p.Orientation = OrientationHorizontal
 		}
 		var templ_7745c5c3_Var2 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"shrink-0",
-				utils.If(!(p.Label != "" && p.Orientation == OrientationHorizontal),
-					utils.If(!(p.Label != "" && p.Orientation == OrientationVertical),
+				util.If(!(p.Label != "" && p.Orientation == OrientationHorizontal),
+					util.If(!(p.Label != "" && p.Orientation == OrientationVertical),
 						orientationClasses(p.Orientation),
 					),
 				),
-				utils.If(p.Orientation == OrientationHorizontal, "h-[1px] w-full"),
-				utils.If(p.Orientation == OrientationVertical, "h-full w-[1px]"),
-				utils.If(!(p.Label != "" && p.Orientation == OrientationHorizontal),
-					utils.If(!(p.Label != "" && p.Orientation == OrientationVertical),
+				util.If(p.Orientation == OrientationHorizontal, "h-[1px] w-full"),
+				util.If(p.Orientation == OrientationVertical, "h-full w-[1px]"),
+				util.If(!(p.Label != "" && p.Orientation == OrientationHorizontal),
+					util.If(!(p.Label != "" && p.Orientation == OrientationVertical),
 						decorationClasses(p.Decoration),
 					),
 				),
@@ -149,7 +149,7 @@ func Separator(props ...Props) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var6 = []any{
-				utils.TwMerge(
+				util.TwMerge(
 					"absolute w-full border-t",
 					decorationClasses(p.Decoration),
 				),
@@ -194,7 +194,7 @@ func Separator(props ...Props) templ.Component {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var9 = []any{
-				utils.TwMerge(
+				util.TwMerge(
 					"absolute h-full border-l",
 					decorationClasses(p.Decoration),
 				),

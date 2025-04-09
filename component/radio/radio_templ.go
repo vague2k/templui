@@ -8,7 +8,7 @@ package radio
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "github.com/axzilla/templui/utils"
+import "github.com/axzilla/templui/util"
 
 type Props struct {
 	ID         string
@@ -47,7 +47,7 @@ func Radio(props ...Props) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var2 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"relative h-4 w-4",
 				"before:absolute before:left-1/2 before:top-1/2",
 				"before:h-1.5 before:w-1.5 before:-translate-x-1/2 before:-translate-y-1/2",

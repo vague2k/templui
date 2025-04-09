@@ -23,30 +23,27 @@ templ Radio() {
 			})
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Checked",
-					ShowcaseFile:      showcase.RadioChecked(),
-					PreviewCodeFile:   "radio_checked.templ",
-					ComponentCodeFile: "radio/radio.templ",
+					SectionName:     "Checked",
+					ShowcaseFile:    showcase.RadioChecked(),
+					PreviewCodeFile: "radio_checked.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "With Label",
-					ShowcaseFile:      showcase.RadioWithLabel(),
-					PreviewCodeFile:   "radio_with_label.templ",
-					ComponentCodeFile: "radio/radio.templ",
-					ID:                "label",
+					SectionName:     "With Label",
+					ShowcaseFile:    showcase.RadioWithLabel(),
+					PreviewCodeFile: "radio_with_label.templ",
+				
+					ID: "label",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Disabled",
-					ShowcaseFile:      showcase.RadioDisabled(),
-					PreviewCodeFile:   "radio_disabled.templ",
-					ComponentCodeFile: "radio/radio.templ",
+					SectionName:     "Disabled",
+					ShowcaseFile:    showcase.RadioDisabled(),
+					PreviewCodeFile: "radio_disabled.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Form",
-					ShowcaseFile:      showcase.RadioForm(),
-					PreviewCodeFile:   "radio_form.templ",
-					ComponentCodeFile: "radio/radio.templ",
-					ID:                "form",
+					SectionName:     "Form",
+					ShowcaseFile:    showcase.RadioForm(),
+					PreviewCodeFile: "radio_form.templ",
+					ID:              "form",
 				})
 			}
 		}

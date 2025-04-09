@@ -10,7 +10,7 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import (
 	"fmt"
-	"github.com/axzilla/templui/utils"
+	"github.com/axzilla/templui/util"
 )
 
 type Size string
@@ -71,9 +71,9 @@ func Progress(props ...Props) templ.Component {
 			p = props[0]
 		}
 		if p.ID == "" {
-			p.ID = utils.RandomID()
+			p.ID = util.RandomID()
 		}
-		var templ_7745c5c3_Var2 = []any{utils.TwMerge("w-full", p.Class)}
+		var templ_7745c5c3_Var2 = []any{util.TwMerge("w-full", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -275,7 +275,7 @@ func Progress(props ...Props) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var13 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"h-full rounded-full transition-all",
 				sizeClasses(p.Size),
 				variantClasses(p.Variant),

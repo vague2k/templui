@@ -8,7 +8,7 @@ package toggle
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "github.com/axzilla/templui/utils"
+import "github.com/axzilla/templui/util"
 
 type Props struct {
 	ID         string
@@ -45,11 +45,11 @@ func Toggle(props ...Props) templ.Component {
 			p = props[0]
 		}
 		if p.ID == "" {
-			p.ID = utils.RandomID()
+			p.ID = util.RandomID()
 		}
-		var templ_7745c5c3_Var2 = []any{utils.TwMerge(
+		var templ_7745c5c3_Var2 = []any{util.TwMerge(
 			"inline-flex cursor-pointer items-center gap-2",
-			utils.If(p.Disabled, "cursor-not-allowed"),
+			util.If(p.Disabled, "cursor-not-allowed"),
 		)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
@@ -159,7 +159,7 @@ func Toggle(props ...Props) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var8 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"relative h-6 w-10",
 				"after:absolute after:left-0.5 after:top-0.5",
 				"after:h-5 after:w-5",

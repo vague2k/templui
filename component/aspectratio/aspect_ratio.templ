@@ -1,6 +1,6 @@
 package aspectratio
 
-import "github.com/axzilla/templui/utils"
+import "github.com/axzilla/templui/util"
 
 type Ratio string
 
@@ -29,7 +29,7 @@ templ AspectRatio(props ...Props) {
 			id={ p.ID }
 		}
 		class={
-			utils.TwMerge(
+			util.TwMerge(
 				"relative w-full",
 				ratioClass(p.Ratio),
 				p.Class,

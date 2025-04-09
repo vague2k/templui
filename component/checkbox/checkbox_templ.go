@@ -10,7 +10,7 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import (
 	"github.com/axzilla/templui/icon"
-	"github.com/axzilla/templui/utils"
+	"github.com/axzilla/templui/util"
 )
 
 type Props struct {
@@ -55,7 +55,7 @@ func Checkbox(props ...Props) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var2 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"relative size-4 overflow-hidden peer",
 				"before:absolute before:inset-0 before:content['']",
 				"appearance-none rounded-sm border-2 border-primary bg-background",
@@ -174,7 +174,7 @@ func Checkbox(props ...Props) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var7 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2",
 				"size-3 text-primary-foreground pointer-events-none opacity-0",
 				"peer-checked:opacity-100",

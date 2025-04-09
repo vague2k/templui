@@ -8,7 +8,7 @@ package badge
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "github.com/axzilla/templui/utils"
+import "github.com/axzilla/templui/util"
 
 type Variant string
 
@@ -52,7 +52,7 @@ func Badge(props ...Props) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var2 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"inline-flex items-center gap-2",
 				"rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors",
 				"focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2",

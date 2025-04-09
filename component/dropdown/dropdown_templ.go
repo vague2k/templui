@@ -8,7 +8,7 @@ package dropdown
 import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
-import "github.com/axzilla/templui/utils"
+import "github.com/axzilla/templui/util"
 
 type Props struct {
 	ID         string
@@ -115,9 +115,9 @@ func Dropdown(props ...Props) templ.Component {
 			p = props[0]
 		}
 		if p.ID == "" {
-			p.ID = utils.RandomID()
+			p.ID = util.RandomID()
 		}
-		var templ_7745c5c3_Var2 = []any{utils.TwMerge("relative inline-block text-left", p.Class)}
+		var templ_7745c5c3_Var2 = []any{util.TwMerge("relative inline-block text-left", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -197,7 +197,7 @@ func Trigger(props ...TriggerProps) templ.Component {
 		if len(props) > 0 {
 			p = props[0]
 		}
-		var templ_7745c5c3_Var6 = []any{utils.TwMerge("inline-block", p.Class)}
+		var templ_7745c5c3_Var6 = []any{util.TwMerge("inline-block", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var6...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -288,7 +288,7 @@ func Content(props ...ContentProps) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var10 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"absolute z-50 rounded-md bg-popover p-1 shadow-md focus:outline-none overflow-auto",
 				"border border-border",
 				"min-w-[8rem]",
@@ -385,7 +385,7 @@ func Group(props ...GroupProps) templ.Component {
 		if len(props) > 0 {
 			p = props[0]
 		}
-		var templ_7745c5c3_Var14 = []any{utils.TwMerge("py-1", p.Class)}
+		var templ_7745c5c3_Var14 = []any{util.TwMerge("py-1", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var14...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -475,7 +475,7 @@ func Label(props ...LabelProps) templ.Component {
 		if len(props) > 0 {
 			p = props[0]
 		}
-		var templ_7745c5c3_Var18 = []any{utils.TwMerge("px-2 py-1.5 text-sm font-semibold", p.Class)}
+		var templ_7745c5c3_Var18 = []any{util.TwMerge("px-2 py-1.5 text-sm font-semibold", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var18...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -566,14 +566,14 @@ func Item(props ...ItemProps) templ.Component {
 			p = props[0]
 		}
 		if p.ID == "" {
-			p.ID = utils.RandomID()
+			p.ID = util.RandomID()
 		}
 		if p.Href != "" {
 			var templ_7745c5c3_Var22 = []any{
-				utils.TwMerge(
+				util.TwMerge(
 					"flex text-left items-center px-2 py-1.5 text-sm rounded-sm",
-					utils.If(!p.Disabled, "focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground cursor-default"),
-					utils.If(p.Disabled, "opacity-50 pointer-events-none"),
+					util.If(!p.Disabled, "focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground cursor-default"),
+					util.If(p.Disabled, "opacity-50 pointer-events-none"),
 					p.Class,
 				),
 			}
@@ -667,10 +667,10 @@ func Item(props ...ItemProps) templ.Component {
 			}
 		} else {
 			var templ_7745c5c3_Var27 = []any{
-				utils.TwMerge(
+				util.TwMerge(
 					"w-full text-left flex items-center justify-between px-2 py-1.5 text-sm rounded-sm",
-					utils.If(!p.Disabled, "focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground cursor-default"),
-					utils.If(p.Disabled, "opacity-50 pointer-events-none"),
+					util.If(!p.Disabled, "focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground cursor-default"),
+					util.If(p.Disabled, "opacity-50 pointer-events-none"),
 					p.Class,
 				),
 			}
@@ -760,7 +760,7 @@ func Separator(props ...SeparatorProps) templ.Component {
 		if len(props) > 0 {
 			p = props[0]
 		}
-		var templ_7745c5c3_Var31 = []any{utils.TwMerge("h-px my-1 -mx-1 bg-muted", p.Class)}
+		var templ_7745c5c3_Var31 = []any{util.TwMerge("h-px my-1 -mx-1 bg-muted", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var31...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -842,7 +842,7 @@ func Shortcut(props ...ShortcutProps) templ.Component {
 		if len(props) > 0 {
 			p = props[0]
 		}
-		var templ_7745c5c3_Var35 = []any{utils.TwMerge("ml-auto text-xs tracking-widest opacity-60", p.Class)}
+		var templ_7745c5c3_Var35 = []any{util.TwMerge("ml-auto text-xs tracking-widest opacity-60", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var35...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -932,7 +932,7 @@ func Sub(props ...SubProps) templ.Component {
 		if len(props) > 0 {
 			p = props[0]
 		}
-		var templ_7745c5c3_Var39 = []any{utils.TwMerge("relative", p.Class)}
+		var templ_7745c5c3_Var39 = []any{util.TwMerge("relative", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var39...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -1023,7 +1023,7 @@ func SubTrigger(props ...SubTriggerProps) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var43 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"w-full text-left flex items-center justify-between px-2 py-1.5 text-sm rounded-sm",
 				"focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground cursor-default",
 				"data-[state=open]:bg-accent data-[state=open]:text-accent-foreground",
@@ -1119,7 +1119,7 @@ func Portal(props ...PortalProps) templ.Component {
 		if len(props) > 0 {
 			p = props[0]
 		}
-		var templ_7745c5c3_Var47 = []any{utils.TwMerge("dropdown-portal", p.Class)}
+		var templ_7745c5c3_Var47 = []any{util.TwMerge("dropdown-portal", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var47...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -1210,7 +1210,7 @@ func SubContent(props ...SubContentProps) templ.Component {
 			p = props[0]
 		}
 		var templ_7745c5c3_Var51 = []any{
-			utils.TwMerge(
+			util.TwMerge(
 				"z-[9999] min-w-[8rem] rounded-md border bg-popover p-1 shadow-lg",
 				p.Class,
 			),

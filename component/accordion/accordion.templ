@@ -2,7 +2,7 @@ package accordion
 
 import (
 	"github.com/axzilla/templui/icon"
-	"github.com/axzilla/templui/utils"
+	"github.com/axzilla/templui/util"
 )
 
 type Props struct {
@@ -39,7 +39,7 @@ templ Accordion(props ...Props) {
 			id={ p.ID }
 		}
 		class={
-			utils.TwMerge(
+			util.TwMerge(
 				"divide-y rounded-md divide-border border",
 				p.Class,
 			),
@@ -61,7 +61,7 @@ templ Item(props ...ItemProps) {
 		}
 		name="accordion"
 		class={
-			utils.TwMerge(
+			util.TwMerge(
 				"group",
 				"open:[&>summary_svg]:rotate-180",
 				p.Class,
@@ -83,7 +83,7 @@ templ Trigger(props ...TriggerProps) {
 			id={ p.ID }
 		}
 		class={
-			utils.TwMerge(
+			util.TwMerge(
 				"flex w-full items-center justify-between py-4 px-5",
 				"text-left font-medium cursor-pointer",
 				"transition-all hover:underline",
@@ -113,7 +113,7 @@ templ Content(props ...ContentProps) {
 			id={ p.ID }
 		}
 		class={
-			utils.TwMerge(
+			util.TwMerge(
 				"px-5 pb-4 pt-0",
 				p.Class,
 			),
