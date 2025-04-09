@@ -1,17 +1,15 @@
 package showcase
 
-import (
-	"github.com/axzilla/templui/components"
-)
+import "github.com/axzilla/templui/components/skeleton"
 
 templ SkeletonCard() {
 	<div class="p-4 w-full max-w-sm">
-		@components.Skeleton(components.SkeletonProps{Class: "h-[200px] w-full rounded-md mb-4"})
+		@skeleton.Skeleton(skeleton.Props{Class: "h-[200px] w-full rounded-md mb-4"})
 		<div class="space-y-2">
-			@components.Skeleton(components.SkeletonProps{Class: "h-5 w-2/3"})
-			@components.Skeleton(components.SkeletonProps{Class: "h-4 w-full"})
-			@components.Skeleton(components.SkeletonProps{Class: "h-4 w-full"})
-			@components.Skeleton(components.SkeletonProps{Class: "h-4 w-3/4"})
+			@skeleton.Skeleton(skeleton.Props{Class: "h-5 w-2/3"})
+			@skeleton.Skeleton(skeleton.Props{Class: "h-4 w-full"})
+			@skeleton.Skeleton(skeleton.Props{Class: "h-4 w-full"})
+			@skeleton.Skeleton(skeleton.Props{Class: "h-4 w-3/4"})
 		</div>
 	</div>
 }

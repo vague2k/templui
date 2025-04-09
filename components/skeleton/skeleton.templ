@@ -1,15 +1,15 @@
-package components
+package skeleton
 
 import "github.com/axzilla/templui/utils"
 
-type SkeletonProps struct {
+type Props struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-templ Skeleton(props ...SkeletonProps) {
-	{{ var p SkeletonProps }}
+templ Skeleton(props ...Props) {
+	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}

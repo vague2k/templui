@@ -19,7 +19,7 @@ templ Skeleton() {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.SkeletonDefault(),
 				PreviewCodeFile:   "skeleton_default.templ",
-				ComponentCodeFile: "skeleton.templ",
+				ComponentCodeFile: "skeleton/skeleton.templ",
 			})
 			@modules.Usage(modules.UsageProps{
 				ComponentName: "Skeleton",
@@ -30,19 +30,19 @@ templ Skeleton() {
 					SectionName:       "Profile",
 					ShowcaseFile:      showcase.SkeletonProfile(),
 					PreviewCodeFile:   "skeleton_profile.templ",
-					ComponentCodeFile: "skeleton.templ",
+					ComponentCodeFile: "skeleton/skeleton.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "Card",
 					ShowcaseFile:      showcase.SkeletonCard(),
 					PreviewCodeFile:   "skeleton_card.templ",
-					ComponentCodeFile: "skeleton.templ",
+					ComponentCodeFile: "skeleton/skeleton.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "Dashboard",
 					ShowcaseFile:      showcase.SkeletonDashboard(),
 					PreviewCodeFile:   "skeleton_dashboard.templ",
-					ComponentCodeFile: "skeleton.templ",
+					ComponentCodeFile: "skeleton/skeleton.templ",
 				})
 			}
 		}
