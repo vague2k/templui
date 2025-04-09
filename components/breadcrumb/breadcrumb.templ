@@ -1,45 +1,45 @@
-package components
+package breadcrumb
 
 import (
 	"github.com/axzilla/templui/icons"
 	"github.com/axzilla/templui/utils"
 )
 
-type BreadcrumbProps struct {
+type Props struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-type BreadcrumbListProps struct {
+type ListProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-type BreadcrumbItemProps struct {
+type ItemProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 	Current    bool
 }
 
-type BreadcrumbLinkProps struct {
+type LinkProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 	Href       string
 }
 
-type BreadcrumbSeparatorProps struct {
+type SeparatorProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 	UseCustom  bool
 }
 
-templ Breadcrumb(props ...BreadcrumbProps) {
-	{{ var p BreadcrumbProps }}
+templ Breadcrumb(props ...Props) {
+	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -60,8 +60,8 @@ templ Breadcrumb(props ...BreadcrumbProps) {
 	</nav>
 }
 
-templ BreadcrumbList(props ...BreadcrumbListProps) {
-	{{ var p BreadcrumbListProps }}
+templ List(props ...ListProps) {
+	{{ var p ListProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -81,8 +81,8 @@ templ BreadcrumbList(props ...BreadcrumbListProps) {
 	</ol>
 }
 
-templ BreadcrumbItem(props ...BreadcrumbItemProps) {
-	{{ var p BreadcrumbItemProps }}
+templ Item(props ...ItemProps) {
+	{{ var p ItemProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -102,8 +102,8 @@ templ BreadcrumbItem(props ...BreadcrumbItemProps) {
 	</li>
 }
 
-templ BreadcrumbLink(props ...BreadcrumbLinkProps) {
-	{{ var p BreadcrumbLinkProps }}
+templ Link(props ...LinkProps) {
+	{{ var p LinkProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -126,8 +126,8 @@ templ BreadcrumbLink(props ...BreadcrumbLinkProps) {
 	</a>
 }
 
-templ BreadcrumbSeparator(props ...BreadcrumbSeparatorProps) {
-	{{ var p BreadcrumbSeparatorProps }}
+templ Separator(props ...SeparatorProps) {
+	{{ var p SeparatorProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -151,8 +151,8 @@ templ BreadcrumbSeparator(props ...BreadcrumbSeparatorProps) {
 	</span>
 }
 
-templ BreadcrumbPage(props ...BreadcrumbItemProps) {
-	{{ var p BreadcrumbItemProps }}
+templ Page(props ...ItemProps) {
+	{{ var p ItemProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}

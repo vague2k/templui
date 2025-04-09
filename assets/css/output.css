@@ -412,6 +412,9 @@
       max-width: 96rem;
     }
   }
+  .m-8 {
+    margin: calc(var(--spacing) * 8);
+  }
   .-mx-1 {
     margin-inline: calc(var(--spacing) * -1);
   }
@@ -528,6 +531,9 @@
   }
   .aspect-\[3\/4\] {
     aspect-ratio: 3/4;
+  }
+  .aspect-auto {
+    aspect-ratio: auto;
   }
   .aspect-square {
     aspect-ratio: 1 / 1;
@@ -1717,9 +1723,6 @@
   .select-none {
     -webkit-user-select: none;
     user-select: none;
-  }
-  .\[h\:�ʬ�\e ��\1f \19 _���t�c��N��z\1d �\] {
-    h: �ʬ��� ���t�c��N��z�;
   }
   .group-hover\:translate-x-0 {
     &:is(:where(.group):hover *) {
