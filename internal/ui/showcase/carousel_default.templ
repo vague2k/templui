@@ -1,25 +1,25 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import "github.com/axzilla/templui/component/carousel"
 
 templ CarouselDefault() {
-	@components.Carousel(components.CarouselProps{
+	@carousel.Carousel(carousel.Props{
 		Class: "rounded-md",
 	}) {
-		@components.CarouselContent() {
-			@components.CarouselItem() {
+		@carousel.Content() {
+			@carousel.Item() {
 				@CarouselSlide("Slide 1", "This is the first slide", "bg-blue-500")
 			}
-			@components.CarouselItem() {
+			@carousel.Item() {
 				@CarouselSlide("Slide 2", "This is the second slide", "bg-green-500")
 			}
-			@components.CarouselItem() {
+			@carousel.Item() {
 				@CarouselSlide("Slide 3", "This is the third slide", "bg-purple-500")
 			}
 		}
-		@components.CarouselPrevious()
-		@components.CarouselNext()
-		@components.CarouselIndicators(components.CarouselIndicatorsProps{
+		@carousel.Previous()
+		@carousel.Next()
+		@carousel.Indicators(carousel.IndicatorsProps{
 			Count: 3,
 		})
 	}

@@ -1,7 +1,7 @@
 package pages
 
 import (
-	"github.com/axzilla/templui/components"
+	"github.com/axzilla/templui/component/card"
 	"github.com/axzilla/templui/internal/ui/layouts"
 	"github.com/axzilla/templui/internal/ui/modules"
 	"github.com/axzilla/templui/internal/ui/showcase"
@@ -21,19 +21,19 @@ templ Form() {
 				SectionName:       "",
 				ShowcaseFile:      showcase.InputForm(),
 				PreviewCodeFile:   "input_form.templ",
-				ComponentCodeFile: "form.templ",
+				ComponentCodeFile: "form/form.templ",
 			})
 			<div>
-				@components.Card() {
-					@components.CardHeader() {
-						@components.CardTitle() {
+				@card.Card() {
+					@card.Header() {
+						@card.Title() {
 							Usage
 						}
-						@components.CardDescription() {
+						@card.Description() {
 							Form elements are composed using a set of helper components that enhance the following form controls:
 						}
 					}
-					@components.CardContent() {
+					@card.Content() {
 						<ul class="list-disc pl-6 space-y-2">
 							<li>
 								<a href="/docs/components/checkbox#form" class="font-medium hover:underline">Checkbox</a>

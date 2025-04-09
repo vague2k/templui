@@ -1,47 +1,45 @@
 package showcase
 
-import (
-	"github.com/axzilla/templui/components"
-)
+import "github.com/axzilla/templui/component/pagination"
 
 templ PaginationDefault() {
-	@components.Pagination(components.PaginationProps{
+	@pagination.Pagination(pagination.Props{
 		Class: "mt-8",
 	}) {
-		@components.PaginationContent() {
-			@components.PaginationItem() {
-				@components.PaginationPrevious(components.PaginationPreviousProps{
+		@pagination.Content() {
+			@pagination.Item() {
+				@pagination.Previous(pagination.PreviousProps{
 					Href:     "?page=1",
 					Disabled: false,
 				})
 			}
-			@components.PaginationItem() {
-				@components.PaginationLink(components.PaginationLinkProps{
+			@pagination.Item() {
+				@pagination.Link(pagination.LinkProps{
 					Href: "?page=1",
 				}) {
 					1
 				}
 			}
-			@components.PaginationItem() {
-				@components.PaginationLink(components.PaginationLinkProps{
+			@pagination.Item() {
+				@pagination.Link(pagination.LinkProps{
 					Href:     "?page=2",
 					IsActive: true,
 				}) {
 					2
 				}
 			}
-			@components.PaginationItem() {
-				@components.PaginationLink(components.PaginationLinkProps{
+			@pagination.Item() {
+				@pagination.Link(pagination.LinkProps{
 					Href: "?page=3",
 				}) {
 					3
 				}
 			}
-			@components.PaginationItem() {
-				@components.PaginationEllipsis()
+			@pagination.Item() {
+				@pagination.Ellipsis()
 			}
-			@components.PaginationItem() {
-				@components.PaginationNext(components.PaginationNextProps{
+			@pagination.Item() {
+				@pagination.Next(pagination.NextProps{
 					Href: "?page=3",
 				})
 			}

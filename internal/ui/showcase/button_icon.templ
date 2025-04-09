@@ -1,15 +1,15 @@
 package showcase
 
 import (
-	"github.com/axzilla/templui/components"
-	"github.com/axzilla/templui/icons"
+	"github.com/axzilla/templui/component/button"
+	"github.com/axzilla/templui/icon"
 )
 
 templ ButtonIcon() {
-	@components.Button(components.ButtonProps{
-		Size:    components.ButtonSizeIcon,
-		Variant: components.ButtonVariantOutline,
+	@button.Button(button.Props{
+		Size:    button.SizeIcon,
+		Variant: button.VariantOutline,
 	}) {
-		@icons.ChevronRight(icons.IconProps{Size: 16})
+		@icon.ChevronRight(icon.Props{Size: 16})
 	}
 }

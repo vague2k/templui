@@ -19,38 +19,31 @@ templ Input() {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.InputDefault(),
 				PreviewCodeFile:   "input_default.templ",
-				ComponentCodeFile: "input.templ",
-			})
-			@modules.Usage(modules.UsageProps{
-				ComponentName: "Input",
-				PropsExample:  "...",
+				ComponentCodeFile: "input/input.templ",
 			})
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "File",
-					ShowcaseFile:      showcase.InputFile(),
-					PreviewCodeFile:   "input_file.templ",
-					ComponentCodeFile: "input.templ",
+					SectionName:     "File",
+					ShowcaseFile:    showcase.InputFile(),
+					PreviewCodeFile: "input_file.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Disabled",
-					ShowcaseFile:      showcase.InputDisabled(),
-					PreviewCodeFile:   "input_disabled.templ",
-					ComponentCodeFile: "input.templ",
+					SectionName:     "Disabled",
+					ShowcaseFile:    showcase.InputDisabled(),
+					PreviewCodeFile: "input_disabled.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "With Label",
-					ShowcaseFile:      showcase.InputWithLabel(),
-					PreviewCodeFile:   "input_with_label.templ",
-					ComponentCodeFile: "input.templ",
-					ID:                "label",
+					SectionName:     "With Label",
+					ShowcaseFile:    showcase.InputWithLabel(),
+					PreviewCodeFile: "input_with_label.templ",
+				
+					ID: "label",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Form",
-					ShowcaseFile:      showcase.InputForm(),
-					PreviewCodeFile:   "input_form.templ",
-					ComponentCodeFile: "input.templ",
-					ID:                "form",
+					SectionName:     "Form",
+					ShowcaseFile:    showcase.InputForm(),
+					PreviewCodeFile: "input_form.templ",
+					ID:              "form",
 				})
 			}
 		}

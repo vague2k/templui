@@ -1,20 +1,20 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import "github.com/axzilla/templui/component/progress"
 
 templ ProgressColors() {
 	<div class="space-y-6 w-full max-w-xs">
-		@components.Progress(components.ProgressProps{
+		@progress.Progress(progress.Props{
 			Value:   50,
-			Variant: components.ProgressVariantSuccess,
+			Variant: progress.VariantSuccess,
 		})
-		@components.Progress(components.ProgressProps{
+		@progress.Progress(progress.Props{
 			Value:   75,
-			Variant: components.ProgressVariantDanger,
+			Variant: progress.VariantDanger,
 		})
-		@components.Progress(components.ProgressProps{
+		@progress.Progress(progress.Props{
 			Value:   90,
-			Variant: components.ProgressVariantWarning,
+			Variant: progress.VariantWarning,
 		})
 	</div>
 }

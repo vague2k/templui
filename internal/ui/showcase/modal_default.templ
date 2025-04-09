@@ -1,39 +1,42 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import (
+	"github.com/axzilla/templui/component/button"
+	"github.com/axzilla/templui/component/modal"
+)
 
 templ ModalDefault() {
-	@components.ModalTrigger(components.ModalTriggerProps{
+	@modal.Trigger(modal.TriggerProps{
 		ModalID: "default-modal",
 	}) {
-		@components.Button() {
+		@button.Button() {
 			Open Modal
 		}
 	}
-	@components.Modal(components.ModalProps{
+	@modal.Modal(modal.Props{
 		ID:    "default-modal",
 		Class: "max-w-md",
 	}) {
-		@components.ModalHeader() {
+		@modal.Header() {
 			Are you absolutely sure?
 		}
-		@components.ModalBody() {
+		@modal.Body() {
 			This action cannot be undone. This will permanently delete your account and remove your data from our servers.				
 		}
-		@components.ModalFooter() {
+		@modal.Footer() {
 			<div class="flex gap-2">
-				@components.ModalClose(components.ModalCloseProps{
+				@modal.Close(modal.CloseProps{
 					ModalID: "default-modal",
 				}) {
-					@components.Button() {
+					@button.Button() {
 						Cancel
 					}
 				}
-				@components.ModalClose(components.ModalCloseProps{
+				@modal.Close(modal.CloseProps{
 					ModalID: "default-modal",
 				}) {
-					@components.Button(components.ButtonProps{
-						Variant: components.ButtonVariantSecondary,
+					@button.Button(button.Props{
+						Variant: button.VariantSecondary,
 					}) {
 						Continue
 					}

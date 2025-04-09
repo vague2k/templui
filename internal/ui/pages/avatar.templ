@@ -19,36 +19,28 @@ templ Avatar() {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.AvatarDefault(),
 				PreviewCodeFile:   "avatar_default.templ",
-				ComponentCodeFile: "avatar.templ",
-			})
-			@modules.Usage(modules.UsageProps{
-				ComponentName: "Avatar",
-				PropsExample:  "...",
+				ComponentCodeFile: "avatar/avatar.templ",
 			})
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Fallback",
-					ShowcaseFile:      showcase.AvatarFallback(),
-					PreviewCodeFile:   "avatar_fallback.templ",
-					ComponentCodeFile: "avatar.templ",
+					SectionName:     "Fallback",
+					ShowcaseFile:    showcase.AvatarFallback(),
+					PreviewCodeFile: "avatar_fallback.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Sizes",
-					ShowcaseFile:      showcase.AvatarSizes(),
-					PreviewCodeFile:   "avatar_sizes.templ",
-					ComponentCodeFile: "avatar.templ",
+					SectionName:     "Sizes",
+					ShowcaseFile:    showcase.AvatarSizes(),
+					PreviewCodeFile: "avatar_sizes.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "With Icon",
-					ShowcaseFile:      showcase.AvatarWithIcon(),
-					PreviewCodeFile:   "avatar_with_icon.templ",
-					ComponentCodeFile: "avatar.templ",
+					SectionName:     "With Icon",
+					ShowcaseFile:    showcase.AvatarWithIcon(),
+					PreviewCodeFile: "avatar_with_icon.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Group",
-					ShowcaseFile:      showcase.AvatarGroup(),
-					PreviewCodeFile:   "avatar_group.templ",
-					ComponentCodeFile: "avatar.templ",
+					SectionName:     "Group",
+					ShowcaseFile:    showcase.AvatarGroup(),
+					PreviewCodeFile: "avatar_group.templ",
 				})
 			}
 		}

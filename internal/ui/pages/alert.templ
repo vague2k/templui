@@ -19,18 +19,13 @@ templ Alert() {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.AlertDefault(),
 				PreviewCodeFile:   "alert_default.templ",
-				ComponentCodeFile: "alert.templ",
-			})
-			@modules.Usage(modules.UsageProps{
-				ComponentName: "Alert",
-				PropsExample:  "...",
+				ComponentCodeFile: "alert/alert.templ",
 			})
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Destructive",
-					ShowcaseFile:      showcase.AlertDestructive(),
-					PreviewCodeFile:   "alert_destructive.templ",
-					ComponentCodeFile: "alert.templ",
+					SectionName:     "Destructive",
+					ShowcaseFile:    showcase.AlertDestructive(),
+					PreviewCodeFile: "alert_destructive.templ",
 				})
 			}
 		}

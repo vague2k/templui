@@ -19,44 +19,36 @@ templ Checkbox() {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.CheckboxDefault(),
 				PreviewCodeFile:   "checkbox_default.templ",
-				ComponentCodeFile: "checkbox.templ",
-			})
-			@modules.Usage(modules.UsageProps{
-				ComponentName: "Checkbox",
-				PropsExample:  "...",
+				ComponentCodeFile: "checkbox/checkbox.templ",
 			})
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Checked",
-					ShowcaseFile:      showcase.CheckboxChecked(),
-					PreviewCodeFile:   "checkbox_checked.templ",
-					ComponentCodeFile: "checkbox.templ",
+					SectionName:     "Checked",
+					ShowcaseFile:    showcase.CheckboxChecked(),
+					PreviewCodeFile: "checkbox_checked.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "With Label",
-					ShowcaseFile:      showcase.CheckboxWithLabel(),
-					PreviewCodeFile:   "checkbox_with_label.templ",
-					ComponentCodeFile: "checkbox.templ",
-					ID:                "label",
+					SectionName:     "With Label",
+					ShowcaseFile:    showcase.CheckboxWithLabel(),
+					PreviewCodeFile: "checkbox_with_label.templ",
+				
+					ID: "label",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Disabled",
-					ShowcaseFile:      showcase.CheckboxDisabled(),
-					PreviewCodeFile:   "checkbox_disabled.templ",
-					ComponentCodeFile: "checkbox.templ",
+					SectionName:     "Disabled",
+					ShowcaseFile:    showcase.CheckboxDisabled(),
+					PreviewCodeFile: "checkbox_disabled.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Custom Icon",
-					ShowcaseFile:      showcase.CheckboxCustomIcon(),
-					PreviewCodeFile:   "checkbox_custom_icon.templ",
-					ComponentCodeFile: "checkbox.templ",
+					SectionName:     "Custom Icon",
+					ShowcaseFile:    showcase.CheckboxCustomIcon(),
+					PreviewCodeFile: "checkbox_custom_icon.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Form",
-					ShowcaseFile:      showcase.CheckboxForm(),
-					PreviewCodeFile:   "checkbox_form.templ",
-					ComponentCodeFile: "checkbox.templ",
-					ID:                "form",
+					SectionName:     "Form",
+					ShowcaseFile:    showcase.CheckboxForm(),
+					PreviewCodeFile: "checkbox_form.templ",
+					ID:              "form",
 				})
 			}
 		}

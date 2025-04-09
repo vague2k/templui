@@ -1,24 +1,27 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import (
+	"github.com/axzilla/templui/component/datepicker"
+	"github.com/axzilla/templui/component/form"
+)
 
 templ DatePickerForm() {
 	<div class="w-full max-w-sm">
-		@components.FormItem() {
-			@components.FormLabel(components.FormLabelProps{
+		@form.Item() {
+			@form.Label(form.LabelProps{
 				For: "date-picker-form",
 			}) {
 				Select a date
 			}
-			@components.DatePicker(components.DatePickerProps{
+			@datepicker.DatePicker(datepicker.Props{
 				ID:       "date-picker-form",
 				HasError: true,
 			})
-			@components.FormDescription() {
+			@form.Description() {
 				Select a date from the calendar.
 			}
-			@components.FormMessage(components.FormMessageProps{
-				Variant: components.FormMessageVariantError,
+			@form.Message(form.MessageProps{
+				Variant: form.MessageVariantError,
 			}) {
 				Select a valid date
 			}

@@ -1,15 +1,18 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import (
+	"github.com/axzilla/templui/component/card"
+	"github.com/axzilla/templui/component/chart"
+)
 
 templ ChartPieStacked() {
-	@components.Card(components.CardProps{Class: "max-w-sm"}) {
-		@components.CardContent() {
-			@components.Chart(components.ChartProps{
-				Variant: components.ChartVariantPie,
-				Data: components.ChartData{
+	@card.Card(card.Props{Class: "max-w-sm"}) {
+		@card.Content() {
+			@chart.Chart(chart.Props{
+				Variant: chart.VariantPie,
+				Data: chart.Data{
 					Labels: []string{"Jan", "Feb", "March", "April", "May", "June"},
-					Datasets: []components.ChartDataset{
+					Datasets: []chart.Dataset{
 						{
 							Data:  []float64{3, 9, 3, 12, 7, 8},
 							Label: "Mobile",

@@ -20,51 +20,45 @@ templ InputOtp() {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.InputOTPDefault(),
 				PreviewCodeFile:   "input_otp_default.templ",
-				ComponentCodeFile: "otp_input.templ",
+				ComponentCodeFile: "inputotp/input_otp.templ",
 			})
 			@modules.Usage(modules.UsageProps{
 				ComponentName: "InputOTP",
 				NeedsHandler:  true,
-				PropsExample:  "...",
 			})
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Placeholder",
-					ShowcaseFile:      showcase.InputOTPPlaceholder(),
-					PreviewCodeFile:   "input_otp_placeholder.templ",
-					ComponentCodeFile: "otp_input.templ",
+					SectionName:     "Placeholder",
+					ShowcaseFile:    showcase.InputOTPPlaceholder(),
+					PreviewCodeFile: "input_otp_placeholder.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "With Label",
-					ShowcaseFile:      showcase.InputOTPWithLabel(),
-					PreviewCodeFile:   "input_otp_with_lael.templ",
-					ComponentCodeFile: "otp_input.templ",
-					ID:                "label",
+					SectionName:     "With Label",
+					ShowcaseFile:    showcase.InputOTPWithLabel(),
+					PreviewCodeFile: "input_otp_with_lael.templ",
+				
+					ID: "label",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Custom Length",
-					ShowcaseFile:      showcase.InputOTPCustomLength(),
-					PreviewCodeFile:   "input_otp_custom_length.templ",
-					ComponentCodeFile: "otp_input.templ",
+					SectionName:     "Custom Length",
+					ShowcaseFile:    showcase.InputOTPCustomLength(),
+					PreviewCodeFile: "input_otp_custom_length.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Password Type",
-					ShowcaseFile:      showcase.InputOTPPasswordType(),
-					PreviewCodeFile:   "input_otp_password_type.templ",
-					ComponentCodeFile: "otp_input.templ",
+					SectionName:     "Password Type",
+					ShowcaseFile:    showcase.InputOTPPasswordType(),
+					PreviewCodeFile: "input_otp_password_type.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Custom Styling",
-					ShowcaseFile:      showcase.InputOTPCustomStyling(),
-					PreviewCodeFile:   "input_otp_custom_styling.templ",
-					ComponentCodeFile: "otp_input.templ",
+					SectionName:     "Custom Styling",
+					ShowcaseFile:    showcase.InputOTPCustomStyling(),
+					PreviewCodeFile: "input_otp_custom_styling.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Form",
-					ShowcaseFile:      showcase.InputOTPForm(),
-					PreviewCodeFile:   "input_otp_form.templ",
-					ComponentCodeFile: "otp_input.templ",
-					ID:                "form",
+					SectionName:     "Form",
+					ShowcaseFile:    showcase.InputOTPForm(),
+					PreviewCodeFile: "input_otp_form.templ",
+					ID:              "form",
 				})
 			}
 		}

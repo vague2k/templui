@@ -1,31 +1,35 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import (
+	"github.com/axzilla/templui/component/aspectratio"
+	"github.com/axzilla/templui/component/button"
+	"github.com/axzilla/templui/component/card"
+)
 
 templ CardImageTop() {
 	<div class="w-full max-w-sm">
-		@components.Card() {
-			@components.CardMedia(components.CardMediaProps{
+		@card.Card() {
+			@card.Media(card.MediaProps{
 				ID:          "top-media",
 				Alt:         "Card image",
-				Position:    components.CardMediaTop,
-				AspectRatio: components.AspectRatioVideo,
+				Position:    card.MediaPositionTop,
+				AspectRatio: aspectratio.RatioVideo,
 				Src:         "/assets/img/card_placeholder.jpeg",
 			},
 			)
-			@components.CardHeader() {
-				@components.CardTitle() {
+			@card.Header() {
+				@card.Title() {
 					Featured Card
 				}
-				@components.CardDescription() {
+				@card.Description() {
 					With top image
 				}
 			}
-			@components.CardContent() {
+			@card.Content() {
 				<p>This card shows top image usage.</p>
 			}
-			@components.CardFooter() {
-				@components.Button() {
+			@card.Footer() {
+				@button.Button() {
 					Learn more
 				}
 			}

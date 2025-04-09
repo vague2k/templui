@@ -1,83 +1,83 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import "github.com/axzilla/templui/component/table"
 
 templ Table() {
-	@components.Table() {
-		@components.TableCaption() {
+	@table.Table() {
+		@table.Caption() {
 			A list of your recent hires.
 		}
-		@components.TableHeader() {
-			@components.TableRow() {
-				@components.TableHead() {
+		@table.Header() {
+			@table.Row() {
+				@table.Head() {
 					Name 
 				}
-				@components.TableHead() {
+				@table.Head() {
 					Role 
 				}
-				@components.TableHead() {
+				@table.Head() {
 					Status 
 				}
-				@components.TableHead() {
+				@table.Head() {
 					Actions 
 				}
 			}
 		}
-		@components.TableBody() {
-			@components.TableRow() {
-				@components.TableCell() {
+		@table.Body() {
+			@table.Row() {
+				@table.Cell() {
 					John Doe 
 				}
-				@components.TableCell() {
+				@table.Cell() {
 					Software Engineer 
 				}
-				@components.TableCell() {
+				@table.Cell() {
 					Active 
 				}
-				@components.TableCell() {
+				@table.Cell() {
 					Edit 
 				}
 			}
-			@components.TableRow() {
-				@components.TableCell() {
+			@table.Row() {
+				@table.Cell() {
 					Jane Smith 
 				}
-				@components.TableCell() {
+				@table.Cell() {
 					Designer 
 				}
-				@components.TableCell() {
+				@table.Cell() {
 					Active 
 				}
-				@components.TableCell() {
+				@table.Cell() {
 					Edit 
 				}
 			}
-			@components.TableRow() {
-				@components.TableCell() {
+			@table.Row() {
+				@table.Cell() {
 					Bob Johnson 
 				}
-				@components.TableCell() {
+				@table.Cell() {
 					Product Manager 
 				}
-				@components.TableCell() {
+				@table.Cell() {
 					Inactive 
 				}
-				@components.TableCell() {
+				@table.Cell() {
 					Edit 
 				}
 			}
-			@components.TableFooter() {
-				@components.TableRow() {
-					@components.TableHead() {
+			@table.Footer() {
+				@table.Row() {
+					@table.Head() {
 						3 items 
 					}
-					@components.TableHead() {
+					@table.Head() {
 						1 page 
 					}
-					@components.TableHead() {
+					@table.Head() {
 						1-3 of 3 
 					}
-					@components.TableHead() {
+					@table.Head() {
 						Next 
 					}
 				}

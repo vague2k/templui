@@ -1,11 +1,11 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import "github.com/axzilla/templui/component/avatar"
 
 templ AvatarFallback() {
-	@components.Avatar() {
-		@components.AvatarFallback() {
-			{ components.AvatarInitials("John Doe") }
+	@avatar.Avatar() {
+		@avatar.Fallback() {
+			{ avatar.Initials("John Doe") }
 		}
 	}
 }

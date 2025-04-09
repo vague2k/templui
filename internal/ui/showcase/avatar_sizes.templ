@@ -1,25 +1,25 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import "github.com/axzilla/templui/component/avatar"
 
 templ AvatarSizes() {
 	<div class="flex flex-wrap gap-2">
-		@components.Avatar(components.AvatarProps{
-			Size: components.AvatarSizeSmall,
+		@avatar.Avatar(avatar.Props{
+			Size: avatar.SizeSm,
 		}) {
-			@components.AvatarImage(components.AvatarImageProps{
+			@avatar.Image(avatar.ImageProps{
 				Src: "https://avatars.githubusercontent.com/u/26936893?v=4",
 			})
 		}
-		@components.Avatar() {
-			@components.AvatarImage(components.AvatarImageProps{
+		@avatar.Avatar() {
+			@avatar.Image(avatar.ImageProps{
 				Src: "https://avatars.githubusercontent.com/u/26936893?v=4",
 			})
 		}
-		@components.Avatar(components.AvatarProps{
-			Size: components.AvatarSizeLarge,
+		@avatar.Avatar(avatar.Props{
+			Size: avatar.SizeLg,
 		}) {
-			@components.AvatarImage(components.AvatarImageProps{
+			@avatar.Image(avatar.ImageProps{
 				Src: "https://avatars.githubusercontent.com/u/26936893?v=4",
 			})
 		}

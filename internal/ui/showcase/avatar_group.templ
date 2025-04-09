@@ -1,36 +1,36 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import "github.com/axzilla/templui/component/avatar"
 
 templ AvatarGroup() {
-	@components.AvatarGroup(components.AvatarGroupProps{
-		Spacing: components.AvatarGroupSpacingLarge,
+	@avatar.Group(avatar.GroupProps{
+		Spacing: avatar.GroupSpacingLg,
 	}) {
-		@components.Avatar(components.AvatarProps{
+		@avatar.Avatar(avatar.Props{
 			InGroup: true,
 		}) {
-			@components.AvatarImage(components.AvatarImageProps{
+			@avatar.Image(avatar.ImageProps{
 				Src: "https://avatars.githubusercontent.com/u/26936893?v=4",
 			})
 		}
-		@components.Avatar(components.AvatarProps{
+		@avatar.Avatar(avatar.Props{
 			InGroup: true,
 		}) {
-			@components.AvatarImage(components.AvatarImageProps{
+			@avatar.Image(avatar.ImageProps{
 				Src: "https://avatars.githubusercontent.com/u/26936893?v=4",
 			})
 		}
-		@components.Avatar(components.AvatarProps{
+		@avatar.Avatar(avatar.Props{
 			InGroup: true,
 		}) {
-			@components.AvatarImage(components.AvatarImageProps{
+			@avatar.Image(avatar.ImageProps{
 				Src: "https://avatars.githubusercontent.com/u/26936893?v=4",
 			})
 		}
-		@components.AvatarGroupOverflow(2, components.AvatarProps{
+		@avatar.GroupOverflow(2, avatar.Props{
 			InGroup: true,
 		}) {
-			@components.AvatarImage(components.AvatarImageProps{
+			@avatar.Image(avatar.ImageProps{
 				Src: "https://avatars.githubusercontent.com/u/26936893?v=4",
 			})
 		}

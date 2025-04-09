@@ -1,9 +1,10 @@
 package pages
 
 import (
-	"github.com/axzilla/templui/components"
-	"github.com/axzilla/templui/icons"
-	wrappedicons "github.com/axzilla/templui/internal/ui/icons"
+	"github.com/axzilla/templui/component/badge"
+	"github.com/axzilla/templui/component/button"
+	"github.com/axzilla/templui/icon"
+	wrappedicon "github.com/axzilla/templui/internal/ui/icons"
 	"github.com/axzilla/templui/internal/ui/layouts"
 	"github.com/axzilla/templui/internal/ui/modules"
 )
@@ -22,18 +23,18 @@ templ Landing() {
 				<div class="flex flex-col items-center gap-4 mb-8">
 					<div class="flex flex-wrap justify-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
 						<span class="flex items-center gap-1">
-							@components.Badge(components.BadgeProps{
-								Variant: components.BadgeVariantSecondary,
+							@badge.Badge(badge.Props{
+								Variant: badge.VariantSecondary,
 							}) {
-								@wrappedicons.Tailwind(16)
+								@wrappedicon.Tailwind(16)
 								TailwindCSS
 							}
 						</span>
 						<span class="flex items-center gap-1">
-							@components.Badge(components.BadgeProps{
-								Variant: components.BadgeVariantSecondary,
+							@badge.Badge(badge.Props{
+								Variant: badge.VariantSecondary,
 							}) {
-								@wrappedicons.Alpine(16)
+								@wrappedicon.Alpine(16)
 								Alpine.js
 							}
 						</span>
@@ -48,22 +49,22 @@ templ Landing() {
 					Clean, typesafe, and endlessly adaptable.
 				</p>
 				<div class="flex gap-2 justify-center flex-wrap">
-					@components.Button(components.ButtonProps{
+					@button.Button(button.Props{
 						Href:  "/docs/components",
 						Size:  "lg",
 						Class: "flex gap-2 w-full md:w-auto",
 					}) {
 						Explore Components
-						@icons.ArrowRight(icons.IconProps{Size: 16})
+						@icon.ArrowRight(icon.Props{Size: 16})
 					}
-					@components.Button(components.ButtonProps{
+					@button.Button(button.Props{
 						Href:    "https://github.com/axzilla/templui",
 						Target:  "_blank",
 						Size:    "lg",
-						Variant: "secondary",
+						Variant: button.VariantSecondary,
 						Class:   "flex gap-2 w-full md:w-auto",
 					}) {
-						@icons.ExternalLink(icons.IconProps{Size: 16})
+						@icon.ExternalLink(icon.Props{Size: 16})
 						View on GitHub
 					}
 				</div>

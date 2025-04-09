@@ -1,10 +1,13 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import (
+	"github.com/axzilla/templui/component/label"
+	"github.com/axzilla/templui/component/slider"
+)
 
 templ SliderDisabled() {
 	<div class="w-full max-w-sm">
-		@components.Slider(components.SliderProps{
+		@slider.Slider(slider.Props{
 			ID:       "slider-disabled",
 			Name:     "slider-disabled",
 			Value:    20,
@@ -14,14 +17,14 @@ templ SliderDisabled() {
 			Disabled: true,
 		}) {
 			<div class="flex justify-between items-center mb-1">
-				@components.Label() {
+				@label.Label() {
 					Volume
 				}
-				@components.SliderValue(components.SliderValueProps{
+				@slider.Value(slider.ValueProps{
 					For: "slider-disabled",
 				})
 			</div>
-			@components.SliderInput(components.SliderProps{
+			@slider.Input(slider.Props{
 				ID:       "slider-disabled",
 				Name:     "slider-disabled",
 				Value:    20,

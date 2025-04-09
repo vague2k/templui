@@ -1,8 +1,16 @@
 package pages
 
 import (
-	"github.com/axzilla/templui/components"
-	"github.com/axzilla/templui/icons"
+	"github.com/axzilla/templui/component/button"
+	"github.com/axzilla/templui/component/card"
+	"github.com/axzilla/templui/component/checkbox"
+	"github.com/axzilla/templui/component/datepicker"
+	"github.com/axzilla/templui/component/form"
+	"github.com/axzilla/templui/component/input"
+	"github.com/axzilla/templui/component/modal"
+	"github.com/axzilla/templui/component/radio"
+	"github.com/axzilla/templui/component/toggle"
+	"github.com/axzilla/templui/icon"
 	"github.com/axzilla/templui/internal/ui/layouts"
 	"github.com/axzilla/templui/internal/ui/modules"
 )
@@ -658,14 +666,14 @@ templ Themes() {
 							<div class="font-semibold">Customize</div>
 							<div class="text-xs text-muted-foreground">Pick a style and color for your components.</div>
 						</div>
-						@components.Button(components.ButtonProps{
-							Size:    components.ButtonSizeIcon,
-							Variant: components.ButtonVariantOutline,
+						@button.Button(button.Props{
+							Size:    button.SizeIcon,
+							Variant: button.VariantOutline,
 							Attributes: templ.Attributes{
 								"@click": "resetTheme",
 							},
 						}) {
-							@icons.RotateCcw(icons.IconProps{Size: 14})
+							@icon.RotateCcw(icon.Props{Size: 14})
 						}
 					</div>
 					@ThemeCustomizer(ThemeCustomizerProps{
@@ -688,156 +696,156 @@ templ Themes() {
 
 templ ThemePreview() {
 	<div id="theme-preview" class="theme-preview p-6 border rounded-lg">
-		@components.Card() {
-			@components.CardHeader() {
-				@components.CardTitle() {
+		@card.Card() {
+			@card.Header() {
+				@card.Title() {
 					User Registration 
 				}
-				@components.CardDescription() {
+				@card.Description() {
 					Please fill out the form below to create your account. 
 				}
 			}
-			@components.CardContent() {
+			@card.Content() {
 				<form class="space-y-4">
-					@components.FormItem() {
-						@components.FormLabel(components.FormLabelProps{
+					@form.Item() {
+						@form.Label(form.LabelProps{
 							For: "username",
 						}) {
 							Username
 						}
-						@components.Input(components.InputProps{
+						@input.Input(input.Props{
 							ID:          "username",
-							Type:        components.InputTypeText,
+							Type:        input.TypeText,
 							Placeholder: "Enter your username",
 						})
 					}
-					@components.FormItem() {
-						@components.FormLabel(components.FormLabelProps{
+					@form.Item() {
+						@form.Label(form.LabelProps{
 							For: "email",
 						}) {
 							Email
 						}
-						@components.Input(components.InputProps{
+						@input.Input(input.Props{
 							ID:          "email",
-							Type:        components.InputTypeEmail,
+							Type:        input.TypeEmail,
 							Placeholder: "Enter your email",
 						})
 					}
-					@components.FormItem() {
-						@components.FormLabel(components.FormLabelProps{
+					@form.Item() {
+						@form.Label(form.LabelProps{
 							For: "password",
 						}) {
 							Password
 						}
-						@components.Input(components.InputProps{
+						@input.Input(input.Props{
 							ID:          "password",
-							Type:        components.InputTypePassword,
+							Type:        input.TypePassword,
 							Placeholder: "Enter your password",
 						})
 					}
-					@components.FormItem() {
-						@components.FormLabel(components.FormLabelProps{
+					@form.Item() {
+						@form.Label(form.LabelProps{
 							For: "birthdate",
 						}) {
 							Birth Date
 						}
-						@components.DatePicker(components.DatePickerProps{
+						@datepicker.DatePicker(datepicker.Props{
 							ID:          "birthdate",
 							Placeholder: "Select your birth date",
 						})
 					}
-					@components.FormItem() {
+					@form.Item() {
 						<p class="text-sm text-muted-foreground">Contact Method</p>
-						@components.FormItemFlex() {
-							@components.Radio(components.RadioProps{
+						@form.ItemFlex() {
+							@radio.Radio(radio.Props{
 								ID:   "contact-email",
 								Name: "contact-method",
 							})
-							@components.FormLabel(components.FormLabelProps{
+							@form.Label(form.LabelProps{
 								For: "contact-email",
 							}) {
 								Email
 							}
 						}
-						@components.FormItemFlex() {
-							@components.Radio(components.RadioProps{
+						@form.ItemFlex() {
+							@radio.Radio(radio.Props{
 								ID:   "contact-phone",
 								Name: "contact-method",
 							})
-							@components.FormLabel(components.FormLabelProps{
+							@form.Label(form.LabelProps{
 								For: "contact-phone",
 							}) {
 								Phone
 							}
 						}
-						@components.FormItemFlex() {
-							@components.Radio(components.RadioProps{
+						@form.ItemFlex() {
+							@radio.Radio(radio.Props{
 								ID:       "contact-mail",
 								Name:     "contact-method",
 								Disabled: true,
 							})
-							@components.FormLabel(components.FormLabelProps{
+							@form.Label(form.LabelProps{
 								For: "contact-mail",
 							}) {
 								Physical Mail
 							}
 						}
 					}
-					@components.FormItem() {
+					@form.Item() {
 						<p class="text-sm text-muted-foreground">Preferences</p>
-						@components.FormItemFlex() {
-							@components.Toggle(components.ToggleProps{
+						@form.ItemFlex() {
+							@toggle.Toggle(toggle.Props{
 								ID:   "marketing",
 								Name: "marketing",
 							})
-							@components.FormLabel(components.FormLabelProps{
+							@form.Label(form.LabelProps{
 								For: "marketing",
 							}) {
 								Receive marketing emails
 							}
 						}
-						@components.FormItemFlex() {
-							@components.Toggle(components.ToggleProps{
+						@form.ItemFlex() {
+							@toggle.Toggle(toggle.Props{
 								ID:         "notifications",
 								Name:       "notifications",
 								Attributes: templ.Attributes{"checked": "true"},
 							})
-							@components.FormLabel(components.FormLabelProps{
+							@form.Label(form.LabelProps{
 								For: "notifications",
 							}) {
 								Enable notifications
 							}
 						}
-						@components.FormItemFlex() {
-							@components.Toggle(components.ToggleProps{
+						@form.ItemFlex() {
+							@toggle.Toggle(toggle.Props{
 								ID:         "beta",
 								Name:       "beta",
 								Attributes: templ.Attributes{"disabled": "true"},
 							})
-							@components.FormLabel(components.FormLabelProps{
+							@form.Label(form.LabelProps{
 								For: "beta",
 							}) {
 								Join beta program
 							}
 						}
 					}
-					@components.FormItem() {
+					@form.Item() {
 						<p class="text-sm text-muted-foreground">Terms and Conditions</p>
-						@components.FormItemFlex() {
-							@components.Checkbox(components.CheckboxProps{
+						@form.ItemFlex() {
+							@checkbox.Checkbox(checkbox.Props{
 								ID: "terms",
 							})
-							@components.FormLabel(components.FormLabelProps{
+							@form.Label(form.LabelProps{
 								For: "terms",
 							}) {
 								I accept the terms and conditions
 							}
 						}
-						@components.FormItemFlex() {
-							@components.Checkbox(components.CheckboxProps{
+						@form.ItemFlex() {
+							@checkbox.Checkbox(checkbox.Props{
 								ID: "newsletter",
 							})
-							@components.FormLabel(components.FormLabelProps{
+							@form.Label(form.LabelProps{
 								For: "newsletter",
 							}) {
 								Subscribe to newsletter
@@ -846,14 +854,14 @@ templ ThemePreview() {
 					}
 				</form>
 			}
-			@components.CardFooter() {
+			@card.Footer() {
 				<div class="flex justify-between w-full">
-					@components.Button(components.ButtonProps{
-						Variant: components.ButtonVariantSecondary,
+					@button.Button(button.Props{
+						Variant: button.VariantSecondary,
 					}) {
 						Cancel
 					}
-					@components.Button() {
+					@button.Button() {
 						Register
 					}
 				</div>
@@ -876,10 +884,10 @@ templ ThemeCustomizer(props ThemeCustomizerProps) {
 			@RadiusSelector()
 			@ModeSelector()
 		</div>
-		@components.ModalTrigger(components.ModalTriggerProps{
+		@modal.Trigger(modal.TriggerProps{
 			ModalID: "css-modal",
 		}) {
-			@components.Button(components.ButtonProps{
+			@button.Button(button.Props{
 				FullWidth: true,
 				Attributes: templ.Attributes{
 					"@click": "getGeneratedCSS",
@@ -888,29 +896,28 @@ templ ThemeCustomizer(props ThemeCustomizerProps) {
 				Generate and Copy CSS
 			}
 		}
-		@components.Modal(components.ModalProps{
+		@modal.Modal(modal.Props{
 			ID:    "css-modal",
 			Class: "max-w-xl",
 		}) {
-			@components.ModalHeader() {
+			@modal.Header() {
 				Generated CSS Code
 			}
-			@components.ModalBody() {
+			@modal.Body() {
 				<pre x-text="generatedCSS" class="text-primary p-4 rounded overflow-x-auto max-h-96"></pre>
 			}
-			@components.ModalFooter() {
+			@modal.Footer() {
 				<div class="flex gap-2">
-					@components.Button(components.ButtonProps{
-						Variant:    "primary",
+					@button.Button(button.Props{
 						Attributes: templ.Attributes{"@click": "copyToClipboard"},
 					}) {
 						Copy to Clipboard
 					}
-					@components.ModalClose(components.ModalCloseProps{
+					@modal.Close(modal.CloseProps{
 						ModalID: "css-modal",
 					}) {
-						@components.Button(components.ButtonProps{
-							Variant: "secondary",
+						@button.Button(button.Props{
+							Variant: button.VariantSecondary,
 						}) {
 							Close
 						}
@@ -937,7 +944,7 @@ templ ThemeSelector() {
 						data-theme="zinc"
 						x-show="isTheme"
 					>
-						@icons.Check(icons.IconProps{Size: 12, Color: "white"})
+						@icon.Check(icon.Props{Size: 12, Color: "white"})
 					</span>
 				</span>
 				Zinc
@@ -954,7 +961,7 @@ templ ThemeSelector() {
 						data-theme="slate"
 						x-show="isTheme"
 					>
-						@icons.Check(icons.IconProps{Size: 12, Color: "white"})
+						@icon.Check(icon.Props{Size: 12, Color: "white"})
 					</span>
 				</span>
 				Slate
@@ -971,7 +978,7 @@ templ ThemeSelector() {
 						data-theme="stone"
 						x-show="isTheme"
 					>
-						@icons.Check(icons.IconProps{Size: 12, Color: "white"})
+						@icon.Check(icon.Props{Size: 12, Color: "white"})
 					</span>
 				</span>
 				Stone
@@ -988,7 +995,7 @@ templ ThemeSelector() {
 						data-theme="gray"
 						x-show="isTheme"
 					>
-						@icons.Check(icons.IconProps{Size: 12, Color: "white"})
+						@icon.Check(icon.Props{Size: 12, Color: "white"})
 					</span>
 				</span>
 				Gray
@@ -1005,7 +1012,7 @@ templ ThemeSelector() {
 						data-theme="neutral"
 						x-show="isTheme"
 					>
-						@icons.Check(icons.IconProps{Size: 12, Color: "white"})
+						@icon.Check(icon.Props{Size: 12, Color: "white"})
 					</span>
 				</span>
 				Neutral
@@ -1022,7 +1029,7 @@ templ ThemeSelector() {
 						data-theme="red"
 						x-show="isTheme"
 					>
-						@icons.Check(icons.IconProps{Size: 12, Color: "white"})
+						@icon.Check(icon.Props{Size: 12, Color: "white"})
 					</span>
 				</span>
 				Red
@@ -1039,7 +1046,7 @@ templ ThemeSelector() {
 						data-theme="rose"
 						x-show="isTheme"
 					>
-						@icons.Check(icons.IconProps{Size: 12, Color: "white"})
+						@icon.Check(icon.Props{Size: 12, Color: "white"})
 					</span>
 				</span>
 				Rose
@@ -1056,7 +1063,7 @@ templ ThemeSelector() {
 						data-theme="orange"
 						x-show="isTheme"
 					>
-						@icons.Check(icons.IconProps{Size: 12, Color: "white"})
+						@icon.Check(icon.Props{Size: 12, Color: "white"})
 					</span>
 				</span>
 				Orange
@@ -1073,7 +1080,7 @@ templ ThemeSelector() {
 						data-theme="green"
 						x-show="isTheme"
 					>
-						@icons.Check(icons.IconProps{Size: 12, Color: "white"})
+						@icon.Check(icon.Props{Size: 12, Color: "white"})
 					</span>
 				</span>
 				Green
@@ -1090,7 +1097,7 @@ templ ThemeSelector() {
 						data-theme="blue"
 						x-show="isTheme"
 					>
-						@icons.Check(icons.IconProps{Size: 12, Color: "white"})
+						@icon.Check(icon.Props{Size: 12, Color: "white"})
 					</span>
 				</span>
 				Blue
@@ -1107,7 +1114,7 @@ templ ThemeSelector() {
 						data-theme="yellow"
 						x-show="isTheme"
 					>
-						@icons.Check(icons.IconProps{Size: 12, Color: "white"})
+						@icon.Check(icon.Props{Size: 12, Color: "white"})
 					</span>
 				</span>
 				Yellow
@@ -1124,7 +1131,7 @@ templ ThemeSelector() {
 						data-theme="violet"
 						x-show="isTheme"
 					>
-						@icons.Check(icons.IconProps{Size: 12, Color: "white"})
+						@icon.Check(icon.Props{Size: 12, Color: "white"})
 					</span>
 				</span>
 				Violet

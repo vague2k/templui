@@ -19,30 +19,23 @@ templ Spinner() {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.SpinnerDefault(),
 				PreviewCodeFile:   "spinner_default.templ",
-				ComponentCodeFile: "spinner.templ",
-			})
-			@modules.Usage(modules.UsageProps{
-				ComponentName: "Spinner",
-				PropsExample:  "...",
+				ComponentCodeFile: "spinner/spinner.templ",
 			})
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Sizes",
-					ShowcaseFile:      showcase.SpinnerSizes(),
-					PreviewCodeFile:   "spinner_sizes.templ",
-					ComponentCodeFile: "spinner.templ",
+					SectionName:     "Sizes",
+					ShowcaseFile:    showcase.SpinnerSizes(),
+					PreviewCodeFile: "spinner_sizes.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Colors",
-					ShowcaseFile:      showcase.SpinnerColors(),
-					PreviewCodeFile:   "spinner_colors.templ",
-					ComponentCodeFile: "spinner.templ",
+					SectionName:     "Colors",
+					ShowcaseFile:    showcase.SpinnerColors(),
+					PreviewCodeFile: "spinner_colors.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "In Button",
-					ShowcaseFile:      showcase.SpinnerInButton(),
-					PreviewCodeFile:   "spinner_in_button.templ",
-					ComponentCodeFile: "spinner.templ",
+					SectionName:     "In Button",
+					ShowcaseFile:    showcase.SpinnerInButton(),
+					PreviewCodeFile: "spinner_in_button.templ",
 				})
 			}
 		}

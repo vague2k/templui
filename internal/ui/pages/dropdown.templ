@@ -1,0 +1,27 @@
+package pages
+
+import (
+	"github.com/axzilla/templui/internal/ui/layouts"
+	"github.com/axzilla/templui/internal/ui/modules"
+	"github.com/axzilla/templui/internal/ui/showcase"
+)
+
+templ Dropdown() {
+	@layouts.DocsLayout(
+		"Dropdown",
+		"Floating menu for displaying a list of actions or options.",
+	) {
+		@modules.PageWrapper(modules.PageWrapperProps{
+			Name:        "Dropdown",
+			Description: templ.Raw("Floating menu for displaying a list of actions or options."),
+			Tailwind:    true,
+			Alpine:      true,
+		}) {
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				ShowcaseFile:      showcase.DropdownDefault(),
+				PreviewCodeFile:   "dropdown_default.templ",
+				ComponentCodeFile: "dropdown/dropdown.templ",
+			})
+		}
+	}
+}

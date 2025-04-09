@@ -1,9 +1,7 @@
 package modules
 
-import (
-	"github.com/axzilla/templui/components"
-	wrappedicons "github.com/axzilla/templui/internal/ui/icons"
-)
+import "github.com/axzilla/templui/component/badge"
+import "github.com/axzilla/templui/internal/ui/icons"
 
 type PageWrapperProps struct {
 	Name        string
@@ -21,26 +19,26 @@ templ PageWrapper(p PageWrapperProps) {
 		</p>
 		<div class="flex gap-2 items-baseline">
 			if p.Tailwind {
-				@components.Badge(components.BadgeProps{
-					Variant: components.BadgeVariantSecondary,
+				@badge.Badge(badge.Props{
+					Variant: badge.VariantSecondary,
 				}) {
-					@wrappedicons.Tailwind(16)
+					@wrappedicon.Tailwind(16)
 					TailwindCSS
 				}
 			}
 			if p.Alpine {
-				@components.Badge(components.BadgeProps{
-					Variant: components.BadgeVariantSecondary,
+				@badge.Badge(badge.Props{
+					Variant: badge.VariantSecondary,
 				}) {
-					@wrappedicons.Alpine(16)
+					@wrappedicon.Alpine(16)
 					Alpine.js
 				}
 			}
 			if p.VanillaJS {
-				@components.Badge(components.BadgeProps{
-					Variant: components.BadgeVariantSecondary,
+				@badge.Badge(badge.Props{
+					Variant: badge.VariantSecondary,
 				}) {
-					@wrappedicons.JS(16)
+					@wrappedicon.JS(16)
 					Vanilla JS
 				}
 			}

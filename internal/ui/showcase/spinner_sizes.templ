@@ -1,17 +1,17 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import "github.com/axzilla/templui/component/spinner"
 
 templ SpinnerSizes() {
 	<div class="flex flex-wrap items-end justify-center gap-8">
-		@components.Spinner(components.SpinnerProps{
-			Size: components.SpinnerSizeSm,
+		@spinner.Spinner(spinner.Props{
+			Size: spinner.SizeSm,
 		})
-		@components.Spinner(components.SpinnerProps{
-			Size: components.SpinnerSizeMd,
+		@spinner.Spinner(spinner.Props{
+			Size: spinner.SizeMd,
 		})
-		@components.Spinner(components.SpinnerProps{
-			Size: components.SpinnerSizeLg,
+		@spinner.Spinner(spinner.Props{
+			Size: spinner.SizeLg,
 		})
 	</div>
 }

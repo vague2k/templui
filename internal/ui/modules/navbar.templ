@@ -1,11 +1,12 @@
 package modules
 
 import (
-	"github.com/axzilla/templui/components"
-	"github.com/axzilla/templui/icons"
+	"github.com/axzilla/templui/component/button"
+	"github.com/axzilla/templui/component/drawer"
+	"github.com/axzilla/templui/icon"
 	"github.com/axzilla/templui/internal/ctxkeys"
 	"github.com/axzilla/templui/internal/shared"
-	wrappedicons "github.com/axzilla/templui/internal/ui/icons"
+	wrappedicon "github.com/axzilla/templui/internal/ui/icons"
 )
 
 templ Navbar() {
@@ -14,7 +15,7 @@ templ Navbar() {
 			<div class="flex items-center">
 				@NavbarMobileMenu()
 				<a href="/">
-					@wrappedicons.TemplUI("w-auto h-8")
+					@wrappedicon.TemplUI("w-auto h-8")
 				</a>
 			</div>
 			<div class="hidden md:flex gap-4 items-center">
@@ -22,21 +23,21 @@ templ Navbar() {
 				<a href="/docs/components" class="text-sm hover:underline">Components</a>
 			</div>
 			<div class="flex items-center">
-				@components.Button(components.ButtonProps{
-					Size:    components.ButtonSizeIcon,
-					Variant: components.ButtonVariantGhost,
+				@button.Button(button.Props{
+					Size:    button.SizeIcon,
+					Variant: button.VariantGhost,
 					Href:    "https://github.com/axzilla/templui",
 					Target:  "_blank",
 				}) {
-					@wrappedicons.GitHub(24)
+					@wrappedicon.GitHub(24)
 				}
-				@components.Button(components.ButtonProps{
-					Size:    components.ButtonSizeIcon,
-					Variant: components.ButtonVariantGhost,
+				@button.Button(button.Props{
+					Size:    button.SizeIcon,
+					Variant: button.VariantGhost,
 					Href:    "https://x.com/_axzilla/",
 					Target:  "_blank",
 				}) {
-					@wrappedicons.X(16)
+					@wrappedicon.X(16)
 				}
 				@ThemeSwitcher()
 			</div>
@@ -45,16 +46,16 @@ templ Navbar() {
 }
 
 templ NavbarMobileMenu() {
-	@components.Drawer() {
-		@components.DrawerTrigger() {
+	@drawer.Drawer() {
+		@drawer.Trigger() {
 			<button
 				class="mr-2 lg:hidden p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-hidden focus:ring-2 focus:ring-inset focus:ring-indigo-500"
 			>
-				@icons.SquareLibrary()
+				@icon.SquareLibrary()
 			</button>
 		}
-		@components.DrawerContent(components.DrawerContentProps{
-			Side: components.DrawerPositionLeft,
+		@drawer.Content(drawer.ContentProps{
+			Position: drawer.PositionLeft,
 		}) {
 			<div class="space-y-4">
 				for _, section := range shared.Sections {

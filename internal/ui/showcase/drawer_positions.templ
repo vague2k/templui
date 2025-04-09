@@ -1,92 +1,95 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import (
+	"github.com/axzilla/templui/component/button"
+	"github.com/axzilla/templui/component/drawer"
+)
 
 templ DrawerPositions() {
 	<div class="flex flex-wrap gap-2">
-		@components.Drawer() {
-			@components.DrawerTrigger() {
-				@components.Button() {
+		@drawer.Drawer() {
+			@drawer.Trigger() {
+				@button.Button() {
 					Top
 				}
 			}
-			@components.DrawerContent(components.DrawerContentProps{
-				Side: components.DrawerPositionTop,
+			@drawer.Content(drawer.ContentProps{
+				Position: drawer.PositionTop,
 			}) {
-				@components.DrawerHeader() {
-					@components.DrawerTitle() {
+				@drawer.Header() {
+					@drawer.Title() {
 						Top Drawer
 					}
 				}
 				<p>This drawer slides in from the top of the screen.</p>
-				@components.DrawerFooter() {
-					@components.DrawerClose() {
+				@drawer.Footer() {
+					@drawer.Close() {
 						Close
 					}
 				}
 			}
 		}
-		@components.Drawer() {
-			@components.DrawerTrigger() {
-				@components.Button() {
+		@drawer.Drawer() {
+			@drawer.Trigger() {
+				@button.Button() {
 					Right
 				}
 			}
-			@components.DrawerContent(components.DrawerContentProps{
-				Side: components.DrawerPositionRight,
+			@drawer.Content(drawer.ContentProps{
+				Position: drawer.PositionRight,
 			}) {
-				@components.DrawerHeader() {
-					@components.DrawerTitle() {
+				@drawer.Header() {
+					@drawer.Title() {
 						Right Drawer
 					}
 				}
 				<p>This drawer slides in from the right side of the screen.</p>
-				@components.DrawerFooter() {
-					@components.DrawerClose() {
+				@drawer.Footer() {
+					@drawer.Close() {
 						Close
 					}
 				}
 			}
 		}
-		@components.Drawer() {
-			@components.DrawerTrigger() {
-				@components.Button() {
+		@drawer.Drawer() {
+			@drawer.Trigger() {
+				@button.Button() {
 					Bottom
 				}
 			}
-			@components.DrawerContent(components.DrawerContentProps{
-				Side: components.DrawerPositionBottom,
+			@drawer.Content(drawer.ContentProps{
+				Position: drawer.PositionBottom,
 			}) {
-				@components.DrawerHeader() {
-					@components.DrawerTitle() {
+				@drawer.Header() {
+					@drawer.Title() {
 						Bottom Drawer
 					}
 				}
 				<p>This drawer slides in from the bottom of the screen.</p>
-				@components.DrawerFooter() {
-					@components.DrawerClose() {
+				@drawer.Footer() {
+					@drawer.Close() {
 						Close
 					}
 				}
 			}
 		}
-		@components.Drawer() {
-			@components.DrawerTrigger() {
-				@components.Button() {
+		@drawer.Drawer() {
+			@drawer.Trigger() {
+				@button.Button() {
 					Left
 				}
 			}
-			@components.DrawerContent(components.DrawerContentProps{
-				Side: components.DrawerPositionLeft,
+			@drawer.Content(drawer.ContentProps{
+				Position: drawer.PositionLeft,
 			}) {
-				@components.DrawerHeader() {
-					@components.DrawerTitle() {
+				@drawer.Header() {
+					@drawer.Title() {
 						Left Drawer
 					}
 				}
 				<p>This drawer slides in from the left side of the screen.</p>
-				@components.DrawerFooter() {
-					@components.DrawerClose() {
+				@drawer.Footer() {
+					@drawer.Close() {
 						Close
 					}
 				}

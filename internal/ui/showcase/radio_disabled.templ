@@ -1,14 +1,17 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import (
+	"github.com/axzilla/templui/component/label"
+	"github.com/axzilla/templui/component/radio"
+)
 
 templ RadioDisabled() {
 	<div class="flex gap-2 items-center">
-		@components.Radio(components.RadioProps{
+		@radio.Radio(radio.Props{
 			ID:       "radio-disabled",
 			Disabled: true,
 		})
-		@components.Label(components.LabelProps{
+		@label.Label(label.Props{
 			For: "radio-disabled",
 		}) {
 			Disabled

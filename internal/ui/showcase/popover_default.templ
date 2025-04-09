@@ -1,19 +1,24 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import (
+	"github.com/axzilla/templui/component/button"
+	"github.com/axzilla/templui/component/input"
+	"github.com/axzilla/templui/component/label"
+	"github.com/axzilla/templui/component/popover"
+)
 
 templ PopoverDefault() {
-	@components.Popover() {
-		@components.PopoverTrigger(components.PopoverTriggerProps{
+	@popover.Popover() {
+		@popover.Trigger(popover.TriggerProps{
 			For: "default-popover",
 		}) {
-			@components.Button(components.ButtonProps{
-				Variant: components.ButtonVariantOutline,
+			@button.Button(button.Props{
+				Variant: button.VariantOutline,
 			}) {
 				Open Popover
 			}
 		}
-		@components.PopoverContent(components.PopoverContentProps{
+		@popover.Content(popover.ContentProps{
 			ID: "default-popover",
 		}) {
 			@PopoverContent()
@@ -29,12 +34,12 @@ templ PopoverContent() {
 		</div>
 		<div class="flex flex-col gap-2">
 			<div class="grid grid-cols-3 items-center gap-2">
-				@components.Label(components.LabelProps{
+				@label.Label(label.Props{
 					For: "width",
 				}) {
 					Width
 				}
-				@components.Input(components.InputProps{
+				@input.Input(input.Props{
 					ID:          "width",
 					Placeholder: "Width",
 					Value:       "100%",
@@ -42,12 +47,12 @@ templ PopoverContent() {
 				})
 			</div>
 			<div class="grid grid-cols-3 items-center gap-2">
-				@components.Label(components.LabelProps{
+				@label.Label(label.Props{
 					For: "height",
 				}) {
 					Height
 				}
-				@components.Input(components.InputProps{
+				@input.Input(input.Props{
 					ID:          "height",
 					Placeholder: "Height",
 					Value:       "100%",

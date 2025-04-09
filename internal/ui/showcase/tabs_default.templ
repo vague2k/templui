@@ -1,34 +1,39 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import (
+	"github.com/axzilla/templui/component/button"
+	"github.com/axzilla/templui/component/card"
+	"github.com/axzilla/templui/component/input"
+	"github.com/axzilla/templui/component/tabs"
+)
 
 templ TabsDefault() {
-	@components.Tabs(components.TabsProps{
+	@tabs.Tabs(tabs.Props{
 		ID: "account-tabs",
 	}) {
-		@components.TabsList(components.TabsListProps{
+		@tabs.List(tabs.ListProps{
 			Class: "w-full max-w-xs",
 		}) {
-			@components.TabTrigger(components.TabTriggerProps{
+			@tabs.Trigger(tabs.TriggerProps{
 				Value:    "account",
 				IsActive: true,
 			}) {
 				Account
 			}
-			@components.TabTrigger(components.TabTriggerProps{
+			@tabs.Trigger(tabs.TriggerProps{
 				Value: "password",
 			}) {
 				Password
 			}
 		}
 		<div class="w-full max-w-xs mt-2">
-			@components.TabContent(components.TabContentProps{
+			@tabs.Content(tabs.ContentProps{
 				Value:    "account",
 				IsActive: true,
 			}) {
 				@AccountTab()
 			}
-			@components.TabContent(components.TabContentProps{
+			@tabs.Content(tabs.ContentProps{
 				Value: "password",
 			}) {
 				@PasswordTab()
@@ -38,33 +43,33 @@ templ TabsDefault() {
 }
 
 templ AccountTab() {
-	@components.Card() {
-		@components.CardHeader() {
-			@components.CardTitle() {
+	@card.Card() {
+		@card.Header() {
+			@card.Title() {
 				Account 
 			}
-			@components.CardDescription() {
+			@card.Description() {
 				Make changes to your account here. Click save when you are done.
 			}
 		}
-		@components.CardContent() {
+		@card.Content() {
 			<div class="flex flex-col gap-4">
-				@components.Input(components.InputProps{
-					Type:        components.InputTypeText,
+				@input.Input(input.Props{
+					Type:        input.TypeText,
 					Placeholder: "Name",
 					ID:          "name",
 					Value:       "John Doe",
 				})
-				@components.Input(components.InputProps{
-					Type:        components.InputTypeEmail,
+				@input.Input(input.Props{
+					Type:        input.TypeEmail,
 					Placeholder: "Email",
 					ID:          "email",
 					Value:       "john.doe@example.com",
 				})
 			</div>
 		}
-		@components.CardFooter() {
-			@components.Button() {
+		@card.Footer() {
+			@button.Button() {
 				Save changes
 			}
 		}
@@ -72,31 +77,31 @@ templ AccountTab() {
 }
 
 templ PasswordTab() {
-	@components.Card() {
-		@components.CardHeader() {
-			@components.CardTitle() {
+	@card.Card() {
+		@card.Header() {
+			@card.Title() {
 				Password 
 			}
-			@components.CardDescription() {
+			@card.Description() {
 				Change your password here. After saving, you will be logged out.
 			}
 		}
-		@components.CardContent() {
+		@card.Content() {
 			<div class="flex flex-col gap-4">
-				@components.Input(components.InputProps{
-					Type:        components.InputTypePassword,
+				@input.Input(input.Props{
+					Type:        input.TypePassword,
 					Placeholder: "Current Password",
 					ID:          "current_password",
 				})
-				@components.Input(components.InputProps{
-					Type:        components.InputTypePassword,
+				@input.Input(input.Props{
+					Type:        input.TypePassword,
 					Placeholder: "New Password",
 					ID:          "new_password",
 				})
 			</div>
 		}
-		@components.CardFooter() {
-			@components.Button() {
+		@card.Footer() {
+			@button.Button() {
 				Save password
 			}
 		}

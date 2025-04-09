@@ -1,15 +1,18 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import (
+	"github.com/axzilla/templui/component/label"
+	"github.com/axzilla/templui/component/textarea"
+)
 
 templ TextareaWithLabel() {
 	<div class="space-y-2 w-full max-w-md">
-		@components.Label(components.LabelProps{
+		@label.Label(label.Props{
 			For: "textarea-with-label",
 		}) {
 			Your Message
 		}
-		@components.Textarea(components.TextareaProps{
+		@textarea.Textarea(textarea.Props{
 			ID:          "textarea-with-label",
 			Placeholder: "Type your message here...",
 			Rows:        4,

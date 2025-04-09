@@ -24,20 +24,17 @@ templ Code() {
 			@modules.Usage(modules.UsageProps{
 				ComponentName: "Code",
 				NeedsHandler:  true,
-				PropsExample:  "...",
 			})
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Copy Button",
-					ShowcaseFile:      showcase.CodeCopyButton(),
-					PreviewCodeFile:   "code_copy_button.templ",
-					ComponentCodeFile: "code.templ",
+					SectionName:     "Copy Button",
+					ShowcaseFile:    showcase.CodeCopyButton(),
+					PreviewCodeFile: "code_copy_button.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Custom Size",
-					ShowcaseFile:      showcase.CodeCustomSize(),
-					PreviewCodeFile:   "code_custom_size.templ",
-					ComponentCodeFile: "code.templ",
+					SectionName:     "Custom Size",
+					ShowcaseFile:    showcase.CodeCustomSize(),
+					PreviewCodeFile: "code_custom_size.templ",
 				})
 			}
 		}

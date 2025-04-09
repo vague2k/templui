@@ -19,36 +19,28 @@ templ Card() {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.CardDefault(),
 				PreviewCodeFile:   "card_default.templ",
-				ComponentCodeFile: "card.templ",
-			})
-			@modules.Usage(modules.UsageProps{
-				ComponentName: "Card",
-				PropsExample:  "...",
+				ComponentCodeFile: "card/card.templ",
 			})
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Image Left",
-					ShowcaseFile:      showcase.CardImageLeft(),
-					PreviewCodeFile:   "card_image_left.templ",
-					ComponentCodeFile: "card.templ",
+					SectionName:     "Image Left",
+					ShowcaseFile:    showcase.CardImageLeft(),
+					PreviewCodeFile: "card_image_left.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Image Right",
-					ShowcaseFile:      showcase.CardImageRight(),
-					PreviewCodeFile:   "card_image_right.templ",
-					ComponentCodeFile: "card.templ",
+					SectionName:     "Image Right",
+					ShowcaseFile:    showcase.CardImageRight(),
+					PreviewCodeFile: "card_image_right.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Image Top",
-					ShowcaseFile:      showcase.CardImageTop(),
-					PreviewCodeFile:   "card_image_top.templ",
-					ComponentCodeFile: "card.templ",
+					SectionName:     "Image Top",
+					ShowcaseFile:    showcase.CardImageTop(),
+					PreviewCodeFile: "card_image_top.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Image Bottom",
-					ShowcaseFile:      showcase.CardImageBottom(),
-					PreviewCodeFile:   "card_image_bottom.templ",
-					ComponentCodeFile: "card.templ",
+					SectionName:     "Image Bottom",
+					ShowcaseFile:    showcase.CardImageBottom(),
+					PreviewCodeFile: "card_image_bottom.templ",
 				})
 			}
 		}

@@ -1,31 +1,35 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import (
+	"github.com/axzilla/templui/component/aspectratio"
+	"github.com/axzilla/templui/component/button"
+	"github.com/axzilla/templui/component/card"
+)
 
 templ CardImageBottom() {
 	<div class="w-full max-w-sm">
-		@components.Card() {
-			@components.CardHeader() {
-				@components.CardTitle() {
+		@card.Card() {
+			@card.Header() {
+				@card.Title() {
 					Featured Card
 				}
-				@components.CardDescription() {
+				@card.Description() {
 					With bottom image
 				}
 			}
-			@components.CardContent() {
+			@card.Content() {
 				<p>This card shows bottom image usage.</p>
 			}
-			@components.CardFooter() {
-				@components.Button() {
+			@card.Footer() {
+				@button.Button() {
 					Learn more
 				}
 			}
-			@components.CardMedia(components.CardMediaProps{
+			@card.Media(card.MediaProps{
 				ID:          "bottom-media",
 				Alt:         "Card image",
-				Position:    components.CardMediaBottom,
-				AspectRatio: components.AspectRatioVideo,
+				Position:    card.MediaPositionBottom,
+				AspectRatio: aspectratio.RatioVideo,
 				Src:         "/assets/img/card_placeholder.jpeg",
 			},
 			)

@@ -1,10 +1,10 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import "github.com/axzilla/templui/component/code"
 
 templ CodeDefault() {
 	<div class="w-full max-w-md">
-		@components.Code(components.CodeProps{
+		@code.Code(code.Props{
 			Language: "go",
 		}) {
 			{ `fmt.Println("Hello, World!")` }

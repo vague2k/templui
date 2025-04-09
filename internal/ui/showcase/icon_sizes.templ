@@ -1,11 +1,11 @@
 package showcase
 
-import "github.com/axzilla/templui/icons"
+import "github.com/axzilla/templui/icon"
 
 templ IconSizes() {
 	<div class="flex flex-wrap gap-2">
-		@icons.House()
-		@icons.House(icons.IconProps{Size: 32})
-		@icons.House(icons.IconProps{Size: 48})
+		@icon.House()
+		@icon.House(icon.Props{Size: 32})
+		@icon.House(icon.Props{Size: 48})
 	</div>
 }

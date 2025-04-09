@@ -1,26 +1,29 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import (
+	"github.com/axzilla/templui/component/form"
+	"github.com/axzilla/templui/component/input"
+)
 
 templ InputForm() {
 	<div class="w-full max-w-sm">
-		@components.FormItem() {
-			@components.FormLabel(components.FormLabelProps{
+		@form.Item() {
+			@form.Label(form.LabelProps{
 				For: "email-form",
 			}) {
 				Email
 			}
-			@components.Input(components.InputProps{
+			@input.Input(input.Props{
 				ID:          "email-form",
-				Type:        "email",
+				Type:        input.TypeEmail,
 				Placeholder: "m@example.com",
 				HasError:    true,
 			})
-			@components.FormDescription() {
+			@form.Description() {
 				Enter your email address for notifications.
 			}
-			@components.FormMessage(components.FormMessageProps{
-				Variant: components.FormMessageVariantError,
+			@form.Message(form.MessageProps{
+				Variant: form.MessageVariantError,
 			}) {
 				Please enter a valid email address
 			}

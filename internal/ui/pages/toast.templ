@@ -2,7 +2,8 @@ package pages
 
 import (
 	"fmt"
-	"github.com/axzilla/templui/components"
+	"github.com/axzilla/templui/component/code"
+	"github.com/axzilla/templui/component/tabs"
 	"github.com/axzilla/templui/internal/ui/layouts"
 	"github.com/axzilla/templui/internal/ui/modules"
 	"github.com/axzilla/templui/internal/ui/showcase"
@@ -22,7 +23,7 @@ templ Toast() {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.ToastDefault(),
 				PreviewCodeFile:   "toast_default.templ",
-				ComponentCodeFile: "toast.templ",
+				ComponentCodeFile: "toast/toast.templ",
 			})
 			@modules.Usage(modules.UsageProps{
 				ComponentName: "Toast",
@@ -31,10 +32,9 @@ templ Toast() {
 			@UsageExamples()
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Playground",
-					ShowcaseFile:      showcase.ToastPlayground(),
-					PreviewCodeFile:   "toast_playground.templ",
-					ComponentCodeFile: "toast.templ",
+					SectionName:     "Playground",
+					ShowcaseFile:    showcase.ToastPlayground(),
+					PreviewCodeFile: "toast_playground.templ",
 				})
 			}
 		}
@@ -42,32 +42,32 @@ templ Toast() {
 }
 
 templ UsageExamples() {
-	@components.Tabs(components.TabsProps{
+	@tabs.Tabs(tabs.Props{
 		ID: "usage-examples",
 	}) {
-		@components.TabsList(components.TabsListProps{
+		@tabs.List(tabs.ListProps{
 			Class: "w-full",
 		}) {
-			@components.TabTrigger(components.TabTriggerProps{
+			@tabs.Trigger(tabs.TriggerProps{
 				Value:    "with-htmx",
 				IsActive: true,
 			}) {
 				With HTMX
 			}
-			@components.TabTrigger(components.TabTriggerProps{
+			@tabs.Trigger(tabs.TriggerProps{
 				Value: "full-page-form",
 			}) {
 				Full Page Form
 			}
 		}
 		<div class="w-full mt-2">
-			@components.TabContent(components.TabContentProps{
+			@tabs.Content(tabs.ContentProps{
 				Value:    "with-htmx",
 				IsActive: true,
 			}) {
 				@withHtmx()
 			}
-			@components.TabContent(components.TabContentProps{
+			@tabs.Content(tabs.ContentProps{
 				Value: "full-page-form",
 			}) {
 				@fullPageForm()
@@ -94,7 +94,7 @@ func Save(w http.ResponseWriter, r *http.Request) {
 }`, "templ")
 
 templ withHtmx() {
-	@components.Code(components.CodeProps{Language: "go"}) {
+	@code.Code(code.Props{Language: "go"}) {
 		{ withHtmxCode }
 	}
 }
@@ -119,7 +119,7 @@ func Save(w http.ResponseWriter, r *http.Request) {
 }`, "templ")
 
 templ fullPageForm() {
-	@components.Code(components.CodeProps{Language: "go"}) {
+	@code.Code(code.Props{Language: "go"}) {
 		{ fullPageFormCode }
 	}
 }

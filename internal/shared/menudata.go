@@ -147,8 +147,8 @@ var Sections = []Section{
 				Href: "/docs/components/rating",
 			},
 			{
-				Text: "Select",
-				Href: "/docs/components/select",
+				Text: "Select Box",
+				Href: "/docs/components/select-box",
 			},
 			{
 				Text: "Separator",

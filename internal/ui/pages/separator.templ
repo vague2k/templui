@@ -19,30 +19,23 @@ templ Separator() {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.SeparatorDefault(),
 				PreviewCodeFile:   "separator_default.templ",
-				ComponentCodeFile: "separator.templ",
-			})
-			@modules.Usage(modules.UsageProps{
-				ComponentName: "Separator",
-				PropsExample:  "...",
+				ComponentCodeFile: "separator/separator.templ",
 			})
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Vertical",
-					ShowcaseFile:      showcase.SeparatorVertical(),
-					PreviewCodeFile:   "separator_vertical.templ",
-					ComponentCodeFile: "separator.templ",
+					SectionName:     "Vertical",
+					ShowcaseFile:    showcase.SeparatorVertical(),
+					PreviewCodeFile: "separator_vertical.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Label",
-					ShowcaseFile:      showcase.SeparatorLabel(),
-					PreviewCodeFile:   "separator_label.templ",
-					ComponentCodeFile: "separator.templ",
+					SectionName:     "Label",
+					ShowcaseFile:    showcase.SeparatorLabel(),
+					PreviewCodeFile: "separator_label.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Decorated",
-					ShowcaseFile:      showcase.SeparatorDecorated(),
-					PreviewCodeFile:   "separator_decorated.templ",
-					ComponentCodeFile: "separator.templ",
+					SectionName:     "Decorated",
+					ShowcaseFile:    showcase.SeparatorDecorated(),
+					PreviewCodeFile: "separator_decorated.templ",
 				})
 			}
 		}

@@ -1,45 +1,48 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import (
+	"github.com/axzilla/templui/component/aspectratio"
+	"github.com/axzilla/templui/component/carousel"
+)
 
 templ CarouselWithImages() {
-	@components.Carousel(components.CarouselProps{
+	@carousel.Carousel(carousel.Props{
 		Autoplay: true,
 		Interval: 5000,
 		Loop:     true,
 		Class:    "rounded-md overflow-hidden shadow-md",
 	}) {
-		@components.CarouselContent() {
-			@components.CarouselItem() {
+		@carousel.Content() {
+			@carousel.Item() {
 				@ImageSlide("/assets/img/demo/carousel-1.jpeg", "Image 1")
 				<div class="absolute bottom-0 left-0 right-0 bg-black/50 text-white p-4">
 					<p>Nature landscape example 1</p>
 				</div>
 			}
-			@components.CarouselItem() {
+			@carousel.Item() {
 				@ImageSlide("/assets/img/demo/carousel-2.jpeg", "Image 2")
 				<div class="absolute bottom-0 left-0 right-0 bg-black/50 text-white p-4">
 					<p>Nature landscape example 2</p>
 				</div>
 			}
-			@components.CarouselItem() {
+			@carousel.Item() {
 				@ImageSlide("/assets/img/demo/carousel-3.jpeg", "Image 3")
 				<div class="absolute bottom-0 left-0 right-0 bg-black/50 text-white p-4">
 					<p>Nature landscape example 3</p>
 				</div>
 			}
 		}
-		@components.CarouselPrevious()
-		@components.CarouselNext()
-		@components.CarouselIndicators(components.CarouselIndicatorsProps{
+		@carousel.Previous()
+		@carousel.Next()
+		@carousel.Indicators(carousel.IndicatorsProps{
 			Count: 3,
 		})
 	}
 }
 
 templ ImageSlide(src string, alt string) {
-	@components.AspectRatio(components.AspectRatioProps{
-		Ratio: components.AspectRatioVideo,
+	@aspectratio.AspectRatio(aspectratio.Props{
+		Ratio: aspectratio.RatioVideo,
 	}) {
 		<img
 			src={ src }

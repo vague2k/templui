@@ -1,15 +1,18 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import (
+	"github.com/axzilla/templui/component/checkbox"
+	"github.com/axzilla/templui/component/label"
+)
 
 templ CheckboxDisabled() {
 	<div class="flex items-center gap-2">
-		@components.Checkbox(components.CheckboxProps{
+		@checkbox.Checkbox(checkbox.Props{
 			Disabled: true,
 			ID:       "checkbox-disabled",
 		},
 		)
-		@components.Label(components.LabelProps{
+		@label.Label(label.Props{
 			For: "checkbox-disabled",
 		}) {
 			Accept terms and conditions

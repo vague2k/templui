@@ -1,16 +1,16 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import "github.com/axzilla/templui/component/rating"
 
 templ RatingMaxValues() {
-	@components.Rating(components.RatingProps{
+	@rating.Rating(rating.Props{
 		Value: 7,
 	}) {
-		@components.RatingGroup() {
+		@rating.Group() {
 			for i := 1; i <= 10; i++ {
-				@components.RatingItem(components.RatingItemProps{
+				@rating.Item(rating.ItemProps{
 					Value: i,
-					Style: components.RatingStyleStar,
+					Style: rating.StyleStar,
 					Class: "scale-75", // Smaller stars for better display
 				})
 			}

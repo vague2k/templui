@@ -1,12 +1,20 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import (
+	"github.com/axzilla/templui/component/button"
+	"github.com/axzilla/templui/component/card"
+	"github.com/axzilla/templui/component/form"
+	"github.com/axzilla/templui/component/input"
+	"github.com/axzilla/templui/component/label"
+	"github.com/axzilla/templui/component/selectbox"
+	"github.com/axzilla/templui/component/toggle"
+)
 
 templ ToastPlayground() {
 	<div class="w-full max-w-4xl mx-auto p-8">
 		<section class="mb-12">
-			@components.Card() {
-				@components.CardContent() {
+			@card.Card() {
+				@card.Content() {
 					<form
 						class="flex flex-col gap-2"
 						hx-post="/docs/toast/demo"
@@ -14,71 +22,71 @@ templ ToastPlayground() {
 						hx-target="#toast-advanced-container"
 					>
 						// Message
-						@components.FormItem() {
-							@components.Label(components.LabelProps{
+						@form.Item() {
+							@form.Label(form.LabelProps{
 								For: "title",
 							}) {
 								Message
 							}
-							@components.Input(components.InputProps{
+							@input.Input(input.Props{
 								Value: "You have a new notification",
 								ID:    "title",
 								Name:  "title",
 							})
 						}
 						// Description
-						@components.FormItem() {
-							@components.Label(components.LabelProps{
+						@form.Item() {
+							@form.Label(form.LabelProps{
 								For: "description",
 							}) {
 								Description
 							}
-							@components.Input(components.InputProps{
+							@input.Input(input.Props{
 								Value: "Test Notification",
 								ID:    "description",
 								Name:  "description",
 							})
 						}
 						// Type
-						@components.FormItem() {
-							@components.Label(components.LabelProps{
+						@form.Item() {
+							@form.Label(form.LabelProps{
 								For: "type",
 							}) {
 								Type
 							}
-							@components.Select() {
-								@components.SelectTrigger(components.SelectTriggerProps{
+							@selectbox.SelectBox() {
+								@selectbox.Trigger(selectbox.TriggerProps{
 									Name: "type",
 									ID:   "type",
 								}) {
-									@components.SelectValue(components.SelectValueProps{
+									@selectbox.Value(selectbox.ValueProps{
 										Placeholder: "Default",
 									})
 								}
-								@components.SelectContent() {
-									@components.SelectGroup() {
-										@components.SelectItem(components.SelectItemProps{
+								@selectbox.Content() {
+									@selectbox.Group() {
+										@selectbox.Item(selectbox.ItemProps{
 											Value:    "default",
 											Selected: true,
 										}) {
 											Default
 										}
-										@components.SelectItem(components.SelectItemProps{
+										@selectbox.Item(selectbox.ItemProps{
 											Value: "success",
 										}) {
 											Success
 										}
-										@components.SelectItem(components.SelectItemProps{
+										@selectbox.Item(selectbox.ItemProps{
 											Value: "error",
 										}) {
 											Error
 										}
-										@components.SelectItem(components.SelectItemProps{
+										@selectbox.Item(selectbox.ItemProps{
 											Value: "warning",
 										}) {
 											Warning
 										}
-										@components.SelectItem(components.SelectItemProps{
+										@selectbox.Item(selectbox.ItemProps{
 											Value: "info",
 										}) {
 											Info
@@ -88,50 +96,50 @@ templ ToastPlayground() {
 							}
 						}
 						// Position
-						@components.FormItem() {
-							@components.Label(components.LabelProps{
+						@form.Item() {
+							@form.Label(form.LabelProps{
 								For: "position",
 							}) {
 								Position
 							}
-							@components.Select() {
-								@components.SelectTrigger(components.SelectTriggerProps{
+							@selectbox.SelectBox() {
+								@selectbox.Trigger(selectbox.TriggerProps{
 									Name: "position",
 									ID:   "position",
 								}) {
-									@components.SelectValue(components.SelectValueProps{
+									@selectbox.Value(selectbox.ValueProps{
 										Placeholder: "Bottom Right",
 									})
 								}
-								@components.SelectContent() {
-									@components.SelectGroup() {
-										@components.SelectItem(components.SelectItemProps{
+								@selectbox.Content() {
+									@selectbox.Group() {
+										@selectbox.Item(selectbox.ItemProps{
 											Value: "top-right",
 										}) {
 											Top Right
 										}
-										@components.SelectItem(components.SelectItemProps{
+										@selectbox.Item(selectbox.ItemProps{
 											Value: "top-left",
 										}) {
 											Top Left
 										}
-										@components.SelectItem(components.SelectItemProps{
+										@selectbox.Item(selectbox.ItemProps{
 											Value: "top-center",
 										}) {
 											Top Center
 										}
-										@components.SelectItem(components.SelectItemProps{
+										@selectbox.Item(selectbox.ItemProps{
 											Value:    "bottom-right",
 											Selected: true,
 										}) {
 											Bottom Right
 										}
-										@components.SelectItem(components.SelectItemProps{
+										@selectbox.Item(selectbox.ItemProps{
 											Value: "bottom-left",
 										}) {
 											Bottom Left
 										}
-										@components.SelectItem(components.SelectItemProps{
+										@selectbox.Item(selectbox.ItemProps{
 											Value: "bottom-center",
 										}) {
 											Bottom Center
@@ -141,56 +149,56 @@ templ ToastPlayground() {
 							}
 						}
 						// Duration
-						@components.FormItem() {
-							@components.Label(components.LabelProps{
+						@form.Item() {
+							@form.Label(form.LabelProps{
 								For: "duration",
 							}) {
 								Duration (ms)
 							}
-							@components.Input(components.InputProps{
-								Type:  "number",
+							@input.Input(input.Props{
+								Type:  input.TypeNumber,
 								Value: "3000",
 								ID:    "duration",
 								Name:  "duration",
 							})
 						}
 						// Options
-						@components.FormItem() {
-							@components.Label(components.LabelProps{
+						@form.Item() {
+							@form.Label(form.LabelProps{
 								For: "dismissible",
 							}) {
 								Dismissible
 							}
-							@components.FormItemFlex() {
-								@components.Toggle(components.ToggleProps{
+							@form.ItemFlex() {
+								@toggle.Toggle(toggle.Props{
 									Name:    "dismissible",
 									Checked: true,
 									ID:      "dismissible",
 								})
-								@components.Label(components.LabelProps{
+								@label.Label(label.Props{
 									For: "dismissible",
 								}) {
 									Dimissible
 								}
 							}
-							@components.FormItemFlex() {
-								@components.Toggle(components.ToggleProps{
+							@form.ItemFlex() {
+								@toggle.Toggle(toggle.Props{
 									Name:    "icon",
 									Checked: true,
 								})
-								@components.Label(components.LabelProps{
+								@label.Label(label.Props{
 									For: "icon",
 								}) {
 									Show Icon
 								}
 							}
-							@components.FormItemFlex() {
-								@components.Toggle(components.ToggleProps{
+							@form.ItemFlex() {
+								@toggle.Toggle(toggle.Props{
 									ID:      "indicator",
 									Name:    "indicator",
 									Checked: true,
 								})
-								@components.Label(components.LabelProps{
+								@label.Label(label.Props{
 									For: "indicator",
 								}) {
 									Show Indicator
@@ -198,7 +206,7 @@ templ ToastPlayground() {
 							}
 						}
 						// Submit
-						@components.Button(components.ButtonProps{
+						@button.Button(button.Props{
 							Type:  "submit",
 							Class: "w-full",
 						}) {
