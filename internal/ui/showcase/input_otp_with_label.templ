@@ -1,36 +1,37 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import "github.com/axzilla/templui/components/inputotp"
+import "github.com/axzilla/templui/components/label"
 
 templ InputOTPWithLabel() {
 	<div class="w-full max-w-sm flex flex-col gap-2">
-		@components.Label(components.LabelProps{
+		@label.Label(label.Props{
 			For: "otp-with-label",
 		}) {
 			Verification Code
 		}
-		@components.InputOTP(components.InputOTPProps{
+		@inputotp.InputOTP(inputotp.Props{
 			ID:       "otp-with-label",
 			Required: true,
 			HasError: true,
 		}) {
-			@components.InputOTPGroup() {
-				@components.InputOTPSlot(components.InputOTPSlotProps{
+			@inputotp.Group() {
+				@inputotp.Slot(inputotp.SlotProps{
 					Index: 0,
 				})
-				@components.InputOTPSlot(components.InputOTPSlotProps{
+				@inputotp.Slot(inputotp.SlotProps{
 					Index: 1,
 				})
-				@components.InputOTPSlot(components.InputOTPSlotProps{
+				@inputotp.Slot(inputotp.SlotProps{
 					Index: 2,
 				})
-				@components.InputOTPSlot(components.InputOTPSlotProps{
+				@inputotp.Slot(inputotp.SlotProps{
 					Index: 3,
 				})
-				@components.InputOTPSlot(components.InputOTPSlotProps{
+				@inputotp.Slot(inputotp.SlotProps{
 					Index: 4,
 				})
-				@components.InputOTPSlot(components.InputOTPSlotProps{
+				@inputotp.Slot(inputotp.SlotProps{
 					Index: 5,
 				})
 			}

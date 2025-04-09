@@ -16,6 +16,8 @@ import (
 	"github.com/axzilla/templui/components/datepicker"
 	"github.com/axzilla/templui/components/drawer"
 	"github.com/axzilla/templui/components/dropdown"
+	"github.com/axzilla/templui/components/inputotp"
+	"github.com/axzilla/templui/components/label"
 )
 
 func ComponentScripts() templ.Component {
@@ -63,11 +65,11 @@ func ComponentScripts() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = components.InputOTPScript().Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = inputotp.Script().Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = components.LabelScript().Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = label.Script().Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

@@ -3,6 +3,8 @@ package showcase
 import (
 	"github.com/axzilla/templui/components"
 	"github.com/axzilla/templui/components/button"
+	"github.com/axzilla/templui/components/input"
+	"github.com/axzilla/templui/components/label"
 )
 
 templ PopoverDefault() {
@@ -32,12 +34,12 @@ templ PopoverContent() {
 		</div>
 		<div class="flex flex-col gap-2">
 			<div class="grid grid-cols-3 items-center gap-2">
-				@components.Label(components.LabelProps{
+				@label.Label(label.Props{
 					For: "width",
 				}) {
 					Width
 				}
-				@components.Input(components.InputProps{
+				@input.Input(input.Props{
 					ID:          "width",
 					Placeholder: "Width",
 					Value:       "100%",
@@ -45,12 +47,12 @@ templ PopoverContent() {
 				})
 			</div>
 			<div class="grid grid-cols-3 items-center gap-2">
-				@components.Label(components.LabelProps{
+				@label.Label(label.Props{
 					For: "height",
 				}) {
 					Height
 				}
-				@components.Input(components.InputProps{
+				@input.Input(input.Props{
 					ID:          "height",
 					Placeholder: "Height",
 					Value:       "100%",

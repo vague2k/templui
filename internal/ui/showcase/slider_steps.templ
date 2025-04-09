@@ -1,6 +1,9 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import (
+	"github.com/axzilla/templui/components"
+	"github.com/axzilla/templui/components/label"
+)
 
 templ SliderSteps() {
 	<div class="w-full max-w-sm">
@@ -13,7 +16,7 @@ templ SliderSteps() {
 			Step:  25,
 		}) {
 			<div class="flex justify-between items-center mb-1">
-				@components.Label() {
+				@label.Label() {
 					Zoom Level
 				}
 				<div class="flex items-center">

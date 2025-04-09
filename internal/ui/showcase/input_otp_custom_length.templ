@@ -1,19 +1,19 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import "github.com/axzilla/templui/components/inputotp"
 
 templ InputOTPCustomLength() {
-	@components.InputOTP(components.InputOTPProps{
+	@inputotp.InputOTP(inputotp.Props{
 		ID: "otp-custom-length",
 	}) {
-		@components.InputOTPGroup() {
-			@components.InputOTPSlot(components.InputOTPSlotProps{
+		@inputotp.Group() {
+			@inputotp.Slot(inputotp.SlotProps{
 				Index: 0,
 			})
-			@components.InputOTPSlot(components.InputOTPSlotProps{
+			@inputotp.Slot(inputotp.SlotProps{
 				Index: 1,
 			})
-			@components.InputOTPSlot(components.InputOTPSlotProps{
+			@inputotp.Slot(inputotp.SlotProps{
 				Index: 2,
 			})
 		}

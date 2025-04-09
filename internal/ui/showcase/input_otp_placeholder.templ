@@ -1,32 +1,32 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import "github.com/axzilla/templui/components/inputotp"
 
 templ InputOTPPlaceholder() {
-	@components.InputOTP() {
-		@components.InputOTPGroup() {
-			@components.InputOTPSlot(components.InputOTPSlotProps{
+	@inputotp.InputOTP() {
+		@inputotp.Group() {
+			@inputotp.Slot(inputotp.SlotProps{
 				Index:       0,
 				Placeholder: "•",
 			})
-			@components.InputOTPSlot(components.InputOTPSlotProps{
+			@inputotp.Slot(inputotp.SlotProps{
 				Index:       1,
 				Placeholder: "•",
 			})
-			@components.InputOTPSlot(components.InputOTPSlotProps{
+			@inputotp.Slot(inputotp.SlotProps{
 				Index:       2,
 				Placeholder: "•",
 			})
-			@components.InputOTPSeparator()
-			@components.InputOTPSlot(components.InputOTPSlotProps{
+			@inputotp.Separator()
+			@inputotp.Slot(inputotp.SlotProps{
 				Index:       3,
 				Placeholder: "•",
 			})
-			@components.InputOTPSlot(components.InputOTPSlotProps{
+			@inputotp.Slot(inputotp.SlotProps{
 				Index:       4,
 				Placeholder: "•",
 			})
-			@components.InputOTPSlot(components.InputOTPSlotProps{
+			@inputotp.Slot(inputotp.SlotProps{
 				Index:       5,
 				Placeholder: "•",
 			})

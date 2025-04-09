@@ -1,8 +1,8 @@
 package showcase
 
 import (
-	"github.com/axzilla/templui/components"
 	"github.com/axzilla/templui/components/checkbox"
+	"github.com/axzilla/templui/components/label"
 )
 
 templ CheckboxDisabled() {
@@ -12,7 +12,7 @@ templ CheckboxDisabled() {
 			ID:       "checkbox-disabled",
 		},
 		)
-		@components.Label(components.LabelProps{
+		@label.Label(label.Props{
 			For: "checkbox-disabled",
 		}) {
 			Accept terms and conditions

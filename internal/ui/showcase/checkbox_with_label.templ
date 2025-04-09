@@ -1,8 +1,8 @@
 package showcase
 
 import (
-	"github.com/axzilla/templui/components"
 	"github.com/axzilla/templui/components/checkbox"
+	"github.com/axzilla/templui/components/label"
 )
 
 templ CheckboxWithLabel() {
@@ -10,7 +10,7 @@ templ CheckboxWithLabel() {
 		@checkbox.Checkbox(checkbox.Props{
 			ID: "checkbox-with-label",
 		})
-		@components.Label(components.LabelProps{
+		@label.Label(label.Props{
 			For: "checkbox-with-label",
 		}) {
 			Accept terms and conditions

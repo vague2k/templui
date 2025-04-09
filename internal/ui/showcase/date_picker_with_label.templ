@@ -1,13 +1,13 @@
 package showcase
 
 import (
-	"github.com/axzilla/templui/components"
 	"github.com/axzilla/templui/components/datepicker"
+	"github.com/axzilla/templui/components/label"
 )
 
 templ DatePickerWithLabel() {
 	<div class="w-full max-w-sm space-y-2">
-		@components.Label(components.LabelProps{
+		@label.Label(label.Props{
 			For: "date-picker-with-label",
 		}) {
 			Pick a date

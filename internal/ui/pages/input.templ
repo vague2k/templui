@@ -19,7 +19,7 @@ templ Input() {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.InputDefault(),
 				PreviewCodeFile:   "input_default.templ",
-				ComponentCodeFile: "input.templ",
+				ComponentCodeFile: "input/input.templ",
 			})
 			@modules.Usage(modules.UsageProps{
 				ComponentName: "Input",
@@ -30,26 +30,26 @@ templ Input() {
 					SectionName:       "File",
 					ShowcaseFile:      showcase.InputFile(),
 					PreviewCodeFile:   "input_file.templ",
-					ComponentCodeFile: "input.templ",
+					ComponentCodeFile: "input/input.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "Disabled",
 					ShowcaseFile:      showcase.InputDisabled(),
 					PreviewCodeFile:   "input_disabled.templ",
-					ComponentCodeFile: "input.templ",
+					ComponentCodeFile: "input/input.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "With Label",
 					ShowcaseFile:      showcase.InputWithLabel(),
 					PreviewCodeFile:   "input_with_label.templ",
-					ComponentCodeFile: "input.templ",
+					ComponentCodeFile: "input/input.templ",
 					ID:                "label",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "Form",
 					ShowcaseFile:      showcase.InputForm(),
 					PreviewCodeFile:   "input_form.templ",
-					ComponentCodeFile: "input.templ",
+					ComponentCodeFile: "input/input.templ",
 					ID:                "form",
 				})
 			}

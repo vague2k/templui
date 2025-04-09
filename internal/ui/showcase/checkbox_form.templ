@@ -1,14 +1,14 @@
 package showcase
 
 import (
-	"github.com/axzilla/templui/components"
 	"github.com/axzilla/templui/components/checkbox"
+	"github.com/axzilla/templui/components/form"
 )
 
 templ CheckboxForm() {
 	<div class="w-full max-w-sm">
-		@components.FormItem() {
-			@components.FormItemFlex() {
+		@form.Item() {
+			@form.ItemFlex() {
 				@checkbox.Checkbox(
 					checkbox.Props{
 						Name:    "interests",
@@ -17,42 +17,42 @@ templ CheckboxForm() {
 						Checked: true,
 					},
 				)
-				@components.FormLabel(components.FormLabelProps{
+				@form.Label(form.LabelProps{
 					For: "c1",
 				}) {
 					Dessign and UX
 				}
 			}
-			@components.FormItemFlex() {
+			@form.ItemFlex() {
 				@checkbox.Checkbox(checkbox.Props{
 					Name:     "interests",
 					Value:    "development",
 					ID:       "c2",
 					Disabled: true,
 				})
-				@components.FormLabel(components.FormLabelProps{
+				@form.Label(form.LabelProps{
 					For: "c2",
 				}) {
 					Development (Coming Soon)
 				}
 			}
-			@components.FormItemFlex() {
+			@form.ItemFlex() {
 				@checkbox.Checkbox(checkbox.Props{
 					Name:  "interests",
 					Value: "marketing",
 					ID:    "c3",
 				})
-				@components.FormLabel(components.FormLabelProps{
+				@form.Label(form.LabelProps{
 					For: "c3",
 				}) {
 					Business and Marketing
 				}
 			}
-			@components.FormDescription() {
+			@form.Description() {
 				Choose all areas that interest you.
 			}
-			@components.FormMessage(components.FormMessageProps{
-				Variant: components.FormMessageVariantError,
+			@form.Message(form.MessageProps{
+				Variant: form.MessageVariantError,
 			}) {
 				Please select at least one interest.
 			}

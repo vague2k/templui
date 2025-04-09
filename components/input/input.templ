@@ -1,28 +1,28 @@
-package components
+package input
 
 import "github.com/axzilla/templui/utils"
 
-type InputType string
+type Type string
 
 const (
-	InputTypeText     InputType = "text"
-	InputTypePassword InputType = "password"
-	InputTypeEmail    InputType = "email"
-	InputTypeNumber   InputType = "number"
-	InputTypeTel      InputType = "tel"
-	InputTypeURL      InputType = "url"
-	InputTypeSearch   InputType = "search"
-	InputTypeDate     InputType = "date"
-	InputTypeTime     InputType = "time"
-	InputTypeFile     InputType = "file"
+	TypeText     Type = "text"
+	TypePassword Type = "password"
+	TypeEmail    Type = "email"
+	TypeNumber   Type = "number"
+	TypeTel      Type = "tel"
+	TypeURL      Type = "url"
+	TypeSearch   Type = "search"
+	TypeDate     Type = "date"
+	TypeTime     Type = "time"
+	TypeFile     Type = "file"
 )
 
-type InputProps struct {
+type Props struct {
 	ID          string
 	Class       string
 	Attributes  templ.Attributes
 	Name        string
-	Type        InputType
+	Type        Type
 	Placeholder string
 	Value       string
 	Disabled    bool
@@ -32,13 +32,13 @@ type InputProps struct {
 	HasError    bool
 }
 
-templ Input(props ...InputProps) {
-	{{ var p InputProps }}
+templ Input(props ...Props) {
+	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
 	if p.Type == "" {
-		{{ p.Type = InputTypeText }}
+		{{ p.Type = TypeText }}
 	}
 	<input
 		if p.ID != "" {
@@ -54,7 +54,7 @@ templ Input(props ...InputProps) {
 		if p.Value != "" {
 			value={ p.Value }
 		}
-		if p.Type == InputTypeFile && p.FileAccept != "" {
+		if p.Type == TypeFile && p.FileAccept != "" {
 			accept={ p.FileAccept }
 		}
 		disabled?={ p.Disabled }

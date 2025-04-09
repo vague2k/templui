@@ -1,50 +1,53 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import (
+	"github.com/axzilla/templui/components"
+	"github.com/axzilla/templui/components/form"
+)
 
 templ ToggleForm() {
 	<div class="w-full max-w-sm">
-		@components.FormItem() {
-			@components.FormItemFlex() {
+		@form.Item() {
+			@form.ItemFlex() {
 				@components.Toggle(components.ToggleProps{
 					ID:   "airplane-mode",
 					Name: "airplane",
 				})
-				@components.FormLabel(components.FormLabelProps{
+				@form.Label(form.LabelProps{
 					For: "airplane-mode",
 				}) {
 					Airplane Mode
 				}
 			}
-			@components.FormItemFlex() {
+			@form.ItemFlex() {
 				@components.Toggle(components.ToggleProps{
 					ID:       "wifi-mode",
 					Name:     "wifi",
 					Disabled: true,
 				})
-				@components.FormLabel(components.FormLabelProps{
+				@form.Label(form.LabelProps{
 					For: "wifi-mode",
 				}) {
 					Wi-Fi
 				}
 			}
-			@components.FormItemFlex() {
+			@form.ItemFlex() {
 				@components.Toggle(components.ToggleProps{
 					ID:      "bluetooth-mode",
 					Name:    "bluetooth",
 					Checked: true,
 				})
-				@components.FormLabel(components.FormLabelProps{
+				@form.Label(form.LabelProps{
 					For: "bluetooth-mode",
 				}) {
 					Bluetooth
 				}
 			}
-			@components.FormDescription() {
+			@form.Description() {
 				Manage your devices connectivity options.
 			}
-			@components.FormMessage(components.FormMessageProps{
-				Variant: components.FormMessageVariantError,
+			@form.Message(form.MessageProps{
+				Variant: form.MessageVariantError,
 			}) {
 				Please configure your connectivity settings.
 			}

@@ -8,6 +8,8 @@ import (
 	"github.com/axzilla/templui/components/datepicker"
 	"github.com/axzilla/templui/components/drawer"
 	"github.com/axzilla/templui/components/dropdown"
+	"github.com/axzilla/templui/components/inputotp"
+	"github.com/axzilla/templui/components/label"
 )
 
 templ ComponentScripts() {
@@ -17,8 +19,8 @@ templ ComponentScripts() {
 	@datepicker.Script()
 	@drawer.Script()
 	@dropdown.Script()
-	@components.InputOTPScript()
-	@components.LabelScript()
+	@inputotp.Script()
+	@label.Script()
 	@components.ModalScript()
 	@components.PopoverScript()
 	@components.RatingScript()

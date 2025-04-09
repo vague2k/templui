@@ -6,6 +6,8 @@ import (
 	"github.com/axzilla/templui/components/card"
 	"github.com/axzilla/templui/components/checkbox"
 	"github.com/axzilla/templui/components/datepicker"
+	"github.com/axzilla/templui/components/form"
+	"github.com/axzilla/templui/components/input"
 	"github.com/axzilla/templui/icons"
 	"github.com/axzilla/templui/internal/ui/layouts"
 	"github.com/axzilla/templui/internal/ui/modules"
@@ -703,44 +705,44 @@ templ ThemePreview() {
 			}
 			@card.Content() {
 				<form class="space-y-4">
-					@components.FormItem() {
-						@components.FormLabel(components.FormLabelProps{
+					@form.Item() {
+						@form.Label(form.LabelProps{
 							For: "username",
 						}) {
 							Username
 						}
-						@components.Input(components.InputProps{
+						@input.Input(input.Props{
 							ID:          "username",
-							Type:        components.InputTypeText,
+							Type:        input.TypeText,
 							Placeholder: "Enter your username",
 						})
 					}
-					@components.FormItem() {
-						@components.FormLabel(components.FormLabelProps{
+					@form.Item() {
+						@form.Label(form.LabelProps{
 							For: "email",
 						}) {
 							Email
 						}
-						@components.Input(components.InputProps{
+						@input.Input(input.Props{
 							ID:          "email",
-							Type:        components.InputTypeEmail,
+							Type:        input.TypeEmail,
 							Placeholder: "Enter your email",
 						})
 					}
-					@components.FormItem() {
-						@components.FormLabel(components.FormLabelProps{
+					@form.Item() {
+						@form.Label(form.LabelProps{
 							For: "password",
 						}) {
 							Password
 						}
-						@components.Input(components.InputProps{
+						@input.Input(input.Props{
 							ID:          "password",
-							Type:        components.InputTypePassword,
+							Type:        input.TypePassword,
 							Placeholder: "Enter your password",
 						})
 					}
-					@components.FormItem() {
-						@components.FormLabel(components.FormLabelProps{
+					@form.Item() {
+						@form.Label(form.LabelProps{
 							For: "birthdate",
 						}) {
 							Birth Date
@@ -750,98 +752,98 @@ templ ThemePreview() {
 							Placeholder: "Select your birth date",
 						})
 					}
-					@components.FormItem() {
+					@form.Item() {
 						<p class="text-sm text-muted-foreground">Contact Method</p>
-						@components.FormItemFlex() {
+						@form.ItemFlex() {
 							@components.Radio(components.RadioProps{
 								ID:   "contact-email",
 								Name: "contact-method",
 							})
-							@components.FormLabel(components.FormLabelProps{
+							@form.Label(form.LabelProps{
 								For: "contact-email",
 							}) {
 								Email
 							}
 						}
-						@components.FormItemFlex() {
+						@form.ItemFlex() {
 							@components.Radio(components.RadioProps{
 								ID:   "contact-phone",
 								Name: "contact-method",
 							})
-							@components.FormLabel(components.FormLabelProps{
+							@form.Label(form.LabelProps{
 								For: "contact-phone",
 							}) {
 								Phone
 							}
 						}
-						@components.FormItemFlex() {
+						@form.ItemFlex() {
 							@components.Radio(components.RadioProps{
 								ID:       "contact-mail",
 								Name:     "contact-method",
 								Disabled: true,
 							})
-							@components.FormLabel(components.FormLabelProps{
+							@form.Label(form.LabelProps{
 								For: "contact-mail",
 							}) {
 								Physical Mail
 							}
 						}
 					}
-					@components.FormItem() {
+					@form.Item() {
 						<p class="text-sm text-muted-foreground">Preferences</p>
-						@components.FormItemFlex() {
+						@form.ItemFlex() {
 							@components.Toggle(components.ToggleProps{
 								ID:   "marketing",
 								Name: "marketing",
 							})
-							@components.FormLabel(components.FormLabelProps{
+							@form.Label(form.LabelProps{
 								For: "marketing",
 							}) {
 								Receive marketing emails
 							}
 						}
-						@components.FormItemFlex() {
+						@form.ItemFlex() {
 							@components.Toggle(components.ToggleProps{
 								ID:         "notifications",
 								Name:       "notifications",
 								Attributes: templ.Attributes{"checked": "true"},
 							})
-							@components.FormLabel(components.FormLabelProps{
+							@form.Label(form.LabelProps{
 								For: "notifications",
 							}) {
 								Enable notifications
 							}
 						}
-						@components.FormItemFlex() {
+						@form.ItemFlex() {
 							@components.Toggle(components.ToggleProps{
 								ID:         "beta",
 								Name:       "beta",
 								Attributes: templ.Attributes{"disabled": "true"},
 							})
-							@components.FormLabel(components.FormLabelProps{
+							@form.Label(form.LabelProps{
 								For: "beta",
 							}) {
 								Join beta program
 							}
 						}
 					}
-					@components.FormItem() {
+					@form.Item() {
 						<p class="text-sm text-muted-foreground">Terms and Conditions</p>
-						@components.FormItemFlex() {
+						@form.ItemFlex() {
 							@checkbox.Checkbox(checkbox.Props{
 								ID: "terms",
 							})
-							@components.FormLabel(components.FormLabelProps{
+							@form.Label(form.LabelProps{
 								For: "terms",
 							}) {
 								I accept the terms and conditions
 							}
 						}
-						@components.FormItemFlex() {
+						@form.ItemFlex() {
 							@checkbox.Checkbox(checkbox.Props{
 								ID: "newsletter",
 							})
-							@components.FormLabel(components.FormLabelProps{
+							@form.Label(form.LabelProps{
 								For: "newsletter",
 							}) {
 								Subscribe to newsletter

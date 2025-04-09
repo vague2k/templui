@@ -1,15 +1,15 @@
 package showcase
 
 import (
-	"github.com/axzilla/templui/components"
 	"github.com/axzilla/templui/components/datepicker"
+	"github.com/axzilla/templui/components/label"
 	"time"
 )
 
 templ DatePickerFormats() {
 	<div class="w-full max-w-sm flex flex-col gap-4">
 		<div class="space-y-2">
-			@components.Label(components.LabelProps{
+			@label.Label(label.Props{
 				For: "date-picker-iso-format",
 			}) {
 				Default ISO format
@@ -21,7 +21,7 @@ templ DatePickerFormats() {
 			})
 		</div>
 		<div class="space-y-2">
-			@components.Label(components.LabelProps{
+			@label.Label(label.Props{
 				For: "date-picker-eu-format",
 			}) {
 				Default EU format
@@ -33,7 +33,7 @@ templ DatePickerFormats() {
 			})
 		</div>
 		<div class="space-y-2">
-			@components.Label(components.LabelProps{
+			@label.Label(label.Props{
 				For: "date-picker-uk-format",
 			}) {
 				UK Format
@@ -45,7 +45,7 @@ templ DatePickerFormats() {
 			})
 		</div>
 		<div class="space-y-2">
-			@components.Label(components.LabelProps{
+			@label.Label(label.Props{
 				For: "date-picker-us-format",
 			}) {
 				US Format
@@ -57,7 +57,7 @@ templ DatePickerFormats() {
 			})
 		</div>
 		<div class="space-y-2">
-			@components.Label(components.LabelProps{
+			@label.Label(label.Props{
 				For: "date-long-format",
 			}) {
 				LONG Format
@@ -69,7 +69,7 @@ templ DatePickerFormats() {
 			})
 		</div>
 		<div class="space-y-2">
-			@components.Label(components.LabelProps{
+			@label.Label(label.Props{
 				For: "date-es-long-format",
 			}) {
 				LONG Format (Spanish)

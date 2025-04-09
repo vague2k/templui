@@ -4,6 +4,7 @@ import (
 	"github.com/axzilla/templui/components"
 	"github.com/axzilla/templui/components/button"
 	"github.com/axzilla/templui/components/card"
+	"github.com/axzilla/templui/components/input"
 )
 
 templ TabsDefault() {
@@ -53,14 +54,14 @@ templ AccountTab() {
 		}
 		@card.Content() {
 			<div class="flex flex-col gap-4">
-				@components.Input(components.InputProps{
-					Type:        components.InputTypeText,
+				@input.Input(input.Props{
+					Type:        input.TypeText,
 					Placeholder: "Name",
 					ID:          "name",
 					Value:       "John Doe",
 				})
-				@components.Input(components.InputProps{
-					Type:        components.InputTypeEmail,
+				@input.Input(input.Props{
+					Type:        input.TypeEmail,
 					Placeholder: "Email",
 					ID:          "email",
 					Value:       "john.doe@example.com",
@@ -87,13 +88,13 @@ templ PasswordTab() {
 		}
 		@card.Content() {
 			<div class="flex flex-col gap-4">
-				@components.Input(components.InputProps{
-					Type:        components.InputTypePassword,
+				@input.Input(input.Props{
+					Type:        input.TypePassword,
 					Placeholder: "Current Password",
 					ID:          "current_password",
 				})
-				@components.Input(components.InputProps{
-					Type:        components.InputTypePassword,
+				@input.Input(input.Props{
+					Type:        input.TypePassword,
 					Placeholder: "New Password",
 					ID:          "new_password",
 				})

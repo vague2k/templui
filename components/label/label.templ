@@ -1,8 +1,8 @@
-package components
+package label
 
 import "github.com/axzilla/templui/utils"
 
-type LabelProps struct {
+type Props struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
@@ -10,8 +10,8 @@ type LabelProps struct {
 	Error      string
 }
 
-templ Label(props ...LabelProps) {
-	{{ var p LabelProps }}
+templ Label(props ...Props) {
+	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -36,7 +36,7 @@ templ Label(props ...LabelProps) {
 	</label>
 }
 
-templ LabelScript() {
+templ Script() {
 	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>

@@ -4,11 +4,14 @@ import (
 	"github.com/axzilla/templui/components"
 	"github.com/axzilla/templui/components/button"
 	"github.com/axzilla/templui/components/card"
+	"github.com/axzilla/templui/components/input"
+	"github.com/axzilla/templui/components/label"
 )
 
 templ CardDefault() {
 	<div class="w-full max-w-sm">
 		@card.Card() {
+			x
 			@card.Header() {
 				@card.Title() {
 					Create Project
@@ -20,18 +23,18 @@ templ CardDefault() {
 			@card.Content() {
 				<div class="flex flex-col gap-4">
 					<div class="w-full max-w-sm grid gap-2">
-						@components.Label(components.LabelProps{
+						@label.Label(label.Props{
 							For: "name",
 						}) {
 							Name
 						}
-						@components.Input(components.InputProps{
+						@input.Input(input.Props{
 							ID:          "name",
 							Placeholder: "Enter project name",
 						})
 					</div>
 					<div class="w-full max-w-sm grid gap-2">
-						@components.Label(components.LabelProps{
+						@label.Label(label.Props{
 							For: "service",
 						}) {
 							Service
