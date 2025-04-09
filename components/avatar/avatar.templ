@@ -1,4 +1,4 @@
-package components
+package avatar
 
 import (
 	"fmt"
@@ -6,30 +6,30 @@ import (
 	"strings"
 )
 
-type AvatarSize string
-type AvatarGroupSpacing string
+type Size string
+type GroupSpacing string
 
 const (
-	AvatarSizeSmall  AvatarSize = "small"
-	AvatarSizeMedium AvatarSize = "medium"
-	AvatarSizeLarge  AvatarSize = "large"
+	SizeSm Size = "sm"
+	SizeMd Size = "md"
+	SizeLg Size = "lg"
 )
 
 const (
-	AvatarGroupSpacingSmall  AvatarGroupSpacing = "small"
-	AvatarGroupSpacingMedium AvatarGroupSpacing = "medium"
-	AvatarGroupSpacingLarge  AvatarGroupSpacing = "large"
+	GroupSpacingSm GroupSpacing = "sm"
+	GroupSpacingMd GroupSpacing = "medium"
+	GroupSpacingLg GroupSpacing = "large"
 )
 
-type AvatarProps struct {
+type Props struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
-	Size       AvatarSize
+	Size       Size
 	InGroup    bool
 }
 
-type AvatarImageProps struct {
+type ImageProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
@@ -37,21 +37,21 @@ type AvatarImageProps struct {
 	Src        string
 }
 
-type AvatarFallbackProps struct {
+type FallbackProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-type AvatarGroupProps struct {
+type GroupProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
-	Spacing    AvatarGroupSpacing
+	Spacing    GroupSpacing
 }
 
-templ Avatar(props ...AvatarProps) {
-	{{ var p AvatarProps }}
+templ Avatar(props ...Props) {
+	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -62,7 +62,7 @@ templ Avatar(props ...AvatarProps) {
 		class={
 			utils.TwMerge(
 				"inline-flex items-center justify-center",
-				avatarSizeClasses(p.Size),
+				SizeClasses(p.Size),
 				"rounded-full bg-muted",
 				utils.If(p.InGroup, "ring-2 ring-background"),
 				p.Class,
@@ -74,8 +74,8 @@ templ Avatar(props ...AvatarProps) {
 	</div>
 }
 
-templ AvatarImage(props ...AvatarImageProps) {
-	{{ var p AvatarImageProps }}
+templ Image(props ...ImageProps) {
+	{{ var p ImageProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -100,8 +100,8 @@ templ AvatarImage(props ...AvatarImageProps) {
 	/>
 }
 
-templ AvatarFallback(props ...AvatarFallbackProps) {
-	{{ var p AvatarFallbackProps }}
+templ Fallback(props ...FallbackProps) {
+	{{ var p FallbackProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -121,8 +121,8 @@ templ AvatarFallback(props ...AvatarFallbackProps) {
 	</span>
 }
 
-templ AvatarGroup(props ...AvatarGroupProps) {
-	{{ var p AvatarGroupProps }}
+templ Group(props ...GroupProps) {
+	{{ var p GroupProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -133,7 +133,7 @@ templ AvatarGroup(props ...AvatarGroupProps) {
 		class={
 			utils.TwMerge(
 				"flex items-center -space-x-3",
-				avatarGroupSpacingClasses(p.Spacing),
+				GroupSpacingClasses(p.Spacing),
 				p.Class,
 			),
 		}
@@ -143,8 +143,8 @@ templ AvatarGroup(props ...AvatarGroupProps) {
 	</div>
 }
 
-templ AvatarGroupOverflow(count int, props ...AvatarProps) {
-	{{ var p AvatarProps }}
+templ GroupOverflow(count int, props ...Props) {
+	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -155,7 +155,7 @@ templ AvatarGroupOverflow(count int, props ...AvatarProps) {
 		class={
 			utils.TwMerge(
 				"inline-flex items-center justify-center",
-				avatarSizeClasses(p.Size),
+				SizeClasses(p.Size),
 				"rounded-full bg-muted ring-2 ring-background",
 				p.Class,
 			),
@@ -166,18 +166,18 @@ templ AvatarGroupOverflow(count int, props ...AvatarProps) {
 	</div>
 }
 
-func avatarSizeClasses(size AvatarSize) string {
+func SizeClasses(size Size) string {
 	switch size {
-	case AvatarSizeSmall:
+	case SizeSm:
 		return "w-8 h-8 text-xs"
-	case AvatarSizeLarge:
+	case SizeLg:
 		return "w-16 h-16 text-xl"
-	default:
+	default: // SizeMd
 		return "w-12 h-12 text-base"
 	}
 }
 
-func AvatarInitials(name string) string {
+func Initials(name string) string {
 	parts := strings.Fields(name)
 	initials := ""
 	for i, part := range parts {
@@ -191,13 +191,13 @@ func AvatarInitials(name string) string {
 	return strings.ToUpper(initials)
 }
 
-func avatarGroupSpacingClasses(spacing AvatarGroupSpacing) string {
+func GroupSpacingClasses(spacing GroupSpacing) string {
 	switch spacing {
-	case AvatarGroupSpacingSmall:
+	case GroupSpacingSm:
 		return "-space-x-1"
-	case AvatarGroupSpacingLarge:
+	case GroupSpacingLg:
 		return "-space-x-4"
-	default:
+	default: // GroupSpacingMd
 		return "-space-x-2"
 	}
 }
