@@ -1,31 +1,30 @@
-package components
+package code
 
 import (
 	"github.com/axzilla/templui/icons"
 	"github.com/axzilla/templui/utils"
 )
 
-type CodeSize string
+type Size string
 
 const (
-	CodeSizeDefault CodeSize = ""
-	CodeSizeSm      CodeSize = "sm"
-	CodeSizeLg      CodeSize = "lg"
-	CodeSizeFull    CodeSize = "full"
+	SizeSm   Size = "sm"
+	SizeLg   Size = "lg"
+	SizeFull Size = "full"
 )
 
-type CodeProps struct {
+type Props struct {
 	ID             string
 	Class          string
 	Attrs          templ.Attributes
 	Language       string
 	ShowCopyButton bool
-	Size           CodeSize
+	Size           Size
 	CodeClass      string
 }
 
-templ Code(props ...CodeProps) {
-	{{ var p CodeProps }}
+templ Code(props ...Props) {
+	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -45,9 +44,9 @@ templ Code(props ...CodeProps) {
 					utils.TwMerge(
 						"language-"+p.Language,
 						"overflow-y-auto! rounded-md block text-sm max-h-[501px]!",
-						utils.If(p.Size == CodeSizeSm, "max-h-[250px]!"),
-						utils.If(p.Size == CodeSizeLg, "max-h-[1000px]!"),
-						utils.If(p.Size == CodeSizeFull, "max-h-full!"),
+						utils.If(p.Size == SizeSm, "max-h-[250px]!"),
+						utils.If(p.Size == SizeLg, "max-h-[1000px]!"),
+						utils.If(p.Size == SizeFull, "max-h-full!"),
 						p.CodeClass,
 					),
 				}
@@ -71,7 +70,7 @@ templ Code(props ...CodeProps) {
 	</div>
 }
 
-templ CodeScript() {
+templ Script() {
 	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/pojoaque.min.css"/>

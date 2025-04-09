@@ -2,7 +2,7 @@ package pages
 
 import (
 	"fmt"
-	"github.com/axzilla/templui/components"
+	"github.com/axzilla/templui/components/code"
 	"github.com/axzilla/templui/internal/ui/layouts"
 	"github.com/axzilla/templui/internal/ui/modules"
 	"github.com/axzilla/templui/internal/ui/showcase"
@@ -48,7 +48,7 @@ templ Usage() {
 	<div class="mb-8">
 		<h2 class="text-2xl font-bold mb-4">Usage</h2>
 		<div>
-			@components.Code(components.CodeProps{Language: "go"}) {
+			@code.Code(code.Props{Language: "go"}) {
 				{ fmt.Sprintf(`@icons.%s(icons.%sProps{%s})`,
 				"ArrowRight",
 				"Icon",

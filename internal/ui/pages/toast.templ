@@ -3,6 +3,7 @@ package pages
 import (
 	"fmt"
 	"github.com/axzilla/templui/components"
+	"github.com/axzilla/templui/components/code"
 	"github.com/axzilla/templui/internal/ui/layouts"
 	"github.com/axzilla/templui/internal/ui/modules"
 	"github.com/axzilla/templui/internal/ui/showcase"
@@ -94,7 +95,7 @@ func Save(w http.ResponseWriter, r *http.Request) {
 }`, "templ")
 
 templ withHtmx() {
-	@components.Code(components.CodeProps{Language: "go"}) {
+	@code.Code(code.Props{Language: "go"}) {
 		{ withHtmxCode }
 	}
 }
@@ -119,7 +120,7 @@ func Save(w http.ResponseWriter, r *http.Request) {
 }`, "templ")
 
 templ fullPageForm() {
-	@components.Code(components.CodeProps{Language: "go"}) {
+	@code.Code(code.Props{Language: "go"}) {
 		{ fullPageFormCode }
 	}
 }

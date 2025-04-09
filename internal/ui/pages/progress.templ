@@ -1,10 +1,10 @@
 package pages
 
 import (
+	"github.com/axzilla/templui/components/code"
 	"github.com/axzilla/templui/internal/ui/layouts"
 	"github.com/axzilla/templui/internal/ui/modules"
 	"github.com/axzilla/templui/internal/ui/showcase"
-	"github.com/axzilla/templui/components"
 )
 
 templ Progress() {
@@ -49,7 +49,7 @@ templ Progress() {
 					<p class="mb-2">
 						For file uploads, use the browser's XMLHttpRequest or fetch API with progress events:
 					</p>
-					@components.Code(components.CodeProps{
+					@code.Code(code.Props{
 						Language: "go",
 					}) {
 						{ exampleFileUploads }
@@ -58,7 +58,7 @@ templ Progress() {
 					<p class="mb-2">
 						For multi-step forms, you can use either client-side calculations or HTMX for server-side validation between steps:
 					</p>
-					@components.Code(components.CodeProps{
+					@code.Code(code.Props{
 						Language: "go",
 					}) {
 						{ exampleMultiStepForms }
@@ -72,7 +72,7 @@ templ Progress() {
 							<p class="mb-2">
 								<strong>HTMX Polling</strong>: Simple approach, good for processes under a few minutes
 							</p>
-							@components.Code(components.CodeProps{
+							@code.Code(code.Props{
 								Language: "go",
 							}) {
 								{ exampleHTMXPolling }
@@ -82,7 +82,7 @@ templ Progress() {
 							<p class="mb-2">
 								<strong>Server-Sent Events (SSE)</strong>: For real-time updates and longer processes
 							</p>
-							@components.Code(components.CodeProps{
+							@code.Code(code.Props{
 								Language: "go",
 							}) {
 								{ exampleSSEHandler }
