@@ -1,15 +1,15 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
 import "github.com/axzilla/templui/icons"
+import "github.com/axzilla/templui/components/checkboxcard"
 
 templ CheckboxCardDefault() {
 	<div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-		@components.CheckboxCard(components.CheckboxCardProps{
+		@checkboxcard.CheckboxCard(checkboxcard.Props{
 			ID: "feature-analytics",
 		},
 		) {
-			@components.CheckboxCardHeader() {
+			@checkboxcard.Header() {
 				<div class="flex items-center gap-2">
 					<div class="text-primary">
 						@icons.ChartBar(icons.IconProps{Size: 20})
@@ -17,18 +17,18 @@ templ CheckboxCardDefault() {
 					<h3>Analytics</h3>
 				</div>
 			}
-			@components.CheckboxCardDescription() {
+			@checkboxcard.Description() {
 				Real-time data analytics and reporting tools
 			}
-			@components.CheckboxCardFooter() {
+			@checkboxcard.Footer() {
 				@radioCardPriceFooter("$5/month")
 			}
 		}
-		@components.CheckboxCard(components.CheckboxCardProps{
+		@checkboxcard.CheckboxCard(checkboxcard.Props{
 			ID: "feature-storage",
 		},
 		) {
-			@components.CheckboxCardHeader() {
+			@checkboxcard.Header() {
 				<div class="flex items-center gap-2">
 					<div class="text-primary">
 						@icons.Cloud(icons.IconProps{Size: 20})
@@ -36,18 +36,18 @@ templ CheckboxCardDefault() {
 					<h3>Cloud Storage</h3>
 				</div>
 			}
-			@components.CheckboxCardDescription() {
+			@checkboxcard.Description() {
 				Secure file storage with 100GB capacity
 			}
-			@components.CheckboxCardFooter() {
+			@checkboxcard.Footer() {
 				@radioCardPriceFooter("$3/month")
 			}
 		}
-		@components.CheckboxCard(components.CheckboxCardProps{
+		@checkboxcard.CheckboxCard(checkboxcard.Props{
 			ID:       "feature-api",
 			Disabled: true,
 		}) {
-			@components.CheckboxCardHeader() {
+			@checkboxcard.Header() {
 				<div class="flex items-center gap-2">
 					<div class="text-primary">
 						@icons.Code(icons.IconProps{Size: 20})
@@ -55,10 +55,10 @@ templ CheckboxCardDefault() {
 					<h3>API Access</h3>
 				</div>
 			}
-			@components.CheckboxCardDescription() {
+			@checkboxcard.Description() {
 				Full access to our developer API endpoints
 			}
-			@components.CheckboxCardFooter() {
+			@checkboxcard.Footer() {
 				@radioCardPriceFooter("$8/month")
 			}
 		}

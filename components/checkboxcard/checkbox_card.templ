@@ -1,8 +1,8 @@
-package components
+package checkboxcard
 
 import "github.com/axzilla/templui/utils"
 
-type CheckboxCardProps struct {
+type Props struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
@@ -13,26 +13,26 @@ type CheckboxCardProps struct {
 	Value      string
 }
 
-type CheckboxCardHeaderProps struct {
+type HeaderProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-type CheckboxCardDescriptionProps struct {
+type DescriptionProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-type CheckboxCardFooterProps struct {
+type FooterProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-templ CheckboxCard(props ...CheckboxCardProps) {
-	{{ var p CheckboxCardProps }}
+templ CheckboxCard(props ...Props) {
+	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -87,8 +87,8 @@ templ CheckboxCard(props ...CheckboxCardProps) {
 	</div>
 }
 
-templ CheckboxCardHeader(props ...CheckboxCardHeaderProps) {
-	{{ var p CheckboxCardHeaderProps }}
+templ Header(props ...HeaderProps) {
+	{{ var p HeaderProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -108,8 +108,8 @@ templ CheckboxCardHeader(props ...CheckboxCardHeaderProps) {
 	</div>
 }
 
-templ CheckboxCardDescription(props ...CheckboxCardDescriptionProps) {
-	{{ var p CheckboxCardDescriptionProps }}
+templ Description(props ...DescriptionProps) {
+	{{ var p DescriptionProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -129,8 +129,8 @@ templ CheckboxCardDescription(props ...CheckboxCardDescriptionProps) {
 	</p>
 }
 
-templ CheckboxCardFooter(props ...CheckboxCardFooterProps) {
-	{{ var p CheckboxCardFooterProps }}
+templ Footer(props ...FooterProps) {
+	{{ var p FooterProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
