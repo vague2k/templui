@@ -1,12 +1,15 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import (
+	"github.com/axzilla/templui/components"
+	"github.com/axzilla/templui/components/button"
+)
 
 templ DrawerPositions() {
 	<div class="flex flex-wrap gap-2">
 		@components.Drawer() {
 			@components.DrawerTrigger() {
-				@components.Button() {
+				@button.Button() {
 					Top
 				}
 			}
@@ -28,7 +31,7 @@ templ DrawerPositions() {
 		}
 		@components.Drawer() {
 			@components.DrawerTrigger() {
-				@components.Button() {
+				@button.Button() {
 					Right
 				}
 			}
@@ -50,7 +53,7 @@ templ DrawerPositions() {
 		}
 		@components.Drawer() {
 			@components.DrawerTrigger() {
-				@components.Button() {
+				@button.Button() {
 					Bottom
 				}
 			}
@@ -72,7 +75,7 @@ templ DrawerPositions() {
 		}
 		@components.Drawer() {
 			@components.DrawerTrigger() {
-				@components.Button() {
+				@button.Button() {
 					Left
 				}
 			}

@@ -1,6 +1,7 @@
 package components
 
 import (
+	"github.com/axzilla/templui/components/button"
 	"github.com/axzilla/templui/icons"
 	"github.com/axzilla/templui/utils"
 	"strconv"
@@ -133,9 +134,9 @@ templ toastDescription(p ToastProps) {
 }
 
 templ toastDismissButton() {
-	@Button(ButtonProps{
-		Size:    ButtonSizeIcon,
-		Variant: ButtonVariantGhost,
+	@button.Button(button.Props{
+		Size:    button.SizeIcon,
+		Variant: button.VariantGhost,
 		Attributes: templ.Attributes{
 			"aria-label":       "Close",
 			"@click":           "dismissToast",

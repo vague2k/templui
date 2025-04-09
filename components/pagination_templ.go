@@ -9,6 +9,7 @@ import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
 import (
+	"github.com/axzilla/templui/components/button"
 	"github.com/axzilla/templui/icons"
 	"github.com/axzilla/templui/utils"
 )
@@ -107,7 +108,7 @@ func Pagination(props ...PaginationProps) templ.Component {
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/pagination.templ`, Line: 67, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/pagination.templ`, Line: 68, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -192,7 +193,7 @@ func PaginationContent(props ...PaginationContentProps) templ.Component {
 			var templ_7745c5c3_Var6 string
 			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/pagination.templ`, Line: 85, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/pagination.templ`, Line: 86, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 			if templ_7745c5c3_Err != nil {
@@ -264,7 +265,7 @@ func PaginationItem(props ...PaginationItemProps) templ.Component {
 			var templ_7745c5c3_Var8 string
 			templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/pagination.templ`, Line: 101, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/pagination.templ`, Line: 102, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 			if templ_7745c5c3_Err != nil {
@@ -339,11 +340,11 @@ func PaginationLink(props ...PaginationLinkProps) templ.Component {
 				}
 				return nil
 			})
-			templ_7745c5c3_Err = Button(ButtonProps{
+			templ_7745c5c3_Err = button.Button(button.Props{
 				ID:         p.ID,
 				Disabled:   true,
-				Size:       ButtonSizeIcon,
-				Variant:    ButtonVariantGhost,
+				Size:       button.SizeIcon,
+				Variant:    button.VariantGhost,
 				Class:      p.Class,
 				Attributes: p.Attributes,
 			}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var10), templ_7745c5c3_Buffer)
@@ -369,13 +370,13 @@ func PaginationLink(props ...PaginationLinkProps) templ.Component {
 				}
 				return nil
 			})
-			templ_7745c5c3_Err = Button(ButtonProps{
+			templ_7745c5c3_Err = button.Button(button.Props{
 				ID:         p.ID,
 				HxGet:      p.HxGet,
 				HxTarget:   p.HxTarget,
 				HxSwap:     p.HxSwap,
-				Size:       ButtonSizeIcon,
-				Variant:    buttonVariant(p.IsActive),
+				Size:       button.SizeIcon,
+				Variant:    button.Variant(buttonVariant(p.IsActive)),
 				Class:      p.Class,
 				Attributes: p.Attributes,
 			}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var11), templ_7745c5c3_Buffer)
@@ -401,11 +402,11 @@ func PaginationLink(props ...PaginationLinkProps) templ.Component {
 				}
 				return nil
 			})
-			templ_7745c5c3_Err = Button(ButtonProps{
+			templ_7745c5c3_Err = button.Button(button.Props{
 				ID:         p.ID,
 				Href:       p.Href,
-				Size:       ButtonSizeIcon,
-				Variant:    buttonVariant(p.IsActive),
+				Size:       button.SizeIcon,
+				Variant:    button.Variant(buttonVariant(p.IsActive)),
 				Class:      p.Class,
 				Attributes: p.Attributes,
 			}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var12), templ_7745c5c3_Buffer)
@@ -464,14 +465,14 @@ func PaginationPrevious(props ...PaginationPreviousProps) templ.Component {
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = Button(ButtonProps{
+		templ_7745c5c3_Err = button.Button(button.Props{
 			ID:         p.ID,
 			Href:       p.Href,
 			HxGet:      p.HxGet,
 			HxTarget:   p.HxTarget,
 			HxSwap:     p.HxSwap,
 			Disabled:   p.Disabled,
-			Variant:    ButtonVariantGhost,
+			Variant:    button.VariantGhost,
 			Class:      utils.TwMerge("gap-1", p.Class),
 			Attributes: p.Attributes,
 		}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var14), templ_7745c5c3_Buffer)
@@ -529,14 +530,14 @@ func PaginationNext(props ...PaginationNextProps) templ.Component {
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = Button(ButtonProps{
+		templ_7745c5c3_Err = button.Button(button.Props{
 			ID:         p.ID,
 			Href:       p.Href,
 			HxGet:      p.HxGet,
 			HxTarget:   p.HxTarget,
 			HxSwap:     p.HxSwap,
 			Disabled:   p.Disabled,
-			Variant:    ButtonVariantGhost,
+			Variant:    button.VariantGhost,
 			Class:      utils.TwMerge("gap-1", p.Class),
 			Attributes: p.Attributes,
 		}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var16), templ_7745c5c3_Buffer)
@@ -642,11 +643,11 @@ func calculateVisibleRange(currentPage, totalPages, maxVisible int) (int, int) {
 	return start, end
 }
 
-func buttonVariant(isActive bool) ButtonVariant {
+func buttonVariant(isActive bool) button.Variant {
 	if isActive {
-		return ButtonVariantOutline
+		return button.VariantOutline
 	}
-	return ButtonVariantGhost
+	return button.VariantGhost
 }
 
 var _ = templruntime.GeneratedTemplate

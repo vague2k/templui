@@ -2,6 +2,7 @@ package modules
 
 import (
 	"github.com/axzilla/templui/components"
+	"github.com/axzilla/templui/components/button"
 	"github.com/axzilla/templui/icons"
 	"github.com/axzilla/templui/internal/ctxkeys"
 	"github.com/axzilla/templui/internal/shared"
@@ -22,17 +23,17 @@ templ Navbar() {
 				<a href="/docs/components" class="text-sm hover:underline">Components</a>
 			</div>
 			<div class="flex items-center">
-				@components.Button(components.ButtonProps{
-					Size:    components.ButtonSizeIcon,
-					Variant: components.ButtonVariantGhost,
+				@button.Button(button.Props{
+					Size:    button.SizeIcon,
+					Variant: button.VariantGhost,
 					Href:    "https://github.com/axzilla/templui",
 					Target:  "_blank",
 				}) {
 					@wrappedicons.GitHub(24)
 				}
-				@components.Button(components.ButtonProps{
-					Size:    components.ButtonSizeIcon,
-					Variant: components.ButtonVariantGhost,
+				@button.Button(button.Props{
+					Size:    button.SizeIcon,
+					Variant: button.VariantGhost,
 					Href:    "https://x.com/_axzilla/",
 					Target:  "_blank",
 				}) {

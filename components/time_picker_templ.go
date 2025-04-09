@@ -10,6 +10,7 @@ import templruntime "github.com/a-h/templ/runtime"
 
 import (
 	"fmt"
+	"github.com/axzilla/templui/components/button"
 	"github.com/axzilla/templui/icons"
 	"github.com/axzilla/templui/utils"
 	"strconv"
@@ -103,7 +104,7 @@ func TimePicker(props ...TimePickerProps) templ.Component {
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(p.Value.Format("15:04"))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/time_picker.templ`, Line: 51, Col: 39}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/time_picker.templ`, Line: 52, Col: 39}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
@@ -121,7 +122,7 @@ func TimePicker(props ...TimePickerProps) templ.Component {
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%t", p.Use12Hours))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/time_picker.templ`, Line: 53, Col: 51}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/time_picker.templ`, Line: 54, Col: 51}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
@@ -134,7 +135,7 @@ func TimePicker(props ...TimePickerProps) templ.Component {
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/time_picker.templ`, Line: 55, Col: 22}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/time_picker.templ`, Line: 56, Col: 22}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -147,7 +148,7 @@ func TimePicker(props ...TimePickerProps) templ.Component {
 		var templ_7745c5c3_Var7 string
 		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(p.Name)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/time_picker.templ`, Line: 60, Col: 17}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/time_picker.templ`, Line: 61, Col: 17}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
@@ -211,7 +212,7 @@ func TimePicker(props ...TimePickerProps) templ.Component {
 					var templ_7745c5c3_Var11 string
 					templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(p.Value.Format("03:04 PM"))
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/time_picker.templ`, Line: 89, Col: 35}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/time_picker.templ`, Line: 90, Col: 35}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 					if templ_7745c5c3_Err != nil {
@@ -221,7 +222,7 @@ func TimePicker(props ...TimePickerProps) templ.Component {
 					var templ_7745c5c3_Var12 string
 					templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs(p.Value.Format("15:04"))
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/time_picker.templ`, Line: 91, Col: 32}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/time_picker.templ`, Line: 92, Col: 32}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
 					if templ_7745c5c3_Err != nil {
@@ -232,7 +233,7 @@ func TimePicker(props ...TimePickerProps) templ.Component {
 				var templ_7745c5c3_Var13 string
 				templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(p.Placeholder)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/time_picker.templ`, Line: 94, Col: 21}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/time_picker.templ`, Line: 95, Col: 21}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 				if templ_7745c5c3_Err != nil {
@@ -251,10 +252,10 @@ func TimePicker(props ...TimePickerProps) templ.Component {
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = Button(ButtonProps{
+		templ_7745c5c3_Err = button.Button(button.Props{
 			ID:      p.ID,
 			Type:    "button",
-			Variant: ButtonVariantOutline,
+			Variant: button.VariantOutline,
 			Class: utils.TwMerge(
 				"w-full flex justify-between items-center",
 				utils.If(p.HasError, "border-destructive ring-destructive"),
@@ -324,7 +325,7 @@ func TimePicker(props ...TimePickerProps) templ.Component {
 							var templ_7745c5c3_Var17 string
 							templ_7745c5c3_Var17, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%02d", hour))
 							if templ_7745c5c3_Err != nil {
-								return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/time_picker.templ`, Line: 133, Col: 37}
+								return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/time_picker.templ`, Line: 134, Col: 37}
 							}
 							_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var17))
 							if templ_7745c5c3_Err != nil {
@@ -334,7 +335,7 @@ func TimePicker(props ...TimePickerProps) templ.Component {
 							var templ_7745c5c3_Var18 string
 							templ_7745c5c3_Var18, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%02d", p.Value.Hour()))
 							if templ_7745c5c3_Err != nil {
-								return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/time_picker.templ`, Line: 135, Col: 47}
+								return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/time_picker.templ`, Line: 136, Col: 47}
 							}
 							_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var18))
 							if templ_7745c5c3_Err != nil {
@@ -402,7 +403,7 @@ func TimePicker(props ...TimePickerProps) templ.Component {
 							var templ_7745c5c3_Var22 string
 							templ_7745c5c3_Var22, templ_7745c5c3_Err = templ.JoinStringErrs(option.Label)
 							if templ_7745c5c3_Err != nil {
-								return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/time_picker.templ`, Line: 151, Col: 24}
+								return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/time_picker.templ`, Line: 152, Col: 24}
 							}
 							_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var22))
 							if templ_7745c5c3_Err != nil {
@@ -487,7 +488,7 @@ func TimePicker(props ...TimePickerProps) templ.Component {
 						var templ_7745c5c3_Var26 string
 						templ_7745c5c3_Var26, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%02d", p.Value.Minute()))
 						if templ_7745c5c3_Err != nil {
-							return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/time_picker.templ`, Line: 170, Col: 48}
+							return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/time_picker.templ`, Line: 171, Col: 48}
 						}
 						_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var26))
 						if templ_7745c5c3_Err != nil {
@@ -554,7 +555,7 @@ func TimePicker(props ...TimePickerProps) templ.Component {
 							var templ_7745c5c3_Var30 string
 							templ_7745c5c3_Var30, templ_7745c5c3_Err = templ.JoinStringErrs(option.Label)
 							if templ_7745c5c3_Err != nil {
-								return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/time_picker.templ`, Line: 181, Col: 24}
+								return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/time_picker.templ`, Line: 182, Col: 24}
 							}
 							_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var30))
 							if templ_7745c5c3_Err != nil {
@@ -630,7 +631,7 @@ func TimePicker(props ...TimePickerProps) templ.Component {
 			var templ_7745c5c3_Var33 string
 			templ_7745c5c3_Var33, templ_7745c5c3_Err = templ.JoinStringErrs(p.AMLabel)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/time_picker.templ`, Line: 203, Col: 18}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/time_picker.templ`, Line: 204, Col: 18}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var33))
 			if templ_7745c5c3_Err != nil {
@@ -670,7 +671,7 @@ func TimePicker(props ...TimePickerProps) templ.Component {
 			var templ_7745c5c3_Var36 string
 			templ_7745c5c3_Var36, templ_7745c5c3_Err = templ.JoinStringErrs(p.PMLabel)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/time_picker.templ`, Line: 216, Col: 18}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/time_picker.templ`, Line: 217, Col: 18}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var36))
 			if templ_7745c5c3_Err != nil {
@@ -704,9 +705,9 @@ func TimePicker(props ...TimePickerProps) templ.Component {
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = Button(ButtonProps{
+		templ_7745c5c3_Err = button.Button(button.Props{
 			Type:    "button",
-			Variant: ButtonVariantSecondary,
+			Variant: button.VariantSecondary,
 			Attributes: templ.Attributes{
 				"@click": "closeTimePicker",
 			},
@@ -806,7 +807,7 @@ func TimePickerScript() templ.Component {
 			var templ_7745c5c3_Var40 string
 			templ_7745c5c3_Var40, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/time_picker.templ`, Line: 282, Col: 43}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `components/time_picker.templ`, Line: 283, Col: 43}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var40))
 			if templ_7745c5c3_Err != nil {

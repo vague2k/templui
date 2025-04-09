@@ -1,14 +1,17 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import (
+	"github.com/axzilla/templui/components"
+	"github.com/axzilla/templui/components/button"
+)
 
 templ TooltipDefault() {
 	@components.Tooltip() {
 		@components.TooltipTrigger(components.TooltipTriggerProps{
 			For: "tooltip-default",
 		}) {
-			@components.Button(components.ButtonProps{
-				Variant: components.ButtonVariantOutline,
+			@button.Button(button.Props{
+				Variant: button.VariantOutline,
 			}) {
 				Hover Me
 			}

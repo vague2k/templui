@@ -1,6 +1,7 @@
 package components
 
 import (
+	"github.com/axzilla/templui/components/button"
 	"github.com/axzilla/templui/icons"
 	"github.com/axzilla/templui/utils"
 	"strconv"
@@ -78,10 +79,10 @@ templ SelectTrigger(props ...SelectTriggerProps) {
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
-	@Button(ButtonProps{
+	@button.Button(button.Props{
 		ID:      p.ID,
 		Type:    "button",
-		Variant: ButtonVariantOutline,
+		Variant: button.VariantOutline,
 		Class: utils.TwMerge(
 			"w-full select-trigger flex items-center justify-between focus:ring-2 focus:ring-offset-2",
 			utils.If(p.HasError, "border-destructive ring-destructive"),

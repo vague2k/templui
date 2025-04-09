@@ -1,33 +1,33 @@
 package showcase
 
 import (
-	"github.com/axzilla/templui/components"
 	"github.com/axzilla/templui/components/aspectratio"
+	"github.com/axzilla/templui/components/card"
 )
 
 templ CardImageLeft() {
 	<div class="w-full max-w-sm">
-		@components.Card() {
-			@components.CardHorizontal() {
-				@components.CardMedia(components.CardMediaProps{
+		@card.Card() {
+			@card.Horizontal() {
+				@card.Media(card.MediaProps{
 					ID:          "left-media",
 					Alt:         "Left side image",
-					Position:    components.CardMediaLeft,
-					Width:       components.CardMediaWidthThird,
+					Position:    card.MediaPositionLeft,
+					Width:       card.MediaWidthThird,
 					AspectRatio: aspectratio.RatioAuto,
 					Src:         "/assets/img/card_placeholder.jpeg",
 				},
 				)
 				<div class="flex flex-col flex-1">
-					@components.CardHeader() {
-						@components.CardTitle() {
+					@card.Header() {
+						@card.Title() {
 							Side Image Card
 						}
-						@components.CardDescription() {
+						@card.Description() {
 							With left-aligned image
 						}
 					}
-					@components.CardContent() {
+					@card.Content() {
 						<p>This card demonstrates the left image layout.</p>
 					}
 				</div>

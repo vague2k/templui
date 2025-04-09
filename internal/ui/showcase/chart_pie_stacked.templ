@@ -1,10 +1,13 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import (
+	"github.com/axzilla/templui/components"
+	"github.com/axzilla/templui/components/card"
+)
 
 templ ChartPieStacked() {
-	@components.Card(components.CardProps{Class: "max-w-sm"}) {
-		@components.CardContent() {
+	@card.Card(card.Props{Class: "max-w-sm"}) {
+		@card.Content() {
 			@components.Chart(components.ChartProps{
 				Variant: components.ChartVariantPie,
 				Data: components.ChartData{

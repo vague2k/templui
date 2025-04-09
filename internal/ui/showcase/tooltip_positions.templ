@@ -1,6 +1,9 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import (
+	"github.com/axzilla/templui/components"
+	"github.com/axzilla/templui/components/button"
+)
 
 templ TooltipPositions() {
 	<div class="flex gap-2">
@@ -8,8 +11,8 @@ templ TooltipPositions() {
 			@components.TooltipTrigger(components.TooltipTriggerProps{
 				For: "top-tooltip",
 			}) {
-				@components.Button(components.ButtonProps{
-					Variant: components.ButtonVariantOutline,
+				@button.Button(button.Props{
+					Variant: button.VariantOutline,
 				}) {
 					Top
 				}
@@ -28,8 +31,8 @@ templ TooltipPositions() {
 			@components.TooltipTrigger(components.TooltipTriggerProps{
 				For: "right-tooltip",
 			}) {
-				@components.Button(components.ButtonProps{
-					Variant: components.ButtonVariantOutline,
+				@button.Button(button.Props{
+					Variant: button.VariantOutline,
 				}) {
 					Right
 				}
@@ -48,8 +51,8 @@ templ TooltipPositions() {
 			@components.TooltipTrigger(components.TooltipTriggerProps{
 				For: "bottom-tooltip",
 			}) {
-				@components.Button(components.ButtonProps{
-					Variant: components.ButtonVariantOutline,
+				@button.Button(button.Props{
+					Variant: button.VariantOutline,
 				}) {
 					Bottom
 				}
@@ -68,8 +71,8 @@ templ TooltipPositions() {
 			@components.TooltipTrigger(components.TooltipTriggerProps{
 				For: "left-tooltip",
 			}) {
-				@components.Button(components.ButtonProps{
-					Variant: components.ButtonVariantOutline,
+				@button.Button(button.Props{
+					Variant: button.VariantOutline,
 				}) {
 					Left
 				}

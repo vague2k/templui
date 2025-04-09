@@ -1,10 +1,11 @@
 package components
 
 import (
+	"github.com/axzilla/templui/components/button"
 	"github.com/axzilla/templui/icons"
 	"github.com/axzilla/templui/utils"
-	"time"
 	"strconv"
+	"time"
 )
 
 type DateFormat string
@@ -154,10 +155,10 @@ templ DatePicker(props ...DatePickerProps) {
 			required?={ p.Required }
 		/>
 		<div class="relative">
-			@Button(ButtonProps{
+			@button.Button(button.Props{
 				ID:      p.ID,
 				Type:    "button",
-				Variant: ButtonVariantOutline,
+				Variant: button.VariantOutline,
 				Class: utils.TwMerge(
 					"w-full select-trigger flex items-center justify-between focus:ring-2 focus:ring-offset-2",
 					utils.If(p.HasError, "border-destructive ring-destructive"),

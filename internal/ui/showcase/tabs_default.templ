@@ -1,6 +1,10 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import (
+	"github.com/axzilla/templui/components"
+	"github.com/axzilla/templui/components/button"
+	"github.com/axzilla/templui/components/card"
+)
 
 templ TabsDefault() {
 	@components.Tabs(components.TabsProps{
@@ -38,16 +42,16 @@ templ TabsDefault() {
 }
 
 templ AccountTab() {
-	@components.Card() {
-		@components.CardHeader() {
-			@components.CardTitle() {
+	@card.Card() {
+		@card.Header() {
+			@card.Title() {
 				Account 
 			}
-			@components.CardDescription() {
+			@card.Description() {
 				Make changes to your account here. Click save when you are done.
 			}
 		}
-		@components.CardContent() {
+		@card.Content() {
 			<div class="flex flex-col gap-4">
 				@components.Input(components.InputProps{
 					Type:        components.InputTypeText,
@@ -63,8 +67,8 @@ templ AccountTab() {
 				})
 			</div>
 		}
-		@components.CardFooter() {
-			@components.Button() {
+		@card.Footer() {
+			@button.Button() {
 				Save changes
 			}
 		}
@@ -72,16 +76,16 @@ templ AccountTab() {
 }
 
 templ PasswordTab() {
-	@components.Card() {
-		@components.CardHeader() {
-			@components.CardTitle() {
+	@card.Card() {
+		@card.Header() {
+			@card.Title() {
 				Password 
 			}
-			@components.CardDescription() {
+			@card.Description() {
 				Change your password here. After saving, you will be logged out.
 			}
 		}
-		@components.CardContent() {
+		@card.Content() {
 			<div class="flex flex-col gap-4">
 				@components.Input(components.InputProps{
 					Type:        components.InputTypePassword,
@@ -95,8 +99,8 @@ templ PasswordTab() {
 				})
 			</div>
 		}
-		@components.CardFooter() {
-			@components.Button() {
+		@card.Footer() {
+			@button.Button() {
 				Save password
 			}
 		}

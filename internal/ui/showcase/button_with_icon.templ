@@ -1,12 +1,12 @@
 package showcase
 
 import (
-	"github.com/axzilla/templui/components"
+	"github.com/axzilla/templui/components/button"
 	"github.com/axzilla/templui/icons"
 )
 
 templ ButtonWithIcon() {
-	@components.Button(components.ButtonProps{
+	@button.Button(button.Props{
 		Class: "flex gap-2 items-center",
 	}) {
 		@icons.Mail(icons.IconProps{Size: 16})

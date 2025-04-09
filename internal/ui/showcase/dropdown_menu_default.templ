@@ -2,14 +2,15 @@ package showcase
 
 import (
 	"github.com/axzilla/templui/components"
+	"github.com/axzilla/templui/components/button"
 	"github.com/axzilla/templui/icons"
 )
 
 templ DropdownMenuDefault() {
 	@components.DropdownMenu() {
 		@components.DropdownMenuTrigger() {
-			@components.Button(components.ButtonProps{
-				Variant: components.ButtonVariantOutline,
+			@button.Button(button.Props{
+				Variant: button.VariantOutline,
 			}) {
 				Open
 			}

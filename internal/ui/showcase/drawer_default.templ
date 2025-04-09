@@ -1,11 +1,15 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import (
+	"github.com/axzilla/templui/components"
+	"github.com/axzilla/templui/components/button"
+	"github.com/axzilla/templui/components/card"
+)
 
 templ DrawerDefault() {
 	@components.Drawer() {
 		@components.DrawerTrigger(components.DrawerTriggerProps{Class: "mb-4"}) {
-			@components.Button() {
+			@button.Button() {
 				Open
 			}
 		}
@@ -20,8 +24,8 @@ templ DrawerDefault() {
 					Make changes to your account here. Click save when you are done.
 				}
 			}
-			@components.Card() {
-				@components.CardContent() {
+			@card.Card() {
+				@card.Content() {
 					<div class="flex flex-col gap-4">
 						@components.Input(components.InputProps{
 							Type:        components.InputTypeText,
@@ -42,7 +46,7 @@ templ DrawerDefault() {
 				@components.DrawerClose() {
 					Cancel
 				}
-				@components.Button() {
+				@button.Button() {
 					Save
 				}
 			}

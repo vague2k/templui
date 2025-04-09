@@ -2,6 +2,8 @@ package pages
 
 import (
 	"github.com/axzilla/templui/components"
+	"github.com/axzilla/templui/components/button"
+	"github.com/axzilla/templui/components/card"
 	"github.com/axzilla/templui/icons"
 	"github.com/axzilla/templui/internal/ui/layouts"
 	"github.com/axzilla/templui/internal/ui/modules"
@@ -658,9 +660,9 @@ templ Themes() {
 							<div class="font-semibold">Customize</div>
 							<div class="text-xs text-muted-foreground">Pick a style and color for your components.</div>
 						</div>
-						@components.Button(components.ButtonProps{
-							Size:    components.ButtonSizeIcon,
-							Variant: components.ButtonVariantOutline,
+						@button.Button(button.Props{
+							Size:    button.SizeIcon,
+							Variant: button.VariantOutline,
 							Attributes: templ.Attributes{
 								"@click": "resetTheme",
 							},
@@ -688,16 +690,16 @@ templ Themes() {
 
 templ ThemePreview() {
 	<div id="theme-preview" class="theme-preview p-6 border rounded-lg">
-		@components.Card() {
-			@components.CardHeader() {
-				@components.CardTitle() {
+		@card.Card() {
+			@card.Header() {
+				@card.Title() {
 					User Registration 
 				}
-				@components.CardDescription() {
+				@card.Description() {
 					Please fill out the form below to create your account. 
 				}
 			}
-			@components.CardContent() {
+			@card.Content() {
 				<form class="space-y-4">
 					@components.FormItem() {
 						@components.FormLabel(components.FormLabelProps{
@@ -846,14 +848,14 @@ templ ThemePreview() {
 					}
 				</form>
 			}
-			@components.CardFooter() {
+			@card.Footer() {
 				<div class="flex justify-between w-full">
-					@components.Button(components.ButtonProps{
-						Variant: components.ButtonVariantSecondary,
+					@button.Button(button.Props{
+						Variant: button.VariantSecondary,
 					}) {
 						Cancel
 					}
-					@components.Button() {
+					@button.Button() {
 						Register
 					}
 				</div>
@@ -879,7 +881,7 @@ templ ThemeCustomizer(props ThemeCustomizerProps) {
 		@components.ModalTrigger(components.ModalTriggerProps{
 			ModalID: "css-modal",
 		}) {
-			@components.Button(components.ButtonProps{
+			@button.Button(button.Props{
 				FullWidth: true,
 				Attributes: templ.Attributes{
 					"@click": "getGeneratedCSS",
@@ -900,8 +902,7 @@ templ ThemeCustomizer(props ThemeCustomizerProps) {
 			}
 			@components.ModalFooter() {
 				<div class="flex gap-2">
-					@components.Button(components.ButtonProps{
-						Variant:    "primary",
+					@button.Button(button.Props{
 						Attributes: templ.Attributes{"@click": "copyToClipboard"},
 					}) {
 						Copy to Clipboard
@@ -909,8 +910,8 @@ templ ThemeCustomizer(props ThemeCustomizerProps) {
 					@components.ModalClose(components.ModalCloseProps{
 						ModalID: "css-modal",
 					}) {
-						@components.Button(components.ButtonProps{
-							Variant: "secondary",
+						@button.Button(button.Props{
+							Variant: button.VariantSecondary,
 						}) {
 							Close
 						}

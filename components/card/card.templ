@@ -1,85 +1,85 @@
-package components
+package card
 
 import (
 	"github.com/axzilla/templui/components/aspectratio"
 	"github.com/axzilla/templui/utils"
 )
 
-type CardMediaPosition string
-type CardMediaWidth string
+type MediaPosition string
+type MediaWidth string
 
 const (
-	CardMediaTop    CardMediaPosition = "top"
-	CardMediaBottom CardMediaPosition = "bottom"
-	CardMediaLeft   CardMediaPosition = "left"
-	CardMediaRight  CardMediaPosition = "right"
+	MediaPositionTop    MediaPosition = "top"
+	MediaPositionBottom MediaPosition = "bottom"
+	MediaPositionLeft   MediaPosition = "left"
+	MediaPositionRight  MediaPosition = "right"
 )
 
 const (
-	CardMediaWidthAuto          CardMediaWidth = "auto"
-	CardMediaWidthFull          CardMediaWidth = "full"
-	CardMediaWidthHalf          CardMediaWidth = "half"
-	CardMediaWidthThird         CardMediaWidth = "third"
-	CardMediaWidthQuarter       CardMediaWidth = "quarter"
-	CardMediaWidthTwoThirds     CardMediaWidth = "two-thirds"
-	CardMediaWidthThreeQuarters CardMediaWidth = "three-quarters"
+	MediaWidthAuto          MediaWidth = "auto"
+	MediaWidthFull          MediaWidth = "full"
+	MediaWidthHalf          MediaWidth = "half"
+	MediaWidthThird         MediaWidth = "third"
+	MediaWidthQuarter       MediaWidth = "quarter"
+	MediaWidthTwoThirds     MediaWidth = "two-thirds"
+	MediaWidthThreeQuarters MediaWidth = "three-quarters"
 )
 
-type CardProps struct {
+type Props struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-type CardHeaderProps struct {
+type HeaderProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-type CardTitleProps struct {
+type TitleProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-type CardDescriptionProps struct {
+type DescriptionProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-type CardContentProps struct {
+type ContentProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-type CardFooterProps struct {
+type FooterProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-type CardHorizontalProps struct {
+type HorizontalProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-type CardMediaProps struct {
+type MediaProps struct {
 	ID          string
 	Class       string
 	Attributes  templ.Attributes
 	Src         string
 	Alt         string
-	Position    CardMediaPosition
-	Width       CardMediaWidth
+	Position    MediaPosition
+	Width       MediaWidth
 	AspectRatio aspectratio.Ratio
 }
 
-templ Card(props ...CardProps) {
-	{{ var p CardProps }}
+templ Card(props ...Props) {
+	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -99,8 +99,8 @@ templ Card(props ...CardProps) {
 	</div>
 }
 
-templ CardHeader(props ...CardHeaderProps) {
-	{{ var p CardHeaderProps }}
+templ Header(props ...HeaderProps) {
+	{{ var p HeaderProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -120,8 +120,8 @@ templ CardHeader(props ...CardHeaderProps) {
 	</div>
 }
 
-templ CardTitle(props ...CardTitleProps) {
-	{{ var p CardTitleProps }}
+templ Title(props ...TitleProps) {
+	{{ var p TitleProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -141,8 +141,8 @@ templ CardTitle(props ...CardTitleProps) {
 	</h3>
 }
 
-templ CardDescription(props ...CardDescriptionProps) {
-	{{ var p CardDescriptionProps }}
+templ Description(props ...DescriptionProps) {
+	{{ var p DescriptionProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -162,8 +162,8 @@ templ CardDescription(props ...CardDescriptionProps) {
 	</p>
 }
 
-templ CardContent(props ...CardContentProps) {
-	{{ var p CardContentProps }}
+templ Content(props ...ContentProps) {
+	{{ var p ContentProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -183,8 +183,8 @@ templ CardContent(props ...CardContentProps) {
 	</div>
 }
 
-templ CardFooter(props ...CardFooterProps) {
-	{{ var p CardFooterProps }}
+templ Footer(props ...FooterProps) {
+	{{ var p FooterProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -204,8 +204,8 @@ templ CardFooter(props ...CardFooterProps) {
 	</div>
 }
 
-templ CardHorizontal(props ...CardHorizontalProps) {
-	{{ var p CardHorizontalProps }}
+templ Horizontal(props ...HorizontalProps) {
+	{{ var p HorizontalProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -225,8 +225,8 @@ templ CardHorizontal(props ...CardHorizontalProps) {
 	</div>
 }
 
-templ CardMedia(props ...CardMediaProps) {
-	{{ var p CardMediaProps }}
+templ Media(props ...MediaProps) {
+	{{ var p MediaProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -237,7 +237,7 @@ templ CardMedia(props ...CardMediaProps) {
 		class={
 			utils.TwMerge(
 				"overflow-hidden",
-				getCardMediaPositionClasses(p.Position, p.Width),
+				mediaPositionClasses(p.Position, p.Width),
 				p.Class,
 			),
 		}
@@ -261,42 +261,42 @@ templ CardMedia(props ...CardMediaProps) {
 	</div>
 }
 
-func getCardMediaPositionClasses(position CardMediaPosition, width CardMediaWidth) string {
+func mediaPositionClasses(position MediaPosition, width MediaWidth) string {
 	var positionClass string
 
 	switch position {
-	case CardMediaTop:
+	case MediaPositionTop:
 		return "w-full rounded-t-lg"
-	case CardMediaBottom:
+	case MediaPositionBottom:
 		return "w-full rounded-b-lg"
-	case CardMediaLeft:
+	case MediaPositionLeft:
 		positionClass = "shrink-0 rounded-l-lg"
-	case CardMediaRight:
+	case MediaPositionRight:
 		positionClass = "shrink-0 rounded-r-lg"
 	default:
 		positionClass = ""
 	}
 
-	if position == CardMediaLeft || position == CardMediaRight {
-		return positionClass + " " + getWidthClass(width)
+	if position == MediaPositionLeft || position == MediaPositionRight {
+		return positionClass + " " + widthClass(width)
 	}
 
 	return positionClass
 }
 
-func getWidthClass(width CardMediaWidth) string {
+func widthClass(width MediaWidth) string {
 	switch width {
-	case CardMediaWidthFull:
+	case MediaWidthFull:
 		return "w-full"
-	case CardMediaWidthHalf:
+	case MediaWidthHalf:
 		return "w-1/2"
-	case CardMediaWidthThird:
+	case MediaWidthThird:
 		return "w-1/3"
-	case CardMediaWidthQuarter:
+	case MediaWidthQuarter:
 		return "w-1/4"
-	case CardMediaWidthTwoThirds:
+	case MediaWidthTwoThirds:
 		return "w-2/3"
-	case CardMediaWidthThreeQuarters:
+	case MediaWidthThreeQuarters:
 		return "w-3/4"
 	default:
 		return "w-1/3"

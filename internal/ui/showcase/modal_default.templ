@@ -1,12 +1,15 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import (
+	"github.com/axzilla/templui/components"
+	"github.com/axzilla/templui/components/button"
+)
 
 templ ModalDefault() {
 	@components.ModalTrigger(components.ModalTriggerProps{
 		ModalID: "default-modal",
 	}) {
-		@components.Button() {
+		@button.Button() {
 			Open Modal
 		}
 	}
@@ -25,15 +28,15 @@ templ ModalDefault() {
 				@components.ModalClose(components.ModalCloseProps{
 					ModalID: "default-modal",
 				}) {
-					@components.Button() {
+					@button.Button() {
 						Cancel
 					}
 				}
 				@components.ModalClose(components.ModalCloseProps{
 					ModalID: "default-modal",
 				}) {
-					@components.Button(components.ButtonProps{
-						Variant: components.ButtonVariantSecondary,
+					@button.Button(button.Props{
+						Variant: button.VariantSecondary,
 					}) {
 						Continue
 					}

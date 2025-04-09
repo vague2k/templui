@@ -2,6 +2,7 @@ package components
 
 import (
 	"fmt"
+	"github.com/axzilla/templui/components/button"
 	"github.com/axzilla/templui/icons"
 	"github.com/axzilla/templui/utils"
 	"strconv"
@@ -60,10 +61,10 @@ templ TimePicker(props ...TimePickerProps) {
 				name={ p.Name }
 				required?={ p.Required }
 			/>
-			@Button(ButtonProps{
+			@button.Button(button.Props{
 				ID:      p.ID,
 				Type:    "button",
-				Variant: ButtonVariantOutline,
+				Variant: button.VariantOutline,
 				Class: utils.TwMerge(
 					"w-full flex justify-between items-center",
 					utils.If(p.HasError, "border-destructive ring-destructive"),
@@ -219,9 +220,9 @@ templ TimePicker(props ...TimePickerProps) {
 				} else {
 					<div></div>
 				}
-				@Button(ButtonProps{
+				@button.Button(button.Props{
 					Type:    "button",
-					Variant: ButtonVariantSecondary,
+					Variant: button.VariantSecondary,
 					Attributes: templ.Attributes{
 						"@click": "closeTimePicker",
 					},

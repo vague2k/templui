@@ -1,6 +1,9 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import (
+	"github.com/axzilla/templui/components"
+	"github.com/axzilla/templui/components/button"
+)
 
 templ ButtonHtmxLoading() {
 	<div class="flex flex-wrap items-center gap-2">
@@ -11,7 +14,7 @@ templ ButtonHtmxLoading() {
 			hx-indicator="#spinner"
 			hx-disabled-elt="find button"
 		>
-			@components.Button(components.ButtonProps{
+			@button.Button(button.Props{
 				Type:  "submit",
 				Class: "flex items-center gap-2",
 			}) {

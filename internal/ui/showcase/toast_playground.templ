@@ -1,12 +1,16 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import (
+	"github.com/axzilla/templui/components"
+	"github.com/axzilla/templui/components/button"
+	"github.com/axzilla/templui/components/card"
+)
 
 templ ToastPlayground() {
 	<div class="w-full max-w-4xl mx-auto p-8">
 		<section class="mb-12">
-			@components.Card() {
-				@components.CardContent() {
+			@card.Card() {
+				@card.Content() {
 					<form
 						class="flex flex-col gap-2"
 						hx-post="/docs/toast/demo"
@@ -198,7 +202,7 @@ templ ToastPlayground() {
 							}
 						}
 						// Submit
-						@components.Button(components.ButtonProps{
+						@button.Button(button.Props{
 							Type:  "submit",
 							Class: "w-full",
 						}) {

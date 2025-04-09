@@ -1,6 +1,7 @@
 package components
 
 import (
+	"github.com/axzilla/templui/components/button"
 	"github.com/axzilla/templui/icons"
 	"github.com/axzilla/templui/utils"
 )
@@ -112,35 +113,35 @@ templ PaginationLink(props ...PaginationLinkProps) {
 		{{ p = props[0] }}
 	}
 	if p.Disabled {
-		@Button(ButtonProps{
+		@button.Button(button.Props{
 			ID:         p.ID,
 			Disabled:   true,
-			Size:       ButtonSizeIcon,
-			Variant:    ButtonVariantGhost,
+			Size:       button.SizeIcon,
+			Variant:    button.VariantGhost,
 			Class:      p.Class,
 			Attributes: p.Attributes,
 		}) {
 			{ children... }
 		}
 	} else if p.HxGet != "" {
-		@Button(ButtonProps{
+		@button.Button(button.Props{
 			ID:         p.ID,
 			HxGet:      p.HxGet,
 			HxTarget:   p.HxTarget,
 			HxSwap:     p.HxSwap,
-			Size:       ButtonSizeIcon,
-			Variant:    buttonVariant(p.IsActive),
+			Size:       button.SizeIcon,
+			Variant:    button.Variant(buttonVariant(p.IsActive)),
 			Class:      p.Class,
 			Attributes: p.Attributes,
 		}) {
 			{ children... }
 		}
 	} else {
-		@Button(ButtonProps{
+		@button.Button(button.Props{
 			ID:         p.ID,
 			Href:       p.Href,
-			Size:       ButtonSizeIcon,
-			Variant:    buttonVariant(p.IsActive),
+			Size:       button.SizeIcon,
+			Variant:    button.Variant(buttonVariant(p.IsActive)),
 			Class:      p.Class,
 			Attributes: p.Attributes,
 		}) {
@@ -154,14 +155,14 @@ templ PaginationPrevious(props ...PaginationPreviousProps) {
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
-	@Button(ButtonProps{
+	@button.Button(button.Props{
 		ID:         p.ID,
 		Href:       p.Href,
 		HxGet:      p.HxGet,
 		HxTarget:   p.HxTarget,
 		HxSwap:     p.HxSwap,
 		Disabled:   p.Disabled,
-		Variant:    ButtonVariantGhost,
+		Variant:    button.VariantGhost,
 		Class:      utils.TwMerge("gap-1", p.Class),
 		Attributes: p.Attributes,
 	}) {
@@ -175,14 +176,14 @@ templ PaginationNext(props ...PaginationNextProps) {
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
-	@Button(ButtonProps{
+	@button.Button(button.Props{
 		ID:         p.ID,
 		Href:       p.Href,
 		HxGet:      p.HxGet,
 		HxTarget:   p.HxTarget,
 		HxSwap:     p.HxSwap,
 		Disabled:   p.Disabled,
-		Variant:    ButtonVariantGhost,
+		Variant:    button.VariantGhost,
 		Class:      utils.TwMerge("gap-1", p.Class),
 		Attributes: p.Attributes,
 	}) {
@@ -261,9 +262,9 @@ func calculateVisibleRange(currentPage, totalPages, maxVisible int) (int, int) {
 	return start, end
 }
 
-func buttonVariant(isActive bool) ButtonVariant {
+func buttonVariant(isActive bool) button.Variant {
 	if isActive {
-		return ButtonVariantOutline
+		return button.VariantOutline
 	}
-	return ButtonVariantGhost
+	return button.VariantGhost
 }
