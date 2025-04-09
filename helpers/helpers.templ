@@ -10,6 +10,7 @@ import (
 	"github.com/axzilla/templui/components/dropdown"
 	"github.com/axzilla/templui/components/inputotp"
 	"github.com/axzilla/templui/components/label"
+	"github.com/axzilla/templui/components/modal"
 )
 
 templ ComponentScripts() {
@@ -21,7 +22,7 @@ templ ComponentScripts() {
 	@dropdown.Script()
 	@inputotp.Script()
 	@label.Script()
-	@components.ModalScript()
+	@modal.Script()
 	@components.PopoverScript()
 	@components.RatingScript()
 	@components.SelectScript()

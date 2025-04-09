@@ -1,8 +1,8 @@
-package components
+package modal
 
 import "github.com/axzilla/templui/utils"
 
-type ModalProps struct {
+type Props struct {
 	ID               string
 	Class            string
 	Attributes       templ.Attributes
@@ -10,7 +10,7 @@ type ModalProps struct {
 	DisableESC       bool
 }
 
-type ModalTriggerProps struct {
+type TriggerProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
@@ -18,33 +18,33 @@ type ModalTriggerProps struct {
 	ModalID    string
 }
 
-type ModalCloseProps struct {
+type CloseProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 	ModalID    string
 }
 
-type ModalHeaderProps struct {
+type HeaderProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-type ModalBodyProps struct {
+type BodyProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-type ModalFooterProps struct {
+type FooterProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-templ Modal(props ...ModalProps) {
-	{{ var p ModalProps }}
+templ Modal(props ...Props) {
+	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -91,8 +91,8 @@ templ Modal(props ...ModalProps) {
 	</div>
 }
 
-templ ModalTrigger(props ...ModalTriggerProps) {
-	{{ var p ModalTriggerProps }}
+templ Trigger(props ...TriggerProps) {
+	{{ var p TriggerProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -119,8 +119,8 @@ templ ModalTrigger(props ...ModalTriggerProps) {
 	</span>
 }
 
-templ ModalClose(props ...ModalCloseProps) {
-	{{ var p ModalCloseProps }}
+templ Close(props ...CloseProps) {
+	{{ var p CloseProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -140,8 +140,8 @@ templ ModalClose(props ...ModalCloseProps) {
 	</span>
 }
 
-templ ModalHeader(props ...ModalHeaderProps) {
-	{{ var p ModalHeaderProps }}
+templ Header(props ...HeaderProps) {
+	{{ var p HeaderProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -158,8 +158,8 @@ templ ModalHeader(props ...ModalHeaderProps) {
 	</div>
 }
 
-templ ModalBody(props ...ModalBodyProps) {
-	{{ var p ModalBodyProps }}
+templ Body(props ...BodyProps) {
+	{{ var p BodyProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -174,8 +174,8 @@ templ ModalBody(props ...ModalBodyProps) {
 	</div>
 }
 
-templ ModalFooter(props ...ModalFooterProps) {
-	{{ var p ModalFooterProps }}
+templ Footer(props ...FooterProps) {
+	{{ var p FooterProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -190,7 +190,7 @@ templ ModalFooter(props ...ModalFooterProps) {
 	</div>
 }
 
-templ ModalScript() {
+templ Script() {
 	{{ handler := templ.NewOnceHandle() }}
 	@handler.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>

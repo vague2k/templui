@@ -8,6 +8,7 @@ import (
 	"github.com/axzilla/templui/components/datepicker"
 	"github.com/axzilla/templui/components/form"
 	"github.com/axzilla/templui/components/input"
+	"github.com/axzilla/templui/components/modal"
 	"github.com/axzilla/templui/icons"
 	"github.com/axzilla/templui/internal/ui/layouts"
 	"github.com/axzilla/templui/internal/ui/modules"
@@ -882,7 +883,7 @@ templ ThemeCustomizer(props ThemeCustomizerProps) {
 			@RadiusSelector()
 			@ModeSelector()
 		</div>
-		@components.ModalTrigger(components.ModalTriggerProps{
+		@modal.Trigger(modal.TriggerProps{
 			ModalID: "css-modal",
 		}) {
 			@button.Button(button.Props{
@@ -894,24 +895,24 @@ templ ThemeCustomizer(props ThemeCustomizerProps) {
 				Generate and Copy CSS
 			}
 		}
-		@components.Modal(components.ModalProps{
+		@modal.Modal(modal.Props{
 			ID:    "css-modal",
 			Class: "max-w-xl",
 		}) {
-			@components.ModalHeader() {
+			@modal.Header() {
 				Generated CSS Code
 			}
-			@components.ModalBody() {
+			@modal.Body() {
 				<pre x-text="generatedCSS" class="text-primary p-4 rounded overflow-x-auto max-h-96"></pre>
 			}
-			@components.ModalFooter() {
+			@modal.Footer() {
 				<div class="flex gap-2">
 					@button.Button(button.Props{
 						Attributes: templ.Attributes{"@click": "copyToClipboard"},
 					}) {
 						Copy to Clipboard
 					}
-					@components.ModalClose(components.ModalCloseProps{
+					@modal.Close(modal.CloseProps{
 						ModalID: "css-modal",
 					}) {
 						@button.Button(button.Props{
