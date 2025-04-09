@@ -20,7 +20,7 @@ templ Progress() {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.ProgressDefault(),
 				PreviewCodeFile:   "progress_default.templ",
-				ComponentCodeFile: "progress.templ",
+				ComponentCodeFile: "progress/progress.templ",
 			})
 			@modules.Usage(modules.UsageProps{
 				ComponentName: "Progress",
@@ -31,13 +31,13 @@ templ Progress() {
 					SectionName:       "Sizes",
 					ShowcaseFile:      showcase.ProgressSizes(),
 					PreviewCodeFile:   "progress_sizes.templ",
-					ComponentCodeFile: "progress.templ",
+					ComponentCodeFile: "progress/progress.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "Colors",
 					ShowcaseFile:      showcase.ProgressColors(),
 					PreviewCodeFile:   "progress_colors.templ",
-					ComponentCodeFile: "progress.templ",
+					ComponentCodeFile: "progress/progress.templ",
 				})
 			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Integration Patterns"}) {

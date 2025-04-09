@@ -1,27 +1,26 @@
-package components
+package progress
 
 import (
 	"fmt"
 	"github.com/axzilla/templui/utils"
 )
 
-type ProgressSize string
-type ProgressVariant string
+type Size string
+type Variant string
 
 const (
-	ProgressSizeDefault ProgressSize = ""
-	ProgressSizeSm      ProgressSize = "sm"
-	ProgressSizeLg      ProgressSize = "lg"
+	SizeSm Size = "sm"
+	SizeLg Size = "lg"
 )
 
 const (
-	ProgressVariantDefault ProgressVariant = "default"
-	ProgressVariantSuccess ProgressVariant = "success"
-	ProgressVariantDanger  ProgressVariant = "danger"
-	ProgressVariantWarning ProgressVariant = "warning"
+	VariantDefault Variant = "default"
+	VariantSuccess Variant = "success"
+	VariantDanger  Variant = "danger"
+	VariantWarning Variant = "warning"
 )
 
-type ProgressProps struct {
+type Props struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
@@ -29,8 +28,8 @@ type ProgressProps struct {
 	Value      int
 	Label      string
 	ShowValue  bool
-	Size       ProgressSize
-	Variant    ProgressVariant
+	Size       Size
+	Variant    Variant
 	BarClass   string
 	HxGet      string
 	HxTrigger  string
@@ -38,8 +37,8 @@ type ProgressProps struct {
 	HxSwap     string
 }
 
-templ Progress(props ...ProgressProps) {
-	{{ var p ProgressProps }}
+templ Progress(props ...Props) {
+	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -62,7 +61,7 @@ templ Progress(props ...ProgressProps) {
 			hx-swap={ p.HxSwap }
 		}
 		aria-valuemin="0"
-		aria-valuemax={ fmt.Sprintf("%d", getMaxValue(p.Max)) }
+		aria-valuemax={ fmt.Sprintf("%d", maxValue(p.Max)) }
 		aria-valuenow={ fmt.Sprintf("%d", p.Value) }
 		role="progressbar"
 		{ p.Attributes... }
@@ -74,7 +73,7 @@ templ Progress(props ...ProgressProps) {
 				}
 				if p.ShowValue {
 					<span class="text-sm font-medium">
-						{ fmt.Sprintf("%d%%", getProgressPercentage(p.Value, p)) }
+						{ fmt.Sprintf("%d%%", percentage(p.Value, p)) }
 					</span>
 				}
 			</div>
@@ -84,26 +83,26 @@ templ Progress(props ...ProgressProps) {
 				class={
 					utils.TwMerge(
 						"h-full rounded-full transition-all",
-						getProgressSizeClasses(p.Size),
-						getProgressVariantClasses(p.Variant),
+						sizeClasses(p.Size),
+						variantClasses(p.Variant),
 						p.BarClass,
 					),
 				}
-				style={ fmt.Sprintf("width: %d%%", getProgressPercentage(p.Value, p)) }
+				style={ fmt.Sprintf("width: %d%%", percentage(p.Value, p)) }
 			></div>
 		</div>
 	</div>
 }
 
-func getMaxValue(max int) int {
+func maxValue(max int) int {
 	if max <= 0 {
 		return 100
 	}
 	return max
 }
 
-func getProgressPercentage(value int, props ProgressProps) int {
-	max := getMaxValue(props.Max)
+func percentage(value int, props Props) int {
+	max := maxValue(props.Max)
 	if value < 0 {
 		value = 0
 	}
@@ -113,24 +112,24 @@ func getProgressPercentage(value int, props ProgressProps) int {
 	return (value * 100) / max
 }
 
-func getProgressSizeClasses(size ProgressSize) string {
+func sizeClasses(size Size) string {
 	switch size {
-	case ProgressSizeSm:
+	case SizeSm:
 		return "h-1"
-	case ProgressSizeLg:
+	case SizeLg:
 		return "h-4"
 	default:
 		return "h-2.5"
 	}
 }
 
-func getProgressVariantClasses(variant ProgressVariant) string {
+func variantClasses(variant Variant) string {
 	switch variant {
-	case ProgressVariantSuccess:
+	case VariantSuccess:
 		return "bg-green-500"
-	case ProgressVariantDanger:
+	case VariantDanger:
 		return "bg-destructive"
-	case ProgressVariantWarning:
+	case VariantWarning:
 		return "bg-yellow-500"
 	default:
 		return "bg-primary"
