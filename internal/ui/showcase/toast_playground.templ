@@ -1,13 +1,13 @@
 package showcase
 
 import (
-	"github.com/axzilla/templui/components"
 	"github.com/axzilla/templui/components/button"
 	"github.com/axzilla/templui/components/card"
 	"github.com/axzilla/templui/components/form"
 	"github.com/axzilla/templui/components/input"
 	"github.com/axzilla/templui/components/label"
 	"github.com/axzilla/templui/components/selectbox"
+	"github.com/axzilla/templui/components/toggle"
 )
 
 templ ToastPlayground() {
@@ -170,7 +170,7 @@ templ ToastPlayground() {
 								Dismissible
 							}
 							@form.ItemFlex() {
-								@components.Toggle(components.ToggleProps{
+								@toggle.Toggle(toggle.Props{
 									Name:    "dismissible",
 									Checked: true,
 									ID:      "dismissible",
@@ -182,7 +182,7 @@ templ ToastPlayground() {
 								}
 							}
 							@form.ItemFlex() {
-								@components.Toggle(components.ToggleProps{
+								@toggle.Toggle(toggle.Props{
 									Name:    "icon",
 									Checked: true,
 								})
@@ -193,7 +193,7 @@ templ ToastPlayground() {
 								}
 							}
 							@form.ItemFlex() {
-								@components.Toggle(components.ToggleProps{
+								@toggle.Toggle(toggle.Props{
 									ID:      "indicator",
 									Name:    "indicator",
 									Checked: true,

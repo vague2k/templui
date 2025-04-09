@@ -19,7 +19,7 @@ templ Toggle() {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.ToggleDefault(),
 				PreviewCodeFile:   "toggle_default.templ",
-				ComponentCodeFile: "toggle.templ",
+				ComponentCodeFile: "toggle/toggle.templ",
 			})
 			@modules.Usage(modules.UsageProps{
 				ComponentName: "Toggle",
@@ -30,26 +30,26 @@ templ Toggle() {
 					SectionName:       "Checked",
 					ShowcaseFile:      showcase.ToggleChecked(),
 					PreviewCodeFile:   "toggle_checked.templ",
-					ComponentCodeFile: "toggle.templ",
+					ComponentCodeFile: "toggle/toggle.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "With Label",
 					ShowcaseFile:      showcase.ToggleWithLabel(),
 					PreviewCodeFile:   "toggle_with_label.templ",
-					ComponentCodeFile: "toggle.templ",
+					ComponentCodeFile: "toggle/toggle.templ",
 					ID:                "label",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "Disabled",
 					ShowcaseFile:      showcase.ToggleDisabled(),
 					PreviewCodeFile:   "toggle_disabled.templ",
-					ComponentCodeFile: "toggle.templ",
+					ComponentCodeFile: "toggle/toggle.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "Form",
 					ShowcaseFile:      showcase.ToggleForm(),
 					PreviewCodeFile:   "toggle_form.templ",
-					ComponentCodeFile: "toggle.templ",
+					ComponentCodeFile: "toggle/toggle.templ",
 					ID:                "form",
 				})
 			}

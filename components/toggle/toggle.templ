@@ -1,8 +1,8 @@
-package components
+package toggle
 
 import "github.com/axzilla/templui/utils"
 
-type ToggleProps struct {
+type Props struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
@@ -11,8 +11,8 @@ type ToggleProps struct {
 	Checked    bool
 }
 
-templ Toggle(props ...ToggleProps) {
-	{{ var p ToggleProps }}
+templ Toggle(props ...Props) {
+	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}

@@ -1,15 +1,15 @@
 package showcase
 
 import (
-	"github.com/axzilla/templui/components"
 	"github.com/axzilla/templui/components/form"
+	"github.com/axzilla/templui/components/toggle"
 )
 
 templ ToggleForm() {
 	<div class="w-full max-w-sm">
 		@form.Item() {
 			@form.ItemFlex() {
-				@components.Toggle(components.ToggleProps{
+				@toggle.Toggle(toggle.Props{
 					ID:   "airplane-mode",
 					Name: "airplane",
 				})
@@ -20,7 +20,7 @@ templ ToggleForm() {
 				}
 			}
 			@form.ItemFlex() {
-				@components.Toggle(components.ToggleProps{
+				@toggle.Toggle(toggle.Props{
 					ID:       "wifi-mode",
 					Name:     "wifi",
 					Disabled: true,
@@ -32,7 +32,7 @@ templ ToggleForm() {
 				}
 			}
 			@form.ItemFlex() {
-				@components.Toggle(components.ToggleProps{
+				@toggle.Toggle(toggle.Props{
 					ID:      "bluetooth-mode",
 					Name:    "bluetooth",
 					Checked: true,
