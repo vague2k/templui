@@ -1,8 +1,8 @@
 package showcase
 
 import (
-	"github.com/axzilla/templui/components"
 	"github.com/axzilla/templui/components/label"
+	"github.com/axzilla/templui/components/timepicker"
 )
 
 templ TimePickerLabel() {
@@ -12,7 +12,7 @@ templ TimePickerLabel() {
 		}) {
 			Select a time
 		}
-		@components.TimePicker(components.TimePickerProps{
+		@timepicker.TimePicker(timepicker.Props{
 			ID:         "time-picker-label",
 			Use12Hours: true,
 		})

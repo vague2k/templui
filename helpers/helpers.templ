@@ -17,6 +17,7 @@ import (
 	"github.com/axzilla/templui/components/slider"
 	"github.com/axzilla/templui/components/tabs"
 	"github.com/axzilla/templui/components/textarea"
+	"github.com/axzilla/templui/components/timepicker"
 )
 
 templ ComponentScripts() {
@@ -35,6 +36,6 @@ templ ComponentScripts() {
 	@slider.Script()
 	@tabs.Script()
 	@textarea.Script()
-	@components.TimePickerScript()
+	@timepicker.Script()
 	@components.ToastScript()
 }

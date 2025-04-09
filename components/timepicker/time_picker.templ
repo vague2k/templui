@@ -1,4 +1,4 @@
-package components
+package timepicker
 
 import (
 	"fmt"
@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-type TimePickerProps struct {
+type Props struct {
 	ID          string
 	Class       string
 	Attributes  templ.Attributes
@@ -30,8 +30,8 @@ type SelectOption struct {
 	Value string
 }
 
-templ TimePicker(props ...TimePickerProps) {
-	{{ var p TimePickerProps }}
+templ TimePicker(props ...Props) {
+	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -141,7 +141,7 @@ templ TimePicker(props ...TimePickerProps) {
 						}
 						@selectbox.Content() {
 							@selectbox.Group() {
-								for _, option := range generateHourOptions(p.Use12Hours) {
+								for _, option := range hourOptions(p.Use12Hours) {
 									@selectbox.Item(selectbox.ItemProps{
 										Value: option.Value,
 										Selected: p.Value != (time.Time{}) &&
@@ -175,7 +175,7 @@ templ TimePicker(props ...TimePickerProps) {
 						}
 						@selectbox.Content() {
 							@selectbox.Group() {
-								for _, option := range generateMinuteOptions() {
+								for _, option := range minuteOptions() {
 									@selectbox.Item(selectbox.ItemProps{
 										Value:    option.Value,
 										Selected: p.Value != (time.Time{}) && p.Value.Minute() == parseInt(option.Value),
@@ -243,7 +243,7 @@ func parseInt(str string) int {
 	return val
 }
 
-func generateHourOptions(use12Hours bool) []SelectOption {
+func hourOptions(use12Hours bool) []SelectOption {
 	options := make([]SelectOption, 0)
 	if use12Hours {
 		options = append(options, SelectOption{
@@ -267,7 +267,7 @@ func generateHourOptions(use12Hours bool) []SelectOption {
 	return options
 }
 
-func generateMinuteOptions() []SelectOption {
+func minuteOptions() []SelectOption {
 	options := make([]SelectOption, 60)
 	for i := 0; i < 60; i++ {
 		options[i] = SelectOption{
@@ -278,7 +278,7 @@ func generateMinuteOptions() []SelectOption {
 	return options
 }
 
-templ TimePickerScript() {
+templ Script() {
 	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
