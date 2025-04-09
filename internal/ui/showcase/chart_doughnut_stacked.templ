@@ -1,18 +1,18 @@
 package showcase
 
 import (
-	"github.com/axzilla/templui/components"
 	"github.com/axzilla/templui/components/card"
+	"github.com/axzilla/templui/components/chart"
 )
 
 templ ChartDoughnutStacked() {
 	@card.Card(card.Props{Class: "max-w-sm"}) {
 		@card.Content() {
-			@components.Chart(components.ChartProps{
-				Variant: components.ChartVariantDoughnut,
-				Data: components.ChartData{
+			@chart.Chart(chart.Props{
+				Variant: chart.VariantDoughnut,
+				Data: chart.Data{
 					Labels: []string{"Jan", "Feb", "March", "April", "May", "June"},
-					Datasets: []components.ChartDataset{
+					Datasets: []chart.Dataset{
 						{
 							Data:  []float64{3, 9, 3, 12, 7, 8},
 							Label: "Mobile",

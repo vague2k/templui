@@ -3,11 +3,12 @@ package helpers
 import (
 	"github.com/axzilla/templui/components"
 	"github.com/axzilla/templui/components/carousel"
+	"github.com/axzilla/templui/components/chart"
 )
 
 templ ComponentScripts() {
 	@carousel.Script()
-	@components.ChartScripts()
+	@chart.Script()
 	@components.CodeScript()
 	@components.DatePickerScript()
 	@components.DrawerScript()
