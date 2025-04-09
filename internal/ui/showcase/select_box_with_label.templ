@@ -1,40 +1,40 @@
 package showcase
 
 import (
-	"github.com/axzilla/templui/components"
 	"github.com/axzilla/templui/components/label"
+	"github.com/axzilla/templui/components/selectbox"
 )
 
-templ SelectWithLabel() {
+templ SelectBoxWithLabel() {
 	<div class="space-y-2 w-full max-w-sm">
 		@label.Label(label.Props{
 			For: "select-with-label",
 		}) {
 			Fruit
 		}
-		@components.Select() {
-			@components.SelectTrigger(components.SelectTriggerProps{
+		@selectbox.SelectBox() {
+			@selectbox.Trigger(selectbox.TriggerProps{
 				ID: "select-with-label",
 			}) {
-				@components.SelectValue(components.SelectValueProps{
+				@selectbox.Value(selectbox.ValueProps{
 					Placeholder: "Select a fruit",
 				})
 			}
-			@components.SelectContent() {
-				@components.SelectLabel() {
+			@selectbox.Content() {
+				@selectbox.Label() {
 					Fruits
 				}
-				@components.SelectItem(components.SelectItemProps{
+				@selectbox.Item(selectbox.ItemProps{
 					Value: "apple",
 				}) {
 					Apple
 				}
-				@components.SelectItem(components.SelectItemProps{
+				@selectbox.Item(selectbox.ItemProps{
 					Value: "banana",
 				}) {
 					Banana
 				}
-				@components.SelectItem(components.SelectItemProps{
+				@selectbox.Item(selectbox.ItemProps{
 					Value: "orange",
 				}) {
 					Orange

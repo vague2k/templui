@@ -6,45 +6,45 @@ import (
 	"github.com/axzilla/templui/internal/ui/showcase"
 )
 
-templ Select() {
+templ SelectBox() {
 	@layouts.DocsLayout(
-		"Select",
+		"Select Box",
 		"Dropdown control for choosing from predefined options.",
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
-			Name:        "Select",
+			Name:        "Select Box",
 			Description: templ.Raw("Dropdown control for choosing from predefined options."),
 			Tailwind:    true,
 			VanillaJS:   true,
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				ShowcaseFile:      showcase.SelectDefault(),
-				PreviewCodeFile:   "select_default.templ",
-				ComponentCodeFile: "select.templ",
+				ShowcaseFile:      showcase.SelectBoxDefault(),
+				PreviewCodeFile:   "select_box_default.templ",
+				ComponentCodeFile: "selectbox/select_box.templ",
 			})
 			@modules.Usage(modules.UsageProps{
-				ComponentName: "Select",
+				ComponentName: "SelectBox",
 				PropsExample:  "...",
 			})
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "With Label",
-					ShowcaseFile:      showcase.SelectWithLabel(),
-					PreviewCodeFile:   "select_with_label.templ",
-					ComponentCodeFile: "select.templ",
+					ShowcaseFile:      showcase.SelectBoxWithLabel(),
+					PreviewCodeFile:   "select_box_with_label.templ",
+					ComponentCodeFile: "selectbox/select_box.templ",
 					ID:                "label",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "Disabled",
-					ShowcaseFile:      showcase.SelectDisabled(),
-					PreviewCodeFile:   "select_disabled.templ",
-					ComponentCodeFile: "select.templ",
+					ShowcaseFile:      showcase.SelectBoxDisabled(),
+					PreviewCodeFile:   "select_box_disabled.templ",
+					ComponentCodeFile: "selectbox/select_box.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "Form",
-					ShowcaseFile:      showcase.SelectForm(),
-					PreviewCodeFile:   "select_form.templ",
-					ComponentCodeFile: "select.templ",
+					ShowcaseFile:      showcase.SelectBoxForm(),
+					PreviewCodeFile:   "select_box_form.templ",
+					ComponentCodeFile: "selectbox/select_box.templ",
 					ID:                "form",
 				})
 			}

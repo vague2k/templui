@@ -115,7 +115,7 @@ func main() {
 	mux.Handle("GET /docs/components/radio", templ.Handler(pages.Radio()))
 	mux.Handle("GET /docs/components/radio-card", templ.Handler(pages.RadioCard()))
 	mux.Handle("GET /docs/components/rating", templ.Handler(pages.Rating()))
-	mux.Handle("GET /docs/components/select", templ.Handler(pages.Select()))
+	mux.Handle("GET /docs/components/select-box", templ.Handler(pages.SelectBox()))
 	mux.Handle("GET /docs/components/separator", templ.Handler(pages.Separator()))
 	mux.Handle("GET /docs/components/skeleton", templ.Handler(pages.Skeleton()))
 	mux.Handle("GET /docs/components/slider", templ.Handler(pages.Slider()))

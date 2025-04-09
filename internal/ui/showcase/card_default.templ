@@ -1,11 +1,11 @@
 package showcase
 
 import (
-	"github.com/axzilla/templui/components"
 	"github.com/axzilla/templui/components/button"
 	"github.com/axzilla/templui/components/card"
 	"github.com/axzilla/templui/components/input"
 	"github.com/axzilla/templui/components/label"
+	"github.com/axzilla/templui/components/selectbox"
 )
 
 templ CardDefault() {
@@ -39,27 +39,27 @@ templ CardDefault() {
 						}) {
 							Service
 						}
-						@components.Select() {
-							@components.SelectTrigger(components.SelectTriggerProps{
+						@selectbox.SelectBox() {
+							@selectbox.Trigger(selectbox.TriggerProps{
 								ID: "service",
 							}) {
-								@components.SelectValue(components.SelectValueProps{
+								@selectbox.Value(selectbox.ValueProps{
 									Placeholder: "Select",
 								})
 							}
-							@components.SelectContent() {
-								@components.SelectGroup() {
-									@components.SelectItem(components.SelectItemProps{
+							@selectbox.Content() {
+								@selectbox.Group() {
+									@selectbox.Item(selectbox.ItemProps{
 										Value: "postgres",
 									}) {
 										PostgreSQL
 									}
-									@components.SelectItem(components.SelectItemProps{
+									@selectbox.Item(selectbox.ItemProps{
 										Value: "mysql",
 									}) {
 										MySQL
 									}
-									@components.SelectItem(components.SelectItemProps{
+									@selectbox.Item(selectbox.ItemProps{
 										Value: "sqlite",
 									}) {
 										SQLite

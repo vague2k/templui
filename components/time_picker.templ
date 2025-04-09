@@ -3,6 +3,7 @@ package components
 import (
 	"fmt"
 	"github.com/axzilla/templui/components/button"
+	"github.com/axzilla/templui/components/selectbox"
 	"github.com/axzilla/templui/icons"
 	"github.com/axzilla/templui/utils"
 	"strconv"
@@ -112,14 +113,14 @@ templ TimePicker(props ...TimePickerProps) {
 		>
 			<div class="grid grid-cols-2 gap-2 flex-1">
 				<div>
-					@Select(SelectProps{
+					@selectbox.SelectBox(selectbox.Props{
 						ID:    "hour-select-" + p.ID,
 						Class: "w-full",
 					}) {
-						@SelectTrigger(SelectTriggerProps{
+						@selectbox.Trigger(selectbox.TriggerProps{
 							Name: "hour",
 						}) {
-							@SelectValue(SelectValueProps{
+							@selectbox.Value(selectbox.ValueProps{
 								Placeholder: "Hour",
 							}) {
 								if p.Value != (time.Time{}) {
@@ -138,10 +139,10 @@ templ TimePicker(props ...TimePickerProps) {
 								}
 							}
 						}
-						@SelectContent() {
-							@SelectGroup() {
+						@selectbox.Content() {
+							@selectbox.Group() {
 								for _, option := range generateHourOptions(p.Use12Hours) {
-									@SelectItem(SelectItemProps{
+									@selectbox.Item(selectbox.ItemProps{
 										Value: option.Value,
 										Selected: p.Value != (time.Time{}) &&
 											((p.Use12Hours &&
@@ -157,14 +158,14 @@ templ TimePicker(props ...TimePickerProps) {
 					}
 				</div>
 				<div>
-					@Select(SelectProps{
+					@selectbox.SelectBox(selectbox.Props{
 						ID:    "minute-select-" + p.ID,
 						Class: "w-full",
 					}) {
-						@SelectTrigger(SelectTriggerProps{
+						@selectbox.Trigger(selectbox.TriggerProps{
 							Name: "minute",
 						}) {
-							@SelectValue(SelectValueProps{
+							@selectbox.Value(selectbox.ValueProps{
 								Placeholder: "Minute",
 							}) {
 								if p.Value != (time.Time{}) {
@@ -172,10 +173,10 @@ templ TimePicker(props ...TimePickerProps) {
 								}
 							}
 						}
-						@SelectContent() {
-							@SelectGroup() {
+						@selectbox.Content() {
+							@selectbox.Group() {
 								for _, option := range generateMinuteOptions() {
-									@SelectItem(SelectItemProps{
+									@selectbox.Item(selectbox.ItemProps{
 										Value:    option.Value,
 										Selected: p.Value != (time.Time{}) && p.Value.Minute() == parseInt(option.Value),
 									}) {
