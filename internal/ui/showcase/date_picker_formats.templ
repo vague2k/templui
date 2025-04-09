@@ -2,6 +2,7 @@ package showcase
 
 import (
 	"github.com/axzilla/templui/components"
+	"github.com/axzilla/templui/components/datepicker"
 	"time"
 )
 
@@ -13,9 +14,9 @@ templ DatePickerFormats() {
 			}) {
 				Default ISO format
 			}
-			@components.DatePicker(components.DatePickerProps{
+			@datepicker.DatePicker(datepicker.Props{
 				ID:     "date-picker-iso-format",
-				Config: components.DatePickerISO,
+				Config: datepicker.ConfigISO,
 				Value:  time.Now(),
 			})
 		</div>
@@ -25,8 +26,8 @@ templ DatePickerFormats() {
 			}) {
 				Default EU format
 			}
-			@components.DatePicker(components.DatePickerProps{
-				Config: components.DatePickerEU,
+			@datepicker.DatePicker(datepicker.Props{
+				Config: datepicker.ConfigEU,
 				Value:  time.Now(),
 				ID:     "date-picker-eu-format",
 			})
@@ -37,8 +38,8 @@ templ DatePickerFormats() {
 			}) {
 				UK Format
 			}
-			@components.DatePicker(components.DatePickerProps{
-				Config: components.DatePickerUK,
+			@datepicker.DatePicker(datepicker.Props{
+				Config: datepicker.ConfigUK,
 				Value:  time.Now(),
 				ID:     "date-picker-uk-format",
 			})
@@ -49,8 +50,8 @@ templ DatePickerFormats() {
 			}) {
 				US Format
 			}
-			@components.DatePicker(components.DatePickerProps{
-				Config: components.DatePickerUS,
+			@datepicker.DatePicker(datepicker.Props{
+				Config: datepicker.ConfigUS,
 				Value:  time.Now(),
 				ID:     "date-picker-us-format",
 			})
@@ -61,8 +62,8 @@ templ DatePickerFormats() {
 			}) {
 				LONG Format
 			}
-			@components.DatePicker(components.DatePickerProps{
-				Config: components.DatePickerLONG,
+			@datepicker.DatePicker(datepicker.Props{
+				Config: datepicker.ConfigLONG,
 				Value:  time.Now(),
 				ID:     "date-long-format",
 			})
@@ -73,10 +74,10 @@ templ DatePickerFormats() {
 			}) {
 				LONG Format (Spanish)
 			}
-			@components.DatePicker(components.DatePickerProps{
-				Config: components.NewDatePickerConfig(
-					components.DateFormatLONG,
-					components.DateLocaleSpanish,
+			@datepicker.DatePicker(datepicker.Props{
+				Config: datepicker.NewConfig(
+					datepicker.FormatLONG,
+					datepicker.LocaleSpanish,
 				),
 				Value:       time.Now().AddDate(0, 0, -30), // 30 days ago
 				Placeholder: "Seleccionar fecha",

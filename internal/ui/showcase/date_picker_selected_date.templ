@@ -2,13 +2,13 @@
 package showcase
 
 import (
-	"github.com/axzilla/templui/components"
+	"github.com/axzilla/templui/components/datepicker"
 	"time"
 )
 
 templ DatePickerSelectedDate() {
 	<div class="w-full max-w-sm">
-		@components.DatePicker(components.DatePickerProps{
+		@datepicker.DatePicker(datepicker.Props{
 			Value: time.Now(),
 		})
 	</div>

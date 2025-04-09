@@ -1,4 +1,4 @@
-package components
+package datepicker
 
 import (
 	"github.com/axzilla/templui/components/button"
@@ -8,61 +8,61 @@ import (
 	"time"
 )
 
-type DateFormat string
+type Format string
 
 const (
-	DateFormatISO  DateFormat = "iso"
-	DateFormatEU   DateFormat = "eu"
-	DateFormatUK   DateFormat = "uk"
-	DateFormatUS   DateFormat = "us"
-	DateFormatLONG DateFormat = "long"
+	FormatISO  Format = "iso"
+	FormatEU   Format = "eu"
+	FormatUK   Format = "uk"
+	FormatUS   Format = "us"
+	FormatLONG Format = "long"
 )
 
-var dateFormatMapping = map[DateFormat]string{
-	DateFormatISO:  "2006-01-02",
-	DateFormatEU:   "02.01.2006",
-	DateFormatUK:   "02/01/2006",
-	DateFormatUS:   "01/02/2006",
-	DateFormatLONG: "January 2, 2006",
+var formatMapping = map[Format]string{
+	FormatISO:  "2006-01-02",
+	FormatEU:   "02.01.2006",
+	FormatUK:   "02/01/2006",
+	FormatUS:   "01/02/2006",
+	FormatLONG: "January 2, 2006",
 }
 
-type DateLocale struct {
+type Locale struct {
 	MonthNames []string
 	DayNames   []string
 }
 
 var (
-	DateLocaleDefault = DateLocale{
+	LocaleDefault = Locale{
 		MonthNames: []string{"January", "February", "March", "April", "May", "June",
 			"July", "August", "September", "October", "November", "December"},
 		DayNames: []string{"Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"},
 	}
 
-	DateLocaleSpanish = DateLocale{
+	LocaleSpanish = Locale{
 		MonthNames: []string{"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio",
 			"Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"},
 		DayNames: []string{"Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"},
 	}
 
-	DateLocaleGerman = DateLocale{
+	LocaleGerman = Locale{
 		MonthNames: []string{"Januar", "Februar", "März", "April", "Mai", "Juni",
 			"Juli", "August", "September", "Oktober", "November", "Dezember"},
 		DayNames: []string{"Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"},
 	}
 
-	DateLocaleFrench = DateLocale{
+	LocaleFrench = Locale{
 		MonthNames: []string{"Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
 			"Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"},
 		DayNames: []string{"Lu", "Ma", "Me", "Je", "Ve", "Sa", "Di"},
 	}
 
-	DateLocaleItalian = DateLocale{
+	LocaleItalian = Locale{
 		MonthNames: []string{"Gennaio", "Febbraio", "Marzo", "Aprile", "Maggio", "Giugno",
 			"Luglio", "Agosto", "Settembre", "Ottobre", "Novembre", "Dicembre"},
 		DayNames: []string{"Lu", "Ma", "Me", "Gi", "Ve", "Sa", "Do"},
 	}
 
-	DateLocaleJapanese = DateLocale{
+	LocaleJapanese = Locale{
 		MonthNames: []string{"1月", "2月", "3月", "4月", "5月", "6月",
 			"7月", "8月", "9月", "10月", "11月", "12月"},
 		DayNames: []string{"日", "月", "火", "水", "木", "金", "土"},
@@ -70,50 +70,50 @@ var (
 )
 
 var (
-	DatePickerISO = DatePickerConfig{
-		Format: DateFormatISO,
-		Locale: DateLocaleDefault,
+	ConfigISO = Config{
+		Format: FormatISO,
+		Locale: LocaleDefault,
 	}
 
-	DatePickerEU = DatePickerConfig{
-		Format: DateFormatEU,
-		Locale: DateLocaleDefault,
+	ConfigEU = Config{
+		Format: FormatEU,
+		Locale: LocaleDefault,
 	}
 
-	DatePickerUK = DatePickerConfig{
-		Format: DateFormatUK,
-		Locale: DateLocaleDefault,
+	ConfigUK = Config{
+		Format: FormatUK,
+		Locale: LocaleDefault,
 	}
 
-	DatePickerUS = DatePickerConfig{
-		Format: DateFormatUS,
-		Locale: DateLocaleDefault,
+	ConfigUS = Config{
+		Format: FormatUS,
+		Locale: LocaleDefault,
 	}
 
-	DatePickerLONG = DatePickerConfig{
-		Format: DateFormatLONG,
-		Locale: DateLocaleDefault,
+	ConfigLONG = Config{
+		Format: FormatLONG,
+		Locale: LocaleDefault,
 	}
 )
 
-func NewDatePickerConfig(format DateFormat, locale DateLocale) DatePickerConfig {
-	return DatePickerConfig{
+func NewConfig(format Format, locale Locale) Config {
+	return Config{
 		Format: format,
 		Locale: locale,
 	}
 }
 
-type DatePickerConfig struct {
-	Format DateFormat
-	Locale DateLocale
+type Config struct {
+	Format Format
+	Locale Locale
 }
 
-type DatePickerProps struct {
+type Props struct {
 	ID          string
 	Class       string
 	Attributes  templ.Attributes
 	Value       time.Time
-	Config      DatePickerConfig
+	Config      Config
 	Placeholder string
 	Disabled    bool
 	Required    bool
@@ -121,8 +121,8 @@ type DatePickerProps struct {
 	Name        string
 }
 
-templ DatePicker(props ...DatePickerProps) {
-	{{ var p DatePickerProps }}
+templ DatePicker(props ...Props) {
+	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -231,14 +231,14 @@ templ DatePicker(props ...DatePickerProps) {
 	</div>
 }
 
-func (c DatePickerConfig) getGoFormat() string {
-	if format, ok := dateFormatMapping[c.Format]; ok {
+func (c Config) getGoFormat() string {
+	if format, ok := formatMapping[c.Format]; ok {
 		return format
 	}
-	return dateFormatMapping[DateFormatISO]
+	return formatMapping[FormatISO]
 }
 
-templ DatePickerScript() {
+templ Script() {
 	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>

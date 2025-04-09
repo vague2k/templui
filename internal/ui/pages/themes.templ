@@ -5,6 +5,7 @@ import (
 	"github.com/axzilla/templui/components/button"
 	"github.com/axzilla/templui/components/card"
 	"github.com/axzilla/templui/components/checkbox"
+	"github.com/axzilla/templui/components/datepicker"
 	"github.com/axzilla/templui/icons"
 	"github.com/axzilla/templui/internal/ui/layouts"
 	"github.com/axzilla/templui/internal/ui/modules"
@@ -744,7 +745,7 @@ templ ThemePreview() {
 						}) {
 							Birth Date
 						}
-						@components.DatePicker(components.DatePickerProps{
+						@datepicker.DatePicker(datepicker.Props{
 							ID:          "birthdate",
 							Placeholder: "Select your birth date",
 						})

@@ -1,6 +1,9 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import (
+	"github.com/axzilla/templui/components"
+	"github.com/axzilla/templui/components/datepicker"
+)
 
 templ DatePickerForm() {
 	<div class="w-full max-w-sm">
@@ -10,7 +13,7 @@ templ DatePickerForm() {
 			}) {
 				Select a date
 			}
-			@components.DatePicker(components.DatePickerProps{
+			@datepicker.DatePicker(datepicker.Props{
 				ID:       "date-picker-form",
 				HasError: true,
 			})
