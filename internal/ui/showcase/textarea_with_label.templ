@@ -1,8 +1,8 @@
 package showcase
 
 import (
-	"github.com/axzilla/templui/components"
 	"github.com/axzilla/templui/components/label"
+	"github.com/axzilla/templui/components/textarea"
 )
 
 templ TextareaWithLabel() {
@@ -12,7 +12,7 @@ templ TextareaWithLabel() {
 		}) {
 			Your Message
 		}
-		@components.Textarea(components.TextareaProps{
+		@textarea.Textarea(textarea.Props{
 			ID:          "textarea-with-label",
 			Placeholder: "Type your message here...",
 			Rows:        4,

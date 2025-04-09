@@ -1,8 +1,8 @@
 package showcase
 
 import (
-	"github.com/axzilla/templui/components"
 	"github.com/axzilla/templui/components/label"
+	"github.com/axzilla/templui/components/textarea"
 )
 
 templ TextareaDisabled() {
@@ -12,7 +12,7 @@ templ TextareaDisabled() {
 		}) {
 			Your Message
 		}
-		@components.Textarea(components.TextareaProps{
+		@textarea.Textarea(textarea.Props{
 			ID:          "textarea-disabled",
 			Disabled:    true,
 			Placeholder: "Type your message here...",

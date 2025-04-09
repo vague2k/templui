@@ -24,6 +24,7 @@ import (
 	"github.com/axzilla/templui/components/selectbox"
 	"github.com/axzilla/templui/components/slider"
 	"github.com/axzilla/templui/components/tabs"
+	"github.com/axzilla/templui/components/textarea"
 )
 
 func ComponentScripts() templ.Component {
@@ -103,7 +104,7 @@ func ComponentScripts() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = components.TextareaScript().Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = textarea.Script().Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
