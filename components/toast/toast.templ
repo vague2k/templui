@@ -1,4 +1,4 @@
-package components
+package toast
 
 import (
 	"github.com/axzilla/templui/components/button"
@@ -7,49 +7,49 @@ import (
 	"strconv"
 )
 
-type ToastVariant string
-type ToastPosition string
+type Variant string
+type Position string
 
 const (
-	ToastVariantDefault ToastVariant = "default"
-	ToastVariantSuccess ToastVariant = "success"
-	ToastVariantError   ToastVariant = "error"
-	ToastVariantWarning ToastVariant = "warning"
-	ToastVariantInfo    ToastVariant = "info"
+	VariantDefault Variant = "default"
+	VariantSuccess Variant = "success"
+	VariantError   Variant = "error"
+	VariantWarning Variant = "warning"
+	VariantInfo    Variant = "info"
 )
 
 const (
-	ToastPositionTopRight     ToastPosition = "top-right"
-	ToastPositionTopLeft      ToastPosition = "top-left"
-	ToastPositionTopCenter    ToastPosition = "top-center"
-	ToastPositionBottomRight  ToastPosition = "bottom-right"
-	ToastPositionBottomLeft   ToastPosition = "bottom-left"
-	ToastPositionBottomCenter ToastPosition = "bottom-center"
+	PositionTopRight     Position = "top-right"
+	PositionTopLeft      Position = "top-left"
+	PositionTopCenter    Position = "top-center"
+	PositionBottomRight  Position = "bottom-right"
+	PositionBottomLeft   Position = "bottom-left"
+	PositionBottomCenter Position = "bottom-center"
 )
 
-type ToastProps struct {
+type Props struct {
 	ID            string
 	Class         string
 	Attributes    templ.Attributes
 	Title         string
 	Description   string
-	Variant       ToastVariant
-	Position      ToastPosition
+	Variant       Variant
+	Position      Position
 	Duration      int
 	Dismissible   bool
 	ShowIndicator bool
 	Icon          bool
 }
 
-templ Toast(props ...ToastProps) {
-	{{ var p ToastProps }}
+templ Toast(props ...Props) {
+	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
 	if p.ID == "" {
 		{{ p.ID = utils.RandomID() }}
 	}
-	{{ p = p.withDefaults() }}
+	{{ p = p.defaults() }}
 	<div
 		id={ p.ID }
 		data-duration={ strconv.Itoa(p.Duration) }
@@ -66,11 +66,11 @@ templ Toast(props ...ToastProps) {
 		class={
 			utils.TwMerge(
 				"z-50 fixed pointer-events-auto p-4",
-				utils.If(p.Position == ToastPositionTopRight || p.Position == ToastPositionTopLeft || p.Position == ToastPositionTopCenter, "top-0"),
-				utils.If(p.Position == ToastPositionBottomRight || p.Position == ToastPositionBottomLeft || p.Position == ToastPositionBottomCenter, "bottom-0"),
-				utils.If(p.Position == ToastPositionTopRight || p.Position == ToastPositionBottomRight, "right-0"),
-				utils.If(p.Position == ToastPositionTopLeft || p.Position == ToastPositionBottomLeft, "left-0"),
-				utils.If(p.Position == ToastPositionTopCenter || p.Position == ToastPositionBottomCenter, "left-1/2 -translate-x-1/2"),
+				utils.If(p.Position == PositionTopRight || p.Position == PositionTopLeft || p.Position == PositionTopCenter, "top-0"),
+				utils.If(p.Position == PositionBottomRight || p.Position == PositionBottomLeft || p.Position == PositionBottomCenter, "bottom-0"),
+				utils.If(p.Position == PositionTopRight || p.Position == PositionBottomRight, "right-0"),
+				utils.If(p.Position == PositionTopLeft || p.Position == PositionBottomLeft, "left-0"),
+				utils.If(p.Position == PositionTopCenter || p.Position == PositionBottomCenter, "left-1/2 -translate-x-1/2"),
 				"w-full md:max-w-[420px]",
 				p.Class,
 			),
@@ -79,61 +79,61 @@ templ Toast(props ...ToastProps) {
 	>
 		<div class="w-full bg-primary-foreground rounded-lg shadow-xs border pt-5 pb-4 px-4 flex items-center justify-center relative overflow-hidden">
 			if p.ShowIndicator {
-				@toastIndicator(p)
+				@indicator(p)
 			}
 			if p.Icon {
-				@toastIcon(p)
+				@icon(p)
 			}
 			<span class="flex-1 min-w-0">
-				@toastTitle(p)
-				@toastDescription(p)
+				@title(p)
+				@description(p)
 			</span>
 			if p.Dismissible {
-				@toastDismissButton()
+				@dismissButton()
 			}
 		</div>
 	</div>
 }
 
-templ toastIndicator(p ToastProps) {
+templ indicator(p Props) {
 	<div class="absolute top-0 left-0 right-0 h-1">
 		<div
 			x-ref="progress"
 			class={
 				utils.TwMerge(
 					"absolute inset-0",
-					toastTypeClass(p.Variant),
+					typeClass(p.Variant),
 				),
 			}
 		></div>
 	</div>
 }
 
-templ toastIcon(p ToastProps) {
-	if p.Variant == ToastVariantSuccess {
+templ icon(p Props) {
+	if p.Variant == VariantSuccess {
 		@icons.CircleCheck(icons.IconProps{Size: 22, Class: "text-green-500 mr-3 flex-shrink-0"})
-	} else if p.Variant == ToastVariantError {
+	} else if p.Variant == VariantError {
 		@icons.CircleX(icons.IconProps{Size: 22, Class: "text-red-500 mr-3 flex-shrink-0"})
-	} else if p.Variant == ToastVariantWarning {
+	} else if p.Variant == VariantWarning {
 		@icons.TriangleAlert(icons.IconProps{Size: 22, Class: "text-yellow-500 mr-3 flex-shrink-0"})
-	} else if p.Variant == ToastVariantInfo {
+	} else if p.Variant == VariantInfo {
 		@icons.Info(icons.IconProps{Size: 22, Class: "text-blue-500 mr-3 flex-shrink-0"})
 	}
 }
 
-templ toastTitle(p ToastProps) {
+templ title(p Props) {
 	if p.Title != "" {
 		<p class="text-sm font-semibold truncate">{ p.Title }</p>
 	}
 }
 
-templ toastDescription(p ToastProps) {
+templ description(p Props) {
 	if p.Description != "" {
 		<p class="text-sm opacity-90 mt-1">{ p.Description }</p>
 	}
 }
 
-templ toastDismissButton() {
+templ dismissButton() {
 	@button.Button(button.Props{
 		Size:    button.SizeIcon,
 		Variant: button.VariantGhost,
@@ -152,12 +152,12 @@ templ toastDismissButton() {
 	}
 }
 
-func (p ToastProps) withDefaults() ToastProps {
+func (p Props) defaults() Props {
 	if p.Variant == "" {
-		p.Variant = ToastVariantDefault
+		p.Variant = VariantDefault
 	}
 	if p.Position == "" {
-		p.Position = ToastPositionBottomRight
+		p.Position = PositionBottomRight
 	}
 	if p.Duration == 0 {
 		p.Duration = 3000
@@ -165,24 +165,24 @@ func (p ToastProps) withDefaults() ToastProps {
 	return p
 }
 
-func toastTypeClass(t ToastVariant) string {
+func typeClass(t Variant) string {
 	switch t {
-	case ToastVariantDefault:
+	case VariantDefault:
 		return "bg-gray-500"
-	case ToastVariantSuccess:
+	case VariantSuccess:
 		return "bg-green-500"
-	case ToastVariantError:
+	case VariantError:
 		return "bg-red-500"
-	case ToastVariantWarning:
+	case VariantWarning:
 		return "bg-yellow-500"
-	case ToastVariantInfo:
+	case VariantInfo:
 		return "bg-blue-500"
 	default:
 		return ""
 	}
 }
 
-templ ToastScript() {
+templ Script() {
 	{{ handler := templ.NewOnceHandle() }}
 	@handler.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>	

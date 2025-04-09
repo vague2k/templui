@@ -1,7 +1,6 @@
 package helpers
 
 import (
-	"github.com/axzilla/templui/components"
 	"github.com/axzilla/templui/components/carousel"
 	"github.com/axzilla/templui/components/chart"
 	"github.com/axzilla/templui/components/code"
@@ -18,6 +17,7 @@ import (
 	"github.com/axzilla/templui/components/tabs"
 	"github.com/axzilla/templui/components/textarea"
 	"github.com/axzilla/templui/components/timepicker"
+	"github.com/axzilla/templui/components/toast"
 )
 
 templ ComponentScripts() {
@@ -37,5 +37,5 @@ templ ComponentScripts() {
 	@tabs.Script()
 	@textarea.Script()
 	@timepicker.Script()
-	@components.ToastScript()
+	@toast.Script()
 }

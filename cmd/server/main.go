@@ -8,7 +8,7 @@ import (
 
 	"github.com/a-h/templ"
 	"github.com/axzilla/templui/assets"
-	"github.com/axzilla/templui/components"
+	"github.com/axzilla/templui/components/toast"
 	"github.com/axzilla/templui/internal/config"
 	"github.com/axzilla/templui/internal/middleware"
 	"github.com/axzilla/templui/internal/ui/pages"
@@ -22,18 +22,18 @@ func toastDemoHandler(w http.ResponseWriter, r *http.Request) {
 		duration = 0
 	}
 
-	toastProps := components.ToastProps{
+	toastProps := toast.Props{
 		Title:         r.FormValue("title"),
 		Description:   r.FormValue("description"),
-		Variant:       components.ToastVariant(r.FormValue("type")),
-		Position:      components.ToastPosition(r.FormValue("position")),
+		Variant:       toast.Variant(r.FormValue("type")),
+		Position:      toast.Position(r.FormValue("position")),
 		Duration:      duration,
 		Dismissible:   r.FormValue("dismissible") == "on",
 		ShowIndicator: r.FormValue("indicator") == "on",
 		Icon:          r.FormValue("icon") == "on",
 	}
 
-	components.Toast(toastProps).Render(r.Context(), w)
+	toast.Toast(toastProps).Render(r.Context(), w)
 }
 
 func buttonHtmxLoadingHandler(w http.ResponseWriter, r *http.Request) {

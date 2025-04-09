@@ -9,7 +9,6 @@ import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
 import (
-	"github.com/axzilla/templui/components"
 	"github.com/axzilla/templui/components/carousel"
 	"github.com/axzilla/templui/components/chart"
 	"github.com/axzilla/templui/components/code"
@@ -26,6 +25,7 @@ import (
 	"github.com/axzilla/templui/components/tabs"
 	"github.com/axzilla/templui/components/textarea"
 	"github.com/axzilla/templui/components/timepicker"
+	"github.com/axzilla/templui/components/toast"
 )
 
 func ComponentScripts() templ.Component {
@@ -113,7 +113,7 @@ func ComponentScripts() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = components.ToastScript().Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = toast.Script().Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
