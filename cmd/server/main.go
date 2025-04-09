@@ -8,7 +8,7 @@ import (
 
 	"github.com/a-h/templ"
 	"github.com/axzilla/templui/assets"
-	"github.com/axzilla/templui/components/toast"
+	"github.com/axzilla/templui/component/toast"
 	"github.com/axzilla/templui/internal/config"
 	"github.com/axzilla/templui/internal/middleware"
 	"github.com/axzilla/templui/internal/ui/pages"

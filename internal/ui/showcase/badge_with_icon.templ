@@ -1,15 +1,15 @@
 package showcase
 
 import (
-	"github.com/axzilla/templui/components/badge"
-	"github.com/axzilla/templui/icons"
+	"github.com/axzilla/templui/component/badge"
+	"github.com/axzilla/templui/icon"
 )
 
 templ BadgeWithIcon() {
 	@badge.Badge(badge.Props{
 		Class: "flex gap-1 items-center",
 	}) {
-		@icons.Rocket(icons.IconProps{Size: 14})
+		@icon.Rocket(icon.Props{Size: 14})
 		With Icon
 	}
 }

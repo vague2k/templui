@@ -1,8 +1,8 @@
 package showcase
 
 import (
-	"github.com/axzilla/templui/components/button"
-	"github.com/axzilla/templui/icons"
+	"github.com/axzilla/templui/component/button"
+	"github.com/axzilla/templui/icon"
 )
 
 templ ButtonIcon() {
@@ -10,6 +10,6 @@ templ ButtonIcon() {
 		Size:    button.SizeIcon,
 		Variant: button.VariantOutline,
 	}) {
-		@icons.ChevronRight(icons.IconProps{Size: 16})
+		@icon.ChevronRight(icon.Props{Size: 16})
 	}
 }

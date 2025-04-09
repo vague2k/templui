@@ -1,15 +1,15 @@
 package showcase
 
 import (
-	"github.com/axzilla/templui/components/avatar"
-	"github.com/axzilla/templui/icons"
+	"github.com/axzilla/templui/component/avatar"
+	"github.com/axzilla/templui/icon"
 )
 
 templ AvatarWithIcon() {
 	@avatar.Avatar(avatar.Props{
 		Class: "bg-purple-300",
 	}) {
-		@icons.Camera(icons.IconProps{
+		@icon.Camera(icon.Props{
 			Size:  22,
 			Color: "white",
 		})

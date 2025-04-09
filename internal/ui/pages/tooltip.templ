@@ -9,21 +9,21 @@ import (
 templ Tooltip() {
 	@layouts.DocsLayout(
 		"Tooltip",
-		"A small pop-up box that appears when a user hovers over an element",
+		"A small pop-up box that appears when a user hovers over an element. Uses `Popover` component under the hood.",
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Tooltip",
-			Description: templ.Raw("A small pop-up box that appears when a user hovers over an element"),
+			Description: templ.Raw("A small pop-up box that appears when a user hovers over an element. Uses `Popover` component under the hood."),
 			Tailwind:    true,
 		}) {
+			@modules.Usage(modules.UsageProps{
+				ComponentName: "Popover",
+				NeedsHandler:  true,
+			})
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.TooltipDefault(),
 				PreviewCodeFile:   "tooltip_default.templ",
 				ComponentCodeFile: "tooltip/tooltip.templ",
-			})
-			@modules.Usage(modules.UsageProps{
-				ComponentName: "Tooltip",
-				PropsExample:  "...",
 			})
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{

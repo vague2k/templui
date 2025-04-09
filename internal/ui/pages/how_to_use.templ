@@ -1,7 +1,7 @@
 package pages
 
 import (
-	"github.com/axzilla/templui/components/code"
+	"github.com/axzilla/templui/component/code"
 	"github.com/axzilla/templui/internal/ui/layouts"
 )
 
@@ -145,7 +145,7 @@ var installTemplUI = `go get github.com/axzilla/templui`
 
 var goPath = `@source "${GOPATH}/pkg/mod/github.com/axzilla/templui@*/**/*.{go,templ}";`
 
-var usingComponents = `import "github.com/axzilla/templui/components"
+var usingComponents = `import "github.com/axzilla/templui/component"
 
 @components.Button(components.ButtonProps{Text: "Click me"})`
 

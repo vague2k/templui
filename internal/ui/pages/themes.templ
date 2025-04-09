@@ -1,16 +1,16 @@
 package pages
 
 import (
-	"github.com/axzilla/templui/components/button"
-	"github.com/axzilla/templui/components/card"
-	"github.com/axzilla/templui/components/checkbox"
-	"github.com/axzilla/templui/components/datepicker"
-	"github.com/axzilla/templui/components/form"
-	"github.com/axzilla/templui/components/input"
-	"github.com/axzilla/templui/components/modal"
-	"github.com/axzilla/templui/components/radio"
-	"github.com/axzilla/templui/components/toggle"
-	"github.com/axzilla/templui/icons"
+	"github.com/axzilla/templui/component/button"
+	"github.com/axzilla/templui/component/card"
+	"github.com/axzilla/templui/component/checkbox"
+	"github.com/axzilla/templui/component/datepicker"
+	"github.com/axzilla/templui/component/form"
+	"github.com/axzilla/templui/component/input"
+	"github.com/axzilla/templui/component/modal"
+	"github.com/axzilla/templui/component/radio"
+	"github.com/axzilla/templui/component/toggle"
+	"github.com/axzilla/templui/icon"
 	"github.com/axzilla/templui/internal/ui/layouts"
 	"github.com/axzilla/templui/internal/ui/modules"
 )
@@ -673,7 +673,7 @@ templ Themes() {
 								"@click": "resetTheme",
 							},
 						}) {
-							@icons.RotateCcw(icons.IconProps{Size: 14})
+							@icon.RotateCcw(icon.Props{Size: 14})
 						}
 					</div>
 					@ThemeCustomizer(ThemeCustomizerProps{
@@ -944,7 +944,7 @@ templ ThemeSelector() {
 						data-theme="zinc"
 						x-show="isTheme"
 					>
-						@icons.Check(icons.IconProps{Size: 12, Color: "white"})
+						@icon.Check(icon.Props{Size: 12, Color: "white"})
 					</span>
 				</span>
 				Zinc
@@ -961,7 +961,7 @@ templ ThemeSelector() {
 						data-theme="slate"
 						x-show="isTheme"
 					>
-						@icons.Check(icons.IconProps{Size: 12, Color: "white"})
+						@icon.Check(icon.Props{Size: 12, Color: "white"})
 					</span>
 				</span>
 				Slate
@@ -978,7 +978,7 @@ templ ThemeSelector() {
 						data-theme="stone"
 						x-show="isTheme"
 					>
-						@icons.Check(icons.IconProps{Size: 12, Color: "white"})
+						@icon.Check(icon.Props{Size: 12, Color: "white"})
 					</span>
 				</span>
 				Stone
@@ -995,7 +995,7 @@ templ ThemeSelector() {
 						data-theme="gray"
 						x-show="isTheme"
 					>
-						@icons.Check(icons.IconProps{Size: 12, Color: "white"})
+						@icon.Check(icon.Props{Size: 12, Color: "white"})
 					</span>
 				</span>
 				Gray
@@ -1012,7 +1012,7 @@ templ ThemeSelector() {
 						data-theme="neutral"
 						x-show="isTheme"
 					>
-						@icons.Check(icons.IconProps{Size: 12, Color: "white"})
+						@icon.Check(icon.Props{Size: 12, Color: "white"})
 					</span>
 				</span>
 				Neutral
@@ -1029,7 +1029,7 @@ templ ThemeSelector() {
 						data-theme="red"
 						x-show="isTheme"
 					>
-						@icons.Check(icons.IconProps{Size: 12, Color: "white"})
+						@icon.Check(icon.Props{Size: 12, Color: "white"})
 					</span>
 				</span>
 				Red
@@ -1046,7 +1046,7 @@ templ ThemeSelector() {
 						data-theme="rose"
 						x-show="isTheme"
 					>
-						@icons.Check(icons.IconProps{Size: 12, Color: "white"})
+						@icon.Check(icon.Props{Size: 12, Color: "white"})
 					</span>
 				</span>
 				Rose
@@ -1063,7 +1063,7 @@ templ ThemeSelector() {
 						data-theme="orange"
 						x-show="isTheme"
 					>
-						@icons.Check(icons.IconProps{Size: 12, Color: "white"})
+						@icon.Check(icon.Props{Size: 12, Color: "white"})
 					</span>
 				</span>
 				Orange
@@ -1080,7 +1080,7 @@ templ ThemeSelector() {
 						data-theme="green"
 						x-show="isTheme"
 					>
-						@icons.Check(icons.IconProps{Size: 12, Color: "white"})
+						@icon.Check(icon.Props{Size: 12, Color: "white"})
 					</span>
 				</span>
 				Green
@@ -1097,7 +1097,7 @@ templ ThemeSelector() {
 						data-theme="blue"
 						x-show="isTheme"
 					>
-						@icons.Check(icons.IconProps{Size: 12, Color: "white"})
+						@icon.Check(icon.Props{Size: 12, Color: "white"})
 					</span>
 				</span>
 				Blue
@@ -1114,7 +1114,7 @@ templ ThemeSelector() {
 						data-theme="yellow"
 						x-show="isTheme"
 					>
-						@icons.Check(icons.IconProps{Size: 12, Color: "white"})
+						@icon.Check(icon.Props{Size: 12, Color: "white"})
 					</span>
 				</span>
 				Yellow
@@ -1131,7 +1131,7 @@ templ ThemeSelector() {
 						data-theme="violet"
 						x-show="isTheme"
 					>
-						@icons.Check(icons.IconProps{Size: 12, Color: "white"})
+						@icon.Check(icon.Props{Size: 12, Color: "white"})
 					</span>
 				</span>
 				Violet

@@ -1,7 +1,7 @@
 package showcase
 
-import "github.com/axzilla/templui/icons"
-import "github.com/axzilla/templui/components/checkboxcard"
+import "github.com/axzilla/templui/icon"
+import "github.com/axzilla/templui/component/checkboxcard"
 
 templ CheckboxCardDefault() {
 	<div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
@@ -12,7 +12,7 @@ templ CheckboxCardDefault() {
 			@checkboxcard.Header() {
 				<div class="flex items-center gap-2">
 					<div class="text-primary">
-						@icons.ChartBar(icons.IconProps{Size: 20})
+						@icon.ChartBar(icon.Props{Size: 20})
 					</div>
 					<h3>Analytics</h3>
 				</div>
@@ -31,7 +31,7 @@ templ CheckboxCardDefault() {
 			@checkboxcard.Header() {
 				<div class="flex items-center gap-2">
 					<div class="text-primary">
-						@icons.Cloud(icons.IconProps{Size: 20})
+						@icon.Cloud(icon.Props{Size: 20})
 					</div>
 					<h3>Cloud Storage</h3>
 				</div>
@@ -50,7 +50,7 @@ templ CheckboxCardDefault() {
 			@checkboxcard.Header() {
 				<div class="flex items-center gap-2">
 					<div class="text-primary">
-						@icons.Code(icons.IconProps{Size: 20})
+						@icon.Code(icon.Props{Size: 20})
 					</div>
 					<h3>API Access</h3>
 				</div>

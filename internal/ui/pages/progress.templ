@@ -1,7 +1,7 @@
 package pages
 
 import (
-	"github.com/axzilla/templui/components/code"
+	"github.com/axzilla/templui/component/code"
 	"github.com/axzilla/templui/internal/ui/layouts"
 	"github.com/axzilla/templui/internal/ui/modules"
 	"github.com/axzilla/templui/internal/ui/showcase"
@@ -21,10 +21,6 @@ templ Progress() {
 				ShowcaseFile:      showcase.ProgressDefault(),
 				PreviewCodeFile:   "progress_default.templ",
 				ComponentCodeFile: "progress/progress.templ",
-			})
-			@modules.Usage(modules.UsageProps{
-				ComponentName: "Progress",
-				PropsExample:  "...",
 			})
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{

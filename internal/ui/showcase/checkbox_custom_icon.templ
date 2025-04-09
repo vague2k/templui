@@ -1,13 +1,13 @@
 package showcase
 
 import (
-	"github.com/axzilla/templui/components/checkbox"
-	"github.com/axzilla/templui/icons"
+	"github.com/axzilla/templui/component/checkbox"
+	"github.com/axzilla/templui/icon"
 )
 
 templ CheckboxCustomIcon() {
 	@checkbox.Checkbox(checkbox.Props{
-		Icon:    icons.Plus(icons.IconProps{Size: 12}),
+		Icon:    icon.Plus(icon.Props{Size: 12}),
 		Checked: true,
 	},
 	)

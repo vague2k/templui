@@ -1,14 +1,14 @@
 package showcase
 
 import (
-	"github.com/axzilla/templui/components/alert"
-	"github.com/axzilla/templui/icons"
+	"github.com/axzilla/templui/component/alert"
+	"github.com/axzilla/templui/icon"
 )
 
 templ AlertDestructive() {
 	<div class="w-full max-w-xl">
 		@alert.Alert(alert.Props{Variant: alert.VariantDestructive}) {
-			@icons.TriangleAlert(icons.IconProps{Size: 16})
+			@icon.TriangleAlert(icon.Props{Size: 16})
 			@alert.Title() {
 				Error
 			}

@@ -1,8 +1,8 @@
 package showcase
 
 import (
-	"github.com/axzilla/templui/components/radiocard"
-	"github.com/axzilla/templui/icons"
+	"github.com/axzilla/templui/component/radiocard"
+	"github.com/axzilla/templui/icon"
 )
 
 templ RadioCardDefault() {
@@ -14,7 +14,7 @@ templ RadioCardDefault() {
 		}) {
 			@radiocard.Header() {
 				<div class="flex items-center gap-2">
-					@icons.Package(icons.IconProps{Size: 20})
+					@icon.Package(icon.Props{Size: 20})
 					<h3>Basic Plan</h3>
 				</div>
 			}
@@ -32,7 +32,7 @@ templ RadioCardDefault() {
 		}) {
 			@radiocard.Header() {
 				<div class="flex items-center gap-2">
-					@icons.Star(icons.IconProps{Size: 20})
+					@icon.Star(icon.Props{Size: 20})
 					<h3>Pro Plan</h3>
 				</div>
 			}
@@ -51,7 +51,7 @@ templ RadioCardDefault() {
 		}) {
 			@radiocard.Header() {
 				<div class="flex items-center gap-2">
-					@icons.Building(icons.IconProps{Size: 20})
+					@icon.Building(icon.Props{Size: 20})
 					<h3>Enterprise Plan</h3>
 				</div>
 			}

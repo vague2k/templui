@@ -1,14 +1,14 @@
 package showcase
 
 import (
-	"github.com/axzilla/templui/components/alert"
-	"github.com/axzilla/templui/icons"
+	"github.com/axzilla/templui/component/alert"
+	"github.com/axzilla/templui/icon"
 )
 
 templ AlertDefault() {
 	<div class="w-full max-w-xl">
 		@alert.Alert() {
-			@icons.Rocket(icons.IconProps{Size: 16})
+			@icon.Rocket(icon.Props{Size: 16})
 			@alert.Title() {
 				Note
 			}
