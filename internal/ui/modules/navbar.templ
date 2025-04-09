@@ -1,8 +1,8 @@
 package modules
 
 import (
-	"github.com/axzilla/templui/components"
 	"github.com/axzilla/templui/components/button"
+	"github.com/axzilla/templui/components/drawer"
 	"github.com/axzilla/templui/icons"
 	"github.com/axzilla/templui/internal/ctxkeys"
 	"github.com/axzilla/templui/internal/shared"
@@ -46,16 +46,16 @@ templ Navbar() {
 }
 
 templ NavbarMobileMenu() {
-	@components.Drawer() {
-		@components.DrawerTrigger() {
+	@drawer.Drawer() {
+		@drawer.Trigger() {
 			<button
 				class="mr-2 lg:hidden p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-hidden focus:ring-2 focus:ring-inset focus:ring-indigo-500"
 			>
 				@icons.SquareLibrary()
 			</button>
 		}
-		@components.DrawerContent(components.DrawerContentProps{
-			Side: components.DrawerPositionLeft,
+		@drawer.Content(drawer.ContentProps{
+			Position: drawer.PositionLeft,
 		}) {
 			<div class="space-y-4">
 				for _, section := range shared.Sections {

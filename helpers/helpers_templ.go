@@ -14,6 +14,7 @@ import (
 	"github.com/axzilla/templui/components/chart"
 	"github.com/axzilla/templui/components/code"
 	"github.com/axzilla/templui/components/datepicker"
+	"github.com/axzilla/templui/components/drawer"
 )
 
 func ComponentScripts() templ.Component {
@@ -53,7 +54,7 @@ func ComponentScripts() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = components.DrawerScript().Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = drawer.Script().Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

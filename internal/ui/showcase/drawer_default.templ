@@ -4,23 +4,24 @@ import (
 	"github.com/axzilla/templui/components"
 	"github.com/axzilla/templui/components/button"
 	"github.com/axzilla/templui/components/card"
+	"github.com/axzilla/templui/components/drawer"
 )
 
 templ DrawerDefault() {
-	@components.Drawer() {
-		@components.DrawerTrigger(components.DrawerTriggerProps{Class: "mb-4"}) {
+	@drawer.Drawer() {
+		@drawer.Trigger(drawer.TriggerProps{Class: "mb-4"}) {
 			@button.Button() {
 				Open
 			}
 		}
-		@components.DrawerContent(components.DrawerContentProps{
-			Side: components.DrawerPositionRight,
+		@drawer.Content(drawer.ContentProps{
+			Position: drawer.PositionRight,
 		}) {
-			@components.DrawerHeader() {
-				@components.DrawerTitle() {
+			@drawer.Header() {
+				@drawer.Title() {
 					Account
 				}
-				@components.DrawerDescription() {
+				@drawer.Description() {
 					Make changes to your account here. Click save when you are done.
 				}
 			}
@@ -42,8 +43,8 @@ templ DrawerDefault() {
 					</div>
 				}
 			}
-			@components.DrawerFooter() {
-				@components.DrawerClose() {
+			@drawer.Footer() {
+				@drawer.Close() {
 					Cancel
 				}
 				@button.Button() {

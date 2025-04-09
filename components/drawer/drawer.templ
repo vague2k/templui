@@ -1,68 +1,68 @@
-package components
+package drawer
 
 import "github.com/axzilla/templui/utils"
 
-type DrawerPosition string
+type Position string
 
 const (
-	DrawerPositionTop    DrawerPosition = "top"
-	DrawerPositionRight  DrawerPosition = "right"
-	DrawerPositionBottom DrawerPosition = "bottom"
-	DrawerPositionLeft   DrawerPosition = "left"
+	PositionTop    Position = "top"
+	PositionRight  Position = "right"
+	PositionBottom Position = "bottom"
+	PositionLeft   Position = "left"
 )
 
-type DrawerProps struct {
+type Props struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
-	Side       DrawerPosition
+	Side       Position
 }
 
-type DrawerTriggerProps struct {
-	ID         string
-	Class      string
-	Attributes templ.Attributes
-}
-
-type DrawerContentProps struct {
-	ID         string
-	Class      string
-	Attributes templ.Attributes
-	Side       DrawerPosition
-}
-
-type DrawerHeaderProps struct {
+type TriggerProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-type DrawerFooterProps struct {
+type ContentProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+	Position   Position
+}
+
+type HeaderProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-type DrawerTitleProps struct {
+type FooterProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-type DrawerDescriptionProps struct {
+type TitleProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-type DrawerCloseProps struct {
+type DescriptionProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-templ Drawer(props ...DrawerProps) {
-	{{ var p DrawerProps }}
+type CloseProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+}
+
+templ Drawer(props ...Props) {
+	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -80,8 +80,8 @@ templ Drawer(props ...DrawerProps) {
 	</div>
 }
 
-templ DrawerTrigger(props ...DrawerTriggerProps) {
-	{{ var p DrawerTriggerProps }}
+templ Trigger(props ...TriggerProps) {
+	{{ var p TriggerProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -97,8 +97,8 @@ templ DrawerTrigger(props ...DrawerTriggerProps) {
 	</div>
 }
 
-templ DrawerContent(props ...DrawerContentProps) {
-	{{ var p DrawerContentProps }}
+templ Content(props ...ContentProps) {
+	{{ var p ContentProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -124,33 +124,33 @@ templ DrawerContent(props ...DrawerContentProps) {
 			utils.TwMerge(
 				"fixed z-50",
 				p.Class,
-				utils.If(p.Side == DrawerPositionRight, "inset-y-0 right-0 w-3/4 md:w-1/2 lg:w-1/3"),
-				utils.If(p.Side == DrawerPositionLeft, "inset-y-0 left-0 w-3/4 md:w-1/2 lg:w-1/3"),
-				utils.If(p.Side == DrawerPositionTop, "inset-x-0 top-0 h-auto sm:h-1/2"),
-				utils.If(p.Side == DrawerPositionBottom, "inset-x-0 bottom-0 h-auto sm:h-1/2"),
+				utils.If(p.Position == PositionRight, "inset-y-0 right-0 w-3/4 md:w-1/2 lg:w-1/3"),
+				utils.If(p.Position == PositionLeft, "inset-y-0 left-0 w-3/4 md:w-1/2 lg:w-1/3"),
+				utils.If(p.Position == PositionTop, "inset-x-0 top-0 h-auto sm:h-1/2"),
+				utils.If(p.Position == PositionBottom, "inset-x-0 bottom-0 h-auto sm:h-1/2"),
 			),
 		}
 		x-transition:enter="transition ease-out duration-300"
 		x-transition:leave="transition ease-in duration-300"
-		if p.Side == DrawerPositionLeft {
+		if p.Position == PositionLeft {
 			x-transition:enter-start="opacity-0 transform -translate-x-full"
 			x-transition:enter-end="opacity-100 transform translate-x-0"
 			x-transition:leave-start="opacity-100 transform translate-x-0"
 			x-transition:leave-end="opacity-0 transform -translate-x-full"
 		}
-		if p.Side == DrawerPositionRight {
+		if p.Position == PositionRight {
 			x-transition:enter-start="opacity-0 transform translate-x-full"
 			x-transition:enter-end="opacity-100 transform translate-x-0"
 			x-transition:leave-start="opacity-100 transform translate-x-0"
 			x-transition:leave-end="opacity-0 transform translate-x-full"
 		}
-		if p.Side == DrawerPositionTop {
+		if p.Position == PositionTop {
 			x-transition:enter-start="opacity-0 transform -translate-y-full"
 			x-transition:enter-end="opacity-100 transform translate-y-0"
 			x-transition:leave-start="opacity-100 transform translate-y-0"
 			x-transition:leave-end="opacity-0 transform -translate-y-full"
 		}
-		if p.Side == DrawerPositionBottom {
+		if p.Position == PositionBottom {
 			x-transition:enter-start="opacity-0 transform translate-y-full"
 			x-transition:enter-end="opacity-100 transform translate-y-0"
 			x-transition:leave-start="opacity-100 transform translate-y-0"
@@ -162,10 +162,10 @@ templ DrawerContent(props ...DrawerContentProps) {
 			class={
 				utils.TwMerge(
 					"h-full overflow-y-auto bg-background p-6 shadow-lg",
-					utils.If(p.Side == DrawerPositionRight, "border-l"),
-					utils.If(p.Side == DrawerPositionLeft, "border-r"),
-					utils.If(p.Side == DrawerPositionBottom, "border-t"),
-					utils.If(p.Side == DrawerPositionTop, "border-b"),
+					utils.If(p.Position == PositionRight, "border-l"),
+					utils.If(p.Position == PositionLeft, "border-r"),
+					utils.If(p.Position == PositionBottom, "border-t"),
+					utils.If(p.Position == PositionTop, "border-b"),
 				),
 			}
 			@click.stop
@@ -175,8 +175,8 @@ templ DrawerContent(props ...DrawerContentProps) {
 	</div>
 }
 
-templ DrawerHeader(props ...DrawerHeaderProps) {
-	{{ var p DrawerHeaderProps }}
+templ Header(props ...HeaderProps) {
+	{{ var p HeaderProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -191,8 +191,8 @@ templ DrawerHeader(props ...DrawerHeaderProps) {
 	</div>
 }
 
-templ DrawerTitle(props ...DrawerTitleProps) {
-	{{ var p DrawerTitleProps }}
+templ Title(props ...TitleProps) {
+	{{ var p TitleProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -207,8 +207,8 @@ templ DrawerTitle(props ...DrawerTitleProps) {
 	</h2>
 }
 
-templ DrawerDescription(props ...DrawerDescriptionProps) {
-	{{ var p DrawerDescriptionProps }}
+templ Description(props ...DescriptionProps) {
+	{{ var p DescriptionProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -223,8 +223,8 @@ templ DrawerDescription(props ...DrawerDescriptionProps) {
 	</p>
 }
 
-templ DrawerFooter(props ...DrawerFooterProps) {
-	{{ var p DrawerFooterProps }}
+templ Footer(props ...FooterProps) {
+	{{ var p FooterProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -239,8 +239,8 @@ templ DrawerFooter(props ...DrawerFooterProps) {
 	</div>
 }
 
-templ DrawerClose(props ...DrawerCloseProps) {
-	{{ var p DrawerCloseProps }}
+templ Close(props ...CloseProps) {
+	{{ var p CloseProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -264,7 +264,7 @@ templ DrawerClose(props ...DrawerCloseProps) {
 	</button>
 }
 
-templ DrawerScript() {
+templ Script() {
 	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
 		<script nonce={ templ.GetNonce(ctx) }>
