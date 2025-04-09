@@ -1,7 +1,7 @@
 package showcase
 
 import (
-	"github.com/axzilla/templui/components"
+	"github.com/axzilla/templui/components/aspectratio"
 	"github.com/axzilla/templui/components/carousel"
 )
 
@@ -41,8 +41,8 @@ templ CarouselWithImages() {
 }
 
 templ ImageSlide(src string, alt string) {
-	@components.AspectRatio(components.AspectRatioProps{
-		Ratio: components.AspectRatioVideo,
+	@aspectratio.AspectRatio(aspectratio.Props{
+		Ratio: aspectratio.RatioVideo,
 	}) {
 		<img
 			src={ src }

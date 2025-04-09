@@ -1,6 +1,9 @@
 package components
 
-import "github.com/axzilla/templui/utils"
+import (
+	"github.com/axzilla/templui/components/aspectratio"
+	"github.com/axzilla/templui/utils"
+)
 
 type CardMediaPosition string
 type CardMediaWidth string
@@ -72,7 +75,7 @@ type CardMediaProps struct {
 	Alt         string
 	Position    CardMediaPosition
 	Width       CardMediaWidth
-	AspectRatio AspectRatioVariant
+	AspectRatio aspectratio.Ratio
 }
 
 templ Card(props ...CardProps) {
@@ -240,7 +243,7 @@ templ CardMedia(props ...CardMediaProps) {
 		}
 		{ p.Attributes... }
 	>
-		@AspectRatio(AspectRatioProps{
+		@aspectratio.AspectRatio(aspectratio.Props{
 			ID:    p.ID + "-aspect",
 			Ratio: p.AspectRatio,
 			Class: "h-full w-full",

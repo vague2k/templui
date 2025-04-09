@@ -1,6 +1,9 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import (
+	"github.com/axzilla/templui/components"
+	"github.com/axzilla/templui/components/aspectratio"
+)
 
 templ CardImageRight() {
 	<div class="w-full max-w-sm">
@@ -24,7 +27,7 @@ templ CardImageRight() {
 					Alt:         "Right side image",
 					Position:    components.CardMediaRight,
 					Width:       components.CardMediaWidthThird,
-					AspectRatio: components.AspectRatioAuto,
+					AspectRatio: aspectratio.RatioAuto,
 					Src:         "/assets/img/card_placeholder.jpeg",
 				},
 				)
