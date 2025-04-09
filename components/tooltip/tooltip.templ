@@ -1,64 +1,64 @@
-package components
+package tooltip
 
 import "github.com/axzilla/templui/utils"
 import "github.com/axzilla/templui/components/popover"
 
-type TooltipPosition string
+type Position string
 
 const (
-	TooltipPositionTop    TooltipPosition = "top"
-	TooltipPositionRight  TooltipPosition = "right"
-	TooltipPositionBottom TooltipPosition = "bottom"
-	TooltipPositionLeft   TooltipPosition = "left"
+	PositionTop    Position = "top"
+	PositionRight  Position = "right"
+	PositionBottom Position = "bottom"
+	PositionLeft   Position = "left"
 )
 
 // Map tooltip positions to popover positions
-func mapTooltipPositionToPopover(position TooltipPosition) popover.Position {
+func mapTooltipPositionToPopover(position Position) popover.Position {
 	switch position {
-	case TooltipPositionTop:
+	case PositionTop:
 		return popover.PositionTop
-	case TooltipPositionRight:
+	case PositionRight:
 		return popover.PositionRight
-	case TooltipPositionBottom:
+	case PositionBottom:
 		return popover.PositionBottom
-	case TooltipPositionLeft:
+	case PositionLeft:
 		return popover.PositionLeft
 	default:
 		return popover.PositionTop
 	}
 }
 
-type TooltipProps struct {
+type Props struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-type TooltipTriggerProps struct {
+type TriggerProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 	For        string
 }
 
-type TooltipContentProps struct {
+type ContentProps struct {
 	ID            string
 	Class         string
 	Attributes    templ.Attributes
 	ShowArrow     bool
-	Position      TooltipPosition
+	Position      Position
 	HoverDelay    int
 	HoverOutDelay int
 }
 
-templ Tooltip(props ...TooltipProps) {
+templ Tooltip(props ...Props) {
 	@popover.Popover() {
 		{ children... }
 	}
 }
 
-templ TooltipTrigger(props ...TooltipTriggerProps) {
-	{{ var p TooltipTriggerProps }}
+templ Trigger(props ...TriggerProps) {
+	{{ var p TriggerProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -71,8 +71,8 @@ templ TooltipTrigger(props ...TooltipTriggerProps) {
 	}
 }
 
-templ TooltipContent(props ...TooltipContentProps) {
-	{{ var p TooltipContentProps }}
+templ Content(props ...ContentProps) {
+	{{ var p ContentProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}

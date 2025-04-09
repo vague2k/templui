@@ -1,13 +1,13 @@
 package showcase
 
 import (
-	"github.com/axzilla/templui/components"
 	"github.com/axzilla/templui/components/button"
+	"github.com/axzilla/templui/components/tooltip"
 )
 
 templ TooltipDefault() {
-	@components.Tooltip() {
-		@components.TooltipTrigger(components.TooltipTriggerProps{
+	@tooltip.Tooltip() {
+		@tooltip.Trigger(tooltip.TriggerProps{
 			For: "tooltip-default",
 		}) {
 			@button.Button(button.Props{
@@ -16,9 +16,9 @@ templ TooltipDefault() {
 				Hover Me
 			}
 		}
-		@components.TooltipContent(components.TooltipContentProps{
+		@tooltip.Content(tooltip.ContentProps{
 			ID:            "tooltip-default",
-			Position:      components.TooltipPositionTop,
+			Position:      tooltip.PositionTop,
 			HoverDelay:    500,
 			HoverOutDelay: 100,
 		}) {
