@@ -20,7 +20,7 @@ templ Popover() {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.PopoverDefault(),
 				PreviewCodeFile:   "popover_default.templ",
-				ComponentCodeFile: "popover.templ",
+				ComponentCodeFile: "popover/popover.templ",
 			})
 			@modules.Usage(modules.UsageProps{
 				ComponentName: "Popover",
@@ -32,13 +32,13 @@ templ Popover() {
 					SectionName:       "Trigger & Closing",
 					ShowcaseFile:      showcase.PopoverTriggers(),
 					PreviewCodeFile:   "popover_triggers.templ",
-					ComponentCodeFile: "popover.templ",
+					ComponentCodeFile: "popover/popover.templ",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:       "Positions",
 					ShowcaseFile:      showcase.PopoverPositions(),
 					PreviewCodeFile:   "popover_positions.templ",
-					ComponentCodeFile: "popover.templ",
+					ComponentCodeFile: "popover/popover.templ",
 				})
 			}
 		}

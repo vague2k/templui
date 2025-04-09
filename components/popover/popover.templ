@@ -1,49 +1,49 @@
-package components
+package popover
 
 import (
 	"github.com/axzilla/templui/utils"
 	"strconv"
 )
 
-type PopoverPosition string
+type Position string
 
 const (
-	PopoverTop         PopoverPosition = "top"
-	PopoverTopStart    PopoverPosition = "top-start"
-	PopoverTopEnd      PopoverPosition = "top-end"
-	PopoverRight       PopoverPosition = "right"
-	PopoverRightStart  PopoverPosition = "right-start"
-	PopoverRightEnd    PopoverPosition = "right-end"
-	PopoverBottom      PopoverPosition = "bottom"
-	PopoverBottomStart PopoverPosition = "bottom-start"
-	PopoverBottomEnd   PopoverPosition = "bottom-end"
-	PopoverLeft        PopoverPosition = "left"
-	PopoverLeftStart   PopoverPosition = "left-start"
-	PopoverLeftEnd     PopoverPosition = "left-end"
+	PositionTop         Position = "top"
+	PositionTopStart    Position = "top-start"
+	PositionTopEnd      Position = "top-end"
+	PositionRight       Position = "right"
+	PositionRightStart  Position = "right-start"
+	PositionRightEnd    Position = "right-end"
+	PositionBottom      Position = "bottom"
+	PositionBottomStart Position = "bottom-start"
+	PositionBottomEnd   Position = "bottom-end"
+	PositionLeft        Position = "left"
+	PositionLeftStart   Position = "left-start"
+	PositionLeftEnd     Position = "left-end"
 )
 
-type PopoverTriggerType string
+type TriggerType string
 
 const (
-	PopoverTriggerTypeHover PopoverTriggerType = "hover"
-	PopoverTriggerTypeClick PopoverTriggerType = "click"
+	TriggerTypeHover TriggerType = "hover"
+	TriggerTypeClick TriggerType = "click"
 )
 
-type PopoverProps struct {
+type Props struct {
 	Class string
 }
 
-type PopoverTriggerProps struct {
+type TriggerProps struct {
 	ID          string
 	For         string
-	TriggerType PopoverTriggerType
+	TriggerType TriggerType
 }
 
-type PopoverContentProps struct {
+type ContentProps struct {
 	ID               string
 	Class            string
 	Attributes       templ.Attributes
-	Position         PopoverPosition
+	Position         Position
 	DisableClickAway bool
 	DisableESC       bool
 	ShowArrow        bool
@@ -51,8 +51,8 @@ type PopoverContentProps struct {
 	HoverOutDelay    int
 }
 
-templ Popover(props ...PopoverProps) {
-	{{ var p PopoverProps }}
+templ Popover(props ...Props) {
+	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -65,13 +65,13 @@ templ Popover(props ...PopoverProps) {
 	></div>
 }
 
-templ PopoverTrigger(props ...PopoverTriggerProps) {
-	{{ var p PopoverTriggerProps }}
+templ Trigger(props ...TriggerProps) {
+	{{ var p TriggerProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
 	if p.TriggerType == "" {
-		{{ p.TriggerType = PopoverTriggerTypeClick }}
+		{{ p.TriggerType = TriggerTypeClick }}
 	}
 	<span
 		if p.ID != "" {
@@ -85,13 +85,13 @@ templ PopoverTrigger(props ...PopoverTriggerProps) {
 	</span>
 }
 
-templ PopoverContent(props ...PopoverContentProps) {
-	{{ var p PopoverContentProps }}
+templ Content(props ...ContentProps) {
+	{{ var p ContentProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
 	if p.Position == "" {
-		{{ p.Position = PopoverBottom }}
+		{{ p.Position = PositionBottom }}
 	}
 	<template
 		data-popover-content-template
@@ -116,54 +116,54 @@ templ PopoverContent(props ...PopoverContentProps) {
 				<!-- We generate all arrows with unique data attributes for easier identification -->
 				<!-- Top arrows -->
 				<div
-					data-arrow={ string(PopoverTop) }
+					data-arrow={ string(PositionTop) }
 					class="absolute h-2.5 w-2.5 rotate-45 bg-background top-[-5px] left-1/2 -translate-x-1/2 border-t border-l hidden"
 				></div>
 				<div
-					data-arrow={ string(PopoverTopStart) }
+					data-arrow={ string(PositionTopStart) }
 					class="absolute h-2.5 w-2.5 rotate-45 bg-background top-[-5px] left-4 border-t border-l hidden"
 				></div>
 				<div
-					data-arrow={ string(PopoverTopEnd) }
+					data-arrow={ string(PositionTopEnd) }
 					class="absolute h-2.5 w-2.5 rotate-45 bg-background top-[-5px] right-4 border-t border-l hidden"
 				></div>
 				<!-- Bottom arrows -->
 				<div
-					data-arrow={ string(PopoverBottom) }
+					data-arrow={ string(PositionBottom) }
 					class="absolute h-2.5 w-2.5 rotate-45 bg-background bottom-[-5px] left-1/2 -translate-x-1/2 border-b border-r hidden"
 				></div>
 				<div
-					data-arrow={ string(PopoverBottomStart) }
+					data-arrow={ string(PositionBottomStart) }
 					class="absolute h-2.5 w-2.5 rotate-45 bg-background bottom-[-5px] left-4 border-b border-r hidden"
 				></div>
 				<div
-					data-arrow={ string(PopoverBottomEnd) }
+					data-arrow={ string(PositionBottomEnd) }
 					class="absolute h-2.5 w-2.5 rotate-45 bg-background bottom-[-5px] right-4 border-b border-r hidden"
 				></div>
 				<!-- Left arrows -->
 				<div
-					data-arrow={ string(PopoverLeft) }
+					data-arrow={ string(PositionLeft) }
 					class="absolute h-2.5 w-2.5 rotate-45 bg-background left-[-5px] top-1/2 -translate-y-1/2 border-b border-l hidden"
 				></div>
 				<div
-					data-arrow={ string(PopoverLeftStart) }
+					data-arrow={ string(PositionLeftStart) }
 					class="absolute h-2.5 w-2.5 rotate-45 bg-background left-[-5px] top-2 border-b border-l hidden"
 				></div>
 				<div
-					data-arrow={ string(PopoverLeftEnd) }
+					data-arrow={ string(PositionLeftEnd) }
 					class="absolute h-2.5 w-2.5 rotate-45 bg-background left-[-5px] bottom-2 border-b border-l hidden"
 				></div>
 				<!-- Right arrows -->
 				<div
-					data-arrow={ string(PopoverRight) }
+					data-arrow={ string(PositionRight) }
 					class="absolute h-2.5 w-2.5 rotate-45 bg-background right-[-5px] top-1/2 -translate-y-1/2 border-t border-r hidden"
 				></div>
 				<div
-					data-arrow={ string(PopoverRightStart) }
+					data-arrow={ string(PositionRightStart) }
 					class="absolute h-2.5 w-2.5 rotate-45 bg-background right-[-5px] top-2 border-t border-r hidden"
 				></div>
 				<div
-					data-arrow={ string(PopoverRightEnd) }
+					data-arrow={ string(PositionRightEnd) }
 					class="absolute h-2.5 w-2.5 rotate-45 bg-background right-[-5px] bottom-2 border-t border-r hidden"
 				></div>
 			}
@@ -171,7 +171,7 @@ templ PopoverContent(props ...PopoverContentProps) {
 	</template>
 }
 
-templ PopoverScript() {
+templ Script() {
 	<script defer nonce={ templ.GetNonce(ctx) }>
         document.addEventListener('DOMContentLoaded', () => {
             // Minimal CSS-Animation for the rubber effect
@@ -216,6 +216,7 @@ templ PopoverScript() {
                 // Get the background and border color from the parent element
                 const computedStyle = window.getComputedStyle(popoverElement);
                 const bgColor = computedStyle.backgroundColor;
+                const borderColor = computedStyle.borderColor;
                 
                 // Arrow direction is always opposite to the position
                 let arrowPosition;
@@ -237,7 +238,7 @@ templ PopoverScript() {
                 if (arrow) {
                     arrow.classList.remove('hidden');
                     arrow.style.backgroundColor = bgColor;
-                    arrow.style.borderColor = bgColor;
+                    arrow.style.borderColor = borderColor;
                 }
             };
             

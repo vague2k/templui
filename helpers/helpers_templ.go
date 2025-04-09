@@ -19,6 +19,7 @@ import (
 	"github.com/axzilla/templui/components/inputotp"
 	"github.com/axzilla/templui/components/label"
 	"github.com/axzilla/templui/components/modal"
+	"github.com/axzilla/templui/components/popover"
 )
 
 func ComponentScripts() templ.Component {
@@ -78,7 +79,7 @@ func ComponentScripts() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = components.PopoverScript().Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = popover.Script().Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

@@ -1,15 +1,15 @@
 package showcase
 
 import (
-	"github.com/axzilla/templui/components"
 	"github.com/axzilla/templui/components/button"
 	"github.com/axzilla/templui/components/input"
 	"github.com/axzilla/templui/components/label"
+	"github.com/axzilla/templui/components/popover"
 )
 
 templ PopoverDefault() {
-	@components.Popover() {
-		@components.PopoverTrigger(components.PopoverTriggerProps{
+	@popover.Popover() {
+		@popover.Trigger(popover.TriggerProps{
 			For: "default-popover",
 		}) {
 			@button.Button(button.Props{
@@ -18,7 +18,7 @@ templ PopoverDefault() {
 				Open Popover
 			}
 		}
-		@components.PopoverContent(components.PopoverContentProps{
+		@popover.Content(popover.ContentProps{
 			ID: "default-popover",
 		}) {
 			@PopoverContent()

@@ -1,17 +1,17 @@
 package showcase
 
 import (
-	"github.com/axzilla/templui/components"
 	"github.com/axzilla/templui/components/button"
+	"github.com/axzilla/templui/components/popover"
 )
 
 templ PopoverPositions() {
 	<div class="flex flex-col w-full max-w-md">
 		<div class="grid grid-cols-3 gap-2">
-			@components.Popover() {
-				@components.PopoverTrigger(components.PopoverTriggerProps{
+			@popover.Popover() {
+				@popover.Trigger(popover.TriggerProps{
 					For:         "top-start-popover",
-					TriggerType: components.PopoverTriggerTypeHover,
+					TriggerType: popover.TriggerTypeHover,
 				}) {
 					@button.Button(button.Props{
 						Class:   "w-full",
@@ -20,18 +20,18 @@ templ PopoverPositions() {
 						Top Start
 					}
 				}
-				@components.PopoverContent(components.PopoverContentProps{
+				@popover.Content(popover.ContentProps{
 					ID:        "top-start-popover",
-					Position:  components.PopoverTopStart,
+					Position:  popover.PositionTopStart,
 					ShowArrow: true,
 				}) {
 					@PopoverContent()
 				}
 			}
-			@components.Popover() {
-				@components.PopoverTrigger(components.PopoverTriggerProps{
+			@popover.Popover() {
+				@popover.Trigger(popover.TriggerProps{
 					For:         "top-popover",
-					TriggerType: components.PopoverTriggerTypeHover,
+					TriggerType: popover.TriggerTypeHover,
 				}) {
 					@button.Button(button.Props{
 						Class:   "w-full",
@@ -40,18 +40,18 @@ templ PopoverPositions() {
 						Top
 					}
 				}
-				@components.PopoverContent(components.PopoverContentProps{
+				@popover.Content(popover.ContentProps{
 					ID:        "top-popover",
-					Position:  components.PopoverTop,
+					Position:  popover.PositionTop,
 					ShowArrow: true,
 				}) {
 					@PopoverContent()
 				}
 			}
-			@components.Popover() {
-				@components.PopoverTrigger(components.PopoverTriggerProps{
+			@popover.Popover() {
+				@popover.Trigger(popover.TriggerProps{
 					For:         "top-end-popover",
-					TriggerType: components.PopoverTriggerTypeHover,
+					TriggerType: popover.TriggerTypeHover,
 				}) {
 					@button.Button(button.Props{
 						Class:   "w-full",
@@ -60,18 +60,18 @@ templ PopoverPositions() {
 						Top End
 					}
 				}
-				@components.PopoverContent(components.PopoverContentProps{
+				@popover.Content(popover.ContentProps{
 					ID:        "top-end-popover",
-					Position:  components.PopoverTopEnd,
+					Position:  popover.PositionTopEnd,
 					ShowArrow: true,
 				}) {
 					@PopoverContent()
 				}
 			}
-			@components.Popover() {
-				@components.PopoverTrigger(components.PopoverTriggerProps{
+			@popover.Popover() {
+				@popover.Trigger(popover.TriggerProps{
 					For:         "right-start-popover",
-					TriggerType: components.PopoverTriggerTypeHover,
+					TriggerType: popover.TriggerTypeHover,
 				}) {
 					@button.Button(button.Props{
 						Class:   "w-full",
@@ -80,18 +80,18 @@ templ PopoverPositions() {
 						Right Start
 					}
 				}
-				@components.PopoverContent(components.PopoverContentProps{
+				@popover.Content(popover.ContentProps{
 					ID:        "right-start-popover",
-					Position:  components.PopoverRightStart,
+					Position:  popover.PositionRightStart,
 					ShowArrow: true,
 				}) {
 					@PopoverContent()
 				}
 			}
-			@components.Popover() {
-				@components.PopoverTrigger(components.PopoverTriggerProps{
+			@popover.Popover() {
+				@popover.Trigger(popover.TriggerProps{
 					For:         "right-popover",
-					TriggerType: components.PopoverTriggerTypeHover,
+					TriggerType: popover.TriggerTypeHover,
 				}) {
 					@button.Button(button.Props{
 						Class:   "w-full",
@@ -100,18 +100,18 @@ templ PopoverPositions() {
 						Right
 					}
 				}
-				@components.PopoverContent(components.PopoverContentProps{
+				@popover.Content(popover.ContentProps{
 					ID:        "right-popover",
-					Position:  components.PopoverRight,
+					Position:  popover.PositionRight,
 					ShowArrow: true,
 				}) {
 					@PopoverContent()
 				}
 			}
-			@components.Popover() {
-				@components.PopoverTrigger(components.PopoverTriggerProps{
+			@popover.Popover() {
+				@popover.Trigger(popover.TriggerProps{
 					For:         "right-end-popover",
-					TriggerType: components.PopoverTriggerTypeHover,
+					TriggerType: popover.TriggerTypeHover,
 				}) {
 					@button.Button(button.Props{
 						Class:   "w-full",
@@ -120,18 +120,18 @@ templ PopoverPositions() {
 						Right End
 					}
 				}
-				@components.PopoverContent(components.PopoverContentProps{
+				@popover.Content(popover.ContentProps{
 					ID:        "right-end-popover",
-					Position:  components.PopoverRightEnd,
+					Position:  popover.PositionRightEnd,
 					ShowArrow: true,
 				}) {
 					@PopoverContent()
 				}
 			}
-			@components.Popover() {
-				@components.PopoverTrigger(components.PopoverTriggerProps{
+			@popover.Popover() {
+				@popover.Trigger(popover.TriggerProps{
 					For:         "bottom-start-popover",
-					TriggerType: components.PopoverTriggerTypeHover,
+					TriggerType: popover.TriggerTypeHover,
 				}) {
 					@button.Button(button.Props{
 						Class:   "w-full",
@@ -140,18 +140,18 @@ templ PopoverPositions() {
 						Bottom Start
 					}
 				}
-				@components.PopoverContent(components.PopoverContentProps{
+				@popover.Content(popover.ContentProps{
 					ID:        "bottom-start-popover",
-					Position:  components.PopoverBottomStart,
+					Position:  popover.PositionBottomStart,
 					ShowArrow: true,
 				}) {
 					@PopoverContent()
 				}
 			}
-			@components.Popover() {
-				@components.PopoverTrigger(components.PopoverTriggerProps{
+			@popover.Popover() {
+				@popover.Trigger(popover.TriggerProps{
 					For:         "bottom-popover",
-					TriggerType: components.PopoverTriggerTypeHover,
+					TriggerType: popover.TriggerTypeHover,
 				}) {
 					@button.Button(button.Props{
 						Class:   "w-full",
@@ -160,18 +160,18 @@ templ PopoverPositions() {
 						Bottom
 					}
 				}
-				@components.PopoverContent(components.PopoverContentProps{
+				@popover.Content(popover.ContentProps{
 					ID:        "bottom-popover",
-					Position:  components.PopoverBottom,
+					Position:  popover.PositionBottom,
 					ShowArrow: true,
 				}) {
 					@PopoverContent()
 				}
 			}
-			@components.Popover() {
-				@components.PopoverTrigger(components.PopoverTriggerProps{
+			@popover.Popover() {
+				@popover.Trigger(popover.TriggerProps{
 					For:         "bottom-end-popover",
-					TriggerType: components.PopoverTriggerTypeHover,
+					TriggerType: popover.TriggerTypeHover,
 				}) {
 					@button.Button(button.Props{
 						Class:   "w-full",
@@ -180,18 +180,18 @@ templ PopoverPositions() {
 						Bottom End
 					}
 				}
-				@components.PopoverContent(components.PopoverContentProps{
+				@popover.Content(popover.ContentProps{
 					ID:        "bottom-end-popover",
-					Position:  components.PopoverBottomEnd,
+					Position:  popover.PositionBottomEnd,
 					ShowArrow: true,
 				}) {
 					@PopoverContent()
 				}
 			}
-			@components.Popover() {
-				@components.PopoverTrigger(components.PopoverTriggerProps{
+			@popover.Popover() {
+				@popover.Trigger(popover.TriggerProps{
 					For:         "left-start-popover",
-					TriggerType: components.PopoverTriggerTypeHover,
+					TriggerType: popover.TriggerTypeHover,
 				}) {
 					@button.Button(button.Props{
 						Class:   "w-full",
@@ -200,18 +200,18 @@ templ PopoverPositions() {
 						Left Start
 					}
 				}
-				@components.PopoverContent(components.PopoverContentProps{
+				@popover.Content(popover.ContentProps{
 					ID:        "left-start-popover",
-					Position:  components.PopoverLeftStart,
+					Position:  popover.PositionLeftStart,
 					ShowArrow: true,
 				}) {
 					@PopoverContent()
 				}
 			}
-			@components.Popover() {
-				@components.PopoverTrigger(components.PopoverTriggerProps{
+			@popover.Popover() {
+				@popover.Trigger(popover.TriggerProps{
 					For:         "left-popover",
-					TriggerType: components.PopoverTriggerTypeHover,
+					TriggerType: popover.TriggerTypeHover,
 				}) {
 					@button.Button(button.Props{
 						Class:   "w-full",
@@ -220,18 +220,18 @@ templ PopoverPositions() {
 						Left
 					}
 				}
-				@components.PopoverContent(components.PopoverContentProps{
+				@popover.Content(popover.ContentProps{
 					ID:        "left-popover",
-					Position:  components.PopoverLeft,
+					Position:  popover.PositionLeft,
 					ShowArrow: true,
 				}) {
 					@PopoverContent()
 				}
 			}
-			@components.Popover() {
-				@components.PopoverTrigger(components.PopoverTriggerProps{
+			@popover.Popover() {
+				@popover.Trigger(popover.TriggerProps{
 					For:         "left-end-popover",
-					TriggerType: components.PopoverTriggerTypeHover,
+					TriggerType: popover.TriggerTypeHover,
 				}) {
 					@button.Button(button.Props{
 						Class:   "w-full",
@@ -240,9 +240,9 @@ templ PopoverPositions() {
 						Left End
 					}
 				}
-				@components.PopoverContent(components.PopoverContentProps{
+				@popover.Content(popover.ContentProps{
 					ID:        "left-end-popover",
-					Position:  components.PopoverLeftEnd,
+					Position:  popover.PositionLeftEnd,
 					ShowArrow: true,
 				}) {
 					@PopoverContent()

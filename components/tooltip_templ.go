@@ -9,6 +9,7 @@ import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
 import "github.com/axzilla/templui/utils"
+import "github.com/axzilla/templui/components/popover"
 
 type TooltipPosition string
 
@@ -20,18 +21,18 @@ const (
 )
 
 // Map tooltip positions to popover positions
-func mapTooltipPositionToPopover(position TooltipPosition) PopoverPosition {
+func mapTooltipPositionToPopover(position TooltipPosition) popover.Position {
 	switch position {
 	case TooltipPositionTop:
-		return PopoverTop
+		return popover.PositionTop
 	case TooltipPositionRight:
-		return PopoverRight
+		return popover.PositionRight
 	case TooltipPositionBottom:
-		return PopoverBottom
+		return popover.PositionBottom
 	case TooltipPositionLeft:
-		return PopoverLeft
+		return popover.PositionLeft
 	default:
-		return PopoverTop
+		return popover.PositionTop
 	}
 }
 
@@ -97,7 +98,7 @@ func Tooltip(props ...TooltipProps) templ.Component {
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = Popover().Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = popover.Popover().Render(templ.WithChildren(ctx, templ_7745c5c3_Var2), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -148,9 +149,9 @@ func TooltipTrigger(props ...TooltipTriggerProps) templ.Component {
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = PopoverTrigger(PopoverTriggerProps{
+		templ_7745c5c3_Err = popover.Trigger(popover.TriggerProps{
 			ID:          p.ID,
-			TriggerType: PopoverTriggerTypeHover,
+			TriggerType: popover.TriggerTypeHover,
 			For:         p.For,
 		}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var4), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
@@ -203,9 +204,9 @@ func TooltipContent(props ...TooltipContentProps) templ.Component {
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = PopoverContent(PopoverContentProps{
+		templ_7745c5c3_Err = popover.Content(popover.ContentProps{
 			ID:            p.ID,
-			Class:         utils.TwMerge("px-4 py-1 bg-foreground text-background", p.Class),
+			Class:         utils.TwMerge("px-4 py-1 bg-foreground text-background border-foreground", p.Class),
 			Attributes:    p.Attributes,
 			Position:      mapTooltipPositionToPopover(p.Position),
 			ShowArrow:     p.ShowArrow,
