@@ -9,6 +9,7 @@ import (
 	"github.com/axzilla/templui/components/form"
 	"github.com/axzilla/templui/components/input"
 	"github.com/axzilla/templui/components/modal"
+	"github.com/axzilla/templui/components/radio"
 	"github.com/axzilla/templui/icons"
 	"github.com/axzilla/templui/internal/ui/layouts"
 	"github.com/axzilla/templui/internal/ui/modules"
@@ -756,7 +757,7 @@ templ ThemePreview() {
 					@form.Item() {
 						<p class="text-sm text-muted-foreground">Contact Method</p>
 						@form.ItemFlex() {
-							@components.Radio(components.RadioProps{
+							@radio.Radio(radio.Props{
 								ID:   "contact-email",
 								Name: "contact-method",
 							})
@@ -767,7 +768,7 @@ templ ThemePreview() {
 							}
 						}
 						@form.ItemFlex() {
-							@components.Radio(components.RadioProps{
+							@radio.Radio(radio.Props{
 								ID:   "contact-phone",
 								Name: "contact-method",
 							})
@@ -778,7 +779,7 @@ templ ThemePreview() {
 							}
 						}
 						@form.ItemFlex() {
-							@components.Radio(components.RadioProps{
+							@radio.Radio(radio.Props{
 								ID:       "contact-mail",
 								Name:     "contact-method",
 								Disabled: true,

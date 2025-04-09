@@ -1,8 +1,8 @@
-package components
+package radio
 
 import "github.com/axzilla/templui/utils"
 
-type RadioProps struct {
+type Props struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
@@ -13,8 +13,8 @@ type RadioProps struct {
 	Checked    bool
 }
 
-templ Radio(props ...RadioProps) {
-	{{ var p RadioProps }}
+templ Radio(props ...Props) {
+	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}

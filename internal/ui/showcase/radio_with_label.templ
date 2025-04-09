@@ -1,13 +1,13 @@
 package showcase
 
 import (
-	"github.com/axzilla/templui/components"
 	"github.com/axzilla/templui/components/label"
+	"github.com/axzilla/templui/components/radio"
 )
 
 templ RadioWithLabel() {
 	<div class="flex gap-2 items-center">
-		@components.Radio(components.RadioProps{
+		@radio.Radio(radio.Props{
 			ID: "radio-with-label",
 		})
 		@label.Label(label.Props{

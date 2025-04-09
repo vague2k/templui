@@ -1,15 +1,15 @@
 package showcase
 
 import (
-	"github.com/axzilla/templui/components"
 	"github.com/axzilla/templui/components/form"
+	"github.com/axzilla/templui/components/radio"
 )
 
 templ RadioForm() {
 	<div class="w-full max-w-sm">
 		@form.Item() {
 			@form.ItemFlex() {
-				@components.Radio(components.RadioProps{
+				@radio.Radio(radio.Props{
 					ID:      "r1",
 					Checked: true,
 				})
@@ -20,7 +20,7 @@ templ RadioForm() {
 				}
 			}
 			@form.ItemFlex() {
-				@components.Radio(components.RadioProps{
+				@radio.Radio(radio.Props{
 					ID:       "r2",
 					Disabled: true,
 				})
@@ -31,7 +31,7 @@ templ RadioForm() {
 				}
 			}
 			@form.ItemFlex() {
-				@components.Radio(components.RadioProps{
+				@radio.Radio(radio.Props{
 					ID: "r3",
 				})
 				@form.Label(form.LabelProps{
