@@ -1,8 +1,8 @@
 package showcase
 
 import (
-	"github.com/axzilla/templui/components"
 	"github.com/axzilla/templui/components/button"
+	"github.com/axzilla/templui/components/spinner"
 )
 
 templ ButtonHtmxLoading() {
@@ -19,8 +19,8 @@ templ ButtonHtmxLoading() {
 				Class: "flex items-center gap-2",
 			}) {
 				<span id="spinner" class="htmx-indicator hidden [&.htmx-request]:inline-flex">
-					@components.Spinner(components.SpinnerProps{
-						Size:  components.SpinnerSizeSm,
+					@spinner.Spinner(spinner.Props{
+						Size:  spinner.SizeSm,
 						Color: "text-primary-foreground",
 					})
 				</span>

@@ -1,8 +1,8 @@
 package showcase
 
 import (
-	"github.com/axzilla/templui/components"
 	"github.com/axzilla/templui/components/button"
+	"github.com/axzilla/templui/components/spinner"
 )
 
 templ ButtonLoading() {
@@ -10,8 +10,8 @@ templ ButtonLoading() {
 		Disabled: true,
 		Class:    "flex items-center gap-2",
 	}) {
-		@components.Spinner(components.SpinnerProps{
-			Size:  components.SpinnerSizeSm,
+		@spinner.Spinner(spinner.Props{
+			Size:  spinner.SizeSm,
 			Color: "text-primary-foreground",
 		})
 		Pleae wait

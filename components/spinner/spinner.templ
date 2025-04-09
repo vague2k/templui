@@ -1,25 +1,25 @@
-package components
+package spinner
 
 import "github.com/axzilla/templui/utils"
 
-type SpinnerSize string
+type Size string
 
 const (
-	SpinnerSizeSm SpinnerSize = "sm"
-	SpinnerSizeMd SpinnerSize = "md"
-	SpinnerSizeLg SpinnerSize = "lg"
+	SizeSm Size = "sm"
+	SizeMd Size = "md"
+	SizeLg Size = "lg"
 )
 
-type SpinnerProps struct {
+type Props struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
-	Size       SpinnerSize
+	Size       Size
 	Color      string
 }
 
-templ Spinner(props ...SpinnerProps) {
-	{{ var p SpinnerProps }}
+templ Spinner(props ...Props) {
+	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -41,8 +41,8 @@ templ Spinner(props ...SpinnerProps) {
 			class={
 				utils.TwMerge(
 					"animate-spin rounded-full",
-					spinnerSizeClass(p.Size),
-					borderSpinnerClass(p.Size),
+					sizeClass(p.Size),
+					borderSizeClass(p.Size),
 					utils.IfElse(
 						p.Color == "",
 						"border-primary border-b-transparent",
@@ -59,35 +59,24 @@ templ Spinner(props ...SpinnerProps) {
 	</div>
 }
 
-func spinnerSizeClass(size SpinnerSize) string {
+func sizeClass(size Size) string {
 	switch size {
-	case SpinnerSizeSm:
+	case SizeSm:
 		return "w-6 h-6"
-	case SpinnerSizeLg:
+	case SizeLg:
 		return "w-12 h-12"
 	default:
 		return "w-8 h-8"
 	}
 }
 
-func borderSpinnerClass(size SpinnerSize) string {
+func borderSizeClass(size Size) string {
 	switch size {
-	case SpinnerSizeSm:
+	case SizeSm:
 		return "border-[3px]"
-	case SpinnerSizeLg:
+	case SizeLg:
 		return "border-[5px]"
 	default:
 		return "border-4"
-	}
-}
-
-func textSizeClass(size SpinnerSize) string {
-	switch size {
-	case SpinnerSizeSm:
-		return "text-sm"
-	case SpinnerSizeLg:
-		return "text-lg"
-	default:
-		return "text-base"
 	}
 }
