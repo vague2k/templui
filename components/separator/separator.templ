@@ -1,0 +1,111 @@
+package separator
+
+import "github.com/axzilla/templui/utils"
+
+type Orientation string
+type Decoration string
+
+const (
+	OrientationHorizontal Orientation = "horizontal"
+	OrientationVertical   Orientation = "vertical"
+)
+
+const (
+	DecorationDashed Decoration = "dashed"
+	DecorationDotted Decoration = "dotted"
+)
+
+type Props struct {
+	ID          string
+	Class       string
+	Attributes  templ.Attributes
+	Orientation Orientation
+	Decoration  Decoration
+	Label       string
+}
+
+templ Separator(props ...Props) {
+	{{ var p Props }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
+	if p.Orientation == "" {
+		{{ p.Orientation = OrientationHorizontal }}
+	}
+	<div
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		role="separator"
+		aria-orientation={ string(p.Orientation) }
+		class={
+			utils.TwMerge(
+				"shrink-0",
+				utils.If(!(p.Label != "" && p.Orientation == OrientationHorizontal),
+					utils.If(!(p.Label != "" && p.Orientation == OrientationVertical),
+						orientationClasses(p.Orientation),
+					),
+				),
+				utils.If(p.Orientation == OrientationHorizontal, "h-[1px] w-full"),
+				utils.If(p.Orientation == OrientationVertical, "h-full w-[1px]"),
+				utils.If(!(p.Label != "" && p.Orientation == OrientationHorizontal),
+					utils.If(!(p.Label != "" && p.Orientation == OrientationVertical),
+						decorationClasses(p.Decoration),
+					),
+				),
+				p.Class,
+			),
+		}
+		{ p.Attributes... }
+	>
+		if p.Label != "" && p.Orientation == OrientationHorizontal {
+			<div class="relative flex items-center w-full">
+				<span
+					class={
+						utils.TwMerge(
+							"absolute w-full border-t",
+							decorationClasses(p.Decoration),
+						),
+					}
+					aria-hidden="true"
+				></span>
+				<span class="relative mx-auto bg-background px-2 text-xs text-muted-foreground">
+					{ p.Label }
+				</span>
+			</div>
+		} else if p.Label != "" && p.Orientation == OrientationVertical {
+			<div class="relative flex flex-col items-center h-full">
+				<span
+					class={
+						utils.TwMerge(
+							"absolute h-full border-l",
+							decorationClasses(p.Decoration),
+						),
+					}
+					aria-hidden="true"
+				></span>
+				<span class="relative my-auto bg-background px-2 text-xs text-muted-foreground">
+					{ p.Label }
+				</span>
+			</div>
+		}
+	</div>
+}
+
+func orientationClasses(orientation Orientation) string {
+	if orientation == OrientationVertical {
+		return "border-l"
+	}
+	return "border-t"
+}
+
+func decorationClasses(decoration Decoration) string {
+	switch decoration {
+	case DecorationDashed:
+		return "border-dashed"
+	case DecorationDotted:
+		return "border-dotted"
+	default:
+		return ""
+	}
+}
