@@ -1,13 +1,13 @@
 package showcase
 
 import (
-	"github.com/axzilla/templui/components"
 	"github.com/axzilla/templui/components/label"
+	"github.com/axzilla/templui/components/slider"
 )
 
 templ SliderSteps() {
 	<div class="w-full max-w-sm">
-		@components.Slider(components.SliderProps{
+		@slider.Slider(slider.Props{
 			ID:    "slider-steps",
 			Name:  "slider-steps",
 			Value: 100,
@@ -20,12 +20,12 @@ templ SliderSteps() {
 					Zoom Level
 				}
 				<div class="flex items-center">
-					@components.SliderValue(components.SliderValueProps{
+					@slider.Value(slider.ValueProps{
 						For: "slider-steps",
 					})
 				</div>
 			</div>
-			@components.SliderInput(components.SliderProps{
+			@slider.Input(slider.Props{
 				ID:    "slider-steps",
 				Name:  "slider-steps",
 				Value: 100,

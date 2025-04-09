@@ -1,11 +1,11 @@
-package components
+package slider
 
 import (
 	"fmt"
 	"github.com/axzilla/templui/utils"
 )
 
-type SliderProps struct {
+type Props struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
@@ -17,15 +17,15 @@ type SliderProps struct {
 	Disabled   bool
 }
 
-type SliderValueProps struct {
+type ValueProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 	For        string
 }
 
-templ Slider(props ...SliderProps) {
-	{{ var p SliderProps }}
+templ Slider(props ...Props) {
+	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -42,8 +42,8 @@ templ Slider(props ...SliderProps) {
 	</div>
 }
 
-templ SliderInput(props ...SliderProps) {
-	{{ var p SliderProps }}
+templ Input(props ...Props) {
+	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -84,8 +84,8 @@ templ SliderInput(props ...SliderProps) {
 	/>
 }
 
-templ SliderValue(props ...SliderValueProps) {
-	{{ var p SliderValueProps }}
+templ Value(props ...ValueProps) {
+	{{ var p ValueProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -99,7 +99,7 @@ templ SliderValue(props ...SliderValueProps) {
 	></span>
 }
 
-templ SliderScript() {
+templ Script() {
 	{{ handler := templ.NewOnceHandle() }}
 	@handler.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
