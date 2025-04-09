@@ -1,8 +1,8 @@
-package components
+package radiocard
 
 import "github.com/axzilla/templui/utils"
 
-type RadioCardProps struct {
+type Props struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
@@ -13,26 +13,26 @@ type RadioCardProps struct {
 	Required   bool
 }
 
-type RadioCardHeaderProps struct {
+type HeaderProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-type RadioCardDescriptionProps struct {
+type DescriptionProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-type RadioCardFooterProps struct {
+type FooterProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
 }
 
-templ RadioCard(props ...RadioCardProps) {
-	{{ var p RadioCardProps }}
+templ RadioCard(props ...Props) {
+	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -85,8 +85,8 @@ templ RadioCard(props ...RadioCardProps) {
 	</div>
 }
 
-templ RadioCardHeader(props ...RadioCardHeaderProps) {
-	{{ var p RadioCardHeaderProps }}
+templ Header(props ...HeaderProps) {
+	{{ var p HeaderProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -101,8 +101,8 @@ templ RadioCardHeader(props ...RadioCardHeaderProps) {
 	</div>
 }
 
-templ RadioCardDescription(props ...RadioCardDescriptionProps) {
-	{{ var p RadioCardDescriptionProps }}
+templ Description(props ...DescriptionProps) {
+	{{ var p DescriptionProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
@@ -117,8 +117,8 @@ templ RadioCardDescription(props ...RadioCardDescriptionProps) {
 	</p>
 }
 
-templ RadioCardFooter(props ...RadioCardFooterProps) {
-	{{ var p RadioCardFooterProps }}
+templ Footer(props ...FooterProps) {
+	{{ var p FooterProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
