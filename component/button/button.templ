@@ -7,6 +7,7 @@ import (
 
 type Variant string
 type Size string
+type Type string
 
 const (
 	VariantDefault     Variant = "default"
@@ -15,6 +16,12 @@ const (
 	VariantSecondary   Variant = "secondary"
 	VariantGhost       Variant = "ghost"
 	VariantLink        Variant = "link"
+)
+
+const (
+	TypeButton Type = "button"
+	TypeReset  Type = "reset"
+	TypeSubmit Type = "submit"
 )
 
 const (
@@ -31,7 +38,7 @@ type Props struct {
 	Href         string
 	Target       string
 	Disabled     bool
-	Type         string
+	Type         Type
 	HxGet        string
 	HxPost       string
 	HxPut        string
@@ -89,7 +96,7 @@ templ Button(props ...Props) {
 				),
 			}
 			if p.Type != "" {
-				type={ p.Type }
+				type={ string(p.Type) }
 			}
 			disabled?={ p.Disabled }
 			if p.HxGet != "" {
