@@ -15,7 +15,7 @@ templ ButtonHtmxLoading() {
 			hx-disabled-elt="find button"
 		>
 			@button.Button(button.Props{
-				Type:  "submit",
+				Type:  button.TypeSubmit,
 				Class: "flex items-center gap-2",
 			}) {
 				<span id="spinner" class="htmx-indicator hidden [&.htmx-request]:inline-flex">
