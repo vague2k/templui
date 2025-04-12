@@ -11,7 +11,7 @@ templ Sidebar() {
 					for _, section := range shared.Sections {
 						<li class="pb-4">
 							<h3 class="text-sm font-bold">{ section.Title }</h3>
-							<ul class="mt-2">
+							<ul class="mt-2 space-y-0.5">
 								for _, link := range section.Links {
 									<li>
 										if link.Href == ctx.Value(ctxkeys.URLPathValue) {

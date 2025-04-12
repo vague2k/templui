@@ -980,6 +980,20 @@
   .gap-16 {
     gap: calc(var(--spacing) * 16);
   }
+  .space-y-0 {
+    :where(& > :not(:last-child)) {
+      --tw-space-y-reverse: 0;
+      margin-block-start: calc(calc(var(--spacing) * 0) * var(--tw-space-y-reverse));
+      margin-block-end: calc(calc(var(--spacing) * 0) * calc(1 - var(--tw-space-y-reverse)));
+    }
+  }
+  .space-y-0\.5 {
+    :where(& > :not(:last-child)) {
+      --tw-space-y-reverse: 0;
+      margin-block-start: calc(calc(var(--spacing) * 0.5) * var(--tw-space-y-reverse));
+      margin-block-end: calc(calc(var(--spacing) * 0.5) * calc(1 - var(--tw-space-y-reverse)));
+    }
+  }
   .space-y-1 {
     :where(& > :not(:last-child)) {
       --tw-space-y-reverse: 0;
@@ -1253,9 +1267,6 @@
   }
   .bg-muted {
     background-color: var(--muted);
-  }
-  .bg-muted-foreground {
-    background-color: var(--muted-foreground);
   }
   .bg-muted\/50 {
     background-color: color-mix(in oklab, var(--muted) 50%, transparent);
@@ -1849,18 +1860,6 @@
       position: absolute;
     }
   }
-  .after\:inset-x-0 {
-    &::after {
-      content: var(--tw-content);
-      inset-inline: calc(var(--spacing) * 0);
-    }
-  }
-  .after\:inset-y-\[-2px\] {
-    &::after {
-      content: var(--tw-content);
-      inset-block: -2px;
-    }
-  }
   .after\:top-0\.5 {
     &::after {
       content: var(--tw-content);
@@ -1889,12 +1888,6 @@
     &::after {
       content: var(--tw-content);
       border-radius: calc(infinity * 1px);
-    }
-  }
-  .after\:rounded-lg {
-    &::after {
-      content: var(--tw-content);
-      border-radius: var(--radius);
     }
   }
   .after\:bg-muted-foreground {
