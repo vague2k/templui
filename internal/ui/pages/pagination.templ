@@ -10,6 +10,7 @@ templ Pagination() {
 	@layouts.DocsLayout(
 		"Pagination",
 		"Navigation controls for moving between pages of content. HTMX ready.",
+		[]modules.TableOfContentsItem{},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Pagination",

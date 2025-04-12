@@ -1,19 +1,35 @@
 package pages
 
-import "github.com/axzilla/templui/internal/ui/layouts"
+import (
+	"github.com/axzilla/templui/internal/ui/layouts"
+	"github.com/axzilla/templui/internal/ui/modules"
+)
 
 templ Introduction() {
 	@layouts.DocsLayout(
 		"Introduction",
 		"Welcome to templUI, the UI Kit for templ.",
+		[]modules.TableOfContentsItem{},
 	) {
-		<div>
-			<div class="mb-16">
-				<h1 class="text-3xl font-bold mb-2">🎉 templUI</h1>
-				<p class="mb-4 text-muted-foreground">The UI Kit for templ.</p>
-			</div>
-			<section class="mb-12">
-				<h2 class="text-2xl font-semibold mb-4 text-primary">Welcome to templUI</h2>
+		@modules.PageWrapper(modules.PageWrapperProps{
+			Name:        "Introduction",
+			Description: templ.Raw("The UI Kit for templ."),
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Introduction",
+						Path: "/introduction",
+					},
+				},
+			},
+		}) {
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Welcome to templUI",
+			}) {
 				<div class="text-muted-foreground">
 					<p class="mb-4">
 						templUI brings modern, enterprise-grade UI components to the Go ecosystem. Built with Go and Templ, enhanced with Alpine.js, and styled with Tailwind CSS - it's where robust server-side rendering meets elegant client-side interactions.
@@ -33,56 +49,65 @@ templ Introduction() {
 						to stay updated with our latest enhancements and features.
 					</p>
 				</div>
-			</section>
-			<section class="mb-12">
-				<h2 class="text-2xl font-semibold mb-4 text-primary">Why templUI?</h2>
-				<div class="text-muted-foreground">
-					<p class="mb-4">
-						Drawing inspiration from modern UI libraries like
-						<a href="https://ui.shadcn.com/" target="_blank" rel="noopener noreferrer" class="text-primary/90 underline underline-offset-4 hover:text-primary/80">
-							shadcn/ui
-						</a>,
-						<a href="https://devdojo.com/pines" target="_blank" rel="noopener noreferrer" class="text-primary/90 underline underline-offset-4 hover:text-primary/80">
-							Pines UI
-						</a>, and
-						<a href="https://daisyui.com/" target="_blank" rel="noopener noreferrer" class="text-primary/90 underline underline-offset-4 hover:text-primary/80">
-							daisyUI
-						</a>,
-						we've crafted a solution that brings enterprise-ready, customizable components to the Go ecosystem.
-					</p>
-					<p class="mb-4">
-						Our components are built with CSP compliance, accessibility, and customization in mind. Each component can be used as-is or adapted to your specific needs, making templUI suitable for both rapid prototyping and production applications.
-					</p>
-				</div>
-			</section>
-			<section class="mb-12">
-				<h2 class="text-2xl font-semibold mb-4 text-primary">Vision & Roadmap</h2>
-				<div class="text-muted-foreground">
-					<p class="mb-4">
-						While we draw inspiration from established UI libraries, templUI is charting its own course in the Go ecosystem. Our focus is on creating a toolkit that embraces Go's strengths while delivering modern web capabilities.
-					</p>
-					<p class="mb-4">
-						We're committed to maintaining a balance between powerful features and simplicity, ensuring that templUI remains both capable and approachable. Our roadmap includes expanding our component library, enhancing enterprise features, and continuing to optimize for developer experience.
-					</p>
-				</div>
-			</section>
-			<section>
-				<h2 class="text-2xl font-semibold mb-4 text-primary">Built on Strong Foundations</h2>
-				<div class="text-muted-foreground">
-					<p class="mb-4">
-						templUI builds upon and extends these excellent technologies:
-					</p>
-					<ul class="list-disc pl-6 space-y-2">
-						<li><a href="https://golang.org/" target="_blank" rel="noopener noreferrer" class="text-primary/90 underline underline-offset-4 hover:text-primary/80">Go</a> - Type-safe, efficient server-side development</li>
-						<li><a href="https://templ.guide" target="_blank" rel="noopener noreferrer" class="text-primary/90 underline underline-offset-4 hover:text-primary/80">Templ</a> - Type-safe templating for Go</li>
-						<li><a href="https://alpinejs.dev/" target="_blank" rel="noopener noreferrer" class="text-primary/90 underline underline-offset-4 hover:text-primary/80">Alpine.js</a> - Lightweight, powerful client-side interactions</li>
-						<li><a href="https://tailwindcss.com/" target="_blank" rel="noopener noreferrer" class="text-primary/90 underline underline-offset-4 hover:text-primary/80">Tailwind CSS</a> - Utility-first CSS framework</li>
-						<li><a href="https://ui.shadcn.com/" target="_blank" rel="noopener noreferrer" class="text-primary/90 underline underline-offset-4 hover:text-primary/80">shadcn/ui</a> - Component design inspiration</li>
-						<li><a href="https://devdojo.com/pines" target="_blank" rel="noopener noreferrer" class="text-primary/90 underline underline-offset-4 hover:text-primary/80">Pines UI</a> - Alpine.js component patterns</li>
-						<li><a href="https://daisyui.com/" target="_blank" rel="noopener noreferrer" class="text-primary/90 underline underline-offset-4 hover:text-primary/80">daisyUI</a> - Tailwind component architecture</li>
-					</ul>
-				</div>
-			</section>
-		</div>
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Why templUI?",
+			}) {
+				<section>
+					<div class="text-muted-foreground">
+						<p class="mb-4">
+							Drawing inspiration from modern UI libraries like
+							<a href="https://ui.shadcn.com/" target="_blank" rel="noopener noreferrer" class="text-primary/90 underline underline-offset-4 hover:text-primary/80">
+								shadcn/ui
+							</a>,
+							<a href="https://devdojo.com/pines" target="_blank" rel="noopener noreferrer" class="text-primary/90 underline underline-offset-4 hover:text-primary/80">
+								Pines UI
+							</a>, and
+							<a href="https://daisyui.com/" target="_blank" rel="noopener noreferrer" class="text-primary/90 underline underline-offset-4 hover:text-primary/80">
+								daisyUI
+							</a>,
+							we've crafted a solution that brings enterprise-ready, customizable components to the Go ecosystem.
+						</p>
+						<p class="mb-4">
+							Our components are built with CSP compliance, accessibility, and customization in mind. Each component can be used as-is or adapted to your specific needs, making templUI suitable for both rapid prototyping and production applications.
+						</p>
+					</div>
+				</section>
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Vision & Roadmap",
+			}) {
+				<section>
+					<div class="text-muted-foreground">
+						<p class="mb-4">
+							While we draw inspiration from established UI libraries, templUI is charting its own course in the Go ecosystem. Our focus is on creating a toolkit that embraces Go's strengths while delivering modern web capabilities.
+						</p>
+						<p class="mb-4">
+							We're committed to maintaining a balance between powerful features and simplicity, ensuring that templUI remains both capable and approachable. Our roadmap includes expanding our component library, enhancing enterprise features, and continuing to optimize for developer experience.
+						</p>
+					</div>
+				</section>
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Built on Strong Foundations",
+			}) {
+				<section>
+					<div class="text-muted-foreground">
+						<p class="mb-4">
+							templUI builds upon and extends these excellent technologies:
+						</p>
+						<ul class="list-disc pl-6 space-y-2">
+							<li><a href="https://golang.org/" target="_blank" rel="noopener noreferrer" class="text-primary/90 underline underline-offset-4 hover:text-primary/80">Go</a> - Type-safe, efficient server-side development</li>
+							<li><a href="https://templ.guide" target="_blank" rel="noopener noreferrer" class="text-primary/90 underline underline-offset-4 hover:text-primary/80">Templ</a> - Type-safe templating for Go</li>
+							<li><a href="https://alpinejs.dev/" target="_blank" rel="noopener noreferrer" class="text-primary/90 underline underline-offset-4 hover:text-primary/80">Alpine.js</a> - Lightweight, powerful client-side interactions</li>
+							<li><a href="https://tailwindcss.com/" target="_blank" rel="noopener noreferrer" class="text-primary/90 underline underline-offset-4 hover:text-primary/80">Tailwind CSS</a> - Utility-first CSS framework</li>
+							<li><a href="https://ui.shadcn.com/" target="_blank" rel="noopener noreferrer" class="text-primary/90 underline underline-offset-4 hover:text-primary/80">shadcn/ui</a> - Component design inspiration</li>
+							<li><a href="https://devdojo.com/pines" target="_blank" rel="noopener noreferrer" class="text-primary/90 underline underline-offset-4 hover:text-primary/80">Pines UI</a> - Alpine.js component patterns</li>
+							<li><a href="https://daisyui.com/" target="_blank" rel="noopener noreferrer" class="text-primary/90 underline underline-offset-4 hover:text-primary/80">daisyUI</a> - Tailwind component architecture</li>
+						</ul>
+					</div>
+				</section>
+			}
+		}
 	}
 }

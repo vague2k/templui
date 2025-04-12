@@ -1,0 +1,169 @@
+package pages
+
+import (
+	"github.com/axzilla/templui/component/button"
+	"github.com/axzilla/templui/component/code"
+	"github.com/axzilla/templui/internal/ui/layouts"
+	"github.com/axzilla/templui/internal/ui/modules"
+)
+
+// ButtonPage zeigt die Dokumentation für die Button-Komponente an
+templ Toc() {
+	// TOC-Einträge definieren
+	{{
+		tocItems := []modules.TableOfContentsItem{
+			{
+				ID:   "uebersicht",
+				Text: "Übersicht",
+			},
+			{
+				ID:   "verwendung",
+				Text: "Verwendung",
+			},
+			{
+				ID:   "beispiele",
+				Text: "Beispiele",
+				Children: []modules.TableOfContentsItem{
+					{
+						ID:   "standard-button",
+						Text: "Standard Button",
+					},
+					{
+						ID:   "button-varianten",
+						Text: "Button-Varianten",
+					},
+					{
+						ID:   "button-groessen",
+						Text: "Button-Größen",
+					},
+				},
+			},
+			{
+				ID:   "api",
+				Text: "API Referenz",
+			},
+		}
+	}}
+	@layouts.DocsLayout(
+		"Button",
+		"Button is a component that displays a button with optional text and icon.",
+		tocItems,
+	) {
+		<h1 class="text-3xl font-bold mb-8">Button</h1>
+		<section id="uebersicht" class="mb-10">
+			<h2 class="text-2xl font-bold mb-4">Übersicht</h2>
+			<p class="text-muted-foreground">
+				Die Button-Komponente wird verwendet, um Aktionen oder Ereignisse auszulösen, 
+				wie das Absenden eines Formulars, das Öffnen eines Dialogs oder das Ausführen einer Aktion.
+			</p>
+		</section>
+		<section id="verwendung" class="mb-10">
+			<h2 class="text-2xl font-bold mb-4">Verwendung</h2>
+			<p class="text-muted-foreground mb-4">
+				Die Button-Komponente kann einfach importiert und mit verschiedenen Props verwendet werden.
+			</p>
+			@code.Code(code.Props{
+				Language:       "go",
+				ShowCopyButton: true,
+			}) {
+				@button.Button(button.Props{
+					Variant: button.VariantDefault,
+				}) {
+					Click me
+				}
+			}
+		</section>
+		<section id="beispiele" class="mb-10">
+			<h2 class="text-2xl font-bold mb-4">Beispiele</h2>
+			<section id="standard-button" class="mb-6">
+				<h3 class="text-xl font-bold mb-3">Standard Button</h3>
+				<p class="text-muted-foreground mb-4">
+					Der Standard-Button mit Standardstyling und Größe.
+				</p>
+				<div class="mb-4">
+					@button.Button() {
+						Standard Button
+					}
+				</div>
+				@code.Code(code.Props{
+					Language:       "go",
+					ShowCopyButton: true,
+				}) {
+					@button.Button() {
+						Standard Button
+					}
+				}
+			</section>
+			<section id="button-varianten" class="mb-6">
+				<h3 class="text-xl font-bold mb-3">Button-Varianten</h3>
+				<p class="text-muted-foreground mb-4">
+					Buttons sind in verschiedenen Varianten verfügbar, 
+					wie primary, secondary, outline und destructive.
+				</p>
+				<div class="flex flex-wrap gap-2 mb-4">
+					@button.Button() {
+						Primary
+					}
+					@button.Button() {
+						Secondary
+					}
+					@button.Button() {
+						Outline
+					}
+					@button.Button() {
+						Destructive
+					}
+				</div>
+			</section>
+			<section id="button-groessen" class="mb-6">
+				<h3 class="text-xl font-bold mb-3">Button-Größen</h3>
+				<p class="text-muted-foreground mb-4">
+					Buttons können in verschiedenen Größen dargestellt werden.
+				</p>
+				<div class="flex flex-wrap items-center gap-2 mb-4">
+					@button.Button() {
+						Small
+					}
+					@button.Button() {
+						Default
+					}
+					@button.Button() {
+						Large
+					}
+				</div>
+			</section>
+		</section>
+		<section id="api" class="mb-10">
+			<h2 class="text-2xl font-bold mb-4">API Referenz</h2>
+			<p class="text-muted-foreground mb-4">
+				Übersicht über alle verfügbaren Props und Konfigurationsmöglichkeiten.
+			</p>
+			<table class="w-full border-collapse">
+				<thead>
+					<tr>
+						<th class="border border-border px-4 py-2 text-left">Property</th>
+						<th class="border border-border px-4 py-2 text-left">Typ</th>
+						<th class="border border-border px-4 py-2 text-left">Beschreibung</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td class="border border-border px-4 py-2">Text</td>
+						<td class="border border-border px-4 py-2">string</td>
+						<td class="border border-border px-4 py-2">Button-Label</td>
+					</tr>
+					<tr>
+						<td class="border border-border px-4 py-2">Variant</td>
+						<td class="border border-border px-4 py-2">ButtonVariant</td>
+						<td class="border border-border px-4 py-2">Visueller Stil des Buttons</td>
+					</tr>
+					<tr>
+						<td class="border border-border px-4 py-2">Size</td>
+						<td class="border border-border px-4 py-2">ButtonSize</td>
+						<td class="border border-border px-4 py-2">Größe des Buttons</td>
+					</tr>
+				</tbody>
+			</table>
+		</section>
+	}
+}

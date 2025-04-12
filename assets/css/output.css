@@ -283,6 +283,9 @@
   .static {
     position: static;
   }
+  .sticky {
+    position: sticky;
+  }
   .inset-0 {
     inset: calc(var(--spacing) * 0);
   }
@@ -303,6 +306,9 @@
   }
   .top-2 {
     top: calc(var(--spacing) * 2);
+  }
+  .top-24 {
+    top: calc(var(--spacing) * 24);
   }
   .top-\[-5px\] {
     top: -5px;
@@ -412,9 +418,6 @@
       max-width: 96rem;
     }
   }
-  .m-7 {
-    margin: calc(var(--spacing) * 7);
-  }
   .-mx-1 {
     margin-inline: calc(var(--spacing) * -1);
   }
@@ -478,11 +481,11 @@
   .mb-8 {
     margin-bottom: calc(var(--spacing) * 8);
   }
+  .mb-10 {
+    margin-bottom: calc(var(--spacing) * 10);
+  }
   .mb-12 {
     margin-bottom: calc(var(--spacing) * 12);
-  }
-  .mb-16 {
-    margin-bottom: calc(var(--spacing) * 16);
   }
   .ml-1 {
     margin-left: calc(var(--spacing) * 1);
@@ -2119,6 +2122,11 @@
       color: var(---accent-foreground);
     }
   }
+  .focus\:text-foreground {
+    &:focus {
+      color: var(--foreground);
+    }
+  }
   .focus\:ring-2 {
     &:focus {
       --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentColor);
@@ -2387,6 +2395,11 @@
   .lg\:px-8 {
     @media (width >= 64rem) {
       padding-inline: calc(var(--spacing) * 8);
+    }
+  }
+  .xl\:block {
+    @media (width >= 80rem) {
+      display: block;
     }
   }
   .dark\:bg-gray-700 {

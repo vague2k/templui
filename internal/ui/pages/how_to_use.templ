@@ -3,6 +3,7 @@ package pages
 import (
 	"github.com/axzilla/templui/component/code"
 	"github.com/axzilla/templui/internal/ui/layouts"
+	"github.com/axzilla/templui/internal/ui/modules"
 )
 
 var installGo = `go version`
@@ -175,12 +176,24 @@ templ HowToUse() {
 	@layouts.DocsLayout(
 		"How To Use",
 		"Learn how to integrate templUI into your projects.",
+		[]modules.TableOfContentsItem{},
 	) {
-		<div>
-			<div class="mb-16">
-				<h1 class="text-3xl font-bold mb-2">How To Use</h1>
-				<p class="mb-4 text-muted-foreground">Learn how to integrate templUI into your projects.</p>
-			</div>
+		@modules.PageWrapper(modules.PageWrapperProps{
+			Name:        "How To Use",
+			Description: templ.Raw("Learn how to integrate templUI into your projects."),
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "How To Use",
+						Path: "/docs/how-to-use",
+					},
+				},
+			},
+		}) {
 			<section class="mb-12">
 				<h2 class="text-2xl font-semibold mb-4 text-primary">Requirements</h2>
 				<p class="mb-4 text-muted-foreground">Before using templUI, ensure you have these tools installed:</p>
@@ -388,6 +401,6 @@ templ HowToUse() {
 					<li><a href="https://alpinejs.dev/docs" class="text-primary underline" target="_blank">Alpine.js</a> - Advanced interactivity, state management</li>
 				</ul>
 			</section>
-		</div>
+		}
 	}
 }

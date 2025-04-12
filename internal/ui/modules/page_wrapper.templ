@@ -1,7 +1,10 @@
 package modules
 
-import "github.com/axzilla/templui/component/badge"
-import "github.com/axzilla/templui/internal/ui/icons"
+import (
+	"github.com/axzilla/templui/component/badge"
+	"github.com/axzilla/templui/component/breadcrumb"
+	"github.com/axzilla/templui/internal/ui/icons"
+)
 
 type PageWrapperProps struct {
 	Name        string
@@ -9,10 +12,44 @@ type PageWrapperProps struct {
 	Tailwind    bool
 	Alpine      bool
 	VanillaJS   bool
+	Breadcrumbs Breadcrumbs
+}
+
+type Breadcrumbs struct {
+	Items []BreadcrumbItem
+}
+
+type BreadcrumbItem struct {
+	Text string
+	Path string
 }
 
 templ PageWrapper(p PageWrapperProps) {
 	<div class="mb-8">
+		<div class="mb-4">
+			@breadcrumb.Breadcrumb() {
+				@breadcrumb.List() {
+					for i, path := range p.Breadcrumbs.Items {
+						@breadcrumb.Item() {
+							if i != 0 {
+								@breadcrumb.Separator()
+							}
+							if i == len(p.Breadcrumbs.Items)-1 {
+								@breadcrumb.Page(breadcrumb.ItemProps{Current: true}) {
+									{ path.Text }
+								}
+							} else {
+								@breadcrumb.Link(breadcrumb.LinkProps{
+									Href: path.Path,
+								}) {
+									{ path.Text }
+								}
+							}
+						}
+					}
+				}
+			}
+		</div>
 		<h1 class="text-3xl font-bold mb-2">{ p.Name }</h1>
 		<p class="mb-4 text-muted-foreground">
 			@p.Description

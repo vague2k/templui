@@ -10,6 +10,7 @@ templ DatePicker() {
 	@layouts.DocsLayout(
 		"Date Picker",
 		"Calendar interface for selecting and formatting dates.",
+		[]modules.TableOfContentsItem{},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Date Picker",
@@ -58,8 +59,7 @@ templ DatePicker() {
 					SectionName:     "Form",
 					ShowcaseFile:    showcase.DatePickerForm(),
 					PreviewCodeFile: "date_picker_form.templ",
-				
-					ID: "form",
+					ID:              "form",
 				})
 			}
 		}

@@ -82,6 +82,7 @@ func main() {
 	})
 
 	mux.Handle("GET /", templ.Handler(pages.Landing()))
+	mux.Handle("GET /docs", http.RedirectHandler("/docs/introduction", http.StatusSeeOther))
 	mux.Handle("GET /docs/getting-started", http.RedirectHandler("/docs/introduction", http.StatusSeeOther))
 	mux.Handle("GET /docs/components", http.RedirectHandler("/docs/components/accordion", http.StatusSeeOther))
 	mux.Handle("GET /docs/introduction", templ.Handler(pages.Introduction()))

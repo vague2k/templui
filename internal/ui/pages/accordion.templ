@@ -11,11 +11,28 @@ templ Accordion() {
 	@layouts.DocsLayout(
 		"Accordion",
 		"Vertically stacked interactive sections to organize content.",
+		[]modules.TableOfContentsItem{},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Accordion",
 			Description: templ.Raw("Vertically stacked interactive sections to organize content."),
 			Tailwind:    true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Components",
+						Path: "/docs/components",
+					},
+					{
+						Text: "Accordion",
+						Path: "/docs/components/accordion",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.AccordionDefault(),
