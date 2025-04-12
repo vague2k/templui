@@ -9,7 +9,12 @@ templ Introduction() {
 	@layouts.DocsLayout(
 		"Introduction",
 		"Welcome to templUI, the UI Kit for templ.",
-		[]modules.TableOfContentsItem{},
+		[]modules.TableOfContentsItem{
+			{ID: "introduction", Text: "Introduction"},
+			{ID: "why-templui", Text: "Why templUI?"},
+			{ID: "vision-and-roadmap", Text: "Vision & Roadmap"},
+			{ID: "built-on-strong-foundations", Text: "Built on Strong Foundations"},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Introduction",
@@ -29,6 +34,7 @@ templ Introduction() {
 		}) {
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
 				Title: "Welcome to templUI",
+				ID:    "introduction",
 			}) {
 				<div class="text-muted-foreground">
 					<p class="mb-4">
@@ -52,6 +58,7 @@ templ Introduction() {
 			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
 				Title: "Why templUI?",
+				ID:    "why-templui",
 			}) {
 				<section>
 					<div class="text-muted-foreground">
@@ -76,6 +83,7 @@ templ Introduction() {
 			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
 				Title: "Vision & Roadmap",
+				ID:    "vision-and-roadmap",
 			}) {
 				<section>
 					<div class="text-muted-foreground">
@@ -90,6 +98,7 @@ templ Introduction() {
 			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
 				Title: "Built on Strong Foundations",
+				ID:    "built-on-strong-foundations",
 			}) {
 				<section>
 					<div class="text-muted-foreground">

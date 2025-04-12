@@ -9,30 +9,27 @@ type TableOfContentsItem struct {
 }
 
 type TableOfContentsProps struct {
-	Title string
 	Items []TableOfContentsItem
 }
 
 templ TableOfContents(props TableOfContentsProps) {
 	<aside
-		class="sticky top-24 hidden xl:block w-64 text-sm"
+		class="text-sm"
 		data-toc="container"
 	>
-		if props.Title != "" {
-			<h4 class="mb-4 text-sm font-medium text-muted-foreground">{ props.Title }</h4>
-		} else {
-			<h4 class="mb-4 text-sm font-medium text-muted-foreground">On this page</h4>
+		if len(props.Items) > 0 {
+			<h4 class="mb-4 text-sm font-medium">On this page</h4>
+			<nav class="mb-4">
+				@renderTOCItems(props.Items, 0)
+			</nav>
 		}
-		<nav class="space-y-1">
-			@renderTOCItems(props.Items, 0)
-		</nav>
 		// Add your logo here
-		<div class="border border-border rounded-lg p-4 bg-muted/50 hover:bg-muted transition-colors duration-300">
+		<div class="mb-4 border border-border rounded-lg p-4 bg-muted/50 hover:bg-muted transition-colors duration-300">
 			<h4 class="text-sm font-medium text-foreground mb-2">Your Logo Here</h4>
 			<p class="text-xs text-muted-foreground mb-3">
 				Join our showcase and connect with fellow developers.
 			</p>
-			<a href="https://twitter.com/_axzilla" target="_blank" class="inline-flex items-center text-xs font-medium text-primary hover:text-primary/80 transition-colors duration-300">
+			<a href="https://twitter.com/axadrn" target="_blank" class="inline-flex items-center text-xs font-medium text-primary hover:text-primary/80 transition-colors duration-300">
 				Add Your Logo
 				@icon.ChevronRight(icon.Props{Size: 16})
 			</a>
@@ -45,7 +42,7 @@ templ renderTOCItems(items []TableOfContentsItem, level int) {
 		<div class={ "mb-2", templ.KV("ml-4", level > 0) }>
 			<a
 				href={ templ.SafeURL("#" + item.ID) }
-				class="block py-1 text-muted-foreground hover:text-foreground focus:text-foreground transition-colors"
+				class="block text-muted-foreground hover:text-foreground focus:text-foreground transition-colors"
 				data-toc-link="true"
 				data-section-id={ item.ID }
 			>

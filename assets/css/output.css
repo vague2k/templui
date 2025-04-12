@@ -493,6 +493,9 @@
   .ml-2 {
     margin-left: calc(var(--spacing) * 2);
   }
+  .ml-3 {
+    margin-left: calc(var(--spacing) * 3);
+  }
   .ml-4 {
     margin-left: calc(var(--spacing) * 4);
   }
@@ -1723,6 +1726,9 @@
   .select-none {
     -webkit-user-select: none;
     user-select: none;
+  }
+  .\[g\:\f �n0��t\>Ǐ��a����a�\?\16 \>�\] {
+    g: �n0��t>Ǐ��a����a�?>�;
   }
   .group-hover\:translate-x-0 {
     &:is(:where(.group):hover *) {

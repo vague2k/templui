@@ -1,8 +1,8 @@
 package layouts
 
 import "github.com/axzilla/templui/internal/ui/modules"
+import "github.com/axzilla/templui/component/separator"
 
-// DocsLayoutWithTOC ist ein Layout für Dokumentationsseiten mit Inhaltsverzeichnis
 templ DocsLayout(title, description string, tocItems []modules.TableOfContentsItem) {
 	@BaseLayout("docs", "docs") {
 		@modules.TableOfContentsScript()
@@ -21,15 +21,14 @@ templ DocsLayout(title, description string, tocItems []modules.TableOfContentsIt
 							{ children... }
 						</div>
 					</div>
+					@separator.Separator()
 					@modules.Footer()
 				</main>
 				<div class="hidden lg:block w-64 overflow-y-auto">
 					<div class="pt-8 pb-8 pl-4">
 						@modules.TableOfContents(modules.TableOfContentsProps{
-							Title: "Auf dieser Seite",
 							Items: tocItems,
 						})
-						// @modules.SidebarRight()
 					</div>
 				</div>
 			</div>
