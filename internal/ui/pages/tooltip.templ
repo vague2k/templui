@@ -10,7 +10,18 @@ templ Tooltip() {
 	@layouts.DocsLayout(
 		"Tooltip",
 		"A small pop-up box that appears when a user hovers over an element. Uses `Popover` component under the hood.",
-		[]modules.TableOfContentsItem{},
+		[]modules.TableOfContentsItem{
+			{
+				Text: "Examples",
+				ID:   "examples",
+				Children: []modules.TableOfContentsItem{
+					{
+						Text: "Positions",
+						ID:   "positions",
+					},
+				},
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Tooltip",
@@ -37,11 +48,15 @@ templ Tooltip() {
 				PreviewCodeFile:   "tooltip_default.templ",
 				ComponentCodeFile: "tooltip/tooltip.templ",
 			})
-			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Examples",
+				ID:    "examples",
+			}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Positions",
 					PreviewCodeFile: "tooltip_positions.templ",
 					ShowcaseFile:    showcase.TooltipPositions(),
+					ID:              "positions",
 				})
 			}
 		}

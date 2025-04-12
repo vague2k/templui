@@ -10,7 +10,22 @@ templ Code() {
 	@layouts.DocsLayout(
 		"Code",
 		"Code displays a code block with optional syntax highlighting and copy functionality.",
-		[]modules.TableOfContentsItem{},
+		[]modules.TableOfContentsItem{
+			{
+				Text: "Examples",
+				ID:   "examples",
+				Children: []modules.TableOfContentsItem{
+					{
+						Text: "Copy Button",
+						ID:   "copy-button",
+					},
+					{
+						Text: "Custom Size",
+						ID:   "custom-size",
+					},
+				},
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Code",
@@ -37,16 +52,21 @@ templ Code() {
 				ComponentName: "Code",
 				NeedsHandler:  true,
 			})
-			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Examples",
+				ID:    "examples",
+			}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Copy Button",
 					ShowcaseFile:    showcase.CodeCopyButton(),
 					PreviewCodeFile: "code_copy_button.templ",
+					ID:              "copy-button",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Custom Size",
 					ShowcaseFile:    showcase.CodeCustomSize(),
 					PreviewCodeFile: "code_custom_size.templ",
+					ID:              "custom-size",
 				})
 			}
 		}

@@ -39,10 +39,10 @@ templ TableOfContents(props TableOfContentsProps) {
 
 templ renderTOCItems(items []TableOfContentsItem, level int) {
 	for _, item := range items {
-		<div class={ "mb-2", templ.KV("ml-4", level > 0) }>
+		<div class={ templ.KV("ml-4", level > 0) }>
 			<a
 				href={ templ.SafeURL("#" + item.ID) }
-				class="block text-muted-foreground hover:text-foreground focus:text-foreground transition-colors"
+				class="mb-2 block text-muted-foreground hover:text-foreground focus:text-foreground transition-colors"
 				data-toc-link="true"
 				data-section-id={ item.ID }
 			>

@@ -10,7 +10,30 @@ templ Radio() {
 	@layouts.DocsLayout(
 		"Radio",
 		"Control for selecting a single option from a list of choices.",
-		[]modules.TableOfContentsItem{},
+		[]modules.TableOfContentsItem{
+			{
+				Text: "Examples",
+				ID:   "examples",
+				Children: []modules.TableOfContentsItem{
+					{
+						Text: "Checked",
+						ID:   "checked",
+					},
+					{
+						Text: "With Label",
+						ID:   "with-label",
+					},
+					{
+						Text: "Disabled",
+						ID:   "disabled",
+					},
+					{
+						Text: "Form",
+						ID:   "form",
+					},
+				},
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Radio",
@@ -33,23 +56,27 @@ templ Radio() {
 				PreviewCodeFile:   "radio_default.templ",
 				ComponentCodeFile: "radio/radio.templ",
 			})
-			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Examples",
+				ID:    "examples",
+			}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Checked",
 					ShowcaseFile:    showcase.RadioChecked(),
 					PreviewCodeFile: "radio_checked.templ",
+					ID:              "checked",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "With Label",
 					ShowcaseFile:    showcase.RadioWithLabel(),
 					PreviewCodeFile: "radio_with_label.templ",
-				
-					ID: "label",
+					ID:              "with-label",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Disabled",
 					ShowcaseFile:    showcase.RadioDisabled(),
 					PreviewCodeFile: "radio_disabled.templ",
+					ID:              "disabled",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Form",

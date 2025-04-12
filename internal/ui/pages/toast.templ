@@ -13,7 +13,22 @@ templ Toast() {
 	@layouts.DocsLayout(
 		"Toast",
 		"Flexible toast component for notifications and feedback.",
-		[]modules.TableOfContentsItem{},
+		[]modules.TableOfContentsItem{
+			{
+				Text: "Usage",
+				ID:   "usage",
+			},
+			{
+				Text: "Examples",
+				ID:   "examples",
+				Children: []modules.TableOfContentsItem{
+					{
+						Text: "Playground",
+						ID:   "playground",
+					},
+				},
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Toast",
@@ -40,13 +55,18 @@ templ Toast() {
 			@modules.Usage(modules.UsageProps{
 				ComponentName: "Toast",
 				NeedsHandler:  true,
+				ID:            "usage",
 			})
 			@UsageExamples()
-			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Examples",
+				ID:    "examples",
+			}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Playground",
 					ShowcaseFile:    showcase.ToastPlayground(),
 					PreviewCodeFile: "toast_playground.templ",
+					ID:              "playground",
 				})
 			}
 		}

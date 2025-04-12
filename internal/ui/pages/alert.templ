@@ -10,7 +10,18 @@ templ Alert() {
 	@layouts.DocsLayout(
 		"Alert",
 		"Status message that displays contextual feedback or notifications.",
-		[]modules.TableOfContentsItem{},
+		[]modules.TableOfContentsItem{
+			{
+				ID:   "examples",
+				Text: "Examples",
+				Children: []modules.TableOfContentsItem{
+					{
+						ID:   "destructive",
+						Text: "Destructive",
+					},
+				},
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Alert",
@@ -33,11 +44,15 @@ templ Alert() {
 				PreviewCodeFile:   "alert_default.templ",
 				ComponentCodeFile: "alert/alert.templ",
 			})
-			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Examples",
+				ID:    "examples",
+			}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Destructive",
 					ShowcaseFile:    showcase.AlertDestructive(),
 					PreviewCodeFile: "alert_destructive.templ",
+					ID:              "destructive",
 				})
 			}
 		}

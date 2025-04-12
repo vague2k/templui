@@ -10,7 +10,34 @@ templ Badge() {
 	@layouts.DocsLayout(
 		"Badge",
 		"Badge component is used to display a small amount of information in a visual style.",
-		[]modules.TableOfContentsItem{},
+		[]modules.TableOfContentsItem{
+			{
+				ID:   "examples",
+				Text: "Examples",
+				Children: []modules.TableOfContentsItem{
+					{
+						ID:   "primary",
+						Text: "Primary",
+					},
+					{
+						ID:   "secondary",
+						Text: "Secondary",
+					},
+					{
+						ID:   "outline",
+						Text: "Outline",
+					},
+					{
+						ID:   "destructive",
+						Text: "Destructive",
+					},
+					{
+						ID:   "with_icon",
+						Text: "With Icon",
+					},
+				},
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Badge",
@@ -33,31 +60,39 @@ templ Badge() {
 				PreviewCodeFile:   "badge_default.templ",
 				ComponentCodeFile: "badge/badge.templ",
 			})
-			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Examples",
+				ID:    "examples",
+			}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Primary",
 					ShowcaseFile:    showcase.BadgeDefault(),
 					PreviewCodeFile: "badge_default.templ",
+					ID:              "primary",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Secondary",
 					ShowcaseFile:    showcase.BadgeSecondary(),
 					PreviewCodeFile: "badge_secondary.templ",
+					ID:              "secondary",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Outline",
 					ShowcaseFile:    showcase.BadgeOutline(),
 					PreviewCodeFile: "badge_outline.templ",
+					ID:              "outline",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Destructive",
 					ShowcaseFile:    showcase.BadgeDestructive(),
 					PreviewCodeFile: "badge_destructive.templ",
+					ID:              "destructive",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "With Icon",
 					ShowcaseFile:    showcase.BadgeWithIcon(),
 					PreviewCodeFile: "badge_with_icon.templ",
+					ID:              "with_icon",
 				})
 			}
 		}

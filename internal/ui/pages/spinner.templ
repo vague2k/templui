@@ -10,7 +10,26 @@ templ Spinner() {
 	@layouts.DocsLayout(
 		"Spinner",
 		"Visual indicators for loading states and processes in progress.",
-		[]modules.TableOfContentsItem{},
+		[]modules.TableOfContentsItem{
+			{
+				Text: "Examples",
+				ID:   "examples",
+				Children: []modules.TableOfContentsItem{
+					{
+						Text: "Sizes",
+						ID:   "sizes",
+					},
+					{
+						Text: "Colors",
+						ID:   "colors",
+					},
+					{
+						Text: "In Button",
+						ID:   "in-button",
+					},
+				},
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Spinner",
@@ -33,21 +52,27 @@ templ Spinner() {
 				PreviewCodeFile:   "spinner_default.templ",
 				ComponentCodeFile: "spinner/spinner.templ",
 			})
-			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Examples",
+				ID:    "examples",
+			}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Sizes",
 					ShowcaseFile:    showcase.SpinnerSizes(),
 					PreviewCodeFile: "spinner_sizes.templ",
+					ID:              "sizes",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Colors",
 					ShowcaseFile:    showcase.SpinnerColors(),
 					PreviewCodeFile: "spinner_colors.templ",
+					ID:              "colors",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "In Button",
 					ShowcaseFile:    showcase.SpinnerInButton(),
 					PreviewCodeFile: "spinner_in_button.templ",
+					ID:              "in-button",
 				})
 			}
 		}

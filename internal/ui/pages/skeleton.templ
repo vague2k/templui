@@ -10,7 +10,26 @@ templ Skeleton() {
 	@layouts.DocsLayout(
 		"Skeleton",
 		"UI placeholder for indicating content that is loading.",
-		[]modules.TableOfContentsItem{},
+		[]modules.TableOfContentsItem{
+			{
+				Text: "Examples",
+				ID:   "examples",
+				Children: []modules.TableOfContentsItem{
+					{
+						Text: "Profile",
+						ID:   "profile",
+					},
+					{
+						Text: "Card",
+						ID:   "card",
+					},
+					{
+						Text: "Dashboard",
+						ID:   "dashboard",
+					},
+				},
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Skeleton",
@@ -33,21 +52,27 @@ templ Skeleton() {
 				PreviewCodeFile:   "skeleton_default.templ",
 				ComponentCodeFile: "skeleton/skeleton.templ",
 			})
-			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Examples",
+				ID:    "examples",
+			}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Profile",
 					ShowcaseFile:    showcase.SkeletonProfile(),
 					PreviewCodeFile: "skeleton_profile.templ",
+					ID:              "profile",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Card",
 					ShowcaseFile:    showcase.SkeletonCard(),
 					PreviewCodeFile: "skeleton_card.templ",
+					ID:              "card",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Dashboard",
 					ShowcaseFile:    showcase.SkeletonDashboard(),
 					PreviewCodeFile: "skeleton_dashboard.templ",
+					ID:              "dashboard",
 				})
 			}
 		}

@@ -10,7 +10,34 @@ templ Textarea() {
 	@layouts.DocsLayout(
 		"Textarea",
 		"Multi-line text field for longer form content.",
-		[]modules.TableOfContentsItem{},
+		[]modules.TableOfContentsItem{
+			{
+				Text: "Examples",
+				ID:   "examples",
+				Children: []modules.TableOfContentsItem{
+					{
+						Text: "Custom Rows",
+						ID:   "custom-rows",
+					},
+					{
+						Text: "Auto Resize",
+						ID:   "auto-resize",
+					},
+					{
+						Text: "With Label",
+						ID:   "with-label",
+					},
+					{
+						Text: "Disabled",
+						ID:   "disabled",
+					},
+					{
+						Text: "Form",
+						ID:   "form",
+					},
+				},
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Textarea",
@@ -38,27 +65,33 @@ templ Textarea() {
 				ComponentName: "Textarea",
 				NeedsHandler:  true,
 			})
-			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Examples",
+				ID:    "examples",
+			}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Custom Rows",
 					ShowcaseFile:    showcase.TextareaCustomRows(),
 					PreviewCodeFile: "textarea_custom_rows.templ",
+					ID:              "custom-rows",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Auto Resize",
 					ShowcaseFile:    showcase.TextareaAutoResize(),
 					PreviewCodeFile: "textarea_auto_resize.templ",
+					ID:              "auto-resize",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "With Label",
 					ShowcaseFile:    showcase.TextareaWithLabel(),
 					PreviewCodeFile: "textarea_with_label.templ",
-					ID:              "label",
+					ID:              "with-label",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Disabled",
 					ShowcaseFile:    showcase.TextareaDisabled(),
 					PreviewCodeFile: "textarea_disabled.templ",
+					ID:              "disabled",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Form",

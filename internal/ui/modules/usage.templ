@@ -10,10 +10,11 @@ type UsageProps struct {
 	ComponentName string // Name der Komponente (z.B. "Toast", "Modal")
 	NeedsHandler  bool   // Ob die Komponente einen Handler benötigt
 	PropsExample  string // Optionales spezifisches Beispiel für die Props
+	ID            string // ID der Komponente
 }
 
 templ Usage(props UsageProps) {
-	<div class="mb-8">
+	<div id={ props.ID } class="mb-8">
 		<h2 class="text-2xl font-bold mb-4">Usage</h2>
 		if props.NeedsHandler {
 			<div class="mb-4">

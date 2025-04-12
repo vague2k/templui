@@ -10,7 +10,19 @@ templ Drawer() {
 	@layouts.DocsLayout(
 		"Drawer",
 		"Side-anchored panel that slides in from screen edges.",
-		[]modules.TableOfContentsItem{},
+		[]modules.TableOfContentsItem{
+			{
+				Text: "Examples",
+				ID:   "examples",
+				Children: []modules.TableOfContentsItem{
+	
+					{
+						Text: "Positions",
+						ID:   "positions",
+					},
+				},
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Drawer",
@@ -38,11 +50,15 @@ templ Drawer() {
 				ComponentName: "Drawer",
 				NeedsHandler:  true,
 			})
-			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Examples",
+				ID:    "examples",
+			}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Positions",
 					ShowcaseFile:    showcase.DrawerPositions(),
 					PreviewCodeFile: "drawer_positions.templ",
+					ID:              "positions",
 				})
 			}
 		}

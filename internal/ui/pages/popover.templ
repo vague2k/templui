@@ -10,7 +10,22 @@ templ Popover() {
 	@layouts.DocsLayout(
 		"Popover",
 		"Displays content in a window, triggered by a hover or click.",
-		[]modules.TableOfContentsItem{},
+		[]modules.TableOfContentsItem{
+			{
+				Text: "Examples",
+				ID:   "examples",
+				Children: []modules.TableOfContentsItem{
+					{
+						Text: "Trigger & Closing",
+						ID:   "trigger-closing",
+					},
+					{
+						Text: "Positions",
+						ID:   "positions",
+					},
+				},
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Popover",
@@ -38,16 +53,21 @@ templ Popover() {
 				ComponentName: "Popover",
 				NeedsHandler:  true,
 			})
-			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Examples",
+				ID:    "examples",
+			}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Trigger & Closing",
 					ShowcaseFile:    showcase.PopoverTriggers(),
 					PreviewCodeFile: "popover_triggers.templ",
+					ID:              "trigger-closing",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Positions",
 					ShowcaseFile:    showcase.PopoverPositions(),
 					PreviewCodeFile: "popover_positions.templ",
+					ID:              "positions",
 				})
 			}
 		}

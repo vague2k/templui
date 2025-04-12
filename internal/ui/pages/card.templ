@@ -10,7 +10,30 @@ templ Card() {
 	@layouts.DocsLayout(
 		"Card",
 		"Container for organizing related content and ",
-		[]modules.TableOfContentsItem{},
+		[]modules.TableOfContentsItem{
+			{
+				ID:   "examples",
+				Text: "Examples",
+				Children: []modules.TableOfContentsItem{
+					{
+						ID:   "image_left",
+						Text: "Image Left",
+					},
+					{
+						ID:   "image_right",
+						Text: "Image Right",
+					},
+					{
+						ID:   "image_top",
+						Text: "Image Top",
+					},
+					{
+						ID:   "image_bottom",
+						Text: "Image Bottom",
+					},
+				},
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Card",
@@ -38,21 +61,25 @@ templ Card() {
 					SectionName:     "Image Left",
 					ShowcaseFile:    showcase.CardImageLeft(),
 					PreviewCodeFile: "card_image_left.templ",
+					ID:              "image_left",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Image Right",
 					ShowcaseFile:    showcase.CardImageRight(),
 					PreviewCodeFile: "card_image_right.templ",
+					ID:              "image_right",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Image Top",
 					ShowcaseFile:    showcase.CardImageTop(),
 					PreviewCodeFile: "card_image_top.templ",
+					ID:              "image_top",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Image Bottom",
 					ShowcaseFile:    showcase.CardImageBottom(),
 					PreviewCodeFile: "card_image_bottom.templ",
+					ID:              "image_bottom",
 				})
 			}
 		}

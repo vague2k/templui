@@ -10,7 +10,30 @@ templ Toggle() {
 	@layouts.DocsLayout(
 		"Toggle",
 		"Two-state button that can be switched on or off.",
-		[]modules.TableOfContentsItem{},
+		[]modules.TableOfContentsItem{
+			{
+				Text: "Examples",
+				ID:   "examples",
+				Children: []modules.TableOfContentsItem{
+					{
+						Text: "Checked",
+						ID:   "checked",
+					},
+					{
+						Text: "With Label",
+						ID:   "with-label",
+					},
+					{
+						Text: "Disabled",
+						ID:   "disabled",
+					},
+					{
+						Text: "Form",
+						ID:   "form",
+					},
+				},
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Toggle",
@@ -33,22 +56,27 @@ templ Toggle() {
 				PreviewCodeFile:   "toggle_default.templ",
 				ComponentCodeFile: "toggle/toggle.templ",
 			})
-			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Examples",
+				ID:    "examples",
+			}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Checked",
 					ShowcaseFile:    showcase.ToggleChecked(),
 					PreviewCodeFile: "toggle_checked.templ",
+					ID:              "checked",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "With Label",
 					ShowcaseFile:    showcase.ToggleWithLabel(),
 					PreviewCodeFile: "toggle_with_label.templ",
-					ID:              "label",
+					ID:              "with-label",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Disabled",
 					ShowcaseFile:    showcase.ToggleDisabled(),
 					PreviewCodeFile: "toggle_disabled.templ",
+					ID:              "disabled",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Form",

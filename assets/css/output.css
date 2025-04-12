@@ -283,6 +283,9 @@
   .static {
     position: static;
   }
+  .sticky {
+    position: sticky;
+  }
   .inset-0 {
     inset: calc(var(--spacing) * 0);
   }
@@ -412,6 +415,9 @@
       max-width: 96rem;
     }
   }
+  .m-8 {
+    margin: calc(var(--spacing) * 8);
+  }
   .-mx-1 {
     margin-inline: calc(var(--spacing) * -1);
   }
@@ -525,6 +531,9 @@
   }
   .aspect-\[3\/4\] {
     aspect-ratio: 3/4;
+  }
+  .aspect-auto {
+    aspect-ratio: auto;
   }
   .aspect-square {
     aspect-ratio: 1 / 1;
@@ -1245,6 +1254,9 @@
   .bg-muted {
     background-color: var(--muted);
   }
+  .bg-muted-foreground {
+    background-color: var(--muted-foreground);
+  }
   .bg-muted\/50 {
     background-color: color-mix(in oklab, var(--muted) 50%, transparent);
   }
@@ -1837,6 +1849,18 @@
       position: absolute;
     }
   }
+  .after\:inset-x-0 {
+    &::after {
+      content: var(--tw-content);
+      inset-inline: calc(var(--spacing) * 0);
+    }
+  }
+  .after\:inset-y-\[-2px\] {
+    &::after {
+      content: var(--tw-content);
+      inset-block: -2px;
+    }
+  }
   .after\:top-0\.5 {
     &::after {
       content: var(--tw-content);
@@ -1865,6 +1889,12 @@
     &::after {
       content: var(--tw-content);
       border-radius: calc(infinity * 1px);
+    }
+  }
+  .after\:rounded-lg {
+    &::after {
+      content: var(--tw-content);
+      border-radius: var(--radius);
     }
   }
   .after\:bg-muted-foreground {

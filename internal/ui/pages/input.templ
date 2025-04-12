@@ -10,7 +10,30 @@ templ Input() {
 	@layouts.DocsLayout(
 		"Input",
 		"Text field that allows users to enter and edit values.",
-		[]modules.TableOfContentsItem{},
+		[]modules.TableOfContentsItem{
+			{
+				Text: "Examples",
+				ID:   "examples",
+				Children: []modules.TableOfContentsItem{
+					{
+						Text: "File",
+						ID:   "file",
+					},
+					{
+						Text: "Disabled",
+						ID:   "disabled",
+					},
+					{
+						Text: "With Label",
+						ID:   "with-label",
+					},
+					{
+						Text: "Form",
+						ID:   "form",
+					},
+				},
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Input",
@@ -33,23 +56,27 @@ templ Input() {
 				PreviewCodeFile:   "input_default.templ",
 				ComponentCodeFile: "input/input.templ",
 			})
-			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Examples",
+				ID:    "examples",
+			}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "File",
 					ShowcaseFile:    showcase.InputFile(),
 					PreviewCodeFile: "input_file.templ",
+					ID:              "file",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Disabled",
 					ShowcaseFile:    showcase.InputDisabled(),
 					PreviewCodeFile: "input_disabled.templ",
+					ID:              "disabled",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "With Label",
 					ShowcaseFile:    showcase.InputWithLabel(),
 					PreviewCodeFile: "input_with_label.templ",
-				
-					ID: "label",
+					ID:              "with-label",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Form",

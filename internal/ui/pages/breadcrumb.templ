@@ -10,7 +10,26 @@ templ Breadcrumb() {
 	@layouts.DocsLayout(
 		"Breadcrumb",
 		"Navigation component that helps users understand their location within a website's hierarchy.",
-		[]modules.TableOfContentsItem{},
+		[]modules.TableOfContentsItem{
+			{
+				ID:   "examples",
+				Text: "Examples",
+				Children: []modules.TableOfContentsItem{
+					{
+						ID:   "with-icons",
+						Text: "With Icons",
+					},
+					{
+						ID:   "custom-separator",
+						Text: "Custom Separator",
+					},
+					{
+						ID:   "responsive",
+						Text: "Responsive",
+					},
+				},
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Breadcrumb",
@@ -33,21 +52,27 @@ templ Breadcrumb() {
 				PreviewCodeFile:   "breadcrumb_default.templ",
 				ComponentCodeFile: "breadcrumb/breadcrumb.templ",
 			})
-			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Examples",
+				ID:    "examples",
+			}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "With Icons",
 					ShowcaseFile:    showcase.BreadcrumbWithIcons(),
 					PreviewCodeFile: "breadcrumb_with_icons.templ",
+					ID:              "with-icons",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Custom Separator",
 					ShowcaseFile:    showcase.BreadcrumbCustomSeparator(),
 					PreviewCodeFile: "breadcrumb_custom_separator.templ",
+					ID:              "custom-separator",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Responsive",
 					ShowcaseFile:    showcase.BreadcrumbResponsive(),
 					PreviewCodeFile: "breadcrumb_responsive.templ",
+					ID:              "responsive",
 				})
 			}
 		}

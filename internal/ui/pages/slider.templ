@@ -10,7 +10,30 @@ templ Slider() {
 	@layouts.DocsLayout(
 		"Slider",
 		"Control for selecting a numeric value within a range.",
-		[]modules.TableOfContentsItem{},
+		[]modules.TableOfContentsItem{
+			{
+				Text: "Examples",
+				ID:   "examples",
+				Children: []modules.TableOfContentsItem{
+					{
+						Text: "Value",
+						ID:   "value",
+					},
+					{
+						Text: "Steps",
+						ID:   "steps",
+					},
+					{
+						Text: "Disabled",
+						ID:   "disabled",
+					},
+					{
+						Text: "External Value",
+						ID:   "external-value",
+					},
+				},
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Slider",
@@ -38,26 +61,33 @@ templ Slider() {
 				ComponentName: "Slider",
 				NeedsHandler:  true,
 			})
-			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Examples",
+				ID:    "examples",
+			}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Value",
 					ShowcaseFile:    showcase.SliderValue(),
 					PreviewCodeFile: "slider_value.templ",
+					ID:              "value",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Steps",
 					ShowcaseFile:    showcase.SliderSteps(),
 					PreviewCodeFile: "slider_steps.templ",
+					ID:              "steps",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Disabled",
 					ShowcaseFile:    showcase.SliderDisabled(),
 					PreviewCodeFile: "slider_disabled.templ",
+					ID:              "disabled",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "External Value",
 					ShowcaseFile:    showcase.SliderExternalValue(),
 					PreviewCodeFile: "slider_external_value.templ",
+					ID:              "external-value",
 				})
 			}
 		}

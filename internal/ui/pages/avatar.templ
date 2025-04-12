@@ -10,7 +10,30 @@ templ Avatar() {
 	@layouts.DocsLayout(
 		"Avatar",
 		"Visual representation of a user through images or initials.",
-		[]modules.TableOfContentsItem{},
+		[]modules.TableOfContentsItem{
+			{
+				ID:   "examples",
+				Text: "Examples",
+				Children: []modules.TableOfContentsItem{
+					{
+						ID:   "fallback",
+						Text: "Fallback",
+					},
+					{
+						ID:   "sizes",
+						Text: "Sizes",
+					},
+					{
+						ID:   "with_icon",
+						Text: "With Icon",
+					},
+					{
+						ID:   "group",
+						Text: "Group",
+					},
+				},
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Avatar",
@@ -33,26 +56,33 @@ templ Avatar() {
 				PreviewCodeFile:   "avatar_default.templ",
 				ComponentCodeFile: "avatar/avatar.templ",
 			})
-			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Examples",
+				ID:    "examples",
+			}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Fallback",
 					ShowcaseFile:    showcase.AvatarFallback(),
 					PreviewCodeFile: "avatar_fallback.templ",
+					ID:              "fallback",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Sizes",
 					ShowcaseFile:    showcase.AvatarSizes(),
 					PreviewCodeFile: "avatar_sizes.templ",
+					ID:              "sizes",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "With Icon",
 					ShowcaseFile:    showcase.AvatarWithIcon(),
 					PreviewCodeFile: "avatar_with_icon.templ",
+					ID:              "with_icon",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Group",
 					ShowcaseFile:    showcase.AvatarGroup(),
 					PreviewCodeFile: "avatar_group.templ",
+					ID:              "group",
 				})
 			}
 		}

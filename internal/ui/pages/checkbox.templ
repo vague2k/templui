@@ -10,7 +10,30 @@ templ Checkbox() {
 	@layouts.DocsLayout(
 		"Checkbox",
 		"Control that allows selecting multiple options from a list.",
-		[]modules.TableOfContentsItem{},
+		[]modules.TableOfContentsItem{
+			{
+				Text: "Examples",
+				ID:   "examples",
+				Children: []modules.TableOfContentsItem{
+					{
+						Text: "With Label",
+						ID:   "with-label",
+					},
+					{
+						Text: "Disabled",
+						ID:   "disabled",
+					},
+					{
+						Text: "Custom Icon",
+						ID:   "custom-icon",
+					},
+					{
+						Text: "Form",
+						ID:   "form",
+					},
+				},
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Checkbox",
@@ -33,28 +56,33 @@ templ Checkbox() {
 				PreviewCodeFile:   "checkbox_default.templ",
 				ComponentCodeFile: "checkbox/checkbox.templ",
 			})
-			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Examples",
+				ID:    "examples",
+			}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Checked",
 					ShowcaseFile:    showcase.CheckboxChecked(),
 					PreviewCodeFile: "checkbox_checked.templ",
+					ID:              "checked",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "With Label",
 					ShowcaseFile:    showcase.CheckboxWithLabel(),
 					PreviewCodeFile: "checkbox_with_label.templ",
-				
-					ID: "label",
+					ID:              "with-label",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Disabled",
 					ShowcaseFile:    showcase.CheckboxDisabled(),
 					PreviewCodeFile: "checkbox_disabled.templ",
+					ID:              "disabled",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Custom Icon",
 					ShowcaseFile:    showcase.CheckboxCustomIcon(),
 					PreviewCodeFile: "checkbox_custom_icon.templ",
+					ID:              "custom-icon",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Form",

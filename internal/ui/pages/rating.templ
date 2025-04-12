@@ -10,7 +10,34 @@ templ Rating() {
 	@layouts.DocsLayout(
 		"Rating",
 		"Interactive rating component for capturing user feedback and displaying scores.",
-		[]modules.TableOfContentsItem{},
+		[]modules.TableOfContentsItem{
+			{
+				Text: "Examples",
+				ID:   "examples",
+				Children: []modules.TableOfContentsItem{
+					{
+						Text: "With Label",
+						ID:   "with-label",
+					},
+					{
+						Text: "Styles",
+						ID:   "styles",
+					},
+					{
+						Text: "Precision (Read-Only)",
+						ID:   "precision-read-only",
+					},
+					{
+						Text: "Max Values",
+						ID:   "max-values",
+					},
+					{
+						Text: "Form",
+						ID:   "form",
+					},
+				},
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Rating",
@@ -38,27 +65,33 @@ templ Rating() {
 				ComponentName: "Rating",
 				NeedsHandler:  true,
 			})
-			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Examples",
+				ID:    "examples",
+			}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "With Label",
 					ShowcaseFile:    showcase.RatingWithLabel(),
 					PreviewCodeFile: "rating_with_label.templ",
-					ID:              "label",
+					ID:              "with-label",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Styles",
 					ShowcaseFile:    showcase.RatingStyles(),
 					PreviewCodeFile: "rating_styles.templ",
+					ID:              "styles",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Precision (Read-Only)",
 					ShowcaseFile:    showcase.RatingPrecision(),
 					PreviewCodeFile: "rating_precision.templ",
+					ID:              "precision-read-only",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Max Values",
 					ShowcaseFile:    showcase.RatingMaxValues(),
 					PreviewCodeFile: "rating_max_values.templ",
+					ID:              "max-values",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Form",

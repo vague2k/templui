@@ -10,7 +10,26 @@ templ Icon() {
 	@layouts.DocsLayout(
 		"Icon",
 		"A wrapper for Lucide Icons with optional settings for size, color, fill, stroke, and custom classes.",
-		[]modules.TableOfContentsItem{},
+		[]modules.TableOfContentsItem{
+			{
+				Text: "Examples",
+				ID:   "examples",
+				Children: []modules.TableOfContentsItem{
+					{
+						Text: "Colored",
+						ID:   "colored",
+					},
+					{
+						Text: "Filled",
+						ID:   "filled",
+					},
+					{
+						Text: "Sizes",
+						ID:   "sizes",
+					},
+				},
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Icon",
@@ -32,21 +51,27 @@ templ Icon() {
 				ShowcaseFile:    showcase.IconDefault(),
 				PreviewCodeFile: "icon_default.templ",
 			})
-			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Examples",
+				ID:    "examples",
+			}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Colored",
 					ShowcaseFile:    showcase.IconColored(),
 					PreviewCodeFile: "icon_colored.templ",
+					ID:              "colored",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Filled",
 					ShowcaseFile:    showcase.IconFilled(),
 					PreviewCodeFile: "icon_filled.templ",
+					ID:              "filled",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Sizes",
 					ShowcaseFile:    showcase.IconSizes(),
 					PreviewCodeFile: "icon_sizes.templ",
+					ID:              "sizes",
 				})
 			}
 		}
