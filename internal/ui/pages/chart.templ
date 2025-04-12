@@ -18,6 +18,17 @@ templ Chart() {
 			Description: templ.Raw(`Beautiful charts. Built using <a href="https://chartjs.org" target="_blank" rel="noopener noreferrer" class="text-primary underline underline-offset-2 hover:opacity-80 transition-opacity">Chart.js</a>.`),
 			Tailwind:    true,
 			Alpine:      true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Chart",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.ChartDefault(),

@@ -20,6 +20,17 @@ templ Toast() {
 			Description: templ.Raw("Flexible toast component for notifications and feedback."),
 			Tailwind:    true,
 			Alpine:      true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Toast",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.ToastDefault(),

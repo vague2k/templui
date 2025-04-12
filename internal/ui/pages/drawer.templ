@@ -17,6 +17,17 @@ templ Drawer() {
 			Description: templ.Raw("Side-anchored panel that slides in from screen edges."),
 			Tailwind:    true,
 			Alpine:      true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Drawer",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.DrawerDefault(),

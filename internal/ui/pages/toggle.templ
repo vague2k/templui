@@ -16,6 +16,17 @@ templ Toggle() {
 			Name:        "Toggle",
 			Description: templ.Raw("Two-state button that can be switched on or off."),
 			Tailwind:    true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Toggle",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.ToggleDefault(),

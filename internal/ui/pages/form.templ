@@ -17,6 +17,17 @@ templ Form() {
 			Name:        "Form",
 			Description: templ.Raw("A collection of form components and helper utilities for building accessible forms."),
 			Tailwind:    true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Form",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				SectionName:       "",

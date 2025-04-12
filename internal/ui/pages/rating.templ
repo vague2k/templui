@@ -17,6 +17,17 @@ templ Rating() {
 			Description: templ.Raw("Interactive rating component for capturing user feedback and displaying scores."),
 			Tailwind:    true,
 			Alpine:      true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Rating",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.RatingDefault(),

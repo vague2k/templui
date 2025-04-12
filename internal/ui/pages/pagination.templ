@@ -16,6 +16,17 @@ templ Pagination() {
 			Name:        "Pagination",
 			Description: templ.Raw("Navigation controls for moving between pages of content. HTMX ready."),
 			Tailwind:    true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Pagination",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.PaginationDefault(),

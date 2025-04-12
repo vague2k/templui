@@ -16,6 +16,17 @@ templ Badge() {
 			Name:        "Badge",
 			Description: templ.Raw("Badge component is used to display a small amount of information in a visual style."),
 			Tailwind:    true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Badge",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.BadgeDefault(),

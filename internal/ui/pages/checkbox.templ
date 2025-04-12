@@ -16,6 +16,17 @@ templ Checkbox() {
 			Name:        "Checkbox",
 			Description: templ.Raw("Control that allows selecting multiple options from a list."),
 			Tailwind:    true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Checkbox",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.CheckboxDefault(),

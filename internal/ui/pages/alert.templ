@@ -16,6 +16,17 @@ templ Alert() {
 			Name:        "Alert",
 			Description: templ.Raw("Status message that displays contextual feedback or notifications."),
 			Tailwind:    true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Alert",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.AlertDefault(),

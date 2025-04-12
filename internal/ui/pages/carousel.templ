@@ -17,6 +17,17 @@ templ Carousel() {
 			Description: templ.Raw("Interactive slideshow for cycling through a series of content."),
 			Tailwind:    true,
 			VanillaJS:   true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Carousel",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.CarouselDefault(),

@@ -15,6 +15,17 @@ templ AspectRatio() {
 			Name:        "Aspect Ratio",
 			Description: templ.Raw("A component for maintaining consistent width-to-height ratios across different screen sizes."),
 			Tailwind:    true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Aspect Ratio",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.AspectRatioDefault(),

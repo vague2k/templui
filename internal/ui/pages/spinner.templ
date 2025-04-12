@@ -16,6 +16,17 @@ templ Spinner() {
 			Name:        "Spinner",
 			Description: templ.Raw("Visual indicators for loading states and processes in progress."),
 			Tailwind:    true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Spinner",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.SpinnerDefault(),

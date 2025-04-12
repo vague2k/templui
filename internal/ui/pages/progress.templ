@@ -17,6 +17,17 @@ templ Progress() {
 			Name:        "Progress",
 			Description: templ.Raw("Progress indicators inform users about the status of ongoing processes."),
 			Tailwind:    true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Progress",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.ProgressDefault(),

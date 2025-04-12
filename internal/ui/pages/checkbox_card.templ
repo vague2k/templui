@@ -16,6 +16,17 @@ templ CheckboxCard() {
 			Name:        "Checkbox Card",
 			Description: templ.Raw("Selectable card component that combines a checkbox with rich content for option selection."),
 			Tailwind:    true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Checkbox Card",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.CheckboxCardDefault(),

@@ -17,6 +17,17 @@ templ Modal() {
 			Description: templ.Raw("Dialog overlay that requires user attention or interaction."),
 			Tailwind:    true,
 			Alpine:      true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Modal",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.ModalDefault(),

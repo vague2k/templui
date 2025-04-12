@@ -16,6 +16,17 @@ templ Code() {
 			Name:        "Code",
 			Description: templ.Raw("Code displays a code block with optional syntax highlighting and copy functionality"),
 			Tailwind:    true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Code",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.CodeDefault(),

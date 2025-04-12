@@ -16,6 +16,17 @@ templ Separator() {
 			Name:        "Separator",
 			Description: templ.Raw("Visual divider that separates content with an optional label."),
 			Tailwind:    true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Separator",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.SeparatorDefault(),

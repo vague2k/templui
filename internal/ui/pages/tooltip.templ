@@ -16,6 +16,17 @@ templ Tooltip() {
 			Name:        "Tooltip",
 			Description: templ.Raw("A small pop-up box that appears when a user hovers over an element. Uses `Popover` component under the hood."),
 			Tailwind:    true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Tooltip",
+					},
+				},
+			},
 		}) {
 			@modules.Usage(modules.UsageProps{
 				ComponentName: "Popover",

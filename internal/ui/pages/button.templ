@@ -16,6 +16,17 @@ templ Button() {
 			Name:        "Button",
 			Description: templ.Raw("Interactive element that triggers actions when clicked."),
 			Tailwind:    true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Button",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.ButtonDefault(),

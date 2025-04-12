@@ -16,6 +16,17 @@ templ Breadcrumb() {
 			Name:        "Breadcrumb",
 			Description: templ.Raw("Navigation component that helps users understand their location within a website's hierarchy."),
 			Tailwind:    true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Breadcrumb",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.BreadcrumbDefault(),

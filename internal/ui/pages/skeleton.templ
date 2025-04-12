@@ -16,6 +16,17 @@ templ Skeleton() {
 			Name:        "Skeleton",
 			Description: templ.Raw("UI placeholder for indicating content that is loading. It's designed to be a simple building block that users can compose into more complex loading UI patterns."),
 			Tailwind:    true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Skeleton",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.SkeletonDefault(),
