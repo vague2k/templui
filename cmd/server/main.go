@@ -55,7 +55,9 @@ func main() {
 
 	wrappedMux := middleware.WithURLPathValue(
 		middleware.CacheControlMiddleware(
-			mw.WithCSP(cspConfig)(mux),
+			middleware.LatestVersion(
+				mw.WithCSP(cspConfig)(mux),
+			),
 		),
 	)
 
