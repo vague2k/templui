@@ -13,18 +13,19 @@ import (
 templ Navbar() {
 	<nav class="border-b py-1">
 		{{ version := ctx.Value(ctxkeys.Version).(string) }}
-		<div class="container mx-auto px-4 flex justify-between items-center">
+		<div class="container mx-auto px-4 flex justify-between items-center relative">
 			<div class="flex items-center">
 				@NavbarMobileMenu()
 				<a href="/">
 					@wrappedicon.TemplUI("w-auto h-8")
 				</a>
 			</div>
-			<div class="hidden md:flex gap-4 items-center">
+			<div class="hidden md:flex gap-4 items-center absolute left-1/2 transform -translate-x-1/2">
 				<a href="/docs/getting-started" class="text-sm hover:underline">Docs</a>
 				<a href="/docs/components" class="text-sm hover:underline">Components</a>
 			</div>
 			<div class="flex gap-1 items-center justify-center">
+				@ThemeSwitcher()
 				@button.Button(button.Props{
 					Size:    button.SizeIcon,
 					Variant: button.VariantGhost,
@@ -33,15 +34,6 @@ templ Navbar() {
 				}) {
 					@wrappedicon.GitHub(24)
 				}
-				@button.Button(button.Props{
-					Size:    button.SizeIcon,
-					Variant: button.VariantGhost,
-					Href:    "https://x.com/axadrn/",
-					Target:  "_blank",
-				}) {
-					@wrappedicon.X(16)
-				}
-				@ThemeSwitcher()
 				<a
 					href="https://github.com/axzilla/templui/releases"
 					target="_blank"
@@ -62,7 +54,7 @@ templ NavbarMobileMenu() {
 			<button
 				class="mr-2 lg:hidden p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-hidden focus:ring-2 focus:ring-inset focus:ring-indigo-500"
 			>
-				@icon.SquareLibrary()
+				@icon.Menu()
 			</button>
 		}
 		@drawer.Content(drawer.ContentProps{
