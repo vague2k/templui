@@ -7,10 +7,12 @@ import (
 	"github.com/axzilla/templui/internal/ctxkeys"
 	"github.com/axzilla/templui/internal/shared"
 	wrappedicon "github.com/axzilla/templui/internal/ui/icons"
+	"github.com/axzilla/templui/component/badge"
 )
 
 templ Navbar() {
 	<nav class="border-b py-1">
+		{{ version := ctx.Value(ctxkeys.Version).(string) }}
 		<div class="container mx-auto px-4 flex justify-between items-center">
 			<div class="flex items-center">
 				@NavbarMobileMenu()
@@ -22,7 +24,7 @@ templ Navbar() {
 				<a href="/docs/getting-started" class="text-sm hover:underline">Docs</a>
 				<a href="/docs/components" class="text-sm hover:underline">Components</a>
 			</div>
-			<div class="flex items-center">
+			<div class="flex gap-1 items-center justify-center">
 				@button.Button(button.Props{
 					Size:    button.SizeIcon,
 					Variant: button.VariantGhost,
@@ -40,6 +42,15 @@ templ Navbar() {
 					@wrappedicon.X(16)
 				}
 				@ThemeSwitcher()
+				<a
+					href="https://github.com/axzilla/templui/releases"
+					target="_blank"
+					class="flex"
+				>
+					@badge.Badge() {
+						{ version }
+					}
+				</a>
 			</div>
 		</div>
 	</nav>
