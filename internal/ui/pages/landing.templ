@@ -3,7 +3,6 @@ package pages
 import (
 	"github.com/axzilla/templui/component/badge"
 	"github.com/axzilla/templui/component/button"
-	"github.com/axzilla/templui/icon"
 	wrappedicon "github.com/axzilla/templui/internal/ui/icons"
 	"github.com/axzilla/templui/internal/ui/layouts"
 	"github.com/axzilla/templui/internal/ui/modules"
@@ -50,22 +49,19 @@ templ Landing() {
 				</p>
 				<div class="flex gap-2 justify-center flex-wrap">
 					@button.Button(button.Props{
-						Href:  "/docs/components",
+						Href:  "/docs/how-to-use",
 						Size:  "lg",
 						Class: "flex gap-2 w-full md:w-auto",
 					}) {
-						Explore Components
-						@icon.ArrowRight(icon.Props{Size: 16})
+						Get Started
 					}
 					@button.Button(button.Props{
-						Href:    "https://github.com/axzilla/templui",
-						Target:  "_blank",
+						Href:    "/docs/components",
 						Size:    "lg",
 						Variant: button.VariantSecondary,
 						Class:   "flex gap-2 w-full md:w-auto",
 					}) {
-						@icon.ExternalLink(icon.Props{Size: 16})
-						View on GitHub
+						Browse Components
 					}
 				</div>
 			</div>
