@@ -34,7 +34,6 @@ generate-sitemap:
 generate-icons:
 	go run cmd/icongen/main.go
 
-
 # Validate generated HTML files against Eslint plugins
 # Step 1: Compile templ files into Go
 templ-generate:
