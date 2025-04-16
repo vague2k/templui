@@ -109,6 +109,7 @@ func Code(props ...Props) templ.Component {
 				util.If(p.Size == SizeSm, "max-h-[250px]!"),
 				util.If(p.Size == SizeLg, "max-h-[1000px]!"),
 				util.If(p.Size == SizeFull, "max-h-full!"),
+				"hljs-target",
 				p.CodeClass,
 			),
 		}
@@ -212,7 +213,7 @@ func Script() templ.Component {
 			var templ_7745c5c3_Var9 string
 			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/code/code.templ`, Line: 77, Col: 37}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/code/code.templ`, Line: 78, Col: 37}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 			if templ_7745c5c3_Err != nil {
@@ -225,13 +226,13 @@ func Script() templ.Component {
 			var templ_7745c5c3_Var10 string
 			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/code/code.templ`, Line: 78, Col: 37}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/code/code.templ`, Line: 79, Col: 37}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "\">\n\t\t\tdocument.addEventListener('alpine:init', () => {\n\t\t\t\thljs.highlightAll();\n\n\t\t\t\tAlpine.data('code', () => ({\n\t\t\t\t\tisCopied: false,\n\t\t\t\t\tisNotCopied: true,\n\t\t\t\t\tcopyCode() {\n\t\t\t\t\t\ttry {\n\t\t\t\t\t\t\tif (navigator.clipboard && window.isSecureContext) {\n\t\t\t\t\t\t\t\tnavigator.clipboard.writeText(this.$refs.code.textContent);\n\t\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\t\tconst textArea = document.createElement('textarea');\n\t\t\t\t\t\t\t\ttextArea.value = this.$refs.code.textContent;\n\t\t\t\t\t\t\t\tdocument.body.appendChild(textArea);\n\t\t\t\t\t\t\t\ttextArea.select();\n\t\t\t\t\t\t\t\tdocument.execCommand('copy');\n\t\t\t\t\t\t\t\tdocument.body.removeChild(textArea);\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\tthis.isCopied = true;\n\t\t\t\t\t\t\tthis.isNotCopied = false;\n\t\t\t\t\t\t\tsetTimeout(() => {\n\t\t\t\t\t\t\t\tthis.isCopied = false;\n\t\t\t\t\t\t\t\tthis.isNotCopied = true;\n\t\t\t\t\t\t\t}, 2000);\n\t\t\t\t\t\t} catch (err) {\n\t\t\t\t\t\t\tconsole.error('Copy failed', err);\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}))\n\t\t\t})\n\t\t</script>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "\">\n\t\t\tdocument.addEventListener('alpine:init', () => {\n\t\t\t\tdocument.querySelectorAll('code.hljs-target').forEach((block) => {\n\t\t\t\t  try {\n\t\t\t\t    hljs.highlightElement(block);\n\t\t\t\t  } catch (error) {\n\t\t\t\t    console.error(\"Highlight.js error on element:\", error, block);\n\t\t\t\t  }\n\t\t\t});\n\n\t\t\t\tAlpine.data('code', () => ({\n\t\t\t\t\tisCopied: false,\n\t\t\t\t\tisNotCopied: true,\n\t\t\t\t\tcopyCode() {\n\t\t\t\t\t\ttry {\n\t\t\t\t\t\t\tif (navigator.clipboard && window.isSecureContext) {\n\t\t\t\t\t\t\t\tnavigator.clipboard.writeText(this.$refs.code.textContent);\n\t\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\t\tconst textArea = document.createElement('textarea');\n\t\t\t\t\t\t\t\ttextArea.value = this.$refs.code.textContent;\n\t\t\t\t\t\t\t\tdocument.body.appendChild(textArea);\n\t\t\t\t\t\t\t\ttextArea.select();\n\t\t\t\t\t\t\t\tdocument.execCommand('copy');\n\t\t\t\t\t\t\t\tdocument.body.removeChild(textArea);\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\tthis.isCopied = true;\n\t\t\t\t\t\t\tthis.isNotCopied = false;\n\t\t\t\t\t\t\tsetTimeout(() => {\n\t\t\t\t\t\t\t\tthis.isCopied = false;\n\t\t\t\t\t\t\t\tthis.isNotCopied = true;\n\t\t\t\t\t\t\t}, 2000);\n\t\t\t\t\t\t} catch (err) {\n\t\t\t\t\t\t\tconsole.error('Copy failed', err);\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}))\n\t\t\t})\n\t\t</script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

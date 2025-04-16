@@ -2,7 +2,6 @@ package modules
 
 import (
 	"fmt"
-	"github.com/axzilla/templui/component/code"
 	"strings"
 )
 
@@ -19,26 +18,16 @@ templ Usage(props UsageProps) {
 		if props.NeedsHandler {
 			<div class="mb-4">
 				<p class="text-muted-foreground mb-2">1. Add the script to your page/layout:</p>
-				@code.Code(code.Props{Language: "go"}) {
-					{ fmt.Sprintf(`// Option A: All components (recommended)
+				@Code(CodeProps{
+					Language:       "templ",
+					ShowCopyButton: true,
+					CodeContent: fmt.Sprintf(`// Option A: All components (recommended)
 @util.ComponentScripts()
 
 // Option B: Only %s
-@%s.Script()`, props.ComponentName, strings.ToLower(props.ComponentName)) }
-				}
+@%s.Script()`, props.ComponentName, strings.ToLower(props.ComponentName)),
+				})
 			</div>
 		}
-		// <div>
-		// 	if props.NeedsHandler {
-		// 		<p class="text-muted-foreground mb-2">2. Use the component:</p>
-		// 	}
-		// 	@components.Code(components.CodeProps{Language: "go"}) {
-		// 		{ fmt.Sprintf(`@components.%s(components.%sProps{%s})`,
-		// 	props.ComponentName,
-		// 	props.ComponentName,
-		// 	props.PropsExample,
-		// ) }
-		// 	}
-		// </div>
 	</div>
 }

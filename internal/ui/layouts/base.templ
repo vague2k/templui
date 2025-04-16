@@ -53,6 +53,8 @@ templ BaseLayout(title, description string) {
 			}
 			// Theme Script
 			@ThemeScript()
+			// Shiki Highlighter Script
+			@modules.CodeHighlightingScript()
 			// Component Scripts
 			@helper.ComponentScripts()
 			// Favicon
