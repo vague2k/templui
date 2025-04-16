@@ -12,6 +12,9 @@ server:
 	--build.stop_on_error "false" \
 	--misc.clean_on_exit true
 
+shiki-highlighter:
+	cd shiki && npm start
+
 tailwind-clean:
 	tailwindcss -i ./assets/css/input.css -o ./assets/css/output.css --clean
 
@@ -20,7 +23,7 @@ tailwind-watch:
 
 dev:
 	make tailwind-clean
-	make -j3 templ server tailwind-watch
+	make -j4 templ server tailwind-watch shiki-highlighter
 
 debug:
 	make -j3 templ tailwind-app tailwind

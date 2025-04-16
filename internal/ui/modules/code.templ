@@ -1,0 +1,228 @@
+package modules
+
+import (
+	"bytes"
+	"context"
+	"encoding/json"
+	"github.com/axzilla/templui/icon"
+	"github.com/axzilla/templui/util"
+	"html"
+	"io"
+	"log"
+	"net/http"
+	"sync"
+	"time"
+)
+
+type Size string
+
+const (
+	SizeSm   Size = "sm"
+	SizeLg   Size = "lg"
+	SizeFull Size = "full"
+)
+
+type CodeProps struct {
+	ID             string
+	Class          string
+	Attrs          templ.Attributes
+	Language       string
+	ShowCopyButton bool
+	Size           Size
+	CodeClass      string
+	CodeContent    string
+}
+
+templ Code(p CodeProps) {
+	if p.ID == "" {
+		{{ p.ID = util.RandomID() }}
+	}
+	{{ highlightedHTML := GetHighlightedHTML(ctx, p.CodeContent, p.Language) }}
+	<div
+		id={ p.ID }
+		class={ util.TwMerge("relative", p.Class) }
+		{ p.Attrs... }
+		x-data="codeHighlighting"
+	>
+		// Testweise p.CodeClass entfernen, um Konflikte auszuschließen
+		<div
+			class={ util.TwMerge(
+			"shiki",
+			"[&_pre]:block",
+			"[&_pre]:overflow-x-auto",
+			"[&_pre]:overflow-y-auto",
+			"[&_pre]:max-h-96",
+			"[&_pre]:p-4",
+			"[&_pre]:rounded-md",
+			"[&_pre]:text-sm",
+		) }
+			x-ref="container"
+		>
+			@templ.Raw(highlightedHTML)
+		</div>
+		if p.ShowCopyButton {
+			<button
+				class="absolute top-2 right-2 bg-gray-700 hover:bg-gray-600 text-white p-1.5 rounded opacity-75 hover:opacity-100 transition-opacity z-10"
+				@click="copyCode"
+				title="Copy code"
+			>
+				<span x-show="isCopied" class="flex items-center">
+					@icon.Check(icon.Props{Class: "w-4 h-4"})
+				</span>
+				<span x-show="isNotCopied" class="flex items-center">
+					@icon.Clipboard(icon.Props{Class: "w-4 h-4"})
+				</span>
+			</button>
+		}
+	</div>
+}
+
+// Konfigurierbare URL des Shiki-Services
+// TODO: Aus Konfiguration oder Umgebungsvariable laden
+var shikiServiceURL = "http://localhost:3001/highlight"
+
+type ShikiRequest struct {
+	Code string `json:"code"`
+	Lang string `json:"lang"`
+}
+
+var (
+	httpClient = &http.Client{
+		Timeout: 5 * time.Second, // Timeout für HTTP-Anfragen
+		Transport: &http.Transport{
+			MaxIdleConns:        10, // Poolgröße für wiederverwendete Verbindungen
+			IdleConnTimeout:     30 * time.Second,
+			MaxIdleConnsPerHost: 10,
+		},
+	}
+	// Einfacher Cache, um wiederholte Anfragen für identischen Code zu vermeiden
+	// Für eine Produktionsumgebung wäre ein robusterer Cache (z.B. mit LRU) sinnvoll.
+	cache      = make(map[string]string)
+	cacheMutex sync.RWMutex
+)
+
+// GetHighlightedHTML ruft den Shiki-Service auf und gibt das HTML zurück.
+// Gibt bei Fehlern den Originalcode HTML-escaped zurück.
+// Verwendet einen einfachen In-Memory-Cache.
+func GetHighlightedHTML(ctx context.Context, codeContent string, language string) string {
+	if codeContent == "" {
+		return ""
+	}
+	if language == "" {
+		language = "templ" // Standard
+	}
+
+	// Cache-Schlüssel erstellen
+	cacheKey := language + "|" + codeContent
+
+	// Cache prüfen (mit Lesesperre)
+	cacheMutex.RLock()
+	cachedHTML, found := cache[cacheKey]
+	cacheMutex.RUnlock()
+
+	if found {
+		// log.Println("Shiki Cache Hit for lang:", language)
+		return cachedHTML
+	}
+
+	// log.Println("Shiki Cache Miss for lang:", language)
+
+	requestBody, err := json.Marshal(ShikiRequest{Code: codeContent, Lang: language})
+	if err != nil {
+		log.Printf("WARN: Error marshalling Shiki request: %v. Returning escaped code.", err)
+		return html.EscapeString(codeContent) // Fallback
+	}
+
+	// Verwenden Sie einen Kontext mit Timeout, falls der übergebene Kontext keinen hat
+	reqCtx, cancel := context.WithTimeout(ctx, httpClient.Timeout)
+	defer cancel()
+
+	req, err := http.NewRequestWithContext(reqCtx, "POST", shikiServiceURL, bytes.NewBuffer(requestBody))
+	if err != nil {
+		log.Printf("WARN: Error creating Shiki request: %v. Returning escaped code.", err)
+		return html.EscapeString(codeContent) // Fallback
+	}
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Accept", "text/html")
+
+	resp, err := httpClient.Do(req)
+	if err != nil {
+		// Unterscheiden zwischen Timeout und anderen Fehlern
+		if reqCtx.Err() == context.DeadlineExceeded { // Check reqCtx for timeout
+			log.Printf("WARN: Shiki service request timed out for lang %s. Returning escaped code.", language)
+		} else {
+			log.Printf("WARN: Error calling Shiki service: %v. Returning escaped code.", err)
+		}
+		return html.EscapeString(codeContent) // Fallback
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		bodyBytes, _ := io.ReadAll(resp.Body)
+		log.Printf("WARN: Shiki service returned error (%d) for lang %s: %s. Returning escaped code.", resp.StatusCode, language, string(bodyBytes))
+		return html.EscapeString(codeContent) // Fallback
+	}
+
+	highlightedBytes, err := io.ReadAll(resp.Body)
+	if err != nil {
+		log.Printf("WARN: Error reading Shiki service response: %v. Returning escaped code.", err)
+		return html.EscapeString(codeContent) // Fallback
+	}
+
+	highlightedHTML := string(highlightedBytes)
+
+	// Im Cache speichern (mit Schreibsperre)
+	cacheMutex.Lock()
+	// Optional: Limit cache size here if needed
+	cache[cacheKey] = highlightedHTML
+	cacheMutex.Unlock()
+
+	// WICHTIG: Da wir templ.Raw verwenden, gehen wir davon aus, dass Shiki
+	// sicheres HTML generiert. Es ist keine zusätzliche Escape-Funktion nötig.
+	return highlightedHTML
+}
+
+templ CodeHighlightingScript() {
+	{{ handle := templ.NewOnceHandle() }}
+	@handle.Once() {
+		<script nonce={ templ.GetNonce(ctx) }>
+			document.addEventListener('alpine:init', () => {
+				Alpine.data('codeHighlighting', () => ({
+					isCopied: false,
+					isNotCopied: true,
+					copyCode() {
+						const container = this.$refs.container;
+						const codeElement = container.querySelector('pre > code');
+						if (!codeElement) {
+							console.error("Could not find code element generated by Shiki.");
+							return;
+						}
+						const codeText = codeElement.textContent || "";
+						try {
+							if (navigator.clipboard && window.isSecureContext) {
+								navigator.clipboard.writeText(codeText);
+							} else {
+								const textArea = document.createElement('textarea');
+								textArea.value = codeText;
+								textArea.style.position = 'fixed';
+								textArea.style.left = '-9999px';
+								document.body.appendChild(textArea);
+								textArea.select();
+								document.execCommand('copy');
+								document.body.removeChild(textArea);
+							}
+							this.isCopied = true;
+							this.isNotCopied = false;
+							setTimeout(() => {
+								this.isCopied = false;
+								this.isNotCopied = true;
+							}, 2000);
+						} catch (err) {
+							console.error('Copy failed', err);
+						}
+					}
+				}))
+			})
+		</script>
+	}
+}

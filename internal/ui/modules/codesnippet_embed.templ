@@ -1,16 +1,15 @@
 package modules
 
-import (
-	"embed"
-	"github.com/axzilla/templui/component/code"
-)
+import "embed"
 
 templ CodeSnippetFromEmbedded(filename, language string, embed embed.FS) {
 	if content, err := embed.ReadFile(filename); err != nil {
 		<div class="error">Error reading file: { filename }: { err.Error() }</div>
 	} else {
-		@code.Code(code.Props{Language: language, ShowCopyButton: true}) {
-			{ string(content) }
-		}
+		@Code(CodeProps{
+			Language:       "templ",
+			ShowCopyButton: true,
+			CodeContent:    string(content),
+		})
 	}
 }
