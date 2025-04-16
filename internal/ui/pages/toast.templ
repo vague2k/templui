@@ -2,7 +2,6 @@ package pages
 
 import (
 	"fmt"
-	"github.com/axzilla/templui/component/code"
 	"github.com/axzilla/templui/component/tabs"
 	"github.com/axzilla/templui/internal/ui/layouts"
 	"github.com/axzilla/templui/internal/ui/modules"
@@ -126,9 +125,11 @@ func Save(w http.ResponseWriter, r *http.Request) {
 }`, "templ")
 
 templ withHtmx() {
-	@code.Code(code.Props{Language: "go"}) {
-		{ withHtmxCode }
-	}
+	@modules.Code(modules.CodeProps{
+		Language:       "templ",
+		ShowCopyButton: true,
+		CodeContent:    withHtmxCode,
+	})
 }
 
 var fullPageFormCode = fmt.Sprintf(`// Template
@@ -151,7 +152,9 @@ func Save(w http.ResponseWriter, r *http.Request) {
 }`, "templ")
 
 templ fullPageForm() {
-	@code.Code(code.Props{Language: "go"}) {
-		{ fullPageFormCode }
-	}
+	@modules.Code(modules.CodeProps{
+		Language:       "templ",
+		ShowCopyButton: true,
+		CodeContent:    fullPageFormCode,
+	})
 }

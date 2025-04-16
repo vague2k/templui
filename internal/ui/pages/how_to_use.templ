@@ -1,7 +1,6 @@
 package pages
 
 import (
-	"github.com/axzilla/templui/component/code"
 	"github.com/axzilla/templui/internal/ui/layouts"
 	"github.com/axzilla/templui/internal/ui/modules"
 )
@@ -25,7 +24,7 @@ chmod +x tailwindcss-linux-x64
 sudo mv tailwindcss-linux-x64 /usr/local/bin/tailwindcss`
 
 var tailwindWindowsX64 = `# On Windows (x64i
-// # Download from: https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-windows-x64.exe
+# Download from: https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-windows-x64.exe
 # Add to your PATH as 'tailwindcss'`
 
 var makeFile = `# Run templ generation in watch mode
@@ -172,6 +171,18 @@ var interactiveComponent = `// First, include required scripts
 // Then use the component
 @components.Accordion(components.AccordionProps{...})`
 
+var alpineJsStandard = `// Standard Alpine.js installation
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>`
+
+var alpineJsCsp = `// CSP-compliant Alpine.js installation
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js" nonce="your-nonce-value"></script>`
+
+var installAir = `go install github.com/air-verse/air@latest`
+
+var devCommand = `make dev`
+
+var goEnvGopath = `go env GOPATH`
+
 templ HowToUse() {
 	@layouts.DocsLayout(
 		"How To Use",
@@ -210,42 +221,56 @@ templ HowToUse() {
 						<div>
 							<h3 class="text-xl font-semibold mb-2">1. Go (1.24 or later)</h3>
 							<p class="text-muted-foreground mb-2">Check your Go version:</p>
-							@code.Code(code.Props{Language: "shell", ShowCopyButton: true}) {
-								{ installGo }
-							}
+							@modules.Code(modules.CodeProps{
+								Language:       "shell",
+								ShowCopyButton: true,
+								CodeContent:    installGo,
+							})
 							<p class="text-sm mt-2 text-muted-foreground">For installation instructions, visit <a href="https://golang.org/dl" class="text-primary/90 underline" target="_blank">golang.org/dl</a>.</p>
 						</div>
 						<div>
 							<h3 class="text-xl font-semibold mb-2">2. templ (v0.3.857 or later)</h3>
 							<p class="mb-2 text-muted-foreground">Install the templ CLI:</p>
-							@code.Code(code.Props{Language: "shell", ShowCopyButton: true}) {
-								{ installTempl }
-							}
+							@modules.Code(modules.CodeProps{
+								Language:       "shell",
+								ShowCopyButton: true,
+								CodeContent:    installTempl,
+							})
 						</div>
 						<div>
 							<h3 class="text-xl font-semibold mb-2">3. Tailwind CSS Standalone CLI (v4.0.5 or later)</h3>
 							<p class="mb-2 text-muted-foreground">Install the standalone CLI based on your operating system:</p>
 							<div class="space-y-4">
 								<p class="mb-2 text-muted-foreground">Homebrew (macOS):</p>
-								@code.Code(code.Props{Language: "shell", ShowCopyButton: true}) {
-									{ tailwindHomebrew }
-								}
+								@modules.Code(modules.CodeProps{
+									Language:       "shell",
+									ShowCopyButton: true,
+									CodeContent:    tailwindHomebrew,
+								})
 								<p class="mb-2 text-muted-foreground">macOS (Apple Silicon):</p>
-								@code.Code(code.Props{Language: "shell", ShowCopyButton: true}) {
-									{ tailwindMacOSArm64 }
-								}
+								@modules.Code(modules.CodeProps{
+									Language:       "shell",
+									ShowCopyButton: true,
+									CodeContent:    tailwindMacOSArm64,
+								})
 								<p class="mb-2 text-muted-foreground">macOS (Intel):</p>
-								@code.Code(code.Props{Language: "shell", ShowCopyButton: true}) {
-									{ tailwindMacOSX64 }
-								}
+								@modules.Code(modules.CodeProps{
+									Language:       "shell",
+									ShowCopyButton: true,
+									CodeContent:    tailwindMacOSX64,
+								})
 								<p class="mb-2 text-muted-foreground">Linux (x64):</p>
-								@code.Code(code.Props{Language: "shell", ShowCopyButton: true}) {
-									{ tailwindLinuxX64 }
-								}
+								@modules.Code(modules.CodeProps{
+									Language:       "shell",
+									ShowCopyButton: true,
+									CodeContent:    tailwindLinuxX64,
+								})
 								<p class="mb-2 text-muted-foreground">Windows (x64):</p>
-								@code.Code(code.Props{Language: "shell", ShowCopyButton: true}) {
-									{ tailwindWindowsX64 }
-								}
+								@modules.Code(modules.CodeProps{
+									Language:       "shell",
+									ShowCopyButton: true,
+									CodeContent:    tailwindWindowsX64,
+								})
 							</div>
 						</div>
 					</div>
@@ -261,9 +286,11 @@ templ HowToUse() {
 						<div>
 							<h3 class="text-xl font-semibold mb-2">1. CSS Configuration file + Base Styles</h3>
 							<p class="mb-2 text-muted-foreground">Create assets/css/input.css with our base styles:</p>
-							@code.Code(code.Props{Language: "css", ShowCopyButton: true}) {
-								{ inputCss }
-							}
+							@modules.Code(modules.CodeProps{
+								Language:       "css",
+								ShowCopyButton: true,
+								CodeContent:    inputCss,
+							})
 							<p class="text-sm mt-2">For custom themes and additional styles, check our <a href="/docs/themes" class="text-primary underline">themes documentation</a>.</p>
 						</div>
 						<div class="space-y-2">
@@ -273,9 +300,11 @@ templ HowToUse() {
 								<div>
 									<p class="font-medium text-muted-foreground">Standard Installation (Recommended)</p>
 									<p class="mb-2 text-muted-foreground">For most projects, use the standard Alpine.js build:</p>
-									@code.Code(code.Props{Language: "html", ShowCopyButton: true}) {
-										{ `<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>` }
-									}
+									@modules.Code(modules.CodeProps{
+										Language:       "html",
+										ShowCopyButton: true,
+										CodeContent:    alpineJsStandard,
+									})
 								</div>
 								<div class="border-l-4 border-info pl-4 mt-4">
 									<p class="font-medium text-muted-foreground">Enhanced Security Installation</p>
@@ -283,15 +312,19 @@ templ HowToUse() {
 									<div class="space-y-4">
 										<div>
 											<p class="text-sm mb-2 text-muted-foreground">1. Use Alpine.js CSP build instead:</p>
-											@code.Code(code.Props{Language: "html", ShowCopyButton: true}) {
-												{ `<script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/csp@3.x.x/dist/cdn.min.js"></script>` }
-											}
+											@modules.Code(modules.CodeProps{
+												Language:       "html",
+												ShowCopyButton: true,
+												CodeContent:    alpineJsCsp,
+											})
 										</div>
 										<div>
 											<p class="text-sm mb-2 text-muted-foreground">2. Add CSP middleware if you're using external resources (like HTMX, highlight.js):</p>
-											@code.Code(code.Props{Language: "go", ShowCopyButton: true}) {
-												{ cspMiddleware }
-											}
+											@modules.Code(modules.CodeProps{
+												Language:       "go",
+												ShowCopyButton: true,
+												CodeContent:    cspMiddleware,
+											})
 										</div>
 									</div>
 								</div>
@@ -323,16 +356,20 @@ templ HowToUse() {
 						<div>
 							<h3 class="text-xl font-semibold mb-2">1. Air (Live Reload for Go)</h3>
 							<p class="mb-2 text-muted-foreground">Install Air for automatic Go server rebuilds:</p>
-							@code.Code(code.Props{Language: "shell", ShowCopyButton: true}) {
-								{ "go install github.com/air-verse/air@latest" }
-							}
+							@modules.Code(modules.CodeProps{
+								Language:       "shell",
+								ShowCopyButton: true,
+								CodeContent:    installAir,
+							})
 						</div>
 						<div>
 							<h3 class="text-xl font-semibold mb-2">2. Development Makefile</h3>
 							<p class="mb-2 text-muted-foreground">Create a Makefile in your project root:</p>
-							@code.Code(code.Props{Language: "makefile", ShowCopyButton: true}) {
-								{ makeFile }
-							}
+							@modules.Code(modules.CodeProps{
+								Language:       "makefile",
+								ShowCopyButton: true,
+								CodeContent:    makeFile,
+							})
 							<div class="bg-muted p-4 rounded-lg mt-4">
 								<p class="font-medium mb-2 text-muted-foreground">Note about ports:</p>
 								<ul class="list-disc pl-6 space-y-1 text-sm text-muted-foreground">
@@ -345,9 +382,11 @@ templ HowToUse() {
 						<div>
 							<h3 class="text-xl font-semibold mb-2">3. Start Development Server</h3>
 							<p class="mb-2 text-muted-foreground">Start all development tools with a single command:</p>
-							@code.Code(code.Props{Language: "shell", ShowCopyButton: true}) {
-								{ "make dev" }
-							}
+							@modules.Code(modules.CodeProps{
+								Language:       "shell",
+								ShowCopyButton: true,
+								CodeContent:    devCommand,
+							})
 							<p class="text-sm mt-2 text-muted-foreground">This will:</p>
 							<ul class="list-disc pl-6 text-sm space-y-1 text-muted-foreground">
 								<li>Watch and compile templ files</li>
@@ -382,21 +421,27 @@ templ HowToUse() {
 							<h3 class="text-xl font-semibold mb-2">2. Package Installation</h3>
 							<p class="mb-4 text-muted-foreground">Install templUI as a Go package:</p>
 							<div class="mb-4">
-								@code.Code(code.Props{Language: "shell", ShowCopyButton: true}) {
-									{ installTemplUI }
-								}
+								@modules.Code(modules.CodeProps{
+									Language:       "shell",
+									ShowCopyButton: true,
+									CodeContent:    installTemplUI,
+								})
 							</div>
 							<h4 class="font-semibold mb-2">*Required: Additional Tailwind Configuration</h4>
 							<p class="mb-2 text-muted-foreground">When using templUI as a package, add this to your input.css:</p>
 							<div class="mb-4">
-								@code.Code(code.Props{Language: "markdown", ShowCopyButton: true}) {
-									{ goPath }
-								}
+								@modules.Code(modules.CodeProps{
+									Language:       "css",
+									ShowCopyButton: true,
+									CodeContent:    goPath,
+								})
 							</div>
 							<p class="mb-2 text-muted-foreground">Replace { string("${GOPATH}") } with your actual Go path:</p>
-							@code.Code(code.Props{Language: "shell", ShowCopyButton: true}) {
-								{ "go env GOPATH" }
-							}
+							@modules.Code(modules.CodeProps{
+								Language:       "shell",
+								ShowCopyButton: true,
+								CodeContent:    goEnvGopath,
+							})
 						</div>
 						<div>
 							<h3 class="text-xl font-semibold mb-2">3. Copy Components</h3>
