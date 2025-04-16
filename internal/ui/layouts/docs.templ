@@ -1,7 +1,6 @@
 package layouts
 
 import "github.com/axzilla/templui/internal/ui/modules"
-import "github.com/axzilla/templui/component/separator"
 
 templ DocsLayout(title, description string, tocItems []modules.TableOfContentsItem) {
 	@BaseLayout(title, description) {
@@ -21,7 +20,6 @@ templ DocsLayout(title, description string, tocItems []modules.TableOfContentsIt
 							{ children... }
 						</div>
 					</div>
-					@separator.Separator()
 					@modules.Footer()
 				</main>
 				<div class="hidden lg:block w-64 overflow-y-auto">
