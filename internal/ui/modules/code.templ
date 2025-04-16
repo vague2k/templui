@@ -10,6 +10,7 @@ import (
 	"io"
 	"log"
 	"net/http"
+	"os"
 	"sync"
 	"time"
 )
@@ -44,7 +45,7 @@ templ Code(p CodeProps) {
 		{ p.Attrs... }
 		x-data="codeHighlighting"
 	>
-		// Testweise p.CodeClass entfernen, um Konflikte auszuschließen
+		// Temporarily remove p.CodeClass to avoid conflicts
 		<div
 			class={ util.TwMerge(
 			"shiki",
@@ -77,9 +78,21 @@ templ Code(p CodeProps) {
 	</div>
 }
 
-// Konfigurierbare URL des Shiki-Services
-// TODO: Aus Konfiguration oder Umgebungsvariable laden
-var shikiServiceURL = "http://localhost:3001/highlight"
+// Configurable URL for the Shiki service
+var shikiServiceURL = getShikiServiceURL()
+
+// Helper function to read URL from environment variable
+// with fallback for local development
+func getShikiServiceURL() string {
+	url := os.Getenv("SHIKI_URL")
+	if url == "" {
+		// Fallback when environment variable is not set
+		// Useful for local development without Docker Compose
+		url = "http://localhost:3000/highlight"
+	}
+	log.Printf("INFO: Using Shiki Service URL: %s", url)
+	return url
+}
 
 type ShikiRequest struct {
 	Code string `json:"code"`
@@ -88,34 +101,34 @@ type ShikiRequest struct {
 
 var (
 	httpClient = &http.Client{
-		Timeout: 5 * time.Second, // Timeout für HTTP-Anfragen
+		Timeout: 5 * time.Second, // Timeout for HTTP requests
 		Transport: &http.Transport{
-			MaxIdleConns:        10, // Poolgröße für wiederverwendete Verbindungen
+			MaxIdleConns:        10, // Pool size for reused connections
 			IdleConnTimeout:     30 * time.Second,
 			MaxIdleConnsPerHost: 10,
 		},
 	}
-	// Einfacher Cache, um wiederholte Anfragen für identischen Code zu vermeiden
-	// Für eine Produktionsumgebung wäre ein robusterer Cache (z.B. mit LRU) sinnvoll.
+	// Simple cache to avoid repeated requests for identical code
+	// For production, a more robust cache (e.g., with LRU) would be advisable
 	cache      = make(map[string]string)
 	cacheMutex sync.RWMutex
 )
 
-// GetHighlightedHTML ruft den Shiki-Service auf und gibt das HTML zurück.
-// Gibt bei Fehlern den Originalcode HTML-escaped zurück.
-// Verwendet einen einfachen In-Memory-Cache.
+// GetHighlightedHTML calls the Shiki service and returns HTML.
+// Returns HTML-escaped original code on errors.
+// Uses a simple in-memory cache.
 func GetHighlightedHTML(ctx context.Context, codeContent string, language string) string {
 	if codeContent == "" {
 		return ""
 	}
 	if language == "" {
-		language = "templ" // Standard
+		language = "templ" // Default
 	}
 
-	// Cache-Schlüssel erstellen
+	// Create cache key
 	cacheKey := language + "|" + codeContent
 
-	// Cache prüfen (mit Lesesperre)
+	// Check cache (with read lock)
 	cacheMutex.RLock()
 	cachedHTML, found := cache[cacheKey]
 	cacheMutex.RUnlock()
@@ -133,7 +146,7 @@ func GetHighlightedHTML(ctx context.Context, codeContent string, language string
 		return html.EscapeString(codeContent) // Fallback
 	}
 
-	// Verwenden Sie einen Kontext mit Timeout, falls der übergebene Kontext keinen hat
+	// Use a context with timeout if the passed context doesn't have one
 	reqCtx, cancel := context.WithTimeout(ctx, httpClient.Timeout)
 	defer cancel()
 
@@ -147,7 +160,7 @@ func GetHighlightedHTML(ctx context.Context, codeContent string, language string
 
 	resp, err := httpClient.Do(req)
 	if err != nil {
-		// Unterscheiden zwischen Timeout und anderen Fehlern
+		// Distinguish between timeout and other errors
 		if reqCtx.Err() == context.DeadlineExceeded { // Check reqCtx for timeout
 			log.Printf("WARN: Shiki service request timed out for lang %s. Returning escaped code.", language)
 		} else {
@@ -171,14 +184,14 @@ func GetHighlightedHTML(ctx context.Context, codeContent string, language string
 
 	highlightedHTML := string(highlightedBytes)
 
-	// Im Cache speichern (mit Schreibsperre)
+	// Store in cache (with write lock)
 	cacheMutex.Lock()
 	// Optional: Limit cache size here if needed
 	cache[cacheKey] = highlightedHTML
 	cacheMutex.Unlock()
 
-	// WICHTIG: Da wir templ.Raw verwenden, gehen wir davon aus, dass Shiki
-	// sicheres HTML generiert. Es ist keine zusätzliche Escape-Funktion nötig.
+	// IMPORTANT: Since we use templ.Raw, we assume Shiki
+	// generates safe HTML. No additional escape function needed.
 	return highlightedHTML
 }
 

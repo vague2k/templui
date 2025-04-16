@@ -3,7 +3,7 @@ import express from "express";
 import { codeToHtml, getHighlighter } from "shiki";
 
 // --- Konfiguration ---
-const PORT = process.env.PORT || 3001; // Port für den Service
+const PORT = process.env.PORT || 3000; // Port für den Service
 const THEME = "dracula"; // VS Code Theme
 const LANGUAGES = [
   "templ",
