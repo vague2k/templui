@@ -131,8 +131,8 @@ func GetHighlightedHTML(ctx context.Context, codeContent string, language string
 
 	// Check cache (with read lock)
 	cacheMutex.RLock()
+	defer cacheMutex.RUnlock()
 	cachedHTML, found := cache[cacheKey]
-	cacheMutex.RUnlock()
 
 	if found {
 		log.Println("Shiki Cache Hit for lang:", language)
@@ -189,9 +189,8 @@ func GetHighlightedHTML(ctx context.Context, codeContent string, language string
 
 	// Store in cache (with write lock)
 	cacheMutex.Lock()
-	// Optional: Limit cache size here if needed
+	defer cacheMutex.Unlock()
 	cache[cacheKey] = highlightedHTML
-	cacheMutex.Unlock()
 
 	// IMPORTANT: Since we use templ.Raw, we assume Shiki
 	// generates safe HTML. No additional escape function needed.
