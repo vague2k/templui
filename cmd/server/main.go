@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 	"time"
@@ -56,7 +56,9 @@ func main() {
 	wrappedMux := middleware.WithURLPathValue(
 		middleware.CacheControlMiddleware(
 			middleware.LatestVersion(
-				mw.WithCSP(cspConfig)(mux),
+				middleware.LoggingMiddleware(
+					mw.WithCSP(cspConfig)(mux),
+				),
 			),
 		),
 	)
@@ -135,7 +137,7 @@ func main() {
 	mux.Handle("POST /docs/toast/demo", http.HandlerFunc(toastDemoHandler))
 	mux.Handle("POST /docs/button/htmx-loading", http.HandlerFunc(buttonHtmxLoadingHandler))
 
-	fmt.Println("Server is running on http://localhost:8090")
+	log.Println("Server is running on http://localhost:8090")
 	http.ListenAndServe(":8090", wrappedMux)
 }
 

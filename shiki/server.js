@@ -71,6 +71,7 @@ app.post("/highlight", async (req, res) => {
       lang: effectiveLang,
       theme: THEME,
     });
+    logInfo(`Sending response for lang: ${lang}`);
     res.status(200).type("text/html").send(html);
   } catch (error) {
     console.error(`Error highlighting code (lang: ${effectiveLang}): ${error}`);
@@ -95,22 +96,35 @@ app.post("/highlight", async (req, res) => {
   }
 });
 
+function getTimestamp() {
+  const now = new Date();
+  return now.toLocaleString("sv-SE", { hour12: false }).replace(/-/g, "/");
+}
+
+function logInfo(...args) {
+  console.log(`${getTimestamp()} INFO:`, ...args);
+}
+
+function logError(...args) {
+  console.error(`${getTimestamp()} ERROR:`, ...args);
+}
+
 // Server starten und Shiki initialisieren
 const startServer = async () => {
   try {
-    console.log("Initializing Shiki highlighter...");
+    logInfo("Initializing Shiki highlighter...");
     highlighter = await getHighlighter({
       themes: [THEME],
       langs: LANGUAGES,
     });
     isHighlighterReady = true;
-    console.log("Shiki highlighter initialized.");
+    logInfo("Shiki highlighter initialized.");
 
     app.listen(PORT, () => {
-      console.log(`Shiki highlighter service listening on port ${PORT}`);
+      logInfo(`Shiki highlighter service listening on port ${PORT}`);
     });
   } catch (error) {
-    console.error("FATAL: Failed to initialize Shiki:", error);
+    logError("FATAL: Failed to initialize Shiki:", error);
     // Exit if Shiki cannot be initialized, as the service is useless otherwise
     process.exit(1);
   }

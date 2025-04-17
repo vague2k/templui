@@ -118,6 +118,7 @@ var (
 // Returns HTML-escaped original code on errors.
 // Uses a simple in-memory cache.
 func GetHighlightedHTML(ctx context.Context, codeContent string, language string) string {
+	log.Printf("INFO: GetHighlightedHTML called for lang '%s'", language)
 	if codeContent == "" {
 		return ""
 	}
@@ -134,12 +135,13 @@ func GetHighlightedHTML(ctx context.Context, codeContent string, language string
 	cacheMutex.RUnlock()
 
 	if found {
-		// log.Println("Shiki Cache Hit for lang:", language)
+		log.Println("Shiki Cache Hit for lang:", language)
 		return cachedHTML
 	}
 
-	// log.Println("Shiki Cache Miss for lang:", language)
+	log.Println("Shiki Cache Miss for lang:", language)
 
+	log.Printf("INFO: Calling Shiki for lang '%s'...", language)
 	requestBody, err := json.Marshal(ShikiRequest{Code: codeContent, Lang: language})
 	if err != nil {
 		log.Printf("WARN: Error marshalling Shiki request: %v. Returning escaped code.", err)
@@ -159,6 +161,7 @@ func GetHighlightedHTML(ctx context.Context, codeContent string, language string
 	req.Header.Set("Accept", "text/html")
 
 	resp, err := httpClient.Do(req)
+	log.Printf("INFO: Shiki call finished for lang '%s'. Error: %v", language, err)
 	if err != nil {
 		// Distinguish between timeout and other errors
 		if reqCtx.Err() == context.DeadlineExceeded { // Check reqCtx for timeout
