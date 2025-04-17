@@ -54,6 +54,9 @@ templ Button(props ...Props) {
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
+	if p.Type == "" {
+		{{ p.Type = TypeButton }}
+	}
 	if p.Href != "" && !p.Disabled {
 		<a
 			if p.ID != "" {
