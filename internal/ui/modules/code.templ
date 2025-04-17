@@ -131,13 +131,13 @@ func GetHighlightedHTML(ctx context.Context, codeContent string, language string
 
 	// Check cache (with read lock)
 	cacheMutex.RLock()
-	defer cacheMutex.RUnlock()
-	cachedHTML, found := cache[cacheKey]
-
-	if found {
+	cachedValue, ok := cache[cacheKey]
+	if ok {
 		log.Println("Shiki Cache Hit for lang:", language)
-		return cachedHTML
+		cacheMutex.RUnlock()
+		return cachedValue
 	}
+	cacheMutex.RUnlock()
 
 	log.Println("Shiki Cache Miss for lang:", language)
 
