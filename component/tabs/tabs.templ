@@ -36,6 +36,7 @@ type ContentProps struct {
 }
 
 templ Tabs(props ...Props) {
+	@Script()
 	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
@@ -154,8 +155,11 @@ func ID(ctx context.Context) string {
 	return ""
 }
 
+var handle = templ.NewOnceHandle()
+
 templ Script() {
-	<script nonce={ templ.GetNonce(ctx) }>
+	@handle.Once() {
+		<script nonce={ templ.GetNonce(ctx) }>
 		document.addEventListener('DOMContentLoaded', () => {
 			document.querySelectorAll('[data-tabs]').forEach(tabs => {
 				const tabsId = tabs.dataset.tabsId;
@@ -220,6 +224,7 @@ templ Script() {
 					});
 				});
 			});
-		});
-	</script>
+			});
+		</script>
+	}
 }

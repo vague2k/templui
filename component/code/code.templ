@@ -24,6 +24,7 @@ type Props struct {
 }
 
 templ Code(props ...Props) {
+	@Script()
 	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
@@ -71,8 +72,9 @@ templ Code(props ...Props) {
 	</div>
 }
 
+var handle = templ.NewOnceHandle()
+
 templ Script() {
-	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/pojoaque.min.css"/>
 		<script nonce={ templ.GetNonce(ctx) } src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>

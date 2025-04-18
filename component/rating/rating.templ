@@ -41,6 +41,7 @@ type ItemProps struct {
 }
 
 templ Rating(props ...Props) {
+	@Script()
 	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
@@ -196,8 +197,9 @@ func (p *Props) setDefaults() {
 	}
 }
 
+var handle = templ.NewOnceHandle()
+
 templ Script() {
-	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
 			document.addEventListener('alpine:init', () => {

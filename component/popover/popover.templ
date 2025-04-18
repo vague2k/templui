@@ -52,6 +52,7 @@ type ContentProps struct {
 }
 
 templ Popover(props ...Props) {
+	@Script()
 	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
@@ -171,8 +172,11 @@ templ Content(props ...ContentProps) {
 	</template>
 }
 
+var handle = templ.NewOnceHandle()
+
 templ Script() {
-	<script defer nonce={ templ.GetNonce(ctx) }>
+	@handle.Once() {
+		<script defer nonce={ templ.GetNonce(ctx) }>
         document.addEventListener('DOMContentLoaded', () => {
             // Minimal CSS-Animation for the rubber effect
             const style = document.createElement('style');
@@ -642,5 +646,6 @@ templ Script() {
             
             setupScrollHandlers();
         });
-    </script>
+		</script>
+	}
 }

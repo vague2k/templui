@@ -110,6 +110,10 @@ func Dropdown(props ...Props) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
+		templ_7745c5c3_Err = Script().Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
 		var p Props
 		if len(props) > 0 {
 			p = props[0]
@@ -129,7 +133,7 @@ func Dropdown(props ...Props) templ.Component {
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/dropdown/dropdown.templ`, Line: 93, Col: 11}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/dropdown/dropdown.templ`, Line: 94, Col: 11}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
@@ -214,7 +218,7 @@ func Trigger(props ...TriggerProps) templ.Component {
 			var templ_7745c5c3_Var7 string
 			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/dropdown/dropdown.templ`, Line: 109, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/dropdown/dropdown.templ`, Line: 110, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {
@@ -312,7 +316,7 @@ func Content(props ...ContentProps) templ.Component {
 			var templ_7745c5c3_Var11 string
 			templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/dropdown/dropdown.templ`, Line: 127, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/dropdown/dropdown.templ`, Line: 128, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 			if templ_7745c5c3_Err != nil {
@@ -402,7 +406,7 @@ func Group(props ...GroupProps) templ.Component {
 			var templ_7745c5c3_Var15 string
 			templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/dropdown/dropdown.templ`, Line: 162, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/dropdown/dropdown.templ`, Line: 163, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var15))
 			if templ_7745c5c3_Err != nil {
@@ -492,7 +496,7 @@ func Label(props ...LabelProps) templ.Component {
 			var templ_7745c5c3_Var19 string
 			templ_7745c5c3_Var19, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/dropdown/dropdown.templ`, Line: 179, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/dropdown/dropdown.templ`, Line: 180, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var19))
 			if templ_7745c5c3_Err != nil {
@@ -588,7 +592,7 @@ func Item(props ...ItemProps) templ.Component {
 			var templ_7745c5c3_Var23 string
 			templ_7745c5c3_Var23, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/dropdown/dropdown.templ`, Line: 198, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/dropdown/dropdown.templ`, Line: 199, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var23))
 			if templ_7745c5c3_Err != nil {
@@ -621,7 +625,7 @@ func Item(props ...ItemProps) templ.Component {
 				var templ_7745c5c3_Var25 string
 				templ_7745c5c3_Var25, templ_7745c5c3_Err = templ.JoinStringErrs(p.Target)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/dropdown/dropdown.templ`, Line: 203, Col: 21}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/dropdown/dropdown.templ`, Line: 204, Col: 21}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var25))
 				if templ_7745c5c3_Err != nil {
@@ -685,7 +689,7 @@ func Item(props ...ItemProps) templ.Component {
 			var templ_7745c5c3_Var28 string
 			templ_7745c5c3_Var28, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/dropdown/dropdown.templ`, Line: 221, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/dropdown/dropdown.templ`, Line: 222, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var28))
 			if templ_7745c5c3_Err != nil {
@@ -777,7 +781,7 @@ func Separator(props ...SeparatorProps) templ.Component {
 			var templ_7745c5c3_Var32 string
 			templ_7745c5c3_Var32, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/dropdown/dropdown.templ`, Line: 247, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/dropdown/dropdown.templ`, Line: 248, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var32))
 			if templ_7745c5c3_Err != nil {
@@ -859,7 +863,7 @@ func Shortcut(props ...ShortcutProps) templ.Component {
 			var templ_7745c5c3_Var36 string
 			templ_7745c5c3_Var36, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/dropdown/dropdown.templ`, Line: 262, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/dropdown/dropdown.templ`, Line: 263, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var36))
 			if templ_7745c5c3_Err != nil {
@@ -949,7 +953,7 @@ func Sub(props ...SubProps) templ.Component {
 			var templ_7745c5c3_Var40 string
 			templ_7745c5c3_Var40, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/dropdown/dropdown.templ`, Line: 278, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/dropdown/dropdown.templ`, Line: 279, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var40))
 			if templ_7745c5c3_Err != nil {
@@ -1046,7 +1050,7 @@ func SubTrigger(props ...SubTriggerProps) templ.Component {
 			var templ_7745c5c3_Var44 string
 			templ_7745c5c3_Var44, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/dropdown/dropdown.templ`, Line: 295, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/dropdown/dropdown.templ`, Line: 296, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var44))
 			if templ_7745c5c3_Err != nil {
@@ -1136,7 +1140,7 @@ func Portal(props ...PortalProps) templ.Component {
 			var templ_7745c5c3_Var48 string
 			templ_7745c5c3_Var48, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/dropdown/dropdown.templ`, Line: 326, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/dropdown/dropdown.templ`, Line: 327, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var48))
 			if templ_7745c5c3_Err != nil {
@@ -1231,7 +1235,7 @@ func SubContent(props ...SubContentProps) templ.Component {
 			var templ_7745c5c3_Var52 string
 			templ_7745c5c3_Var52, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/dropdown/dropdown.templ`, Line: 342, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/dropdown/dropdown.templ`, Line: 343, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var52))
 			if templ_7745c5c3_Err != nil {
@@ -1279,6 +1283,8 @@ func SubContent(props ...SubContentProps) templ.Component {
 	})
 }
 
+var handle = templ.NewOnceHandle()
+
 func Script() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -1300,20 +1306,38 @@ func Script() templ.Component {
 			templ_7745c5c3_Var54 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 91, "<script defer nonce=\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var55 string
-		templ_7745c5c3_Var55, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/dropdown/dropdown.templ`, Line: 360, Col: 42}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var55))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 92, "\">\n\tdocument.addEventListener('alpine:init', () => {\n\t\t// Dropdown component with improved positioning\n\t\tAlpine.data('dropdown', () => ({\n\t\t\tisMenuOpen: false,\n\t\t\t\n\t\t\ttoggleMenu() {\n\t\t\t\tthis.isMenuOpen = !this.isMenuOpen;\n\t\t\t\t\n\t\t\t\tif (this.isMenuOpen) {\n\t\t\t\t\tthis.$nextTick(() => {\n\t\t\t\t\t\tthis.adjustPosition();\n\t\t\t\t\t\twindow.addEventListener('resize', this.adjustPosition.bind(this));\n\t\t\t\t\t});\n\t\t\t\t} else {\n\t\t\t\t\twindow.removeEventListener('resize', this.adjustPosition.bind(this));\n\t\t\t\t}\n\t\t\t},\n\t\t\t\n\t\t\tcloseMenu() {\n\t\t\t\tthis.isMenuOpen = false;\n\t\t\t\twindow.removeEventListener('resize', this.adjustPosition.bind(this));\n\t\t\t},\n\t\t\t\n\t\t\tadjustPosition() {\n\t\t\t\tconst panel = this.$refs.panel;\n\t\t\t\tif (!panel) return;\n\t\t\t\t\n\t\t\t\tconst viewportHeight = window.innerHeight;\n\t\t\t\tconst viewportWidth = window.innerWidth;\n\t\t\t\t\n\t\t\t\tconst triggerRect = this.$el.getBoundingClientRect();\n\t\t\t\t\n\t\t\t\t// First set standard values for measurements\n\t\t\t\tpanel.style.top = '100%';\n\t\t\t\tpanel.style.left = '0';\n\t\t\t\tpanel.style.bottom = 'auto';\n\t\t\t\tpanel.style.right = 'auto';\n\t\t\t\tpanel.style.maxHeight = '';\n\t\t\t\t\n\t\t\t\t// Re-measure after positioning\n\t\t\t\tconst panelRect = panel.getBoundingClientRect();\n\t\t\t\t\n\t\t\t\t// Horizontal positioning\n\t\t\t\tif (triggerRect.left + panelRect.width > viewportWidth) {\n\t\t\t\t\tpanel.style.left = 'auto';\n\t\t\t\t\tpanel.style.right = '0';\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\t// Vertical positioning - more complex for different cases\n\t\t\t\tconst spaceBelow = viewportHeight - triggerRect.bottom;\n\t\t\t\tconst spaceAbove = triggerRect.top;\n\t\t\t\t\n\t\t\t\t// If there is enough space below\n\t\t\t\tif (panelRect.height <= spaceBelow) {\n\t\t\t\t\t// Position below the trigger\n\t\t\t\t\tpanel.style.top = '100%';\n\t\t\t\t\tpanel.style.bottom = 'auto';\n\t\t\t\t\tpanel.style.marginTop = '0.25rem';\n\t\t\t\t\tpanel.style.maxHeight = `${Math.max(100, spaceBelow - 10)}px`;\n\t\t\t\t}\n\t\t\t\t// If not enough space below, but enough space above\n\t\t\t\telse if (panelRect.height <= spaceAbove) {\n\t\t\t\t\t// Position above the trigger\n\t\t\t\t\tpanel.style.top = 'auto';\n\t\t\t\t\tpanel.style.bottom = '100%';\n\t\t\t\t\tpanel.style.marginTop = '0';\n\t\t\t\t\tpanel.style.marginBottom = '0.25rem';\n\t\t\t\t\tpanel.style.maxHeight = `${Math.max(100, spaceAbove - 10)}px`;\n\t\t\t\t}\n\t\t\t\t// If there isn't enough space either above or below\n\t\t\t\telse {\n\t\t\t\t\t// Decide where there is more space and use the maximum available space\n\t\t\t\t\tif (spaceBelow >= spaceAbove) {\n\t\t\t\t\t\t// If there's more space below than above\n\t\t\t\t\t\tpanel.style.top = '100%';\n\t\t\t\t\t\tpanel.style.bottom = 'auto';\n\t\t\t\t\t\tpanel.style.marginTop = '0.25rem';\n\t\t\t\t\t\tpanel.style.maxHeight = `${Math.max(100, spaceBelow - 10)}px`;\n\t\t\t\t\t} else {\n\t\t\t\t\t\t// If there's more space above than below\n\t\t\t\t\t\tpanel.style.top = 'auto';\n\t\t\t\t\t\tpanel.style.bottom = '100%';\n\t\t\t\t\t\tpanel.style.marginTop = '0';\n\t\t\t\t\t\tpanel.style.marginBottom = '0.25rem';\n\t\t\t\t\t\tpanel.style.maxHeight = `${Math.max(100, spaceAbove - 10)}px`;\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\t// CSS variable for other components that need it\n\t\t\t\tdocument.documentElement.style.setProperty('--dropdown-max-height', panel.style.maxHeight);\n\t\t\t}\n\t\t}));\n\t\t\n\t\t// Submenu component with improved positioning and manual event setup\n\t\tAlpine.data('dropdownSubmenu', () => ({\n\t\t\tisSubmenuOpen: false,\n\t\t\tcloseTimer: null,\n\t\t\tisMouseOverSubmenu: false,\n\t\t\t\n\t\t\tinit() {\n\t\t\t\t// Find or create portal container\n\t\t\t\tconst portalContainer = document.getElementById('dropdown-portal-container');\n\t\t\t\tif (!portalContainer) {\n\t\t\t\t\tconst container = document.createElement('div');\n\t\t\t\t\tcontainer.id = 'dropdown-portal-container';\n\t\t\t\t\tcontainer.style.position = 'fixed';\n\t\t\t\t\tcontainer.style.top = '0';\n\t\t\t\t\tcontainer.style.left = '0';\n\t\t\t\t\tcontainer.style.pointerEvents = 'none';\n\t\t\t\t\tcontainer.style.zIndex = '9999';\n\t\t\t\t\tdocument.body.appendChild(container);\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\t// Move sub-content to portal if portal exists\n\t\t\t\tconst portalElement = this.$el.querySelector('.dropdown-portal');\n\t\t\t\tif (portalElement) {\n\t\t\t\t\tconst subContent = portalElement.querySelector('[data-submenu-content]');\n\t\t\t\t\tif (subContent) {\n\t\t\t\t\t\tdocument.getElementById('dropdown-portal-container').appendChild(subContent);\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\t// Manual event setup\n\t\t\t\tthis.$nextTick(() => {\n\t\t\t\t\tconst self = this;\n\t\t\t\t\tconst trigger = this.$refs.subTrigger;\n\t\t\t\t\tconst content = this.$refs.subContent;\n\t\t\t\t\t\n\t\t\t\t\tif (trigger) {\n\t\t\t\t\t\ttrigger.addEventListener('mouseenter', function() {\n\t\t\t\t\t\t\tself.openSubmenu();\n\t\t\t\t\t\t});\n\t\t\t\t\t\t\n\t\t\t\t\t\ttrigger.addEventListener('focus', function() {\n\t\t\t\t\t\t\tself.openSubmenu();\n\t\t\t\t\t\t});\n\t\t\t\t\t\t\n\t\t\t\t\t\ttrigger.addEventListener('mouseleave', function() {\n\t\t\t\t\t\t\tself.startCloseTimer();\n\t\t\t\t\t\t});\n\t\t\t\t\t\t\n\t\t\t\t\t\ttrigger.addEventListener('blur', function() {\n\t\t\t\t\t\t\tself.startCloseTimer();\n\t\t\t\t\t\t});\n\t\t\t\t\t}\n\t\t\t\t\t\n\t\t\t\t\tif (content) {\n\t\t\t\t\t\tcontent.addEventListener('mouseenter', function() {\n\t\t\t\t\t\t\tself.isMouseOverSubmenu = true;\n\t\t\t\t\t\t\tself.openSubmenu();\n\t\t\t\t\t\t});\n\t\t\t\t\t\t\n\t\t\t\t\t\tcontent.addEventListener('mouseleave', function() {\n\t\t\t\t\t\t\tself.isMouseOverSubmenu = false;\n\t\t\t\t\t\t\tself.startCloseTimer();\n\t\t\t\t\t\t});\n\t\t\t\t\t}\n\t\t\t\t});\n\t\t\t},\n\t\t\t\n\t\t\topenSubmenu() {\n\t\t\t\tclearTimeout(this.closeTimer);\n\t\t\t\tthis.isSubmenuOpen = true;\n\t\t\t\t\n\t\t\t\tconst submenu = this.$refs.subContent;\n\t\t\t\tif (submenu) {\n\t\t\t\t\tsubmenu.style.display = 'block';\n\t\t\t\t\tthis.positionSubmenu();\n\t\t\t\t}\n\t\t\t},\n\t\t\t\n\t\t\tstartCloseTimer() {\n\t\t\t\tconst self = this;\n\t\t\t\t\n\t\t\t\t// Delay to give the mouse time to move to the submenu\n\t\t\t\tthis.closeTimer = setTimeout(function() {\n\t\t\t\t\tif (!self.isMouseOverSubmenu) {\n\t\t\t\t\t\tself.closeSubmenu();\n\t\t\t\t\t}\n\t\t\t\t}, 300);\n\t\t\t},\n\t\t\t\n\t\t\tcloseSubmenu() {\n\t\t\t\tthis.isSubmenuOpen = false;\n\t\t\t\t\n\t\t\t\tconst submenu = this.$refs.subContent;\n\t\t\t\tif (submenu) {\n\t\t\t\t\tsubmenu.style.display = 'none';\n\t\t\t\t}\n\t\t\t},\n\t\t\t\n\t\t\tpositionSubmenu() {\n\t\t\t\tconst submenu = this.$refs.subContent;\n\t\t\t\tconst trigger = this.$refs.subTrigger;\n\t\t\t\t\n\t\t\t\tif (!submenu || !trigger) return;\n\t\t\t\t\n\t\t\t\t// Make visible for correct measurements\n\t\t\t\tsubmenu.style.display = 'block';\n\t\t\t\tsubmenu.style.pointerEvents = 'auto';\n\t\t\t\t\n\t\t\t\tconst triggerRect = trigger.getBoundingClientRect();\n\t\t\t\tconst viewportWidth = window.innerWidth;\n\t\t\t\tconst viewportHeight = window.innerHeight;\n\t\t\t\t\n\t\t\t\t// Default position: right of the trigger\n\t\t\t\tsubmenu.style.top = `${triggerRect.top}px`;\n\t\t\t\tsubmenu.style.left = `${triggerRect.right + 4}px`;\n\t\t\t\t\n\t\t\t\t// Re-measure and adjust if needed\n\t\t\t\tconst submenuRect = submenu.getBoundingClientRect();\n\t\t\t\t\n\t\t\t\t// Check horizontal positioning\n\t\t\t\tif (triggerRect.right + submenuRect.width + 4 > viewportWidth) {\n\t\t\t\t\t// If there's no space on the right, show left of the trigger\n\t\t\t\t\tsubmenu.style.left = `${triggerRect.left - submenuRect.width - 4}px`;\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\t// Check vertical positioning\n\t\t\t\tconst spaceBelow = viewportHeight - triggerRect.top;\n\t\t\t\tconst spaceAbove = triggerRect.bottom;\n\t\t\t\t\n\t\t\t\tif (submenuRect.height > spaceBelow) {\n\t\t\t\t\t// If there isn't enough space below...\n\t\t\t\t\tif (submenuRect.height <= spaceAbove) {\n\t\t\t\t\t\t// If there's enough space above, show submenu above the trigger\n\t\t\t\t\t\tsubmenu.style.top = `${triggerRect.bottom - submenuRect.height}px`;\n\t\t\t\t\t} else {\n\t\t\t\t\t\t// If there isn't enough space either above or below, use maximum available height\n\t\t\t\t\t\tconst maxHeight = Math.max(spaceBelow, spaceAbove);\n\t\t\t\t\t\tsubmenu.style.maxHeight = `${maxHeight - 20}px`; // 20px spacing\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (spaceBelow >= spaceAbove) {\n\t\t\t\t\t\t\t// More space below than above\n\t\t\t\t\t\t\tsubmenu.style.top = `${triggerRect.top}px`;\n\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\t// More space above than below\n\t\t\t\t\t\t\tsubmenu.style.top = `${Math.max(10, triggerRect.bottom - maxHeight + 10)}px`;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\t// Check if the submenu is still in the visible area\n\t\t\t\tconst updatedSubmenuRect = submenu.getBoundingClientRect();\n\t\t\t\t\n\t\t\t\t// Ensure the top edge doesn't extend beyond the viewport\n\t\t\t\tif (updatedSubmenuRect.top < 10) {\n\t\t\t\t\tsubmenu.style.top = '10px';\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\t// Ensure the bottom edge doesn't extend beyond the viewport\n\t\t\t\tif (updatedSubmenuRect.bottom > viewportHeight - 10) {\n\t\t\t\t\tif (updatedSubmenuRect.height > viewportHeight - 20) {\n\t\t\t\t\t\t// If the submenu is larger than the viewport, make it scrollable\n\t\t\t\t\t\tsubmenu.style.maxHeight = `${viewportHeight - 20}px`;\n\t\t\t\t\t\tsubmenu.style.top = '10px';\n\t\t\t\t\t\tsubmenu.style.overflowY = 'auto';\n\t\t\t\t\t} else {\n\t\t\t\t\t\t// Otherwise simply move it up\n\t\t\t\t\t\tsubmenu.style.top = `${viewportHeight - updatedSubmenuRect.height - 10}px`;\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}));\n\t});\n\t\n\t// Event listener for clicks on menu items to close all menus\n\tdocument.addEventListener('DOMContentLoaded', function() {\n\t\tdocument.addEventListener('click', function(event) {\n\t\t\t// Check if a menu item was clicked\n\t\t\tconst menuItem = event.target.closest('[data-menu-item]');\n\t\t\tif (menuItem) {\n\t\t\t\t// Close all dropdown menus\n\t\t\t\tdocument.querySelectorAll('[x-data=\"dropdown\"]').forEach(dropdown => {\n\t\t\t\t\tif (Alpine.$data) {\n\t\t\t\t\t\tconst instance = Alpine.$data(dropdown);\n\t\t\t\t\t\tif (instance && typeof instance.closeMenu === 'function') {\n\t\t\t\t\t\t\tinstance.closeMenu();\n\t\t\t\t\t\t}\n\t\t\t\t\t} else {\n\t\t\t\t\t\t// Fallback for older Alpine.js versions\n\t\t\t\t\t\tsetTimeout(function() {\n\t\t\t\t\t\t\tconst triggerButton = dropdown.querySelector('[data-trigger]');\n\t\t\t\t\t\t\tif (triggerButton && dropdown.querySelector('[x-ref=\"panel\"]').style.display !== 'none') {\n\t\t\t\t\t\t\t\ttriggerButton.click();\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}, 10);\n\t\t\t\t\t}\n\t\t\t\t});\n\t\t\t\t\n\t\t\t\t// Additionally close all submenus\n\t\t\t\tdocument.querySelectorAll('[data-submenu-content]').forEach(submenu => {\n\t\t\t\t\tsubmenu.style.display = 'none';\n\t\t\t\t});\n\t\t\t\t\n\t\t\t\t// Reset all submenu states in dropdownSubmenu components\n\t\t\t\tdocument.querySelectorAll('[x-data=\"dropdownSubmenu\"]').forEach(submenuComponent => {\n\t\t\t\t\tif (Alpine.$data) {\n\t\t\t\t\t\tconst instance = Alpine.$data(submenuComponent);\n\t\t\t\t\t\tif (instance) {\n\t\t\t\t\t\t\tinstance.isSubmenuOpen = false;\n\t\t\t\t\t\t\tinstance.isMouseOverSubmenu = false;\n\t\t\t\t\t\t\tclearTimeout(instance.closeTimer);\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\tif (typeof instance.closeSubmenu === 'function') {\n\t\t\t\t\t\t\t\tinstance.closeSubmenu();\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t});\n\t\t\t}\n\t\t});\n\t});\n</script>")
+		templ_7745c5c3_Var55 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+			templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+			templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+			if !templ_7745c5c3_IsBuffer {
+				defer func() {
+					templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+					if templ_7745c5c3_Err == nil {
+						templ_7745c5c3_Err = templ_7745c5c3_BufErr
+					}
+				}()
+			}
+			ctx = templ.InitializeContext(ctx)
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 91, "<script defer nonce=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var56 string
+			templ_7745c5c3_Var56, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/dropdown/dropdown.templ`, Line: 364, Col: 43}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var56))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 92, "\">\n\tdocument.addEventListener('alpine:init', () => {\n\t\t// Dropdown component with improved positioning\n\t\tAlpine.data('dropdown', () => ({\n\t\t\tisMenuOpen: false,\n\t\t\t\n\t\t\ttoggleMenu() {\n\t\t\t\tthis.isMenuOpen = !this.isMenuOpen;\n\t\t\t\t\n\t\t\t\tif (this.isMenuOpen) {\n\t\t\t\t\tthis.$nextTick(() => {\n\t\t\t\t\t\tthis.adjustPosition();\n\t\t\t\t\t\twindow.addEventListener('resize', this.adjustPosition.bind(this));\n\t\t\t\t\t});\n\t\t\t\t} else {\n\t\t\t\t\twindow.removeEventListener('resize', this.adjustPosition.bind(this));\n\t\t\t\t}\n\t\t\t},\n\t\t\t\n\t\t\tcloseMenu() {\n\t\t\t\tthis.isMenuOpen = false;\n\t\t\t\twindow.removeEventListener('resize', this.adjustPosition.bind(this));\n\t\t\t},\n\t\t\t\n\t\t\tadjustPosition() {\n\t\t\t\tconst panel = this.$refs.panel;\n\t\t\t\tif (!panel) return;\n\t\t\t\t\n\t\t\t\tconst viewportHeight = window.innerHeight;\n\t\t\t\tconst viewportWidth = window.innerWidth;\n\t\t\t\t\n\t\t\t\tconst triggerRect = this.$el.getBoundingClientRect();\n\t\t\t\t\n\t\t\t\t// First set standard values for measurements\n\t\t\t\tpanel.style.top = '100%';\n\t\t\t\tpanel.style.left = '0';\n\t\t\t\tpanel.style.bottom = 'auto';\n\t\t\t\tpanel.style.right = 'auto';\n\t\t\t\tpanel.style.maxHeight = '';\n\t\t\t\t\n\t\t\t\t// Re-measure after positioning\n\t\t\t\tconst panelRect = panel.getBoundingClientRect();\n\t\t\t\t\n\t\t\t\t// Horizontal positioning\n\t\t\t\tif (triggerRect.left + panelRect.width > viewportWidth) {\n\t\t\t\t\tpanel.style.left = 'auto';\n\t\t\t\t\tpanel.style.right = '0';\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\t// Vertical positioning - more complex for different cases\n\t\t\t\tconst spaceBelow = viewportHeight - triggerRect.bottom;\n\t\t\t\tconst spaceAbove = triggerRect.top;\n\t\t\t\t\n\t\t\t\t// If there is enough space below\n\t\t\t\tif (panelRect.height <= spaceBelow) {\n\t\t\t\t\t// Position below the trigger\n\t\t\t\t\tpanel.style.top = '100%';\n\t\t\t\t\tpanel.style.bottom = 'auto';\n\t\t\t\t\tpanel.style.marginTop = '0.25rem';\n\t\t\t\t\tpanel.style.maxHeight = `${Math.max(100, spaceBelow - 10)}px`;\n\t\t\t\t}\n\t\t\t\t// If not enough space below, but enough space above\n\t\t\t\telse if (panelRect.height <= spaceAbove) {\n\t\t\t\t\t// Position above the trigger\n\t\t\t\t\tpanel.style.top = 'auto';\n\t\t\t\t\tpanel.style.bottom = '100%';\n\t\t\t\t\tpanel.style.marginTop = '0';\n\t\t\t\t\tpanel.style.marginBottom = '0.25rem';\n\t\t\t\t\tpanel.style.maxHeight = `${Math.max(100, spaceAbove - 10)}px`;\n\t\t\t\t}\n\t\t\t\t// If there isn't enough space either above or below\n\t\t\t\telse {\n\t\t\t\t\t// Decide where there is more space and use the maximum available space\n\t\t\t\t\tif (spaceBelow >= spaceAbove) {\n\t\t\t\t\t\t// If there's more space below than above\n\t\t\t\t\t\tpanel.style.top = '100%';\n\t\t\t\t\t\tpanel.style.bottom = 'auto';\n\t\t\t\t\t\tpanel.style.marginTop = '0.25rem';\n\t\t\t\t\t\tpanel.style.maxHeight = `${Math.max(100, spaceBelow - 10)}px`;\n\t\t\t\t\t} else {\n\t\t\t\t\t\t// If there's more space above than below\n\t\t\t\t\t\tpanel.style.top = 'auto';\n\t\t\t\t\t\tpanel.style.bottom = '100%';\n\t\t\t\t\t\tpanel.style.marginTop = '0';\n\t\t\t\t\t\tpanel.style.marginBottom = '0.25rem';\n\t\t\t\t\t\tpanel.style.maxHeight = `${Math.max(100, spaceAbove - 10)}px`;\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\t// CSS variable for other components that need it\n\t\t\t\tdocument.documentElement.style.setProperty('--dropdown-max-height', panel.style.maxHeight);\n\t\t\t}\n\t\t}));\n\t\t\n\t\t// Submenu component with improved positioning and manual event setup\n\t\tAlpine.data('dropdownSubmenu', () => ({\n\t\t\tisSubmenuOpen: false,\n\t\t\tcloseTimer: null,\n\t\t\tisMouseOverSubmenu: false,\n\t\t\t\n\t\t\tinit() {\n\t\t\t\t// Find or create portal container\n\t\t\t\tconst portalContainer = document.getElementById('dropdown-portal-container');\n\t\t\t\tif (!portalContainer) {\n\t\t\t\t\tconst container = document.createElement('div');\n\t\t\t\t\tcontainer.id = 'dropdown-portal-container';\n\t\t\t\t\tcontainer.style.position = 'fixed';\n\t\t\t\t\tcontainer.style.top = '0';\n\t\t\t\t\tcontainer.style.left = '0';\n\t\t\t\t\tcontainer.style.pointerEvents = 'none';\n\t\t\t\t\tcontainer.style.zIndex = '9999';\n\t\t\t\t\tdocument.body.appendChild(container);\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\t// Move sub-content to portal if portal exists\n\t\t\t\tconst portalElement = this.$el.querySelector('.dropdown-portal');\n\t\t\t\tif (portalElement) {\n\t\t\t\t\tconst subContent = portalElement.querySelector('[data-submenu-content]');\n\t\t\t\t\tif (subContent) {\n\t\t\t\t\t\tdocument.getElementById('dropdown-portal-container').appendChild(subContent);\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\t// Manual event setup\n\t\t\t\tthis.$nextTick(() => {\n\t\t\t\t\tconst self = this;\n\t\t\t\t\tconst trigger = this.$refs.subTrigger;\n\t\t\t\t\tconst content = this.$refs.subContent;\n\t\t\t\t\t\n\t\t\t\t\tif (trigger) {\n\t\t\t\t\t\ttrigger.addEventListener('mouseenter', function() {\n\t\t\t\t\t\t\tself.openSubmenu();\n\t\t\t\t\t\t});\n\t\t\t\t\t\t\n\t\t\t\t\t\ttrigger.addEventListener('focus', function() {\n\t\t\t\t\t\t\tself.openSubmenu();\n\t\t\t\t\t\t});\n\t\t\t\t\t\t\n\t\t\t\t\t\ttrigger.addEventListener('mouseleave', function() {\n\t\t\t\t\t\t\tself.startCloseTimer();\n\t\t\t\t\t\t});\n\t\t\t\t\t\t\n\t\t\t\t\t\ttrigger.addEventListener('blur', function() {\n\t\t\t\t\t\t\tself.startCloseTimer();\n\t\t\t\t\t\t});\n\t\t\t\t\t}\n\t\t\t\t\t\n\t\t\t\t\tif (content) {\n\t\t\t\t\t\tcontent.addEventListener('mouseenter', function() {\n\t\t\t\t\t\t\tself.isMouseOverSubmenu = true;\n\t\t\t\t\t\t\tself.openSubmenu();\n\t\t\t\t\t\t});\n\t\t\t\t\t\t\n\t\t\t\t\t\tcontent.addEventListener('mouseleave', function() {\n\t\t\t\t\t\t\tself.isMouseOverSubmenu = false;\n\t\t\t\t\t\t\tself.startCloseTimer();\n\t\t\t\t\t\t});\n\t\t\t\t\t}\n\t\t\t\t});\n\t\t\t},\n\t\t\t\n\t\t\topenSubmenu() {\n\t\t\t\tclearTimeout(this.closeTimer);\n\t\t\t\tthis.isSubmenuOpen = true;\n\t\t\t\t\n\t\t\t\tconst submenu = this.$refs.subContent;\n\t\t\t\tif (submenu) {\n\t\t\t\t\tsubmenu.style.display = 'block';\n\t\t\t\t\tthis.positionSubmenu();\n\t\t\t\t}\n\t\t\t},\n\t\t\t\n\t\t\tstartCloseTimer() {\n\t\t\t\tconst self = this;\n\t\t\t\t\n\t\t\t\t// Delay to give the mouse time to move to the submenu\n\t\t\t\tthis.closeTimer = setTimeout(function() {\n\t\t\t\t\tif (!self.isMouseOverSubmenu) {\n\t\t\t\t\t\tself.closeSubmenu();\n\t\t\t\t\t}\n\t\t\t\t}, 300);\n\t\t\t},\n\t\t\t\n\t\t\tcloseSubmenu() {\n\t\t\t\tthis.isSubmenuOpen = false;\n\t\t\t\t\n\t\t\t\tconst submenu = this.$refs.subContent;\n\t\t\t\tif (submenu) {\n\t\t\t\t\tsubmenu.style.display = 'none';\n\t\t\t\t}\n\t\t\t},\n\t\t\t\n\t\t\tpositionSubmenu() {\n\t\t\t\tconst submenu = this.$refs.subContent;\n\t\t\t\tconst trigger = this.$refs.subTrigger;\n\t\t\t\t\n\t\t\t\tif (!submenu || !trigger) return;\n\t\t\t\t\n\t\t\t\t// Make visible for correct measurements\n\t\t\t\tsubmenu.style.display = 'block';\n\t\t\t\tsubmenu.style.pointerEvents = 'auto';\n\t\t\t\t\n\t\t\t\tconst triggerRect = trigger.getBoundingClientRect();\n\t\t\t\tconst viewportWidth = window.innerWidth;\n\t\t\t\tconst viewportHeight = window.innerHeight;\n\t\t\t\t\n\t\t\t\t// Default position: right of the trigger\n\t\t\t\tsubmenu.style.top = `${triggerRect.top}px`;\n\t\t\t\tsubmenu.style.left = `${triggerRect.right + 4}px`;\n\t\t\t\t\n\t\t\t\t// Re-measure and adjust if needed\n\t\t\t\tconst submenuRect = submenu.getBoundingClientRect();\n\t\t\t\t\n\t\t\t\t// Check horizontal positioning\n\t\t\t\tif (triggerRect.right + submenuRect.width + 4 > viewportWidth) {\n\t\t\t\t\t// If there's no space on the right, show left of the trigger\n\t\t\t\t\tsubmenu.style.left = `${triggerRect.left - submenuRect.width - 4}px`;\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\t// Check vertical positioning\n\t\t\t\tconst spaceBelow = viewportHeight - triggerRect.top;\n\t\t\t\tconst spaceAbove = triggerRect.bottom;\n\t\t\t\t\n\t\t\t\tif (submenuRect.height > spaceBelow) {\n\t\t\t\t\t// If there isn't enough space below...\n\t\t\t\t\tif (submenuRect.height <= spaceAbove) {\n\t\t\t\t\t\t// If there's enough space above, show submenu above the trigger\n\t\t\t\t\t\tsubmenu.style.top = `${triggerRect.bottom - submenuRect.height}px`;\n\t\t\t\t\t} else {\n\t\t\t\t\t\t// If there isn't enough space either above or below, use maximum available height\n\t\t\t\t\t\tconst maxHeight = Math.max(spaceBelow, spaceAbove);\n\t\t\t\t\t\tsubmenu.style.maxHeight = `${maxHeight - 20}px`; // 20px spacing\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (spaceBelow >= spaceAbove) {\n\t\t\t\t\t\t\t// More space below than above\n\t\t\t\t\t\t\tsubmenu.style.top = `${triggerRect.top}px`;\n\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\t// More space above than below\n\t\t\t\t\t\t\tsubmenu.style.top = `${Math.max(10, triggerRect.bottom - maxHeight + 10)}px`;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\t// Check if the submenu is still in the visible area\n\t\t\t\tconst updatedSubmenuRect = submenu.getBoundingClientRect();\n\t\t\t\t\n\t\t\t\t// Ensure the top edge doesn't extend beyond the viewport\n\t\t\t\tif (updatedSubmenuRect.top < 10) {\n\t\t\t\t\tsubmenu.style.top = '10px';\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\t// Ensure the bottom edge doesn't extend beyond the viewport\n\t\t\t\tif (updatedSubmenuRect.bottom > viewportHeight - 10) {\n\t\t\t\t\tif (updatedSubmenuRect.height > viewportHeight - 20) {\n\t\t\t\t\t\t// If the submenu is larger than the viewport, make it scrollable\n\t\t\t\t\t\tsubmenu.style.maxHeight = `${viewportHeight - 20}px`;\n\t\t\t\t\t\tsubmenu.style.top = '10px';\n\t\t\t\t\t\tsubmenu.style.overflowY = 'auto';\n\t\t\t\t\t} else {\n\t\t\t\t\t\t// Otherwise simply move it up\n\t\t\t\t\t\tsubmenu.style.top = `${viewportHeight - updatedSubmenuRect.height - 10}px`;\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t}\n\t\t}));\n\t});\n\t\n\t// Event listener for clicks on menu items to close all menus\n\tdocument.addEventListener('DOMContentLoaded', function() {\n\t\tdocument.addEventListener('click', function(event) {\n\t\t\t// Check if a menu item was clicked\n\t\t\tconst menuItem = event.target.closest('[data-menu-item]');\n\t\t\tif (menuItem) {\n\t\t\t\t// Close all dropdown menus\n\t\t\t\tdocument.querySelectorAll('[x-data=\"dropdown\"]').forEach(dropdown => {\n\t\t\t\t\tif (Alpine.$data) {\n\t\t\t\t\t\tconst instance = Alpine.$data(dropdown);\n\t\t\t\t\t\tif (instance && typeof instance.closeMenu === 'function') {\n\t\t\t\t\t\t\tinstance.closeMenu();\n\t\t\t\t\t\t}\n\t\t\t\t\t} else {\n\t\t\t\t\t\t// Fallback for older Alpine.js versions\n\t\t\t\t\t\tsetTimeout(function() {\n\t\t\t\t\t\t\tconst triggerButton = dropdown.querySelector('[data-trigger]');\n\t\t\t\t\t\t\tif (triggerButton && dropdown.querySelector('[x-ref=\"panel\"]').style.display !== 'none') {\n\t\t\t\t\t\t\t\ttriggerButton.click();\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}, 10);\n\t\t\t\t\t}\n\t\t\t\t});\n\t\t\t\t\n\t\t\t\t// Additionally close all submenus\n\t\t\t\tdocument.querySelectorAll('[data-submenu-content]').forEach(submenu => {\n\t\t\t\t\tsubmenu.style.display = 'none';\n\t\t\t\t});\n\t\t\t\t\n\t\t\t\t// Reset all submenu states in dropdownSubmenu components\n\t\t\t\tdocument.querySelectorAll('[x-data=\"dropdownSubmenu\"]').forEach(submenuComponent => {\n\t\t\t\t\tif (Alpine.$data) {\n\t\t\t\t\t\tconst instance = Alpine.$data(submenuComponent);\n\t\t\t\t\t\tif (instance) {\n\t\t\t\t\t\t\tinstance.isSubmenuOpen = false;\n\t\t\t\t\t\t\tinstance.isMouseOverSubmenu = false;\n\t\t\t\t\t\t\tclearTimeout(instance.closeTimer);\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\tif (typeof instance.closeSubmenu === 'function') {\n\t\t\t\t\t\t\t\tinstance.closeSubmenu();\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t});\n\t\t\t}\n\t\t});\n\t});\n</script>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			return nil
+		})
+		templ_7745c5c3_Err = handle.Once().Render(templ.WithChildren(ctx, templ_7745c5c3_Var55), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

@@ -19,6 +19,7 @@ type Props struct {
 }
 
 templ Textarea(props ...Props) {
+	@Script()
 	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
@@ -61,8 +62,9 @@ templ Textarea(props ...Props) {
 	>{ p.Value }</textarea>
 }
 
+var handle = templ.NewOnceHandle()
+
 templ Script() {
-	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
 			document.addEventListener('alpine:init', () => {

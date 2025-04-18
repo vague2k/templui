@@ -68,6 +68,7 @@ type Props struct {
 }
 
 templ Chart(props ...Props) {
+	@Script()
 	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
@@ -108,8 +109,9 @@ templ Chart(props ...Props) {
 	@templ.JSONScript(dataId, chartConfig)
 }
 
+var handle = templ.NewOnceHandle()
+
 templ Script() {
-	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
 		<!-- Load Chart.js library -->
 		<script defer nonce={ templ.GetNonce(ctx) } src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>

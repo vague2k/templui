@@ -82,6 +82,7 @@ type PortalProps struct {
 }
 
 templ Dropdown(props ...Props) {
+	@Script()
 	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
@@ -356,8 +357,11 @@ templ SubContent(props ...SubContentProps) {
 	</div>
 }
 
+var handle = templ.NewOnceHandle()
+
 templ Script() {
-	<script defer nonce={ templ.GetNonce(ctx) }>
+	@handle.Once() {
+		<script defer nonce={ templ.GetNonce(ctx) }>
 	document.addEventListener('alpine:init', () => {
 		// Dropdown component with improved positioning
 		Alpine.data('dropdown', () => ({
@@ -672,4 +676,5 @@ templ Script() {
 		});
 	});
 </script>
+	}
 }

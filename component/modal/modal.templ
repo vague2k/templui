@@ -44,6 +44,7 @@ type FooterProps struct {
 }
 
 templ Modal(props ...Props) {
+	@Script()
 	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
@@ -190,9 +191,10 @@ templ Footer(props ...FooterProps) {
 	</div>
 }
 
+var handle = templ.NewOnceHandle()
+
 templ Script() {
-	{{ handler := templ.NewOnceHandle() }}
-	@handler.Once() {
+	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
 			document.addEventListener('alpine:init', () => {
 				Alpine.data('modal', () => ({

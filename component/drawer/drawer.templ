@@ -62,6 +62,7 @@ type CloseProps struct {
 }
 
 templ Drawer(props ...Props) {
+	@Script()
 	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
@@ -264,8 +265,9 @@ templ Close(props ...CloseProps) {
 	</button>
 }
 
+var handle = templ.NewOnceHandle()
+
 templ Script() {
-	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
 		<script nonce={ templ.GetNonce(ctx) }>
             document.addEventListener('alpine:init', () => {
