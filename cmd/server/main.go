@@ -12,6 +12,7 @@ import (
 	"github.com/axzilla/templui/internal/config"
 	"github.com/axzilla/templui/internal/middleware"
 	"github.com/axzilla/templui/internal/ui/pages"
+	"github.com/axzilla/templui/internal/ui/showcase"
 	mw "github.com/axzilla/templui/middleware"
 	"github.com/axzilla/templui/static"
 )
@@ -84,6 +85,13 @@ func main() {
 		w.Header().Set("Content-Type", "text/plain")
 		w.Write(content)
 	})
+
+	// HTMX SWAP TESTER
+	mux.Handle("GET /swap", templ.Handler(pages.Swap()))
+	mux.HandleFunc("POST /swap", func(w http.ResponseWriter, r *http.Request) {
+		showcase.SelectBoxDefault().Render(r.Context(), w)
+	})
+	//
 
 	mux.Handle("GET /", templ.Handler(pages.Landing()))
 	mux.Handle("GET /docs", http.RedirectHandler("/docs/introduction", http.StatusSeeOther))

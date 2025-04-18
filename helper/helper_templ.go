@@ -20,7 +20,6 @@ import (
 	"github.com/axzilla/templui/component/modal"
 	"github.com/axzilla/templui/component/popover"
 	"github.com/axzilla/templui/component/rating"
-	"github.com/axzilla/templui/component/selectbox"
 	"github.com/axzilla/templui/component/slider"
 	"github.com/axzilla/templui/component/tabs"
 	"github.com/axzilla/templui/component/textarea"
@@ -90,10 +89,6 @@ func ComponentScripts() templ.Component {
 			return templ_7745c5c3_Err
 		}
 		templ_7745c5c3_Err = rating.Script().Render(ctx, templ_7745c5c3_Buffer)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = selectbox.Script().Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
