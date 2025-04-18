@@ -18,9 +18,11 @@ module.exports = [
       ...htmlPlugin.configs.recommended.rules,
       ...alpinejs.configs.recommended.rules,
       ...tailwind.configs.recommended.rules,
-      // "html-tailwind/classname-order": "off",
-      // "alpinejs/no-unused-xrefs": "off",
-      // "html-tailwind/no-style-attribute": "off"
+      "html-tailwind/classname-order": "off",
+      "alpinejs/no-unused-xrefs": "off",
+      "html-tailwind/no-style-attribute": "off",
+      "html-tailwind/no-contradicting-classnames": "warn"
+
     },
   },
 ];
