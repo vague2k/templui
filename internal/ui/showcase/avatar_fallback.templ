@@ -4,6 +4,10 @@ import "github.com/axzilla/templui/component/avatar"
 
 templ AvatarFallback() {
 	@avatar.Avatar() {
+		@avatar.Image(avatar.ImageProps{
+			// simulate a broken image
+			Src: "broken-image.jpg",
+		})
 		@avatar.Fallback() {
 			{ avatar.Initials("John Doe") }
 		}
