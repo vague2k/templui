@@ -19,6 +19,12 @@ services:
     restart: unless-stopped
     networks:
       - templui-net
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0" # Limit Go app to 1 CPU core
+          memory: 512M # Limit Go app to 512 MB RAM
     # volumes:
     # Optional: Local directory for persistent data if needed
     # - ./data:/app/data
@@ -31,6 +37,12 @@ services:
     restart: unless-stopped
     networks:
       - templui-net
+    # Resource limits
+    deploy:
+      resources:
+        limits:
+          cpus: "3.0" # Limit Shiki service (all instances) to 3 CPU cores total
+          memory: 1536M # Limit Shiki service (all instances) to 1.5 GB RAM total
     # Optional: Environment variables for the Shiki server if needed
     # environment:
     #   NODE_ENV: production
