@@ -1,6 +1,9 @@
 package modal
 
-import "github.com/axzilla/templui/util"
+import (
+	"github.com/axzilla/templui/util"
+	"strconv"
+)
 
 type Props struct {
 	ID               string
@@ -15,14 +18,14 @@ type TriggerProps struct {
 	Class      string
 	Attributes templ.Attributes
 	Disabled   bool
-	ModalID    string
+	ModalID    string // ID of the modal to trigger
 }
 
 type CloseProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
-	ModalID    string
+	ModalID    string // ID of the modal to close (optional, defaults to closest modal)
 }
 
 type HeaderProps struct {
@@ -50,41 +53,30 @@ templ Modal(props ...Props) {
 		{{ p = props[0] }}
 	}
 	if p.ID == "" {
-		{{ p.ID = util.RandomID() }}
+		{{ p.ID = "modal-" + util.RandomID() }}
 	}
 	<div
 		id={ p.ID }
-		x-data="modal"
-		x-on:open-modal.window="handleOpenModal"
-		x-on:close-modal.window="handleCloseModal"
-		data-modal-id={ p.ID }
-		x-show="open"
-		x-transition:enter="transition ease-out duration-300"
-		x-transition:enter-start="opacity-0"
-		x-transition:enter-end="opacity-100"
-		x-transition:leave="transition ease-in duration-200"
-		x-transition:leave-start="opacity-100"
-		x-transition:leave-end="opacity-0"
-		class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto"
-		aria-labelledby="modal-title"
+		data-modal
+		data-disable-click-away={ strconv.FormatBool(p.DisableClickAway) }
+		data-disable-esc={ strconv.FormatBool(p.DisableESC) }
+		style="display: none;"
+		class="modal-container fixed inset-0 z-50 flex items-center justify-center overflow-y-auto opacity-0 transition-opacity duration-300 ease-out"
+		aria-labelledby={ p.ID + "-title" }
 		role="dialog"
 		aria-modal="true"
 		{ p.Attributes... }
 	>
-		<div class="fixed inset-0 bg-background/70 bg-opacity-50 transition-opacity" aria-hidden="true"></div>
+		<div data-modal-backdrop class="fixed inset-0 bg-background/70 bg-opacity-50" aria-hidden="true"></div>
 		<div
 			id={ p.ID + "-content" }
+			data-modal-content
 			class={
 				util.TwMerge(
-					"relative bg-background rounded-lg border text-left overflow-hidden shadow-xl transform transition-all sm:my-8 w-full",
+					"modal-content relative bg-background rounded-lg border text-left overflow-hidden shadow-xl transform transition-all sm:my-8 w-full scale-95 opacity-0", // Base classes + transition start
+					"duration-300 ease-out", // Enter duration
 					p.Class,
 				),
-			}
-			if !p.DisableClickAway {
-				@click.outside="handleClickAway"
-			}
-			if !p.DisableESC {
-				x-on:keydown.esc.window="handleClickAway"
 			}
 		>
 			{ children... }
@@ -101,16 +93,13 @@ templ Trigger(props ...TriggerProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		x-data="modalTriggers"
+		data-modal-trigger
 		if p.ModalID != "" {
-			data-modal-id={ p.ModalID }
-		}
-		if !p.Disabled {
-			@click="openModal"
+			data-modal-target-id={ p.ModalID }
 		}
 		class={
 			util.TwMerge(
-				util.IfElse(p.Disabled, "cursor-not-allowed", "cursor-pointer"),
+				util.IfElse(p.Disabled, "cursor-not-allowed opacity-50", "cursor-pointer"),
 				p.Class,
 			),
 		}
@@ -129,12 +118,11 @@ templ Close(props ...CloseProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		x-data="modalTriggers"
+		data-modal-close
 		if p.ModalID != "" {
-			data-modal-id={ p.ModalID }
+			data-modal-target-id={ p.ModalID }
 		}
-		@click="closeModal"
-		class={ util.TwMerge("", p.Class) }
+		class={ util.TwMerge("cursor-pointer", p.Class) }
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -153,7 +141,8 @@ templ Header(props ...HeaderProps) {
 		class={ util.TwMerge("px-4 pt-5 pb-4 sm:p-6 sm:pb-4", p.Class) }
 		{ p.Attributes... }
 	>
-		<h3 class="text-lg leading-6 font-medium text-foreground" id="modal-title">
+		<h3 class="text-lg leading-6 font-medium text-foreground" id={ p.ID + "-title" }>
+			// Ensure title ID matches aria-labelledby
 			{ children... }
 		</h3>
 	</div>
@@ -196,36 +185,198 @@ var handle = templ.NewOnceHandle()
 templ Script() {
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
-			document.addEventListener('alpine:init', () => {
-				Alpine.data('modal', () => ({
-					open: false,
-					handleOpenModal(event) {
-						if (event.detail.id === this.$el.dataset.modalId) {
-							this.open = true
-						}
-					},
-					handleCloseModal(event) {
-						if (event.detail.id === this.$el.dataset.modalId) {
-							this.open = false
-						}
-					},
-					handleClickAway() {
-						this.open = false;
-					},
-				}))
-				Alpine.data('modalTriggers', () => ({
-					openModal() {
-						this.$dispatch('open-modal', { 
-							id: this.$el.dataset.modalId 
-						})
-					},
-					closeModal() {
-						this.$dispatch('close-modal', { 
-							id: this.$el.dataset.modalId 
-						})
+			// --- Core Modal Logic (can be defined multiple times, but should be idempotent) ---
+
+			function closeModalById(modalId, immediate = false) {
+				const modal = document.getElementById(modalId);
+				if (!modal || modal.style.display === 'none') return;
+
+				const content = modal.querySelector('[data-modal-content]');
+				
+				function hideModal() {
+					modal.style.display = 'none';
+					modal.classList.remove('modal-open'); // Optional: Remove marker class
+					if (window.openModalIdGlobal === modalId) {
+						window.openModalIdGlobal = null;
+						document.body.style.overflow = '';
 					}
-				}))
-			})
+				}
+
+				// Apply leaving transitions
+				modal.classList.remove('opacity-100');
+				modal.classList.add('opacity-0');
+				if (content) {
+					content.classList.remove('scale-100', 'opacity-100');
+					content.classList.add('scale-95', 'opacity-0');
+				}
+
+				if (immediate) {
+					hideModal();
+				} else {
+					const duration = 300; 
+					setTimeout(hideModal, duration);
+				}
+			}
+
+			function openModalById(modalId) {
+				if (typeof window.openModalIdGlobal === 'undefined') {
+					console.error("Modal global setup not run before opening.");
+					return;
+				}
+				
+				if (window.openModalIdGlobal && window.openModalIdGlobal !== modalId) {
+					closeModalById(window.openModalIdGlobal, true); 
+				}
+
+				const modal = document.getElementById(modalId);
+				if (!modal) return;
+
+				const content = modal.querySelector('[data-modal-content]');
+
+				modal.style.display = 'flex';
+				modal.classList.add('modal-open'); // Optional: Add marker class
+				window.openModalIdGlobal = modalId; 
+				document.body.style.overflow = 'hidden'; 
+
+				void modal.offsetHeight; // Force reflow
+
+				modal.classList.remove('opacity-0');
+				modal.classList.add('opacity-100');
+				if (content) {
+					content.classList.remove('scale-95', 'opacity-0');
+					content.classList.add('scale-100', 'opacity-100');
+				}
+
+				// Focus management (optional but good for accessibility)
+				const focusableElements = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+				const firstFocusableElement = content ? content.querySelector(focusableElements) : null;
+				if (firstFocusableElement) {
+					setTimeout(() => firstFocusableElement.focus(), 50);
+				}
+			}
+
+			// --- Initialization Functions (Defined once, called repeatedly) ---
+
+			function initModalElement(modal) {
+				if (!modal || modal.dataset.modalInitialized) return;
+				modal.dataset.modalInitialized = 'true';
+				// No specific setup needed for the modal div itself currently
+			}
+
+			function initModalTriggerElement(trigger) {
+				if (!trigger || trigger.dataset.modalTriggerInitialized) return;
+				trigger.dataset.modalTriggerInitialized = 'true';
+
+				// Remove previous listener if any (safer for re-initialization scenarios)
+				const oldListener = trigger._modalTriggerListener;
+				if (oldListener) {
+					trigger.removeEventListener('click', oldListener);
+				}
+
+				const newListener = (event) => {
+					if (trigger.hasAttribute('disabled') || trigger.classList.contains('opacity-50')) {
+						return;
+					}
+					const targetId = trigger.getAttribute('data-modal-target-id');
+					if (targetId) {
+						openModalById(targetId);
+					} else {
+						console.warn('Modal trigger clicked without data-modal-target-id', trigger);
+					}
+				};
+				trigger.addEventListener('click', newListener);
+				trigger._modalTriggerListener = newListener; // Store listener reference
+			}
+
+			function initModalCloseElement(closeButton) {
+				if (!closeButton || closeButton.dataset.modalCloseInitialized) return;
+				closeButton.dataset.modalCloseInitialized = 'true';
+
+				// Remove previous listener if any
+				const oldListener = closeButton._modalCloseListener;
+				if (oldListener) {
+					closeButton.removeEventListener('click', oldListener);
+				}
+				
+				const newListener = (event) => {
+					const targetId = closeButton.getAttribute('data-modal-target-id');
+					if (targetId) {
+						closeModalById(targetId);
+					} else {
+						const modal = closeButton.closest('[data-modal]');
+						if (modal && modal.id) {
+							closeModalById(modal.id);
+						} else {
+							console.warn('Modal close button clicked without target ID or modal ancestor', closeButton);
+						}
+					}
+				};
+				closeButton.addEventListener('click', newListener);
+				closeButton._modalCloseListener = newListener; // Store listener reference
+			}
+
+			// --- Global Setup (Runs only ONCE per page load) ---
+			function setupModalGlobals() {
+				if (window.modalScriptInitialized) return; // Prevent re-running
+
+				window.openModalIdGlobal = null; 
+
+				// Global Click Away Listener
+				document.addEventListener('click', (event) => {
+					if (!window.openModalIdGlobal) return; 
+
+					const openModalElement = document.getElementById(window.openModalIdGlobal);
+					if (!openModalElement || openModalElement.getAttribute('data-disable-click-away') === 'true') {
+						return; 
+					}
+
+					const contentElement = openModalElement.querySelector('[data-modal-content]');
+					if (contentElement && !contentElement.contains(event.target)) {
+						const trigger = event.target.closest('[data-modal-trigger]');
+						if (!trigger || trigger.getAttribute('data-modal-target-id') !== window.openModalIdGlobal) {
+							closeModalById(window.openModalIdGlobal);
+						}
+					}
+				});
+
+				// Global ESC Key Listener
+				document.addEventListener('keydown', (event) => {
+					if (event.key === 'Escape' && window.openModalIdGlobal) {
+						const openModalElement = document.getElementById(window.openModalIdGlobal);
+						if (openModalElement && openModalElement.getAttribute('data-disable-esc') !== 'true') {
+							closeModalById(window.openModalIdGlobal);
+						}
+					}
+				});
+
+				window.modalScriptInitialized = true;
+			}
+
+			// --- Initialization Triggers (Initialization Pattern) ---
+
+			// Function to initialize all relevant modal elements currently in the DOM
+			function initializeAllModals() {
+				document.querySelectorAll('[data-modal]:not([data-modal-initialized])').forEach(initModalElement);
+				document.querySelectorAll('[data-modal-trigger]:not([data-modal-trigger-initialized])').forEach(initModalTriggerElement);
+				document.querySelectorAll('[data-modal-close]:not([data-modal-close-initialized])').forEach(initModalCloseElement);
+			}
+
+			// 1. Setup Globals and Initial Run
+			if (document.readyState === 'loading') {
+				document.addEventListener('DOMContentLoaded', () => {
+					setupModalGlobals(); // Setup globals first
+					initializeAllModals(); // Then initialize existing elements
+				});
+			} else {
+				setupModalGlobals(); // Setup globals if DOM already loaded
+				initializeAllModals(); // Initialize existing elements
+			}
+
+			// 2. After HTMX swaps (Re-run initialization for new elements)
+			document.body.addEventListener('htmx:afterSwap', function(event) {
+				// No need to check the target itself, initializeAllModals covers everything new
+				initializeAllModals(); 
+			});
 		</script>
 	}
 }
