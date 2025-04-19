@@ -9,12 +9,12 @@ import (
 
 templ Label() {
 	@layouts.DocsLayout(
-		"with-label",
+		"Label",
 		"Renders an accessible label associated with controls.",
 		[]modules.TableOfContentsItem{},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
-			Name:        "with-label",
+			Name:        "Label",
 			Description: templ.Raw("Renders an accessible label associated with controls."),
 			Tailwind:    true,
 			VanillaJS:   true,
@@ -25,7 +25,7 @@ templ Label() {
 						Path: "/docs",
 					},
 					{
-						Text: "with-label",
+						Text: "Label",
 					},
 				},
 			},
