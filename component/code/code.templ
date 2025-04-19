@@ -30,17 +30,17 @@ templ Code(props ...Props) {
 		{{ p = props[0] }}
 	}
 	if p.ID == "" {
-		{{ p.ID = util.RandomID() }}
+		{{ p.ID = "code-" + util.RandomID() }}
 	}
 	<div
 		id={ p.ID }
-		class={ util.TwMerge("relative", p.Class) }
+		class={ util.TwMerge("relative code-component", p.Class) }
+		data-code-component
 		{ p.Attrs... }
-		x-data="code"
 	>
 		<pre class="overflow-hidden!">
 			<code
-				x-ref="code"
+				data-code-block
 				class={
 					util.TwMerge(
 						"language-"+p.Language,
@@ -58,13 +58,14 @@ templ Code(props ...Props) {
 		</pre>
 		if p.ShowCopyButton {
 			<button
+				data-copy-button
+				type="button"
 				class="absolute top-2 right-2 hover:bg-gray-500 hover:bg-opacity-30 text-white p-2 rounded"
-				@click="copyCode"
 			>
-				<span x-show="isCopied">
+				<span data-icon-check style="display: none;">
 					@icon.Check(icon.Props{Size: 14})
 				</span>
-				<span x-show="isNotCopied">
+				<span data-icon-clipboard>
 					@icon.Clipboard(icon.Props{Size: 14})
 				</span>
 			</button>
@@ -79,43 +80,112 @@ templ Script() {
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/pojoaque.min.css"/>
 		<script nonce={ templ.GetNonce(ctx) } src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 		<script nonce={ templ.GetNonce(ctx) }>
-			document.addEventListener('alpine:init', () => {
-				document.querySelectorAll('code.hljs-target').forEach((block) => {
-				  try {
-				    hljs.highlightElement(block);
-				  } catch (error) {
-				    console.error("Highlight.js error on element:", error, block);
-				  }
-			});
+			function initCodeElement(codeComponent) {
+				if (!codeComponent || codeComponent.dataset.codeInitialized) {
+					return;
+				}
+				codeComponent.dataset.codeInitialized = 'true';
 
-				Alpine.data('code', () => ({
-					isCopied: false,
-					isNotCopied: true,
-					copyCode() {
+				const codeBlock = codeComponent.querySelector('[data-code-block]');
+				const copyButton = codeComponent.querySelector('[data-copy-button]');
+				const iconCheck = codeComponent.querySelector('[data-icon-check]');
+				const iconClipboard = codeComponent.querySelector('[data-icon-clipboard]');
+
+				if (codeBlock && typeof hljs !== 'undefined') {
+					try {
+						if (!codeBlock.classList.contains('hljs')) {
+							hljs.highlightElement(codeBlock);
+						}
+					} catch (error) {
+						console.error("Highlight.js error on element:", error, codeBlock);
+					}
+				}
+
+				if (copyButton && codeBlock && iconCheck && iconClipboard) {
+					copyButton.addEventListener('click', () => {
+						const codeToCopy = codeBlock.textContent || '';
 						try {
 							if (navigator.clipboard && window.isSecureContext) {
-								navigator.clipboard.writeText(this.$refs.code.textContent);
+								navigator.clipboard.writeText(codeToCopy)
+									.then(() => {
+										iconCheck.style.display = 'inline';
+										iconClipboard.style.display = 'none';
+										setTimeout(() => {
+											iconCheck.style.display = 'none';
+											iconClipboard.style.display = 'inline';
+										}, 2000);
+									})
+									.catch(err => {
+										console.error('Async: Could not copy text: ', err);
+										fallbackCopyText(codeToCopy, iconCheck, iconClipboard);
+									});
 							} else {
-								const textArea = document.createElement('textarea');
-								textArea.value = this.$refs.code.textContent;
-								document.body.appendChild(textArea);
-								textArea.select();
-								document.execCommand('copy');
-								document.body.removeChild(textArea);
+								fallbackCopyText(codeToCopy, iconCheck, iconClipboard);
 							}
-							
-							this.isCopied = true;
-							this.isNotCopied = false;
-							setTimeout(() => {
-								this.isCopied = false;
-								this.isNotCopied = true;
-							}, 2000);
 						} catch (err) {
 							console.error('Copy failed', err);
 						}
+					});
+				}
+			}
+
+			function fallbackCopyText(text, iconCheck, iconClipboard) {
+				const textArea = document.createElement('textarea');
+				textArea.value = text;
+				textArea.style.position = 'fixed';
+				textArea.style.top = '-9999px';
+				textArea.style.left = '-9999px';
+				document.body.appendChild(textArea);
+				textArea.focus();
+				textArea.select();
+				try {
+					const successful = document.execCommand('copy');
+					if (successful) {
+						iconCheck.style.display = 'inline';
+						iconClipboard.style.display = 'none';
+						setTimeout(() => {
+							iconCheck.style.display = 'none';
+							iconClipboard.style.display = 'inline';
+						}, 2000);
+					} else {
+						console.error('Fallback: Copying text command was unsuccessful');
 					}
-				}))
-			})
+				} catch (err) {
+					console.error('Fallback: Oops, unable to copy', err);
+				}
+				document.body.removeChild(textArea);
+			}
+
+			function initializeAllCodeComponents() {
+				if (typeof hljs !== 'undefined') {
+					document.querySelectorAll('[data-code-component]:not([data-code-initialized])').forEach(initCodeElement);
+				} else {
+					setTimeout(initializeAllCodeComponents, 100);
+				}
+			}
+
+			if (document.readyState === 'loading') {
+				document.addEventListener('DOMContentLoaded', initializeAllCodeComponents);
+			} else {
+				initializeAllCodeComponents();
+			}
+
+			document.body.addEventListener('htmx:afterSwap', function(event) {
+				const targetElement = event.target;
+				if (typeof hljs === 'undefined') {
+					console.warn("htmx:afterSwap triggered but hljs not loaded yet. Retrying init.");
+					initializeAllCodeComponents();
+					return;
+				}
+
+				if (targetElement instanceof Element) {
+					if (targetElement.matches('[data-code-component]:not([data-code-initialized])')) {
+						initCodeElement(targetElement);
+					}
+					targetElement.querySelectorAll('[data-code-component]:not([data-code-initialized])').forEach(initCodeElement);
+				}
+			});
+
 		</script>
 	}
 }
