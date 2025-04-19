@@ -42,55 +42,66 @@ var handle = templ.NewOnceHandle()
 templ Script() {
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
-			document.addEventListener('DOMContentLoaded', function() {
-			  document.querySelectorAll('label[for]').forEach(function(label) {
-				// Check if this is our enhanced label with data-disabled-style
-				if (!label.hasAttribute('data-disabled-style')) {
-				  return; // Skip regular labels without data-disabled-style attribute
-				}
-				
-				// Disabled style handler
-				function updateLabelStyle(label) {
-				  const forId = label.getAttribute('for');
-				  const targetElement = document.getElementById(forId);
-				  
-				  if (targetElement && targetElement.disabled) {
-					// Retrieve the custom disabled style or use the default
-					const disabledStyle = label.getAttribute('data-disabled-style');
-					disabledStyle.split(' ').forEach(function(className) {
-					  if (className) {
-						label.classList.add(className);
-					  }
-					});
-				  } else {
-					// Remove the disabled style
-					const disabledStyle = label.getAttribute('data-disabled-style');
-					disabledStyle.split(' ').forEach(function(className) {
-					  if (className) {
-						label.classList.remove(className);
-					  }
-					});
-				  }
-				}
-				
-				// Update the initial style
-				updateLabelStyle(label);
-				
-				// Create a MutationObserver for this specific label
+			// Function to update the label style based on the target element's disabled state
+			function updateLabelStyle(label) {
 				const forId = label.getAttribute('for');
-				const targetElement = document.getElementById(forId);
-				
-				if (targetElement) {
-				  const observer = new MutationObserver(function() {
-					updateLabelStyle(label);
-				  });
-				  
-				  observer.observe(targetElement, { 
-					attributes: true, 
-					attributeFilter: ['disabled'] 
-				  });
+				const targetElement = forId ? document.getElementById(forId) : null;
+				const disabledStyle = label.getAttribute('data-disabled-style');
+
+				if (!disabledStyle) return; // No style defined
+
+				const classes = disabledStyle.split(' ').filter(Boolean); // Get non-empty class names
+
+				if (targetElement && targetElement.disabled) {
+					label.classList.add(...classes);
+				} else {
+					// Remove classes if target doesn't exist, isn't disabled, or has no forId
+					label.classList.remove(...classes);
 				}
-			  });
+			}
+
+			// Function to initialize a single label element
+			function initLabelElement(label) {
+				if (!label || label.dataset.labelInitialized) {
+					return; // Already initialized or invalid
+				}
+
+				// Only process labels with 'for' and 'data-disabled-style'
+				if (!label.hasAttribute('for') || !label.hasAttribute('data-disabled-style')) {
+					return;
+				}
+
+				label.dataset.labelInitialized = 'true';
+
+				// Apply the style based on the current state of the target element
+				updateLabelStyle(label);
+			}
+
+			// --- Initialization Triggers ---
+
+			function initializeAllLabels() {
+				// Find all labels that have 'for' and 'data-disabled-style' and haven't been initialized
+				document.querySelectorAll('label[for][data-disabled-style]:not([data-label-initialized])').forEach(initLabelElement);
+			}
+
+			// 1. Initial page load
+			if (document.readyState === 'loading') {
+				document.addEventListener('DOMContentLoaded', initializeAllLabels);
+			} else {
+				initializeAllLabels(); // Already loaded
+			}
+
+			// 2. After HTMX swaps
+			document.body.addEventListener('htmx:afterSwap', function(event) {
+				const swapTargetElement = event.target; // Use a more descriptive name
+				if (swapTargetElement instanceof Element) {
+					// Standard check: Initialize the label if the swapped element itself is one
+					if (swapTargetElement.matches('label[for][data-disabled-style]:not([data-label-initialized])')) {
+						initLabelElement(swapTargetElement);
+					}
+					// Standard check: Initialize labels found within the swapped element
+					swapTargetElement.querySelectorAll('label[for][data-disabled-style]:not([data-label-initialized])').forEach(initLabelElement);
+				}
 			});
 		</script>
 	}
