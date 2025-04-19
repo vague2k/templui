@@ -203,6 +203,12 @@ templ Script() {
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
             function initCarousel(carouselEl) {
+                // Prevent double initialization and handle null element
+                if (!carouselEl || carouselEl.dataset.carouselInitialized) {
+                    return;
+                }
+                carouselEl.dataset.carouselInitialized = 'true';
+
                 const state = {
                     currentIndex: 0,
                     slideCount: 0,
@@ -213,35 +219,52 @@ templ Script() {
                     isHovering: false,
                     touchStartX: 0
                 };
-                
+
                 const track = carouselEl.querySelector('.carousel-track');
                 const items = Array.from(track ? track.querySelectorAll('.carousel-item') : []);
                 const indicators = Array.from(carouselEl.querySelectorAll('.carousel-indicator'));
                 const prevBtn = carouselEl.querySelector('.carousel-prev');
                 const nextBtn = carouselEl.querySelector('.carousel-next');
-                
-                // Set slide count dynamically based on DOM
+
+                // Abort if no items found
+                if (items.length === 0) {
+                    delete carouselEl.dataset.carouselInitialized; // Clean up flag if we abort
+                    return;
+                }
                 state.slideCount = items.length;
-                
+
+                // Warn if indicator count doesn't match item count (but continue)
+                if (indicators.length > 0 && indicators.length !== state.slideCount) {
+                     console.warn(`Indicator count (${indicators.length}) does not match slide count (${state.slideCount}) for carousel:`, carouselEl.id || 'no-id');
+                }
+
                 function updateTrackPosition() {
                     if (track) {
                         track.style.transform = `translateX(-${state.currentIndex * 100}%)`;
                     }
                 }
-                
+
                 function updateIndicators() {
                     indicators.forEach((indicator, i) => {
-                        if (i === state.currentIndex) {
-                            indicator.classList.add('bg-white');
-                            indicator.classList.remove('bg-white/50');
+                        // Only update indicators corresponding to actual items
+                        if (i < state.slideCount) {
+                            if (i === state.currentIndex) {
+                                indicator.classList.add('bg-white');
+                                indicator.classList.remove('bg-white/50');
+                            } else {
+                                indicator.classList.remove('bg-white');
+                                indicator.classList.add('bg-white/50');
+                            }
+                             indicator.style.display = ''; // Ensure visible
                         } else {
-                            indicator.classList.remove('bg-white');
-                            indicator.classList.add('bg-white/50');
+                            // Hide indicators that don't have a corresponding item
+                            indicator.style.display = 'none';
                         }
                     });
                 }
-                
+
                 function updateButtons() {
+                    // Disable previous button if not looping and at the first slide
                     if (prevBtn) {
                         prevBtn.disabled = !state.loop && state.currentIndex === 0;
                         if (prevBtn.disabled) {
@@ -250,7 +273,7 @@ templ Script() {
                             prevBtn.classList.remove('opacity-50', 'cursor-not-allowed');
                         }
                     }
-                    
+                     // Disable next button if not looping and at the last slide
                     if (nextBtn) {
                         nextBtn.disabled = !state.loop && state.currentIndex === state.slideCount - 1;
                         if (nextBtn.disabled) {
@@ -260,132 +283,184 @@ templ Script() {
                         }
                     }
                 }
-                
+
                 function startAutoplay() {
+                    // Clear existing interval if any
                     if (state.autoplayInterval) {
                         clearInterval(state.autoplayInterval);
                     }
-                    
-                    state.autoplayInterval = setInterval(() => {
-                        if (!state.isHovering) {
-                            goToNext();
-                        }
-                    }, state.interval);
+                    // Start new interval only if autoplay is enabled
+                    if (state.autoplay) {
+                         state.autoplayInterval = setInterval(() => {
+                            // Only advance if not hovering
+                            if (!state.isHovering) {
+                                goToNext();
+                            }
+                        }, state.interval);
+                    }
                 }
-                
+
                 function stopAutoplay() {
                     if (state.autoplayInterval) {
                         clearInterval(state.autoplayInterval);
                         state.autoplayInterval = null;
                     }
                 }
-                
+
                 function goToNext() {
                     let nextIndex = state.currentIndex + 1;
-                    
                     if (nextIndex >= state.slideCount) {
                         if (state.loop) {
-                            nextIndex = 0;
+                            nextIndex = 0; // Loop back to start
                         } else {
-                            nextIndex = state.slideCount - 1;
+                            return; // Stop at the end if not looping
                         }
                     }
-                    
                     goToSlide(nextIndex);
                 }
-                
+
                 function goToPrev() {
                     let prevIndex = state.currentIndex - 1;
-                    
                     if (prevIndex < 0) {
                         if (state.loop) {
-                            prevIndex = state.slideCount - 1;
+                            prevIndex = state.slideCount - 1; // Loop back to end
                         } else {
-                            prevIndex = 0;
+                            return; // Stop at the beginning if not looping
                         }
                     }
-                    
                     goToSlide(prevIndex);
                 }
-                
+
                 function goToSlide(index) {
+                     // Add bounds check and handle looping/clamping
+                    if (index < 0 || index >= state.slideCount) {
+                        if (state.loop) {
+                            index = (index + state.slideCount) % state.slideCount;
+                        } else {
+                             // Don't move if index is out of bounds and not looping
+                            return;
+                        }
+                    }
+                    // No change if already on the target slide
                     if (index === state.currentIndex) return;
-                    
+
                     state.currentIndex = index;
                     updateTrackPosition();
                     updateIndicators();
                     updateButtons();
-                    
+
+                    // Restart autoplay timer after manual navigation if enabled
                     if (state.autoplay) {
                         stopAutoplay();
-                        if (!state.isHovering) {
+                        if (!state.isHovering) { // Don't restart if currently hovering
                             startAutoplay();
                         }
                     }
                 }
-                
+
                 function handleTouchStart(event) {
+                    // Only use the first touch point
                     state.touchStartX = event.touches[0].clientX;
                 }
-                
+
                 function handleTouchEnd(event) {
+                    // Only use the first changed touch point
                     const touchEndX = event.changedTouches[0].clientX;
                     const diff = state.touchStartX - touchEndX;
-                    
-                    if (Math.abs(diff) > 50) {
-                        if (diff > 0) {
+                    const sensitivity = 50; // Minimum swipe distance
+
+                    // Check if swipe distance is significant
+                    if (Math.abs(diff) > sensitivity) {
+                        if (diff > 0) { // Swiped left (Next)
                             goToNext();
-                        } else {
+                        } else { // Swiped right (Previous)
                             goToPrev();
                         }
                     }
                 }
-                
+
+                // --- Attach Event Listeners ---
+
                 if (track) {
-                    track.addEventListener('touchstart', handleTouchStart);
-                    track.addEventListener('touchend', handleTouchEnd);
+                    // Use passive listeners for touch events for better scroll performance
+                    track.addEventListener('touchstart', handleTouchStart, { passive: true });
+                    track.addEventListener('touchend', handleTouchEnd, { passive: true });
                 }
-                
+
                 indicators.forEach((indicator, index) => {
-                    indicator.addEventListener('click', () => goToSlide(index));
+                    // Only add listeners for indicators corresponding to items
+                     if (index < state.slideCount) {
+                        indicator.addEventListener('click', () => goToSlide(index));
+                     }
                 });
-                
+
                 if (prevBtn) {
                     prevBtn.addEventListener('click', goToPrev);
                 }
-                
+
                 if (nextBtn) {
                     nextBtn.addEventListener('click', goToNext);
                 }
-                
+
+                // Pause autoplay on hover
                 carouselEl.addEventListener('mouseenter', () => {
                     state.isHovering = true;
                     if (state.autoplay) {
                         stopAutoplay();
                     }
                 });
-                
+
+                // Resume autoplay on mouse leave
                 carouselEl.addEventListener('mouseleave', () => {
                     state.isHovering = false;
                     if (state.autoplay) {
+                         // Restart autoplay only if it was running and mouse leaves
                         startAutoplay();
                     }
                 });
-                
+
+                // --- Initial State Setup ---
                 updateTrackPosition();
                 updateIndicators();
                 updateButtons();
-                
+
+                // Start autoplay if enabled
                 if (state.autoplay) {
                     startAutoplay();
                 }
             }
-            
-            document.addEventListener('DOMContentLoaded', () => {
-                document.querySelectorAll('.carousel-component').forEach(carousel => {
-                    initCarousel(carousel);
-                });
+
+            // --- Initialization Logic ---
+
+            function initializeAllCarousels() {
+                document.querySelectorAll('.carousel-component:not([data-carousel-initialized])').forEach(initCarousel);
+            }
+
+            // Initial page load: Wait for DOM to be ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', initializeAllCarousels);
+            } else {
+                // DOM is already ready, run initialization now
+                initializeAllCarousels();
+            }
+
+            // HTMX integration: Initialize carousels loaded via htmx:afterSwap
+            document.body.addEventListener('htmx:afterSwap', function(event) {
+                const targetElement = event.target;
+
+                // Check if the swapped element itself is an uninitialized carousel
+                if (targetElement instanceof Element && targetElement.matches && targetElement.matches('.carousel-component:not([data-carousel-initialized])')) {
+                    initCarousel(targetElement);
+                }
+
+                // Check for any uninitialized carousels within the swapped element
+                if (targetElement instanceof Element && targetElement.querySelectorAll) {
+                    const nestedCarousels = targetElement.querySelectorAll('.carousel-component:not([data-carousel-initialized])');
+                    if (nestedCarousels.length > 0) {
+                        nestedCarousels.forEach(initCarousel);
+                    }
+                }
             });
-        </script>
+		</script>
 	}
 }
