@@ -544,31 +544,27 @@ templ Script() {
 
 			// 1. Initial page load
 			if (document.readyState === 'loading') {
-				console.log("from loading")
 				// Document not loaded yet, waiting for DOMContentLoaded event
 				document.addEventListener('DOMContentLoaded', () => {
 					document.querySelectorAll('.select-container:not([data-initialized="true"])').forEach(initSelectScriptForElement);
 				});
 			} else {
-				console.log("from else")
 				// Document already loaded, executing immediately
 				document.querySelectorAll('.select-container:not([data-initialized="true"])').forEach(initSelectScriptForElement);
 			}
 
-			// // 2. After HTMX swaps
-			// console.log(document.body); // is
-			// document.body.addEventListener('htmx:afterSwap', function(event) {
-			//     console.log("from swap")
-			//     const targetElement = event.target;
-			//     if (targetElement instanceof Element) { // Ensure it's an Element
-			//         // Check if the swapped element itself is a container
-			//         if (targetElement.matches('.select-container:not([data-initialized="true"])')) {
-			//             initSelectScriptForElement(targetElement);
-			//         }
-			//         // Check for containers within the swapped element
-			//         targetElement.querySelectorAll('.select-container:not([data-initialized="true"])').forEach(initSelectScriptForElement);
-			//     }
-			// });
+			// 2. After HTMX swaps
+			document.body.addEventListener('htmx:afterSwap', function(event) {
+			    const targetElement = event.target;
+			    if (targetElement instanceof Element) { // Ensure it's an Element
+			        // Check if the swapped element itself is a container
+			        if (targetElement.matches('.select-container:not([data-initialized="true"])')) {
+			            initSelectScriptForElement(targetElement);
+			        }
+			        // Check for containers within the swapped element
+			        targetElement.querySelectorAll('.select-container:not([data-initialized="true"])').forEach(initSelectScriptForElement);
+			    }
+			});
 		</script>
 	}
 }
