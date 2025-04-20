@@ -99,7 +99,6 @@ templ Trigger(props ...TriggerProps) {
 	}
 	if p.Value == "" {
 		<span class="text-xs text-destructive">Error: Tab Trigger missing required 'Value' attribute.</span>
-		return templ.NopComponent
 	}
 	<button
 		if p.ID != "" {
