@@ -9,11 +9,13 @@ import "github.com/a-h/templ"
 import templruntime "github.com/a-h/templ/runtime"
 
 import (
-	"context"
+	"fmt"
 	"github.com/axzilla/templui/icon"
 	"github.com/axzilla/templui/util"
 	"strconv"
 )
+
+// --- Types & Constants ---
 
 type Style string
 
@@ -27,11 +29,11 @@ type Props struct {
 	ID          string
 	Class       string
 	Attributes  templ.Attributes
-	Value       float64
+	Value       float64 // Initial value
 	ReadOnly    bool
-	Precision   float64
-	Name        string
-	OnlyInteger bool
+	Precision   float64 // Step for value changes (e.g., 0.5, 1)
+	Name        string  // For form submission
+	OnlyInteger bool    // If true, snaps to whole numbers on click
 }
 
 type GroupProps struct {
@@ -44,10 +46,11 @@ type ItemProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
-	Value      int
-	Style      Style
+	Value      int   // The integer value this item represents (e.g., 1, 2, 3...)
+	Style      Style // Visual style
 }
 
+// --- Components ---
 func Rating(props ...Props) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -78,7 +81,6 @@ func Rating(props ...Props) templ.Component {
 			p = props[0]
 		}
 		p.setDefaults()
-		ctx = context.WithValue(ctx, "readOnly", p.ReadOnly)
 		var templ_7745c5c3_Var2 = []any{
 			util.TwMerge(
 				"flex flex-col items-start gap-1",
@@ -101,7 +103,7 @@ func Rating(props ...Props) templ.Component {
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 53, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 56, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -112,14 +114,14 @@ func Rating(props ...Props) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, " x-data=\"rating\" data-value=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, " data-rating-component data-initial-value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var4 string
-		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.FormatFloat(p.Value, 'f', -1, 64))
+		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%.2f", p.Value))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 56, Col: 56}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 59, Col: 51}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
@@ -130,9 +132,9 @@ func Rating(props ...Props) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var5 string
-		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.FormatFloat(p.Precision, 'f', -1, 64))
+		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%.2f", p.Precision))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 57, Col: 64}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 60, Col: 51}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
@@ -145,7 +147,7 @@ func Rating(props ...Props) templ.Component {
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.FormatBool(p.ReadOnly))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 58, Col: 48}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 61, Col: 48}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -163,7 +165,7 @@ func Rating(props ...Props) templ.Component {
 			var templ_7745c5c3_Var7 string
 			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(p.Name)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 60, Col: 21}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 63, Col: 21}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {
@@ -181,7 +183,7 @@ func Rating(props ...Props) templ.Component {
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.FormatBool(p.OnlyInteger))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 62, Col: 54}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 65, Col: 54}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
@@ -216,40 +218,39 @@ func Rating(props ...Props) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "<input type=\"hidden\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
 		if p.Name != "" {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, " name=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "<input type=\"hidden\" name=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var10 string
 			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(p.Name)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 75, Col: 17}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 80, Col: 17}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "\" value=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var11 string
+			templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%.2f", p.Value))
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 81, Col: 40}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "\" data-rating-input>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, " x-bind:value=\"value\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		if p.Name == "" {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, " disabled")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, " x-ref=\"input\"></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "</div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -273,57 +274,57 @@ func Group(props ...GroupProps) templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var11 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var11 == nil {
-			templ_7745c5c3_Var11 = templ.NopComponent
+		templ_7745c5c3_Var12 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var12 == nil {
+			templ_7745c5c3_Var12 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
 		var p GroupProps
 		if len(props) > 0 {
 			p = props[0]
 		}
-		var templ_7745c5c3_Var12 = []any{util.TwMerge("flex flex-row items-center gap-1", p.Class)}
-		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var12...)
+		var templ_7745c5c3_Var13 = []any{util.TwMerge("flex flex-row items-center gap-1", p.Class)}
+		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var13...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "<div")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "<div")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		if p.ID != "" {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, " id=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, " id=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var13 string
-			templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
+			var templ_7745c5c3_Var14 string
+			templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 91, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 95, Col: 12}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 23, " class=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, " class=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var14 string
-		templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var12).String())
+		var templ_7745c5c3_Var15 string
+		templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var13).String())
 		if templ_7745c5c3_Err != nil {
 			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 1, Col: 0}
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var15))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 24, "\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -331,15 +332,15 @@ func Group(props ...GroupProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 25, ">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 23, ">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templ_7745c5c3_Var11.Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = templ_7745c5c3_Var12.Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 26, "</div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 24, "</div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -363,9 +364,9 @@ func Item(props ...ItemProps) templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var15 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var15 == nil {
-			templ_7745c5c3_Var15 = templ.NopComponent
+		templ_7745c5c3_Var16 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var16 == nil {
+			templ_7745c5c3_Var16 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
 		var p ItemProps
@@ -373,85 +374,77 @@ func Item(props ...ItemProps) templ.Component {
 			p = props[0]
 		}
 		p.setDefaults()
-		readOnly, _ := ctx.Value("readOnly").(bool)
-		var templ_7745c5c3_Var16 = []any{
+		var templ_7745c5c3_Var17 = []any{
 			util.TwMerge(
 				"relative",
 				colorClass(p.Style),
 				"transition-opacity",
-				"cursor-pointer",
-				util.If(readOnly, "cursor-default"),
+				"cursor-pointer", // Default cursor
 				p.Class,
 			),
 		}
-		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var16...)
+		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var17...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 27, "<div")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 25, "<div")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		if p.ID != "" {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 28, " id=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 26, " id=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var17 string
-			templ_7745c5c3_Var17, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
+			var templ_7745c5c3_Var18 string
+			templ_7745c5c3_Var18, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 109, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 112, Col: 12}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var17))
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 29, "\"")
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var18))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 27, "\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 30, " class=\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var18 string
-		templ_7745c5c3_Var18, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var16).String())
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 1, Col: 0}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var18))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 31, "\" data-rating-value=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 28, " data-rating-item data-rating-value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var19 string
 		templ_7745c5c3_Var19, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(p.Value))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 121, Col: 43}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 115, Col: 43}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var19))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 32, "\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 29, "\" class=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		if !readOnly {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 33, " @click=\"setValue\" @mouseover=\"hover\" @mouseleave=\"resetPreview\"")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
+		var templ_7745c5c3_Var20 string
+		templ_7745c5c3_Var20, templ_7745c5c3_Err = templ.JoinStringErrs(templ.CSSClasses(templ_7745c5c3_Var17).String())
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 1, Col: 0}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var20))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 30, "\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
 		}
 		templ_7745c5c3_Err = templ.RenderAttributes(ctx, templ_7745c5c3_Buffer, p.Attributes)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 34, "><div class=\"opacity-30\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 31, "><div class=\"opacity-30\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -459,20 +452,7 @@ func Item(props ...ItemProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 35, "</div><div class=\"absolute inset-0 overflow-hidden\" x-bind:style=\"getItemStyle\" data-index=\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var20 string
-		templ_7745c5c3_Var20, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(p.Value))
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 135, Col: 37}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var20))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 36, "\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 32, "</div><div class=\"absolute inset-0 overflow-hidden\" data-rating-item-foreground style=\"width: 0%;\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -480,13 +460,15 @@ func Item(props ...ItemProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 37, "</div></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 33, "</div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		return nil
 	})
 }
+
+// --- Helpers ---
 
 func colorClass(style Style) string {
 	switch style {
@@ -500,6 +482,7 @@ func colorClass(style Style) string {
 }
 
 func ratingIcon(style Style, filled bool, value float64) templ.Component {
+	// Emoji logic remains the same
 	if style == StyleEmoji {
 		if filled {
 			switch {
@@ -517,20 +500,16 @@ func ratingIcon(style Style, filled bool, value float64) templ.Component {
 		}
 		return icon.Meh()
 	}
+	// Star/Heart logic remains the same
+	iconProps := icon.Props{}
 	if filled {
-		switch style {
-		case StyleHeart:
-			return icon.Heart(icon.Props{Fill: "currentColor"})
-		default:
-			return icon.Star(icon.Props{Fill: "currentColor"})
-		}
-	} else {
-		switch style {
-		case StyleHeart:
-			return icon.Heart()
-		default:
-			return icon.Star()
-		}
+		iconProps.Fill = "currentColor"
+	}
+	switch style {
+	case StyleHeart:
+		return icon.Heart(iconProps)
+	default:
+		return icon.Star(iconProps)
 	}
 }
 
@@ -542,9 +521,11 @@ func (p *ItemProps) setDefaults() {
 
 func (p *Props) setDefaults() {
 	if p.Precision <= 0 {
-		p.Precision = 1.0
+		p.Precision = 1.0 // Default to whole numbers
 	}
 }
+
+// --- Script ---
 
 var handle = templ.NewOnceHandle()
 
@@ -581,20 +562,20 @@ func Script() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 38, "<script defer nonce=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 34, "<script defer nonce=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var23 string
 			templ_7745c5c3_Var23, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 204, Col: 43}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 205, Col: 43}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var23))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 39, "\">\n\t\t\tdocument.addEventListener('alpine:init', () => {\n\t\t\t\tAlpine.data('rating', () => ({\n\t\t\t\t\tvalue: 0,\n\t\t\t\t\tmaxValue: 5, // Default value, will be dynamically updated\n\t\t\t\t\tprecision: 1,\n\t\t\t\t\treadonly: false,\n\t\t\t\t\tname: '',\n\t\t\t\t\tonlyInteger: false,\n\t\t\t\t\tpreviewValue: 0,\n\t\t\t\t\t\n\t\t\t\t\tinit() {\n\t\t\t\t\t\tthis.value = parseFloat(this.$el.dataset.value) || 0;\n\t\t\t\t\t\tthis.precision = parseFloat(this.$el.dataset.precision) || 1;\n\t\t\t\t\t\tthis.readonly = this.$el.dataset.readonly === 'true';\n\t\t\t\t\t\tthis.name = this.$el.dataset.name || '';\n\t\t\t\t\t\tthis.onlyInteger = this.$el.dataset.onlyinteger === 'true';\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Dynamically calculate maxValue based on the items\n\t\t\t\t\t\tthis.calculateMaxValue();\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Ensure value is within valid range\n\t\t\t\t\t\tthis.value = Math.min(this.maxValue, this.value);\n\t\t\t\t\t\tthis.value = Math.round(this.value / this.precision) * this.precision;\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Initialize the form element for proper form integration\n\t\t\t\t\t\tif (this.$refs.input) {\n\t\t\t\t\t\t\tthis.$refs.input.value = this.value;\n\t\t\t\t\t\t}\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Check if we're in a form context\n\t\t\t\t\t\tthis.form = this.$el.closest('form');\n\t\t\t\t\t\tif (this.form && this.name) {\n\t\t\t\t\t\t\t// Add validation support\n\t\t\t\t\t\t\tthis.form.addEventListener('submit', () => {\n\t\t\t\t\t\t\t\tthis.validate();\n\t\t\t\t\t\t\t});\n\t\t\t\t\t\t}\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Setup mutation observer to react to DOM changes\n\t\t\t\t\t\tthis.observeDOMChanges();\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\tcalculateMaxValue() {\n\t\t\t\t\t\t// Find all rating items and determine the highest value\n\t\t\t\t\t\tconst items = this.$el.querySelectorAll('[data-rating-value]');\n\t\t\t\t\t\tlet highestValue = 0;\n\t\t\t\t\t\t\n\t\t\t\t\t\titems.forEach(item => {\n\t\t\t\t\t\t\tconst value = parseInt(item.dataset.ratingValue, 10);\n\t\t\t\t\t\t\tif (value > highestValue) {\n\t\t\t\t\t\t\t\thighestValue = value;\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t});\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Set minimum maxValue of 1\n\t\t\t\t\t\tthis.maxValue = Math.max(1, highestValue);\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\tobserveDOMChanges() {\n\t\t\t\t\t\t// Use MutationObserver to react to DOM changes\n\t\t\t\t\t\tconst observer = new MutationObserver(() => {\n\t\t\t\t\t\t\tthis.calculateMaxValue();\n\t\t\t\t\t\t});\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Watch for changes in the child node list\n\t\t\t\t\t\tobserver.observe(this.$el, { childList: true, subtree: true });\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\tvalidate() {\n\t\t\t\t\t\t// Basic validation - can be extended as needed\n\t\t\t\t\t\tconst isValid = this.value > 0;\n\t\t\t\t\t\t// Trigger custom event for form validation\n\t\t\t\t\t\tthis.$dispatch('rating-validate', { \n\t\t\t\t\t\t\tname: this.name, \n\t\t\t\t\t\t\tvalue: this.value,\n\t\t\t\t\t\t\tvalid: isValid\n\t\t\t\t\t\t});\n\t\t\t\t\t\treturn isValid;\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\tsetValue() {\n\t\t\t\t\t\tif (this.readonly) return;\n\t\t\t\t\t\tconst item = this.$event.target.closest('[data-rating-value]');\n\t\t\t\t\t\tif (!item) return;\n\t\t\t\t\t\tconst newValue = parseInt(item.dataset.ratingValue);\n\t\t\t\t\t\tif (this.onlyInteger) {\n\t\t\t\t\t\t\tthis.value = Math.round(newValue);\n\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\tthis.value = Math.round(newValue / this.precision) * this.precision;\n\t\t\t\t\t\t}\n\t\t\t\t\t\tthis.value = Math.max(0, Math.min(this.maxValue, this.value));\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Update the hidden input value\n\t\t\t\t\t\tif (this.$refs.input) {\n\t\t\t\t\t\t\tthis.$refs.input.value = this.value;\n\t\t\t\t\t\t}\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Trigger change events for form integration\n\t\t\t\t\t\tthis.$dispatch('rating-change', { \n\t\t\t\t\t\t\tname: this.name, \n\t\t\t\t\t\t\tvalue: this.value,\n\t\t\t\t\t\t\tmaxValue: this.maxValue\n\t\t\t\t\t\t});\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Trigger input event for better form integration\n\t\t\t\t\t\tif (this.$refs.input) {\n\t\t\t\t\t\t\tthis.$refs.input.dispatchEvent(new Event('input', { bubbles: true }));\n\t\t\t\t\t\t\tthis.$refs.input.dispatchEvent(new Event('change', { bubbles: true }));\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\tgetFormattedValue() {\n\t\t\t\t\t\treturn Math.round(this.value * 100) / 100;\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\tgetItemStyle() {\n\t\t\t\t\t\tconst index = parseInt(this.$el.dataset.index || '0');\n\t\t\t\t\t\tconst filled = index <= Math.floor(this.value);\n\t\t\t\t\t\tconst partial = !filled && (index - 1 < this.value && this.value < index);\n\t\t\t\t\t\tconst percentage = partial ? (this.value - Math.floor(this.value)) * 100 : 0;\n\t\t\t\t\t\treturn {\n\t\t\t\t\t\t\twidth: filled ? '100%' : (partial ? percentage + '%' : '0%')\n\t\t\t\t\t\t};\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\thover() {\n\t\t\t\t\t\tif (this.readonly) return;\n\t\t\t\t\t\tconst item = this.$event.target.closest('[data-rating-value]');\n\t\t\t\t\t\tif (!item) return;\n\t\t\t\t\t\tthis.previewValue = parseInt(item.dataset.ratingValue);\n\t\t\t\t\t},\n\t\t\t\t\t\n\t\t\t\t\tresetPreview() {\n\t\t\t\t\t\tif (this.readonly) return;\n\t\t\t\t\t\tthis.previewValue = 0;\n\t\t\t\t\t}\n\t\t\t\t}));\n\t\t\t});\n\t\t</script>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 35, "\">\n\t\t\tfunction initializeRating(ratingElement) {\n\t\t\t\tif (ratingElement.dataset.ratingInitialized === 'true') {\n\t\t\t\t\treturn; // Already initialized\n\t\t\t\t}\n\t\t\t\tratingElement.dataset.ratingInitialized = 'true';\n\n\t\t\t\tconst config = {\n\t\t\t\t\tvalue: parseFloat(ratingElement.dataset.initialValue) || 0,\n\t\t\t\t\tprecision: parseFloat(ratingElement.dataset.precision) || 1,\n\t\t\t\t\treadonly: ratingElement.dataset.readonly === 'true',\n\t\t\t\t\tname: ratingElement.dataset.name || '',\n\t\t\t\t\tonlyInteger: ratingElement.dataset.onlyinteger === 'true',\n\t\t\t\t\tmaxValue: 0, // Will be calculated\n\t\t\t\t};\n\n\t\t\t\tconst hiddenInput = ratingElement.querySelector('[data-rating-input]');\n\t\t\t\tlet items = Array.from(ratingElement.querySelectorAll('[data-rating-item]'));\n\n\t\t\t\tlet currentValue = config.value;\n\t\t\t\tlet previewValue = 0; // For hover effect\n\n\t\t\t\tfunction calculateMaxValue() {\n\t\t\t\t\tlet highestValue = 0;\n\t\t\t\t\titems.forEach(item => {\n\t\t\t\t\t\tconst value = parseInt(item.dataset.ratingValue, 10);\n\t\t\t\t\t\tif (!isNaN(value) && value > highestValue) {\n\t\t\t\t\t\t\thighestValue = value;\n\t\t\t\t\t\t}\n\t\t\t\t\t});\n\t\t\t\t\tconfig.maxValue = Math.max(1, highestValue); // Ensure at least 1\n\t\t\t\t\t// Initial value clamping after calculating max value\n\t\t\t\t\tcurrentValue = Math.max(0, Math.min(config.maxValue, currentValue));\n\t\t\t\t\tcurrentValue = Math.round(currentValue / config.precision) * config.precision;\n\t\t\t\t\tupdateHiddenInput();\n\t\t\t\t}\n\n\t\t\t\tfunction updateHiddenInput() {\n\t\t\t\t\tif (hiddenInput) {\n\t\t\t\t\t\thiddenInput.value = currentValue.toFixed(2); // Keep consistent format\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\tfunction updateItemStyles(displayValue) {\n\t\t\t\t\titems.forEach(item => {\n\t\t\t\t\t\tconst itemValue = parseInt(item.dataset.ratingValue, 10);\n\t\t\t\t\t\tif (isNaN(itemValue)) return;\n\n\t\t\t\t\t\tconst foreground = item.querySelector('[data-rating-item-foreground]');\n\t\t\t\t\t\tif (!foreground) return;\n\n\t\t\t\t\t\tconst valueToCompare = displayValue > 0 ? displayValue : currentValue;\n\n\t\t\t\t\t\tconst filled = itemValue <= Math.floor(valueToCompare);\n\t\t\t\t\t\tconst partial = !filled && (itemValue - 1 < valueToCompare && valueToCompare < itemValue);\n\t\t\t\t\t\tconst percentage = partial ? (valueToCompare - Math.floor(valueToCompare)) * 100 : 0;\n\n\t\t\t\t\t\tforeground.style.width = filled ? '100%' : (partial ? `${percentage}%` : '0%');\n\t\t\t\t\t});\n\t\t\t\t}\n\n\t\t\t\tfunction setValue(itemValue) {\n\t\t\t\t\tif (config.readonly) return;\n\n\t\t\t\t\tlet newValue = itemValue;\n\t\t\t\t\tif (config.onlyInteger) {\n\t\t\t\t\t\tnewValue = Math.round(newValue);\n\t\t\t\t\t} else {\n                        // Allow deselecting by clicking the same full star/item\n                        if (currentValue === newValue && newValue % 1 === 0) {\n                            newValue = Math.max(0, newValue - config.precision);\n                        } else {\n                            newValue = Math.round(newValue / config.precision) * config.precision;\n                        }\n\t\t\t\t\t}\n\n\t\t\t\t\tcurrentValue = Math.max(0, Math.min(config.maxValue, newValue));\n\t\t\t\t\tpreviewValue = 0; // Reset preview on click\n\t\t\t\t\tupdateHiddenInput();\n\t\t\t\t\tupdateItemStyles(0); // Update based on new currentValue\n\n\t\t\t\t\t// Dispatch custom events for potential external listeners\n\t\t\t\t\tratingElement.dispatchEvent(new CustomEvent('rating-change', {\n\t\t\t\t\t\tbubbles: true,\n\t\t\t\t\t\tdetail: {\n\t\t\t\t\t\t\tname: config.name,\n\t\t\t\t\t\t\tvalue: currentValue,\n\t\t\t\t\t\t\tmaxValue: config.maxValue\n\t\t\t\t\t\t}\n\t\t\t\t\t}));\n\n\t\t\t\t\t// Trigger input/change on hidden field for form libraries\n\t\t\t\t\tif (hiddenInput) {\n\t\t\t\t\t\thiddenInput.dispatchEvent(new Event('input', { bubbles: true }));\n\t\t\t\t\t\thiddenInput.dispatchEvent(new Event('change', { bubbles: true }));\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\tfunction handleMouseOver(event) {\n\t\t\t\t\tif (config.readonly) return;\n\t\t\t\t\tconst item = event.target.closest('[data-rating-item]');\n\t\t\t\t\tif (item) {\n\t\t\t\t\t\tpreviewValue = parseInt(item.dataset.ratingValue, 10);\n\t\t\t\t\t\tif (!isNaN(previewValue)) {\n\t\t\t\t\t\t\tupdateItemStyles(previewValue);\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\tfunction handleMouseLeave() {\n\t\t\t\t\tif (config.readonly) return;\n\t\t\t\t\tpreviewValue = 0;\n\t\t\t\t\tupdateItemStyles(0); // Revert to actual value display\n\t\t\t\t}\n\n\t\t\t\tfunction handleClick(event) {\n\t\t\t\t\tif (config.readonly) return;\n\t\t\t\t\tconst item = event.target.closest('[data-rating-item]');\n\t\t\t\t\tif (item) {\n\t\t\t\t\t\tconst itemValue = parseInt(item.dataset.ratingValue, 10);\n\t\t\t\t\t\tif (!isNaN(itemValue)) {\n\t\t\t\t\t\t\tsetValue(itemValue);\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\t// --- Initialization ---\n\t\t\t\tcalculateMaxValue(); // Calculate max value based on rendered items\n\t\t\t\tupdateItemStyles(0); // Set initial styles based on currentValue\n\n\t\t\t\t// Apply readonly styling/behavior\n\t\t\t\tif (config.readonly) {\n\t\t\t\t\tratingElement.style.cursor = 'default';\n\t\t\t\t\titems.forEach(item => item.style.cursor = 'default');\n\t\t\t\t} else {\n\t\t\t\t\t// Use event delegation on the main rating element\n\t\t\t\t\tratingElement.addEventListener('click', handleClick);\n\t\t\t\t\tratingElement.addEventListener('mouseover', handleMouseOver);\n\t\t\t\t\tratingElement.addEventListener('mouseleave', handleMouseLeave);\n\t\t\t\t}\n\n\t\t\t\t// Observe future DOM changes within this rating component\n\t\t\t\tconst observer = new MutationObserver(() => {\n                    const currentItemCount = ratingElement.querySelectorAll('[data-rating-item]').length;\n                    if (currentItemCount !== items.length) {\n                        items = Array.from(ratingElement.querySelectorAll('[data-rating-item]')); // Update item list\n                        calculateMaxValue();\n                        updateItemStyles(previewValue > 0 ? previewValue : 0); // Update styles respecting preview\n                    }\n                });\n\t\t\t\tobserver.observe(ratingElement, { childList: true, subtree: true });\n\n                // Optional: Store cleanup function reference on the element\n\t\t\t\tratingElement._ratingCleanup = () => {\n                    if (!config.readonly) {\n                        ratingElement.removeEventListener('click', handleClick);\n                        ratingElement.removeEventListener('mouseover', handleMouseOver);\n                        ratingElement.removeEventListener('mouseleave', handleMouseLeave);\n                    }\n                    observer.disconnect();\n                };\n\t\t\t}\n\n\t\t\t// --- Global Initialization Triggers ---\n\n\t\t\tfunction initializeAllRatings() {\n\t\t\t\tdocument.querySelectorAll('[data-rating-component]:not([data-rating-initialized])').forEach(initializeRating);\n\t\t\t}\n\n\t\t\t// 1. Initial page load\n\t\t\tif (document.readyState === 'loading') {\n\t\t\t\tdocument.addEventListener('DOMContentLoaded', initializeAllRatings);\n\t\t\t} else {\n\t\t\t\tinitializeAllRatings(); // Already loaded\n\t\t\t}\n\n\t\t\t// 2. After HTMX swaps - Initialize any new rating components loaded via HTMX\n\t\t\tdocument.body.addEventListener('htmx:afterSwap', function(event) {\n\t\t\t\tconst targetElement = event.target instanceof Element ? event.target : null;\n\t\t\t\tif (targetElement) {\n\t\t\t\t\t// Check if the swapped element itself is a rating component\n\t\t\t\t\tif (targetElement.matches('[data-rating-component]:not([data-rating-initialized])')) {\n\t\t\t\t\t\tinitializeRating(targetElement);\n\t\t\t\t\t}\n\t\t\t\t\t// Check for rating components within the swapped content\n\t\t\t\t\ttargetElement.querySelectorAll('[data-rating-component]:not([data-rating-initialized])').forEach(initializeRating);\n\t\t\t\t}\n\t\t\t});\n\n\t\t\t// Optional: Add htmx:beforeSwap listener to cleanup event listeners\n\t\t\tdocument.body.addEventListener('htmx:beforeCleanup', (event) => {\n                let containerToRemove = event.detail.target || event.detail.elt;\n                if (containerToRemove && containerToRemove.querySelectorAll) {\n                    containerToRemove.querySelectorAll('[data-rating-component][data-rating-initialized]').forEach(ratingEl => {\n                        if (typeof ratingEl._ratingCleanup === 'function') {\n                            ratingEl._ratingCleanup();\n                            delete ratingEl._ratingCleanup; // Remove reference\n                            ratingEl.removeAttribute('data-rating-initialized'); // Allow re-initialization if needed\n                        }\n                    });\n                    if (containerToRemove.matches('[data-rating-component][data-rating-initialized]')) {\n                         if (typeof containerToRemove._ratingCleanup === 'function') {\n                            containerToRemove._ratingCleanup();\n                            delete containerToRemove._ratingCleanup;\n                            containerToRemove.removeAttribute('data-rating-initialized');\n                        }\n                    }\n                }\n            });\n\n\t\t</script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

@@ -1,11 +1,13 @@
 package rating
 
 import (
-	"context"
+	"fmt"
 	"github.com/axzilla/templui/icon"
 	"github.com/axzilla/templui/util"
 	"strconv"
 )
+
+// --- Types & Constants ---
 
 type Style string
 
@@ -19,11 +21,11 @@ type Props struct {
 	ID          string
 	Class       string
 	Attributes  templ.Attributes
-	Value       float64
+	Value       float64 // Initial value
 	ReadOnly    bool
-	Precision   float64
-	Name        string
-	OnlyInteger bool
+	Precision   float64 // Step for value changes (e.g., 0.5, 1)
+	Name        string  // For form submission
+	OnlyInteger bool    // If true, snaps to whole numbers on click
 }
 
 type GroupProps struct {
@@ -36,25 +38,26 @@ type ItemProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
-	Value      int
-	Style      Style
+	Value      int   // The integer value this item represents (e.g., 1, 2, 3...)
+	Style      Style // Visual style
 }
 
+// --- Components ---
 templ Rating(props ...Props) {
 	@Script()
+	// Include the Vanilla JS script
 	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
 	{{ p.setDefaults() }}
-	{{ ctx = context.WithValue(ctx, "readOnly", p.ReadOnly) }}
 	<div
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		x-data="rating"
-		data-value={ strconv.FormatFloat(p.Value, 'f', -1, 64) }
-		data-precision={ strconv.FormatFloat(p.Precision, 'f', -1, 64) }
+		data-rating-component
+		data-initial-value={ fmt.Sprintf("%.2f", p.Value) }
+		data-precision={ fmt.Sprintf("%.2f", p.Precision) }
 		data-readonly={ strconv.FormatBool(p.ReadOnly) }
 		if p.Name != "" {
 			data-name={ p.Name }
@@ -69,15 +72,16 @@ templ Rating(props ...Props) {
 		{ p.Attributes... }
 	>
 		{ children... }
-		<input
-			type="hidden"
-			if p.Name != "" {
+		// Expects RatingGroup with RatingItems
+		// Hidden input for form submissions
+		if p.Name != "" {
+			<input
+				type="hidden"
 				name={ p.Name }
-			}
-			x-bind:value="value"
-			disabled?={ p.Name == "" }
-			x-ref="input"
-		/>
+				value={ fmt.Sprintf("%.2f", p.Value) }
+				data-rating-input
+			/>
+		}
 	</div>
 }
 
@@ -103,41 +107,39 @@ templ Item(props ...ItemProps) {
 		{{ p = props[0] }}
 	}
 	{{ p.setDefaults() }}
-	{{ readOnly, _ := ctx.Value("readOnly").(bool) }}
 	<div
 		if p.ID != "" {
 			id={ p.ID }
 		}
+		data-rating-item
+		data-rating-value={ strconv.Itoa(p.Value) }
 		class={
 			util.TwMerge(
 				"relative",
 				colorClass(p.Style),
 				"transition-opacity",
-				"cursor-pointer",
-				util.If(readOnly, "cursor-default"),
+				"cursor-pointer", // Default cursor
 				p.Class,
 			),
 		}
-		data-rating-value={ strconv.Itoa(p.Value) }
-		if !readOnly {
-			@click="setValue"
-			@mouseover="hover"
-			@mouseleave="resetPreview"
-		}
 		{ p.Attributes... }
 	>
+		// Background (empty) icon
 		<div class="opacity-30">
 			@ratingIcon(p.Style, false, float64(p.Value))
 		</div>
+		// Foreground (filled) icon container
 		<div
 			class="absolute inset-0 overflow-hidden"
-			x-bind:style="getItemStyle"
-			data-index={ strconv.Itoa(p.Value) }
+			data-rating-item-foreground
+			style="width: 0%;"
 		>
 			@ratingIcon(p.Style, true, float64(p.Value))
 		</div>
 	</div>
 }
+
+// --- Helpers ---
 
 func colorClass(style Style) string {
 	switch style {
@@ -151,6 +153,7 @@ func colorClass(style Style) string {
 }
 
 func ratingIcon(style Style, filled bool, value float64) templ.Component {
+	// Emoji logic remains the same
 	if style == StyleEmoji {
 		if filled {
 			switch {
@@ -168,20 +171,16 @@ func ratingIcon(style Style, filled bool, value float64) templ.Component {
 		}
 		return icon.Meh()
 	}
+	// Star/Heart logic remains the same
+	iconProps := icon.Props{}
 	if filled {
-		switch style {
-		case StyleHeart:
-			return icon.Heart(icon.Props{Fill: "currentColor"})
-		default:
-			return icon.Star(icon.Props{Fill: "currentColor"})
-		}
-	} else {
-		switch style {
-		case StyleHeart:
-			return icon.Heart()
-		default:
-			return icon.Star()
-		}
+		iconProps.Fill = "currentColor"
+	}
+	switch style {
+	case StyleHeart:
+		return icon.Heart(iconProps)
+	default:
+		return icon.Star(iconProps)
 	}
 }
 
@@ -193,153 +192,226 @@ func (p *ItemProps) setDefaults() {
 
 func (p *Props) setDefaults() {
 	if p.Precision <= 0 {
-		p.Precision = 1.0
+		p.Precision = 1.0 // Default to whole numbers
 	}
 }
+
+// --- Script ---
 
 var handle = templ.NewOnceHandle()
 
 templ Script() {
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
-			document.addEventListener('alpine:init', () => {
-				Alpine.data('rating', () => ({
-					value: 0,
-					maxValue: 5, // Default value, will be dynamically updated
-					precision: 1,
-					readonly: false,
-					name: '',
-					onlyInteger: false,
-					previewValue: 0,
-					
-					init() {
-						this.value = parseFloat(this.$el.dataset.value) || 0;
-						this.precision = parseFloat(this.$el.dataset.precision) || 1;
-						this.readonly = this.$el.dataset.readonly === 'true';
-						this.name = this.$el.dataset.name || '';
-						this.onlyInteger = this.$el.dataset.onlyinteger === 'true';
-						
-						// Dynamically calculate maxValue based on the items
-						this.calculateMaxValue();
-						
-						// Ensure value is within valid range
-						this.value = Math.min(this.maxValue, this.value);
-						this.value = Math.round(this.value / this.precision) * this.precision;
-						
-						// Initialize the form element for proper form integration
-						if (this.$refs.input) {
-							this.$refs.input.value = this.value;
+			function initializeRating(ratingElement) {
+				if (ratingElement.dataset.ratingInitialized === 'true') {
+					return; // Already initialized
+				}
+				ratingElement.dataset.ratingInitialized = 'true';
+
+				const config = {
+					value: parseFloat(ratingElement.dataset.initialValue) || 0,
+					precision: parseFloat(ratingElement.dataset.precision) || 1,
+					readonly: ratingElement.dataset.readonly === 'true',
+					name: ratingElement.dataset.name || '',
+					onlyInteger: ratingElement.dataset.onlyinteger === 'true',
+					maxValue: 0, // Will be calculated
+				};
+
+				const hiddenInput = ratingElement.querySelector('[data-rating-input]');
+				let items = Array.from(ratingElement.querySelectorAll('[data-rating-item]'));
+
+				let currentValue = config.value;
+				let previewValue = 0; // For hover effect
+
+				function calculateMaxValue() {
+					let highestValue = 0;
+					items.forEach(item => {
+						const value = parseInt(item.dataset.ratingValue, 10);
+						if (!isNaN(value) && value > highestValue) {
+							highestValue = value;
 						}
-						
-						// Check if we're in a form context
-						this.form = this.$el.closest('form');
-						if (this.form && this.name) {
-							// Add validation support
-							this.form.addEventListener('submit', () => {
-								this.validate();
-							});
-						}
-						
-						// Setup mutation observer to react to DOM changes
-						this.observeDOMChanges();
-					},
-					
-					calculateMaxValue() {
-						// Find all rating items and determine the highest value
-						const items = this.$el.querySelectorAll('[data-rating-value]');
-						let highestValue = 0;
-						
-						items.forEach(item => {
-							const value = parseInt(item.dataset.ratingValue, 10);
-							if (value > highestValue) {
-								highestValue = value;
-							}
-						});
-						
-						// Set minimum maxValue of 1
-						this.maxValue = Math.max(1, highestValue);
-					},
-					
-					observeDOMChanges() {
-						// Use MutationObserver to react to DOM changes
-						const observer = new MutationObserver(() => {
-							this.calculateMaxValue();
-						});
-						
-						// Watch for changes in the child node list
-						observer.observe(this.$el, { childList: true, subtree: true });
-					},
-					
-					validate() {
-						// Basic validation - can be extended as needed
-						const isValid = this.value > 0;
-						// Trigger custom event for form validation
-						this.$dispatch('rating-validate', { 
-							name: this.name, 
-							value: this.value,
-							valid: isValid
-						});
-						return isValid;
-					},
-					
-					setValue() {
-						if (this.readonly) return;
-						const item = this.$event.target.closest('[data-rating-value]');
-						if (!item) return;
-						const newValue = parseInt(item.dataset.ratingValue);
-						if (this.onlyInteger) {
-							this.value = Math.round(newValue);
-						} else {
-							this.value = Math.round(newValue / this.precision) * this.precision;
-						}
-						this.value = Math.max(0, Math.min(this.maxValue, this.value));
-						
-						// Update the hidden input value
-						if (this.$refs.input) {
-							this.$refs.input.value = this.value;
-						}
-						
-						// Trigger change events for form integration
-						this.$dispatch('rating-change', { 
-							name: this.name, 
-							value: this.value,
-							maxValue: this.maxValue
-						});
-						
-						// Trigger input event for better form integration
-						if (this.$refs.input) {
-							this.$refs.input.dispatchEvent(new Event('input', { bubbles: true }));
-							this.$refs.input.dispatchEvent(new Event('change', { bubbles: true }));
-						}
-					},
-					
-					getFormattedValue() {
-						return Math.round(this.value * 100) / 100;
-					},
-					
-					getItemStyle() {
-						const index = parseInt(this.$el.dataset.index || '0');
-						const filled = index <= Math.floor(this.value);
-						const partial = !filled && (index - 1 < this.value && this.value < index);
-						const percentage = partial ? (this.value - Math.floor(this.value)) * 100 : 0;
-						return {
-							width: filled ? '100%' : (partial ? percentage + '%' : '0%')
-						};
-					},
-					
-					hover() {
-						if (this.readonly) return;
-						const item = this.$event.target.closest('[data-rating-value]');
-						if (!item) return;
-						this.previewValue = parseInt(item.dataset.ratingValue);
-					},
-					
-					resetPreview() {
-						if (this.readonly) return;
-						this.previewValue = 0;
+					});
+					config.maxValue = Math.max(1, highestValue); // Ensure at least 1
+					// Initial value clamping after calculating max value
+					currentValue = Math.max(0, Math.min(config.maxValue, currentValue));
+					currentValue = Math.round(currentValue / config.precision) * config.precision;
+					updateHiddenInput();
+				}
+
+				function updateHiddenInput() {
+					if (hiddenInput) {
+						hiddenInput.value = currentValue.toFixed(2); // Keep consistent format
 					}
-				}));
+				}
+
+				function updateItemStyles(displayValue) {
+					items.forEach(item => {
+						const itemValue = parseInt(item.dataset.ratingValue, 10);
+						if (isNaN(itemValue)) return;
+
+						const foreground = item.querySelector('[data-rating-item-foreground]');
+						if (!foreground) return;
+
+						const valueToCompare = displayValue > 0 ? displayValue : currentValue;
+
+						const filled = itemValue <= Math.floor(valueToCompare);
+						const partial = !filled && (itemValue - 1 < valueToCompare && valueToCompare < itemValue);
+						const percentage = partial ? (valueToCompare - Math.floor(valueToCompare)) * 100 : 0;
+
+						foreground.style.width = filled ? '100%' : (partial ? `${percentage}%` : '0%');
+					});
+				}
+
+				function setValue(itemValue) {
+					if (config.readonly) return;
+
+					let newValue = itemValue;
+					if (config.onlyInteger) {
+						newValue = Math.round(newValue);
+					} else {
+                        // Allow deselecting by clicking the same full star/item
+                        if (currentValue === newValue && newValue % 1 === 0) {
+                            newValue = Math.max(0, newValue - config.precision);
+                        } else {
+                            newValue = Math.round(newValue / config.precision) * config.precision;
+                        }
+					}
+
+					currentValue = Math.max(0, Math.min(config.maxValue, newValue));
+					previewValue = 0; // Reset preview on click
+					updateHiddenInput();
+					updateItemStyles(0); // Update based on new currentValue
+
+					// Dispatch custom events for potential external listeners
+					ratingElement.dispatchEvent(new CustomEvent('rating-change', {
+						bubbles: true,
+						detail: {
+							name: config.name,
+							value: currentValue,
+							maxValue: config.maxValue
+						}
+					}));
+
+					// Trigger input/change on hidden field for form libraries
+					if (hiddenInput) {
+						hiddenInput.dispatchEvent(new Event('input', { bubbles: true }));
+						hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));
+					}
+				}
+
+				function handleMouseOver(event) {
+					if (config.readonly) return;
+					const item = event.target.closest('[data-rating-item]');
+					if (item) {
+						previewValue = parseInt(item.dataset.ratingValue, 10);
+						if (!isNaN(previewValue)) {
+							updateItemStyles(previewValue);
+						}
+					}
+				}
+
+				function handleMouseLeave() {
+					if (config.readonly) return;
+					previewValue = 0;
+					updateItemStyles(0); // Revert to actual value display
+				}
+
+				function handleClick(event) {
+					if (config.readonly) return;
+					const item = event.target.closest('[data-rating-item]');
+					if (item) {
+						const itemValue = parseInt(item.dataset.ratingValue, 10);
+						if (!isNaN(itemValue)) {
+							setValue(itemValue);
+						}
+					}
+				}
+
+				// --- Initialization ---
+				calculateMaxValue(); // Calculate max value based on rendered items
+				updateItemStyles(0); // Set initial styles based on currentValue
+
+				// Apply readonly styling/behavior
+				if (config.readonly) {
+					ratingElement.style.cursor = 'default';
+					items.forEach(item => item.style.cursor = 'default');
+				} else {
+					// Use event delegation on the main rating element
+					ratingElement.addEventListener('click', handleClick);
+					ratingElement.addEventListener('mouseover', handleMouseOver);
+					ratingElement.addEventListener('mouseleave', handleMouseLeave);
+				}
+
+				// Observe future DOM changes within this rating component
+				const observer = new MutationObserver(() => {
+                    const currentItemCount = ratingElement.querySelectorAll('[data-rating-item]').length;
+                    if (currentItemCount !== items.length) {
+                        items = Array.from(ratingElement.querySelectorAll('[data-rating-item]')); // Update item list
+                        calculateMaxValue();
+                        updateItemStyles(previewValue > 0 ? previewValue : 0); // Update styles respecting preview
+                    }
+                });
+				observer.observe(ratingElement, { childList: true, subtree: true });
+
+                // Optional: Store cleanup function reference on the element
+				ratingElement._ratingCleanup = () => {
+                    if (!config.readonly) {
+                        ratingElement.removeEventListener('click', handleClick);
+                        ratingElement.removeEventListener('mouseover', handleMouseOver);
+                        ratingElement.removeEventListener('mouseleave', handleMouseLeave);
+                    }
+                    observer.disconnect();
+                };
+			}
+
+			// --- Global Initialization Triggers ---
+
+			function initializeAllRatings() {
+				document.querySelectorAll('[data-rating-component]:not([data-rating-initialized])').forEach(initializeRating);
+			}
+
+			// 1. Initial page load
+			if (document.readyState === 'loading') {
+				document.addEventListener('DOMContentLoaded', initializeAllRatings);
+			} else {
+				initializeAllRatings(); // Already loaded
+			}
+
+			// 2. After HTMX swaps - Initialize any new rating components loaded via HTMX
+			document.body.addEventListener('htmx:afterSwap', function(event) {
+				const targetElement = event.target instanceof Element ? event.target : null;
+				if (targetElement) {
+					// Check if the swapped element itself is a rating component
+					if (targetElement.matches('[data-rating-component]:not([data-rating-initialized])')) {
+						initializeRating(targetElement);
+					}
+					// Check for rating components within the swapped content
+					targetElement.querySelectorAll('[data-rating-component]:not([data-rating-initialized])').forEach(initializeRating);
+				}
 			});
+
+			// Optional: Add htmx:beforeSwap listener to cleanup event listeners
+			document.body.addEventListener('htmx:beforeCleanup', (event) => {
+                let containerToRemove = event.detail.target || event.detail.elt;
+                if (containerToRemove && containerToRemove.querySelectorAll) {
+                    containerToRemove.querySelectorAll('[data-rating-component][data-rating-initialized]').forEach(ratingEl => {
+                        if (typeof ratingEl._ratingCleanup === 'function') {
+                            ratingEl._ratingCleanup();
+                            delete ratingEl._ratingCleanup; // Remove reference
+                            ratingEl.removeAttribute('data-rating-initialized'); // Allow re-initialization if needed
+                        }
+                    });
+                    if (containerToRemove.matches('[data-rating-component][data-rating-initialized]')) {
+                         if (typeof containerToRemove._ratingCleanup === 'function') {
+                            containerToRemove._ratingCleanup();
+                            delete containerToRemove._ratingCleanup;
+                            containerToRemove.removeAttribute('data-rating-initialized');
+                        }
+                    }
+                }
+            });
+
 		</script>
 	}
 }
