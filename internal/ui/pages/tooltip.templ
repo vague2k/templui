@@ -9,7 +9,7 @@ import (
 templ Tooltip() {
 	@layouts.DocsLayout(
 		"Tooltip",
-		"A small pop-up box that appears when a user hovers over an element. Uses `Popover` component under the hood.",
+		"A small pop-up box that appears when a user hovers over an element. Uses Popover with Floating UI under the hood.",
 		[]modules.TableOfContentsItem{
 			{
 				Text: "Examples",
@@ -25,7 +25,7 @@ templ Tooltip() {
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Tooltip",
-			Description: templ.Raw("A small pop-up box that appears when a user hovers over an element. Uses `Popover` component under the hood."),
+			Description: templ.Raw(`Small pop-up that appears on hover. Powered by <a href="/docs/components/popover" class="text-primary underline underline-offset-2 hover:opacity-80 transition-opacity">Popover</a> with <a href="https://floating-ui.com/" target="_blank" rel="noopener noreferrer" class="text-primary underline underline-offset-2 hover:opacity-80 transition-opacity">Floating UI</a>.`),
 			Tailwind:    true,
 			Breadcrumbs: modules.Breadcrumbs{
 				Items: []modules.BreadcrumbItem{
