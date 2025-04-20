@@ -2,9 +2,9 @@ package pages
 
 import (
 	"github.com/axzilla/templui/component/button"
-	"github.com/axzilla/templui/component/selectbox"
 	"github.com/axzilla/templui/internal/ui/layouts"
 	"github.com/axzilla/templui/internal/ui/modules"
+	"github.com/axzilla/templui/internal/ui/showcase"
 )
 
 templ Swap() {
@@ -20,45 +20,7 @@ templ Swap() {
 				Swap
 			}
 			<div id="swap-container">
-				@selectbox.SelectBox() {
-					@selectbox.Trigger() {
-						@selectbox.Value(selectbox.ValueProps{
-							Placeholder: "Select a fruit",
-						})
-					}
-					@selectbox.Content() {
-						@selectbox.Group() {
-							@selectbox.Label() {
-								Fruits
-							}
-							@selectbox.Item(selectbox.ItemProps{
-								Value: "apple",
-							}) {
-								Apple
-							}
-							@selectbox.Item(selectbox.ItemProps{
-								Value: "banana",
-							}) {
-								Banana
-							}
-							@selectbox.Item(selectbox.ItemProps{
-								Value: "blueberry",
-							}) {
-								Blueberry
-							}
-							@selectbox.Item(selectbox.ItemProps{
-								Value: "grapes",
-							}) {
-								Grapes
-							}
-							@selectbox.Item(selectbox.ItemProps{
-								Value: "pineapple",
-							}) {
-								Pineapple
-							}
-						}
-					}
-				}
+				@showcase.SliderExternalValue()
 			</div>
 		</form>
 	}
