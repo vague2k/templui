@@ -2,9 +2,9 @@ package datepicker
 
 import (
 	"github.com/axzilla/templui/component/button"
+	"github.com/axzilla/templui/component/popover"
 	"github.com/axzilla/templui/icon"
 	"github.com/axzilla/templui/util"
-	"strconv"
 	"time"
 )
 
@@ -47,7 +47,7 @@ var (
 	LocaleGerman = Locale{
 		MonthNames: []string{"Januar", "Februar", "März", "April", "Mai", "Juni",
 			"Juli", "August", "September", "Oktober", "November", "Dezember"},
-		DayNames: []string{"Mo", "Di", "Mi", "Do", "Fr", "Sa", "So"},
+		DayNames: []string{"So", "Mo", "Di", "Mi", "Do", "Fr", "Sa"},
 	}
 
 	LocaleFrench = Locale{
@@ -133,32 +133,25 @@ templ DatePicker(props ...Props) {
 	if p.Placeholder == "" {
 		{{ p.Placeholder = "Select a date" }}
 	}
-	<div
-		id={ p.ID + "-container" }
-		class={ util.TwMerge("relative", p.Class) }
+	// Generate IDs for popover linkage
+	{{ var contentID = p.ID + "-content" }}
+	<input
+		type="hidden"
+		id={ p.ID + "-hidden" }
+		name={ p.Name }
+		data-datepicker-hidden-input
 		if p.Value != (time.Time{}) {
-			data-value={ p.Value.Format(p.Config.getGoFormat()) }
+			value={ p.Value.Format("2006-01-02") }
 		}
-		data-format={ string(p.Config.Format) }
-		data-monthnames={ templ.JSONString(p.Config.Locale.MonthNames) }
-		data-daynames={ templ.JSONString(p.Config.Locale.DayNames) }
-		data-placeholder={ p.Placeholder }
-		x-data="datePicker"
-		@resize.window="updatePosition"
-		{ p.Attributes... }
-	>
-		<input
-			type="hidden"
-			id={ p.ID + "-hidden" }
-			name={ p.Name }
-			x-ref="hiddenInput"
-			disabled?={ p.Disabled }
-			required?={ p.Required }
-		/>
-		<div class="relative">
+		disabled?={ p.Disabled }
+		required?={ p.Required }
+	/>
+	@popover.Popover() {
+		@popover.Trigger(popover.TriggerProps{
+			For: contentID,
+		}) {
 			@button.Button(button.Props{
 				ID:      p.ID,
-				Type:    "button",
 				Variant: button.VariantOutline,
 				Class: util.TwMerge(
 					"w-full select-trigger flex items-center justify-between focus:ring-2 focus:ring-offset-2",
@@ -166,17 +159,9 @@ templ DatePicker(props ...Props) {
 					p.Class,
 				),
 				Disabled: p.Disabled,
-				Attributes: util.MergeAttributes(
-					templ.Attributes{
-						"@click":   "toggleDatePicker",
-						"x-ref":    "triggerButton",
-						"required": strconv.FormatBool(p.Required),
-					},
-					p.Attributes,
-				),
 			}) {
 				<span
-					x-ref="displayText"
+					data-datepicker-display
 					class="text-left grow"
 				>
 					if p.Value != (time.Time{}) {
@@ -185,95 +170,71 @@ templ DatePicker(props ...Props) {
 						<span class="text-muted-foreground">{ p.Placeholder }</span>
 					}
 				</span>
-				<!-- Calendar icon -->
 				<span class="text-muted-foreground flex items-center">
-					@icon.Calendar()
+					@icon.Calendar(icon.Props{
+						Size: 16,
+					})
 				</span>
 			}
-		</div>
-		<!-- DatePicker Popup -->
-		<div
-			x-show="open"
-			x-ref="datePickerPopup"
-			@click.away="closeDatePicker"
-			x-transition.opacity
-			class={
-				util.TwMerge(
-					"absolute left-0 z-50 w-64 p-4",
-					"rounded-lg border bg-popover shadow-md",
-				),
-			}
-			style="display: none;"
-		>
-			<div class="flex items-center justify-between mb-4">
-				<span x-ref="monthDisplay" class="text-sm font-medium"></span>
-				<div class="flex gap-1">
-					<button
-						type="button"
-						@click="prevMonth"
-						class={
-							util.TwMerge(
-								"inline-flex",
-								"items-center",
-								"justify-center",
-								"rounded-md",
-								"text-sm",
-								"font-medium",
-								"ring-offset-background",
-								"transition-colors",
-								"focus-visible:outline-hidden",
-								"focus-visible:ring-2",
-								"focus-visible:ring-ring",
-								"focus-visible:ring-offset-2",
-								"disabled:pointer-events-none",
-								"disabled:opacity-50",
-								"hover:bg-accent",
-								"hover:text-accent-foreground",
-								"h-7",
-								"w-7",
-							),
-						}
-					>
-						@icon.ChevronLeft()
-					</button>
-					<button
-						type="button"
-						@click="nextMonth"
-						class={
-							util.TwMerge(
-								"inline-flex",
-								"items-center",
-								"justify-center",
-								"rounded-md",
-								"text-sm",
-								"font-medium",
-								"ring-offset-background",
-								"transition-colors",
-								"focus-visible:outline-hidden",
-								"focus-visible:ring-2",
-								"focus-visible:ring-ring",
-								"focus-visible:ring-offset-2",
-								"disabled:pointer-events-none",
-								"disabled:opacity-50",
-								"hover:bg-accent",
-								"hover:text-accent-foreground",
-								"h-7",
-								"w-7",
-							),
-						}
-					>
-						@icon.ChevronRight()
-					</button>
+		}
+		@popover.Content(popover.ContentProps{
+			ID:        contentID, // Link from trigger
+			Placement: popover.PlacementBottomStart,
+			Class:     "p-3",
+		}) {
+			<div
+				data-datepicker-container
+				if p.Value != (time.Time{}) {
+					data-value={ p.Value.Format(p.Config.getGoFormat()) }
+				} else {
+					data-value=""
+				}
+				data-format={ string(p.Config.Format) }
+				data-monthnames={ templ.JSONString(p.Config.Locale.MonthNames) }
+				data-daynames={ templ.JSONString(p.Config.Locale.DayNames) }
+				data-placeholder={ p.Placeholder }
+			>
+				<div class="flex items-center justify-between mb-2">
+					<span data-datepicker-month-display class="text-sm font-medium"></span>
+					<div class="flex gap-1">
+						<button
+							type="button"
+							data-datepicker-prev
+							class={ util.TwMerge(
+										"inline-flex items-center justify-center rounded-md text-sm font-medium",
+										"ring-offset-background transition-colors",
+										"focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+										"disabled:pointer-events-none disabled:opacity-50",
+										"hover:bg-accent hover:text-accent-foreground",
+										"h-7 w-7",
+									) }
+						>
+							@icon.ChevronLeft()
+						</button>
+						<button
+							type="button"
+							data-datepicker-next
+							class={ util.TwMerge(
+										"inline-flex items-center justify-center rounded-md text-sm font-medium",
+										"ring-offset-background transition-colors",
+										"focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+										"disabled:pointer-events-none disabled:opacity-50",
+										"hover:bg-accent hover:text-accent-foreground",
+										"h-7 w-7",
+									) }
+						>
+							@icon.ChevronRight()
+						</button>
+					</div>
 				</div>
+				<div data-datepicker-weekdays class="grid grid-cols-7 gap-1 mb-1"></div>
+				<div data-datepicker-days class="grid grid-cols-7 gap-1"></div>
 			</div>
-			<!-- Weekday container -->
-			<div x-ref="weekdaysContainer" class="grid grid-cols-7 gap-1 mb-2"></div>
-			<!-- Calendar days container -->
-			<div x-ref="daysContainer" class="grid grid-cols-7 gap-1"></div>
-		</div>
-	</div>
+		}
+	}
 }
 
+// Get the Go format string for the given format
 func (c Config) getGoFormat() string {
 	if format, ok := formatMapping[c.Format]; ok {
 		return format
@@ -286,298 +247,276 @@ var handle = templ.NewOnceHandle()
 templ Script() {
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
-			document.addEventListener('alpine:init', () => {
-				Alpine.data('datePicker', () => ({
-					open: false,
-					value: null,
-					format: null,
-					currentMonth: new Date().getMonth(),
-					currentYear: new Date().getFullYear(),
-					monthNames: [],
-					dayNames: [],
-					position: 'bottom',
+			function initializeAllDatePickersInScope(scopeElement) {
+				scopeElement.querySelectorAll('[data-datepicker-container]').forEach(container => {
+					// Prevent re-initialization
+					if (container._datePickerInitialized) return;
 
-					init() {
-							// Parse Month and Day names
+					const popoverContentElement = container.closest('[data-popover-id]');
+					if (popoverContentElement) {
 						try {
-							this.monthNames = JSON.parse(this.$el.dataset.monthnames) || [];
-							this.dayNames = JSON.parse(this.$el.dataset.daynames) || [];
-							
-							if (!this.monthNames.length) {
-								this.monthNames = [
-									'January',
-									'February', 
-									'March',
-									'April',
-									'May',
-									'June',
-									'July', 
-									'August',
-									'September',
-									'October',
-									'November',
-									'December'
-								];
-							}
-							if (!this.dayNames.length) {
-								this.dayNames = [
-									'Su',
-									'Mo',
-									'Tu', 
-									'We',
-									'Th',
-									'Fr',
-									'Sa'
-								];
-							}
-							
-							// Format and Placeholder
-							this.format = this.$el.dataset.format || 'iso';
-							this.placeholder = this.$el.dataset.placeholder || 'Select a date';
-							
-							// Process initial value
-							const initialValue = this.$el.dataset.value;
-							if (initialValue) {
-								const initialDate = new Date(this.parseDate(initialValue));
-								this.currentMonth = initialDate.getMonth();
-								this.currentYear = initialDate.getFullYear();
-								this.value = this.formatDate(initialDate);
-								
-								// Update hidden input
-								this.$refs.hiddenInput.value = this.value;
-								
-								// Update display text
-								this.updateDisplayText();
-							}
-							
-							// Initialize UI
-							this.updateMonthDisplay();
-							this.renderWeekdays();
-						} catch(e) {
-							console.error('DatePicker initialization error:', e);
+							initializeDatePicker(container, popoverContentElement);
+							container._datePickerInitialized = true; // Mark as initialized
+						} catch (e) {
+							console.error("Error initializing datepicker:", e, container);
 						}
-					},
-					
-					updateDisplayText() {
-						const displayTextEl = this.$refs.displayText;
-						if (!displayTextEl) return;
-						
-						displayTextEl.innerHTML = '';
-						
-						if (this.value) {
-							displayTextEl.textContent = this.value;
-							// Remove muted style
-							const muted = displayTextEl.querySelector('.text-muted-foreground');
-							if (muted) {
-								muted.classList.remove('text-muted-foreground');
-							}
-						} else {
-							const span = document.createElement('span');
-							span.className = 'text-muted-foreground';
-							span.textContent = this.placeholder;
-							displayTextEl.appendChild(span);
-						}
-					},
-
-					toggleDatePicker() {
-						if (this.$refs.triggerButton.disabled) return;
-						
-						this.open = !this.open;
-						
-						if (this.open) {
-							this.$nextTick(() => {
-								this.updatePosition();
-								this.renderCalendar();
-							});
-						}
-					},
-					
-				   closeDatePicker(event) {
-						const trigger = this.$refs.triggerButton;
-                        if (event.target.tagName === 'LABEL' && event.target.htmlFor === trigger.id) {
-                            return; 
-						}
-                        this.open = false;
-                    },	
-					
-					updateMonthDisplay() {
-						if (this.$refs.monthDisplay) {
-							this.$refs.monthDisplay.textContent = this.monthNames[this.currentMonth] + ' ' + this.currentYear;
-						}
-					},
-					
-					updatePosition() {
-						const trigger = this.$refs.triggerButton;
-						const popup = this.$refs.datePickerPopup;
-						if (!trigger || !popup) return;
-						
-						setTimeout(() => {
-							const rect = trigger.getBoundingClientRect();
-							const popupRect = popup.getBoundingClientRect();
-							const viewportHeight = window.innerHeight;
-							if (rect.bottom + popupRect.height > viewportHeight && rect.top > popupRect.height) {
-								popup.classList.add('bottom-full', 'mb-1');
-								popup.classList.remove('top-full', 'mt-1');
-							} else {
-								popup.classList.add('top-full', 'mt-1');
-								popup.classList.remove('bottom-full', 'mb-1');
-							}
-						}, 0); // 0ms is enough to wait for the next tick
-					},
-					
-					renderWeekdays() {
-						const container = this.$refs.weekdaysContainer;
-						if (!container) return;
-						
-						container.innerHTML = '';
-						
-						// Day headers
-						this.dayNames.forEach(day => {
-							const el = document.createElement('div');
-							el.className = 'text-center text-xs text-muted-foreground';
-							el.textContent = day;
-							container.appendChild(el);
-						});
-					},
-					
-					renderCalendar() {
-						// Calculate first day and days in month
-						let firstDay = new Date(this.currentYear, this.currentMonth, 1).getDay();
-						firstDay = firstDay === 0 ? 6 : firstDay - 1; // Sunday = 6
-						
-						const daysInMonth = new Date(this.currentYear, this.currentMonth + 1, 0).getDate();
-						const today = new Date();
-						const container = this.$refs.daysContainer;
-						
-						if (!container) return;
-						container.innerHTML = '';
-						
-						// Empty days at the beginning
-						for (let i = 0; i < firstDay; i++) {
-							const blank = document.createElement('div');
-							blank.className = 'h-8 w-8';
-							container.appendChild(blank);
-						}
-						
-						// Days in the month
-						for (let day = 1; day <= daysInMonth; day++) {
-							const button = document.createElement('button');
-							button.type = 'button';
-							button.className = 'inline-flex h-8 w-8 items-center justify-center rounded-md text-sm font-medium';
-							button.textContent = day;
-							button.dataset.day = day;
-							
-							// Click handler
-							button.addEventListener('click', e => this.selectDate(e));
-							
-							// Highlight today or selected
-							const isToday = today.getDate() === day && 
-										   today.getMonth() === this.currentMonth && 
-										   today.getFullYear() === this.currentYear;
-										   
-							const isSelected = this.isSelectedDate(day);
-							
-							if (isSelected) {
-								button.classList.add('bg-primary', 'text-primary-foreground');
-							} else if (isToday) {
-								button.classList.add('text-red-500');
-							} else {
-								button.classList.add('hover:bg-accent', 'hover:text-accent-foreground');
-							}
-							
-							container.appendChild(button);
-						}
-					},
-					
-					prevMonth() {
-						this.currentMonth--;
-						if (this.currentMonth < 0) {
-							this.currentMonth = 11;
-							this.currentYear--;
-						}
-						this.updateMonthDisplay();
-						this.renderCalendar();
-					},
-					
-					nextMonth() {
-						this.currentMonth++;
-						if (this.currentMonth > 11) {
-							this.currentMonth = 0;
-							this.currentYear++;
-						}
-						this.updateMonthDisplay();
-						this.renderCalendar();
-					},
-					
-					parseDate(dateStr) {
-						const parts = dateStr.split(/[-/.]/);
-						switch(this.format) {
-							case 'eu':
-								return `${parts[2]}-${parts[1]}-${parts[0]}`;
-							case 'us':
-								return `${parts[2]}-${parts[0]}-${parts[1]}`;
-							case 'uk':
-								return `${parts[2]}-${parts[1]}-${parts[0]}`;
-							case 'long':
-							case 'iso':
-							default:
-								return dateStr;
-						}
-					},
-					
-					formatDate(date) {
-						const d = date.getDate().toString().padStart(2, '0');
-						const m = (date.getMonth() + 1).toString().padStart(2, '0');
-						const y = date.getFullYear();
-						
-						switch(this.format) {
-							case 'eu':
-								return `${d}.${m}.${y}`;
-							case 'uk':
-								return `${d}/${m}/${y}`;
-							case 'us':
-								return `${m}/${d}/${y}`;
-							case 'long':
-								return `${this.monthNames[date.getMonth()]} ${d}, ${y}`;
-							case 'iso':
-							default:
-								return `${y}-${m}-${d}`;
-						}
-					},
-					
-					isSelectedDate(day) {
-						if (!this.value) return false;
-						
-						try {
-							const date = new Date(this.currentYear, this.currentMonth, parseInt(day));
-							const selected = new Date(this.parseDate(this.value));
-							return date.toDateString() === selected.toDateString();
-						} catch(e) {
-							return false;
-						}
-					},
-					
-					selectDate(e) {
-						const day = e.target.dataset.day;
-						if (!day) return;
-						
-						const date = new Date(this.currentYear, this.currentMonth, parseInt(day));
-						this.value = this.formatDate(date);
-						
-						// Update hidden input
-						this.$refs.hiddenInput.value = this.value;
-						this.$refs.hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));
-						
-						// Update display text
-						this.updateDisplayText();
-						
-						// Close DatePicker
-						this.open = false;
-						
-						// Focus on button
-						this.$refs.triggerButton.focus();
+					} else {
+						console.warn("DatePicker container found without a parent popover content element:", container);
 					}
-				}));
+				});
+			}
+
+			// --- Core DatePicker Logic (Keep User's Version Intact) ---
+			function initializeDatePicker(container, popoverContentElement) {
+				const datePickerIDBase = popoverContentElement.id.replace('-content', '');
+				const associatedHiddenInput = document.getElementById(datePickerIDBase + '-hidden');
+				const triggerButton = document.getElementById(datePickerIDBase);
+				const displayText = triggerButton ? triggerButton.querySelector('[data-datepicker-display]') : null;
+
+				const monthDisplay = container.querySelector('[data-datepicker-month-display]');
+				const weekdaysContainer = container.querySelector('[data-datepicker-weekdays]');
+				const daysContainer = container.querySelector('[data-datepicker-days]');
+				const prevButton = container.querySelector('[data-datepicker-prev]');
+				const nextButton = container.querySelector('[data-datepicker-next]');
+
+				if (!popoverContentElement || !monthDisplay || !weekdaysContainer || !daysContainer || !prevButton || !nextButton || !associatedHiddenInput || !displayText) {
+					console.error('DatePicker missing required elements. Check IDs and selectors.', {
+						container, popoverContentElement, monthDisplay, weekdaysContainer, daysContainer, prevButton, nextButton, associatedHiddenInput, displayText, datePickerIDBase
+					});
+					return;
+				}
+
+				let config = {
+					value: container.dataset.value || null,
+					format: container.dataset.format || 'iso',
+					monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+					dayNames: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+					placeholder: container.dataset.placeholder || 'Select a date',
+				};
+
+				try {
+					const parsedMonths = JSON.parse(container.dataset.monthnames || '[]');
+					if (parsedMonths.length === 12) config.monthNames = parsedMonths;
+					const parsedDays = JSON.parse(container.dataset.daynames || '[]');
+					if (parsedDays.length === 7) config.dayNames = parsedDays;
+				} catch (e) { console.error('Error parsing datepicker locale:', e); }
+
+				let selectedDate = config.value ? parseDate(config.value, config.format) : null;
+				if (selectedDate && isNaN(selectedDate.getTime())) selectedDate = null;
+
+				let viewDate = selectedDate ? new Date(selectedDate) : new Date();
+				if (isNaN(viewDate.getTime())) viewDate = new Date();
+
+				let currentMonth = viewDate.getMonth();
+				let currentYear = viewDate.getFullYear();
+
+				function parseDate(dateStr, format) {
+					if (!dateStr) return null;
+					const parts = dateStr.split(/[-/. ]/);
+					let year, month, day;
+					try {
+						switch(format) {
+							case 'eu': day = parseInt(parts[0], 10); month = parseInt(parts[1], 10) - 1; year = parseInt(parts[2], 10); break;
+							case 'uk': day = parseInt(parts[0], 10); month = parseInt(parts[1], 10) - 1; year = parseInt(parts[2], 10); break;
+							case 'us': month = parseInt(parts[0], 10) - 1; day = parseInt(parts[1], 10); year = parseInt(parts[2], 10); break;
+							case 'long': const parsed = new Date(dateStr); return !isNaN(parsed) ? parsed : null;
+							case 'iso': default: year = parseInt(parts[0], 10); month = parseInt(parts[1], 10) - 1; day = parseInt(parts[2], 10); break;
+						}
+						const date = new Date(year, month, day);
+						// Basic validation: Check if the parsed date components match the input
+						if (date.getFullYear() === year && date.getMonth() === month && date.getDate() === day) {
+							return date;
+						} return null;
+					} catch (e) { console.error("Date parsing error:", e); return null; }
+				}
+
+				function formatDate(date, format, monthNames) {
+					if (!date || isNaN(date.getTime())) return '';
+					const d = date.getDate();
+					const dd = d.toString().padStart(2, '0');
+					const m = date.getMonth();
+					const mm = (m + 1).toString().padStart(2, '0');
+					const y = date.getFullYear();
+					switch(format) {
+						case 'eu': return `${dd}.${mm}.${y}`;
+						case 'uk': return `${dd}/${mm}/${y}`;
+						case 'us': return `${mm}/${dd}/${y}`;
+						case 'long': return `${monthNames[m]} ${d}, ${y}`;
+						case 'iso': default: return `${y}-${mm}-${dd}`;
+					}
+				}
+
+				function updateDisplayText() {
+					if (!displayText) return; // Guard against missing element
+					displayText.innerHTML = '';
+					if (selectedDate) {
+						displayText.textContent = formatDate(selectedDate, config.format, config.monthNames);
+						const placeholderSpan = displayText.querySelector('.text-muted-foreground');
+						if(placeholderSpan) placeholderSpan.remove();
+						displayText.classList.remove('text-muted-foreground');
+					} else {
+						const span = document.createElement('span');
+						span.className = 'text-muted-foreground';
+						span.textContent = config.placeholder;
+						displayText.appendChild(span);
+					}
+				}
+
+				function updateMonthDisplay() {
+					monthDisplay.textContent = `${config.monthNames[currentMonth]} ${currentYear}`;
+				}
+
+				function renderWeekdays() {
+					weekdaysContainer.innerHTML = '';
+					config.dayNames.forEach(day => {
+						const el = document.createElement('div');
+						el.className = 'text-center text-xs text-muted-foreground font-medium';
+						el.textContent = day;
+						weekdaysContainer.appendChild(el);
+					});
+				}
+
+				function renderCalendar() {
+					daysContainer.innerHTML = '';
+					const firstDayOfMonth = new Date(currentYear, currentMonth, 1);
+					const firstDayWeekday = firstDayOfMonth.getDay(); // 0=Sun
+
+					// Adjust starting offset based on whether config.dayNames starts with Sunday or Monday
+					let startOffset = firstDayWeekday;
+					if (config.dayNames[0].toLowerCase() !== 'su') { // Assumes Monday start if not Sunday
+						startOffset = (firstDayWeekday === 0) ? 6 : firstDayWeekday - 1;
+					}
+
+					const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+					const today = new Date();
+					today.setHours(0, 0, 0, 0); // Compare with local date
+
+					for (let i = 0; i < startOffset; i++) {
+						const blank = document.createElement('div');
+						blank.className = 'h-8 w-8';
+						daysContainer.appendChild(blank);
+					}
+
+					for (let day = 1; day <= daysInMonth; day++) {
+						const button = document.createElement('button');
+						button.type = 'button';
+						button.className = 'inline-flex h-8 w-8 items-center justify-center rounded-md text-sm font-medium focus:outline-none focus:ring-1 focus:ring-ring'; // Base + focus
+						button.textContent = day;
+						button.dataset.day = day;
+
+						const currentDate = new Date(currentYear, currentMonth, day);
+						currentDate.setHours(0,0,0,0);
+
+						const isToday = currentDate.getTime() === today.getTime();
+						const isSelected = selectedDate && currentDate.getTime() === selectedDate.getTime();
+
+						if (isSelected) {
+							button.classList.add('bg-primary', 'text-primary-foreground', 'hover:bg-primary/90');
+						} else if (isToday) {
+							// Use the style from user's last change
+							button.classList.add('text-primary', 'font-bold', 'bg-muted');
+						} else {
+							button.classList.add('hover:bg-accent', 'hover:text-accent-foreground');
+						}
+
+						button.addEventListener('click', handleDayClick);
+						daysContainer.appendChild(button);
+					}
+				}
+
+				function handlePrevMonthClick() {
+					currentMonth--;
+					if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+					updateMonthDisplay(); renderCalendar();
+				}
+
+				function handleNextMonthClick() {
+					currentMonth++;
+					if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+					updateMonthDisplay(); renderCalendar();
+				}
+
+				function handleDayClick(event) {
+					const day = parseInt(event.target.dataset.day);
+					if (!day) return;
+
+					selectedDate = new Date(currentYear, currentMonth, day);
+					selectedDate.setHours(0,0,0,0);
+
+					const displayFormattedValue = formatDate(selectedDate, config.format, config.monthNames);
+
+					const isoFormattedValue = formatDate(selectedDate, 'iso', config.monthNames);
+
+					if (associatedHiddenInput) {
+						associatedHiddenInput.value = isoFormattedValue;
+						associatedHiddenInput.dispatchEvent(new Event('change', { bubbles: true }));
+					}
+
+					updateDisplayText();
+
+					if (triggerButton) {
+						triggerButton.click();
+					}
+				}
+
+				prevButton.addEventListener('click', handlePrevMonthClick);
+				nextButton.addEventListener('click', handleNextMonthClick);
+
+				updateDisplayText();
+				updateMonthDisplay();
+				renderWeekdays();
+				renderCalendar();
+
+				const observer = new MutationObserver((mutationsList) => {
+					for(let mutation of mutationsList) {
+						if (mutation.type === 'attributes' && mutation.attributeName === 'style') {
+							if (popoverContentElement.style.display !== 'none') {
+								viewDate = selectedDate ? new Date(selectedDate) : new Date();
+								if (isNaN(viewDate.getTime())) viewDate = new Date();
+								currentMonth = viewDate.getMonth();
+								currentYear = viewDate.getFullYear();
+								updateMonthDisplay();
+								renderCalendar();
+							}
+						}
+					}
+				});
+				observer.observe(popoverContentElement, { attributes: true });
+				container._datePickerObserver = observer;
+
+			} // End initializeDatePicker
+
+
+			document.addEventListener('DOMContentLoaded', () => {
+				initializeAllDatePickersInScope(document.body);
+			});
+
+			// HTMX cleanup logic (Keep as is)
+			document.body.addEventListener('htmx:beforeSwap', (event) => {
+				let target = event.detail.target || event.detail.elt;
+				if (target && target.matches && target.querySelectorAll) {
+					// Check if the swapped element itself is a datepicker container
+					if (target.matches('[data-datepicker-container]') && target._datePickerObserver) {
+						target._datePickerObserver.disconnect();
+						delete target._datePickerObserver;
+					}
+					// Check for datepicker containers within the swapped element
+					target.querySelectorAll('[data-datepicker-container]').forEach(container => {
+						if (container._datePickerObserver) {
+							container._datePickerObserver.disconnect();
+							delete container._datePickerObserver;
+						}
+					});
+				}
+			});
+
+			// HTMX Integration: Initialize after swap
+			document.body.addEventListener('htmx:afterSwap', (event) => {
+				const target = event.detail.target || event.target;
+				// Ensure target is an element capable of containing datepickers
+				if (target instanceof Element) {
+					initializeAllDatePickersInScope(target);
+				}
 			});
 		</script>
 	}
