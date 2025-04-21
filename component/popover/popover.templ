@@ -65,7 +65,7 @@ templ Popover(props ...Props) {
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
-	<div class={ util.TwMerge("relative inline-block", p.Class) }>
+	<div class={ p.Class }>
 		{ children... }
 		// Expects Trigger and Content as siblings
 	</div>
