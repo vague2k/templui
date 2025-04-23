@@ -171,12 +171,6 @@ var interactiveComponent = `// First, include required scripts
 // Then use the component
 @components.Accordion(components.AccordionProps{...})`
 
-var alpineJsStandard = `// Standard Alpine.js installation
-<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"></script>`
-
-var alpineJsCsp = `// CSP-compliant Alpine.js installation
-<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js" nonce="your-nonce-value"></script>`
-
 var installAir = `go install github.com/air-verse/air@latest`
 
 var devCommand = `make dev`
@@ -292,43 +286,6 @@ templ HowToUse() {
 								CodeContent:    inputCss,
 							})
 							<p class="text-sm mt-2">For custom themes and additional styles, check our <a href="/docs/themes" class="text-primary underline">themes documentation</a>.</p>
-						</div>
-						<div class="space-y-2">
-							<h3 class="text-xl font-semibold">2. Alpine.js Installation</h3>
-							<p class="mb-2 text-muted-foreground">Add Alpine.js to your layout template:</p>
-							<div class="space-y-4">
-								<div>
-									<p class="font-medium text-muted-foreground">Standard Installation (Recommended)</p>
-									<p class="mb-2 text-muted-foreground">For most projects, use the standard Alpine.js build:</p>
-									@modules.Code(modules.CodeProps{
-										Language:       "html",
-										ShowCopyButton: true,
-										CodeContent:    alpineJsStandard,
-									})
-								</div>
-								<div class="border-l-4 border-info pl-4 mt-4">
-									<p class="font-medium text-muted-foreground">Enhanced Security Installation</p>
-									<p class="mb-2 text-sm text-muted-foreground">templUI is built to be CSP-compliant. If your application requires strict Content Security Policy (CSP):</p>
-									<div class="space-y-4">
-										<div>
-											<p class="text-sm mb-2 text-muted-foreground">1. Use Alpine.js CSP build instead:</p>
-											@modules.Code(modules.CodeProps{
-												Language:       "html",
-												ShowCopyButton: true,
-												CodeContent:    alpineJsCsp,
-											})
-										</div>
-										<div>
-											<p class="text-sm mb-2 text-muted-foreground">2. Add CSP middleware if you're using external resources (like HTMX, highlight.js):</p>
-											@modules.Code(modules.CodeProps{
-												Language:       "go",
-												ShowCopyButton: true,
-												CodeContent:    cspMiddleware,
-											})
-										</div>
-									</div>
-								</div>
-							</div>
 						</div>
 					</div>
 				</section>
@@ -468,7 +425,6 @@ templ HowToUse() {
 					<ul class="list-disc pl-6 space-y-2 text-muted-foreground">
 						<li><a href="https://templ.guide" class="text-primary underline" target="_blank">templ</a> - Cache configuration, component patterns, etc.</li>
 						<li><a href="https://tailwindcss.com/docs" class="text-primary underline" target="_blank">Tailwind CSS</a> - Custom theming, plugins, optimization</li>
-						<li><a href="https://alpinejs.dev/docs" class="text-primary underline" target="_blank">Alpine.js</a> - Advanced interactivity, state management</li>
 					</ul>
 				</section>
 			}

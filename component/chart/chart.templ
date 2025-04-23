@@ -379,15 +379,6 @@ templ Script() {
 					attributeFilter: ["class", "style"],
 				});
 
-				// 4. Optional: Alpine listener for theme changes
-				if (typeof Alpine !== "undefined") {
-					document.addEventListener("alpine:initialized", () => {
-						document.addEventListener("theme-changed", () => {
-							updateAllCharts();
-						});
-					});
-				}
-
 				// Set the flag to indicate successful initialization
 				window.chartScriptInitialized = true;
 			}
