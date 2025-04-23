@@ -345,39 +345,29 @@ templ Script() {
 
 			// --- Core Logic Functions ---
 
-			function positionElement(trigger, panel, placement = 'bottom') {
-				// Basic positioning - needs Floating UI or similar for robustness
-				// This is a simplified placeholder
+			// Renamed: Only used for fixed-position submenus now
+			function positionSubmenuElement(trigger, panel, placement = 'right') { 
+				// This logic remains largely the same, using position: fixed
 				if (!trigger || !panel) return;
-				panel.style.display = 'block'; // Ensure visible for measurement
-				
+				panel.style.display = 'block'; 
 				const triggerRect = trigger.getBoundingClientRect();
 				const panelRect = panel.getBoundingClientRect();
 				const vw = window.innerWidth;
 				const vh = window.innerHeight;
-
-				let top = triggerRect.bottom + 4; // Default below
-				let left = triggerRect.left;     // Default align left
-
+				let top = triggerRect.top; // Default align top for right placement
+				let left = triggerRect.right + 4;
 				if (placement === 'right') {
-					top = triggerRect.top;
-					left = triggerRect.right + 4;
-					if (left + panelRect.width > vw) { // Flip left if no space right
-						left = triggerRect.left - panelRect.width - 4;
+					if (left + panelRect.width > vw) { left = triggerRect.left - panelRect.width - 4; }
+					if (top + panelRect.height > vh) { // Adjust top if overflows bottom
+						top = vh - panelRect.height - 10;
 					}
-				} else { // 'bottom' or other main placements
-					if (top + panelRect.height > vh) { // Flip top if no space below
-						top = triggerRect.top - panelRect.height - 4;
-					}
-					if (left + panelRect.width > vw) { // Adjust left if overflows right
-						left = vw - panelRect.width - 10;
-					}
+				} else {
+					// Maybe add logic for other submenu placements if needed
+					// For now, assume 'right'
 				}
-				// Basic boundary checks
 				top = Math.max(10, top);
 				left = Math.max(10, left);
-
-				panel.style.position = 'fixed'; // Use fixed for reliable positioning
+				panel.style.position = 'fixed'; 
 				panel.style.top = `${top}px`;
 				panel.style.left = `${left}px`;
 			}
@@ -397,7 +387,7 @@ templ Script() {
 
 				const state = {
 					isOpen: false,
-					resizeListener: null,
+					// Removed resizeListener
 					clickAwayListener: null,
 					escListener: null,
 				};
@@ -419,28 +409,25 @@ templ Script() {
 					state.isOpen = false;
 					content.style.display = 'none';
 					closeSubmenus();
-					if (state.resizeListener) window.removeEventListener('resize', state.resizeListener);
+					// Remove resizeListener handling
 					if (state.clickAwayListener) document.removeEventListener('click', state.clickAwayListener);
 					if (state.escListener) document.removeEventListener('keydown', state.escListener);
-					state.resizeListener = null;
+					// state.resizeListener = null; // Removed
 					state.clickAwayListener = null;
 					state.escListener = null;
-					window.activeDropdowns.delete(dropdownRoot); // Remove from tracking when closed
+					window.activeDropdowns.delete(dropdownRoot);
 				};
 				state.closeMenu = closeMenu;
 
 				const openMenu = () => {
 					if (state.isOpen) return;
-					// Close other dropdowns first
 					closeAllDropdowns(); 
-					
 					state.isOpen = true;
 					content.style.display = 'block';
-					positionElement(trigger, content, 'bottom'); // Or determine placement based on props
+					// No JS positioning call for main content anymore
 
-					state.resizeListener = () => positionElement(trigger, content, 'bottom');
+					// Removed resizeListener setup
 					state.clickAwayListener = (event) => {
-						// Close if click is outside the entire dropdown root element
 						if (!dropdownRoot.contains(event.target)) {
 							closeMenu();
 						}
@@ -451,8 +438,7 @@ templ Script() {
 						}
 					};
 
-					window.addEventListener('resize', state.resizeListener);
-					// Use timeout for click away to prevent immediate close from trigger click
+					// window.addEventListener('resize', state.resizeListener); // Removed
 					setTimeout(() => document.addEventListener('click', state.clickAwayListener), 0);
 					document.addEventListener('keydown', state.escListener);
 					window.activeDropdowns.set(dropdownRoot, state);
@@ -489,10 +475,9 @@ templ Script() {
 					clearTimeout(state.closeTimer);
 					if (state.isOpen) return;
 					state.isOpen = true;
-					// Move to body to avoid clipping/z-index issues
 					document.body.appendChild(content);
 					content.style.display = 'block';
-					positionElement(trigger, content, 'right');
+					positionSubmenuElement(trigger, content, 'right');
 				};
 
 				const startCloseTimer = () => {
