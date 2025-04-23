@@ -335,8 +335,13 @@ var dropdownHandle = templ.NewOnceHandle()
 templ Script() {
 	@dropdownHandle.Once() {
 		<script nonce={ templ.GetNonce(ctx) }>
-			const activeDropdowns = new Map(); // Track state: dropdownRoot -> { isOpen: bool, closeMenu: func, closeSubmenus: func, resizeListener: func|null, clickAwayListener: func|null, escListener: func|null }
-			const activeSubmenus = new Map(); // Track state: submenuRoot -> { isOpen: bool, closeTimer: number|null, trigger: element, content: element }
+			// Use window scope and check for existence to prevent duplicate declarations
+			if (typeof window.activeDropdowns === 'undefined') {
+				window.activeDropdowns = new Map(); // Track state: dropdownRoot -> { isOpen: bool, closeMenu: func, closeSubmenus: func, resizeListener: func|null, clickAwayListener: func|null, escListener: func|null }
+			}
+			if (typeof window.activeSubmenus === 'undefined') {
+				window.activeSubmenus = new Map(); // Track state: submenuRoot -> { isOpen: bool, closeTimer: number|null, trigger: element, content: element }
+			}
 
 			// --- Core Logic Functions ---
 
@@ -378,13 +383,13 @@ templ Script() {
 			}
 
 			function closeAllDropdowns() {
-				activeDropdowns.forEach(state => state.closeMenu());
+				window.activeDropdowns.forEach(state => state.closeMenu());
 			}
 
 			// --- Setup Functions ---
 
 			function setupDropdown(dropdownRoot) {
-				if (activeDropdowns.has(dropdownRoot)) return;
+				if (window.activeDropdowns.has(dropdownRoot)) return;
 
 				const trigger = dropdownRoot.querySelector('[data-dropdown-trigger]');
 				const content = dropdownRoot.querySelector('[data-dropdown-content]');
@@ -399,7 +404,7 @@ templ Script() {
 
 				const closeSubmenus = () => {
 					dropdownRoot.querySelectorAll('[data-dropdown-submenu]').forEach(submenuEl => {
-						const subState = activeSubmenus.get(submenuEl);
+						const subState = window.activeSubmenus.get(submenuEl);
 						if (subState && subState.isOpen) {
 							clearTimeout(subState.closeTimer);
 							subState.content.style.display = 'none';
@@ -420,7 +425,7 @@ templ Script() {
 					state.resizeListener = null;
 					state.clickAwayListener = null;
 					state.escListener = null;
-					activeDropdowns.delete(dropdownRoot); // Remove from tracking when closed
+					window.activeDropdowns.delete(dropdownRoot); // Remove from tracking when closed
 				};
 				state.closeMenu = closeMenu;
 
@@ -450,7 +455,7 @@ templ Script() {
 					// Use timeout for click away to prevent immediate close from trigger click
 					setTimeout(() => document.addEventListener('click', state.clickAwayListener), 0);
 					document.addEventListener('keydown', state.escListener);
-					activeDropdowns.set(dropdownRoot, state);
+					window.activeDropdowns.set(dropdownRoot, state);
 				};
 
 				trigger.addEventListener('click', (event) => {
@@ -467,7 +472,7 @@ templ Script() {
 			}
 
 			function setupSubmenu(submenuRoot) {
-				if (activeSubmenus.has(submenuRoot)) return;
+				if (window.activeSubmenus.has(submenuRoot)) return;
 
 				const trigger = submenuRoot.querySelector('[data-dropdown-submenu-trigger]');
 				const content = submenuRoot.querySelector('[data-dropdown-submenu-content]');
@@ -509,7 +514,7 @@ templ Script() {
 				content.addEventListener('mouseenter', () => clearTimeout(state.closeTimer));
 				content.addEventListener('mouseleave', startCloseTimer);
 				
-				activeSubmenus.set(submenuRoot, state);
+				window.activeSubmenus.set(submenuRoot, state);
 			}
 
 			// --- Global Click Handler for Items ---
@@ -519,7 +524,7 @@ templ Script() {
 
 				const dropdownRoot = item.closest('[data-dropdown]');
 				if (dropdownRoot) {
-					const state = activeDropdowns.get(dropdownRoot);
+					const state = window.activeDropdowns.get(dropdownRoot);
 					if (state && state.closeMenu) {
 						state.closeMenu(); // Close the parent dropdown
 					}
@@ -528,7 +533,7 @@ templ Script() {
 			});
 
 			// --- HTMX Integration ---
-			document.addEventListener('htmx:afterSwap', (event) => {
+			document.body.addEventListener('htmx:afterSwap', (event) => {
 				const target = event.detail.target || event.target;
 				if (target?.querySelectorAll) {
 					if (target.matches('[data-dropdown]')) setupDropdown(target);
@@ -536,23 +541,23 @@ templ Script() {
 				}
 			});
 
-			document.addEventListener('htmx:beforeSwap', (event) => {
+			document.body.addEventListener('htmx:beforeSwap', (event) => {
 				const target = event.detail.target || event.detail.elt;
 				if (target?.querySelectorAll) {
 					const cleanup = (el) => {
 						if (el.matches('[data-dropdown]')) {
-							const state = activeDropdowns.get(el);
+							const state = window.activeDropdowns.get(el);
 							if (state?.closeMenu) state.closeMenu(); // Ensure cleanup removes listeners
-							activeDropdowns.delete(el);
+							window.activeDropdowns.delete(el);
 						}
 						if (el.matches('[data-dropdown-submenu]')) {
-							const subState = activeSubmenus.get(el);
+							const subState = window.activeSubmenus.get(el);
 							if (subState) {
 								clearTimeout(subState.closeTimer);
 								if (subState.content.parentNode === document.body) {
 									document.body.removeChild(subState.content);
 								}
-								activeSubmenus.delete(el);
+								window.activeSubmenus.delete(el);
 							}
 						}
 					};
@@ -562,15 +567,17 @@ templ Script() {
 			});
 
 			// --- Init ---
-			function initializeDropdowns() {
-				document.querySelectorAll('[data-dropdown]').forEach(setupDropdown);
+			if (typeof window.initializeAllDropdowns === 'undefined') {
+				window.initializeAllDropdowns = function() {
+					document.querySelectorAll('[data-dropdown]').forEach(setupDropdown);
+				};
 			}
 			
 			// Run init when DOM is ready or immediately if already loaded
 			if (document.readyState === 'complete' || document.readyState === 'interactive') {
-				initializeDropdowns();
+				window.initializeAllDropdowns();
 			} else {
-				document.addEventListener('DOMContentLoaded', initializeDropdowns);
+				document.addEventListener('DOMContentLoaded', window.initializeAllDropdowns);
 			}
 		</script>
 	}
