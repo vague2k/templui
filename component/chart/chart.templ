@@ -73,7 +73,6 @@ templ Chart(props ...Props) {
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
-	// Wenn keine ID gesetzt, generiere eine zufällige
 	if p.ID == "" {
 		{{ p.ID = "chart-" + util.RandomID() }}
 	}
@@ -109,147 +108,288 @@ templ Chart(props ...Props) {
 	@templ.JSONScript(dataId, chartConfig)
 }
 
-var handle = templ.NewOnceHandle()
-
 templ Script() {
-	@handle.Once() {
-		<!-- Load Chart.js library -->
-		<script defer nonce={ templ.GetNonce(ctx) } src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
-		<!-- Initialize charts -->
-		<script nonce={ templ.GetNonce(ctx) }>
-			document.addEventListener('DOMContentLoaded', function() {
-				const chartInstances = {};
+	<!-- Load Chart.js library -->
+	<script defer nonce={ templ.GetNonce(ctx) } src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+	<!-- Chart Initialization and HTMX Handling Script -->
+	<script nonce={ templ.GetNonce(ctx) }>
+			// Ensure chartInstances exists globally and is initialized only once
+			window.chartInstances = window.chartInstances || {};
+
+			// Prevent re-initialization of listeners and functions if script runs again
+			if (!window.chartScriptInitialized) {
 				function getThemeColors() {
 					const computedStyle = getComputedStyle(document.documentElement);
 					return {
-						foreground: computedStyle.getPropertyValue('--foreground').trim(),
-						background: computedStyle.getPropertyValue('--background').trim(),
-						mutedForeground: computedStyle.getPropertyValue('--muted-foreground').trim(),
-						border: computedStyle.getPropertyValue('--border').trim()
+						foreground: computedStyle.getPropertyValue('--foreground').trim() || '#000',
+						background: computedStyle.getPropertyValue('--background').trim() || '#fff',
+						mutedForeground: computedStyle.getPropertyValue('--muted-foreground').trim() || '#666',
+						border: computedStyle.getPropertyValue('--border').trim() || '#ccc'
 					};
 				}
-				function initCharts() {
+
+				function initializeChart(canvas) {
+					if (!canvas || !canvas.id || !canvas.hasAttribute('data-chart-id')) {
+						return;
+					}
+
+					if (window.chartInstances[canvas.id]) {
+						cleanupChart(canvas);
+					}
+
+					const dataId = canvas.getAttribute('data-chart-id');
+					const dataElement = document.getElementById(dataId);
+					if (!dataElement) {
+						console.error("Chart init error: Could not find data element for canvas:", canvas.id);
+						return;
+					}
+
 					const colors = getThemeColors();
-					document.querySelectorAll('.chart-container').forEach(container => {
-						const canvas = container.querySelector('canvas');
-						if (!canvas) return;
-						const dataId = canvas.getAttribute('data-chart-id');
-						const dataElement = document.getElementById(dataId);
-						if (!dataElement) return;
-						if (chartInstances[canvas.id]) {
-							chartInstances[canvas.id].destroy();
-						}
+
+					try {
 						const chartConfig = JSON.parse(dataElement.textContent);
 						Chart.defaults.elements.point.radius = 0;
 						Chart.defaults.elements.point.hoverRadius = 5;
-						const chart = new Chart(canvas, {
+
+						const isComplexChart = [
+							"pie",
+							"doughnut",
+							"bar",
+							"radar",
+						].includes(chartConfig.type);
+
+						const legendOptions = {
+							display: chartConfig.showLegend || false,
+							labels: { color: colors.foreground },
+						};
+
+						const tooltipOptions = {
+							backgroundColor: colors.background,
+							bodyColor: colors.mutedForeground,
+							titleColor: colors.foreground,
+							borderColor: colors.border,
+							borderWidth: 1,
+						};
+
+						const scalesOptions = chartConfig.type === "radar"
+							? {
+								r: {
+									grid: { 
+										color: colors.border, 
+										display: chartConfig.showYGrid !== false 
+									},
+									ticks: {
+										color: colors.mutedForeground,
+										backdropColor: "transparent",
+										display: chartConfig.showYLabels !== false,
+									},
+									angleLines: { 
+										color: colors.border, 
+										display: chartConfig.showXGrid !== false 
+									},
+									pointLabels: { 
+										color: colors.foreground, 
+										font: { size: 12 } 
+									},
+									border: { 
+										display: chartConfig.showYAxis !== false, 
+										color: colors.border 
+									},
+									beginAtZero: true,
+								},
+							  }
+							: {
+								x: {
+									beginAtZero: true,
+									display: chartConfig.showXLabels !== false || 
+											 chartConfig.showXGrid !== false || 
+											 chartConfig.showXAxis !== false,
+									border: { 
+										display: chartConfig.showXAxis !== false, 
+										color: colors.border 
+									},
+									ticks: { 
+										display: chartConfig.showXLabels !== false, 
+										color: colors.mutedForeground 
+									},
+									grid: { 
+										display: chartConfig.showXGrid !== false, 
+										color: colors.border 
+									},
+									stacked: chartConfig.stacked || false,
+								},
+								y: {
+									offset: true,
+									beginAtZero: true,
+									display: chartConfig.showYLabels !== false || 
+											 chartConfig.showYGrid !== false || 
+											 chartConfig.showYAxis !== false,
+									border: { 
+										display: chartConfig.showYAxis !== false, 
+										color: colors.border 
+									},
+									ticks: { 
+										display: chartConfig.showYLabels !== false, 
+										color: colors.mutedForeground 
+									},
+									grid: { 
+										display: chartConfig.showYGrid !== false, 
+										color: colors.border 
+									},
+									stacked: chartConfig.stacked || false,
+								},
+							  };
+
+						const finalChartConfig = {
 							...chartConfig,
 							options: {
+								responsive: true,
+								maintainAspectRatio: false,
 								interaction: {
 									intersect: false,
 									axis: "xy",
-									mode: chartConfig.type === "pie" || 
-										chartConfig.type === "doughnut" ||
-										chartConfig.type === "bar" ||
-										chartConfig.type === "radar" ? "nearest" : "index"
+									mode: isComplexChart ? "nearest" : "index",
 								},
 								indexAxis: chartConfig.horizontal ? "y" : "x",
 								plugins: {
-									legend: {
-										display: chartConfig.showLegend || false,
-										labels: {
-											color: colors.foreground
-										}
-									},
-									tooltip: {
-										backgroundColor: colors.background,
-										bodyColor: colors.mutedForeground,
-										titleColor: colors.foreground,
-										borderColor: colors.border,
-										borderWidth: 1
-									}
+									legend: legendOptions,
+									tooltip: tooltipOptions,
 								},
-								scales: chartConfig.type === "radar" ? {
-									r: {
-										grid: {
-											color: colors.border,
-											display: chartConfig.showYGrid || true
-										},
-										ticks: {
-											color: colors.mutedForeground,
-											backdropColor: 'transparent',
-											display: chartConfig.showYLabels || true
-										},
-										angleLines: {
-											color: colors.border,
-											display: chartConfig.showXGrid || true
-										},
-										pointLabels: {
-											color: colors.foreground,
-											font: {
-												size: 12
-											}
-										},
-										border: {
-											display: chartConfig.showYAxis || false,
-											color: colors.border
-										},
-										beginAtZero: true
-									}
-								} : {
-									x: {
-										beginAtZero: true,
-										display: chartConfig.showXLabels || chartConfig.showXGrid || chartConfig.showXAxis,
-										border: {
-											display: chartConfig.showXAxis || false
-										},
-										ticks: {                                      
-											display: chartConfig.showXLabels || false,   
-											color: colors.mutedForeground
-										},
-										grid: {
-											display: chartConfig.showXGrid || false,
-											color: colors.border
-										},
-										stacked: chartConfig.stacked
-									},
-									y: {
-										offset: true,
-										beginAtZero: true,
-										display: chartConfig.showYLabels || chartConfig.showYGrid || chartConfig.showYAxis,
-										border: {
-											display: chartConfig.showYAxis || false
-										},
-										ticks: {                                      
-											display: chartConfig.showYLabels || false,   
-											color: colors.mutedForeground
-										},
-										grid: {
-											display: chartConfig.showYGrid || false,
-											color: colors.border
-										},
-										stacked: chartConfig.stacked
-									}
-								}
+								scales: scalesOptions,
+							},
+						};
+
+						const chart = new Chart(canvas, finalChartConfig);
+						window.chartInstances[canvas.id] = chart;
+					} catch (e) {
+						console.error(
+							`Error initializing chart ${canvas.id}:`,
+							e,
+							dataElement ? dataElement.textContent : "No data element found"
+						);
+					}
+				}
+
+				function cleanupChart(canvas) {
+					if (!canvas || !canvas.id || !window.chartInstances[canvas.id]) return;
+					try {
+						window.chartInstances[canvas.id].destroy();
+					} catch (e) {
+						// Errors during cleanup are often minor, maybe log as warning if needed
+					} finally {
+						delete window.chartInstances[canvas.id];
+					}
+				}
+
+				function initializeExistingCharts() {
+					document
+						.querySelectorAll("canvas[data-chart-id]")
+						.forEach((canvas) => {
+							if (!window.chartInstances[canvas.id]) {
+								initializeChart(canvas);
 							}
 						});
-						chartInstances[canvas.id] = chart;
-					});
 				}
-				initCharts();
-				window.addEventListener('resize', function() {
-					for (let id in chartInstances) {
-						chartInstances[id].resize();
+
+				function updateAllCharts() {
+					document
+						.querySelectorAll("canvas[data-chart-id]")
+						.forEach((canvas) => {
+							if (window.chartInstances[canvas.id]) {
+								cleanupChart(canvas);
+								initializeChart(canvas);
+							} else {
+								// If a chart exists in DOM but not in instances, initialize it
+								initializeChart(canvas);
+							}
+						});
+				}
+
+				// --- Listener Registrations ---
+
+				// 1. Initial Load Check (using DOMContentLoaded)
+				document.addEventListener("DOMContentLoaded", () => {
+					function tryInitOnLoad() {
+						if (typeof Chart !== "undefined") {
+							initializeExistingCharts();
+						} else {
+							setTimeout(tryInitOnLoad, 100);
+						}
+					}
+					tryInitOnLoad();
+				});
+
+				// 2. HTMX Integration (Attached directly to body)
+				document.body.addEventListener("htmx:beforeSwap", (event) => {
+					const removingElement = event.detail.elt;
+					if (removingElement instanceof Element) {
+						const canvasesToRemove = removingElement.querySelectorAll(
+							"canvas[data-chart-id]"
+						);
+						canvasesToRemove.forEach(cleanupChart);
+						if (removingElement.matches("canvas[data-chart-id]")) {
+							cleanupChart(removingElement);
+						}
 					}
 				});
+
+				document.body.addEventListener("htmx:afterSwap", (event) => {
+					const newContentTarget = event.detail.target;
+
+					function findAndInitializeCanvases(targetElement) {
+						if (!(targetElement instanceof Element)) {
+							return;
+						}
+						const canvasesToAdd = targetElement.querySelectorAll(
+							"canvas[data-chart-id]"
+						);
+						canvasesToAdd.forEach(initializeChart);
+						if (targetElement.matches("canvas[data-chart-id]")) {
+							initializeChart(targetElement);
+						}
+					}
+
+					function tryInitializeNewCharts(targetElement, attempt = 1) {
+						if (typeof Chart !== "undefined") {
+							findAndInitializeCanvases(targetElement);
+						} else if (attempt < 10) {
+							setTimeout(
+								() => tryInitializeNewCharts(targetElement, attempt + 1),
+								100
+							);
+						} else {
+							console.error(
+								"[Chart Log] Chart.js did not load after multiple retries during htmx:afterSwap. Cannot initialize new charts."
+							);
+						}
+					}
+
+					// Start the process
+					tryInitializeNewCharts(newContentTarget);
+				});
+
+				// 3. Observer for theme changes
+				let themeUpdateTimeout;
 				const observer = new MutationObserver(() => {
-					setTimeout(initCharts, 50);
+					clearTimeout(themeUpdateTimeout);
+					themeUpdateTimeout = setTimeout(updateAllCharts, 50);
 				});
-				observer.observe(document.documentElement, { attributes: true });
-				document.addEventListener('alpine:initialized', () => {
-					document.addEventListener('theme-changed', initCharts);
+				observer.observe(document.documentElement, {
+					attributes: true,
+					attributeFilter: ["class", "style"],
 				});
-			});
+
+				// 4. Optional: Alpine listener for theme changes
+				if (typeof Alpine !== "undefined") {
+					document.addEventListener("alpine:initialized", () => {
+						document.addEventListener("theme-changed", () => {
+							updateAllCharts();
+						});
+					});
+				}
+
+				// Set the flag to indicate successful initialization
+				window.chartScriptInitialized = true;
+			}
 		</script>
-	}
 }

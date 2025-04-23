@@ -125,7 +125,7 @@ func Chart(props ...Props) templ.Component {
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/chart/chart.templ`, Line: 83, Col: 11}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/chart/chart.templ`, Line: 82, Col: 11}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
@@ -159,7 +159,7 @@ func Chart(props ...Props) templ.Component {
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(canvasId)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/chart/chart.templ`, Line: 91, Col: 23}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/chart/chart.templ`, Line: 90, Col: 23}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
@@ -172,7 +172,7 @@ func Chart(props ...Props) templ.Component {
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(dataId)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/chart/chart.templ`, Line: 91, Col: 48}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/chart/chart.templ`, Line: 90, Col: 48}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -205,8 +205,6 @@ func Chart(props ...Props) templ.Component {
 	})
 }
 
-var handle = templ.NewOnceHandle()
-
 func Script() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -228,51 +226,33 @@ func Script() templ.Component {
 			templ_7745c5c3_Var7 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Var8 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
-			templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
-			templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
-			if !templ_7745c5c3_IsBuffer {
-				defer func() {
-					templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
-					if templ_7745c5c3_Err == nil {
-						templ_7745c5c3_Err = templ_7745c5c3_BufErr
-					}
-				}()
-			}
-			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<!-- Load Chart.js library --> <script defer nonce=\"")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			var templ_7745c5c3_Var9 string
-			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/chart/chart.templ`, Line: 117, Col: 43}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "\" src=\"https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js\"></script> <!-- Initialize charts --> <script nonce=\"")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			var templ_7745c5c3_Var10 string
-			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/chart/chart.templ`, Line: 119, Col: 37}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "\">\n\t\t\tdocument.addEventListener('DOMContentLoaded', function() {\n\t\t\t\tconst chartInstances = {};\n\t\t\t\tfunction getThemeColors() {\n\t\t\t\t\tconst computedStyle = getComputedStyle(document.documentElement);\n\t\t\t\t\treturn {\n\t\t\t\t\t\tforeground: computedStyle.getPropertyValue('--foreground').trim(),\n\t\t\t\t\t\tbackground: computedStyle.getPropertyValue('--background').trim(),\n\t\t\t\t\t\tmutedForeground: computedStyle.getPropertyValue('--muted-foreground').trim(),\n\t\t\t\t\t\tborder: computedStyle.getPropertyValue('--border').trim()\n\t\t\t\t\t};\n\t\t\t\t}\n\t\t\t\tfunction initCharts() {\n\t\t\t\t\tconst colors = getThemeColors();\n\t\t\t\t\tdocument.querySelectorAll('.chart-container').forEach(container => {\n\t\t\t\t\t\tconst canvas = container.querySelector('canvas');\n\t\t\t\t\t\tif (!canvas) return;\n\t\t\t\t\t\tconst dataId = canvas.getAttribute('data-chart-id');\n\t\t\t\t\t\tconst dataElement = document.getElementById(dataId);\n\t\t\t\t\t\tif (!dataElement) return;\n\t\t\t\t\t\tif (chartInstances[canvas.id]) {\n\t\t\t\t\t\t\tchartInstances[canvas.id].destroy();\n\t\t\t\t\t\t}\n\t\t\t\t\t\tconst chartConfig = JSON.parse(dataElement.textContent);\n\t\t\t\t\t\tChart.defaults.elements.point.radius = 0;\n\t\t\t\t\t\tChart.defaults.elements.point.hoverRadius = 5;\n\t\t\t\t\t\tconst chart = new Chart(canvas, {\n\t\t\t\t\t\t\t...chartConfig,\n\t\t\t\t\t\t\toptions: {\n\t\t\t\t\t\t\t\tinteraction: {\n\t\t\t\t\t\t\t\t\tintersect: false,\n\t\t\t\t\t\t\t\t\taxis: \"xy\",\n\t\t\t\t\t\t\t\t\tmode: chartConfig.type === \"pie\" || \n\t\t\t\t\t\t\t\t\t\tchartConfig.type === \"doughnut\" ||\n\t\t\t\t\t\t\t\t\t\tchartConfig.type === \"bar\" ||\n\t\t\t\t\t\t\t\t\t\tchartConfig.type === \"radar\" ? \"nearest\" : \"index\"\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\tindexAxis: chartConfig.horizontal ? \"y\" : \"x\",\n\t\t\t\t\t\t\t\tplugins: {\n\t\t\t\t\t\t\t\t\tlegend: {\n\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showLegend || false,\n\t\t\t\t\t\t\t\t\t\tlabels: {\n\t\t\t\t\t\t\t\t\t\t\tcolor: colors.foreground\n\t\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\ttooltip: {\n\t\t\t\t\t\t\t\t\t\tbackgroundColor: colors.background,\n\t\t\t\t\t\t\t\t\t\tbodyColor: colors.mutedForeground,\n\t\t\t\t\t\t\t\t\t\ttitleColor: colors.foreground,\n\t\t\t\t\t\t\t\t\t\tborderColor: colors.border,\n\t\t\t\t\t\t\t\t\t\tborderWidth: 1\n\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\tscales: chartConfig.type === \"radar\" ? {\n\t\t\t\t\t\t\t\t\tr: {\n\t\t\t\t\t\t\t\t\t\tgrid: {\n\t\t\t\t\t\t\t\t\t\t\tcolor: colors.border,\n\t\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showYGrid || true\n\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\tticks: {\n\t\t\t\t\t\t\t\t\t\t\tcolor: colors.mutedForeground,\n\t\t\t\t\t\t\t\t\t\t\tbackdropColor: 'transparent',\n\t\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showYLabels || true\n\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\tangleLines: {\n\t\t\t\t\t\t\t\t\t\t\tcolor: colors.border,\n\t\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showXGrid || true\n\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\tpointLabels: {\n\t\t\t\t\t\t\t\t\t\t\tcolor: colors.foreground,\n\t\t\t\t\t\t\t\t\t\t\tfont: {\n\t\t\t\t\t\t\t\t\t\t\t\tsize: 12\n\t\t\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\tborder: {\n\t\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showYAxis || false,\n\t\t\t\t\t\t\t\t\t\t\tcolor: colors.border\n\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\tbeginAtZero: true\n\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t} : {\n\t\t\t\t\t\t\t\t\tx: {\n\t\t\t\t\t\t\t\t\t\tbeginAtZero: true,\n\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showXLabels || chartConfig.showXGrid || chartConfig.showXAxis,\n\t\t\t\t\t\t\t\t\t\tborder: {\n\t\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showXAxis || false\n\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\tticks: {                                      \n\t\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showXLabels || false,   \n\t\t\t\t\t\t\t\t\t\t\tcolor: colors.mutedForeground\n\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\tgrid: {\n\t\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showXGrid || false,\n\t\t\t\t\t\t\t\t\t\t\tcolor: colors.border\n\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\tstacked: chartConfig.stacked\n\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\ty: {\n\t\t\t\t\t\t\t\t\t\toffset: true,\n\t\t\t\t\t\t\t\t\t\tbeginAtZero: true,\n\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showYLabels || chartConfig.showYGrid || chartConfig.showYAxis,\n\t\t\t\t\t\t\t\t\t\tborder: {\n\t\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showYAxis || false\n\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\tticks: {                                      \n\t\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showYLabels || false,   \n\t\t\t\t\t\t\t\t\t\t\tcolor: colors.mutedForeground\n\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\tgrid: {\n\t\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showYGrid || false,\n\t\t\t\t\t\t\t\t\t\t\tcolor: colors.border\n\t\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\t\tstacked: chartConfig.stacked\n\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t});\n\t\t\t\t\t\tchartInstances[canvas.id] = chart;\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t\tinitCharts();\n\t\t\t\twindow.addEventListener('resize', function() {\n\t\t\t\t\tfor (let id in chartInstances) {\n\t\t\t\t\t\tchartInstances[id].resize();\n\t\t\t\t\t}\n\t\t\t\t});\n\t\t\t\tconst observer = new MutationObserver(() => {\n\t\t\t\t\tsetTimeout(initCharts, 50);\n\t\t\t\t});\n\t\t\t\tobserver.observe(document.documentElement, { attributes: true });\n\t\t\t\tdocument.addEventListener('alpine:initialized', () => {\n\t\t\t\t\tdocument.addEventListener('theme-changed', initCharts);\n\t\t\t\t});\n\t\t\t});\n\t\t</script>")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			return nil
-		})
-		templ_7745c5c3_Err = handle.Once().Render(templ.WithChildren(ctx, templ_7745c5c3_Var8), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<!-- Load Chart.js library --><script defer nonce=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var8 string
+		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/chart/chart.templ`, Line: 113, Col: 42}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "\" src=\"https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js\"></script><!-- Chart Initialization and HTMX Handling Script --><script nonce=\"")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		var templ_7745c5c3_Var9 string
+		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/chart/chart.templ`, Line: 115, Col: 36}
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "\">\n\t\t\t// Ensure chartInstances exists globally and is initialized only once\n\t\t\twindow.chartInstances = window.chartInstances || {};\n\n\t\t\t// Prevent re-initialization of listeners and functions if script runs again\n\t\t\tif (!window.chartScriptInitialized) {\n\t\t\t\tfunction getThemeColors() {\n\t\t\t\t\tconst computedStyle = getComputedStyle(document.documentElement);\n\t\t\t\t\treturn {\n\t\t\t\t\t\tforeground: computedStyle.getPropertyValue('--foreground').trim() || '#000',\n\t\t\t\t\t\tbackground: computedStyle.getPropertyValue('--background').trim() || '#fff',\n\t\t\t\t\t\tmutedForeground: computedStyle.getPropertyValue('--muted-foreground').trim() || '#666',\n\t\t\t\t\t\tborder: computedStyle.getPropertyValue('--border').trim() || '#ccc'\n\t\t\t\t\t};\n\t\t\t\t}\n\n\t\t\t\tfunction initializeChart(canvas) {\n\t\t\t\t\tif (!canvas || !canvas.id || !canvas.hasAttribute('data-chart-id')) {\n\t\t\t\t\t\treturn;\n\t\t\t\t\t}\n\n\t\t\t\t\tif (window.chartInstances[canvas.id]) {\n\t\t\t\t\t\tcleanupChart(canvas);\n\t\t\t\t\t}\n\n\t\t\t\t\tconst dataId = canvas.getAttribute('data-chart-id');\n\t\t\t\t\tconst dataElement = document.getElementById(dataId);\n\t\t\t\t\tif (!dataElement) {\n\t\t\t\t\t\tconsole.error(\"Chart init error: Could not find data element for canvas:\", canvas.id);\n\t\t\t\t\t\treturn;\n\t\t\t\t\t}\n\n\t\t\t\t\tconst colors = getThemeColors();\n\n\t\t\t\t\ttry {\n\t\t\t\t\t\tconst chartConfig = JSON.parse(dataElement.textContent);\n\t\t\t\t\t\tChart.defaults.elements.point.radius = 0;\n\t\t\t\t\t\tChart.defaults.elements.point.hoverRadius = 5;\n\n\t\t\t\t\t\tconst isComplexChart = [\n\t\t\t\t\t\t\t\"pie\",\n\t\t\t\t\t\t\t\"doughnut\",\n\t\t\t\t\t\t\t\"bar\",\n\t\t\t\t\t\t\t\"radar\",\n\t\t\t\t\t\t].includes(chartConfig.type);\n\n\t\t\t\t\t\tconst legendOptions = {\n\t\t\t\t\t\t\tdisplay: chartConfig.showLegend || false,\n\t\t\t\t\t\t\tlabels: { color: colors.foreground },\n\t\t\t\t\t\t};\n\n\t\t\t\t\t\tconst tooltipOptions = {\n\t\t\t\t\t\t\tbackgroundColor: colors.background,\n\t\t\t\t\t\t\tbodyColor: colors.mutedForeground,\n\t\t\t\t\t\t\ttitleColor: colors.foreground,\n\t\t\t\t\t\t\tborderColor: colors.border,\n\t\t\t\t\t\t\tborderWidth: 1,\n\t\t\t\t\t\t};\n\n\t\t\t\t\t\tconst scalesOptions = chartConfig.type === \"radar\"\n\t\t\t\t\t\t\t? {\n\t\t\t\t\t\t\t\tr: {\n\t\t\t\t\t\t\t\t\tgrid: { \n\t\t\t\t\t\t\t\t\t\tcolor: colors.border, \n\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showYGrid !== false \n\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\tticks: {\n\t\t\t\t\t\t\t\t\t\tcolor: colors.mutedForeground,\n\t\t\t\t\t\t\t\t\t\tbackdropColor: \"transparent\",\n\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showYLabels !== false,\n\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\tangleLines: { \n\t\t\t\t\t\t\t\t\t\tcolor: colors.border, \n\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showXGrid !== false \n\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\tpointLabels: { \n\t\t\t\t\t\t\t\t\t\tcolor: colors.foreground, \n\t\t\t\t\t\t\t\t\t\tfont: { size: 12 } \n\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\tborder: { \n\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showYAxis !== false, \n\t\t\t\t\t\t\t\t\t\tcolor: colors.border \n\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\tbeginAtZero: true,\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t  }\n\t\t\t\t\t\t\t: {\n\t\t\t\t\t\t\t\tx: {\n\t\t\t\t\t\t\t\t\tbeginAtZero: true,\n\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showXLabels !== false || \n\t\t\t\t\t\t\t\t\t\t\t chartConfig.showXGrid !== false || \n\t\t\t\t\t\t\t\t\t\t\t chartConfig.showXAxis !== false,\n\t\t\t\t\t\t\t\t\tborder: { \n\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showXAxis !== false, \n\t\t\t\t\t\t\t\t\t\tcolor: colors.border \n\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\tticks: { \n\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showXLabels !== false, \n\t\t\t\t\t\t\t\t\t\tcolor: colors.mutedForeground \n\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\tgrid: { \n\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showXGrid !== false, \n\t\t\t\t\t\t\t\t\t\tcolor: colors.border \n\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\tstacked: chartConfig.stacked || false,\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\ty: {\n\t\t\t\t\t\t\t\t\toffset: true,\n\t\t\t\t\t\t\t\t\tbeginAtZero: true,\n\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showYLabels !== false || \n\t\t\t\t\t\t\t\t\t\t\t chartConfig.showYGrid !== false || \n\t\t\t\t\t\t\t\t\t\t\t chartConfig.showYAxis !== false,\n\t\t\t\t\t\t\t\t\tborder: { \n\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showYAxis !== false, \n\t\t\t\t\t\t\t\t\t\tcolor: colors.border \n\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\tticks: { \n\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showYLabels !== false, \n\t\t\t\t\t\t\t\t\t\tcolor: colors.mutedForeground \n\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\tgrid: { \n\t\t\t\t\t\t\t\t\t\tdisplay: chartConfig.showYGrid !== false, \n\t\t\t\t\t\t\t\t\t\tcolor: colors.border \n\t\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\t\tstacked: chartConfig.stacked || false,\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t  };\n\n\t\t\t\t\t\tconst finalChartConfig = {\n\t\t\t\t\t\t\t...chartConfig,\n\t\t\t\t\t\t\toptions: {\n\t\t\t\t\t\t\t\tresponsive: true,\n\t\t\t\t\t\t\t\tmaintainAspectRatio: false,\n\t\t\t\t\t\t\t\tinteraction: {\n\t\t\t\t\t\t\t\t\tintersect: false,\n\t\t\t\t\t\t\t\t\taxis: \"xy\",\n\t\t\t\t\t\t\t\t\tmode: isComplexChart ? \"nearest\" : \"index\",\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\tindexAxis: chartConfig.horizontal ? \"y\" : \"x\",\n\t\t\t\t\t\t\t\tplugins: {\n\t\t\t\t\t\t\t\t\tlegend: legendOptions,\n\t\t\t\t\t\t\t\t\ttooltip: tooltipOptions,\n\t\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t\tscales: scalesOptions,\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t};\n\n\t\t\t\t\t\tconst chart = new Chart(canvas, finalChartConfig);\n\t\t\t\t\t\twindow.chartInstances[canvas.id] = chart;\n\t\t\t\t\t} catch (e) {\n\t\t\t\t\t\tconsole.error(\n\t\t\t\t\t\t\t`Error initializing chart ${canvas.id}:`,\n\t\t\t\t\t\t\te,\n\t\t\t\t\t\t\tdataElement ? dataElement.textContent : \"No data element found\"\n\t\t\t\t\t\t);\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\tfunction cleanupChart(canvas) {\n\t\t\t\t\tif (!canvas || !canvas.id || !window.chartInstances[canvas.id]) return;\n\t\t\t\t\ttry {\n\t\t\t\t\t\twindow.chartInstances[canvas.id].destroy();\n\t\t\t\t\t} catch (e) {\n\t\t\t\t\t\t// Errors during cleanup are often minor, maybe log as warning if needed\n\t\t\t\t\t} finally {\n\t\t\t\t\t\tdelete window.chartInstances[canvas.id];\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\tfunction initializeExistingCharts() {\n\t\t\t\t\tdocument\n\t\t\t\t\t\t.querySelectorAll(\"canvas[data-chart-id]\")\n\t\t\t\t\t\t.forEach((canvas) => {\n\t\t\t\t\t\t\tif (!window.chartInstances[canvas.id]) {\n\t\t\t\t\t\t\t\tinitializeChart(canvas);\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t});\n\t\t\t\t}\n\n\t\t\t\tfunction updateAllCharts() {\n\t\t\t\t\tdocument\n\t\t\t\t\t\t.querySelectorAll(\"canvas[data-chart-id]\")\n\t\t\t\t\t\t.forEach((canvas) => {\n\t\t\t\t\t\t\tif (window.chartInstances[canvas.id]) {\n\t\t\t\t\t\t\t\tcleanupChart(canvas);\n\t\t\t\t\t\t\t\tinitializeChart(canvas);\n\t\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\t\t// If a chart exists in DOM but not in instances, initialize it\n\t\t\t\t\t\t\t\tinitializeChart(canvas);\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t});\n\t\t\t\t}\n\n\t\t\t\t// --- Listener Registrations ---\n\n\t\t\t\t// 1. Initial Load Check (using DOMContentLoaded)\n\t\t\t\tdocument.addEventListener(\"DOMContentLoaded\", () => {\n\t\t\t\t\tfunction tryInitOnLoad() {\n\t\t\t\t\t\tif (typeof Chart !== \"undefined\") {\n\t\t\t\t\t\t\tinitializeExistingCharts();\n\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\tsetTimeout(tryInitOnLoad, 100);\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t\ttryInitOnLoad();\n\t\t\t\t});\n\n\t\t\t\t// 2. HTMX Integration (Attached directly to body)\n\t\t\t\tdocument.body.addEventListener(\"htmx:beforeSwap\", (event) => {\n\t\t\t\t\tconst removingElement = event.detail.elt;\n\t\t\t\t\tif (removingElement instanceof Element) {\n\t\t\t\t\t\tconst canvasesToRemove = removingElement.querySelectorAll(\n\t\t\t\t\t\t\t\"canvas[data-chart-id]\"\n\t\t\t\t\t\t);\n\t\t\t\t\t\tcanvasesToRemove.forEach(cleanupChart);\n\t\t\t\t\t\tif (removingElement.matches(\"canvas[data-chart-id]\")) {\n\t\t\t\t\t\t\tcleanupChart(removingElement);\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t});\n\n\t\t\t\tdocument.body.addEventListener(\"htmx:afterSwap\", (event) => {\n\t\t\t\t\tconst newContentTarget = event.detail.target;\n\n\t\t\t\t\tfunction findAndInitializeCanvases(targetElement) {\n\t\t\t\t\t\tif (!(targetElement instanceof Element)) {\n\t\t\t\t\t\t\treturn;\n\t\t\t\t\t\t}\n\t\t\t\t\t\tconst canvasesToAdd = targetElement.querySelectorAll(\n\t\t\t\t\t\t\t\"canvas[data-chart-id]\"\n\t\t\t\t\t\t);\n\t\t\t\t\t\tcanvasesToAdd.forEach(initializeChart);\n\t\t\t\t\t\tif (targetElement.matches(\"canvas[data-chart-id]\")) {\n\t\t\t\t\t\t\tinitializeChart(targetElement);\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\n\t\t\t\t\tfunction tryInitializeNewCharts(targetElement, attempt = 1) {\n\t\t\t\t\t\tif (typeof Chart !== \"undefined\") {\n\t\t\t\t\t\t\tfindAndInitializeCanvases(targetElement);\n\t\t\t\t\t\t} else if (attempt < 10) {\n\t\t\t\t\t\t\tsetTimeout(\n\t\t\t\t\t\t\t\t() => tryInitializeNewCharts(targetElement, attempt + 1),\n\t\t\t\t\t\t\t\t100\n\t\t\t\t\t\t\t);\n\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\tconsole.error(\n\t\t\t\t\t\t\t\t\"[Chart Log] Chart.js did not load after multiple retries during htmx:afterSwap. Cannot initialize new charts.\"\n\t\t\t\t\t\t\t);\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\n\t\t\t\t\t// Start the process\n\t\t\t\t\ttryInitializeNewCharts(newContentTarget);\n\t\t\t\t});\n\n\t\t\t\t// 3. Observer for theme changes\n\t\t\t\tlet themeUpdateTimeout;\n\t\t\t\tconst observer = new MutationObserver(() => {\n\t\t\t\t\tclearTimeout(themeUpdateTimeout);\n\t\t\t\t\tthemeUpdateTimeout = setTimeout(updateAllCharts, 50);\n\t\t\t\t});\n\t\t\t\tobserver.observe(document.documentElement, {\n\t\t\t\t\tattributes: true,\n\t\t\t\t\tattributeFilter: [\"class\", \"style\"],\n\t\t\t\t});\n\n\t\t\t\t// 4. Optional: Alpine listener for theme changes\n\t\t\t\tif (typeof Alpine !== \"undefined\") {\n\t\t\t\t\tdocument.addEventListener(\"alpine:initialized\", () => {\n\t\t\t\t\t\tdocument.addEventListener(\"theme-changed\", () => {\n\t\t\t\t\t\t\tupdateAllCharts();\n\t\t\t\t\t\t});\n\t\t\t\t\t});\n\t\t\t\t}\n\n\t\t\t\t// Set the flag to indicate successful initialization\n\t\t\t\twindow.chartScriptInitialized = true;\n\t\t\t}\n\t\t</script>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
