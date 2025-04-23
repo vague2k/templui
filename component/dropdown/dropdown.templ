@@ -134,11 +134,11 @@ templ Content(props ...ContentProps) {
 		}
 		data-dropdown-content
 		class={ util.TwMerge(
-			"absolute z-50 rounded-md bg-popover p-1 shadow-md focus:outline-none overflow-auto",
-			"border border-border",
-			"min-w-[8rem]",
-			p.Width,
-			p.Class,
+				"absolute z-50 rounded-md bg-popover p-1 shadow-md focus:outline-none overflow-auto",
+				"border border-border",
+				"min-w-[8rem]",
+				p.Width,
+				p.Class,
 		) }
 		style={ "display: none; top: 100%; margin-top: 0.25rem; left: 0; max-height: " + maxHeight + ";" }
 		{ p.Attributes... }
@@ -321,7 +321,7 @@ templ SubContent(props ...SubContentProps) {
 		data-dropdown-submenu-content
 		class={ util.TwMerge(
 			"absolute z-[9999] min-w-[8rem] rounded-md border bg-popover p-1 shadow-lg",
-			p.Class,
+				p.Class,
 		) }
 		style="display: none; top: 0; left: 100%; margin-left: 0.25rem;"
 		{ p.Attributes... }
@@ -564,6 +564,6 @@ templ Script() {
 			} else {
 				document.addEventListener('DOMContentLoaded', window.initializeAllDropdowns);
 			}
-		</script>
+</script>
 	}
 }
