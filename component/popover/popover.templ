@@ -282,7 +282,12 @@ templ Script() {
 							const popoverData = activePopovers.get(popoverId);
 							if (!popoverData || popoverData.cleanup) return; // Already open or not found
 
-							portalContainer.appendChild(content);
+							// Only append to portal if not already a direct child
+							// This prevents HierarchyRequestError when nesting
+							if (content.parentNode !== portalContainer) {
+								portalContainer.appendChild(content);
+							}
+							
 							content.style.display = 'block';
 							content.classList.remove('popover-animate-out');
 							content.classList.add('popover-animate-in');
