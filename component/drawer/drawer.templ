@@ -238,167 +238,112 @@ var handle = templ.NewOnceHandle()
 templ Script() {
 	@handle.Once() {
 		<script nonce={ templ.GetNonce(ctx) }>
-            // Vanilla JS implementation of the drawer
-            function initDrawers() {
-                document.querySelectorAll('.templui-drawer').forEach(drawer => {
-                    // Get the drawer elements
-                    const triggers = drawer.querySelectorAll('[data-drawer-trigger]');
-                    const content = drawer.querySelector('[data-drawer-content]');
-                    const backdrop = drawer.querySelector('[data-drawer-backdrop]');
-                    const closeButtons = drawer.querySelectorAll('[data-drawer-close]');
-                    const position = content?.getAttribute('data-drawer-position') || 'right';
+            function initDrawer(drawer) {
+                const content = drawer.querySelector('[data-drawer-content]');
+                const backdrop = drawer.querySelector('[data-drawer-backdrop]');
+                if (!content || !backdrop) return;
+                
+                const triggers = drawer.querySelectorAll('[data-drawer-trigger]');
+                const closeButtons = drawer.querySelectorAll('[data-drawer-close]');
+                const position = content.dataset.drawerPosition || 'right';
+                const inner = content.querySelector('[data-drawer-inner]');
+                
+                // Initial styles
+                content.style.display = 'none';
+                backdrop.style.display = 'none';
+                content.style.opacity = '0';
+                backdrop.style.opacity = '0';
+                
+                // Set transform based on position
+                const getTransform = () => {
+                    switch(position) {
+                        case 'left': return 'translateX(-100%)';
+                        case 'right': return 'translateX(100%)';
+                        case 'top': return 'translateY(-100%)';
+                        case 'bottom': return 'translateY(100%)';
+                        default: return 'translateX(100%)';
+                    }
+                };
+                
+                content.style.transform = getTransform();
+                
+                function openDrawer() {
+                    backdrop.style.display = 'block';
+                    content.style.display = 'block';
                     
-                    if (!content || !backdrop) return;
+                    // Force reflow
+                    void content.offsetWidth;
                     
-                    // Set up animations based on position
-                    const transitions = {
-                        'left': {
-                            enterFrom: 'opacity-0 -translate-x-full',
-                            enterTo: 'opacity-100 translate-x-0',
-                            leaveFrom: 'opacity-100 translate-x-0',
-                            leaveTo: 'opacity-0 -translate-x-full'
-                        },
-                        'right': {
-                            enterFrom: 'opacity-0 translate-x-full',
-                            enterTo: 'opacity-100 translate-x-0',
-                            leaveFrom: 'opacity-100 translate-x-0',
-                            leaveTo: 'opacity-0 translate-x-full'
-                        },
-                        'top': {
-                            enterFrom: 'opacity-0 -translate-y-full',
-                            enterTo: 'opacity-100 translate-y-0',
-                            leaveFrom: 'opacity-100 translate-y-0',
-                            leaveTo: 'opacity-0 -translate-y-full'
-                        },
-                        'bottom': {
-                            enterFrom: 'opacity-0 translate-y-full',
-                            enterTo: 'opacity-100 translate-y-0',
-                            leaveFrom: 'opacity-100 translate-y-0',
-                            leaveTo: 'opacity-0 translate-y-full'
-                        }
-                    };
+                    backdrop.style.transition = 'opacity 300ms ease-out';
+                    content.style.transition = 'opacity 300ms ease-out, transform 300ms ease-out';
                     
-                    // Initial styles
-                    content.style.transform = position === 'left' ? 'translateX(-100%)' : 
-                                             position === 'right' ? 'translateX(100%)' :
-                                             position === 'top' ? 'translateY(-100%)' : 
-                                             'translateY(100%)';
-                    content.style.opacity = '0';
+                    backdrop.style.opacity = '1';
+                    content.style.opacity = '1';
+                    content.style.transform = 'translate(0)';
+                    
+                    document.body.style.overflow = 'hidden';
+                    setTimeout(() => {
+                        document.addEventListener('click', handleClickAway);
+                    }, 10);
+                }
+                
+                function closeDrawer() {
+                    backdrop.style.transition = 'opacity 300ms ease-in';
+                    content.style.transition = 'opacity 300ms ease-in, transform 300ms ease-in';
+                    
                     backdrop.style.opacity = '0';
+                    content.style.transform = getTransform();
+                    content.style.opacity = '0';
                     
-                    // Function to open the drawer
-                    function openDrawer() {
-                        // Display elements
-                        backdrop.style.display = 'block';
-                        content.style.display = 'block';
-                        
-                        // Trigger reflow
-                        void content.offsetWidth;
-                        
-                        // Apply transitions
-                        backdrop.style.transition = 'opacity 300ms ease-out';
-                        content.style.transition = 'opacity 300ms ease-out, transform 300ms ease-out';
-                        
-                        // Animate in
-                        backdrop.style.opacity = '1';
-                        content.style.opacity = '1';
-                        content.style.transform = 'translate(0)';
-                        
-                        // Lock body scroll
-                        document.body.style.overflow = 'hidden';
-                        
-                        // Set up click away listener
-                        setTimeout(() => {
-                            document.addEventListener('click', handleClickAway);
-                        }, 10);
+                    setTimeout(() => {
+                        backdrop.style.display = 'none';
+                        content.style.display = 'none';
+                        document.body.style.overflow = '';
+                    }, 300);
+                    
+                    document.removeEventListener('click', handleClickAway);
+                }
+                
+                function handleClickAway(e) {
+                    if (backdrop.style.display === 'block' && 
+                        !content.contains(e.target) && 
+                        !Array.from(triggers).some(trigger => trigger.contains(e.target))) {
+                        closeDrawer();
                     }
-                    
-                    // Function to close the drawer
-                    function closeDrawer() {
-                        // Apply transitions
-                        backdrop.style.transition = 'opacity 300ms ease-in';
-                        content.style.transition = 'opacity 300ms ease-in, transform 300ms ease-in';
-                        
-                        // Animate out
-                        backdrop.style.opacity = '0';
-                        
-                        if (position === 'left') {
-                            content.style.transform = 'translateX(-100%)';
-                        } else if (position === 'right') {
-                            content.style.transform = 'translateX(100%)';
-                        } else if (position === 'top') {
-                            content.style.transform = 'translateY(-100%)';
-                        } else if (position === 'bottom') {
-                            content.style.transform = 'translateY(100%)';
-                        }
-                        
-                        content.style.opacity = '0';
-                        
-                        // Hide elements after animation
-                        setTimeout(() => {
-                            backdrop.style.display = 'none';
-                            content.style.display = 'none';
-                            
-                            // Unlock body scroll
-                            document.body.style.overflow = '';
-                        }, 300);
-                        
-                        // Remove click away listener
-                        document.removeEventListener('click', handleClickAway);
+                }
+                
+                function handleEscKey(e) {
+                    if (e.key === 'Escape' && backdrop.style.display === 'block') {
+                        closeDrawer();
                     }
-                    
-                    // Click away handler
-                    function handleClickAway(e) {
-                        if (backdrop.style.display === 'block' && 
-                            !content.contains(e.target) && 
-                            !Array.from(triggers).some(trigger => trigger.contains(e.target))) {
-                            closeDrawer();
-                        }
-                    }
-                    
-                    // ESC key handler
-                    function handleEscKey(e) {
-                        if (e.key === 'Escape' && backdrop.style.display === 'block') {
-                            closeDrawer();
-                        }
-                    }
-                    
-                    // Set up trigger click listeners
-                    triggers.forEach(trigger => {
-                        trigger.addEventListener('click', openDrawer);
-                    });
-                    
-                    // Set up close button listeners
-                    closeButtons.forEach(button => {
-                        button.addEventListener('click', closeDrawer);
-                    });
-                    
-                    // Set up backdrop click listener
-                    backdrop.addEventListener('click', closeDrawer);
-                    
-                    // Stop propagation on the inner content
-                    const inner = content.querySelector('[data-drawer-inner]');
-                    if (inner) {
-                        inner.addEventListener('click', e => {
-                            e.stopPropagation();
-                        });
-                    }
-                    
-                    // Set up ESC key listener
-                    document.addEventListener('keydown', handleEscKey);
-                });
+                }
+                
+                // Set up event listeners
+                for (const trigger of triggers) {
+                    trigger.addEventListener('click', openDrawer);
+                }
+                
+                for (const button of closeButtons) {
+                    button.addEventListener('click', closeDrawer);
+                }
+                
+                backdrop.addEventListener('click', closeDrawer);
+                
+                if (inner) {
+                    inner.addEventListener('click', e => e.stopPropagation());
+                }
+                
+                document.addEventListener('keydown', handleEscKey);
             }
             
-            // Initialize drawers on page load
-            document.addEventListener('DOMContentLoaded', initDrawers);
-            
-            // Re-initialize drawers after HTMX swaps
-            document.addEventListener('htmx:afterSwap', initDrawers);
-            
-            // Also initialize now in case this script loads after DOMContentLoaded
-            if (document.readyState === 'complete' || document.readyState === 'interactive') {
-                initDrawers();
+            function initAllComponents(root = document) {
+                for (const drawer of root.querySelectorAll('.templui-drawer')) {
+                    initDrawer(drawer);
+                }
             }
+
+            document.addEventListener('DOMContentLoaded', () => initAllComponents());
+            document.body.addEventListener('htmx:afterSwap', (e) => initAllComponents(e.target));
         </script>
 	}
 }
