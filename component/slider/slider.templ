@@ -114,94 +114,33 @@ var handle = templ.NewOnceHandle()
 templ Script() {
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
-			function initializeSlider(sliderInput) {
-				if (sliderInput.dataset.sliderInitialized === 'true') {
-					return; // Already initialized
-				}
-				sliderInput.dataset.sliderInitialized = 'true';
+			function initSlider(sliderInput) {
+				if (sliderInput.hasAttribute('data-initialized')) return;
+				
+				sliderInput.setAttribute('data-initialized', 'true');
 
 				const sliderId = sliderInput.id;
-				if (!sliderId) {
-					console.error("Slider input is missing an ID, cannot initialize value display.", sliderInput);
-					return;
-				}
+				if (!sliderId) return;
 
-				// Find associated value display elements specifically for this slider
 				const valueElements = document.querySelectorAll(`[data-slider-value][data-slider-value-for="${sliderId}"]`);
-
-				// Function to update the associated value displays
-				const updateValueDisplays = () => {
+				
+				function updateValues() {
 					valueElements.forEach(el => {
 						el.textContent = sliderInput.value;
 					});
-				};
-
-				// Event listener for the input event
-				const handleInput = () => {
-					updateValueDisplays();
-					// Optional: Dispatch a custom event if needed
-					// sliderInput.dispatchEvent(new CustomEvent('slider-input', { detail: { value: sliderInput.value }, bubbles: true }));
-				};
-
-				// --- Initialization ---
-				updateValueDisplays(); // Set initial value display
-				sliderInput.addEventListener('input', handleInput);
-
-				// Store cleanup function on the element
-				sliderInput._sliderCleanup = () => {
-					sliderInput.removeEventListener('input', handleInput);
-				};
-			}
-
-			// --- Global Initialization Triggers ---
-
-			function initializeAllSliders() {
-				// Target the input elements directly
-				document.querySelectorAll('input[type="range"][data-slider-input]:not([data-slider-initialized])').forEach(initializeSlider);
-			}
-
-			// 1. Initial page load
-			if (document.readyState === 'loading') {
-				document.addEventListener('DOMContentLoaded', initializeAllSliders);
-			} else {
-				initializeAllSliders(); // Already loaded
-			}
-
-			// 2. After HTMX swaps
-			document.body.addEventListener('htmx:afterSwap', function(event) {
-				const targetElement = event.target instanceof Element ? event.target : null;
-				if (targetElement) {
-					// Check if the swapped element itself is a slider input
-					if (targetElement.matches('input[type="range"][data-slider-input]:not([data-slider-initialized])')) {
-						initializeSlider(targetElement);
-					}
-					// Check for slider inputs within the swapped content
-					targetElement.querySelectorAll('input[type="range"][data-slider-input]:not([data-slider-initialized])').forEach(initializeSlider);
 				}
-			});
 
-			// 3. Cleanup before HTMX removes elements
-			document.body.addEventListener('htmx:beforeCleanup', (event) => {
-				let containerToRemove = event.detail.target || event.detail.elt;
-				if (containerToRemove && containerToRemove.querySelectorAll) {
-					// Cleanup sliders within the container
-					containerToRemove.querySelectorAll('input[type="range"][data-slider-input][data-slider-initialized]').forEach(sliderInput => {
-						if (typeof sliderInput._sliderCleanup === 'function') {
-							sliderInput._sliderCleanup();
-							delete sliderInput._sliderCleanup; // Remove the reference
-							sliderInput.removeAttribute('data-slider-initialized');
-						}
-					});
-					// Cleanup if the container itself is a slider input
-					if (containerToRemove.matches('input[type="range"][data-slider-input][data-slider-initialized]')) {
-						if (typeof containerToRemove._sliderCleanup === 'function') {
-							containerToRemove._sliderCleanup();
-							delete containerToRemove._sliderCleanup;
-							containerToRemove.removeAttribute('data-slider-initialized');
-						}
-					}
-				}
-			});
+				updateValues(); 
+				sliderInput.addEventListener('input', updateValues);
+			}
+
+			function initAllSliders(root = document) {
+				const sliders = root.querySelectorAll('input[type="range"][data-slider-input]:not([data-initialized])');
+				sliders.forEach(initSlider);
+			}
+
+			document.addEventListener('DOMContentLoaded', () => initAllSliders());
+			document.body.addEventListener('htmx:afterSwap', evt => initAllSliders(evt.target));
 		</script>
 	}
 }
