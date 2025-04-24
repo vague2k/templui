@@ -3,6 +3,7 @@ package pages
 import (
 	"github.com/axzilla/templui/component/badge"
 	"github.com/axzilla/templui/component/button"
+	"github.com/axzilla/templui/icon"
 	wrappedicon "github.com/axzilla/templui/internal/ui/icons"
 	"github.com/axzilla/templui/internal/ui/layouts"
 	"github.com/axzilla/templui/internal/ui/modules"
@@ -35,6 +36,36 @@ templ Landing() {
 							}) {
 								@wrappedicon.JS(16)
 								Vanilla JS
+							}
+						</span>
+						<span class="flex items-center gap-1">
+							@badge.Badge(badge.Props{
+								Variant: badge.VariantSecondary,
+							}) {
+								@icon.Replace(icon.Props{
+									Size: 16,
+								})
+								HTMX Support
+							}
+						</span>
+						<span class="flex items-center gap-1">
+							@badge.Badge(badge.Props{
+								Variant: badge.VariantSecondary,
+							}) {
+								@icon.ShieldCheck(icon.Props{
+									Size: 16,
+								})
+								CSP compliant
+							}
+						</span>
+						<span class="flex items-center gap-1">
+							@badge.Badge(badge.Props{
+								Variant: badge.VariantSecondary,
+							}) {
+								@icon.Blocks(icon.Props{
+									Size: 16,
+								})
+								Built for Enterprise
 							}
 						</span>
 					</div>
