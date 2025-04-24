@@ -17,7 +17,6 @@ import (
 
 type LocaleTag string
 
-// Common Locale Tags (BCP 47)
 var (
 	LocaleDefaultTag    = LocaleTag("en-US")
 	LocaleTagChinese    = LocaleTag("zh-CN")
@@ -128,20 +127,20 @@ func Calendar(props ...Props) templ.Component {
 		var templ_7745c5c3_Var4 string
 		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID + "-wrapper")
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/calendar/calendar.templ`, Line: 76, Col: 46}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/calendar/calendar.templ`, Line: 75, Col: 46}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\"><input type=\"hidden\" name=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\" data-calendar-wrapper=\"true\"><input type=\"hidden\" name=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(p.Name)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/calendar/calendar.templ`, Line: 79, Col: 16}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/calendar/calendar.templ`, Line: 78, Col: 16}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
@@ -154,7 +153,7 @@ func Calendar(props ...Props) templ.Component {
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(initialSelectedISO)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/calendar/calendar.templ`, Line: 80, Col: 29}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/calendar/calendar.templ`, Line: 79, Col: 29}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -167,7 +166,7 @@ func Calendar(props ...Props) templ.Component {
 		var templ_7745c5c3_Var7 string
 		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID + "-hidden")
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/calendar/calendar.templ`, Line: 81, Col: 24}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/calendar/calendar.templ`, Line: 80, Col: 24}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
@@ -180,7 +179,7 @@ func Calendar(props ...Props) templ.Component {
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/calendar/calendar.templ`, Line: 85, Col: 12}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/calendar/calendar.templ`, Line: 84, Col: 12}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
@@ -193,7 +192,7 @@ func Calendar(props ...Props) templ.Component {
 		var templ_7745c5c3_Var9 string
 		templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(string(p.LocaleTag))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/calendar/calendar.templ`, Line: 87, Col: 40}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/calendar/calendar.templ`, Line: 86, Col: 40}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 		if templ_7745c5c3_Err != nil {
@@ -206,7 +205,7 @@ func Calendar(props ...Props) templ.Component {
 		var templ_7745c5c3_Var10 string
 		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(initialMonth))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/calendar/calendar.templ`, Line: 88, Col: 50}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/calendar/calendar.templ`, Line: 87, Col: 50}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 		if templ_7745c5c3_Err != nil {
@@ -219,7 +218,7 @@ func Calendar(props ...Props) templ.Component {
 		var templ_7745c5c3_Var11 string
 		templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(initialYear))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/calendar/calendar.templ`, Line: 89, Col: 48}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/calendar/calendar.templ`, Line: 88, Col: 48}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 		if templ_7745c5c3_Err != nil {
@@ -232,26 +231,13 @@ func Calendar(props ...Props) templ.Component {
 		var templ_7745c5c3_Var12 string
 		templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs(initialSelectedISO)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/calendar/calendar.templ`, Line: 90, Col: 42}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/calendar/calendar.templ`, Line: 89, Col: 42}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "\" data-hidden-input-id=\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var13 string
-		templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID + "-hidden")
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/calendar/calendar.templ`, Line: 91, Col: 42}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "\"><!-- Calendar Header --><div class=\"flex items-center justify-between mb-4\"><span data-calendar-month-display class=\"text-sm font-medium\"></span><div class=\"flex gap-1\"><button type=\"button\" data-calendar-prev class=\"inline-flex items-center justify-center rounded-md text-sm font-medium h-7 w-7 hover:bg-accent hover:text-accent-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:opacity-50\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "\"><!-- Calendar Header --><div class=\"flex items-center justify-between mb-4\"><span data-calendar-month-display class=\"text-sm font-medium\"></span><div class=\"flex gap-1\"><button type=\"button\" data-calendar-prev class=\"inline-flex items-center justify-center rounded-md text-sm font-medium h-7 w-7 hover:bg-accent hover:text-accent-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:opacity-50\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -259,7 +245,7 @@ func Calendar(props ...Props) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "</button> <button type=\"button\" data-calendar-next class=\"inline-flex items-center justify-center rounded-md text-sm font-medium h-7 w-7 hover:bg-accent hover:text-accent-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:opacity-50\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "</button> <button type=\"button\" data-calendar-next class=\"inline-flex items-center justify-center rounded-md text-sm font-medium h-7 w-7 hover:bg-accent hover:text-accent-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:opacity-50\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -267,7 +253,7 @@ func Calendar(props ...Props) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "</button></div></div><div data-calendar-weekdays class=\"grid grid-cols-7 gap-1 mb-1 place-items-center\"></div><div data-calendar-days class=\"grid grid-cols-7 gap-1 place-items-center\"></div></div></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "</button></div></div><!-- Weekday Headers --><div data-calendar-weekdays class=\"grid grid-cols-7 gap-1 mb-1 place-items-center\"></div><!-- Calendar Day Grid --><div data-calendar-days class=\"grid grid-cols-7 gap-1 place-items-center\"></div></div></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -293,12 +279,12 @@ func Script() templ.Component {
 			}()
 		}
 		ctx = templ.InitializeContext(ctx)
-		templ_7745c5c3_Var14 := templ.GetChildren(ctx)
-		if templ_7745c5c3_Var14 == nil {
-			templ_7745c5c3_Var14 = templ.NopComponent
+		templ_7745c5c3_Var13 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var13 == nil {
+			templ_7745c5c3_Var13 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Var15 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_Var14 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 			templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 			templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
 			if !templ_7745c5c3_IsBuffer {
@@ -310,26 +296,26 @@ func Script() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "<script defer nonce=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "<script defer nonce=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var16 string
-			templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
+			var templ_7745c5c3_Var15 string
+			templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
 				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/calendar/calendar.templ`, Line: 115, Col: 43}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var15))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "\">\n\t\t\tfunction initCalendar(container) {\n\t\t\t\tconst monthDisplay = container.querySelector('[data-calendar-month-display]');\n\t\t\t\tconst weekdaysContainer = container.querySelector('[data-calendar-weekdays]');\n\t\t\t\tconst daysContainer = container.querySelector('[data-calendar-days]');\n\t\t\t\tconst prevButton = container.querySelector('[data-calendar-prev]');\n\t\t\t\tconst nextButton = container.querySelector('[data-calendar-next]');\n\t\t\t\tconst hiddenInputId = container.dataset.hiddenInputId;\n\t\t\t\tconst hiddenInput = document.getElementById(hiddenInputId);\n\n\t\t\t\tif (!monthDisplay || !weekdaysContainer || !daysContainer || !prevButton || !nextButton || !hiddenInput) {\n\t\t\t\t\treturn;\n\t\t\t\t}\n\n\t\t\t\tconst localeTag = container.dataset.localeTag || 'en-US'; \n\t\t\t\tlet monthNamesFallback = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];\n\t\t\t\tlet dayNames = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];\n\t\t\t\t\n\t\t\t\ttry {\n\t\t\t\t\tdayNames = Array.from({ length: 7 }, (_, i) =>\n\t\t\t\t\t\tnew Intl.DateTimeFormat(localeTag, { weekday: 'short' }).format(new Date(Date.UTC(2000, 0, i))) \n\t\t\t\t\t);\n\t\t\t\t} catch (e) {}\n\t\t\t\t\n\t\t\t\tlet currentMonth = parseInt(container.dataset.initialMonth);\n\t\t\t\tlet currentYear = parseInt(container.dataset.initialYear);\n\t\t\t\tlet selectedDate = null;\n\n\t\t\t\tif (container.dataset.selectedDate) {\n\t\t\t\t\tselectedDate = parseISODate(container.dataset.selectedDate);\n\t\t\t\t}\n\n\t\t\t\tfunction parseISODate(isoStr) {\n\t\t\t\t\tif (!isoStr) return null;\n\t\t\t\t\ttry {\n\t\t\t\t\t\tconst parts = isoStr.split('-');\n\t\t\t\t\t\tconst year = parseInt(parts[0], 10);\n\t\t\t\t\t\tconst month = parseInt(parts[1], 10) - 1;\n\t\t\t\t\t\tconst day = parseInt(parts[2], 10);\n\t\t\t\t\t\tconst date = new Date(Date.UTC(year, month, day));\n\t\t\t\t\t\tif (!isNaN(date) && date.getUTCFullYear() === year && date.getUTCMonth() === month && date.getUTCDate() === day) {\n\t\t\t\t\t\t\treturn date;\n\t\t\t\t\t\t}\n\t\t\t\t\t} catch {}\n\t\t\t\t\treturn null;\n\t\t\t\t}\n\n\t\t\t\tfunction updateMonthDisplay() {\n\t\t\t\t\ttry {\n\t\t\t\t\t\tconst dateForDisplay = new Date(Date.UTC(currentYear, currentMonth));\n\t\t\t\t\t\tmonthDisplay.textContent = new Intl.DateTimeFormat(localeTag, {\n\t\t\t\t\t\t\tmonth: 'long', year: 'numeric'\n\t\t\t\t\t\t}).format(dateForDisplay);\n\t\t\t\t\t} catch (e) {\n\t\t\t\t\t\tmonthDisplay.textContent = `${monthNamesFallback[currentMonth]} ${currentYear}`;\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\tfunction renderWeekdays() {\n\t\t\t\t\tweekdaysContainer.innerHTML = '';\n\t\t\t\t\tdayNames.forEach(day => {\n\t\t\t\t\t\tconst el = document.createElement('div');\n\t\t\t\t\t\tel.className = 'text-center text-xs text-muted-foreground font-medium';\n\t\t\t\t\t\tel.textContent = day;\n\t\t\t\t\t\tweekdaysContainer.appendChild(el);\n\t\t\t\t\t});\n\t\t\t\t}\n\n\t\t\t\tfunction renderCalendar() {\n\t\t\t\t\tdaysContainer.innerHTML = '';\n\t\t\t\t\tconst firstDayOfMonth = new Date(Date.UTC(currentYear, currentMonth, 1));\n\t\t\t\t\tconst startOffset = firstDayOfMonth.getUTCDay();\n\t\t\t\t\tconst daysInMonth = new Date(Date.UTC(currentYear, currentMonth + 1, 0)).getUTCDate();\n\t\t\t\t\tconst today = new Date(); \n\t\t\t\t\ttoday.setUTCHours(0,0,0,0);\n\n\t\t\t\t\tfor (let i = 0; i < startOffset; i++) {\n\t\t\t\t\t\t const blank = document.createElement('div');\n\t\t\t\t\t\t blank.className = 'h-8 w-8';\n\t\t\t\t\t\t daysContainer.appendChild(blank);\n\t\t\t\t\t}\n\n\t\t\t\t\tfor (let day = 1; day <= daysInMonth; day++) {\n\t\t\t\t\t\tconst button = document.createElement('button');\n\t\t\t\t\t\tbutton.type = 'button';\n\t\t\t\t\t\tbutton.className = 'inline-flex h-8 w-8 items-center justify-center rounded-md text-sm font-medium focus:outline-none focus:ring-1 focus:ring-ring';\n\t\t\t\t\t\tbutton.textContent = day;\n\t\t\t\t\t\tbutton.dataset.day = day;\n\t\t\t\t\t\t\n\t\t\t\t\t\tconst currentDate = new Date(Date.UTC(currentYear, currentMonth, day));\n\t\t\t\t\t\tconst isSelected = selectedDate && currentDate.getTime() === selectedDate.getTime();\n\t\t\t\t\t\tconst isToday = currentDate.getTime() === today.getTime();\n\n\t\t\t\t\t\tif (isSelected) button.classList.add('bg-primary', 'text-primary-foreground', 'hover:bg-primary/90');\n\t\t\t\t\t\telse if (isToday) button.classList.add('bg-accent', 'text-accent-foreground');\n\t\t\t\t\t\telse button.classList.add('hover:bg-accent', 'hover:text-accent-foreground');\n\n\t\t\t\t\t\tbutton.addEventListener('click', handleDayClick);\n\t\t\t\t\t\tdaysContainer.appendChild(button);\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\tfunction handleDayClick(event) {\n\t\t\t\t\tconst day = parseInt(event.target.dataset.day);\n\t\t\t\t\tif (!day) return;\n\t\t\t\t\t\n\t\t\t\t\tselectedDate = new Date(Date.UTC(currentYear, currentMonth, day));\n\t\t\t\t\tconst isoFormattedValue = selectedDate.toISOString().split('T')[0];\n\t\t\t\t\t\n\t\t\t\t\thiddenInput.value = isoFormattedValue;\n\t\t\t\t\thiddenInput.dispatchEvent(new Event('change', { bubbles: true }));\n\n\t\t\t\t\tcontainer.dispatchEvent(new CustomEvent('calendar-date-selected', {\n\t\t\t\t\t\tbubbles: true,\n\t\t\t\t\t\tdetail: { date: selectedDate }\n\t\t\t\t\t}));\n\n\t\t\t\t\trenderCalendar();\n\t\t\t\t}\n\n\t\t\t\tprevButton.addEventListener('click', () => {\n\t\t\t\t\tcurrentMonth--;\n\t\t\t\t\tif (currentMonth < 0) { currentMonth = 11; currentYear--; }\n\t\t\t\t\tupdateMonthDisplay(); \n\t\t\t\t\trenderCalendar();\n\t\t\t\t});\n\n\t\t\t\tnextButton.addEventListener('click', () => {\n\t\t\t\t\tcurrentMonth++;\n\t\t\t\t\tif (currentMonth > 11) { currentMonth = 0; currentYear++; }\n\t\t\t\t\tupdateMonthDisplay(); \n\t\t\t\t\trenderCalendar();\n\t\t\t\t});\n\n\t\t\t\tupdateMonthDisplay();\n\t\t\t\trenderWeekdays();\n\t\t\t\trenderCalendar();\n\t\t\t}\n\n\t\t\tfunction initAllComponents(root = document) {\n\t\t\t\tfor (const calendar of root.querySelectorAll('[data-calendar-container]')) {\n\t\t\t\t\tinitCalendar(calendar);\n\t\t\t\t}\n\t\t\t}\n\n\t\t\tdocument.addEventListener('DOMContentLoaded', () => initAllComponents());\n\t\t\tdocument.body.addEventListener('htmx:afterSwap', (e) => initAllComponents(e.target));\n\t\t</script>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "\">\n\n            function initCalendar(container) {\n                if (!container || container._calendarInitialized) return;\n\n                const monthDisplay = container.querySelector('[data-calendar-month-display]');\n                const weekdaysContainer = container.querySelector('[data-calendar-weekdays]');\n                const daysContainer = container.querySelector('[data-calendar-days]');\n                const prevButton = container.querySelector('[data-calendar-prev]');\n                const nextButton = container.querySelector('[data-calendar-next]');\n                const wrapper = container.closest('[data-calendar-wrapper]');\n                const hiddenInput = wrapper ? wrapper.querySelector('[data-calendar-hidden-input]') : null;\n\n                if (!monthDisplay || !weekdaysContainer || !daysContainer || !prevButton || !nextButton || !hiddenInput) {\n                    console.error('Calendar init error: Missing required elements (or hidden input relative to wrapper).', container);\n                    return;\n                }\n\n                const localeTag = container.dataset.localeTag || 'en-US'; \n                let monthNamesFallback = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; // Fallback if Intl fails\n                let dayNames = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']; // Default fallback\n                \n                try {\n                    // Use days 0-6 (Sun-Sat standard). Intl provides names in the locale's typical order.\n                    dayNames = Array.from({ length: 7 }, (_, i) =>\n                        new Intl.DateTimeFormat(localeTag, { weekday: 'short' }).format(new Date(Date.UTC(2000, 0, i))) \n                    );\n                } catch (e) {\n                    console.error('Error generating calendar day names via Intl:', e);\n                    // Keep default dayNames on error\n                }\n                \n                let currentMonth = parseInt(container.dataset.initialMonth);\n                let currentYear = parseInt(container.dataset.initialYear);\n                let selectedDate = null; // Stored as JS Date object (UTC midnight)\n\n                if (container.dataset.selectedDate) {\n                    selectedDate = parseISODate(container.dataset.selectedDate);\n                }\n\n                function parseISODate(isoStr) {\n                    if (!isoStr) return null;\n                    try {\n                        const parts = isoStr.split('-');\n                        const year = parseInt(parts[0], 10);\n                        const month = parseInt(parts[1], 10) - 1; // JS month is 0-indexed\n                        const day = parseInt(parts[2], 10);\n                        const date = new Date(Date.UTC(year, month, day));\n                        if (!isNaN(date) && date.getUTCFullYear() === year && date.getUTCMonth() === month && date.getUTCDate() === day) {\n                            return date;\n                        }\n                    } catch {}\n                    return null;\n                }\n\n                function updateMonthDisplay() {\n                    try {\n                        const dateForDisplay = new Date(Date.UTC(currentYear, currentMonth));\n                        monthDisplay.textContent = new Intl.DateTimeFormat(localeTag, {\n                            month: 'long', year: 'numeric'\n                        }).format(dateForDisplay);\n                    } catch (e) {\n                        console.error(\"Error formatting month display with Intl:\", e);\n                        monthDisplay.textContent = `${monthNamesFallback[currentMonth]} ${currentYear}`; // Use fallback month name if Intl fails\n                    }\n                }\n\n                function renderWeekdays() {\n                    weekdaysContainer.innerHTML = '';\n                    dayNames.forEach(day => {\n                        const el = document.createElement('div');\n                        el.className = 'text-center text-xs text-muted-foreground font-medium';\n                        el.textContent = day;\n                        weekdaysContainer.appendChild(el);\n                    });\n                }\n\n                function renderCalendar() {\n                    daysContainer.innerHTML = '';\n                    const firstDayOfMonth = new Date(Date.UTC(currentYear, currentMonth, 1));\n                    const firstDayUTCDay = firstDayOfMonth.getUTCDay(); // 0=Sun\n                    let startOffset = firstDayUTCDay; // Simple Sunday start offset\n                    // NOTE: A robust implementation might need to adjust offset based on locale's actual first day of week.\n                    // Intl doesn't directly provide this easily yet. Keep Sunday start for simplicity.\n\n                    const daysInMonth = new Date(Date.UTC(currentYear, currentMonth + 1, 0)).getUTCDate();\n                    const today = new Date(); today.setUTCHours(0,0,0,0);\n\n                    for (let i = 0; i < startOffset; i++) {\n                         const blank = document.createElement('div');\n                         blank.className = 'h-8 w-8';\n                         daysContainer.appendChild(blank);\n                    }\n\n                    for (let day = 1; day <= daysInMonth; day++) {\n                        const button = document.createElement('button');\n                        button.type = 'button';\n                        button.className = 'inline-flex h-8 w-8 items-center justify-center rounded-md text-sm font-medium focus:outline-none focus:ring-1 focus:ring-ring';\n                        button.textContent = day;\n                        button.dataset.day = day;\n                        const currentDate = new Date(Date.UTC(currentYear, currentMonth, day));\n                        const isSelected = selectedDate && currentDate.getTime() === selectedDate.getTime();\n                        const isToday = currentDate.getTime() === today.getTime();\n\n                        if (isSelected) button.classList.add('bg-primary', 'text-primary-foreground', 'hover:bg-primary/90');\n                        else if (isToday) button.classList.add('bg-accent', 'text-accent-foreground');\n                        else button.classList.add('hover:bg-accent', 'hover:text-accent-foreground');\n\n                        button.addEventListener('click', handleDayClick);\n                        daysContainer.appendChild(button);\n                    }\n                }\n\n                function handlePrevMonthClick() {\n                    currentMonth--;\n                    if (currentMonth < 0) { currentMonth = 11; currentYear--; }\n                    updateMonthDisplay(); renderCalendar();\n                }\n\n                function handleNextMonthClick() {\n                    currentMonth++;\n                    if (currentMonth > 11) { currentMonth = 0; currentYear++; }\n                    updateMonthDisplay(); renderCalendar();\n                }\n\n                function handleDayClick(event) {\n                    const day = parseInt(event.target.dataset.day);\n                    if (!day) return;\n                    const newlySelectedDate = new Date(Date.UTC(currentYear, currentMonth, day));\n\n                    selectedDate = newlySelectedDate;\n\n                    const isoFormattedValue = newlySelectedDate.toISOString().split('T')[0];\n                    hiddenInput.value = isoFormattedValue;\n                    hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));\n\n                    container.dispatchEvent(new CustomEvent('calendar-date-selected', {\n                        bubbles: true,\n                        detail: { date: newlySelectedDate }\n                    }));\n\n                    renderCalendar();\n                }\n\n                // Initialization\n                prevButton.addEventListener('click', handlePrevMonthClick);\n                nextButton.addEventListener('click', handleNextMonthClick);\n\n                updateMonthDisplay();\n                renderWeekdays();\n                renderCalendar();\n\n                container._calendarInitialized = true;\n            }\n\n            // Global Init & HTMX Hook\n            function initCalendarsInScope(scopeElement) {\n                scopeElement.querySelectorAll('[data-calendar-container]').forEach(initCalendar);\n            }\n\n            document.addEventListener('DOMContentLoaded', () => {\n                initCalendarsInScope(document.body);\n            });\n\n            document.body.addEventListener('htmx:afterSwap', (event) => {\n                const target = event.detail.target || event.target;\n                if (target instanceof Element) {\n                    if (target.matches('[data-calendar-container]')) {\n                        initCalendar(target);\n                    }\n                    initCalendarsInScope(target);\n                }\n            });\n        </script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = handle.Once().Render(templ.WithChildren(ctx, templ_7745c5c3_Var15), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = handle.Once().Render(templ.WithChildren(ctx, templ_7745c5c3_Var14), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

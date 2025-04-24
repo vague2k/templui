@@ -9,7 +9,6 @@ import (
 
 type LocaleTag string
 
-// Common Locale Tags (BCP 47)
 var (
 	LocaleDefaultTag    = LocaleTag("en-US")
 	LocaleTagChinese    = LocaleTag("zh-CN")
@@ -33,47 +32,47 @@ type Props struct {
 
 templ Calendar(props ...Props) {
 	{{
-		var p Props
-		if len(props) > 0 {
-			p = props[0]
-		}
-		if p.ID == "" {
-			p.ID = util.RandomID() + "-calendar"
-		}
-		if p.Name == "" {
-			// Should be provided by parent (e.g., DatePicker or in standalone usage)
-			p.Name = p.ID + "-value" // Fallback name
-		}
-		if p.LocaleTag == "" {
-			p.LocaleTag = LocaleDefaultTag
-		}
+	var p Props
+	if len(props) > 0 {
+		p = props[0]
+	}
+	if p.ID == "" {
+		p.ID = util.RandomID() + "-calendar"
+	}
+	if p.Name == "" {
+		// Should be provided by parent (e.g., DatePicker or in standalone usage)
+		p.Name = p.ID + "-value" // Fallback name
+	}
+	if p.LocaleTag == "" {
+		p.LocaleTag = LocaleDefaultTag
+	}
 
-		initialView := time.Now()
-		if p.Value != nil {
-			initialView = *p.Value
-		}
+	initialView := time.Now()
+	if p.Value != nil {
+		initialView = *p.Value
+	}
 
-		initialMonth := p.InitialMonth
-		initialYear := p.InitialYear
+	initialMonth := p.InitialMonth
+	initialYear := p.InitialYear
 
-		// Use year from initialView if InitialYear prop is invalid/unset (<= 0)
-		if initialYear <= 0 {
-			initialYear = initialView.Year()
-		}
+	// Use year from initialView if InitialYear prop is invalid/unset (<= 0)
+	if initialYear <= 0 {
+		initialYear = initialView.Year()
+	}
 
-		// Use month from initialView if InitialMonth prop is invalid OR
-		// if InitialMonth is default 0 AND InitialYear was also defaulted (meaning neither was likely set explicitly)
-		if (initialMonth < 0 || initialMonth > 11) || (initialMonth == 0 && p.InitialYear <= 0) {
-			initialMonth = int(initialView.Month()) - 1 // time.Month is 1-12
-		}
+	// Use month from initialView if InitialMonth prop is invalid OR
+	// if InitialMonth is default 0 AND InitialYear was also defaulted (meaning neither was likely set explicitly)
+	if (initialMonth < 0 || initialMonth > 11) || (initialMonth == 0 && p.InitialYear <= 0) {
+		initialMonth = int(initialView.Month()) - 1 // time.Month is 1-12
+	}
 
-		initialSelectedISO := ""
-		if p.Value != nil {
-			initialSelectedISO = p.Value.Format("2006-01-02")
-		}
+	initialSelectedISO := ""
+	if p.Value != nil {
+		initialSelectedISO = p.Value.Format("2006-01-02")
+	}
 	}}
 	@Script()
-	<div class={ p.Class } id={ p.ID + "-wrapper" }>
+	<div class={ p.Class } id={ p.ID + "-wrapper" } data-calendar-wrapper="true">
 		<input
 			type="hidden"
 			name={ p.Name }
@@ -88,7 +87,6 @@ templ Calendar(props ...Props) {
 			data-initial-month={ strconv.Itoa(initialMonth) }
 			data-initial-year={ strconv.Itoa(initialYear) }
 			data-selected-date={ initialSelectedISO }
-			data-hidden-input-id={ p.ID + "-hidden" }
 		>
 			<!-- Calendar Header -->
 			<div class="flex items-center justify-between mb-4">
@@ -102,7 +100,9 @@ templ Calendar(props ...Props) {
 					</button>
 				</div>
 			</div>
+			<!-- Weekday Headers -->
 			<div data-calendar-weekdays class="grid grid-cols-7 gap-1 mb-1 place-items-center"></div>
+			<!-- Calendar Day Grid -->
 			<div data-calendar-days class="grid grid-cols-7 gap-1 place-items-center"></div>
 		</div>
 	</div>
@@ -113,152 +113,178 @@ var handle = templ.NewOnceHandle()
 templ Script() {
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
-			function initCalendar(container) {
-				const monthDisplay = container.querySelector('[data-calendar-month-display]');
-				const weekdaysContainer = container.querySelector('[data-calendar-weekdays]');
-				const daysContainer = container.querySelector('[data-calendar-days]');
-				const prevButton = container.querySelector('[data-calendar-prev]');
-				const nextButton = container.querySelector('[data-calendar-next]');
-				const hiddenInputId = container.dataset.hiddenInputId;
-				const hiddenInput = document.getElementById(hiddenInputId);
 
-				if (!monthDisplay || !weekdaysContainer || !daysContainer || !prevButton || !nextButton || !hiddenInput) {
-					return;
-				}
+            function initCalendar(container) {
+                if (!container || container._calendarInitialized) return;
 
-				const localeTag = container.dataset.localeTag || 'en-US'; 
-				let monthNamesFallback = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-				let dayNames = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
-				
-				try {
-					dayNames = Array.from({ length: 7 }, (_, i) =>
-						new Intl.DateTimeFormat(localeTag, { weekday: 'short' }).format(new Date(Date.UTC(2000, 0, i))) 
-					);
-				} catch (e) {}
-				
-				let currentMonth = parseInt(container.dataset.initialMonth);
-				let currentYear = parseInt(container.dataset.initialYear);
-				let selectedDate = null;
+                const monthDisplay = container.querySelector('[data-calendar-month-display]');
+                const weekdaysContainer = container.querySelector('[data-calendar-weekdays]');
+                const daysContainer = container.querySelector('[data-calendar-days]');
+                const prevButton = container.querySelector('[data-calendar-prev]');
+                const nextButton = container.querySelector('[data-calendar-next]');
+                const wrapper = container.closest('[data-calendar-wrapper]');
+                const hiddenInput = wrapper ? wrapper.querySelector('[data-calendar-hidden-input]') : null;
 
-				if (container.dataset.selectedDate) {
-					selectedDate = parseISODate(container.dataset.selectedDate);
-				}
+                if (!monthDisplay || !weekdaysContainer || !daysContainer || !prevButton || !nextButton || !hiddenInput) {
+                    console.error('Calendar init error: Missing required elements (or hidden input relative to wrapper).', container);
+                    return;
+                }
 
-				function parseISODate(isoStr) {
-					if (!isoStr) return null;
-					try {
-						const parts = isoStr.split('-');
-						const year = parseInt(parts[0], 10);
-						const month = parseInt(parts[1], 10) - 1;
-						const day = parseInt(parts[2], 10);
-						const date = new Date(Date.UTC(year, month, day));
-						if (!isNaN(date) && date.getUTCFullYear() === year && date.getUTCMonth() === month && date.getUTCDate() === day) {
-							return date;
-						}
-					} catch {}
-					return null;
-				}
+                const localeTag = container.dataset.localeTag || 'en-US'; 
+                let monthNamesFallback = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; // Fallback if Intl fails
+                let dayNames = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']; // Default fallback
+                
+                try {
+                    // Use days 0-6 (Sun-Sat standard). Intl provides names in the locale's typical order.
+                    dayNames = Array.from({ length: 7 }, (_, i) =>
+                        new Intl.DateTimeFormat(localeTag, { weekday: 'short' }).format(new Date(Date.UTC(2000, 0, i))) 
+                    );
+                } catch (e) {
+                    console.error('Error generating calendar day names via Intl:', e);
+                    // Keep default dayNames on error
+                }
+                
+                let currentMonth = parseInt(container.dataset.initialMonth);
+                let currentYear = parseInt(container.dataset.initialYear);
+                let selectedDate = null; // Stored as JS Date object (UTC midnight)
 
-				function updateMonthDisplay() {
-					try {
-						const dateForDisplay = new Date(Date.UTC(currentYear, currentMonth));
-						monthDisplay.textContent = new Intl.DateTimeFormat(localeTag, {
-							month: 'long', year: 'numeric'
-						}).format(dateForDisplay);
-					} catch (e) {
-						monthDisplay.textContent = `${monthNamesFallback[currentMonth]} ${currentYear}`;
-					}
-				}
+                if (container.dataset.selectedDate) {
+                    selectedDate = parseISODate(container.dataset.selectedDate);
+                }
 
-				function renderWeekdays() {
-					weekdaysContainer.innerHTML = '';
-					dayNames.forEach(day => {
-						const el = document.createElement('div');
-						el.className = 'text-center text-xs text-muted-foreground font-medium';
-						el.textContent = day;
-						weekdaysContainer.appendChild(el);
-					});
-				}
+                function parseISODate(isoStr) {
+                    if (!isoStr) return null;
+                    try {
+                        const parts = isoStr.split('-');
+                        const year = parseInt(parts[0], 10);
+                        const month = parseInt(parts[1], 10) - 1; // JS month is 0-indexed
+                        const day = parseInt(parts[2], 10);
+                        const date = new Date(Date.UTC(year, month, day));
+                        if (!isNaN(date) && date.getUTCFullYear() === year && date.getUTCMonth() === month && date.getUTCDate() === day) {
+                            return date;
+                        }
+                    } catch {}
+                    return null;
+                }
 
-				function renderCalendar() {
-					daysContainer.innerHTML = '';
-					const firstDayOfMonth = new Date(Date.UTC(currentYear, currentMonth, 1));
-					const startOffset = firstDayOfMonth.getUTCDay();
-					const daysInMonth = new Date(Date.UTC(currentYear, currentMonth + 1, 0)).getUTCDate();
-					const today = new Date(); 
-					today.setUTCHours(0,0,0,0);
+                function updateMonthDisplay() {
+                    try {
+                        const dateForDisplay = new Date(Date.UTC(currentYear, currentMonth));
+                        monthDisplay.textContent = new Intl.DateTimeFormat(localeTag, {
+                            month: 'long', year: 'numeric'
+                        }).format(dateForDisplay);
+                    } catch (e) {
+                        console.error("Error formatting month display with Intl:", e);
+                        monthDisplay.textContent = `${monthNamesFallback[currentMonth]} ${currentYear}`; // Use fallback month name if Intl fails
+                    }
+                }
 
-					for (let i = 0; i < startOffset; i++) {
-						 const blank = document.createElement('div');
-						 blank.className = 'h-8 w-8';
-						 daysContainer.appendChild(blank);
-					}
+                function renderWeekdays() {
+                    weekdaysContainer.innerHTML = '';
+                    dayNames.forEach(day => {
+                        const el = document.createElement('div');
+                        el.className = 'text-center text-xs text-muted-foreground font-medium';
+                        el.textContent = day;
+                        weekdaysContainer.appendChild(el);
+                    });
+                }
 
-					for (let day = 1; day <= daysInMonth; day++) {
-						const button = document.createElement('button');
-						button.type = 'button';
-						button.className = 'inline-flex h-8 w-8 items-center justify-center rounded-md text-sm font-medium focus:outline-none focus:ring-1 focus:ring-ring';
-						button.textContent = day;
-						button.dataset.day = day;
-						
-						const currentDate = new Date(Date.UTC(currentYear, currentMonth, day));
-						const isSelected = selectedDate && currentDate.getTime() === selectedDate.getTime();
-						const isToday = currentDate.getTime() === today.getTime();
+                function renderCalendar() {
+                    daysContainer.innerHTML = '';
+                    const firstDayOfMonth = new Date(Date.UTC(currentYear, currentMonth, 1));
+                    const firstDayUTCDay = firstDayOfMonth.getUTCDay(); // 0=Sun
+                    let startOffset = firstDayUTCDay; // Simple Sunday start offset
+                    // NOTE: A robust implementation might need to adjust offset based on locale's actual first day of week.
+                    // Intl doesn't directly provide this easily yet. Keep Sunday start for simplicity.
 
-						if (isSelected) button.classList.add('bg-primary', 'text-primary-foreground', 'hover:bg-primary/90');
-						else if (isToday) button.classList.add('bg-accent', 'text-accent-foreground');
-						else button.classList.add('hover:bg-accent', 'hover:text-accent-foreground');
+                    const daysInMonth = new Date(Date.UTC(currentYear, currentMonth + 1, 0)).getUTCDate();
+                    const today = new Date(); today.setUTCHours(0,0,0,0);
 
-						button.addEventListener('click', handleDayClick);
-						daysContainer.appendChild(button);
-					}
-				}
+                    for (let i = 0; i < startOffset; i++) {
+                         const blank = document.createElement('div');
+                         blank.className = 'h-8 w-8';
+                         daysContainer.appendChild(blank);
+                    }
 
-				function handleDayClick(event) {
-					const day = parseInt(event.target.dataset.day);
-					if (!day) return;
-					
-					selectedDate = new Date(Date.UTC(currentYear, currentMonth, day));
-					const isoFormattedValue = selectedDate.toISOString().split('T')[0];
-					
-					hiddenInput.value = isoFormattedValue;
-					hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));
+                    for (let day = 1; day <= daysInMonth; day++) {
+                        const button = document.createElement('button');
+                        button.type = 'button';
+                        button.className = 'inline-flex h-8 w-8 items-center justify-center rounded-md text-sm font-medium focus:outline-none focus:ring-1 focus:ring-ring';
+                        button.textContent = day;
+                        button.dataset.day = day;
+                        const currentDate = new Date(Date.UTC(currentYear, currentMonth, day));
+                        const isSelected = selectedDate && currentDate.getTime() === selectedDate.getTime();
+                        const isToday = currentDate.getTime() === today.getTime();
 
-					container.dispatchEvent(new CustomEvent('calendar-date-selected', {
-						bubbles: true,
-						detail: { date: selectedDate }
-					}));
+                        if (isSelected) button.classList.add('bg-primary', 'text-primary-foreground', 'hover:bg-primary/90');
+                        else if (isToday) button.classList.add('bg-accent', 'text-accent-foreground');
+                        else button.classList.add('hover:bg-accent', 'hover:text-accent-foreground');
 
-					renderCalendar();
-				}
+                        button.addEventListener('click', handleDayClick);
+                        daysContainer.appendChild(button);
+                    }
+                }
 
-				prevButton.addEventListener('click', () => {
-					currentMonth--;
-					if (currentMonth < 0) { currentMonth = 11; currentYear--; }
-					updateMonthDisplay(); 
-					renderCalendar();
-				});
+                function handlePrevMonthClick() {
+                    currentMonth--;
+                    if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+                    updateMonthDisplay(); renderCalendar();
+                }
 
-				nextButton.addEventListener('click', () => {
-					currentMonth++;
-					if (currentMonth > 11) { currentMonth = 0; currentYear++; }
-					updateMonthDisplay(); 
-					renderCalendar();
-				});
+                function handleNextMonthClick() {
+                    currentMonth++;
+                    if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+                    updateMonthDisplay(); renderCalendar();
+                }
 
-				updateMonthDisplay();
-				renderWeekdays();
-				renderCalendar();
-			}
+                function handleDayClick(event) {
+                    const day = parseInt(event.target.dataset.day);
+                    if (!day) return;
+                    const newlySelectedDate = new Date(Date.UTC(currentYear, currentMonth, day));
 
-			function initAllComponents(root = document) {
-				for (const calendar of root.querySelectorAll('[data-calendar-container]')) {
-					initCalendar(calendar);
-				}
-			}
+                    selectedDate = newlySelectedDate;
 
-			document.addEventListener('DOMContentLoaded', () => initAllComponents());
-			document.body.addEventListener('htmx:afterSwap', (e) => initAllComponents(e.target));
-		</script>
+                    const isoFormattedValue = newlySelectedDate.toISOString().split('T')[0];
+                    hiddenInput.value = isoFormattedValue;
+                    hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));
+
+                    container.dispatchEvent(new CustomEvent('calendar-date-selected', {
+                        bubbles: true,
+                        detail: { date: newlySelectedDate }
+                    }));
+
+                    renderCalendar();
+                }
+
+                // Initialization
+                prevButton.addEventListener('click', handlePrevMonthClick);
+                nextButton.addEventListener('click', handleNextMonthClick);
+
+                updateMonthDisplay();
+                renderWeekdays();
+                renderCalendar();
+
+                container._calendarInitialized = true;
+            }
+
+            // Global Init & HTMX Hook
+            function initCalendarsInScope(scopeElement) {
+                scopeElement.querySelectorAll('[data-calendar-container]').forEach(initCalendar);
+            }
+
+            document.addEventListener('DOMContentLoaded', () => {
+                initCalendarsInScope(document.body);
+            });
+
+            document.body.addEventListener('htmx:afterSwap', (event) => {
+                const target = event.detail.target || event.target;
+                if (target instanceof Element) {
+                    if (target.matches('[data-calendar-container]')) {
+                        initCalendar(target);
+                    }
+                    initCalendarsInScope(target);
+                }
+            });
+        </script>
 	}
 }

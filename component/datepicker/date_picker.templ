@@ -19,7 +19,7 @@ const (
 	FormatLOCALE_FULL   Format = "locale-full"   // Locale-specific full format (e.g., Monday, January 5, 2024 or Montag, 5. Januar 2024)
 )
 
-// Common Locale Tags (BCP 47)
+// Common Locale  (BCP 47)
 var (
 	LocaleDefaultTag    = LocaleTag("en-US")
 	LocaleTagChinese    = LocaleTag("zh-CN")
@@ -86,8 +86,10 @@ templ DatePicker(props ...Props) {
 				),
 				Disabled: p.Disabled,
 				Attributes: util.MergeAttributes(p.Attributes, templ.Attributes{
+					"data-datepicker":     "true",
 					"data-display-format": string(p.Format),
 					"data-locale-tag":     string(p.LocaleTag),
+					"data-placeholder":    p.Placeholder,
 				}),
 			}) {
 				if p.Placeholder != "" {
@@ -121,7 +123,7 @@ templ Script() {
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
 
-			function initializeDatePickerInstance(triggerButton) {
+			function initDatePicker(triggerButton) {
 				if (!triggerButton || triggerButton._datePickerInitialized) return;
 
 				const datePickerID = triggerButton.id;
@@ -131,8 +133,28 @@ templ Script() {
 				const calendarHiddenInputId = calendarInstanceId + '-hidden';
 				const calendarHiddenInput = document.getElementById(calendarHiddenInputId);
 
-				if (!displaySpan || !calendarInstance || !calendarHiddenInput) {
-					console.error("DatePicker init error: Missing associated elements.", { datePickerID });
+				// Fallback to find calendar by container if direct ID approach fails
+				let calendar = calendarInstance;
+				let hiddenInput = calendarHiddenInput;
+				
+				if (!calendarInstance || !calendarHiddenInput) {
+					// Try to find calendar relatively via popover content (more robust)
+					const popoverContentId = triggerButton.getAttribute('aria-controls');
+					const popoverContent = popoverContentId ? document.getElementById(popoverContentId) : null;
+					
+					if (popoverContent) {
+						if (!calendar) {
+							calendar = popoverContent.querySelector('[data-calendar-container]');
+						}
+						if (!hiddenInput) {
+							const wrapper = popoverContent.querySelector('[data-calendar-wrapper]');
+							hiddenInput = wrapper ? wrapper.querySelector('[data-calendar-hidden-input]') : null;
+						}
+					}
+				}
+
+				if (!displaySpan || !calendar || !hiddenInput) {
+					console.error("DatePicker init error: Missing required elements.", { datePickerID });
 					return;
 				}
 
@@ -187,25 +209,23 @@ templ Script() {
 					}
 				}
 
-				function handleCalendarSelection(event) {
+				function onCalendarSelect(event) {
 					if (!event.detail || !event.detail.date || !(event.detail.date instanceof Date)) {
 						return; 
 					}
 					const selectedDate = event.detail.date;
 					const displayFormattedValue = formatDateWithIntl(selectedDate, displayFormat, localeTag);
-					displaySpan.innerHTML = ''; 
 					displaySpan.textContent = displayFormattedValue;
 					displaySpan.classList.remove('text-muted-foreground');
 					triggerButton.click();
 				}
 
-				function correctInitialDisplay() {
-					if (calendarHiddenInput && calendarHiddenInput.value) {
-						const initialDate = parseISODate(calendarHiddenInput.value);
+				function updateDisplay() {
+					if (hiddenInput && hiddenInput.value) {
+						const initialDate = parseISODate(hiddenInput.value);
 						if (initialDate) {
 							const correctlyFormatted = formatDateWithIntl(initialDate, displayFormat, localeTag);
 							if (displaySpan.textContent.trim() !== correctlyFormatted) {
-								displaySpan.innerHTML = ''; 
 								displaySpan.textContent = correctlyFormatted;
 								displaySpan.classList.remove('text-muted-foreground');
 							}
@@ -213,58 +233,53 @@ templ Script() {
 					} else {
 						// Ensure placeholder is shown if no initial value
 						if (!displaySpan.textContent.trim() || displaySpan.textContent.trim() === placeholder) {
-							displaySpan.innerHTML = '';
-							const placeholderSpan = document.createElement('span');
-							placeholderSpan.className = 'text-muted-foreground';
-							placeholderSpan.textContent = placeholder;
-							displaySpan.appendChild(placeholderSpan);
+							displaySpan.textContent = placeholder;
+							displaySpan.classList.add('text-muted-foreground');
 						}
 					}
 				}
 
-				if (calendarInstance) {
-					calendarInstance.addEventListener('calendar-date-selected', handleCalendarSelection);
+				if (calendar) {
+					calendar.addEventListener('calendar-date-selected', onCalendarSelect);
 				} else {
 					console.error(`[DatePicker ${datePickerID}] Could not find calendar instance to attach listener!`);
 				}
 
-				correctInitialDisplay(); 
+				updateDisplay(); 
 
 				triggerButton._datePickerInitialized = true;
 
 				triggerButton._datePickerCleanup = () => {
-					if (calendarInstance) {
-						calendarInstance.removeEventListener('calendar-date-selected', handleCalendarSelection);
+					if (calendar) {
+						calendar.removeEventListener('calendar-date-selected', onCalendarSelect);
 					}
 				};
 			} // End initializeDatePickerInstance
 
 			// --- Global Init & HTMX Hooks ---
-			function initializeAllDatePickerTriggers(scopeElement) {
-				scopeElement.querySelectorAll('button[id]:not([id$="-content"]):not([id$="-hidden"])').forEach(button => {
-					if (button.hasAttribute('data-display-format') && button.hasAttribute('data-locale-tag')) {
-						try {
-							initializeDatePickerInstance(button);
-						} catch(e) {
-							console.error("Error initializing DatePicker trigger:", e, button);
-						}
+			function initAllDatePickers(root) {
+				root.querySelectorAll('[data-datepicker="true"]').forEach(button => {
+					try {
+						initDatePicker(button);
+					} catch(e) {
+						console.error("Error initializing DatePicker trigger:", e, button);
 					}
 				});
 			}
 
 			document.addEventListener('DOMContentLoaded', () => {
-				initializeAllDatePickerTriggers(document.body);
+				initAllDatePickers(document.body);
 			});
 
 			document.body.addEventListener('htmx:afterSwap', (event) => {
 				const target = event.detail.target || event.target;
 				if (target instanceof Element) {
 					// Initialize trigger if the swapped element IS the button
-					if (target.matches('button[id][data-display-format][data-locale-tag]')) {
-						initializeDatePickerInstance(target);
+					if (target.matches('[data-datepicker="true"]')) {
+						initDatePicker(target);
 					}
 					// Initialize any triggers INSIDE the swapped element
-					initializeAllDatePickerTriggers(target);
+					initAllDatePickers(target);
 				}
 			});
 
@@ -273,7 +288,7 @@ templ Script() {
 				if (target instanceof Element) {
 					const cleanup = (button) => {
 						// Check button directly for attributes
-						if (button.hasAttribute('data-display-format') && button.hasAttribute('data-locale-tag')) {
+						if (button.matches('[data-datepicker="true"]')) {
 							if (button._datePickerCleanup) {
 								button._datePickerCleanup();
 								delete button._datePickerCleanup;
@@ -282,12 +297,12 @@ templ Script() {
 						}
 					};
 					// Cleanup the target itself if it's a valid button
-					if (target.matches && target.matches('button[id][data-display-format][data-locale-tag]')) {
+					if (target.matches && target.matches('[data-datepicker="true"]')) {
 						 cleanup(target);
 					}
 					// Cleanup buttons within the target
 					if (target.querySelectorAll) {
-						target.querySelectorAll('button[id][data-display-format][data-locale-tag]').forEach(cleanup);
+						target.querySelectorAll('[data-datepicker="true"]').forEach(cleanup);
 					}
 				}
 			});
