@@ -102,9 +102,7 @@ templ Calendar(props ...Props) {
 					</button>
 				</div>
 			</div>
-			<!-- Weekday Headers -->
 			<div data-calendar-weekdays class="grid grid-cols-7 gap-1 mb-1 place-items-center"></div>
-			<!-- Calendar Day Grid -->
 			<div data-calendar-days class="grid grid-cols-7 gap-1 place-items-center"></div>
 		</div>
 	</div>
@@ -115,40 +113,32 @@ var handle = templ.NewOnceHandle()
 templ Script() {
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
-
-			function initializeCalendar(container) {
-				if (!container || container._calendarInitialized) return;
-
+			function initCalendar(container) {
 				const monthDisplay = container.querySelector('[data-calendar-month-display]');
 				const weekdaysContainer = container.querySelector('[data-calendar-weekdays]');
 				const daysContainer = container.querySelector('[data-calendar-days]');
 				const prevButton = container.querySelector('[data-calendar-prev]');
 				const nextButton = container.querySelector('[data-calendar-next]');
 				const hiddenInputId = container.dataset.hiddenInputId;
-				const hiddenInput = hiddenInputId ? document.getElementById(hiddenInputId) : null;
+				const hiddenInput = document.getElementById(hiddenInputId);
 
 				if (!monthDisplay || !weekdaysContainer || !daysContainer || !prevButton || !nextButton || !hiddenInput) {
-					console.error('Calendar init error: Missing required elements.', container);
 					return;
 				}
 
 				const localeTag = container.dataset.localeTag || 'en-US'; 
-				let monthNamesFallback = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; // Fallback if Intl fails
-				let dayNames = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']; // Default fallback
+				let monthNamesFallback = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+				let dayNames = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
 				
 				try {
-					// Use days 0-6 (Sun-Sat standard). Intl provides names in the locale's typical order.
 					dayNames = Array.from({ length: 7 }, (_, i) =>
 						new Intl.DateTimeFormat(localeTag, { weekday: 'short' }).format(new Date(Date.UTC(2000, 0, i))) 
 					);
-				} catch (e) {
-					console.error('Error generating calendar day names via Intl:', e);
-					// Keep default dayNames on error
-				}
+				} catch (e) {}
 				
 				let currentMonth = parseInt(container.dataset.initialMonth);
 				let currentYear = parseInt(container.dataset.initialYear);
-				let selectedDate = null; // Stored as JS Date object (UTC midnight)
+				let selectedDate = null;
 
 				if (container.dataset.selectedDate) {
 					selectedDate = parseISODate(container.dataset.selectedDate);
@@ -159,7 +149,7 @@ templ Script() {
 					try {
 						const parts = isoStr.split('-');
 						const year = parseInt(parts[0], 10);
-						const month = parseInt(parts[1], 10) - 1; // JS month is 0-indexed
+						const month = parseInt(parts[1], 10) - 1;
 						const day = parseInt(parts[2], 10);
 						const date = new Date(Date.UTC(year, month, day));
 						if (!isNaN(date) && date.getUTCFullYear() === year && date.getUTCMonth() === month && date.getUTCDate() === day) {
@@ -176,8 +166,7 @@ templ Script() {
 							month: 'long', year: 'numeric'
 						}).format(dateForDisplay);
 					} catch (e) {
-						console.error("Error formatting month display with Intl:", e);
-						monthDisplay.textContent = `${monthNamesFallback[currentMonth]} ${currentYear}`; // Use fallback month name if Intl fails
+						monthDisplay.textContent = `${monthNamesFallback[currentMonth]} ${currentYear}`;
 					}
 				}
 
@@ -194,13 +183,10 @@ templ Script() {
 				function renderCalendar() {
 					daysContainer.innerHTML = '';
 					const firstDayOfMonth = new Date(Date.UTC(currentYear, currentMonth, 1));
-					const firstDayUTCDay = firstDayOfMonth.getUTCDay(); // 0=Sun
-					let startOffset = firstDayUTCDay; // Simple Sunday start offset
-					// NOTE: A robust implementation might need to adjust offset based on locale's actual first day of week.
-					// Intl doesn't directly provide this easily yet. Keep Sunday start for simplicity.
-
+					const startOffset = firstDayOfMonth.getUTCDay();
 					const daysInMonth = new Date(Date.UTC(currentYear, currentMonth + 1, 0)).getUTCDate();
-					const today = new Date(); today.setUTCHours(0,0,0,0);
+					const today = new Date(); 
+					today.setUTCHours(0,0,0,0);
 
 					for (let i = 0; i < startOffset; i++) {
 						 const blank = document.createElement('div');
@@ -214,6 +200,7 @@ templ Script() {
 						button.className = 'inline-flex h-8 w-8 items-center justify-center rounded-md text-sm font-medium focus:outline-none focus:ring-1 focus:ring-ring';
 						button.textContent = day;
 						button.dataset.day = day;
+						
 						const currentDate = new Date(Date.UTC(currentYear, currentMonth, day));
 						const isSelected = selectedDate && currentDate.getTime() === selectedDate.getTime();
 						const isToday = currentDate.getTime() === today.getTime();
@@ -227,66 +214,51 @@ templ Script() {
 					}
 				}
 
-				function handlePrevMonthClick() {
-					currentMonth--;
-					if (currentMonth < 0) { currentMonth = 11; currentYear--; }
-					updateMonthDisplay(); renderCalendar();
-				}
-
-				function handleNextMonthClick() {
-					currentMonth++;
-					if (currentMonth > 11) { currentMonth = 0; currentYear++; }
-					updateMonthDisplay(); renderCalendar();
-				}
-
 				function handleDayClick(event) {
 					const day = parseInt(event.target.dataset.day);
 					if (!day) return;
-					const newlySelectedDate = new Date(Date.UTC(currentYear, currentMonth, day));
-
-					selectedDate = newlySelectedDate;
-
-					const isoFormattedValue = newlySelectedDate.toISOString().split('T')[0];
+					
+					selectedDate = new Date(Date.UTC(currentYear, currentMonth, day));
+					const isoFormattedValue = selectedDate.toISOString().split('T')[0];
+					
 					hiddenInput.value = isoFormattedValue;
 					hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));
 
 					container.dispatchEvent(new CustomEvent('calendar-date-selected', {
 						bubbles: true,
-						detail: { date: newlySelectedDate }
+						detail: { date: selectedDate }
 					}));
 
 					renderCalendar();
 				}
 
-				// --- Initialization ---
-				prevButton.addEventListener('click', handlePrevMonthClick);
-				nextButton.addEventListener('click', handleNextMonthClick);
+				prevButton.addEventListener('click', () => {
+					currentMonth--;
+					if (currentMonth < 0) { currentMonth = 11; currentYear--; }
+					updateMonthDisplay(); 
+					renderCalendar();
+				});
+
+				nextButton.addEventListener('click', () => {
+					currentMonth++;
+					if (currentMonth > 11) { currentMonth = 0; currentYear++; }
+					updateMonthDisplay(); 
+					renderCalendar();
+				});
 
 				updateMonthDisplay();
 				renderWeekdays();
 				renderCalendar();
-
-				container._calendarInitialized = true;
-			} // End initializeCalendar
-
-			// --- Global Init & HTMX Hook ---
-			function initializeCalendarsInScope(scopeElement) {
-				scopeElement.querySelectorAll('[data-calendar-container]').forEach(initializeCalendar);
 			}
 
-			document.addEventListener('DOMContentLoaded', () => {
-				initializeCalendarsInScope(document.body);
-			});
-
-			document.body.addEventListener('htmx:afterSwap', (event) => {
-				const target = event.detail.target || event.target;
-				if (target instanceof Element) {
-					if (target.matches('[data-calendar-container]')) {
-						initializeCalendar(target);
-					}
-					initializeCalendarsInScope(target);
+			function initAllComponents(root = document) {
+				for (const calendar of root.querySelectorAll('[data-calendar-container]')) {
+					initCalendar(calendar);
 				}
-			});
+			}
+
+			document.addEventListener('DOMContentLoaded', () => initAllComponents());
+			document.body.addEventListener('htmx:afterSwap', (e) => initAllComponents(e.target));
 		</script>
 	}
 }
