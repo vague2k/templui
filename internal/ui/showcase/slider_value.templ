@@ -4,22 +4,14 @@ import "github.com/axzilla/templui/component/slider"
 
 templ SliderValue() {
 	<div class="w-full max-w-sm">
-		@slider.Slider(slider.Props{
-			ID:    "slider-value",
-			Name:  "slider-value",
-			Value: 75,
-			Min:   0,
-			Max:   100,
-			Step:  1,
-		}) {
+		@slider.Slider() {
 			<div class="flex justify-end mb-1">
 				@slider.Value(slider.ValueProps{
 					For: "slider-value",
 				})
 			</div>
-			@slider.Input(slider.Props{
+			@slider.Input(slider.InputProps{
 				ID:    "slider-value",
-				Name:  "slider-value",
 				Value: 75,
 				Min:   0,
 				Max:   100,

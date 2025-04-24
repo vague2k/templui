@@ -7,15 +7,7 @@ import (
 
 templ SliderDisabled() {
 	<div class="w-full max-w-sm">
-		@slider.Slider(slider.Props{
-			ID:       "slider-disabled",
-			Name:     "slider-disabled",
-			Value:    20,
-			Min:      -20,
-			Max:      200,
-			Step:     20,
-			Disabled: true,
-		}) {
+		@slider.Slider() {
 			<div class="flex justify-between items-center mb-1">
 				@label.Label() {
 					Volume
@@ -24,9 +16,8 @@ templ SliderDisabled() {
 					For: "slider-disabled",
 				})
 			</div>
-			@slider.Input(slider.Props{
+			@slider.Input(slider.InputProps{
 				ID:       "slider-disabled",
-				Name:     "slider-disabled",
 				Value:    20,
 				Min:      -20,
 				Max:      200,
