@@ -226,140 +226,105 @@ var handle = templ.NewOnceHandle()
 templ Script() {
 	@handle.Once() {
 		<script nonce={ templ.GetNonce(ctx) }>
-			// --- Toast Logic ---
-			if (typeof window.toastHandlerAttached === 'undefined') {
-				window.toastHandlerAttached = true;
-				window.activeToasts = new Map(); // Map<element, state>
+			if (typeof window.toastHandler === 'undefined') {
+				window.toastHandler = true;
+				window.toasts = new Map();
 
-				const setupToast = (toastEl) => {
-					if (window.activeToasts.has(toastEl)) return; // Already initialized
+				function setupToast(toast) {
+					if (window.toasts.has(toast)) return;
 
-					const duration = parseInt(toastEl.dataset.duration || '0');
-					const progressEl = toastEl.querySelector('[data-toast-progress]');
-					const dismissBtn = toastEl.querySelector('[data-toast-dismiss]');
-
+					const duration = parseInt(toast.dataset.duration || '0');
+					const progress = toast.querySelector('[data-toast-progress]');
+					const dismiss = toast.querySelector('[data-toast-dismiss]');
+					
 					const state = {
-						timerId: null,
-						remainingDuration: duration,
+						timer: null,
+						remaining: duration,
 						startTime: Date.now(),
-						progressEl: progressEl,
-						isPaused: false
+						progress: progress,
+						paused: false
 					};
-					window.activeToasts.set(toastEl, state);
+					window.toasts.set(toast, state);
 
-					const dismissToast = () => {
-						clearTimeout(state.timerId);
-						toastEl.classList.remove('toast-enter-active');
-						toastEl.classList.add('toast-leave-active');
-						// Remove element after animation
-						toastEl.addEventListener('transitionend', () => {
-							if (toastEl.parentNode) {
-								toastEl.parentNode.removeChild(toastEl);
-							}
-							window.activeToasts.delete(toastEl);
+					function removeToast() {
+						clearTimeout(state.timer);
+						toast.classList.remove('toast-enter-active');
+						toast.classList.add('toast-leave-active');
+						
+						toast.addEventListener('transitionend', () => {
+							toast.remove();
+							window.toasts.delete(toast);
 						}, { once: true });
-					};
+					}
 
-					const startTimer = (time) => {
-						if (time <= 0) return; // No timer for duration 0 or less
-						clearTimeout(state.timerId);
+					function startTimer(time) {
+						if (time <= 0) return;
+						
+						clearTimeout(state.timer);
 						state.startTime = Date.now();
-						state.remainingDuration = time;
-						state.isPaused = false;
-						state.timerId = setTimeout(dismissToast, time);
+						state.remaining = time;
+						state.paused = false;
+						state.timer = setTimeout(removeToast, time);
 
-						if (state.progressEl) {
-							// Ensure transition is set for the new duration
-							state.progressEl.style.transition = `width ${time}ms linear`;
-							// Force reflow to apply transition correctly after pause
-							void state.progressEl.offsetWidth;
-							state.progressEl.style.width = '0%';
+						if (state.progress) {
+							state.progress.style.transition = `width ${time}ms linear`;
+							void state.progress.offsetWidth;
+							state.progress.style.width = '0%';
 						}
-					};
-
-					const pauseTimer = () => {
-						if (state.isPaused || state.remainingDuration <= 0) return;
-						clearTimeout(state.timerId);
-						const elapsed = Date.now() - state.startTime;
-						state.remainingDuration -= elapsed;
-						state.isPaused = true;
-						if (state.progressEl) {
-							// Get current width and stop transition
-							const currentWidth = window.getComputedStyle(state.progressEl).width;
-							state.progressEl.style.transition = 'none';
-							state.progressEl.style.width = currentWidth;
-						}
-					};
-
-					const resumeTimer = () => {
-						if (!state.isPaused || state.remainingDuration <= 0) return;
-						startTimer(state.remainingDuration);
-					};
-
-					// Add Listeners
-					if (duration > 0) { // Only add hover listeners if there's a duration
-						toastEl.addEventListener('mouseenter', pauseTimer);
-						toastEl.addEventListener('mouseleave', resumeTimer);
-					}
-					if (dismissBtn) {
-						dismissBtn.addEventListener('click', dismissToast);
 					}
 
-					// Initial Animation and Timer Start
-					// Use setTimeout to allow initial styles to apply before starting transition
+					function pauseTimer() {
+						if (state.paused || state.remaining <= 0) return;
+						
+						clearTimeout(state.timer);
+						state.remaining -= (Date.now() - state.startTime);
+						state.paused = true;
+						
+						if (state.progress) {
+							const width = window.getComputedStyle(state.progress).width;
+							state.progress.style.transition = 'none';
+							state.progress.style.width = width;
+						}
+					}
+
+					function resumeTimer() {
+						if (!state.paused || state.remaining <= 0) return;
+						startTimer(state.remaining);
+					}
+
+					if (duration > 0) {
+						toast.addEventListener('mouseenter', pauseTimer);
+						toast.addEventListener('mouseleave', resumeTimer);
+					}
+					
+					if (dismiss) {
+						dismiss.addEventListener('click', removeToast);
+					}
+
 					setTimeout(() => {
-						toastEl.classList.add('toast-enter-active');
-						if (state.progressEl) {
-							state.progressEl.style.width = '100%'; // Initial width for animation start
+						toast.classList.add('toast-enter-active');
+						if (state.progress) {
+							state.progress.style.width = '100%';
 						}
 						startTimer(duration);
-					}, 50); // Small delay
-
-					// Cleanup function (optional, but good practice)
-					toastEl._toastCleanup = () => {
-						clearTimeout(state.timerId);
-						toastEl.removeEventListener('mouseenter', pauseTimer);
-						toastEl.removeEventListener('mouseleave', resumeTimer);
-						if (dismissBtn) dismissBtn.removeEventListener('click', dismissToast);
-						window.activeToasts.delete(toastEl);
-					};
-				};
-
-				// --- HTMX Integration ---
-				document.body.addEventListener('htmx:afterSwap', (event) => {
-					const target = event.detail.target || event.target;
-					if (target?.querySelectorAll) {
-						if (target.matches && target.matches('[data-toast]')) {
-							setupToast(target);
-						}
-						target.querySelectorAll('[data-toast]').forEach(setupToast);
-					}
-				});
-
-				document.body.addEventListener('htmx:beforeSwap', (event) => {
-					const target = event.detail.target || event.detail.elt;
-					if (target?.querySelectorAll) {
-						const cleanup = (el) => {
-							if (el.matches && el.matches('[data-toast]') && typeof el._toastCleanup === 'function') {
-								el._toastCleanup();
-							}
-						};
-						if (target.matches && target.matches('[data-toast]')) cleanup(target);
-						target.querySelectorAll('[data-toast]').forEach(cleanup);
-					}
-				});
-
-				// --- Init ---
-				const initializeAllToasts = () => {
-					document.querySelectorAll('[data-toast]').forEach(setupToast);
-				};
-
-				if (document.readyState === 'complete' || document.readyState === 'interactive') {
-					initializeAllToasts();
-				} else {
-					document.addEventListener('DOMContentLoaded', initializeAllToasts);
+					}, 50);
 				}
-			} // End window.toastHandlerAttached check
+
+				document.addEventListener('DOMContentLoaded', () => {
+					document.querySelectorAll('[data-toast]').forEach(setupToast);
+				});
+
+				document.body.addEventListener('htmx:afterSwap', (evt) => {
+					const target = evt.detail.target || evt.target;
+					if (!target) return;
+					
+					if (target.matches && target.matches('[data-toast]')) {
+						setupToast(target);
+					}
+					
+					target.querySelectorAll('[data-toast]').forEach(setupToast);
+				});
+			}
 		</script>
 	}
 }
