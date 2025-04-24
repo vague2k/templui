@@ -202,51 +202,32 @@ var handle = templ.NewOnceHandle()
 templ Script() {
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
-            function initCarousel(carouselEl) {
-                // Prevent double initialization and handle null element
-                if (!carouselEl || carouselEl.dataset.carouselInitialized) {
-                    return;
-                }
-                carouselEl.dataset.carouselInitialized = 'true';
-
+            function initCarousel(carousel) {
+                const track = carousel.querySelector('.carousel-track');
+                const items = Array.from(track?.querySelectorAll('.carousel-item') || []);
+                if (items.length === 0) return;
+                
+                const indicators = Array.from(carousel.querySelectorAll('.carousel-indicator'));
+                const prevBtn = carousel.querySelector('.carousel-prev');
+                const nextBtn = carousel.querySelector('.carousel-next');
+                
                 const state = {
                     currentIndex: 0,
-                    slideCount: 0,
-                    autoplay: carouselEl.dataset.autoplay === 'true',
-                    interval: parseInt(carouselEl.dataset.interval || 5000),
-                    loop: carouselEl.dataset.loop === 'true',
+                    slideCount: items.length,
+                    autoplay: carousel.dataset.autoplay === 'true',
+                    interval: parseInt(carousel.dataset.interval || 5000),
+                    loop: carousel.dataset.loop === 'true',
                     autoplayInterval: null,
                     isHovering: false,
                     touchStartX: 0
                 };
 
-                const track = carouselEl.querySelector('.carousel-track');
-                const items = Array.from(track ? track.querySelectorAll('.carousel-item') : []);
-                const indicators = Array.from(carouselEl.querySelectorAll('.carousel-indicator'));
-                const prevBtn = carouselEl.querySelector('.carousel-prev');
-                const nextBtn = carouselEl.querySelector('.carousel-next');
-
-                // Abort if no items found
-                if (items.length === 0) {
-                    delete carouselEl.dataset.carouselInitialized; // Clean up flag if we abort
-                    return;
-                }
-                state.slideCount = items.length;
-
-                // Warn if indicator count doesn't match item count (but continue)
-                if (indicators.length > 0 && indicators.length !== state.slideCount) {
-                     console.warn(`Indicator count (${indicators.length}) does not match slide count (${state.slideCount}) for carousel:`, carouselEl.id || 'no-id');
-                }
-
                 function updateTrackPosition() {
-                    if (track) {
-                        track.style.transform = `translateX(-${state.currentIndex * 100}%)`;
-                    }
+                    track.style.transform = `translateX(-${state.currentIndex * 100}%)`;
                 }
 
                 function updateIndicators() {
                     indicators.forEach((indicator, i) => {
-                        // Only update indicators corresponding to actual items
                         if (i < state.slideCount) {
                             if (i === state.currentIndex) {
                                 indicator.classList.add('bg-white');
@@ -255,44 +236,34 @@ templ Script() {
                                 indicator.classList.remove('bg-white');
                                 indicator.classList.add('bg-white/50');
                             }
-                             indicator.style.display = ''; // Ensure visible
+                            indicator.style.display = '';
                         } else {
-                            // Hide indicators that don't have a corresponding item
                             indicator.style.display = 'none';
                         }
                     });
                 }
 
                 function updateButtons() {
-                    // Disable previous button if not looping and at the first slide
                     if (prevBtn) {
                         prevBtn.disabled = !state.loop && state.currentIndex === 0;
-                        if (prevBtn.disabled) {
-                            prevBtn.classList.add('opacity-50', 'cursor-not-allowed');
-                        } else {
-                            prevBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-                        }
+                        prevBtn.classList.toggle('opacity-50', prevBtn.disabled);
+                        prevBtn.classList.toggle('cursor-not-allowed', prevBtn.disabled);
                     }
-                     // Disable next button if not looping and at the last slide
+                    
                     if (nextBtn) {
                         nextBtn.disabled = !state.loop && state.currentIndex === state.slideCount - 1;
-                        if (nextBtn.disabled) {
-                            nextBtn.classList.add('opacity-50', 'cursor-not-allowed');
-                        } else {
-                            nextBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-                        }
+                        nextBtn.classList.toggle('opacity-50', nextBtn.disabled);
+                        nextBtn.classList.toggle('cursor-not-allowed', nextBtn.disabled);
                     }
                 }
 
                 function startAutoplay() {
-                    // Clear existing interval if any
                     if (state.autoplayInterval) {
                         clearInterval(state.autoplayInterval);
                     }
-                    // Start new interval only if autoplay is enabled
+                    
                     if (state.autoplay) {
-                         state.autoplayInterval = setInterval(() => {
-                            // Only advance if not hovering
+                        state.autoplayInterval = setInterval(() => {
                             if (!state.isHovering) {
                                 goToNext();
                             }
@@ -311,9 +282,9 @@ templ Script() {
                     let nextIndex = state.currentIndex + 1;
                     if (nextIndex >= state.slideCount) {
                         if (state.loop) {
-                            nextIndex = 0; // Loop back to start
+                            nextIndex = 0;
                         } else {
-                            return; // Stop at the end if not looping
+                            return;
                         }
                     }
                     goToSlide(nextIndex);
@@ -323,25 +294,23 @@ templ Script() {
                     let prevIndex = state.currentIndex - 1;
                     if (prevIndex < 0) {
                         if (state.loop) {
-                            prevIndex = state.slideCount - 1; // Loop back to end
+                            prevIndex = state.slideCount - 1;
                         } else {
-                            return; // Stop at the beginning if not looping
+                            return;
                         }
                     }
                     goToSlide(prevIndex);
                 }
 
                 function goToSlide(index) {
-                     // Add bounds check and handle looping/clamping
                     if (index < 0 || index >= state.slideCount) {
                         if (state.loop) {
                             index = (index + state.slideCount) % state.slideCount;
                         } else {
-                             // Don't move if index is out of bounds and not looping
                             return;
                         }
                     }
-                    // No change if already on the target slide
+                    
                     if (index === state.currentIndex) return;
 
                     state.currentIndex = index;
@@ -349,118 +318,62 @@ templ Script() {
                     updateIndicators();
                     updateButtons();
 
-                    // Restart autoplay timer after manual navigation if enabled
-                    if (state.autoplay) {
+                    if (state.autoplay && !state.isHovering) {
                         stopAutoplay();
-                        if (!state.isHovering) { // Don't restart if currently hovering
-                            startAutoplay();
-                        }
+                        startAutoplay();
                     }
                 }
-
-                function handleTouchStart(event) {
-                    // Only use the first touch point
-                    state.touchStartX = event.touches[0].clientX;
-                }
-
-                function handleTouchEnd(event) {
-                    // Only use the first changed touch point
-                    const touchEndX = event.changedTouches[0].clientX;
-                    const diff = state.touchStartX - touchEndX;
-                    const sensitivity = 50; // Minimum swipe distance
-
-                    // Check if swipe distance is significant
-                    if (Math.abs(diff) > sensitivity) {
-                        if (diff > 0) { // Swiped left (Next)
-                            goToNext();
-                        } else { // Swiped right (Previous)
-                            goToPrev();
-                        }
-                    }
-                }
-
-                // --- Attach Event Listeners ---
 
                 if (track) {
-                    // Use passive listeners for touch events for better scroll performance
-                    track.addEventListener('touchstart', handleTouchStart, { passive: true });
-                    track.addEventListener('touchend', handleTouchEnd, { passive: true });
+                    track.addEventListener('touchstart', (e) => {
+                        state.touchStartX = e.touches[0].clientX;
+                    }, { passive: true });
+                    
+                    track.addEventListener('touchend', (e) => {
+                        const touchEndX = e.changedTouches[0].clientX;
+                        const diff = state.touchStartX - touchEndX;
+                        const sensitivity = 50;
+
+                        if (Math.abs(diff) > sensitivity) {
+                            diff > 0 ? goToNext() : goToPrev();
+                        }
+                    }, { passive: true });
                 }
 
                 indicators.forEach((indicator, index) => {
-                    // Only add listeners for indicators corresponding to items
-                     if (index < state.slideCount) {
+                    if (index < state.slideCount) {
                         indicator.addEventListener('click', () => goToSlide(index));
-                     }
+                    }
                 });
 
-                if (prevBtn) {
-                    prevBtn.addEventListener('click', goToPrev);
-                }
+                if (prevBtn) prevBtn.addEventListener('click', goToPrev);
+                if (nextBtn) nextBtn.addEventListener('click', goToNext);
 
-                if (nextBtn) {
-                    nextBtn.addEventListener('click', goToNext);
-                }
-
-                // Pause autoplay on hover
-                carouselEl.addEventListener('mouseenter', () => {
+                carousel.addEventListener('mouseenter', () => {
                     state.isHovering = true;
-                    if (state.autoplay) {
-                        stopAutoplay();
-                    }
+                    if (state.autoplay) stopAutoplay();
                 });
 
-                // Resume autoplay on mouse leave
-                carouselEl.addEventListener('mouseleave', () => {
+                carousel.addEventListener('mouseleave', () => {
                     state.isHovering = false;
-                    if (state.autoplay) {
-                         // Restart autoplay only if it was running and mouse leaves
-                        startAutoplay();
-                    }
+                    if (state.autoplay) startAutoplay();
                 });
 
-                // --- Initial State Setup ---
                 updateTrackPosition();
                 updateIndicators();
                 updateButtons();
 
-                // Start autoplay if enabled
-                if (state.autoplay) {
-                    startAutoplay();
+                if (state.autoplay) startAutoplay();
+            }
+
+            function initAllComponents(root = document) {
+                for (const carousel of root.querySelectorAll('.carousel-component')) {
+                    initCarousel(carousel);
                 }
             }
 
-            // --- Initialization Logic ---
-
-            function initializeAllCarousels() {
-                document.querySelectorAll('.carousel-component:not([data-carousel-initialized])').forEach(initCarousel);
-            }
-
-            // Initial page load: Wait for DOM to be ready
-            if (document.readyState === 'loading') {
-                document.addEventListener('DOMContentLoaded', initializeAllCarousels);
-            } else {
-                // DOM is already ready, run initialization now
-                initializeAllCarousels();
-            }
-
-            // HTMX integration: Initialize carousels loaded via htmx:afterSwap
-            document.body.addEventListener('htmx:afterSwap', function(event) {
-                const targetElement = event.target;
-
-                // Check if the swapped element itself is an uninitialized carousel
-                if (targetElement instanceof Element && targetElement.matches && targetElement.matches('.carousel-component:not([data-carousel-initialized])')) {
-                    initCarousel(targetElement);
-                }
-
-                // Check for any uninitialized carousels within the swapped element
-                if (targetElement instanceof Element && targetElement.querySelectorAll) {
-                    const nestedCarousels = targetElement.querySelectorAll('.carousel-component:not([data-carousel-initialized])');
-                    if (nestedCarousels.length > 0) {
-                        nestedCarousels.forEach(initCarousel);
-                    }
-                }
-            });
+            document.addEventListener('DOMContentLoaded', () => initAllComponents());
+            document.body.addEventListener('htmx:afterSwap', (e) => initAllComponents(e.target));
 		</script>
 	}
 }
