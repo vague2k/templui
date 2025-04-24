@@ -13,7 +13,6 @@ import (
 	"strconv"
 )
 
-// Floating UI Placement (https://floating-ui.com/docs/computePosition#placement)
 type Placement string
 
 const (
@@ -42,30 +41,25 @@ type Props struct {
 	Class string
 }
 
-// Trigger Props - Minimal set needed to link trigger and content
 type TriggerProps struct {
-	ID          string // Optional ID for the trigger itself
-	For         string // REQUIRED: Corresponds to the ID of the Content component
+	ID          string
+	For         string
 	TriggerType TriggerType
 }
 
-// Content Props - Includes Floating UI options and content styling
 type ContentProps struct {
-	ID               string // REQUIRED: Must match TriggerProps.For
+	ID               string
 	Class            string
 	Attributes       templ.Attributes
-	Placement        Placement // Use Floating UI's placement
-	Offset           int       // Optional offset value (default: 8 if arrow, 4 otherwise)
+	Placement        Placement
+	Offset           int
 	DisableClickAway bool
 	DisableESC       bool
 	ShowArrow        bool
-	HoverDelay       int // Delay for showing on hover
-	HoverOutDelay    int // Delay for hiding on hover
+	HoverDelay       int
+	HoverOutDelay    int
 }
 
-// --- Components ---
-
-// Popover Wrapper and Portal Container
 func Popover(props ...Props) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -129,7 +123,6 @@ func Popover(props ...Props) templ.Component {
 	})
 }
 
-// Popover Trigger
 func Trigger(props ...TriggerProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -170,7 +163,7 @@ func Trigger(props ...TriggerProps) templ.Component {
 			var templ_7745c5c3_Var5 string
 			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/popover/popover.templ`, Line: 87, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/popover/popover.templ`, Line: 77, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 			if templ_7745c5c3_Err != nil {
@@ -188,7 +181,7 @@ func Trigger(props ...TriggerProps) templ.Component {
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(p.For)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/popover/popover.templ`, Line: 90, Col: 26}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/popover/popover.templ`, Line: 80, Col: 26}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -201,7 +194,7 @@ func Trigger(props ...TriggerProps) templ.Component {
 		var templ_7745c5c3_Var7 string
 		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(string(p.TriggerType))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/popover/popover.templ`, Line: 91, Col: 43}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/popover/popover.templ`, Line: 81, Col: 43}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
@@ -223,7 +216,6 @@ func Trigger(props ...TriggerProps) templ.Component {
 	})
 }
 
-// Popover Content (renders the div directly, hidden initially)
 func Content(props ...ContentProps) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -274,7 +266,7 @@ func Content(props ...ContentProps) templ.Component {
 		var templ_7745c5c3_Var10 string
 		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/popover/popover.templ`, Line: 114, Col: 11}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/popover/popover.templ`, Line: 103, Col: 11}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 		if templ_7745c5c3_Err != nil {
@@ -287,7 +279,7 @@ func Content(props ...ContentProps) templ.Component {
 		var templ_7745c5c3_Var11 string
 		templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/popover/popover.templ`, Line: 115, Col: 24}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/popover/popover.templ`, Line: 104, Col: 24}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 		if templ_7745c5c3_Err != nil {
@@ -300,7 +292,7 @@ func Content(props ...ContentProps) templ.Component {
 		var templ_7745c5c3_Var12 string
 		templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs(string(p.Placement))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/popover/popover.templ`, Line: 116, Col: 46}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/popover/popover.templ`, Line: 105, Col: 46}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
 		if templ_7745c5c3_Err != nil {
@@ -313,7 +305,7 @@ func Content(props ...ContentProps) templ.Component {
 		var templ_7745c5c3_Var13 string
 		templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(p.Offset))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/popover/popover.templ`, Line: 117, Col: 46}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/popover/popover.templ`, Line: 106, Col: 46}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 		if templ_7745c5c3_Err != nil {
@@ -326,7 +318,7 @@ func Content(props ...ContentProps) templ.Component {
 		var templ_7745c5c3_Var14 string
 		templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.FormatBool(p.DisableClickAway))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/popover/popover.templ`, Line: 118, Col: 73}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/popover/popover.templ`, Line: 107, Col: 73}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 		if templ_7745c5c3_Err != nil {
@@ -339,7 +331,7 @@ func Content(props ...ContentProps) templ.Component {
 		var templ_7745c5c3_Var15 string
 		templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.FormatBool(p.DisableESC))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/popover/popover.templ`, Line: 119, Col: 61}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/popover/popover.templ`, Line: 108, Col: 61}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var15))
 		if templ_7745c5c3_Err != nil {
@@ -352,7 +344,7 @@ func Content(props ...ContentProps) templ.Component {
 		var templ_7745c5c3_Var16 string
 		templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.FormatBool(p.ShowArrow))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/popover/popover.templ`, Line: 120, Col: 59}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/popover/popover.templ`, Line: 109, Col: 59}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
 		if templ_7745c5c3_Err != nil {
@@ -365,7 +357,7 @@ func Content(props ...ContentProps) templ.Component {
 		var templ_7745c5c3_Var17 string
 		templ_7745c5c3_Var17, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(p.HoverDelay))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/popover/popover.templ`, Line: 121, Col: 55}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/popover/popover.templ`, Line: 110, Col: 55}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var17))
 		if templ_7745c5c3_Err != nil {
@@ -378,7 +370,7 @@ func Content(props ...ContentProps) templ.Component {
 		var templ_7745c5c3_Var18 string
 		templ_7745c5c3_Var18, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(p.HoverOutDelay))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/popover/popover.templ`, Line: 122, Col: 62}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/popover/popover.templ`, Line: 111, Col: 62}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var18))
 		if templ_7745c5c3_Err != nil {
@@ -418,7 +410,7 @@ func Content(props ...ContentProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		if p.ShowArrow {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 24, " <div data-popover-arrow class=\"absolute h-2.5 w-2.5 rotate-45 bg-background border\"></div>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 24, "<div data-popover-arrow class=\"absolute h-2.5 w-2.5 rotate-45 bg-background border\"></div>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -431,7 +423,6 @@ func Content(props ...ContentProps) templ.Component {
 	})
 }
 
-// --- Script ---
 var handle = templ.NewOnceHandle()
 
 func Script() templ.Component {
@@ -467,20 +458,20 @@ func Script() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 26, "<script defer src=\"https://cdn.jsdelivr.net/npm/@floating-ui/core@1/dist/floating-ui.core.umd.min.js\"></script> <script defer src=\"https://cdn.jsdelivr.net/npm/@floating-ui/dom@1/dist/floating-ui.dom.umd.min.js\"></script> <script defer nonce=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 26, "<script src=\"https://cdn.jsdelivr.net/npm/@floating-ui/core@1/dist/floating-ui.core.umd.min.js\"></script> <script src=\"https://cdn.jsdelivr.net/npm/@floating-ui/dom@1/dist/floating-ui.dom.umd.min.js\"></script> <script nonce=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var22 string
 			templ_7745c5c3_Var22, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/popover/popover.templ`, Line: 148, Col: 43}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/popover/popover.templ`, Line: 134, Col: 37}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var22))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 27, "\">\n\t\t\t(() => {\n\t\t\t\t// Wait for Floating UI and DOM content before initializing\n\t\t\t\tconst checkFloatingUI = setInterval(() => {\n\t\t\t\t\tif (window.FloatingUIDOM && document.readyState !== 'loading') {\n\t\t\t\t\t\tclearInterval(checkFloatingUI);\n\t\t\t\t\t\tinitializePopovers();\n\t\t\t\t\t}\n\t\t\t\t}, 50);\n\n\t\t\t\tfunction initializePopovers() {\n\t\t\t\t\tconst { computePosition, autoUpdate, offset, flip, shift, arrow } = window.FloatingUIDOM;\n\n\t\t\t\t\t// Map to store active popover state and cleanup functions from autoUpdate\n\t\t\t\t\tconst activePopovers = new Map(); // Map<popoverId, { cleanup: Function | null, content: HTMLElement, trigger: HTMLElement, hoverState: object } >\n\n\t\t\t\t\t// --- Helper: Find the best element within the trigger span for positioning ---\n\t\t\t\t\tfunction findReferenceElement(triggerSpan) {\n\t\t\t\t\t\tlet triggerElement = triggerSpan;\n\t\t\t\t\t\tlet largestArea = 0;\n\t\t\t\t\t\tconst children = triggerSpan.children;\n\t\t\t\t\t\tfor (let i = 0; i < children.length; i++) {\n\t\t\t\t\t\t\tconst child = children[i];\n\t\t\t\t\t\t\tconst rect = child.getBoundingClientRect();\n\t\t\t\t\t\t\tconst area = rect.width * rect.height;\n\t\t\t\t\t\t\tif (area > largestArea) {\n\t\t\t\t\t\t\t\tlargestArea = area;\n\t\t\t\t\t\t\t\ttriggerElement = child;\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t\treturn triggerElement;\n\t\t\t\t\t}\n\n\t\t\t\t\t// --- Setup individual popover logic ---\n\t\t\t\t\tfunction setupPopover(trigger) {\n\t\t\t\t\t\tconst popoverId = trigger.dataset.popoverFor;\n\t\t\t\t\t\tif (!popoverId || activePopovers.has(popoverId)) return; // Avoid double initialization\n\n\t\t\t\t\t\tconst content = document.getElementById(popoverId);\n\t\t\t\t\t\tif (!content) {\n\t\t\t\t\t\t\tconsole.error(`Popover content element with ID '${popoverId}' not found.`);\n\t\t\t\t\t\t\treturn;\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\tconst portalContainer = document.getElementById('popover-portal-container');\n\t\t\t\t\t\tif (!portalContainer) {\n\t\t\t\t\t\t\tconsole.error(\"Popover portal container 'popover-portal-container' not found!\");\n\t\t\t\t\t\t\treturn;\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\tactivePopovers.set(popoverId, {\n\t\t\t\t\t\t\tcleanup: null,\n\t\t\t\t\t\t\tcontent: content,\n\t\t\t\t\t\t\ttrigger: trigger,\n\t\t\t\t\t\t\thoverState: { hoverTimeout: null, leaveTimeout: null }\n\t\t\t\t\t\t});\n\n\t\t\t\t\t\t// --- Positioning Logic (using Floating UI) ---\n\t\t\t\t\t\tfunction updatePosition() {\n\t\t\t\t\t\t\tconst referenceElement = findReferenceElement(trigger);\n\t\t\t\t\t\t\tconst arrowElement = content.querySelector('[data-popover-arrow]');\n\t\t\t\t\t\t\tconst placement = content.dataset.popoverPlacement || 'bottom';\n\t\t\t\t\t\t\tconst offsetValue = parseInt(content.dataset.popoverOffset) || (arrowElement ? 8 : 4);\n\n\t\t\t\t\t\t\t// Middleware order matters: offset first, then flip/shift, then arrow.\n\t\t\t\t\t\t\tconst middleware = [\n\t\t\t\t\t\t\t\toffset(offsetValue),\n\t\t\t\t\t\t\t\tflip({ padding: 10 }),\n\t\t\t\t\t\t\t\tshift({ padding: 10 })\n\t\t\t\t\t\t\t];\n\t\t\t\t\t\t\tif (arrowElement) {\n\t\t\t\t\t\t\t\tmiddleware.push(arrow({ element: arrowElement, padding: 5 }));\n\t\t\t\t\t\t\t}\n\n\t\t\t\t\t\t\tcomputePosition(referenceElement, content, {\n\t\t\t\t\t\t\t\tplacement: placement,\n\t\t\t\t\t\t\t\tmiddleware: middleware\n\t\t\t\t\t\t\t}).then(({ x, y, placement, middlewareData }) => {\n\t\t\t\t\t\t\t\tObject.assign(content.style, {\n\t\t\t\t\t\t\t\t\tleft: `${x}px`,\n\t\t\t\t\t\t\t\t\ttop: `${y}px`,\n\t\t\t\t\t\t\t\t});\n\n\t\t\t\t\t\t\t\t// Arrow positioning\n\t\t\t\t\t\t\t\tif (middlewareData.arrow && arrowElement) {\n\t\t\t\t\t\t\t\t\tconst { x: arrowX, y: arrowY } = middlewareData.arrow;\n\t\t\t\t\t\t\t\t\tconst staticSide = {\n\t\t\t\t\t\t\t\t\t\ttop: 'bottom',\n\t\t\t\t\t\t\t\t\t\tright: 'left',\n\t\t\t\t\t\t\t\t\t\tbottom: 'top',\n\t\t\t\t\t\t\t\t\t\tleft: 'right',\n\t\t\t\t\t\t\t\t\t}[placement.split('-')[0]];\n\n\t\t\t\t\t\t\t\t\tObject.assign(arrowElement.style, {\n\t\t\t\t\t\t\t\t\t\tleft: arrowX != null ? `${arrowX}px` : '',\n\t\t\t\t\t\t\t\t\t\ttop: arrowY != null ? `${arrowY}px` : '',\n\t\t\t\t\t\t\t\t\t\tright: '',\n\t\t\t\t\t\t\t\t\t\tbottom: '',\n\t\t\t\t\t\t\t\t\t\t[staticSide]: '-5px', // Position arrow slightly outside\n\t\t\t\t\t\t\t\t\t});\n\n\t\t\t\t\t\t\t\t\t// Simplified Arrow Border Styling\n\t\t\t\t\t\t\t\t\tconst popoverStyle = window.getComputedStyle(content);\n\t\t\t\t\t\t\t\t\tconst popoverBorderColor = popoverStyle.borderColor;\n\t\t\t\t\t\t\t\t\tarrowElement.style.backgroundColor = popoverStyle.backgroundColor;\n\t\t\t\t\t\t\t\t\tarrowElement.style.borderTopColor = popoverBorderColor;\n\t\t\t\t\t\t\t\t\tarrowElement.style.borderRightColor = popoverBorderColor;\n\t\t\t\t\t\t\t\t\tarrowElement.style.borderBottomColor = popoverBorderColor;\n\t\t\t\t\t\t\t\t\tarrowElement.style.borderLeftColor = popoverBorderColor;\n\n\t\t\t\t\t\t\t\t\tswitch (staticSide) {\n\t\t\t\t\t\t\t\t\t\tcase 'top':\n\t\t\t\t\t\t\t\t\t\t\tarrowElement.style.borderBottomColor = 'transparent';\n\t\t\t\t\t\t\t\t\t\t\tarrowElement.style.borderRightColor = 'transparent';\n\t\t\t\t\t\t\t\t\t\t\tbreak;\n\t\t\t\t\t\t\t\t\t\tcase 'bottom':\n\t\t\t\t\t\t\t\t\t\t\tarrowElement.style.borderTopColor = 'transparent';\n\t\t\t\t\t\t\t\t\t\t\tarrowElement.style.borderLeftColor = 'transparent';\n\t\t\t\t\t\t\t\t\t\t\tbreak;\n\t\t\t\t\t\t\t\t\t\tcase 'left':\n\t\t\t\t\t\t\t\t\t\t\tarrowElement.style.borderTopColor = 'transparent';\n\t\t\t\t\t\t\t\t\t\t\tarrowElement.style.borderRightColor = 'transparent';\n\t\t\t\t\t\t\t\t\t\t\tbreak;\n\t\t\t\t\t\t\t\t\t\tcase 'right':\n\t\t\t\t\t\t\t\t\t\t\tarrowElement.style.borderBottomColor = 'transparent';\n\t\t\t\t\t\t\t\t\t\t\tarrowElement.style.borderLeftColor = 'transparent';\n\t\t\t\t\t\t\t\t\t\t\tbreak;\n\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t});\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\t// --- Open Popover ---\n\t\t\t\t\t\tfunction openPopover(isHover = false) {\n\t\t\t\t\t\t\tconst popoverData = activePopovers.get(popoverId);\n\t\t\t\t\t\t\tif (!popoverData || popoverData.cleanup) return; // Already open or not found\n\n\t\t\t\t\t\t\t// Only append to portal if not already a direct child\n\t\t\t\t\t\t\t// This prevents HierarchyRequestError when nesting\n\t\t\t\t\t\t\tif (content.parentNode !== portalContainer) {\n\t\t\t\t\t\t\t\tportalContainer.appendChild(content);\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\tcontent.style.display = 'block';\n\t\t\t\t\t\t\tcontent.classList.remove('popover-animate-out');\n\t\t\t\t\t\t\tcontent.classList.add('popover-animate-in');\n\n\t\t\t\t\t\t\t// Start auto-updating position (returns a cleanup function)\n\t\t\t\t\t\t\tpopoverData.cleanup = autoUpdate(\n\t\t\t\t\t\t\t\tfindReferenceElement(trigger),\n\t\t\t\t\t\t\t\tcontent,\n\t\t\t\t\t\t\t\tupdatePosition\n\t\t\t\t\t\t\t);\n\t\t\t\t\t\t\tactivePopovers.set(popoverId, popoverData);\n\n\t\t\t\t\t\t\t// Add closing listeners for click trigger\n\t\t\t\t\t\t\tif (!isHover) {\n\t\t\t\t\t\t\t\tif (content.dataset.popoverDisableClickaway !== 'true') {\n\t\t\t\t\t\t\t\t\tpopoverData.clickAwayListener = (e) => {\n\t\t\t\t\t\t\t\t\t\tif (!trigger.contains(e.target) && !content.contains(e.target)) {\n\t\t\t\t\t\t\t\t\t\t\tclosePopover();\n\t\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t\t};\n\t\t\t\t\t\t\t\t\t// Timeout needed to prevent the click event that opened the popover from immediately closing it.\n\t\t\t\t\t\t\t\t\tsetTimeout(() => document.addEventListener('click', popoverData.clickAwayListener), 0);\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\tif (content.dataset.popoverDisableEsc !== 'true') {\n\t\t\t\t\t\t\t\t\tpopoverData.escListener = (e) => {\n\t\t\t\t\t\t\t\t\t\tif (e.key === 'Escape') {\n\t\t\t\t\t\t\t\t\t\t\tclosePopover();\n\t\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t\t};\n\t\t\t\t\t\t\t\t\tdocument.addEventListener('keydown', popoverData.escListener);\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\t// --- Close Popover ---\n\t\t\t\t\t\tfunction closePopover(immediate = false) {\n\t\t\t\t\t\t\tconst popoverData = activePopovers.get(popoverId);\n\t\t\t\t\t\t\tif (!popoverData || !popoverData.cleanup) return; // Already closed or not found\n\n\t\t\t\t\t\t\t// Stop auto-updating position\n\t\t\t\t\t\t\tpopoverData.cleanup();\n\t\t\t\t\t\t\tpopoverData.cleanup = null;\n\n\t\t\t\t\t\t\t// Remove closing listeners\n\t\t\t\t\t\t\tif (popoverData.clickAwayListener) {\n\t\t\t\t\t\t\t\tdocument.removeEventListener('click', popoverData.clickAwayListener);\n\t\t\t\t\t\t\t\tpopoverData.clickAwayListener = null;\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\tif (popoverData.escListener) {\n\t\t\t\t\t\t\t\tdocument.removeEventListener('keydown', popoverData.escListener);\n\t\t\t\t\t\t\t\tpopoverData.escListener = null;\n\t\t\t\t\t\t\t}\n\n\t\t\t\t\t\t\tconst cleanupDOM = () => {\n\t\t\t\t\t\t\t\tcontent.style.display = 'none';\n\t\t\t\t\t\t\t\tcontent.classList.remove('popover-animate-in', 'popover-animate-out');\n\t\t\t\t\t\t\t};\n\n\t\t\t\t\t\t\tif (immediate) {\n\t\t\t\t\t\t\t\tcleanupDOM();\n\t\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\t\tcontent.classList.remove('popover-animate-in');\n\t\t\t\t\t\t\t\tcontent.classList.add('popover-animate-out');\n\t\t\t\t\t\t\t\tsetTimeout(cleanupDOM, 150); // Delay matches animation duration\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\t// --- Attach Trigger Event Listeners ---\n\t\t\t\t\t\tconst triggerType = trigger.dataset.popoverType || 'click';\n\n\t\t\t\t\t\tif (triggerType === 'click') {\n\t\t\t\t\t\t\ttrigger.addEventListener('click', (e) => {\n\t\t\t\t\t\t\t\tconst popoverData = activePopovers.get(popoverId);\n\t\t\t\t\t\t\t\tif (popoverData && popoverData.cleanup) {\n\t\t\t\t\t\t\t\t\tclosePopover();\n\t\t\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\t\t\topenPopover();\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t});\n\t\t\t\t\t\t} else if (triggerType === 'hover') {\n\t\t\t\t\t\t\tconst popoverData = activePopovers.get(popoverId);\n\n\t\t\t\t\t\t\ttrigger.addEventListener('mouseenter', () => {\n\t\t\t\t\t\t\t\tclearTimeout(popoverData.hoverState.leaveTimeout);\n\t\t\t\t\t\t\t\tconst hoverDelay = parseInt(content.dataset.popoverHoverDelay) || 100;\n\t\t\t\t\t\t\t\tpopoverData.hoverState.hoverTimeout = setTimeout(() => openPopover(true), hoverDelay);\n\t\t\t\t\t\t\t});\n\n\t\t\t\t\t\t\ttrigger.addEventListener('mouseleave', (e) => {\n\t\t\t\t\t\t\t\tclearTimeout(popoverData.hoverState.hoverTimeout);\n\t\t\t\t\t\t\t\tconst hoverOutDelay = parseInt(content.dataset.popoverHoverOutDelay) || 200;\n\t\t\t\t\t\t\t\tpopoverData.hoverState.leaveTimeout = setTimeout(() => {\n\t\t\t\t\t\t\t\t\t// Only close if mouse didn't enter the popover content itself\n\t\t\t\t\t\t\t\t\tconst relatedTarget = e.relatedTarget;\n\t\t\t\t\t\t\t\t\tif (!content.contains(relatedTarget)) {\n\t\t\t\t\t\t\t\t\t\tclosePopover();\n\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t}, hoverOutDelay);\n\t\t\t\t\t\t\t});\n\n\t\t\t\t\t\t\t// Keep open when hovering over content\n\t\t\t\t\t\t\tcontent.addEventListener('mouseenter', () => {\n\t\t\t\t\t\t\t\tclearTimeout(popoverData.hoverState.leaveTimeout);\n\t\t\t\t\t\t\t});\n\t\t\t\t\t\t\tcontent.addEventListener('mouseleave', (e) => {\n\t\t\t\t\t\t\t\tconst hoverOutDelay = parseInt(content.dataset.popoverHoverOutDelay) || 200;\n\t\t\t\t\t\t\t\tpopoverData.hoverState.leaveTimeout = setTimeout(() => {\n\t\t\t\t\t\t\t\t\t// Only close if mouse didn't enter the trigger itself\n\t\t\t\t\t\t\t\t\tconst relatedTarget = e.relatedTarget;\n\t\t\t\t\t\t\t\t\tif (!trigger.contains(relatedTarget)) {\n\t\t\t\t\t\t\t\t\t\tclosePopover();\n\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t}, hoverOutDelay);\n\t\t\t\t\t\t\t});\n\t\t\t\t\t\t}\n\t\t\t\t\t} // End setupPopover\n\n\t\t\t\t\t// --- Initial Setup: Find and initialize all triggers on the page ---\n\t\t\t\t\tdocument.querySelectorAll('[data-popover-trigger]').forEach(setupPopover);\n\n\t\t\t\t\t// --- HTMX Integration ---\n\t\t\t\t\tdocument.body.addEventListener('htmx:afterSwap', (event) => {\n\t\t\t\t\t\tconst targetElement = event.detail.target || event.target;\n\t\t\t\t\t\tif (targetElement && targetElement.querySelectorAll) {\n\t\t\t\t\t\t\t// Find and initialize any new triggers within the swapped content\n\t\t\t\t\t\t\ttargetElement.querySelectorAll('[data-popover-trigger]').forEach(setupPopover);\n\t\t\t\t\t\t\t// Also initialize if the swapped element itself is a trigger\n\t\t\t\t\t\t\tif (targetElement.matches('[data-popover-trigger]')) {\n\t\t\t\t\t\t\t\tsetupPopover(targetElement);\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t});\n\n\t\t\t\t\tdocument.body.addEventListener('htmx:beforeSwap', (event) => {\n\t\t\t\t\t\tlet containerToRemove = event.detail.target || event.detail.elt;\n\t\t\t\t\t\tif (containerToRemove && containerToRemove.querySelectorAll) {\n\t\t\t\t\t\t\t// Close popovers whose trigger is *inside* the element being removed\n\t\t\t\t\t\t\tcontainerToRemove.querySelectorAll('[data-popover-trigger]').forEach(trigger => {\n\t\t\t\t\t\t\t\tconst popoverId = trigger.dataset.popoverFor;\n\t\t\t\t\t\t\t\tif (popoverId && activePopovers.has(popoverId)) {\n\t\t\t\t\t\t\t\t\tconst popoverData = activePopovers.get(popoverId);\n\t\t\t\t\t\t\t\t\tif(popoverData.cleanup) closePopover.call({popoverId: popoverId}, true); // Close immediately\n\t\t\t\t\t\t\t\t\tactivePopovers.delete(popoverId);\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t});\n\t\t\t\t\t\t\t// Close popover if the element being removed *is* a trigger itself\n\t\t\t\t\t\t\tif (containerToRemove.matches('[data-popover-trigger]')) {\n\t\t\t\t\t\t\t\tconst popoverId = containerToRemove.dataset.popoverFor;\n\t\t\t\t\t\t\t\tif (popoverId && activePopovers.has(popoverId)) {\n\t\t\t\t\t\t\t\t\tconst popoverData = activePopovers.get(popoverId);\n\t\t\t\t\t\t\t\t\tif(popoverData.cleanup) closePopover.call({popoverId: popoverId}, true);\n\t\t\t\t\t\t\t\t\tactivePopovers.delete(popoverId);\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t// Note: Checking for removed *content* elements directly is less reliable\n\t\t\t\t\t\t\t// as they live in the portal. Relying on trigger removal is safer.\n\t\t\t\t\t\t}\n\t\t\t\t\t});\n\n\t\t\t\t\t// Inject CSS Animations\n\t\t\t\t\tconst style = document.createElement('style');\n\t\t\t\t\tstyle.textContent = `\n\t\t\t\t\t\t@keyframes popover-in { 0% { opacity: 0; transform: scale(0.95); } 100% { opacity: 1; transform: scale(1); } }\n\t\t\t\t\t\t@keyframes popover-out { 0% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(0.95); } }\n\t\t\t\t\t\t.popover-animate-in { animation: popover-in 0.15s cubic-bezier(0.16, 1, 0.3, 1); }\n\t\t\t\t\t\t.popover-animate-out { animation: popover-out 0.1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }\n\t\t\t\t\t`;\n\t\t\t\t\tdocument.head.appendChild(style);\n\t\t\t\t} // End initializePopovers\n\n\t\t\t})();\n\t\t</script>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 27, "\">\n\t\t\t// Statemanagement - safely check if already defined\n\t\t\tif (typeof window.popoverState === 'undefined') {\n\t\t\t\twindow.popoverState = new Map();\n\t\t\t}\n\t\t\t\n\t\t\t// Main initialization function - checks if FloatingUI is available\n\t\t\tfunction initPopoverSystem() {\n\t\t\t\tif (!window.FloatingUIDOM) {\n\t\t\t\t\tsetTimeout(initPopoverSystem, 50);\n\t\t\t\t\treturn;\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\tconst { computePosition, autoUpdate, offset, flip, shift, arrow } = window.FloatingUIDOM;\n\t\t\t\t\n\t\t\t\t// Helper to find best reference element\n\t\t\t\tfunction findReferenceElement(triggerSpan) {\n\t\t\t\t\tconst children = triggerSpan.children;\n\t\t\t\t\tif (children.length === 0) return triggerSpan;\n\t\t\t\t\t\n\t\t\t\t\tlet bestElement = triggerSpan;\n\t\t\t\t\tlet largestArea = 0;\n\t\t\t\t\t\n\t\t\t\t\tfor (const child of children) {\n\t\t\t\t\t\tconst rect = child.getBoundingClientRect();\n\t\t\t\t\t\tconst area = rect.width * rect.height;\n\t\t\t\t\t\tif (area > largestArea) {\n\t\t\t\t\t\t\tlargestArea = area;\n\t\t\t\t\t\t\tbestElement = child;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t\t\n\t\t\t\t\treturn bestElement;\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\t// Position popover content using Floating UI\n\t\t\t\tfunction updatePosition(content, trigger) {\n\t\t\t\t\tconst referenceElement = findReferenceElement(trigger);\n\t\t\t\t\tconst arrowElement = content.querySelector('[data-popover-arrow]');\n\t\t\t\t\tconst placement = content.dataset.popoverPlacement || 'bottom';\n\t\t\t\t\tconst offsetValue = parseInt(content.dataset.popoverOffset) || (arrowElement ? 8 : 4);\n\t\t\t\t\t\n\t\t\t\t\t// Setup middleware stack\n\t\t\t\t\tconst middleware = [\n\t\t\t\t\t\toffset(offsetValue),\n\t\t\t\t\t\tflip({ padding: 10 }),\n\t\t\t\t\t\tshift({ padding: 10 })\n\t\t\t\t\t];\n\t\t\t\t\t\n\t\t\t\t\tif (arrowElement) {\n\t\t\t\t\t\tmiddleware.push(arrow({ element: arrowElement, padding: 5 }));\n\t\t\t\t\t}\n\t\t\t\t\t\n\t\t\t\t\t// Compute and apply position\n\t\t\t\t\tcomputePosition(referenceElement, content, {\n\t\t\t\t\t\tplacement: placement,\n\t\t\t\t\t\tmiddleware: middleware\n\t\t\t\t\t}).then(({ x, y, placement, middlewareData }) => {\n\t\t\t\t\t\tObject.assign(content.style, {\n\t\t\t\t\t\t\tleft: `${x}px`,\n\t\t\t\t\t\t\ttop: `${y}px`,\n\t\t\t\t\t\t});\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Position arrow if present\n\t\t\t\t\t\tif (arrowElement && middlewareData.arrow) {\n\t\t\t\t\t\t\tpositionArrow(arrowElement, placement, middlewareData.arrow, content);\n\t\t\t\t\t\t}\n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\t// Arrow positioning and styling\n\t\t\t\tfunction positionArrow(arrowElement, placement, arrowData, content) {\n\t\t\t\t\tconst { x: arrowX, y: arrowY } = arrowData;\n\t\t\t\t\tconst staticSide = {\n\t\t\t\t\t\ttop: 'bottom',\n\t\t\t\t\t\tright: 'left',\n\t\t\t\t\t\tbottom: 'top',\n\t\t\t\t\t\tleft: 'right',\n\t\t\t\t\t}[placement.split('-')[0]];\n\t\t\t\t\t\n\t\t\t\t\t// Position arrow\n\t\t\t\t\tObject.assign(arrowElement.style, {\n\t\t\t\t\t\tleft: arrowX != null ? `${arrowX}px` : '',\n\t\t\t\t\t\ttop: arrowY != null ? `${arrowY}px` : '',\n\t\t\t\t\t\tright: '',\n\t\t\t\t\t\tbottom: '',\n\t\t\t\t\t\t[staticSide]: '-5px',\n\t\t\t\t\t});\n\t\t\t\t\t\n\t\t\t\t\t// Style arrow\n\t\t\t\t\tconst popoverStyle = window.getComputedStyle(content);\n\t\t\t\t\tconst popoverBorderColor = popoverStyle.borderColor;\n\t\t\t\t\t\n\t\t\t\t\tarrowElement.style.backgroundColor = popoverStyle.backgroundColor;\n\t\t\t\t\tarrowElement.style.borderTopColor = popoverBorderColor;\n\t\t\t\t\tarrowElement.style.borderRightColor = popoverBorderColor;\n\t\t\t\t\tarrowElement.style.borderBottomColor = popoverBorderColor;\n\t\t\t\t\tarrowElement.style.borderLeftColor = popoverBorderColor;\n\t\t\t\t\t\n\t\t\t\t\t// Set transparent sides based on placement\n\t\t\t\t\tswitch (staticSide) {\n\t\t\t\t\t\tcase 'top':\n\t\t\t\t\t\t\tarrowElement.style.borderBottomColor = 'transparent';\n\t\t\t\t\t\t\tarrowElement.style.borderRightColor = 'transparent';\n\t\t\t\t\t\t\tbreak;\n\t\t\t\t\t\tcase 'bottom':\n\t\t\t\t\t\t\tarrowElement.style.borderTopColor = 'transparent';\n\t\t\t\t\t\t\tarrowElement.style.borderLeftColor = 'transparent';\n\t\t\t\t\t\t\tbreak;\n\t\t\t\t\t\tcase 'left':\n\t\t\t\t\t\t\tarrowElement.style.borderTopColor = 'transparent';\n\t\t\t\t\t\t\tarrowElement.style.borderRightColor = 'transparent';\n\t\t\t\t\t\t\tbreak;\n\t\t\t\t\t\tcase 'right':\n\t\t\t\t\t\t\tarrowElement.style.borderBottomColor = 'transparent';\n\t\t\t\t\t\t\tarrowElement.style.borderLeftColor = 'transparent';\n\t\t\t\t\t\t\tbreak;\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\t// Open a popover\n\t\t\t\tfunction openPopover(popoverId, trigger, isHover = false) {\n\t\t\t\t\tconst content = document.getElementById(popoverId);\n\t\t\t\t\tif (!content) return;\n\t\t\t\t\t\n\t\t\t\t\t// Get or create state for this popover\n\t\t\t\t\tconst state = window.popoverState.get(popoverId) || {\n\t\t\t\t\t\ttrigger,\n\t\t\t\t\t\tcontent,\n\t\t\t\t\t\tcleanup: null,\n\t\t\t\t\t\tisOpen: false,\n\t\t\t\t\t\thoverState: { enterTimeout: null, leaveTimeout: null },\n\t\t\t\t\t\teventListeners: {}\n\t\t\t\t\t};\n\t\t\t\t\t\n\t\t\t\t\t// Don't reopen if already open\n\t\t\t\t\tif (state.isOpen) return;\n\t\t\t\t\t\n\t\t\t\t\t// Find portal container\n\t\t\t\t\tconst portal = document.getElementById('popover-portal-container');\n\t\t\t\t\tif (!portal) return;\n\t\t\t\t\t\n\t\t\t\t\t// Move to portal if needed\n\t\t\t\t\tif (content.parentNode !== portal) {\n\t\t\t\t\t\tportal.appendChild(content);\n\t\t\t\t\t}\n\t\t\t\t\t\n\t\t\t\t\t// Display content\n\t\t\t\t\tcontent.style.display = 'block';\n\t\t\t\t\tcontent.classList.remove('popover-animate-out');\n\t\t\t\t\tcontent.classList.add('popover-animate-in');\n\t\t\t\t\t\n\t\t\t\t\t// Setup position auto-updating\n\t\t\t\t\tstate.cleanup = autoUpdate(\n\t\t\t\t\t\tfindReferenceElement(trigger),\n\t\t\t\t\t\tcontent,\n\t\t\t\t\t\t() => updatePosition(content, trigger)\n\t\t\t\t\t);\n\t\t\t\t\t\n\t\t\t\t\t// Add closing listeners for click popover\n\t\t\t\t\tif (!isHover) {\n\t\t\t\t\t\t// Click away listener\n\t\t\t\t\t\tif (content.dataset.popoverDisableClickaway !== 'true') {\n\t\t\t\t\t\t\tconst clickAwayHandler = (e) => {\n\t\t\t\t\t\t\t\tif (!trigger.contains(e.target) && !content.contains(e.target)) {\n\t\t\t\t\t\t\t\t\tclosePopover(popoverId);\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t};\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\tsetTimeout(() => {\n\t\t\t\t\t\t\t\tdocument.addEventListener('click', clickAwayHandler);\n\t\t\t\t\t\t\t\tstate.eventListeners.clickAway = clickAwayHandler;\n\t\t\t\t\t\t\t}, 0);\n\t\t\t\t\t\t}\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Escape key listener\n\t\t\t\t\t\tif (content.dataset.popoverDisableEsc !== 'true') {\n\t\t\t\t\t\t\tconst escHandler = (e) => {\n\t\t\t\t\t\t\t\tif (e.key === 'Escape') {\n\t\t\t\t\t\t\t\t\tclosePopover(popoverId);\n\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t};\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\tdocument.addEventListener('keydown', escHandler);\n\t\t\t\t\t\t\tstate.eventListeners.esc = escHandler;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t\t\n\t\t\t\t\tstate.isOpen = true;\n\t\t\t\t\twindow.popoverState.set(popoverId, state);\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\t// Close a popover\n\t\t\t\tfunction closePopover(popoverId, immediate = false) {\n\t\t\t\t\tconst state = window.popoverState.get(popoverId);\n\t\t\t\t\tif (!state || !state.isOpen) return;\n\t\t\t\t\t\n\t\t\t\t\t// Stop position updates\n\t\t\t\t\tif (state.cleanup) {\n\t\t\t\t\t\tstate.cleanup();\n\t\t\t\t\t\tstate.cleanup = null;\n\t\t\t\t\t}\n\t\t\t\t\t\n\t\t\t\t\t// Remove event listeners\n\t\t\t\t\tif (state.eventListeners.clickAway) {\n\t\t\t\t\t\tdocument.removeEventListener('click', state.eventListeners.clickAway);\n\t\t\t\t\t\tstate.eventListeners.clickAway = null;\n\t\t\t\t\t}\n\t\t\t\t\t\n\t\t\t\t\tif (state.eventListeners.esc) {\n\t\t\t\t\t\tdocument.removeEventListener('keydown', state.eventListeners.esc);\n\t\t\t\t\t\tstate.eventListeners.esc = null;\n\t\t\t\t\t}\n\t\t\t\t\t\n\t\t\t\t\tconst content = state.content;\n\t\t\t\t\t\n\t\t\t\t\tfunction hideContent() {\n\t\t\t\t\t\tcontent.style.display = 'none';\n\t\t\t\t\t\tcontent.classList.remove('popover-animate-in', 'popover-animate-out');\n\t\t\t\t\t}\n\t\t\t\t\t\n\t\t\t\t\tif (immediate) {\n\t\t\t\t\t\thideContent();\n\t\t\t\t\t} else {\n\t\t\t\t\t\tcontent.classList.remove('popover-animate-in');\n\t\t\t\t\t\tcontent.classList.add('popover-animate-out');\n\t\t\t\t\t\tsetTimeout(hideContent, 150);\n\t\t\t\t\t}\n\t\t\t\t\t\n\t\t\t\t\tstate.isOpen = false;\n\t\t\t\t\twindow.popoverState.set(popoverId, state);\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\t// Setup hover events\n\t\t\t\tfunction setupHoverEvents(trigger, popoverId) {\n\t\t\t\t\tconst content = document.getElementById(popoverId);\n\t\t\t\t\tif (!content) return;\n\t\t\t\t\t\n\t\t\t\t\t// Get or create state\n\t\t\t\t\tconst state = window.popoverState.get(popoverId) || {\n\t\t\t\t\t\ttrigger,\n\t\t\t\t\t\tcontent,\n\t\t\t\t\t\tcleanup: null,\n\t\t\t\t\t\tisOpen: false,\n\t\t\t\t\t\thoverState: { enterTimeout: null, leaveTimeout: null },\n\t\t\t\t\t\teventListeners: {}\n\t\t\t\t\t};\n\t\t\t\t\t\n\t\t\t\t\t// Trigger mouseenter - delay showing\n\t\t\t\t\ttrigger.addEventListener('mouseenter', () => {\n\t\t\t\t\t\tclearTimeout(state.hoverState.leaveTimeout);\n\t\t\t\t\t\t\n\t\t\t\t\t\tconst hoverDelay = parseInt(content.dataset.popoverHoverDelay) || 100;\n\t\t\t\t\t\tstate.hoverState.enterTimeout = setTimeout(() => {\n\t\t\t\t\t\t\topenPopover(popoverId, trigger, true);\n\t\t\t\t\t\t}, hoverDelay);\n\t\t\t\t\t});\n\t\t\t\t\t\n\t\t\t\t\t// Trigger mouseleave - delay hiding\n\t\t\t\t\ttrigger.addEventListener('mouseleave', (e) => {\n\t\t\t\t\t\tclearTimeout(state.hoverState.enterTimeout);\n\t\t\t\t\t\t\n\t\t\t\t\t\tconst hoverOutDelay = parseInt(content.dataset.popoverHoverOutDelay) || 200;\n\t\t\t\t\t\tstate.hoverState.leaveTimeout = setTimeout(() => {\n\t\t\t\t\t\t\t// Only close if mouse didn't enter the content\n\t\t\t\t\t\t\tif (!content.contains(e.relatedTarget)) {\n\t\t\t\t\t\t\t\tclosePopover(popoverId);\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}, hoverOutDelay);\n\t\t\t\t\t});\n\t\t\t\t\t\n\t\t\t\t\t// Content mouseenter - cancel hiding\n\t\t\t\t\tcontent.addEventListener('mouseenter', () => {\n\t\t\t\t\t\tclearTimeout(state.hoverState.leaveTimeout);\n\t\t\t\t\t});\n\t\t\t\t\t\n\t\t\t\t\t// Content mouseleave - delay hiding\n\t\t\t\t\tcontent.addEventListener('mouseleave', (e) => {\n\t\t\t\t\t\tconst hoverOutDelay = parseInt(content.dataset.popoverHoverOutDelay) || 200;\n\t\t\t\t\t\tstate.hoverState.leaveTimeout = setTimeout(() => {\n\t\t\t\t\t\t\t// Only close if mouse didn't enter the trigger\n\t\t\t\t\t\t\tif (!trigger.contains(e.relatedTarget)) {\n\t\t\t\t\t\t\t\tclosePopover(popoverId);\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}, hoverOutDelay);\n\t\t\t\t\t});\n\t\t\t\t\t\n\t\t\t\t\twindow.popoverState.set(popoverId, state);\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\t// Initialize a trigger\n\t\t\t\tfunction initTrigger(trigger) {\n\t\t\t\t\tconst popoverId = trigger.dataset.popoverFor;\n\t\t\t\t\tif (!popoverId) return;\n\t\t\t\t\t\n\t\t\t\t\tconst content = document.getElementById(popoverId);\n\t\t\t\t\tif (!content) return;\n\t\t\t\t\t\n\t\t\t\t\tconst triggerType = trigger.dataset.popoverType || 'click';\n\t\t\t\t\t\n\t\t\t\t\t// Setup appropriate event listeners based on trigger type\n\t\t\t\t\tif (triggerType === 'click') {\n\t\t\t\t\t\ttrigger.addEventListener('click', () => {\n\t\t\t\t\t\t\tconst state = window.popoverState.get(popoverId);\n\t\t\t\t\t\t\tif (state && state.isOpen) {\n\t\t\t\t\t\t\t\tclosePopover(popoverId);\n\t\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\t\topenPopover(popoverId, trigger);\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t});\n\t\t\t\t\t} else if (triggerType === 'hover') {\n\t\t\t\t\t\tsetupHoverEvents(trigger, popoverId);\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\t// Add animation styles if not already present\n\t\t\t\tfunction addAnimationStyles() {\n\t\t\t\t\tif (document.getElementById('popover-animations')) return;\n\t\t\t\t\t\n\t\t\t\t\tconst style = document.createElement('style');\n\t\t\t\t\tstyle.id = 'popover-animations';\n\t\t\t\t\tstyle.textContent = `\n\t\t\t\t\t\t@keyframes popover-in { 0% { opacity: 0; transform: scale(0.95); } 100% { opacity: 1; transform: scale(1); } }\n\t\t\t\t\t\t@keyframes popover-out { 0% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(0.95); } }\n\t\t\t\t\t\t.popover-animate-in { animation: popover-in 0.15s cubic-bezier(0.16, 1, 0.3, 1); }\n\t\t\t\t\t\t.popover-animate-out { animation: popover-out 0.1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }\n\t\t\t\t\t`;\n\t\t\t\t\tdocument.head.appendChild(style);\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\t// Clean up all popovers in a given element before removal\n\t\t\t\tfunction cleanupPopovers(element) {\n\t\t\t\t\t// Find triggers being removed\n\t\t\t\t\tconst triggers = element.querySelectorAll('[data-popover-trigger]');\n\t\t\t\t\tfor (const trigger of triggers) {\n\t\t\t\t\t\tconst popoverId = trigger.dataset.popoverFor;\n\t\t\t\t\t\tif (popoverId) {\n\t\t\t\t\t\t\tclosePopover(popoverId, true);\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t\t\n\t\t\t\t\t// Check if element itself is a trigger\n\t\t\t\t\tif (element.matches && element.matches('[data-popover-trigger]')) {\n\t\t\t\t\t\tconst popoverId = element.dataset.popoverFor;\n\t\t\t\t\t\tif (popoverId) {\n\t\t\t\t\t\t\tclosePopover(popoverId, true);\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\t// Initialize all popovers in a given root element\n\t\t\t\tfunction initAllComponents(root = document) {\n\t\t\t\t\tfor (const trigger of root.querySelectorAll('[data-popover-trigger]')) {\n\t\t\t\t\t\tinitTrigger(trigger);\n\t\t\t\t\t}\n\t\t\t\t\t\n\t\t\t\t\t// Also check if root itself is a trigger\n\t\t\t\t\tif (root.matches && root.matches('[data-popover-trigger]')) {\n\t\t\t\t\t\tinitTrigger(root);\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\t// Add animation styles\n\t\t\t\taddAnimationStyles();\n\t\t\t\t\n\t\t\t\t// HTMX integration\n\t\t\t\tdocument.body.addEventListener('htmx:beforeSwap', (evt) => {\n\t\t\t\t\tconst target = evt.detail.target;\n\t\t\t\t\tif (target) {\n\t\t\t\t\t\tcleanupPopovers(target);\n\t\t\t\t\t}\n\t\t\t\t});\n\t\t\t\t\n\t\t\t\tdocument.body.addEventListener('htmx:afterSwap', (evt) => {\n\t\t\t\t\tif (evt.target) {\n\t\t\t\t\t\tsetTimeout(() => initAllComponents(evt.target), 0);\n\t\t\t\t\t}\n\t\t\t\t});\n\t\t\t\t\n\t\t\t\t// Initial setup\n\t\t\t\tinitAllComponents();\n\t\t\t}\n\t\t\t\n\t\t\t// Start initialization when DOM is ready\n\t\t\tif (document.readyState === 'loading') {\n\t\t\t\tdocument.addEventListener('DOMContentLoaded', initPopoverSystem);\n\t\t\t} else {\n\t\t\t\tinitPopoverSystem();\n\t\t\t}\n\t\t</script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

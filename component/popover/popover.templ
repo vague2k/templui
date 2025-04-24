@@ -5,7 +5,6 @@ import (
 	"strconv"
 )
 
-// Floating UI Placement (https://floating-ui.com/docs/computePosition#placement)
 type Placement string
 
 const (
@@ -34,46 +33,37 @@ type Props struct {
 	Class string
 }
 
-// Trigger Props - Minimal set needed to link trigger and content
 type TriggerProps struct {
-	ID          string // Optional ID for the trigger itself
-	For         string // REQUIRED: Corresponds to the ID of the Content component
+	ID          string
+	For         string
 	TriggerType TriggerType
 }
 
-// Content Props - Includes Floating UI options and content styling
 type ContentProps struct {
-	ID               string // REQUIRED: Must match TriggerProps.For
+	ID               string
 	Class            string
 	Attributes       templ.Attributes
-	Placement        Placement // Use Floating UI's placement
-	Offset           int       // Optional offset value (default: 8 if arrow, 4 otherwise)
+	Placement        Placement
+	Offset           int
 	DisableClickAway bool
 	DisableESC       bool
 	ShowArrow        bool
-	HoverDelay       int // Delay for showing on hover
-	HoverOutDelay    int // Delay for hiding on hover
+	HoverDelay       int
+	HoverOutDelay    int
 }
 
-// --- Components ---
-
-// Popover Wrapper and Portal Container
 templ Popover(props ...Props) {
 	@Script()
-	// Ensure script is included once
 	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
 	<div class={ p.Class }>
 		{ children... }
-		// Expects Trigger and Content as siblings
 	</div>
-	// Portal container - Floating UI will place the content here
 	<div id="popover-portal-container" class="fixed inset-0 z-[9999] pointer-events-none"></div>
 }
 
-// Popover Trigger
 templ Trigger(props ...TriggerProps) {
 	{{ var p TriggerProps }}
 	if len(props) > 0 {
@@ -94,7 +84,6 @@ templ Trigger(props ...TriggerProps) {
 	</span>
 }
 
-// Popover Content (renders the div directly, hidden initially)
 templ Content(props ...ContentProps) {
 	{{ var p ContentProps }}
 	if len(props) > 0 {
@@ -129,326 +118,340 @@ templ Content(props ...ContentProps) {
 	>
 		<div class="w-full overflow-hidden">
 			{ children... }
-			// The actual content goes here
 		</div>
 		if p.ShowArrow {
-			// Arrow element - positioned by Floating UI middleware
 			<div data-popover-arrow class="absolute h-2.5 w-2.5 rotate-45 bg-background border"></div>
 		}
 	</div>
 }
 
-// --- Script ---
 var handle = templ.NewOnceHandle()
 
 templ Script() {
 	@handle.Once() {
-		<script defer src="https://cdn.jsdelivr.net/npm/@floating-ui/core@1/dist/floating-ui.core.umd.min.js"></script>
-		<script defer src="https://cdn.jsdelivr.net/npm/@floating-ui/dom@1/dist/floating-ui.dom.umd.min.js"></script>
-		<script defer nonce={ templ.GetNonce(ctx) }>
-			(() => {
-				// Wait for Floating UI and DOM content before initializing
-				const checkFloatingUI = setInterval(() => {
-					if (window.FloatingUIDOM && document.readyState !== 'loading') {
-						clearInterval(checkFloatingUI);
-						initializePopovers();
+		<script src="https://cdn.jsdelivr.net/npm/@floating-ui/core@1/dist/floating-ui.core.umd.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/@floating-ui/dom@1/dist/floating-ui.dom.umd.min.js"></script>
+		<script nonce={ templ.GetNonce(ctx) }>
+			// Statemanagement - safely check if already defined
+			if (typeof window.popoverState === 'undefined') {
+				window.popoverState = new Map();
+			}
+			
+			// Main initialization function - checks if FloatingUI is available
+			function initPopoverSystem() {
+				if (!window.FloatingUIDOM) {
+					setTimeout(initPopoverSystem, 50);
+					return;
+				}
+				
+				const { computePosition, autoUpdate, offset, flip, shift, arrow } = window.FloatingUIDOM;
+				
+				// Helper to find best reference element
+				function findReferenceElement(triggerSpan) {
+					const children = triggerSpan.children;
+					if (children.length === 0) return triggerSpan;
+					
+					let bestElement = triggerSpan;
+					let largestArea = 0;
+					
+					for (const child of children) {
+						const rect = child.getBoundingClientRect();
+						const area = rect.width * rect.height;
+						if (area > largestArea) {
+							largestArea = area;
+							bestElement = child;
+						}
 					}
-				}, 50);
-
-				function initializePopovers() {
-					const { computePosition, autoUpdate, offset, flip, shift, arrow } = window.FloatingUIDOM;
-
-					// Map to store active popover state and cleanup functions from autoUpdate
-					const activePopovers = new Map(); // Map<popoverId, { cleanup: Function | null, content: HTMLElement, trigger: HTMLElement, hoverState: object } >
-
-					// --- Helper: Find the best element within the trigger span for positioning ---
-					function findReferenceElement(triggerSpan) {
-						let triggerElement = triggerSpan;
-						let largestArea = 0;
-						const children = triggerSpan.children;
-						for (let i = 0; i < children.length; i++) {
-							const child = children[i];
-							const rect = child.getBoundingClientRect();
-							const area = rect.width * rect.height;
-							if (area > largestArea) {
-								largestArea = area;
-								triggerElement = child;
-							}
-						}
-						return triggerElement;
+					
+					return bestElement;
+				}
+				
+				// Position popover content using Floating UI
+				function updatePosition(content, trigger) {
+					const referenceElement = findReferenceElement(trigger);
+					const arrowElement = content.querySelector('[data-popover-arrow]');
+					const placement = content.dataset.popoverPlacement || 'bottom';
+					const offsetValue = parseInt(content.dataset.popoverOffset) || (arrowElement ? 8 : 4);
+					
+					// Setup middleware stack
+					const middleware = [
+						offset(offsetValue),
+						flip({ padding: 10 }),
+						shift({ padding: 10 })
+					];
+					
+					if (arrowElement) {
+						middleware.push(arrow({ element: arrowElement, padding: 5 }));
 					}
-
-					// --- Setup individual popover logic ---
-					function setupPopover(trigger) {
-						const popoverId = trigger.dataset.popoverFor;
-						if (!popoverId || activePopovers.has(popoverId)) return; // Avoid double initialization
-
-						const content = document.getElementById(popoverId);
-						if (!content) {
-							console.error(`Popover content element with ID '${popoverId}' not found.`);
-							return;
-						}
-
-						const portalContainer = document.getElementById('popover-portal-container');
-						if (!portalContainer) {
-							console.error("Popover portal container 'popover-portal-container' not found!");
-							return;
-						}
-
-						activePopovers.set(popoverId, {
-							cleanup: null,
-							content: content,
-							trigger: trigger,
-							hoverState: { hoverTimeout: null, leaveTimeout: null }
+					
+					// Compute and apply position
+					computePosition(referenceElement, content, {
+						placement: placement,
+						middleware: middleware
+					}).then(({ x, y, placement, middlewareData }) => {
+						Object.assign(content.style, {
+							left: `${x}px`,
+							top: `${y}px`,
 						});
-
-						// --- Positioning Logic (using Floating UI) ---
-						function updatePosition() {
-							const referenceElement = findReferenceElement(trigger);
-							const arrowElement = content.querySelector('[data-popover-arrow]');
-							const placement = content.dataset.popoverPlacement || 'bottom';
-							const offsetValue = parseInt(content.dataset.popoverOffset) || (arrowElement ? 8 : 4);
-
-							// Middleware order matters: offset first, then flip/shift, then arrow.
-							const middleware = [
-								offset(offsetValue),
-								flip({ padding: 10 }),
-								shift({ padding: 10 })
-							];
-							if (arrowElement) {
-								middleware.push(arrow({ element: arrowElement, padding: 5 }));
-							}
-
-							computePosition(referenceElement, content, {
-								placement: placement,
-								middleware: middleware
-							}).then(({ x, y, placement, middlewareData }) => {
-								Object.assign(content.style, {
-									left: `${x}px`,
-									top: `${y}px`,
-								});
-
-								// Arrow positioning
-								if (middlewareData.arrow && arrowElement) {
-									const { x: arrowX, y: arrowY } = middlewareData.arrow;
-									const staticSide = {
-										top: 'bottom',
-										right: 'left',
-										bottom: 'top',
-										left: 'right',
-									}[placement.split('-')[0]];
-
-									Object.assign(arrowElement.style, {
-										left: arrowX != null ? `${arrowX}px` : '',
-										top: arrowY != null ? `${arrowY}px` : '',
-										right: '',
-										bottom: '',
-										[staticSide]: '-5px', // Position arrow slightly outside
-									});
-
-									// Simplified Arrow Border Styling
-									const popoverStyle = window.getComputedStyle(content);
-									const popoverBorderColor = popoverStyle.borderColor;
-									arrowElement.style.backgroundColor = popoverStyle.backgroundColor;
-									arrowElement.style.borderTopColor = popoverBorderColor;
-									arrowElement.style.borderRightColor = popoverBorderColor;
-									arrowElement.style.borderBottomColor = popoverBorderColor;
-									arrowElement.style.borderLeftColor = popoverBorderColor;
-
-									switch (staticSide) {
-										case 'top':
-											arrowElement.style.borderBottomColor = 'transparent';
-											arrowElement.style.borderRightColor = 'transparent';
-											break;
-										case 'bottom':
-											arrowElement.style.borderTopColor = 'transparent';
-											arrowElement.style.borderLeftColor = 'transparent';
-											break;
-										case 'left':
-											arrowElement.style.borderTopColor = 'transparent';
-											arrowElement.style.borderRightColor = 'transparent';
-											break;
-										case 'right':
-											arrowElement.style.borderBottomColor = 'transparent';
-											arrowElement.style.borderLeftColor = 'transparent';
-											break;
-									}
-								}
-							});
+						
+						// Position arrow if present
+						if (arrowElement && middlewareData.arrow) {
+							positionArrow(arrowElement, placement, middlewareData.arrow, content);
 						}
-
-						// --- Open Popover ---
-						function openPopover(isHover = false) {
-							const popoverData = activePopovers.get(popoverId);
-							if (!popoverData || popoverData.cleanup) return; // Already open or not found
-
-							// Only append to portal if not already a direct child
-							// This prevents HierarchyRequestError when nesting
-							if (content.parentNode !== portalContainer) {
-								portalContainer.appendChild(content);
-							}
-							
-							content.style.display = 'block';
-							content.classList.remove('popover-animate-out');
-							content.classList.add('popover-animate-in');
-
-							// Start auto-updating position (returns a cleanup function)
-							popoverData.cleanup = autoUpdate(
-								findReferenceElement(trigger),
-								content,
-								updatePosition
-							);
-							activePopovers.set(popoverId, popoverData);
-
-							// Add closing listeners for click trigger
-							if (!isHover) {
-								if (content.dataset.popoverDisableClickaway !== 'true') {
-									popoverData.clickAwayListener = (e) => {
-										if (!trigger.contains(e.target) && !content.contains(e.target)) {
-											closePopover();
-										}
-									};
-									// Timeout needed to prevent the click event that opened the popover from immediately closing it.
-									setTimeout(() => document.addEventListener('click', popoverData.clickAwayListener), 0);
+					});
+				}
+				
+				// Arrow positioning and styling
+				function positionArrow(arrowElement, placement, arrowData, content) {
+					const { x: arrowX, y: arrowY } = arrowData;
+					const staticSide = {
+						top: 'bottom',
+						right: 'left',
+						bottom: 'top',
+						left: 'right',
+					}[placement.split('-')[0]];
+					
+					// Position arrow
+					Object.assign(arrowElement.style, {
+						left: arrowX != null ? `${arrowX}px` : '',
+						top: arrowY != null ? `${arrowY}px` : '',
+						right: '',
+						bottom: '',
+						[staticSide]: '-5px',
+					});
+					
+					// Style arrow
+					const popoverStyle = window.getComputedStyle(content);
+					const popoverBorderColor = popoverStyle.borderColor;
+					
+					arrowElement.style.backgroundColor = popoverStyle.backgroundColor;
+					arrowElement.style.borderTopColor = popoverBorderColor;
+					arrowElement.style.borderRightColor = popoverBorderColor;
+					arrowElement.style.borderBottomColor = popoverBorderColor;
+					arrowElement.style.borderLeftColor = popoverBorderColor;
+					
+					// Set transparent sides based on placement
+					switch (staticSide) {
+						case 'top':
+							arrowElement.style.borderBottomColor = 'transparent';
+							arrowElement.style.borderRightColor = 'transparent';
+							break;
+						case 'bottom':
+							arrowElement.style.borderTopColor = 'transparent';
+							arrowElement.style.borderLeftColor = 'transparent';
+							break;
+						case 'left':
+							arrowElement.style.borderTopColor = 'transparent';
+							arrowElement.style.borderRightColor = 'transparent';
+							break;
+						case 'right':
+							arrowElement.style.borderBottomColor = 'transparent';
+							arrowElement.style.borderLeftColor = 'transparent';
+							break;
+					}
+				}
+				
+				// Open a popover
+				function openPopover(popoverId, trigger, isHover = false) {
+					const content = document.getElementById(popoverId);
+					if (!content) return;
+					
+					// Get or create state for this popover
+					const state = window.popoverState.get(popoverId) || {
+						trigger,
+						content,
+						cleanup: null,
+						isOpen: false,
+						hoverState: { enterTimeout: null, leaveTimeout: null },
+						eventListeners: {}
+					};
+					
+					// Don't reopen if already open
+					if (state.isOpen) return;
+					
+					// Find portal container
+					const portal = document.getElementById('popover-portal-container');
+					if (!portal) return;
+					
+					// Move to portal if needed
+					if (content.parentNode !== portal) {
+						portal.appendChild(content);
+					}
+					
+					// Display content
+					content.style.display = 'block';
+					content.classList.remove('popover-animate-out');
+					content.classList.add('popover-animate-in');
+					
+					// Setup position auto-updating
+					state.cleanup = autoUpdate(
+						findReferenceElement(trigger),
+						content,
+						() => updatePosition(content, trigger)
+					);
+					
+					// Add closing listeners for click popover
+					if (!isHover) {
+						// Click away listener
+						if (content.dataset.popoverDisableClickaway !== 'true') {
+							const clickAwayHandler = (e) => {
+								if (!trigger.contains(e.target) && !content.contains(e.target)) {
+									closePopover(popoverId);
 								}
-								if (content.dataset.popoverDisableEsc !== 'true') {
-									popoverData.escListener = (e) => {
-										if (e.key === 'Escape') {
-											closePopover();
-										}
-									};
-									document.addEventListener('keydown', popoverData.escListener);
-								}
-							}
-						}
-
-						// --- Close Popover ---
-						function closePopover(immediate = false) {
-							const popoverData = activePopovers.get(popoverId);
-							if (!popoverData || !popoverData.cleanup) return; // Already closed or not found
-
-							// Stop auto-updating position
-							popoverData.cleanup();
-							popoverData.cleanup = null;
-
-							// Remove closing listeners
-							if (popoverData.clickAwayListener) {
-								document.removeEventListener('click', popoverData.clickAwayListener);
-								popoverData.clickAwayListener = null;
-							}
-							if (popoverData.escListener) {
-								document.removeEventListener('keydown', popoverData.escListener);
-								popoverData.escListener = null;
-							}
-
-							const cleanupDOM = () => {
-								content.style.display = 'none';
-								content.classList.remove('popover-animate-in', 'popover-animate-out');
 							};
-
-							if (immediate) {
-								cleanupDOM();
+							
+							setTimeout(() => {
+								document.addEventListener('click', clickAwayHandler);
+								state.eventListeners.clickAway = clickAwayHandler;
+							}, 0);
+						}
+						
+						// Escape key listener
+						if (content.dataset.popoverDisableEsc !== 'true') {
+							const escHandler = (e) => {
+								if (e.key === 'Escape') {
+									closePopover(popoverId);
+								}
+							};
+							
+							document.addEventListener('keydown', escHandler);
+							state.eventListeners.esc = escHandler;
+						}
+					}
+					
+					state.isOpen = true;
+					window.popoverState.set(popoverId, state);
+				}
+				
+				// Close a popover
+				function closePopover(popoverId, immediate = false) {
+					const state = window.popoverState.get(popoverId);
+					if (!state || !state.isOpen) return;
+					
+					// Stop position updates
+					if (state.cleanup) {
+						state.cleanup();
+						state.cleanup = null;
+					}
+					
+					// Remove event listeners
+					if (state.eventListeners.clickAway) {
+						document.removeEventListener('click', state.eventListeners.clickAway);
+						state.eventListeners.clickAway = null;
+					}
+					
+					if (state.eventListeners.esc) {
+						document.removeEventListener('keydown', state.eventListeners.esc);
+						state.eventListeners.esc = null;
+					}
+					
+					const content = state.content;
+					
+					function hideContent() {
+						content.style.display = 'none';
+						content.classList.remove('popover-animate-in', 'popover-animate-out');
+					}
+					
+					if (immediate) {
+						hideContent();
+					} else {
+						content.classList.remove('popover-animate-in');
+						content.classList.add('popover-animate-out');
+						setTimeout(hideContent, 150);
+					}
+					
+					state.isOpen = false;
+					window.popoverState.set(popoverId, state);
+				}
+				
+				// Setup hover events
+				function setupHoverEvents(trigger, popoverId) {
+					const content = document.getElementById(popoverId);
+					if (!content) return;
+					
+					// Get or create state
+					const state = window.popoverState.get(popoverId) || {
+						trigger,
+						content,
+						cleanup: null,
+						isOpen: false,
+						hoverState: { enterTimeout: null, leaveTimeout: null },
+						eventListeners: {}
+					};
+					
+					// Trigger mouseenter - delay showing
+					trigger.addEventListener('mouseenter', () => {
+						clearTimeout(state.hoverState.leaveTimeout);
+						
+						const hoverDelay = parseInt(content.dataset.popoverHoverDelay) || 100;
+						state.hoverState.enterTimeout = setTimeout(() => {
+							openPopover(popoverId, trigger, true);
+						}, hoverDelay);
+					});
+					
+					// Trigger mouseleave - delay hiding
+					trigger.addEventListener('mouseleave', (e) => {
+						clearTimeout(state.hoverState.enterTimeout);
+						
+						const hoverOutDelay = parseInt(content.dataset.popoverHoverOutDelay) || 200;
+						state.hoverState.leaveTimeout = setTimeout(() => {
+							// Only close if mouse didn't enter the content
+							if (!content.contains(e.relatedTarget)) {
+								closePopover(popoverId);
+							}
+						}, hoverOutDelay);
+					});
+					
+					// Content mouseenter - cancel hiding
+					content.addEventListener('mouseenter', () => {
+						clearTimeout(state.hoverState.leaveTimeout);
+					});
+					
+					// Content mouseleave - delay hiding
+					content.addEventListener('mouseleave', (e) => {
+						const hoverOutDelay = parseInt(content.dataset.popoverHoverOutDelay) || 200;
+						state.hoverState.leaveTimeout = setTimeout(() => {
+							// Only close if mouse didn't enter the trigger
+							if (!trigger.contains(e.relatedTarget)) {
+								closePopover(popoverId);
+							}
+						}, hoverOutDelay);
+					});
+					
+					window.popoverState.set(popoverId, state);
+				}
+				
+				// Initialize a trigger
+				function initTrigger(trigger) {
+					const popoverId = trigger.dataset.popoverFor;
+					if (!popoverId) return;
+					
+					const content = document.getElementById(popoverId);
+					if (!content) return;
+					
+					const triggerType = trigger.dataset.popoverType || 'click';
+					
+					// Setup appropriate event listeners based on trigger type
+					if (triggerType === 'click') {
+						trigger.addEventListener('click', () => {
+							const state = window.popoverState.get(popoverId);
+							if (state && state.isOpen) {
+								closePopover(popoverId);
 							} else {
-								content.classList.remove('popover-animate-in');
-								content.classList.add('popover-animate-out');
-								setTimeout(cleanupDOM, 150); // Delay matches animation duration
+								openPopover(popoverId, trigger);
 							}
-						}
-
-						// --- Attach Trigger Event Listeners ---
-						const triggerType = trigger.dataset.popoverType || 'click';
-
-						if (triggerType === 'click') {
-							trigger.addEventListener('click', (e) => {
-								const popoverData = activePopovers.get(popoverId);
-								if (popoverData && popoverData.cleanup) {
-									closePopover();
-								} else {
-									openPopover();
-								}
-							});
-						} else if (triggerType === 'hover') {
-							const popoverData = activePopovers.get(popoverId);
-
-							trigger.addEventListener('mouseenter', () => {
-								clearTimeout(popoverData.hoverState.leaveTimeout);
-								const hoverDelay = parseInt(content.dataset.popoverHoverDelay) || 100;
-								popoverData.hoverState.hoverTimeout = setTimeout(() => openPopover(true), hoverDelay);
-							});
-
-							trigger.addEventListener('mouseleave', (e) => {
-								clearTimeout(popoverData.hoverState.hoverTimeout);
-								const hoverOutDelay = parseInt(content.dataset.popoverHoverOutDelay) || 200;
-								popoverData.hoverState.leaveTimeout = setTimeout(() => {
-									// Only close if mouse didn't enter the popover content itself
-									const relatedTarget = e.relatedTarget;
-									if (!content.contains(relatedTarget)) {
-										closePopover();
-									}
-								}, hoverOutDelay);
-							});
-
-							// Keep open when hovering over content
-							content.addEventListener('mouseenter', () => {
-								clearTimeout(popoverData.hoverState.leaveTimeout);
-							});
-							content.addEventListener('mouseleave', (e) => {
-								const hoverOutDelay = parseInt(content.dataset.popoverHoverOutDelay) || 200;
-								popoverData.hoverState.leaveTimeout = setTimeout(() => {
-									// Only close if mouse didn't enter the trigger itself
-									const relatedTarget = e.relatedTarget;
-									if (!trigger.contains(relatedTarget)) {
-										closePopover();
-									}
-								}, hoverOutDelay);
-							});
-						}
-					} // End setupPopover
-
-					// --- Initial Setup: Find and initialize all triggers on the page ---
-					document.querySelectorAll('[data-popover-trigger]').forEach(setupPopover);
-
-					// --- HTMX Integration ---
-					document.body.addEventListener('htmx:afterSwap', (event) => {
-						const targetElement = event.detail.target || event.target;
-						if (targetElement && targetElement.querySelectorAll) {
-							// Find and initialize any new triggers within the swapped content
-							targetElement.querySelectorAll('[data-popover-trigger]').forEach(setupPopover);
-							// Also initialize if the swapped element itself is a trigger
-							if (targetElement.matches('[data-popover-trigger]')) {
-								setupPopover(targetElement);
-							}
-						}
-					});
-
-					document.body.addEventListener('htmx:beforeSwap', (event) => {
-						let containerToRemove = event.detail.target || event.detail.elt;
-						if (containerToRemove && containerToRemove.querySelectorAll) {
-							// Close popovers whose trigger is *inside* the element being removed
-							containerToRemove.querySelectorAll('[data-popover-trigger]').forEach(trigger => {
-								const popoverId = trigger.dataset.popoverFor;
-								if (popoverId && activePopovers.has(popoverId)) {
-									const popoverData = activePopovers.get(popoverId);
-									if(popoverData.cleanup) closePopover.call({popoverId: popoverId}, true); // Close immediately
-									activePopovers.delete(popoverId);
-								}
-							});
-							// Close popover if the element being removed *is* a trigger itself
-							if (containerToRemove.matches('[data-popover-trigger]')) {
-								const popoverId = containerToRemove.dataset.popoverFor;
-								if (popoverId && activePopovers.has(popoverId)) {
-									const popoverData = activePopovers.get(popoverId);
-									if(popoverData.cleanup) closePopover.call({popoverId: popoverId}, true);
-									activePopovers.delete(popoverId);
-								}
-							}
-							// Note: Checking for removed *content* elements directly is less reliable
-							// as they live in the portal. Relying on trigger removal is safer.
-						}
-					});
-
-					// Inject CSS Animations
+						});
+					} else if (triggerType === 'hover') {
+						setupHoverEvents(trigger, popoverId);
+					}
+				}
+				
+				// Add animation styles if not already present
+				function addAnimationStyles() {
+					if (document.getElementById('popover-animations')) return;
+					
 					const style = document.createElement('style');
+					style.id = 'popover-animations';
 					style.textContent = `
 						@keyframes popover-in { 0% { opacity: 0; transform: scale(0.95); } 100% { opacity: 1; transform: scale(1); } }
 						@keyframes popover-out { 0% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(0.95); } }
@@ -456,9 +459,67 @@ templ Script() {
 						.popover-animate-out { animation: popover-out 0.1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
 					`;
 					document.head.appendChild(style);
-				} // End initializePopovers
-
-			})();
+				}
+				
+				// Clean up all popovers in a given element before removal
+				function cleanupPopovers(element) {
+					// Find triggers being removed
+					const triggers = element.querySelectorAll('[data-popover-trigger]');
+					for (const trigger of triggers) {
+						const popoverId = trigger.dataset.popoverFor;
+						if (popoverId) {
+							closePopover(popoverId, true);
+						}
+					}
+					
+					// Check if element itself is a trigger
+					if (element.matches && element.matches('[data-popover-trigger]')) {
+						const popoverId = element.dataset.popoverFor;
+						if (popoverId) {
+							closePopover(popoverId, true);
+						}
+					}
+				}
+				
+				// Initialize all popovers in a given root element
+				function initAllComponents(root = document) {
+					for (const trigger of root.querySelectorAll('[data-popover-trigger]')) {
+						initTrigger(trigger);
+					}
+					
+					// Also check if root itself is a trigger
+					if (root.matches && root.matches('[data-popover-trigger]')) {
+						initTrigger(root);
+					}
+				}
+				
+				// Add animation styles
+				addAnimationStyles();
+				
+				// HTMX integration
+				document.body.addEventListener('htmx:beforeSwap', (evt) => {
+					const target = evt.detail.target;
+					if (target) {
+						cleanupPopovers(target);
+					}
+				});
+				
+				document.body.addEventListener('htmx:afterSwap', (evt) => {
+					if (evt.target) {
+						setTimeout(() => initAllComponents(evt.target), 0);
+					}
+				});
+				
+				// Initial setup
+				initAllComponents();
+			}
+			
+			// Start initialization when DOM is ready
+			if (document.readyState === 'loading') {
+				document.addEventListener('DOMContentLoaded', initPopoverSystem);
+			} else {
+				initPopoverSystem();
+			}
 		</script>
 	}
 }
