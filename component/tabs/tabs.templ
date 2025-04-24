@@ -167,129 +167,67 @@ var handle = templ.NewOnceHandle()
 templ Script() {
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
-			function initializeTabs(tabsContainer) {
-				if (tabsContainer.dataset.tabsInitialized === 'true') {
-					return; // Already initialized
-				}
-				tabsContainer.dataset.tabsInitialized = 'true';
+			function initTabs(container) {
+				if (container.hasAttribute('data-initialized')) return;
+				
+				container.setAttribute('data-initialized', 'true');
 
-				const tabsId = tabsContainer.dataset.tabsId;
-				if (!tabsId) {
-					console.error("Tabs container is missing 'data-tabs-id'.", tabsContainer);
-					return;
-				}
+				const tabsId = container.dataset.tabsId;
+				if (!tabsId) return;
 
-				const triggers = Array.from(tabsContainer.querySelectorAll(`[data-tabs-trigger][data-tabs-id="${tabsId}"]`));
-				const contents = Array.from(tabsContainer.querySelectorAll(`[data-tabs-content][data-tabs-id="${tabsId}"]`));
-				const marker = tabsContainer.querySelector(`[data-tabs-marker][data-tabs-id="${tabsId}"]`);
-				const triggerListeners = []; // Store listeners for cleanup
+				const triggers = Array.from(container.querySelectorAll(`[data-tabs-trigger][data-tabs-id="${tabsId}"]`));
+				const contents = Array.from(container.querySelectorAll(`[data-tabs-content][data-tabs-id="${tabsId}"]`));
+				const marker = container.querySelector(`[data-tabs-marker][data-tabs-id="${tabsId}"]`);
 
 				function updateMarker(activeTrigger) {
-					if (marker && activeTrigger) {
-						marker.style.width = activeTrigger.offsetWidth + 'px';
-						marker.style.height = activeTrigger.offsetHeight + 'px';
-						marker.style.left = activeTrigger.offsetLeft + 'px';
-					}
+					if (!marker || !activeTrigger) return;
+					
+					marker.style.width = activeTrigger.offsetWidth + 'px';
+					marker.style.height = activeTrigger.offsetHeight + 'px';
+					marker.style.left = activeTrigger.offsetLeft + 'px';
 				}
 
 				function setActiveTab(value) {
 					let activeTrigger = null;
-					triggers.forEach(t => {
-						const isActive = t.dataset.tabsValue === value;
-						t.dataset.state = isActive ? "active" : "inactive";
-						// Use explicit classes for active state for clarity
-						t.classList.toggle('text-foreground', isActive);
-						t.classList.toggle('bg-background', isActive);
-						t.classList.toggle('shadow-xs', isActive);
-						if (isActive) {
-							activeTrigger = t;
-						}
-					});
+					
+					for (const trigger of triggers) {
+						const isActive = trigger.dataset.tabsValue === value;
+						trigger.dataset.state = isActive ? "active" : "inactive";
+						trigger.classList.toggle('text-foreground', isActive);
+						trigger.classList.toggle('bg-background', isActive);
+						trigger.classList.toggle('shadow-xs', isActive);
+						
+						if (isActive) activeTrigger = trigger;
+					}
 
-					contents.forEach(content => {
+					for (const content of contents) {
 						const isActive = content.dataset.tabsValue === value;
 						content.dataset.state = isActive ? "active" : "inactive";
 						content.classList.toggle('hidden', !isActive);
-					});
+					}
 
 					updateMarker(activeTrigger);
 				}
 
-				// --- Initialization ---
-				let initialActiveTrigger = triggers.find(t => t.dataset.state === 'active') || triggers[0];
-				if (initialActiveTrigger) {
-					setActiveTab(initialActiveTrigger.dataset.tabsValue);
-				} else if (triggers.length > 0) {
-                    // Fallback if no trigger has data-state=active
-                    setActiveTab(triggers[0].dataset.tabsValue);
-                }
+				const defaultTrigger = triggers.find(t => t.dataset.state === 'active') || triggers[0];
+				if (defaultTrigger) {
+					setActiveTab(defaultTrigger.dataset.tabsValue);
+				}
 
-				// --- Event Listeners ---
-				triggers.forEach(trigger => {
-					const handleClick = () => {
+				for (const trigger of triggers) {
+					trigger.addEventListener('click', () => {
 						setActiveTab(trigger.dataset.tabsValue);
-					};
-					trigger.addEventListener('click', handleClick);
-					triggerListeners.push({ trigger, handler: handleClick }); // Store for cleanup
-				});
-
-				// --- Cleanup Function --- 
-				tabsContainer._tabsCleanup = () => {
-					triggerListeners.forEach(({ trigger, handler }) => {
-						trigger.removeEventListener('click', handler);
 					});
-					triggerListeners.length = 0; // Clear the array
-					// console.log(`Tabs cleanup for ${tabsId}`);
-				};
-			}
-
-			// --- Global Initialization Triggers ---
-			function initializeAllTabs() {
-				document.querySelectorAll('[data-tabs]:not([data-tabs-initialized])').forEach(initializeTabs);
-			}
-
-			// 1. Initial page load
-			if (document.readyState === 'loading') {
-				document.addEventListener('DOMContentLoaded', initializeAllTabs);
-			} else {
-				initializeAllTabs(); // Already loaded
-			}
-
-			// 2. After HTMX swaps
-			document.body.addEventListener('htmx:afterSwap', function(event) {
-				const targetElement = event.target instanceof Element ? event.target : null;
-				if (targetElement) {
-					// Check if the swapped element itself is a tabs container
-					if (targetElement.matches('[data-tabs]:not([data-tabs-initialized])')) {
-						initializeTabs(targetElement);
-					}
-					// Check for tabs containers within the swapped content
-					targetElement.querySelectorAll('[data-tabs]:not([data-tabs-initialized])').forEach(initializeTabs);
 				}
-			});
+			}
 
-			// 3. Cleanup before HTMX removes elements
-			document.body.addEventListener('htmx:beforeCleanup', (event) => {
-				let containerToRemove = event.detail.target || event.detail.elt;
-				if (containerToRemove && containerToRemove.querySelectorAll) {
-					// Cleanup tabs within the container
-					containerToRemove.querySelectorAll('[data-tabs][data-tabs-initialized]').forEach(tabsContainer => {
-						if (typeof tabsContainer._tabsCleanup === 'function') {
-							tabsContainer._tabsCleanup();
-							delete tabsContainer._tabsCleanup;
-							tabsContainer.removeAttribute('data-tabs-initialized');
-						}
-					});
-					// Cleanup if the container itself is a tabs container
-					if (containerToRemove.matches('[data-tabs][data-tabs-initialized]')) {
-						if (typeof containerToRemove._tabsCleanup === 'function') {
-							containerToRemove._tabsCleanup();
-							delete containerToRemove._tabsCleanup;
-							containerToRemove.removeAttribute('data-tabs-initialized');
-						}
-					}
-				}
-			});
+			function initAllTabs(root = document) {
+				const tabsContainers = root.querySelectorAll('[data-tabs]:not([data-initialized])');
+				tabsContainers.forEach(initTabs);
+			}
+
+			document.addEventListener('DOMContentLoaded', () => initAllTabs());
+			document.body.addEventListener('htmx:afterSwap', evt => initAllTabs(evt.target));
 		</script>
 	}
 }
