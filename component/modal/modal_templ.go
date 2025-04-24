@@ -459,7 +459,7 @@ func Header(props ...HeaderProps) templ.Component {
 		if len(props) > 0 {
 			p = props[0]
 		}
-		var templ_7745c5c3_Var20 = []any{util.TwMerge("px-4 pt-5 pb-4 sm:p-6 sm:pb-4", p.Class)}
+		var templ_7745c5c3_Var20 = []any{util.TwMerge("px-4 pt-5 pb-4 sm:p-6 sm:pb-4 text-lg leading-6 font-medium text-foreground", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var20...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
