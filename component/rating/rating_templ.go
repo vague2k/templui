@@ -15,8 +15,6 @@ import (
 	"strconv"
 )
 
-// --- Types & Constants ---
-
 type Style string
 
 const (
@@ -29,11 +27,11 @@ type Props struct {
 	ID          string
 	Class       string
 	Attributes  templ.Attributes
-	Value       float64 // Initial value
+	Value       float64
 	ReadOnly    bool
-	Precision   float64 // Step for value changes (e.g., 0.5, 1)
-	Name        string  // For form submission
-	OnlyInteger bool    // If true, snaps to whole numbers on click
+	Precision   float64
+	Name        string
+	OnlyInteger bool
 }
 
 type GroupProps struct {
@@ -46,11 +44,10 @@ type ItemProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
-	Value      int   // The integer value this item represents (e.g., 1, 2, 3...)
-	Style      Style // Visual style
+	Value      int
+	Style      Style
 }
 
-// --- Components ---
 func Rating(props ...Props) templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -103,7 +100,7 @@ func Rating(props ...Props) templ.Component {
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 56, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 52, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -121,7 +118,7 @@ func Rating(props ...Props) templ.Component {
 		var templ_7745c5c3_Var4 string
 		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%.2f", p.Value))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 59, Col: 51}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 55, Col: 51}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
@@ -134,7 +131,7 @@ func Rating(props ...Props) templ.Component {
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%.2f", p.Precision))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 60, Col: 51}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 56, Col: 51}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
@@ -147,7 +144,7 @@ func Rating(props ...Props) templ.Component {
 		var templ_7745c5c3_Var6 string
 		templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.FormatBool(p.ReadOnly))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 61, Col: 48}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 57, Col: 48}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -165,7 +162,7 @@ func Rating(props ...Props) templ.Component {
 			var templ_7745c5c3_Var7 string
 			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(p.Name)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 63, Col: 21}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 59, Col: 21}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {
@@ -183,7 +180,7 @@ func Rating(props ...Props) templ.Component {
 		var templ_7745c5c3_Var8 string
 		templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.FormatBool(p.OnlyInteger))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 65, Col: 54}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 61, Col: 54}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 		if templ_7745c5c3_Err != nil {
@@ -226,7 +223,7 @@ func Rating(props ...Props) templ.Component {
 			var templ_7745c5c3_Var10 string
 			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(p.Name)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 80, Col: 17}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 74, Col: 17}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {
@@ -239,7 +236,7 @@ func Rating(props ...Props) templ.Component {
 			var templ_7745c5c3_Var11 string
 			templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("%.2f", p.Value))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 81, Col: 40}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 75, Col: 40}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 			if templ_7745c5c3_Err != nil {
@@ -300,7 +297,7 @@ func Group(props ...GroupProps) templ.Component {
 			var templ_7745c5c3_Var14 string
 			templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 95, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 89, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 			if templ_7745c5c3_Err != nil {
@@ -399,7 +396,7 @@ func Item(props ...ItemProps) templ.Component {
 			var templ_7745c5c3_Var18 string
 			templ_7745c5c3_Var18, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 112, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 106, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var18))
 			if templ_7745c5c3_Err != nil {
@@ -417,7 +414,7 @@ func Item(props ...ItemProps) templ.Component {
 		var templ_7745c5c3_Var19 string
 		templ_7745c5c3_Var19, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(p.Value))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 115, Col: 43}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 109, Col: 43}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var19))
 		if templ_7745c5c3_Err != nil {
@@ -468,8 +465,6 @@ func Item(props ...ItemProps) templ.Component {
 	})
 }
 
-// --- Helpers ---
-
 func colorClass(style Style) string {
 	switch style {
 	case StyleHeart:
@@ -482,7 +477,6 @@ func colorClass(style Style) string {
 }
 
 func ratingIcon(style Style, filled bool, value float64) templ.Component {
-	// Emoji logic remains the same
 	if style == StyleEmoji {
 		if filled {
 			switch {
@@ -500,7 +494,6 @@ func ratingIcon(style Style, filled bool, value float64) templ.Component {
 		}
 		return icon.Meh()
 	}
-	// Star/Heart logic remains the same
 	iconProps := icon.Props{}
 	if filled {
 		iconProps.Fill = "currentColor"
@@ -521,11 +514,9 @@ func (p *ItemProps) setDefaults() {
 
 func (p *Props) setDefaults() {
 	if p.Precision <= 0 {
-		p.Precision = 1.0 // Default to whole numbers
+		p.Precision = 1.0
 	}
 }
-
-// --- Script ---
 
 var handle = templ.NewOnceHandle()
 
@@ -562,20 +553,20 @@ func Script() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 34, "<script defer nonce=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 34, "<script nonce=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var23 string
 			templ_7745c5c3_Var23, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 205, Col: 43}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/rating/rating.templ`, Line: 191, Col: 37}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var23))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 35, "\">\n\t\t\tfunction initializeRating(ratingElement) {\n\t\t\t\tif (ratingElement.dataset.ratingInitialized === 'true') {\n\t\t\t\t\treturn; // Already initialized\n\t\t\t\t}\n\t\t\t\tratingElement.dataset.ratingInitialized = 'true';\n\n\t\t\t\tconst config = {\n\t\t\t\t\tvalue: parseFloat(ratingElement.dataset.initialValue) || 0,\n\t\t\t\t\tprecision: parseFloat(ratingElement.dataset.precision) || 1,\n\t\t\t\t\treadonly: ratingElement.dataset.readonly === 'true',\n\t\t\t\t\tname: ratingElement.dataset.name || '',\n\t\t\t\t\tonlyInteger: ratingElement.dataset.onlyinteger === 'true',\n\t\t\t\t\tmaxValue: 0, // Will be calculated\n\t\t\t\t};\n\n\t\t\t\tconst hiddenInput = ratingElement.querySelector('[data-rating-input]');\n\t\t\t\tlet items = Array.from(ratingElement.querySelectorAll('[data-rating-item]'));\n\n\t\t\t\tlet currentValue = config.value;\n\t\t\t\tlet previewValue = 0; // For hover effect\n\n\t\t\t\tfunction calculateMaxValue() {\n\t\t\t\t\tlet highestValue = 0;\n\t\t\t\t\titems.forEach(item => {\n\t\t\t\t\t\tconst value = parseInt(item.dataset.ratingValue, 10);\n\t\t\t\t\t\tif (!isNaN(value) && value > highestValue) {\n\t\t\t\t\t\t\thighestValue = value;\n\t\t\t\t\t\t}\n\t\t\t\t\t});\n\t\t\t\t\tconfig.maxValue = Math.max(1, highestValue); // Ensure at least 1\n\t\t\t\t\t// Initial value clamping after calculating max value\n\t\t\t\t\tcurrentValue = Math.max(0, Math.min(config.maxValue, currentValue));\n\t\t\t\t\tcurrentValue = Math.round(currentValue / config.precision) * config.precision;\n\t\t\t\t\tupdateHiddenInput();\n\t\t\t\t}\n\n\t\t\t\tfunction updateHiddenInput() {\n\t\t\t\t\tif (hiddenInput) {\n\t\t\t\t\t\thiddenInput.value = currentValue.toFixed(2); // Keep consistent format\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\tfunction updateItemStyles(displayValue) {\n\t\t\t\t\titems.forEach(item => {\n\t\t\t\t\t\tconst itemValue = parseInt(item.dataset.ratingValue, 10);\n\t\t\t\t\t\tif (isNaN(itemValue)) return;\n\n\t\t\t\t\t\tconst foreground = item.querySelector('[data-rating-item-foreground]');\n\t\t\t\t\t\tif (!foreground) return;\n\n\t\t\t\t\t\tconst valueToCompare = displayValue > 0 ? displayValue : currentValue;\n\n\t\t\t\t\t\tconst filled = itemValue <= Math.floor(valueToCompare);\n\t\t\t\t\t\tconst partial = !filled && (itemValue - 1 < valueToCompare && valueToCompare < itemValue);\n\t\t\t\t\t\tconst percentage = partial ? (valueToCompare - Math.floor(valueToCompare)) * 100 : 0;\n\n\t\t\t\t\t\tforeground.style.width = filled ? '100%' : (partial ? `${percentage}%` : '0%');\n\t\t\t\t\t});\n\t\t\t\t}\n\n\t\t\t\tfunction setValue(itemValue) {\n\t\t\t\t\tif (config.readonly) return;\n\n\t\t\t\t\tlet newValue = itemValue;\n\t\t\t\t\tif (config.onlyInteger) {\n\t\t\t\t\t\tnewValue = Math.round(newValue);\n\t\t\t\t\t} else {\n                        // Allow deselecting by clicking the same full star/item\n                        if (currentValue === newValue && newValue % 1 === 0) {\n                            newValue = Math.max(0, newValue - config.precision);\n                        } else {\n                            newValue = Math.round(newValue / config.precision) * config.precision;\n                        }\n\t\t\t\t\t}\n\n\t\t\t\t\tcurrentValue = Math.max(0, Math.min(config.maxValue, newValue));\n\t\t\t\t\tpreviewValue = 0; // Reset preview on click\n\t\t\t\t\tupdateHiddenInput();\n\t\t\t\t\tupdateItemStyles(0); // Update based on new currentValue\n\n\t\t\t\t\t// Dispatch custom events for potential external listeners\n\t\t\t\t\tratingElement.dispatchEvent(new CustomEvent('rating-change', {\n\t\t\t\t\t\tbubbles: true,\n\t\t\t\t\t\tdetail: {\n\t\t\t\t\t\t\tname: config.name,\n\t\t\t\t\t\t\tvalue: currentValue,\n\t\t\t\t\t\t\tmaxValue: config.maxValue\n\t\t\t\t\t\t}\n\t\t\t\t\t}));\n\n\t\t\t\t\t// Trigger input/change on hidden field for form libraries\n\t\t\t\t\tif (hiddenInput) {\n\t\t\t\t\t\thiddenInput.dispatchEvent(new Event('input', { bubbles: true }));\n\t\t\t\t\t\thiddenInput.dispatchEvent(new Event('change', { bubbles: true }));\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\tfunction handleMouseOver(event) {\n\t\t\t\t\tif (config.readonly) return;\n\t\t\t\t\tconst item = event.target.closest('[data-rating-item]');\n\t\t\t\t\tif (item) {\n\t\t\t\t\t\tpreviewValue = parseInt(item.dataset.ratingValue, 10);\n\t\t\t\t\t\tif (!isNaN(previewValue)) {\n\t\t\t\t\t\t\tupdateItemStyles(previewValue);\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\tfunction handleMouseLeave() {\n\t\t\t\t\tif (config.readonly) return;\n\t\t\t\t\tpreviewValue = 0;\n\t\t\t\t\tupdateItemStyles(0); // Revert to actual value display\n\t\t\t\t}\n\n\t\t\t\tfunction handleClick(event) {\n\t\t\t\t\tif (config.readonly) return;\n\t\t\t\t\tconst item = event.target.closest('[data-rating-item]');\n\t\t\t\t\tif (item) {\n\t\t\t\t\t\tconst itemValue = parseInt(item.dataset.ratingValue, 10);\n\t\t\t\t\t\tif (!isNaN(itemValue)) {\n\t\t\t\t\t\t\tsetValue(itemValue);\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\t// --- Initialization ---\n\t\t\t\tcalculateMaxValue(); // Calculate max value based on rendered items\n\t\t\t\tupdateItemStyles(0); // Set initial styles based on currentValue\n\n\t\t\t\t// Apply readonly styling/behavior\n\t\t\t\tif (config.readonly) {\n\t\t\t\t\tratingElement.style.cursor = 'default';\n\t\t\t\t\titems.forEach(item => item.style.cursor = 'default');\n\t\t\t\t} else {\n\t\t\t\t\t// Use event delegation on the main rating element\n\t\t\t\t\tratingElement.addEventListener('click', handleClick);\n\t\t\t\t\tratingElement.addEventListener('mouseover', handleMouseOver);\n\t\t\t\t\tratingElement.addEventListener('mouseleave', handleMouseLeave);\n\t\t\t\t}\n\n\t\t\t\t// Observe future DOM changes within this rating component\n\t\t\t\tconst observer = new MutationObserver(() => {\n                    const currentItemCount = ratingElement.querySelectorAll('[data-rating-item]').length;\n                    if (currentItemCount !== items.length) {\n                        items = Array.from(ratingElement.querySelectorAll('[data-rating-item]')); // Update item list\n                        calculateMaxValue();\n                        updateItemStyles(previewValue > 0 ? previewValue : 0); // Update styles respecting preview\n                    }\n                });\n\t\t\t\tobserver.observe(ratingElement, { childList: true, subtree: true });\n\n                // Optional: Store cleanup function reference on the element\n\t\t\t\tratingElement._ratingCleanup = () => {\n                    if (!config.readonly) {\n                        ratingElement.removeEventListener('click', handleClick);\n                        ratingElement.removeEventListener('mouseover', handleMouseOver);\n                        ratingElement.removeEventListener('mouseleave', handleMouseLeave);\n                    }\n                    observer.disconnect();\n                };\n\t\t\t}\n\n\t\t\t// --- Global Initialization Triggers ---\n\n\t\t\tfunction initializeAllRatings() {\n\t\t\t\tdocument.querySelectorAll('[data-rating-component]:not([data-rating-initialized])').forEach(initializeRating);\n\t\t\t}\n\n\t\t\t// 1. Initial page load\n\t\t\tif (document.readyState === 'loading') {\n\t\t\t\tdocument.addEventListener('DOMContentLoaded', initializeAllRatings);\n\t\t\t} else {\n\t\t\t\tinitializeAllRatings(); // Already loaded\n\t\t\t}\n\n\t\t\t// 2. After HTMX swaps - Initialize any new rating components loaded via HTMX\n\t\t\tdocument.body.addEventListener('htmx:afterSwap', function(event) {\n\t\t\t\tconst targetElement = event.target instanceof Element ? event.target : null;\n\t\t\t\tif (targetElement) {\n\t\t\t\t\t// Check if the swapped element itself is a rating component\n\t\t\t\t\tif (targetElement.matches('[data-rating-component]:not([data-rating-initialized])')) {\n\t\t\t\t\t\tinitializeRating(targetElement);\n\t\t\t\t\t}\n\t\t\t\t\t// Check for rating components within the swapped content\n\t\t\t\t\ttargetElement.querySelectorAll('[data-rating-component]:not([data-rating-initialized])').forEach(initializeRating);\n\t\t\t\t}\n\t\t\t});\n\n\t\t\t// Optional: Add htmx:beforeSwap listener to cleanup event listeners\n\t\t\tdocument.body.addEventListener('htmx:beforeCleanup', (event) => {\n                let containerToRemove = event.detail.target || event.detail.elt;\n                if (containerToRemove && containerToRemove.querySelectorAll) {\n                    containerToRemove.querySelectorAll('[data-rating-component][data-rating-initialized]').forEach(ratingEl => {\n                        if (typeof ratingEl._ratingCleanup === 'function') {\n                            ratingEl._ratingCleanup();\n                            delete ratingEl._ratingCleanup; // Remove reference\n                            ratingEl.removeAttribute('data-rating-initialized'); // Allow re-initialization if needed\n                        }\n                    });\n                    if (containerToRemove.matches('[data-rating-component][data-rating-initialized]')) {\n                         if (typeof containerToRemove._ratingCleanup === 'function') {\n                            containerToRemove._ratingCleanup();\n                            delete containerToRemove._ratingCleanup;\n                            containerToRemove.removeAttribute('data-rating-initialized');\n                        }\n                    }\n                }\n            });\n\n\t\t</script>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 35, "\">\n\t\t\tif (typeof window.ratingState === 'undefined') {\n\t\t\t\twindow.ratingState = new WeakMap();\n\t\t\t}\n\t\t\t\n\t\t\tfunction initRating(ratingElement) {\n\t\t\t\tif (!ratingElement) return;\n\t\t\t\t\n\t\t\t\tconst existingState = window.ratingState.get(ratingElement);\n\t\t\t\tif (existingState) {\n\t\t\t\t\tcleanupRating(ratingElement, existingState);\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\tratingElement.dataset.ratingInitialized = 'true';\n\t\t\t\t\n\t\t\t\tconst config = {\n\t\t\t\t\tvalue: parseFloat(ratingElement.dataset.initialValue) || 0,\n\t\t\t\t\tprecision: parseFloat(ratingElement.dataset.precision) || 1,\n\t\t\t\t\treadonly: ratingElement.dataset.readonly === 'true',\n\t\t\t\t\tname: ratingElement.dataset.name || '',\n\t\t\t\t\tonlyInteger: ratingElement.dataset.onlyinteger === 'true',\n\t\t\t\t\tmaxValue: 0\n\t\t\t\t};\n\n\t\t\t\tconst hiddenInput = ratingElement.querySelector('[data-rating-input]');\n\t\t\t\tlet items = Array.from(ratingElement.querySelectorAll('[data-rating-item]'));\n\n\t\t\t\tlet currentValue = config.value;\n\t\t\t\tlet previewValue = 0;\n\t\t\t\t\n\t\t\t\tconst handlers = {\n\t\t\t\t\tclick: handleClick,\n\t\t\t\t\tmouseover: handleMouseOver,\n\t\t\t\t\tmouseleave: handleMouseLeave\n\t\t\t\t};\n\t\t\t\t\n\t\t\t\tfunction calculateMaxValue() {\n\t\t\t\t\tlet highestValue = 0;\n\t\t\t\t\tfor (const item of items) {\n\t\t\t\t\t\tconst value = parseInt(item.dataset.ratingValue, 10);\n\t\t\t\t\t\tif (!isNaN(value) && value > highestValue) {\n\t\t\t\t\t\t\thighestValue = value;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t\tconfig.maxValue = Math.max(1, highestValue);\n\t\t\t\t\tcurrentValue = Math.max(0, Math.min(config.maxValue, currentValue));\n\t\t\t\t\tcurrentValue = Math.round(currentValue / config.precision) * config.precision;\n\t\t\t\t\tupdateHiddenInput();\n\t\t\t\t}\n\n\t\t\t\tfunction updateHiddenInput() {\n\t\t\t\t\tif (hiddenInput) {\n\t\t\t\t\t\thiddenInput.value = currentValue.toFixed(2);\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\tfunction updateItemStyles(displayValue) {\n\t\t\t\t\tfor (const item of items) {\n\t\t\t\t\t\tconst itemValue = parseInt(item.dataset.ratingValue, 10);\n\t\t\t\t\t\tif (isNaN(itemValue)) continue;\n\t\t\t\t\t\t\n\t\t\t\t\t\tconst foreground = item.querySelector('[data-rating-item-foreground]');\n\t\t\t\t\t\tif (!foreground) continue;\n\t\t\t\t\t\t\n\t\t\t\t\t\tconst valueToCompare = displayValue > 0 ? displayValue : currentValue;\n\t\t\t\t\t\t\n\t\t\t\t\t\tconst filled = itemValue <= Math.floor(valueToCompare);\n\t\t\t\t\t\tconst partial = !filled && (itemValue - 1 < valueToCompare && valueToCompare < itemValue);\n\t\t\t\t\t\tconst percentage = partial ? (valueToCompare - Math.floor(valueToCompare)) * 100 : 0;\n\t\t\t\t\t\t\n\t\t\t\t\t\tforeground.style.width = filled ? '100%' : (partial ? `${percentage}%` : '0%');\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\tfunction setValue(itemValue) {\n\t\t\t\t\tif (config.readonly) return;\n\t\t\t\t\t\n\t\t\t\t\tlet newValue = itemValue;\n\t\t\t\t\tif (config.onlyInteger) {\n\t\t\t\t\t\tnewValue = Math.round(newValue);\n\t\t\t\t\t} else {\n\t\t\t\t\t\tif (currentValue === newValue && newValue % 1 === 0) {\n\t\t\t\t\t\t\tnewValue = Math.max(0, newValue - config.precision);\n\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\tnewValue = Math.round(newValue / config.precision) * config.precision;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t\t\n\t\t\t\t\tcurrentValue = Math.max(0, Math.min(config.maxValue, newValue));\n\t\t\t\t\tpreviewValue = 0;\n\t\t\t\t\tupdateHiddenInput();\n\t\t\t\t\tupdateItemStyles(0);\n\t\t\t\t\t\n\t\t\t\t\tratingElement.dispatchEvent(new CustomEvent('rating-change', {\n\t\t\t\t\t\tbubbles: true,\n\t\t\t\t\t\tdetail: { \n\t\t\t\t\t\t\tname: config.name, \n\t\t\t\t\t\t\tvalue: currentValue, \n\t\t\t\t\t\t\tmaxValue: config.maxValue \n\t\t\t\t\t\t}\n\t\t\t\t\t}));\n\t\t\t\t\t\n\t\t\t\t\tif (hiddenInput) {\n\t\t\t\t\t\thiddenInput.dispatchEvent(new Event('input', { bubbles: true }));\n\t\t\t\t\t\thiddenInput.dispatchEvent(new Event('change', { bubbles: true }));\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\tfunction handleMouseOver(event) {\n\t\t\t\t\tif (config.readonly) return;\n\t\t\t\t\tconst item = event.target.closest('[data-rating-item]');\n\t\t\t\t\tif (!item) return;\n\t\t\t\t\t\n\t\t\t\t\tpreviewValue = parseInt(item.dataset.ratingValue, 10);\n\t\t\t\t\tif (!isNaN(previewValue)) {\n\t\t\t\t\t\tupdateItemStyles(previewValue);\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\tfunction handleMouseLeave() {\n\t\t\t\t\tif (config.readonly) return;\n\t\t\t\t\tpreviewValue = 0;\n\t\t\t\t\tupdateItemStyles(0);\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\tfunction handleClick(event) {\n\t\t\t\t\tif (config.readonly) return;\n\t\t\t\t\tconst item = event.target.closest('[data-rating-item]');\n\t\t\t\t\tif (!item) return;\n\t\t\t\t\t\n\t\t\t\t\tconst itemValue = parseInt(item.dataset.ratingValue, 10);\n\t\t\t\t\tif (!isNaN(itemValue)) {\n\t\t\t\t\t\tsetValue(itemValue);\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\tcalculateMaxValue();\n\t\t\t\tupdateItemStyles(0);\n\t\t\t\t\n\t\t\t\tif (config.readonly) {\n\t\t\t\t\tratingElement.style.cursor = 'default';\n\t\t\t\t\tfor (const item of items) {\n\t\t\t\t\t\titem.style.cursor = 'default';\n\t\t\t\t\t}\n\t\t\t\t} else {\n\t\t\t\t\tratingElement.addEventListener('click', handlers.click);\n\t\t\t\t\tratingElement.addEventListener('mouseover', handlers.mouseover);\n\t\t\t\t\tratingElement.addEventListener('mouseleave', handlers.mouseleave);\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\tconst observer = new MutationObserver(() => {\n\t\t\t\t\ttry {\n\t\t\t\t\t\tconst currentItemCount = ratingElement.querySelectorAll('[data-rating-item]').length;\n\t\t\t\t\t\tif (currentItemCount !== items.length) {\n\t\t\t\t\t\t\titems = Array.from(ratingElement.querySelectorAll('[data-rating-item]'));\n\t\t\t\t\t\t\tcalculateMaxValue();\n\t\t\t\t\t\t\tupdateItemStyles(previewValue > 0 ? previewValue : 0);\n\t\t\t\t\t\t}\n\t\t\t\t\t} catch (err) {\n\t\t\t\t\t\tconsole.error('Error in rating MutationObserver:', err);\n\t\t\t\t\t}\n\t\t\t\t});\n\t\t\t\t\n\t\t\t\tobserver.observe(ratingElement, { childList: true, subtree: true });\n\t\t\t\t\n\t\t\t\tconst state = {\n\t\t\t\t\thandlers,\n\t\t\t\t\tobserver,\n\t\t\t\t\titems\n\t\t\t\t};\n\t\t\t\t\n\t\t\t\twindow.ratingState.set(ratingElement, state);\n\t\t\t}\n\t\t\t\n\t\t\tfunction cleanupRating(ratingElement, state) {\n\t\t\t\tif (!ratingElement || !state) return;\n\t\t\t\t\n\t\t\t\tif (!ratingElement.dataset.readonly === 'true') {\n\t\t\t\t\tratingElement.removeEventListener('click', state.handlers.click);\n\t\t\t\t\tratingElement.removeEventListener('mouseover', state.handlers.mouseover);\n\t\t\t\t\tratingElement.removeEventListener('mouseleave', state.handlers.mouseleave);\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\tif (state.observer) {\n\t\t\t\t\tstate.observer.disconnect();\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\twindow.ratingState.delete(ratingElement);\n\t\t\t\tratingElement.removeAttribute('data-rating-initialized');\n\t\t\t}\n\n\t\t\tfunction initAllComponents() {\n\t\t\t\tdocument.querySelectorAll('[data-rating-component]:not([data-rating-initialized])').forEach(initRating);\n\t\t\t}\n\n\t\t\tdocument.addEventListener('DOMContentLoaded', initAllComponents);\n\t\t\t\n\t\t\tif (document.readyState === 'complete' || document.readyState === 'interactive') {\n\t\t\t\tinitAllComponents();\n\t\t\t}\n\n\t\t\tdocument.body.addEventListener('htmx:afterSwap', event => {\n\t\t\t\tsetTimeout(() => {\n\t\t\t\t\tconst target = event.target;\n\t\t\t\t\tif (!target) return;\n\t\t\t\t\t\n\t\t\t\t\tif (target.tagName === 'DIV' && target.closest('form[hx-post=\"/swap\"]')) {\n\t\t\t\t\t\tconst ratings = target.querySelectorAll('[data-rating-component]:not([data-rating-initialized])');\n\t\t\t\t\t\tif (ratings.length > 0) {\n\t\t\t\t\t\t\tratings.forEach(initRating);\n\t\t\t\t\t\t}\n\t\t\t\t\t} else {\n\t\t\t\t\t\tif (target.matches && target.matches('[data-rating-component]:not([data-rating-initialized])')) {\n\t\t\t\t\t\t\tinitRating(target);\n\t\t\t\t\t\t}\n\t\t\t\t\t\ttarget.querySelectorAll('[data-rating-component]:not([data-rating-initialized])').forEach(initRating);\n\t\t\t\t\t}\n\t\t\t\t}, 10);\n\t\t\t});\n\n\t\t\tdocument.body.addEventListener('htmx:beforeCleanup', event => {\n\t\t\t\tconst containerToRemove = event.detail.target || event.detail.elt;\n\t\t\t\tif (!containerToRemove || !containerToRemove.querySelectorAll) return;\n\t\t\t\t\n\t\t\t\tfor (const ratingEl of containerToRemove.querySelectorAll('[data-rating-component][data-rating-initialized]')) {\n\t\t\t\t\tconst state = window.ratingState.get(ratingEl);\n\t\t\t\t\tif (state) {\n\t\t\t\t\t\tcleanupRating(ratingEl, state);\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\tif (containerToRemove.matches && containerToRemove.matches('[data-rating-component][data-rating-initialized]')) {\n\t\t\t\t\tconst state = window.ratingState.get(containerToRemove);\n\t\t\t\t\tif (state) {\n\t\t\t\t\t\tcleanupRating(containerToRemove, state);\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t});\n\t\t</script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
