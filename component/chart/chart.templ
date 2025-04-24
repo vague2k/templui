@@ -109,278 +109,218 @@ templ Chart(props ...Props) {
 }
 
 templ Script() {
-	<!-- Load Chart.js library -->
 	<script defer nonce={ templ.GetNonce(ctx) } src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
-	<!-- Chart Initialization and HTMX Handling Script -->
 	<script nonce={ templ.GetNonce(ctx) }>
-			// Ensure chartInstances exists globally and is initialized only once
-			window.chartInstances = window.chartInstances || {};
+		window.chartInstances = window.chartInstances || {};
+		
+		if (!window.chartScriptInitialized) {
+			function getThemeColors() {
+				const style = getComputedStyle(document.documentElement);
+				return {
+					foreground: style.getPropertyValue('--foreground').trim() || '#000',
+					background: style.getPropertyValue('--background').trim() || '#fff',
+					mutedForeground: style.getPropertyValue('--muted-foreground').trim() || '#666',
+					border: style.getPropertyValue('--border').trim() || '#ccc'
+				};
+			}
 
-			// Prevent re-initialization of listeners and functions if script runs again
-			if (!window.chartScriptInitialized) {
-				function getThemeColors() {
-					const computedStyle = getComputedStyle(document.documentElement);
-					return {
-						foreground: computedStyle.getPropertyValue('--foreground').trim() || '#000',
-						background: computedStyle.getPropertyValue('--background').trim() || '#fff',
-						mutedForeground: computedStyle.getPropertyValue('--muted-foreground').trim() || '#666',
-						border: computedStyle.getPropertyValue('--border').trim() || '#ccc'
-					};
+			function initChart(canvas) {
+				if (!canvas || !canvas.id || !canvas.hasAttribute('data-chart-id')) return;
+				
+				if (window.chartInstances[canvas.id]) {
+					cleanupChart(canvas);
 				}
 
-				function initializeChart(canvas) {
-					if (!canvas || !canvas.id || !canvas.hasAttribute('data-chart-id')) {
-						return;
-					}
+				const dataId = canvas.getAttribute('data-chart-id');
+				const dataElement = document.getElementById(dataId);
+				if (!dataElement) return;
 
-					if (window.chartInstances[canvas.id]) {
+				try {
+					const chartConfig = JSON.parse(dataElement.textContent);
+					const colors = getThemeColors();
+					
+					Chart.defaults.elements.point.radius = 0;
+					Chart.defaults.elements.point.hoverRadius = 5;
+
+					const isComplexChart = ["pie", "doughnut", "bar", "radar"].includes(chartConfig.type);
+
+					const legendOptions = {
+						display: chartConfig.showLegend || false,
+						labels: { color: colors.foreground }
+					};
+
+					const tooltipOptions = {
+						backgroundColor: colors.background,
+						bodyColor: colors.mutedForeground,
+						titleColor: colors.foreground,
+						borderColor: colors.border,
+						borderWidth: 1
+					};
+
+					const scalesOptions = chartConfig.type === "radar"
+						? {
+							r: {
+								grid: { 
+									color: colors.border, 
+									display: chartConfig.showYGrid !== false 
+								},
+								ticks: {
+									color: colors.mutedForeground,
+									backdropColor: "transparent",
+									display: chartConfig.showYLabels !== false
+								},
+								angleLines: { 
+									color: colors.border, 
+									display: chartConfig.showXGrid !== false 
+								},
+								pointLabels: { 
+									color: colors.foreground, 
+									font: { size: 12 } 
+								},
+								border: { 
+									display: chartConfig.showYAxis !== false, 
+									color: colors.border 
+								},
+								beginAtZero: true
+							}
+						}
+						: {
+							x: {
+								beginAtZero: true,
+								display: chartConfig.showXLabels !== false || 
+										chartConfig.showXGrid !== false || 
+										chartConfig.showXAxis !== false,
+								border: { 
+									display: chartConfig.showXAxis !== false, 
+									color: colors.border 
+								},
+								ticks: { 
+									display: chartConfig.showXLabels !== false, 
+									color: colors.mutedForeground 
+								},
+								grid: { 
+									display: chartConfig.showXGrid !== false, 
+									color: colors.border 
+								},
+								stacked: chartConfig.stacked || false
+							},
+							y: {
+								offset: true,
+								beginAtZero: true,
+								display: chartConfig.showYLabels !== false || 
+										chartConfig.showYGrid !== false || 
+										chartConfig.showYAxis !== false,
+								border: { 
+									display: chartConfig.showYAxis !== false, 
+									color: colors.border 
+								},
+								ticks: { 
+									display: chartConfig.showYLabels !== false, 
+									color: colors.mutedForeground 
+								},
+								grid: { 
+									display: chartConfig.showYGrid !== false, 
+									color: colors.border 
+								},
+								stacked: chartConfig.stacked || false
+							}
+						};
+
+					const finalChartConfig = {
+						...chartConfig,
+						options: {
+							responsive: true,
+							maintainAspectRatio: false,
+							interaction: {
+								intersect: false,
+								axis: "xy",
+								mode: isComplexChart ? "nearest" : "index"
+							},
+							indexAxis: chartConfig.horizontal ? "y" : "x",
+							plugins: {
+								legend: legendOptions,
+								tooltip: tooltipOptions
+							},
+							scales: scalesOptions
+						}
+					};
+
+					window.chartInstances[canvas.id] = new Chart(canvas, finalChartConfig);
+				} catch (e) {}
+			}
+
+			function cleanupChart(canvas) {
+				if (!canvas || !canvas.id || !window.chartInstances[canvas.id]) return;
+				try {
+					window.chartInstances[canvas.id].destroy();
+				} finally {
+					delete window.chartInstances[canvas.id];
+				}
+			}
+
+			function initAllComponents(root = document) {
+				if (typeof Chart === "undefined") return;
+				
+				for (const canvas of root.querySelectorAll("canvas[data-chart-id]")) {
+					initChart(canvas);
+				}
+			}
+			
+			function waitForChartAndInit() {
+				if (typeof Chart !== "undefined") {
+					initAllComponents();
+				} else {
+					setTimeout(waitForChartAndInit, 100);
+				}
+			}
+
+			document.addEventListener("DOMContentLoaded", waitForChartAndInit);
+			
+			document.body.addEventListener("htmx:beforeSwap", (event) => {
+				const el = event.detail.elt;
+				if (el instanceof Element) {
+					for (const canvas of el.querySelectorAll("canvas[data-chart-id]")) {
 						cleanupChart(canvas);
 					}
-
-					const dataId = canvas.getAttribute('data-chart-id');
-					const dataElement = document.getElementById(dataId);
-					if (!dataElement) {
-						console.error("Chart init error: Could not find data element for canvas:", canvas.id);
-						return;
-					}
-
-					const colors = getThemeColors();
-
-					try {
-						const chartConfig = JSON.parse(dataElement.textContent);
-						Chart.defaults.elements.point.radius = 0;
-						Chart.defaults.elements.point.hoverRadius = 5;
-
-						const isComplexChart = [
-							"pie",
-							"doughnut",
-							"bar",
-							"radar",
-						].includes(chartConfig.type);
-
-						const legendOptions = {
-							display: chartConfig.showLegend || false,
-							labels: { color: colors.foreground },
-						};
-
-						const tooltipOptions = {
-							backgroundColor: colors.background,
-							bodyColor: colors.mutedForeground,
-							titleColor: colors.foreground,
-							borderColor: colors.border,
-							borderWidth: 1,
-						};
-
-						const scalesOptions = chartConfig.type === "radar"
-							? {
-								r: {
-									grid: { 
-										color: colors.border, 
-										display: chartConfig.showYGrid !== false 
-									},
-									ticks: {
-										color: colors.mutedForeground,
-										backdropColor: "transparent",
-										display: chartConfig.showYLabels !== false,
-									},
-									angleLines: { 
-										color: colors.border, 
-										display: chartConfig.showXGrid !== false 
-									},
-									pointLabels: { 
-										color: colors.foreground, 
-										font: { size: 12 } 
-									},
-									border: { 
-										display: chartConfig.showYAxis !== false, 
-										color: colors.border 
-									},
-									beginAtZero: true,
-								},
-							  }
-							: {
-								x: {
-									beginAtZero: true,
-									display: chartConfig.showXLabels !== false || 
-											 chartConfig.showXGrid !== false || 
-											 chartConfig.showXAxis !== false,
-									border: { 
-										display: chartConfig.showXAxis !== false, 
-										color: colors.border 
-									},
-									ticks: { 
-										display: chartConfig.showXLabels !== false, 
-										color: colors.mutedForeground 
-									},
-									grid: { 
-										display: chartConfig.showXGrid !== false, 
-										color: colors.border 
-									},
-									stacked: chartConfig.stacked || false,
-								},
-								y: {
-									offset: true,
-									beginAtZero: true,
-									display: chartConfig.showYLabels !== false || 
-											 chartConfig.showYGrid !== false || 
-											 chartConfig.showYAxis !== false,
-									border: { 
-										display: chartConfig.showYAxis !== false, 
-										color: colors.border 
-									},
-									ticks: { 
-										display: chartConfig.showYLabels !== false, 
-										color: colors.mutedForeground 
-									},
-									grid: { 
-										display: chartConfig.showYGrid !== false, 
-										color: colors.border 
-									},
-									stacked: chartConfig.stacked || false,
-								},
-							  };
-
-						const finalChartConfig = {
-							...chartConfig,
-							options: {
-								responsive: true,
-								maintainAspectRatio: false,
-								interaction: {
-									intersect: false,
-									axis: "xy",
-									mode: isComplexChart ? "nearest" : "index",
-								},
-								indexAxis: chartConfig.horizontal ? "y" : "x",
-								plugins: {
-									legend: legendOptions,
-									tooltip: tooltipOptions,
-								},
-								scales: scalesOptions,
-							},
-						};
-
-						const chart = new Chart(canvas, finalChartConfig);
-						window.chartInstances[canvas.id] = chart;
-					} catch (e) {
-						console.error(
-							`Error initializing chart ${canvas.id}:`,
-							e,
-							dataElement ? dataElement.textContent : "No data element found"
-						);
+					if (el.matches("canvas[data-chart-id]")) {
+						cleanupChart(el);
 					}
 				}
+			});
 
-				function cleanupChart(canvas) {
-					if (!canvas || !canvas.id || !window.chartInstances[canvas.id]) return;
-					try {
-						window.chartInstances[canvas.id].destroy();
-					} catch (e) {
-						// Errors during cleanup are often minor, maybe log as warning if needed
-					} finally {
-						delete window.chartInstances[canvas.id];
-					}
-				}
-
-				function initializeExistingCharts() {
-					document
-						.querySelectorAll("canvas[data-chart-id]")
-						.forEach((canvas) => {
-							if (!window.chartInstances[canvas.id]) {
-								initializeChart(canvas);
-							}
-						});
-				}
-
-				function updateAllCharts() {
-					document
-						.querySelectorAll("canvas[data-chart-id]")
-						.forEach((canvas) => {
-							if (window.chartInstances[canvas.id]) {
-								cleanupChart(canvas);
-								initializeChart(canvas);
-							} else {
-								// If a chart exists in DOM but not in instances, initialize it
-								initializeChart(canvas);
-							}
-						});
-				}
-
-				// --- Listener Registrations ---
-
-				// 1. Initial Load Check (using DOMContentLoaded)
-				document.addEventListener("DOMContentLoaded", () => {
-					function tryInitOnLoad() {
+			document.body.addEventListener("htmx:afterSwap", (e) => {
+				const target = e.detail.target;
+				if (target instanceof Element) {
+					function tryInit(attempt = 1) {
 						if (typeof Chart !== "undefined") {
-							initializeExistingCharts();
-						} else {
-							setTimeout(tryInitOnLoad, 100);
-						}
-					}
-					tryInitOnLoad();
-				});
-
-				// 2. HTMX Integration (Attached directly to body)
-				document.body.addEventListener("htmx:beforeSwap", (event) => {
-					const removingElement = event.detail.elt;
-					if (removingElement instanceof Element) {
-						const canvasesToRemove = removingElement.querySelectorAll(
-							"canvas[data-chart-id]"
-						);
-						canvasesToRemove.forEach(cleanupChart);
-						if (removingElement.matches("canvas[data-chart-id]")) {
-							cleanupChart(removingElement);
-						}
-					}
-				});
-
-				document.body.addEventListener("htmx:afterSwap", (event) => {
-					const newContentTarget = event.detail.target;
-
-					function findAndInitializeCanvases(targetElement) {
-						if (!(targetElement instanceof Element)) {
-							return;
-						}
-						const canvasesToAdd = targetElement.querySelectorAll(
-							"canvas[data-chart-id]"
-						);
-						canvasesToAdd.forEach(initializeChart);
-						if (targetElement.matches("canvas[data-chart-id]")) {
-							initializeChart(targetElement);
-						}
-					}
-
-					function tryInitializeNewCharts(targetElement, attempt = 1) {
-						if (typeof Chart !== "undefined") {
-							findAndInitializeCanvases(targetElement);
+							initAllComponents(target);
 						} else if (attempt < 10) {
-							setTimeout(
-								() => tryInitializeNewCharts(targetElement, attempt + 1),
-								100
-							);
-						} else {
-							console.error(
-								"[Chart Log] Chart.js did not load after multiple retries during htmx:afterSwap. Cannot initialize new charts."
-							);
+							setTimeout(() => tryInit(attempt + 1), 100);
 						}
 					}
+					tryInit();
+				}
+			});
 
-					// Start the process
-					tryInitializeNewCharts(newContentTarget);
-				});
+			const observer = new MutationObserver(() => {
+				let timeout;
+				clearTimeout(timeout);
+				timeout = setTimeout(() => {
+					for (const canvas of document.querySelectorAll("canvas[data-chart-id]")) {
+						if (window.chartInstances[canvas.id]) {
+							cleanupChart(canvas);
+							initChart(canvas);
+						}
+					}
+				}, 50);
+			});
+			
+			observer.observe(document.documentElement, {
+				attributes: true,
+				attributeFilter: ["class", "style"]
+			});
 
-				// 3. Observer for theme changes
-				let themeUpdateTimeout;
-				const observer = new MutationObserver(() => {
-					clearTimeout(themeUpdateTimeout);
-					themeUpdateTimeout = setTimeout(updateAllCharts, 50);
-				});
-				observer.observe(document.documentElement, {
-					attributes: true,
-					attributeFilter: ["class", "style"],
-				});
-
-				// Set the flag to indicate successful initialization
-				window.chartScriptInitialized = true;
-			}
-		</script>
+			window.chartScriptInitialized = true;
+		}
+	</script>
 }
