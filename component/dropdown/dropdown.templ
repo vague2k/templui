@@ -335,235 +335,255 @@ var dropdownHandle = templ.NewOnceHandle()
 templ Script() {
 	@dropdownHandle.Once() {
 		<script nonce={ templ.GetNonce(ctx) }>
-			// Use window scope and check for existence to prevent duplicate declarations
-			if (typeof window.activeDropdowns === 'undefined') {
-				window.activeDropdowns = new Map(); // Track state: dropdownRoot -> { isOpen: bool, closeMenu: func, closeSubmenus: func, resizeListener: func|null, clickAwayListener: func|null, escListener: func|null }
+			// Statemanagement - safely check if already defined
+			if (typeof window.dropdownState === 'undefined') {
+				window.dropdownState = new Map();
 			}
-			if (typeof window.activeSubmenus === 'undefined') {
-				window.activeSubmenus = new Map(); // Track state: submenuRoot -> { isOpen: bool, closeTimer: number|null, trigger: element, content: element }
+			if (typeof window.submenuState === 'undefined') {
+				window.submenuState = new Map();
 			}
-
-			// --- Core Logic Functions ---
-
-			// Renamed: Only used for fixed-position submenus now
-			function positionSubmenuElement(trigger, panel, placement = 'right') { 
-				// This logic remains largely the same, using position: fixed
-				if (!trigger || !panel) return;
-				panel.style.display = 'block'; 
+			
+			function positionSubmenu(trigger, content) {
+				if (!trigger || !content) return;
+				
+				content.style.display = 'block';
 				const triggerRect = trigger.getBoundingClientRect();
-				const panelRect = panel.getBoundingClientRect();
 				const vw = window.innerWidth;
 				const vh = window.innerHeight;
-				let top = triggerRect.top; // Default align top for right placement
+				
+				// Default position (right side)
+				let top = triggerRect.top;
 				let left = triggerRect.right + 4;
-				if (placement === 'right') {
-					if (left + panelRect.width > vw) { left = triggerRect.left - panelRect.width - 4; }
-					if (top + panelRect.height > vh) { // Adjust top if overflows bottom
-						top = vh - panelRect.height - 10;
-					}
-				} else {
-					// Maybe add logic for other submenu placements if needed
-					// For now, assume 'right'
+				
+				// Check if overflows right edge
+				if (left + content.offsetWidth > vw) {
+					left = triggerRect.left - content.offsetWidth - 4;
 				}
+				
+				// Check if overflows bottom
+				if (top + content.offsetHeight > vh) {
+					top = vh - content.offsetHeight - 10;
+				}
+				
+				// Ensure minimum spacing from edges
 				top = Math.max(10, top);
 				left = Math.max(10, left);
-				panel.style.position = 'fixed'; 
-				panel.style.top = `${top}px`;
-				panel.style.left = `${left}px`;
+				
+				// Position submenu
+				content.style.position = 'fixed';
+				content.style.top = `${top}px`;
+				content.style.left = `${left}px`;
 			}
-
+			
 			function closeAllDropdowns() {
-				window.activeDropdowns.forEach(state => state.closeMenu());
+				for (const [dropdown, state] of window.dropdownState.entries()) {
+					if (state.isOpen) {
+						state.close();
+					}
+				}
 			}
-
-			// --- Setup Functions ---
-
-			function setupDropdown(dropdownRoot) {
-				if (window.activeDropdowns.has(dropdownRoot)) return;
-
-				const trigger = dropdownRoot.querySelector('[data-dropdown-trigger]');
-				const content = dropdownRoot.querySelector('[data-dropdown-content]');
+			
+			function initDropdown(dropdown) {
+				// Skip if already initialized
+				if (window.dropdownState.has(dropdown)) return;
+				
+				const trigger = dropdown.querySelector('[data-dropdown-trigger]');
+				const content = dropdown.querySelector('[data-dropdown-content]');
 				if (!trigger || !content) return;
-
-				const state = {
-					isOpen: false,
-					// Removed resizeListener
-					clickAwayListener: null,
-					escListener: null,
+				
+				// Create state object with needed references and flags
+				const state = { 
+					isOpen: false, 
+					clickAwayHandler: null,
+					escHandler: null
 				};
-
-				const closeSubmenus = () => {
-					dropdownRoot.querySelectorAll('[data-dropdown-submenu]').forEach(submenuEl => {
-						const subState = window.activeSubmenus.get(submenuEl);
-						if (subState && subState.isOpen) {
+				
+				function closeSubmenus() {
+					dropdown.querySelectorAll('[data-dropdown-submenu]').forEach(submenu => {
+						const subState = window.submenuState.get(submenu);
+						if (subState?.isOpen) {
 							clearTimeout(subState.closeTimer);
 							subState.content.style.display = 'none';
 							subState.isOpen = false;
 						}
 					});
-				};
-				state.closeSubmenus = closeSubmenus;
-
-				const closeMenu = () => {
+				}
+				
+				function close() {
 					if (!state.isOpen) return;
-					state.isOpen = false;
+					
 					content.style.display = 'none';
 					closeSubmenus();
-					// Remove resizeListener handling
-					if (state.clickAwayListener) document.removeEventListener('click', state.clickAwayListener);
-					if (state.escListener) document.removeEventListener('keydown', state.escListener);
-					// state.resizeListener = null; // Removed
-					state.clickAwayListener = null;
-					state.escListener = null;
-					window.activeDropdowns.delete(dropdownRoot);
-				};
-				state.closeMenu = closeMenu;
-
-				const openMenu = () => {
+					
+					// Remove event listeners
+					if (state.clickAwayHandler) {
+						document.removeEventListener('click', state.clickAwayHandler);
+					}
+					if (state.escHandler) {
+						document.removeEventListener('keydown', state.escHandler);
+					}
+					
+					// Reset state
+					state.clickAwayHandler = null;
+					state.escHandler = null;
+					state.isOpen = false;
+				}
+				
+				function handleClickAway(e) {
+					if (!dropdown.contains(e.target)) {
+						close();
+					}
+				}
+				
+				function handleEsc(e) {
+					if (e.key === 'Escape') {
+						close();
+					}
+				}
+				
+				function open() {
 					if (state.isOpen) return;
-					closeAllDropdowns(); 
-					state.isOpen = true;
+					
+					closeAllDropdowns();
 					content.style.display = 'block';
-					// No JS positioning call for main content anymore
-
-					// Removed resizeListener setup
-					state.clickAwayListener = (event) => {
-						if (!dropdownRoot.contains(event.target)) {
-							closeMenu();
-						}
-					};
-					state.escListener = (event) => {
-						if (event.key === 'Escape') {
-							closeMenu();
-						}
-					};
-
-					// window.addEventListener('resize', state.resizeListener); // Removed
-					setTimeout(() => document.addEventListener('click', state.clickAwayListener), 0);
-					document.addEventListener('keydown', state.escListener);
-					window.activeDropdowns.set(dropdownRoot, state);
-				};
-
-				trigger.addEventListener('click', (event) => {
-					event.stopPropagation(); // Prevent triggering clickAwayListener immediately
+					state.isOpen = true;
+					
+					// Set up and store event handlers
+					state.clickAwayHandler = handleClickAway;
+					state.escHandler = handleEsc;
+					
+					// Add event listeners
+					setTimeout(() => {
+						document.addEventListener('click', state.clickAwayHandler);
+					}, 0);
+					document.addEventListener('keydown', state.escHandler);
+				}
+				
+				// Toggle dropdown on trigger click
+				trigger.addEventListener('click', e => {
+					e.stopPropagation();
 					if (state.isOpen) {
-						closeMenu();
+						close();
 					} else {
-						openMenu();
+						open();
 					}
 				});
-
-				// Setup submenus within this dropdown
-				dropdownRoot.querySelectorAll('[data-dropdown-submenu]').forEach(setupSubmenu);
+				
+				// Close dropdown when an item is clicked
+				for (const item of dropdown.querySelectorAll('[data-dropdown-item]')) {
+					item.addEventListener('click', close);
+				}
+				
+				// Initialize submenus
+				for (const submenu of dropdown.querySelectorAll('[data-dropdown-submenu]')) {
+					initSubmenu(submenu);
+				}
+				
+				// Store functions in state for access from outside
+				state.close = close;
+				
+				// Store dropdown state
+				window.dropdownState.set(dropdown, state);
 			}
-
-			function setupSubmenu(submenuRoot) {
-				if (window.activeSubmenus.has(submenuRoot)) return;
-
-				const trigger = submenuRoot.querySelector('[data-dropdown-submenu-trigger]');
-				const content = submenuRoot.querySelector('[data-dropdown-submenu-content]');
+			
+			function initSubmenu(submenu) {
+				// Skip if already initialized
+				if (window.submenuState.has(submenu)) return;
+				
+				const trigger = submenu.querySelector('[data-dropdown-submenu-trigger]');
+				const content = submenu.querySelector('[data-dropdown-submenu-content]');
 				if (!trigger || !content) return;
-
+				
 				const state = {
 					isOpen: false,
 					closeTimer: null,
-					trigger: trigger,
-					content: content,
+					trigger,
+					content
 				};
-
-				const openSubmenu = () => {
+				
+				function openSubmenu() {
 					clearTimeout(state.closeTimer);
 					if (state.isOpen) return;
+					
 					state.isOpen = true;
 					document.body.appendChild(content);
 					content.style.display = 'block';
-					positionSubmenuElement(trigger, content, 'right');
-				};
-
-				const startCloseTimer = () => {
+					positionSubmenu(trigger, content);
+				}
+				
+				function startCloseTimer() {
 					clearTimeout(state.closeTimer);
 					state.closeTimer = setTimeout(() => {
 						if (state.isOpen) {
 							content.style.display = 'none';
 							state.isOpen = false;
-							// Consider moving content back if needed, or leave it on body?
 						}
-					}, 200); // Delay before closing
-				};
-
+					}, 200);
+				}
+				
+				// Add event listeners
 				trigger.addEventListener('mouseenter', openSubmenu);
 				trigger.addEventListener('focus', openSubmenu);
 				trigger.addEventListener('mouseleave', startCloseTimer);
 				trigger.addEventListener('blur', startCloseTimer);
-
+				
 				content.addEventListener('mouseenter', () => clearTimeout(state.closeTimer));
 				content.addEventListener('mouseleave', startCloseTimer);
 				
-				window.activeSubmenus.set(submenuRoot, state);
-			}
-
-			// --- Global Click Handler for Items ---
-			document.addEventListener('click', (event) => {
-				const item = event.target.closest('[data-dropdown-item]');
-				if (!item) return;
-
-				const dropdownRoot = item.closest('[data-dropdown]');
-				if (dropdownRoot) {
-					const state = window.activeDropdowns.get(dropdownRoot);
-					if (state && state.closeMenu) {
-						state.closeMenu(); // Close the parent dropdown
-					}
-				}
-				// No stopPropagation needed here, clickAway listener handles it
-			});
-
-			// --- HTMX Integration ---
-			document.body.addEventListener('htmx:afterSwap', (event) => {
-				const target = event.detail.target || event.target;
-				if (target?.querySelectorAll) {
-					if (target.matches('[data-dropdown]')) setupDropdown(target);
-					target.querySelectorAll('[data-dropdown]').forEach(setupDropdown);
-				}
-			});
-
-			document.body.addEventListener('htmx:beforeSwap', (event) => {
-				const target = event.detail.target || event.detail.elt;
-				if (target?.querySelectorAll) {
-					const cleanup = (el) => {
-						if (el.matches('[data-dropdown]')) {
-							const state = window.activeDropdowns.get(el);
-							if (state?.closeMenu) state.closeMenu(); // Ensure cleanup removes listeners
-							window.activeDropdowns.delete(el);
-						}
-						if (el.matches('[data-dropdown-submenu]')) {
-							const subState = window.activeSubmenus.get(el);
-							if (subState) {
-								clearTimeout(subState.closeTimer);
-								if (subState.content.parentNode === document.body) {
-									document.body.removeChild(subState.content);
-								}
-								window.activeSubmenus.delete(el);
-							}
-						}
-					};
-					if (target.matches('[data-dropdown]') || target.matches('[data-dropdown-submenu]')) cleanup(target);
-					target.querySelectorAll('[data-dropdown], [data-dropdown-submenu]').forEach(cleanup);
-				}
-			});
-
-			// --- Init ---
-			if (typeof window.initializeAllDropdowns === 'undefined') {
-				window.initializeAllDropdowns = function() {
-					document.querySelectorAll('[data-dropdown]').forEach(setupDropdown);
-				};
+				// Store state
+				window.submenuState.set(submenu, state);
 			}
 			
-			// Run init when DOM is ready or immediately if already loaded
-			if (document.readyState === 'complete' || document.readyState === 'interactive') {
-				window.initializeAllDropdowns();
-			} else {
-				document.addEventListener('DOMContentLoaded', window.initializeAllDropdowns);
+			// Clean up before HTMX swap
+			document.body.addEventListener('htmx:beforeSwap', (evt) => {
+				const target = evt.detail.target;
+				if (!target) return;
+				
+				// Clean up dropdowns being removed
+				for (const dropdown of target.querySelectorAll('[data-dropdown]')) {
+					const state = window.dropdownState.get(dropdown);
+					if (state?.isOpen) {
+						state.close();
+					}
+					window.dropdownState.delete(dropdown);
+				}
+				
+				// Clean up submenus being removed
+				for (const submenu of target.querySelectorAll('[data-dropdown-submenu]')) {
+					const state = window.submenuState.get(submenu);
+					if (state) {
+						clearTimeout(state.closeTimer);
+						if (state.isOpen && state.content.parentNode === document.body) {
+							document.body.removeChild(state.content);
+						}
+						window.submenuState.delete(submenu);
+					}
+				}
+			});
+			
+			// Global initialization function
+			function initAllDropdowns(root = document) {
+				for (const dropdown of root.querySelectorAll('[data-dropdown]')) {
+					initDropdown(dropdown);
+				}
 			}
-</script>
+			
+			// Initialize after HTMX swaps
+			document.body.addEventListener('htmx:afterSwap', (evt) => {
+				if (evt.target) {
+					setTimeout(() => {
+						initAllDropdowns(evt.target);
+					}, 0);
+				}
+			});
+			
+			// Initialize on page load or DOM content loaded
+			document.addEventListener('DOMContentLoaded', () => initAllDropdowns());
+			
+			// Initialize immediately if DOM is already ready
+			if (document.readyState === 'complete' || document.readyState === 'interactive') {
+				initAllDropdowns();
+			}
+		</script>
 	}
 }
