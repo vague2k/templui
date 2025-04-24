@@ -23,18 +23,18 @@ const (
 )
 
 // Map tooltip positions to popover positions
-func mapTooltipPositionToPopover(position Position) popover.Position {
+func mapTooltipPositionToPopover(position Position) popover.Placement {
 	switch position {
 	case PositionTop:
-		return popover.PositionTop
+		return popover.PlacementTop
 	case PositionRight:
-		return popover.PositionRight
+		return popover.PlacementRight
 	case PositionBottom:
-		return popover.PositionBottom
+		return popover.PlacementBottom
 	case PositionLeft:
-		return popover.PositionLeft
+		return popover.PlacementLeft
 	default:
-		return popover.PositionTop
+		return popover.PlacementTop
 	}
 }
 
@@ -210,7 +210,7 @@ func Content(props ...ContentProps) templ.Component {
 			ID:            p.ID,
 			Class:         util.TwMerge("px-4 py-1 bg-foreground text-background border-foreground", p.Class),
 			Attributes:    p.Attributes,
-			Position:      mapTooltipPositionToPopover(p.Position),
+			Placement:     mapTooltipPositionToPopover(p.Position),
 			ShowArrow:     p.ShowArrow,
 			HoverDelay:    p.HoverDelay,
 			HoverOutDelay: p.HoverOutDelay,

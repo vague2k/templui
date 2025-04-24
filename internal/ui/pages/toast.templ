@@ -33,7 +33,7 @@ templ Toast() {
 			Name:        "Toast",
 			Description: templ.Raw("Flexible toast component for notifications and feedback."),
 			Tailwind:    true,
-			Alpine:      true,
+			VanillaJS:   true,
 			Breadcrumbs: modules.Breadcrumbs{
 				Items: []modules.BreadcrumbItem{
 					{
@@ -50,11 +50,6 @@ templ Toast() {
 				ShowcaseFile:      showcase.ToastDefault(),
 				PreviewCodeFile:   "toast_default.templ",
 				ComponentCodeFile: "toast/toast.templ",
-			})
-			@modules.Usage(modules.UsageProps{
-				ComponentName: "Toast",
-				NeedsHandler:  true,
-				ID:            "usage",
 			})
 			@UsageExamples()
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{

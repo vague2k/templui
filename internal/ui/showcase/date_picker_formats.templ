@@ -10,78 +10,79 @@ templ DatePickerFormats() {
 	<div class="w-full max-w-sm flex flex-col gap-4">
 		<div class="space-y-2">
 			@label.Label(label.Props{
-				For: "date-picker-iso-format",
+				For: "dp-default",
 			}) {
-				Default ISO format
+				Default (Medium, en-US)
 			}
 			@datepicker.DatePicker(datepicker.Props{
-				ID:     "date-picker-iso-format",
-				Config: datepicker.ConfigISO,
-				Value:  time.Now(),
+				ID:    "dp-default",
+				Value: time.Now(),
 			})
 		</div>
 		<div class="space-y-2">
 			@label.Label(label.Props{
-				For: "date-picker-eu-format",
+				For: "dp-de-short",
 			}) {
-				Default EU format
+				Short Format (German)
 			}
 			@datepicker.DatePicker(datepicker.Props{
-				Config: datepicker.ConfigEU,
-				Value:  time.Now(),
-				ID:     "date-picker-eu-format",
+				ID:        "dp-de-short",
+				LocaleTag: datepicker.LocaleTagGerman,
+				Format:    datepicker.FormatLOCALE_SHORT,
+				Value:     time.Now(),
 			})
 		</div>
 		<div class="space-y-2">
 			@label.Label(label.Props{
-				For: "date-picker-uk-format",
+				For: "dp-es-long",
 			}) {
-				UK Format
+				Long Format (Spanish)
 			}
 			@datepicker.DatePicker(datepicker.Props{
-				Config: datepicker.ConfigUK,
-				Value:  time.Now(),
-				ID:     "date-picker-uk-format",
-			})
-		</div>
-		<div class="space-y-2">
-			@label.Label(label.Props{
-				For: "date-picker-us-format",
-			}) {
-				US Format
-			}
-			@datepicker.DatePicker(datepicker.Props{
-				Config: datepicker.ConfigUS,
-				Value:  time.Now(),
-				ID:     "date-picker-us-format",
-			})
-		</div>
-		<div class="space-y-2">
-			@label.Label(label.Props{
-				For: "date-long-format",
-			}) {
-				LONG Format
-			}
-			@datepicker.DatePicker(datepicker.Props{
-				Config: datepicker.ConfigLONG,
-				Value:  time.Now(),
-				ID:     "date-long-format",
-			})
-		</div>
-		<div class="space-y-2">
-			@label.Label(label.Props{
-				For: "date-es-long-format",
-			}) {
-				LONG Format (Spanish)
-			}
-			@datepicker.DatePicker(datepicker.Props{
-				Config: datepicker.NewConfig(
-					datepicker.FormatLONG,
-					datepicker.LocaleSpanish,
-				),
+				ID:          "dp-es-long",
+				LocaleTag:   datepicker.LocaleTagSpanish,
+				Format:      datepicker.FormatLOCALE_LONG,
 				Value:       time.Now().AddDate(0, 0, -30), // 30 days ago
 				Placeholder: "Seleccionar fecha",
-				ID:          "date-es-long-format",
+			})
+		</div>
+		<div class="space-y-2">
+			@label.Label(label.Props{
+				For: "dp-fr-full",
+			}) {
+				Full Format (French)
+			}
+			@datepicker.DatePicker(datepicker.Props{
+				ID:        "dp-fr-full",
+				LocaleTag: datepicker.LocaleTagFrench,
+				Format:    datepicker.FormatLOCALE_FULL,
+				Value:     time.Now(),
+			})
+		</div>
+		<div class="space-y-2">
+			@label.Label(label.Props{
+				For: "dp-ja-medium",
+			}) {
+				Medium Format (Japanese)
+			}
+			@datepicker.DatePicker(datepicker.Props{
+				ID:        "dp-ja-medium",
+				LocaleTag: datepicker.LocaleTagJapanese,
+				Format:    datepicker.FormatLOCALE_MEDIUM,
+				Value:     time.Now(),
+			})
+		</div>
+		<div class="space-y-2">
+			@label.Label(label.Props{
+				For: "dp-ar-short",
+			}) {
+				Short Format (Arabic - ar-SA)
+			}
+			@datepicker.DatePicker(datepicker.Props{
+				ID:        "dp-ar-short",
+				LocaleTag: "ar-SA", // Using string literal for locale
+				Format:    datepicker.FormatLOCALE_SHORT,
+				Value:     time.Now(),
 			})
 		</div>
 	</div>

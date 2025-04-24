@@ -21,21 +21,21 @@ type ValueProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
-	For        string
+	For        string // Corresponds to the ID of the Slider Input
 }
 
 templ Slider(props ...Props) {
+	@Script()
 	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
 	<div
 		if p.ID != "" {
-			id={ p.ID + "-container" }
+			id={ p.ID }
 		}
 		class={ util.TwMerge("w-full", p.Class) }
-		data-slider
-		data-slider-id={ p.ID }
+		data-slider-wrapper
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -47,9 +47,13 @@ templ Input(props ...Props) {
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
+	if p.ID == "" {
+		{{ p.ID = util.RandomID() }}
+	}
 	<input
 		type="range"
 		id={ p.ID }
+		data-slider-input
 		if p.Name != "" {
 			name={ p.Name }
 		}
@@ -68,7 +72,7 @@ templ Input(props ...Props) {
 		class={
 			util.TwMerge(
 				"w-full h-2 rounded-full bg-secondary appearance-none cursor-pointer",
-				"focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
 				"[&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4",
 				"[&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-primary",
 				"[&::-webkit-slider-thumb]:hover:bg-primary/90",
@@ -89,43 +93,54 @@ templ Value(props ...ValueProps) {
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
+	if p.For == "" {
+		<span class="text-xs text-destructive">Error: SliderValue missing 'For' attribute.</span>
+	}
 	<span
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		class={ util.TwMerge("text-sm text-muted-foreground", p.Class) }
+		data-slider-value
 		data-slider-value-for={ p.For }
+		class={ util.TwMerge("text-sm text-muted-foreground", p.Class) }
 		{ p.Attributes... }
-	></span>
+	>
+		<!-- Initial value will be set by JS -->
+	</span>
 }
 
+var handle = templ.NewOnceHandle()
+
 templ Script() {
-	{{ handler := templ.NewOnceHandle() }}
-	@handler.Once() {
+	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
-			document.addEventListener('DOMContentLoaded', () => {
-				const sliders = document.querySelectorAll('[data-slider]');
+			function initSlider(sliderInput) {
+				if (sliderInput.hasAttribute('data-initialized')) return;
 				
-				sliders.forEach(slider => {
-					const sliderId = slider.dataset.sliderId;
-					const input = slider.querySelector('input[type="range"]');
-					const valueElements = document.querySelectorAll(`[data-slider-value-for="${sliderId}"]`);
-					
-					if (input) {
-						// Initial Setup
-						valueElements.forEach(el => {
-							el.textContent = input.value;
-						});
-						
-						// Event Listener
-						input.addEventListener('input', () => {
-							valueElements.forEach(el => {
-								el.textContent = input.value;
-							});
-						});
-					}
-				});
-			});
+				sliderInput.setAttribute('data-initialized', 'true');
+
+				const sliderId = sliderInput.id;
+				if (!sliderId) return;
+
+				const valueElements = document.querySelectorAll(`[data-slider-value][data-slider-value-for="${sliderId}"]`);
+				
+				function updateValues() {
+					valueElements.forEach(el => {
+						el.textContent = sliderInput.value;
+					});
+				}
+
+				updateValues(); 
+				sliderInput.addEventListener('input', updateValues);
+			}
+
+			function initAllSliders(root = document) {
+				const sliders = root.querySelectorAll('input[type="range"][data-slider-input]:not([data-initialized])');
+				sliders.forEach(initSlider);
+			}
+
+			document.addEventListener('DOMContentLoaded', () => initAllSliders());
+			document.body.addEventListener('htmx:afterSwap', evt => initAllSliders(evt.target));
 		</script>
 	}
 }

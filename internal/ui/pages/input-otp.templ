@@ -47,7 +47,7 @@ templ InputOtp() {
 			Name:        "Input OTP",
 			Description: templ.Raw("Input field for one-time password/verification code entry."),
 			Tailwind:    true,
-			Alpine:      true,
+			VanillaJS:   true,
 			Breadcrumbs: modules.Breadcrumbs{
 				Items: []modules.BreadcrumbItem{
 					{
@@ -64,10 +64,6 @@ templ InputOtp() {
 				ShowcaseFile:      showcase.InputOTPDefault(),
 				PreviewCodeFile:   "input_otp_default.templ",
 				ComponentCodeFile: "inputotp/input_otp.templ",
-			})
-			@modules.Usage(modules.UsageProps{
-				ComponentName: "InputOTP",
-				NeedsHandler:  true,
 			})
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
 				Title: "Examples",

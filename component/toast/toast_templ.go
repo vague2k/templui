@@ -70,6 +70,14 @@ func Toast(props ...Props) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
+		templ_7745c5c3_Err = Script().Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = ToastCSS().Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
 		var p Props
 		if len(props) > 0 {
 			p = props[0]
@@ -78,18 +86,21 @@ func Toast(props ...Props) templ.Component {
 			p.ID = util.RandomID()
 		}
 		p = p.defaults()
-		var templ_7745c5c3_Var2 = []any{
-			util.TwMerge(
-				"z-50 fixed pointer-events-auto p-4",
-				util.If(p.Position == PositionTopRight || p.Position == PositionTopLeft || p.Position == PositionTopCenter, "top-0"),
-				util.If(p.Position == PositionBottomRight || p.Position == PositionBottomLeft || p.Position == PositionBottomCenter, "bottom-0"),
-				util.If(p.Position == PositionTopRight || p.Position == PositionBottomRight, "right-0"),
-				util.If(p.Position == PositionTopLeft || p.Position == PositionBottomLeft, "left-0"),
-				util.If(p.Position == PositionTopCenter || p.Position == PositionBottomCenter, "left-1/2 -translate-x-1/2"),
-				"w-full md:max-w-[420px]",
-				p.Class,
-			),
-		}
+		isTop := p.Position == PositionTopRight || p.Position == PositionTopLeft || p.Position == PositionTopCenter
+		isBottom := p.Position == PositionBottomRight || p.Position == PositionBottomLeft || p.Position == PositionBottomCenter
+		var templ_7745c5c3_Var2 = []any{util.TwMerge(
+			"z-50 fixed pointer-events-auto p-4",
+			"opacity-0 transform transition-all duration-300 ease-out",
+			util.If(isTop, "top-0"),
+			util.If(isBottom, "bottom-0"),
+			util.If(isTop, "translate-y-4"),
+			util.If(isBottom, "-translate-y-4"),
+			util.If(p.Position == PositionTopRight || p.Position == PositionBottomRight, "right-0"),
+			util.If(p.Position == PositionTopLeft || p.Position == PositionBottomLeft, "left-0"),
+			util.If(p.Position == PositionTopCenter || p.Position == PositionBottomCenter, "left-1/2 -translate-x-1/2"),
+			"w-full md:max-w-[420px]",
+			p.Class,
+		)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -101,26 +112,26 @@ func Toast(props ...Props) templ.Component {
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/toast/toast.templ`, Line: 54, Col: 11}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/toast/toast.templ`, Line: 58, Col: 11}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\" data-duration=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "\" data-toast data-duration=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var4 string
 		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.Itoa(p.Duration))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/toast/toast.templ`, Line: 55, Col: 42}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/toast/toast.templ`, Line: 60, Col: 42}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\" x-data=\"toast\" @mouseenter=\"pauseTimer\" @mouseleave=\"resumeTimer\" x-show=\"show\" x-transition:enter=\"transition ease-out duration-300\" x-transition:enter-start=\"opacity-0 translate-y-4\" x-transition:enter-end=\"opacity-100 translate-y-0\" x-transition:leave=\"transition ease-in duration-200\" x-transition:leave-start=\"opacity-100 translate-y-0\" x-transition:leave-end=\"opacity-0 translate-y-4\" class=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\" class=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -212,17 +223,15 @@ func indicator(p Props) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		var templ_7745c5c3_Var7 = []any{
-			util.TwMerge(
-				"absolute inset-0",
-				typeClass(p.Variant),
-			),
-		}
+		var templ_7745c5c3_Var7 = []any{util.TwMerge(
+			"absolute inset-0",
+			typeClass(p.Variant),
+		)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var7...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<div x-ref=\"progress\" class=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<div data-toast-progress class=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -318,7 +327,7 @@ func title(p Props) templ.Component {
 			var templ_7745c5c3_Var11 string
 			templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(p.Title)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/toast/toast.templ`, Line: 126, Col: 53}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/toast/toast.templ`, Line: 120, Col: 53}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 			if templ_7745c5c3_Err != nil {
@@ -362,7 +371,7 @@ func description(p Props) templ.Component {
 			var templ_7745c5c3_Var13 string
 			templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(p.Description)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/toast/toast.templ`, Line: 132, Col: 52}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/toast/toast.templ`, Line: 126, Col: 52}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 			if templ_7745c5c3_Err != nil {
@@ -423,11 +432,9 @@ func dismissButton() templ.Component {
 			Size:    button.SizeIcon,
 			Variant: button.VariantGhost,
 			Attributes: templ.Attributes{
-				"aria-label":       "Close",
-				"@click":           "dismissToast",
-				"@mouseenter.stop": "",
-				"@mouseleave.stop": "",
-				"type":             "button",
+				"aria-label":         "Close",
+				"data-toast-dismiss": "",
+				"type":               "button",
 			},
 		}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var15), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
@@ -467,7 +474,9 @@ func typeClass(t Variant) string {
 	}
 }
 
-func Script() templ.Component {
+var cssHandle = templ.NewOnceHandle()
+
+func ToastCSS() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
@@ -488,7 +497,6 @@ func Script() templ.Component {
 			templ_7745c5c3_Var16 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		handler := templ.NewOnceHandle()
 		templ_7745c5c3_Var17 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 			templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 			templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
@@ -501,26 +509,88 @@ func Script() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "<script defer nonce=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "<style nonce=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var18 string
 			templ_7745c5c3_Var18, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/toast/toast.templ`, Line: 188, Col: 43}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/toast/toast.templ`, Line: 181, Col: 36}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var18))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "\">\t\n\t\t\tdocument.addEventListener('alpine:init', () => {\n\t\t\t\tAlpine.data('toast', () => ({\n\t\t\t\t\tshow: true,\n\t\t\t\t\tduration: 0,\n\t\t\t\t\ttimer: null,\n\n\t\t\t\t\tinit() {\n\t\t\t\t\t\tthis.duration = parseInt(this.$el.dataset.duration || 0);\n\t\t\t\t\t\tthis.startTimer();\n\n\t\t\t\t\t\tif (this.duration > 0) {\n\t\t\t\t\t\t\tconst progress = this.$refs.progress;\n\t\t\t\t\t\t\tif (progress) {\n\t\t\t\t\t\t\t\tprogress.style.transition = `width ${this.duration}ms linear`;\n\t\t\t\t\t\t\t\tprogress.style.width = '100%';\n\t\t\t\t\t\t\t\tsetTimeout(() => {\n\t\t\t\t\t\t\t\t\tprogress.style.width = '0%';\n\t\t\t\t\t\t\t\t}, 10);\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\n\t\t\t\t\tstartTimer() {\n\t\t\t\t\t\tif (this.duration <= 0) return;\n\t\t\t\t\t\tthis.timer = setTimeout(() => {\n\t\t\t\t\t\t\tthis.show = false;\n\t\t\t\t\t\t}, this.duration);\n\t\t\t\t\t},\n\n\t\t\t\t\tpauseTimer() {\n\t\t\t\t\t\tif (this.timer) clearTimeout(this.timer);\n\t\t\t\t\t\tconst progress = this.$refs.progress;\n\t\t\t\t\t\tif (progress) {\n\t\t\t\t\t\t\tconst width = progress.getBoundingClientRect().width;\n\t\t\t\t\t\t\tconst total = progress.parentElement.getBoundingClientRect().width;\n\t\t\t\t\t\t\tthis.duration = (width / total) * this.duration;\n\t\t\t\t\t\t\tprogress.style.transition = \"none\";\n\t\t\t\t\t\t\tprogress.style.width = width + \"px\";\n\t\t\t\t\t\t}\n\t\t\t\t\t},\n\n\t\t\t\t\tresumeTimer() {\n\t\t\t\t\t\tconst progress = this.$refs.progress;\n\t\t\t\t\t\tif (progress) {\n\t\t\t\t\t\t\tprogress.style.transition = \"width \" + this.duration + \"ms linear\";\n\t\t\t\t\t\t\tprogress.style.width = \"0\";\n\t\t\t\t\t\t}\n\t\t\t\t\t\tthis.startTimer();\n\t\t\t\t\t},\n\n\t\t\t\t\tdismissToast() {\n\t\t\t\t\t\tthis.show = false;\n\t\t\t\t\t}\n\t\t\t\t}))\n\t\t\t})\n\t\t</script>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "\">\n\t\t\t[data-toast].toast-enter {\n\t\t\t\topacity: 0;\n\t\t\t}\n\t\t\t[data-toast].toast-enter-active {\n\t\t\t\topacity: 1;\n\t\t\t\ttransform: translateY(0) translateX(-50%);\n\t\t\t}\n\t\t\t[data-toast][class*=\" right-\"].toast-enter-active,\n\t\t\t[data-toast][class*=\" left-\"].toast-enter-active {\n\t\t\t\ttransform: translateY(0) translateX(0);\n\t\t\t}\n\n\t\t\t[data-toast].toast-leave {\n\t\t\t\topacity: 1;\n\t\t\t\ttransform: translateY(0) translateX(-50%);\n\t\t\t}\n\t\t\t[data-toast][class*=\" right-\"].toast-leave,\n\t\t\t[data-toast][class*=\" left-\"].toast-leave {\n\t\t\t\ttransform: translateY(0) translateX(0);\n\t\t\t}\n\n\t\t\t[data-toast].toast-leave-active {\n\t\t\t\topacity: 0;\n\t\t\t}\n\t\t\t[data-toast][class*=\" top-\"].toast-leave-active {\n\t\t\t\ttransform: translateY(1rem) translateX(-50%);\n\t\t\t}\n\t\t\t[data-toast][class*=\" bottom-\"].toast-leave-active {\n\t\t\t\ttransform: translateY(-1rem) translateX(-50%);\n\t\t\t}\n\t\t\t[data-toast][class*=\" top-\"][class*=\" right-\"].toast-leave-active,\n\t\t\t[data-toast][class*=\" top-\"][class*=\" left-\"].toast-leave-active {\n\t\t\t\ttransform: translateY(1rem) translateX(0);\n\t\t\t}\n\t\t\t[data-toast][class*=\" bottom-\"][class*=\" right-\"].toast-leave-active,\n\t\t\t[data-toast][class*=\" bottom-\"][class*=\" left-\"].toast-leave-active {\n\t\t\t\ttransform: translateY(-1rem) translateX(0);\n\t\t\t}\n\t\t</style>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = handler.Once().Render(templ.WithChildren(ctx, templ_7745c5c3_Var17), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = cssHandle.Once().Render(templ.WithChildren(ctx, templ_7745c5c3_Var17), templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		return nil
+	})
+}
+
+var handle = templ.NewOnceHandle()
+
+func Script() templ.Component {
+	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+		if templ_7745c5c3_CtxErr := ctx.Err(); templ_7745c5c3_CtxErr != nil {
+			return templ_7745c5c3_CtxErr
+		}
+		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+		if !templ_7745c5c3_IsBuffer {
+			defer func() {
+				templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+				if templ_7745c5c3_Err == nil {
+					templ_7745c5c3_Err = templ_7745c5c3_BufErr
+				}
+			}()
+		}
+		ctx = templ.InitializeContext(ctx)
+		templ_7745c5c3_Var19 := templ.GetChildren(ctx)
+		if templ_7745c5c3_Var19 == nil {
+			templ_7745c5c3_Var19 = templ.NopComponent
+		}
+		ctx = templ.ClearChildren(ctx)
+		templ_7745c5c3_Var20 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+			templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+			templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+			if !templ_7745c5c3_IsBuffer {
+				defer func() {
+					templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+					if templ_7745c5c3_Err == nil {
+						templ_7745c5c3_Err = templ_7745c5c3_BufErr
+					}
+				}()
+			}
+			ctx = templ.InitializeContext(ctx)
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "<script nonce=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var21 string
+			templ_7745c5c3_Var21, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/toast/toast.templ`, Line: 228, Col: 37}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var21))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "\">\n\t\t\tif (typeof window.toastHandler === 'undefined') {\n\t\t\t\twindow.toastHandler = true;\n\t\t\t\twindow.toasts = new Map();\n\n\t\t\t\tfunction setupToast(toast) {\n\t\t\t\t\tif (window.toasts.has(toast)) return;\n\n\t\t\t\t\tconst duration = parseInt(toast.dataset.duration || '0');\n\t\t\t\t\tconst progress = toast.querySelector('[data-toast-progress]');\n\t\t\t\t\tconst dismiss = toast.querySelector('[data-toast-dismiss]');\n\t\t\t\t\t\n\t\t\t\t\tconst state = {\n\t\t\t\t\t\ttimer: null,\n\t\t\t\t\t\tremaining: duration,\n\t\t\t\t\t\tstartTime: Date.now(),\n\t\t\t\t\t\tprogress: progress,\n\t\t\t\t\t\tpaused: false\n\t\t\t\t\t};\n\t\t\t\t\twindow.toasts.set(toast, state);\n\n\t\t\t\t\tfunction removeToast() {\n\t\t\t\t\t\tclearTimeout(state.timer);\n\t\t\t\t\t\ttoast.classList.remove('toast-enter-active');\n\t\t\t\t\t\ttoast.classList.add('toast-leave-active');\n\t\t\t\t\t\t\n\t\t\t\t\t\ttoast.addEventListener('transitionend', () => {\n\t\t\t\t\t\t\ttoast.remove();\n\t\t\t\t\t\t\twindow.toasts.delete(toast);\n\t\t\t\t\t\t}, { once: true });\n\t\t\t\t\t}\n\n\t\t\t\t\tfunction startTimer(time) {\n\t\t\t\t\t\tif (time <= 0) return;\n\t\t\t\t\t\t\n\t\t\t\t\t\tclearTimeout(state.timer);\n\t\t\t\t\t\tstate.startTime = Date.now();\n\t\t\t\t\t\tstate.remaining = time;\n\t\t\t\t\t\tstate.paused = false;\n\t\t\t\t\t\tstate.timer = setTimeout(removeToast, time);\n\n\t\t\t\t\t\tif (state.progress) {\n\t\t\t\t\t\t\tstate.progress.style.transition = `width ${time}ms linear`;\n\t\t\t\t\t\t\tvoid state.progress.offsetWidth;\n\t\t\t\t\t\t\tstate.progress.style.width = '0%';\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\n\t\t\t\t\tfunction pauseTimer() {\n\t\t\t\t\t\tif (state.paused || state.remaining <= 0) return;\n\t\t\t\t\t\t\n\t\t\t\t\t\tclearTimeout(state.timer);\n\t\t\t\t\t\tstate.remaining -= (Date.now() - state.startTime);\n\t\t\t\t\t\tstate.paused = true;\n\t\t\t\t\t\t\n\t\t\t\t\t\tif (state.progress) {\n\t\t\t\t\t\t\tconst width = window.getComputedStyle(state.progress).width;\n\t\t\t\t\t\t\tstate.progress.style.transition = 'none';\n\t\t\t\t\t\t\tstate.progress.style.width = width;\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\n\t\t\t\t\tfunction resumeTimer() {\n\t\t\t\t\t\tif (!state.paused || state.remaining <= 0) return;\n\t\t\t\t\t\tstartTimer(state.remaining);\n\t\t\t\t\t}\n\n\t\t\t\t\tif (duration > 0) {\n\t\t\t\t\t\ttoast.addEventListener('mouseenter', pauseTimer);\n\t\t\t\t\t\ttoast.addEventListener('mouseleave', resumeTimer);\n\t\t\t\t\t}\n\t\t\t\t\t\n\t\t\t\t\tif (dismiss) {\n\t\t\t\t\t\tdismiss.addEventListener('click', removeToast);\n\t\t\t\t\t}\n\n\t\t\t\t\tsetTimeout(() => {\n\t\t\t\t\t\ttoast.classList.add('toast-enter-active');\n\t\t\t\t\t\tif (state.progress) {\n\t\t\t\t\t\t\tstate.progress.style.width = '100%';\n\t\t\t\t\t\t}\n\t\t\t\t\t\tstartTimer(duration);\n\t\t\t\t\t}, 50);\n\t\t\t\t}\n\n\t\t\t\tdocument.addEventListener('DOMContentLoaded', () => {\n\t\t\t\t\tdocument.querySelectorAll('[data-toast]').forEach(setupToast);\n\t\t\t\t});\n\n\t\t\t\tdocument.body.addEventListener('htmx:afterSwap', (evt) => {\n\t\t\t\t\tconst target = evt.detail.target || evt.target;\n\t\t\t\t\tif (!target) return;\n\t\t\t\t\t\n\t\t\t\t\tif (target.matches && target.matches('[data-toast]')) {\n\t\t\t\t\t\tsetupToast(target);\n\t\t\t\t\t}\n\t\t\t\t\t\n\t\t\t\t\ttarget.querySelectorAll('[data-toast]').forEach(setupToast);\n\t\t\t\t});\n\t\t\t}\n\t\t</script>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			return nil
+		})
+		templ_7745c5c3_Err = handle.Once().Render(templ.WithChildren(ctx, templ_7745c5c3_Var20), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

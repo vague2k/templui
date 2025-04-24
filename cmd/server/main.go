@@ -100,6 +100,7 @@ func main() {
 	mux.Handle("GET /docs/components/badge", templ.Handler(pages.Badge()))
 	mux.Handle("GET /docs/components/breadcrumb", templ.Handler(pages.Breadcrumb()))
 	mux.Handle("GET /docs/components/button", templ.Handler(pages.Button()))
+	mux.Handle("GET /docs/components/calendar", templ.Handler(pages.Calendar()))
 	mux.Handle("GET /docs/components/card", templ.Handler(pages.Card()))
 	mux.Handle("GET /docs/components/carousel", templ.Handler(pages.Carousel()))
 	mux.Handle("GET /docs/components/charts", templ.Handler(pages.Chart()))

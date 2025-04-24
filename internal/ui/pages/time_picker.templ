@@ -16,7 +16,7 @@ templ TimePicker() {
 			Name:        "Time Picker",
 			Description: templ.Raw("A native time selector with support for 12/24 hour formats."),
 			Tailwind:    true,
-			Alpine:      true,
+			VanillaJS:   true,
 			Breadcrumbs: modules.Breadcrumbs{
 				Items: []modules.BreadcrumbItem{
 					{
@@ -33,10 +33,6 @@ templ TimePicker() {
 				ShowcaseFile:      showcase.TimePickerDefault(),
 				PreviewCodeFile:   "time_picker_default.templ",
 				ComponentCodeFile: "timepicker/time_picker.templ",
-			})
-			@modules.Usage(modules.UsageProps{
-				ComponentName: "TimePicker",
-				NeedsHandler:  true,
 			})
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{

@@ -1,0 +1,16 @@
+package showcase
+
+import (
+	"github.com/axzilla/templui/component/calendar"
+	"github.com/axzilla/templui/component/card"
+)
+
+templ CalendarDefault() {
+	<div class="w-full max-w-sm">
+		@card.Card() {
+			@card.Content() {
+				@calendar.Calendar()
+			}
+		}
+	</div>
+}

@@ -99,7 +99,8 @@ func main() {
 		// Set priority based on route type
 		priority := "0.5" // Default priority
 		for prefix, p := range priorities {
-			if route == prefix || (prefix != "/" && route != "/" && route[:len(prefix)] == prefix) {
+			// Check length before slicing
+			if route == prefix || (prefix != "/" && route != "/" && len(route) >= len(prefix) && route[:len(prefix)] == prefix) {
 				priority = p
 				break
 			}
@@ -108,7 +109,8 @@ func main() {
 		// Set change frequency based on route type
 		changeFreq := "daily" // Default frequency
 		for prefix, cf := range changeFreqs {
-			if route == prefix || (prefix != "/" && route != "/" && route[:len(prefix)] == prefix) {
+			// Check length before slicing
+			if route == prefix || (prefix != "/" && route != "/" && len(route) >= len(prefix) && route[:len(prefix)] == prefix) {
 				changeFreq = cf
 				break
 			}

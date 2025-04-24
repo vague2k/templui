@@ -24,22 +24,23 @@ type Props struct {
 }
 
 templ Code(props ...Props) {
+	@Script()
 	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
 	if p.ID == "" {
-		{{ p.ID = util.RandomID() }}
+		{{ p.ID = "code-" + util.RandomID() }}
 	}
 	<div
 		id={ p.ID }
-		class={ util.TwMerge("relative", p.Class) }
+		class={ util.TwMerge("relative code-component", p.Class) }
+		data-code-component
 		{ p.Attrs... }
-		x-data="code"
 	>
 		<pre class="overflow-hidden!">
 			<code
-				x-ref="code"
+				data-code-block
 				class={
 					util.TwMerge(
 						"language-"+p.Language,
@@ -57,13 +58,14 @@ templ Code(props ...Props) {
 		</pre>
 		if p.ShowCopyButton {
 			<button
+				data-copy-button
+				type="button"
 				class="absolute top-2 right-2 hover:bg-gray-500 hover:bg-opacity-30 text-white p-2 rounded"
-				@click="copyCode"
 			>
-				<span x-show="isCopied">
+				<span data-icon-check style="display: none;">
 					@icon.Check(icon.Props{Size: 14})
 				</span>
-				<span x-show="isNotCopied">
+				<span data-icon-clipboard>
 					@icon.Clipboard(icon.Props{Size: 14})
 				</span>
 			</button>
@@ -71,49 +73,87 @@ templ Code(props ...Props) {
 	</div>
 }
 
+var handle = templ.NewOnceHandle()
+
 templ Script() {
-	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/pojoaque.min.css"/>
 		<script nonce={ templ.GetNonce(ctx) } src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 		<script nonce={ templ.GetNonce(ctx) }>
-			document.addEventListener('alpine:init', () => {
-				document.querySelectorAll('code.hljs-target').forEach((block) => {
-				  try {
-				    hljs.highlightElement(block);
-				  } catch (error) {
-				    console.error("Highlight.js error on element:", error, block);
-				  }
-			});
+			function initCode(component) {
+				const codeBlock = component.querySelector('[data-code-block]');
+				const copyButton = component.querySelector('[data-copy-button]');
+				const iconCheck = component.querySelector('[data-icon-check]');
+				const iconClipboard = component.querySelector('[data-icon-clipboard]');
 
-				Alpine.data('code', () => ({
-					isCopied: false,
-					isNotCopied: true,
-					copyCode() {
-						try {
-							if (navigator.clipboard && window.isSecureContext) {
-								navigator.clipboard.writeText(this.$refs.code.textContent);
-							} else {
-								const textArea = document.createElement('textarea');
-								textArea.value = this.$refs.code.textContent;
-								document.body.appendChild(textArea);
-								textArea.select();
-								document.execCommand('copy');
-								document.body.removeChild(textArea);
-							}
-							
-							this.isCopied = true;
-							this.isNotCopied = false;
-							setTimeout(() => {
-								this.isCopied = false;
-								this.isNotCopied = true;
-							}, 2000);
-						} catch (err) {
-							console.error('Copy failed', err);
-						}
+				if (codeBlock && typeof hljs !== 'undefined') {
+					if (!codeBlock.classList.contains('hljs')) {
+						hljs.highlightElement(codeBlock);
 					}
-				}))
-			})
+				}
+
+				if (copyButton && codeBlock && iconCheck && iconClipboard) {
+					copyButton.addEventListener('click', () => {
+						const codeToCopy = codeBlock.textContent || '';
+						
+						const showCopied = () => {
+							iconCheck.style.display = 'inline';
+							iconClipboard.style.display = 'none';
+							setTimeout(() => {
+								iconCheck.style.display = 'none';
+								iconClipboard.style.display = 'inline';
+							}, 2000);
+						};
+						
+						if (navigator.clipboard && window.isSecureContext) {
+							navigator.clipboard.writeText(codeToCopy)
+								.then(showCopied)
+								.catch(() => fallbackCopyText(codeToCopy, iconCheck, iconClipboard));
+						} else {
+							fallbackCopyText(codeToCopy, iconCheck, iconClipboard);
+						}
+					});
+				}
+			}
+
+			function fallbackCopyText(text, iconCheck, iconClipboard) {
+				const textArea = document.createElement('textarea');
+				textArea.value = text;
+				textArea.style.position = 'fixed';
+				textArea.style.top = '-9999px';
+				textArea.style.left = '-9999px';
+				document.body.appendChild(textArea);
+				textArea.focus();
+				textArea.select();
+				
+				try {
+					if (document.execCommand('copy')) {
+						iconCheck.style.display = 'inline';
+						iconClipboard.style.display = 'none';
+						setTimeout(() => {
+							iconCheck.style.display = 'none';
+							iconClipboard.style.display = 'inline';
+						}, 2000);
+					}
+				} catch (err) {
+				} finally {
+					document.body.removeChild(textArea);
+				}
+			}
+
+			function initAllComponents(root = document) {
+				if (typeof hljs === 'undefined') {
+					setTimeout(() => initAllComponents(root), 100);
+					return;
+				}
+				
+				for (const component of root.querySelectorAll('[data-code-component]')) {
+					initCode(component);
+				}
+			}
+
+			document.addEventListener('DOMContentLoaded', () => initAllComponents());
+			document.body.addEventListener('htmx:afterSwap', (e) => initAllComponents(e.target));
 		</script>
 	}
 }

@@ -36,6 +36,7 @@ type ContentProps struct {
 }
 
 templ Tabs(props ...Props) {
+	@Script()
 	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
@@ -63,6 +64,7 @@ templ List(props ...ListProps) {
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
+	{{ tabsID := IDFromContext(ctx) }}
 	<div
 		if p.ID != "" {
 			id={ p.ID }
@@ -78,7 +80,7 @@ templ List(props ...ListProps) {
 		{ children... }
 		<div
 			data-tabs-marker
-			data-tabs-id={ ID(ctx) }
+			data-tabs-id={ tabsID }
 			class="absolute left-0 z-10 h-full duration-300 ease-out"
 		>
 			<div class="w-full h-full bg-background rounded-md shadow-xs"></div>
@@ -93,7 +95,10 @@ templ Trigger(props ...TriggerProps) {
 	}
 	{{ tabsID := p.TabsID }}
 	if tabsID == "" {
-		{{ tabsID = ID(ctx) }}
+		{{ tabsID = IDFromContext(ctx) }}
+	}
+	if p.Value == "" {
+		<span class="text-xs text-destructive">Error: Tab Trigger missing required 'Value' attribute.</span>
 	}
 	<button
 		if p.ID != "" {
@@ -103,7 +108,6 @@ templ Trigger(props ...TriggerProps) {
 		class={
 			util.TwMerge(
 				"relative z-20 flex-1 inline-flex items-center justify-center h-8 px-3 text-sm font-medium transition-all rounded-md cursor-pointer whitespace-nowrap hover:text-foreground",
-				util.If(p.IsActive, "text-foreground bg-background shadow-xs"),
 				p.Class,
 			),
 		}
@@ -124,7 +128,11 @@ templ Content(props ...ContentProps) {
 	}
 	{{ tabsID := p.TabsID }}
 	if tabsID == "" {
-		{{ tabsID = ID(ctx) }}
+		{{ tabsID = IDFromContext(ctx) }}
+	}
+	if p.Value == "" {
+		<span class="text-xs text-destructive">Error: Tab Content missing required 'Value' attribute.</span>
+		return templ.NopComponent
 	}
 	<div
 		if p.ID != "" {
@@ -147,79 +155,79 @@ templ Content(props ...ContentProps) {
 	</div>
 }
 
-func ID(ctx context.Context) string {
+func IDFromContext(ctx context.Context) string {
 	if tabsID, ok := ctx.Value("tabsId").(string); ok {
 		return tabsID
 	}
 	return ""
 }
 
+var handle = templ.NewOnceHandle()
+
 templ Script() {
-	<script nonce={ templ.GetNonce(ctx) }>
-		document.addEventListener('DOMContentLoaded', () => {
-			document.querySelectorAll('[data-tabs]').forEach(tabs => {
-				const tabsId = tabs.dataset.tabsId;
-				const triggers = tabs.querySelectorAll(`[data-tabs-trigger][data-tabs-id="${tabsId}"]`);
-				const contents = tabs.querySelectorAll(`[data-tabs-content][data-tabs-id="${tabsId}"]`);
-				const marker = tabs.querySelector(`[data-tabs-marker][data-tabs-id="${tabsId}"]`);
+	@handle.Once() {
+		<script defer nonce={ templ.GetNonce(ctx) }>
+			function initTabs(container) {
+				if (container.hasAttribute('data-initialized')) return;
 				
-				// Initial setup
-				if (triggers.length > 0 && marker) {
-					const activeTab = tabs.querySelector(`[data-tabs-trigger][data-tabs-id="${tabsId}"][data-state="active"]`) || triggers[0];
+				container.setAttribute('data-initialized', 'true');
+
+				const tabsId = container.dataset.tabsId;
+				if (!tabsId) return;
+
+				const triggers = Array.from(container.querySelectorAll(`[data-tabs-trigger][data-tabs-id="${tabsId}"]`));
+				const contents = Array.from(container.querySelectorAll(`[data-tabs-content][data-tabs-id="${tabsId}"]`));
+				const marker = container.querySelector(`[data-tabs-marker][data-tabs-id="${tabsId}"]`);
+
+				function updateMarker(activeTrigger) {
+					if (!marker || !activeTrigger) return;
 					
-					// Set initial marker position
-					marker.style.width = activeTab.offsetWidth + 'px';
-					marker.style.height = activeTab.offsetHeight + 'px';
-					marker.style.left = activeTab.offsetLeft + 'px';
-					
-					// Set initial active state if not already set
-					if (!activeTab.dataset.state || activeTab.dataset.state !== "active") {
-						activeTab.dataset.state = "active";
-						activeTab.classList.add('text-foreground', 'bg-background', 'shadow-xs');
-						
-						// Find and show the corresponding content
-						const activeValue = activeTab.dataset.tabsValue;
-						const activeContent = tabs.querySelector(`[data-tabs-content][data-tabs-id="${tabsId}"][data-tabs-value="${activeValue}"]`);
-						if (activeContent) {
-							activeContent.dataset.state = "active";
-							activeContent.classList.remove('hidden');
-						}
-					}
+					marker.style.width = activeTrigger.offsetWidth + 'px';
+					marker.style.height = activeTrigger.offsetHeight + 'px';
+					marker.style.left = activeTrigger.offsetLeft + 'px';
 				}
-				
-				// Event listeners
-				triggers.forEach(trigger => {
+
+				function setActiveTab(value) {
+					let activeTrigger = null;
+					
+					for (const trigger of triggers) {
+						const isActive = trigger.dataset.tabsValue === value;
+						trigger.dataset.state = isActive ? "active" : "inactive";
+						trigger.classList.toggle('text-foreground', isActive);
+						trigger.classList.toggle('bg-background', isActive);
+						trigger.classList.toggle('shadow-xs', isActive);
+						
+						if (isActive) activeTrigger = trigger;
+					}
+
+					for (const content of contents) {
+						const isActive = content.dataset.tabsValue === value;
+						content.dataset.state = isActive ? "active" : "inactive";
+						content.classList.toggle('hidden', !isActive);
+					}
+
+					updateMarker(activeTrigger);
+				}
+
+				const defaultTrigger = triggers.find(t => t.dataset.state === 'active') || triggers[0];
+				if (defaultTrigger) {
+					setActiveTab(defaultTrigger.dataset.tabsValue);
+				}
+
+				for (const trigger of triggers) {
 					trigger.addEventListener('click', () => {
-						const value = trigger.dataset.tabsValue;
-						
-						// Update trigger states
-						triggers.forEach(t => {
-							t.dataset.state = t.dataset.tabsValue === value ? "active" : "inactive";
-							t.classList.remove('text-foreground', 'bg-background', 'shadow-xs');
-							if (t.dataset.state === "active") {
-								t.classList.add('text-foreground', 'bg-background', 'shadow-xs');
-							}
-						});
-						
-						// Update content states
-						contents.forEach(content => {
-							content.dataset.state = content.dataset.tabsValue === value ? "active" : "inactive";
-							if (content.dataset.state === "active") {
-								content.classList.remove('hidden');
-							} else {
-								content.classList.add('hidden');
-							}
-						});
-						
-						// Update marker
-						if (marker) {
-							marker.style.width = trigger.offsetWidth + 'px';
-							marker.style.height = trigger.offsetHeight + 'px';
-							marker.style.left = trigger.offsetLeft + 'px';
-						}
+						setActiveTab(trigger.dataset.tabsValue);
 					});
-				});
-			});
-		});
-	</script>
+				}
+			}
+
+			function initAllTabs(root = document) {
+				const tabsContainers = root.querySelectorAll('[data-tabs]:not([data-initialized])');
+				tabsContainers.forEach(initTabs);
+			}
+
+			document.addEventListener('DOMContentLoaded', () => initAllTabs());
+			document.body.addEventListener('htmx:afterSwap', evt => initAllTabs(evt.target));
+		</script>
+	}
 }

@@ -6,15 +6,15 @@ import (
 	"github.com/axzilla/templui/internal/ui/showcase"
 )
 
-templ Tabs() {
+templ Calendar() {
 	@layouts.DocsLayout(
-		"Tabs",
-		"Navigation interface that organizes content into sections.",
+		"Calendar",
+		"A date field component that allows users to enter and edit date.",
 		[]modules.TableOfContentsItem{},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
-			Name:        "Tabs",
-			Description: templ.Raw("Navigation interface that organizes content into sections."),
+			Name:        "Calendar",
+			Description: templ.Raw("A date field component that allows users to enter and edit date."),
 			Tailwind:    true,
 			VanillaJS:   true,
 			Breadcrumbs: modules.Breadcrumbs{
@@ -24,15 +24,15 @@ templ Tabs() {
 						Path: "/docs",
 					},
 					{
-						Text: "Tabs",
+						Text: "Calendar",
 					},
 				},
 			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				ShowcaseFile:      showcase.TabsDefault(),
-				PreviewCodeFile:   "tabs_default.templ",
-				ComponentCodeFile: "tabs/tabs.templ",
+				ShowcaseFile:      showcase.CalendarDefault(),
+				PreviewCodeFile:   "calendar_default.templ",
+				ComponentCodeFile: "calendar/calendar.templ",
 			})
 		}
 	}

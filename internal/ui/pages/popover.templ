@@ -9,7 +9,7 @@ import (
 templ Popover() {
 	@layouts.DocsLayout(
 		"Popover",
-		"Displays content in a window, triggered by a hover or click.",
+		"Displays rich content in a floating layer. Powered by Floating UI.",
 		[]modules.TableOfContentsItem{
 			{
 				Text: "Examples",
@@ -29,7 +29,7 @@ templ Popover() {
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Popover",
-			Description: templ.Raw("Displays content in a window, triggered by a hover or click."),
+			Description: templ.Raw(`Displays rich content in a floating layer. Powered by <a href="https://floating-ui.com/" target="_blank" rel="noopener noreferrer" class="text-primary underline underline-offset-2 hover:opacity-80 transition-opacity">Floating UI</a>.`),
 			Tailwind:    true,
 			VanillaJS:   true,
 			Breadcrumbs: modules.Breadcrumbs{
@@ -48,10 +48,6 @@ templ Popover() {
 				ShowcaseFile:      showcase.PopoverDefault(),
 				PreviewCodeFile:   "popover_default.templ",
 				ComponentCodeFile: "popover/popover.templ",
-			})
-			@modules.Usage(modules.UsageProps{
-				ComponentName: "Popover",
-				NeedsHandler:  true,
 			})
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
 				Title: "Examples",

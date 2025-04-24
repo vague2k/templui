@@ -76,6 +76,10 @@ func Carousel(props ...Props) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
+		templ_7745c5c3_Err = Script().Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
 		var p Props
 		if len(props) > 0 {
 			p = props[0]
@@ -102,7 +106,7 @@ func Carousel(props ...Props) templ.Component {
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 57, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 58, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -133,7 +137,7 @@ func Carousel(props ...Props) templ.Component {
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.FormatBool(p.Autoplay))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 65, Col: 48}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 66, Col: 48}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
@@ -151,7 +155,7 @@ func Carousel(props ...Props) templ.Component {
 			return p.Interval
 		}()))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 71, Col: 12}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 72, Col: 12}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -164,7 +168,7 @@ func Carousel(props ...Props) templ.Component {
 		var templ_7745c5c3_Var7 string
 		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.FormatBool(p.Loop))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 72, Col: 40}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 73, Col: 40}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
@@ -241,7 +245,7 @@ func Content(props ...ContentProps) templ.Component {
 			var templ_7745c5c3_Var10 string
 			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 86, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 87, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {
@@ -336,7 +340,7 @@ func Item(props ...ItemProps) templ.Component {
 			var templ_7745c5c3_Var14 string
 			templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 107, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 108, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 			if templ_7745c5c3_Err != nil {
@@ -431,7 +435,7 @@ func Previous(props ...PreviousProps) templ.Component {
 			var templ_7745c5c3_Var18 string
 			templ_7745c5c3_Var18, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 128, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 129, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var18))
 			if templ_7745c5c3_Err != nil {
@@ -526,7 +530,7 @@ func Next(props ...NextProps) templ.Component {
 			var templ_7745c5c3_Var22 string
 			templ_7745c5c3_Var22, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 151, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 152, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var22))
 			if templ_7745c5c3_Err != nil {
@@ -621,7 +625,7 @@ func Indicators(props ...IndicatorsProps) templ.Component {
 			var templ_7745c5c3_Var26 string
 			templ_7745c5c3_Var26, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 174, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 175, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var26))
 			if templ_7745c5c3_Err != nil {
@@ -688,7 +692,7 @@ func Indicators(props ...IndicatorsProps) templ.Component {
 			var templ_7745c5c3_Var30 string
 			templ_7745c5c3_Var30, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("Go to slide %d", i+1))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 192, Col: 51}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 193, Col: 51}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var30))
 			if templ_7745c5c3_Err != nil {
@@ -706,6 +710,8 @@ func Indicators(props ...IndicatorsProps) templ.Component {
 		return nil
 	})
 }
+
+var handle = templ.NewOnceHandle()
 
 func Script() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
@@ -728,7 +734,6 @@ func Script() templ.Component {
 			templ_7745c5c3_Var31 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		handle := templ.NewOnceHandle()
 		templ_7745c5c3_Var32 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 			templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 			templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
@@ -748,13 +753,13 @@ func Script() templ.Component {
 			var templ_7745c5c3_Var33 string
 			templ_7745c5c3_Var33, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 202, Col: 43}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 204, Col: 43}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var33))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 50, "\">\n            function initCarousel(carouselEl) {\n                const state = {\n                    currentIndex: 0,\n                    slideCount: 0,\n                    autoplay: carouselEl.dataset.autoplay === 'true',\n                    interval: parseInt(carouselEl.dataset.interval || 5000),\n                    loop: carouselEl.dataset.loop === 'true',\n                    autoplayInterval: null,\n                    isHovering: false,\n                    touchStartX: 0\n                };\n                \n                const track = carouselEl.querySelector('.carousel-track');\n                const items = Array.from(track ? track.querySelectorAll('.carousel-item') : []);\n                const indicators = Array.from(carouselEl.querySelectorAll('.carousel-indicator'));\n                const prevBtn = carouselEl.querySelector('.carousel-prev');\n                const nextBtn = carouselEl.querySelector('.carousel-next');\n                \n                // Set slide count dynamically based on DOM\n                state.slideCount = items.length;\n                \n                function updateTrackPosition() {\n                    if (track) {\n                        track.style.transform = `translateX(-${state.currentIndex * 100}%)`;\n                    }\n                }\n                \n                function updateIndicators() {\n                    indicators.forEach((indicator, i) => {\n                        if (i === state.currentIndex) {\n                            indicator.classList.add('bg-white');\n                            indicator.classList.remove('bg-white/50');\n                        } else {\n                            indicator.classList.remove('bg-white');\n                            indicator.classList.add('bg-white/50');\n                        }\n                    });\n                }\n                \n                function updateButtons() {\n                    if (prevBtn) {\n                        prevBtn.disabled = !state.loop && state.currentIndex === 0;\n                        if (prevBtn.disabled) {\n                            prevBtn.classList.add('opacity-50', 'cursor-not-allowed');\n                        } else {\n                            prevBtn.classList.remove('opacity-50', 'cursor-not-allowed');\n                        }\n                    }\n                    \n                    if (nextBtn) {\n                        nextBtn.disabled = !state.loop && state.currentIndex === state.slideCount - 1;\n                        if (nextBtn.disabled) {\n                            nextBtn.classList.add('opacity-50', 'cursor-not-allowed');\n                        } else {\n                            nextBtn.classList.remove('opacity-50', 'cursor-not-allowed');\n                        }\n                    }\n                }\n                \n                function startAutoplay() {\n                    if (state.autoplayInterval) {\n                        clearInterval(state.autoplayInterval);\n                    }\n                    \n                    state.autoplayInterval = setInterval(() => {\n                        if (!state.isHovering) {\n                            goToNext();\n                        }\n                    }, state.interval);\n                }\n                \n                function stopAutoplay() {\n                    if (state.autoplayInterval) {\n                        clearInterval(state.autoplayInterval);\n                        state.autoplayInterval = null;\n                    }\n                }\n                \n                function goToNext() {\n                    let nextIndex = state.currentIndex + 1;\n                    \n                    if (nextIndex >= state.slideCount) {\n                        if (state.loop) {\n                            nextIndex = 0;\n                        } else {\n                            nextIndex = state.slideCount - 1;\n                        }\n                    }\n                    \n                    goToSlide(nextIndex);\n                }\n                \n                function goToPrev() {\n                    let prevIndex = state.currentIndex - 1;\n                    \n                    if (prevIndex < 0) {\n                        if (state.loop) {\n                            prevIndex = state.slideCount - 1;\n                        } else {\n                            prevIndex = 0;\n                        }\n                    }\n                    \n                    goToSlide(prevIndex);\n                }\n                \n                function goToSlide(index) {\n                    if (index === state.currentIndex) return;\n                    \n                    state.currentIndex = index;\n                    updateTrackPosition();\n                    updateIndicators();\n                    updateButtons();\n                    \n                    if (state.autoplay) {\n                        stopAutoplay();\n                        if (!state.isHovering) {\n                            startAutoplay();\n                        }\n                    }\n                }\n                \n                function handleTouchStart(event) {\n                    state.touchStartX = event.touches[0].clientX;\n                }\n                \n                function handleTouchEnd(event) {\n                    const touchEndX = event.changedTouches[0].clientX;\n                    const diff = state.touchStartX - touchEndX;\n                    \n                    if (Math.abs(diff) > 50) {\n                        if (diff > 0) {\n                            goToNext();\n                        } else {\n                            goToPrev();\n                        }\n                    }\n                }\n                \n                if (track) {\n                    track.addEventListener('touchstart', handleTouchStart);\n                    track.addEventListener('touchend', handleTouchEnd);\n                }\n                \n                indicators.forEach((indicator, index) => {\n                    indicator.addEventListener('click', () => goToSlide(index));\n                });\n                \n                if (prevBtn) {\n                    prevBtn.addEventListener('click', goToPrev);\n                }\n                \n                if (nextBtn) {\n                    nextBtn.addEventListener('click', goToNext);\n                }\n                \n                carouselEl.addEventListener('mouseenter', () => {\n                    state.isHovering = true;\n                    if (state.autoplay) {\n                        stopAutoplay();\n                    }\n                });\n                \n                carouselEl.addEventListener('mouseleave', () => {\n                    state.isHovering = false;\n                    if (state.autoplay) {\n                        startAutoplay();\n                    }\n                });\n                \n                updateTrackPosition();\n                updateIndicators();\n                updateButtons();\n                \n                if (state.autoplay) {\n                    startAutoplay();\n                }\n            }\n            \n            document.addEventListener('DOMContentLoaded', () => {\n                document.querySelectorAll('.carousel-component').forEach(carousel => {\n                    initCarousel(carousel);\n                });\n            });\n        </script>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 50, "\">\n            function initCarousel(carousel) {\n                const track = carousel.querySelector('.carousel-track');\n                const items = Array.from(track?.querySelectorAll('.carousel-item') || []);\n                if (items.length === 0) return;\n                \n                const indicators = Array.from(carousel.querySelectorAll('.carousel-indicator'));\n                const prevBtn = carousel.querySelector('.carousel-prev');\n                const nextBtn = carousel.querySelector('.carousel-next');\n                \n                const state = {\n                    currentIndex: 0,\n                    slideCount: items.length,\n                    autoplay: carousel.dataset.autoplay === 'true',\n                    interval: parseInt(carousel.dataset.interval || 5000),\n                    loop: carousel.dataset.loop === 'true',\n                    autoplayInterval: null,\n                    isHovering: false,\n                    touchStartX: 0\n                };\n\n                function updateTrackPosition() {\n                    track.style.transform = `translateX(-${state.currentIndex * 100}%)`;\n                }\n\n                function updateIndicators() {\n                    indicators.forEach((indicator, i) => {\n                        if (i < state.slideCount) {\n                            if (i === state.currentIndex) {\n                                indicator.classList.add('bg-white');\n                                indicator.classList.remove('bg-white/50');\n                            } else {\n                                indicator.classList.remove('bg-white');\n                                indicator.classList.add('bg-white/50');\n                            }\n                            indicator.style.display = '';\n                        } else {\n                            indicator.style.display = 'none';\n                        }\n                    });\n                }\n\n                function updateButtons() {\n                    if (prevBtn) {\n                        prevBtn.disabled = !state.loop && state.currentIndex === 0;\n                        prevBtn.classList.toggle('opacity-50', prevBtn.disabled);\n                        prevBtn.classList.toggle('cursor-not-allowed', prevBtn.disabled);\n                    }\n                    \n                    if (nextBtn) {\n                        nextBtn.disabled = !state.loop && state.currentIndex === state.slideCount - 1;\n                        nextBtn.classList.toggle('opacity-50', nextBtn.disabled);\n                        nextBtn.classList.toggle('cursor-not-allowed', nextBtn.disabled);\n                    }\n                }\n\n                function startAutoplay() {\n                    if (state.autoplayInterval) {\n                        clearInterval(state.autoplayInterval);\n                    }\n                    \n                    if (state.autoplay) {\n                        state.autoplayInterval = setInterval(() => {\n                            if (!state.isHovering) {\n                                goToNext();\n                            }\n                        }, state.interval);\n                    }\n                }\n\n                function stopAutoplay() {\n                    if (state.autoplayInterval) {\n                        clearInterval(state.autoplayInterval);\n                        state.autoplayInterval = null;\n                    }\n                }\n\n                function goToNext() {\n                    let nextIndex = state.currentIndex + 1;\n                    if (nextIndex >= state.slideCount) {\n                        if (state.loop) {\n                            nextIndex = 0;\n                        } else {\n                            return;\n                        }\n                    }\n                    goToSlide(nextIndex);\n                }\n\n                function goToPrev() {\n                    let prevIndex = state.currentIndex - 1;\n                    if (prevIndex < 0) {\n                        if (state.loop) {\n                            prevIndex = state.slideCount - 1;\n                        } else {\n                            return;\n                        }\n                    }\n                    goToSlide(prevIndex);\n                }\n\n                function goToSlide(index) {\n                    if (index < 0 || index >= state.slideCount) {\n                        if (state.loop) {\n                            index = (index + state.slideCount) % state.slideCount;\n                        } else {\n                            return;\n                        }\n                    }\n                    \n                    if (index === state.currentIndex) return;\n\n                    state.currentIndex = index;\n                    updateTrackPosition();\n                    updateIndicators();\n                    updateButtons();\n\n                    if (state.autoplay && !state.isHovering) {\n                        stopAutoplay();\n                        startAutoplay();\n                    }\n                }\n\n                if (track) {\n                    track.addEventListener('touchstart', (e) => {\n                        state.touchStartX = e.touches[0].clientX;\n                    }, { passive: true });\n                    \n                    track.addEventListener('touchend', (e) => {\n                        const touchEndX = e.changedTouches[0].clientX;\n                        const diff = state.touchStartX - touchEndX;\n                        const sensitivity = 50;\n\n                        if (Math.abs(diff) > sensitivity) {\n                            diff > 0 ? goToNext() : goToPrev();\n                        }\n                    }, { passive: true });\n                }\n\n                indicators.forEach((indicator, index) => {\n                    if (index < state.slideCount) {\n                        indicator.addEventListener('click', () => goToSlide(index));\n                    }\n                });\n\n                if (prevBtn) prevBtn.addEventListener('click', goToPrev);\n                if (nextBtn) nextBtn.addEventListener('click', goToNext);\n\n                carousel.addEventListener('mouseenter', () => {\n                    state.isHovering = true;\n                    if (state.autoplay) stopAutoplay();\n                });\n\n                carousel.addEventListener('mouseleave', () => {\n                    state.isHovering = false;\n                    if (state.autoplay) startAutoplay();\n                });\n\n                updateTrackPosition();\n                updateIndicators();\n                updateButtons();\n\n                if (state.autoplay) startAutoplay();\n            }\n\n            function initAllComponents(root = document) {\n                for (const carousel of root.querySelectorAll('.carousel-component')) {\n                    initCarousel(carousel);\n                }\n            }\n\n            document.addEventListener('DOMContentLoaded', () => initAllComponents());\n            document.body.addEventListener('htmx:afterSwap', (e) => initAllComponents(e.target));\n\t\t</script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

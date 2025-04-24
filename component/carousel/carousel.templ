@@ -48,6 +48,7 @@ type IndicatorsProps struct {
 }
 
 templ Carousel(props ...Props) {
+	@Script()
 	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
@@ -196,194 +197,183 @@ templ Indicators(props ...IndicatorsProps) {
 	</div>
 }
 
+var handle = templ.NewOnceHandle()
+
 templ Script() {
-	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
-            function initCarousel(carouselEl) {
+            function initCarousel(carousel) {
+                const track = carousel.querySelector('.carousel-track');
+                const items = Array.from(track?.querySelectorAll('.carousel-item') || []);
+                if (items.length === 0) return;
+                
+                const indicators = Array.from(carousel.querySelectorAll('.carousel-indicator'));
+                const prevBtn = carousel.querySelector('.carousel-prev');
+                const nextBtn = carousel.querySelector('.carousel-next');
+                
                 const state = {
                     currentIndex: 0,
-                    slideCount: 0,
-                    autoplay: carouselEl.dataset.autoplay === 'true',
-                    interval: parseInt(carouselEl.dataset.interval || 5000),
-                    loop: carouselEl.dataset.loop === 'true',
+                    slideCount: items.length,
+                    autoplay: carousel.dataset.autoplay === 'true',
+                    interval: parseInt(carousel.dataset.interval || 5000),
+                    loop: carousel.dataset.loop === 'true',
                     autoplayInterval: null,
                     isHovering: false,
                     touchStartX: 0
                 };
-                
-                const track = carouselEl.querySelector('.carousel-track');
-                const items = Array.from(track ? track.querySelectorAll('.carousel-item') : []);
-                const indicators = Array.from(carouselEl.querySelectorAll('.carousel-indicator'));
-                const prevBtn = carouselEl.querySelector('.carousel-prev');
-                const nextBtn = carouselEl.querySelector('.carousel-next');
-                
-                // Set slide count dynamically based on DOM
-                state.slideCount = items.length;
-                
+
                 function updateTrackPosition() {
-                    if (track) {
-                        track.style.transform = `translateX(-${state.currentIndex * 100}%)`;
-                    }
+                    track.style.transform = `translateX(-${state.currentIndex * 100}%)`;
                 }
-                
+
                 function updateIndicators() {
                     indicators.forEach((indicator, i) => {
-                        if (i === state.currentIndex) {
-                            indicator.classList.add('bg-white');
-                            indicator.classList.remove('bg-white/50');
+                        if (i < state.slideCount) {
+                            if (i === state.currentIndex) {
+                                indicator.classList.add('bg-white');
+                                indicator.classList.remove('bg-white/50');
+                            } else {
+                                indicator.classList.remove('bg-white');
+                                indicator.classList.add('bg-white/50');
+                            }
+                            indicator.style.display = '';
                         } else {
-                            indicator.classList.remove('bg-white');
-                            indicator.classList.add('bg-white/50');
+                            indicator.style.display = 'none';
                         }
                     });
                 }
-                
+
                 function updateButtons() {
                     if (prevBtn) {
                         prevBtn.disabled = !state.loop && state.currentIndex === 0;
-                        if (prevBtn.disabled) {
-                            prevBtn.classList.add('opacity-50', 'cursor-not-allowed');
-                        } else {
-                            prevBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-                        }
+                        prevBtn.classList.toggle('opacity-50', prevBtn.disabled);
+                        prevBtn.classList.toggle('cursor-not-allowed', prevBtn.disabled);
                     }
                     
                     if (nextBtn) {
                         nextBtn.disabled = !state.loop && state.currentIndex === state.slideCount - 1;
-                        if (nextBtn.disabled) {
-                            nextBtn.classList.add('opacity-50', 'cursor-not-allowed');
-                        } else {
-                            nextBtn.classList.remove('opacity-50', 'cursor-not-allowed');
-                        }
+                        nextBtn.classList.toggle('opacity-50', nextBtn.disabled);
+                        nextBtn.classList.toggle('cursor-not-allowed', nextBtn.disabled);
                     }
                 }
-                
+
                 function startAutoplay() {
                     if (state.autoplayInterval) {
                         clearInterval(state.autoplayInterval);
                     }
                     
-                    state.autoplayInterval = setInterval(() => {
-                        if (!state.isHovering) {
-                            goToNext();
-                        }
-                    }, state.interval);
+                    if (state.autoplay) {
+                        state.autoplayInterval = setInterval(() => {
+                            if (!state.isHovering) {
+                                goToNext();
+                            }
+                        }, state.interval);
+                    }
                 }
-                
+
                 function stopAutoplay() {
                     if (state.autoplayInterval) {
                         clearInterval(state.autoplayInterval);
                         state.autoplayInterval = null;
                     }
                 }
-                
+
                 function goToNext() {
                     let nextIndex = state.currentIndex + 1;
-                    
                     if (nextIndex >= state.slideCount) {
                         if (state.loop) {
                             nextIndex = 0;
                         } else {
-                            nextIndex = state.slideCount - 1;
+                            return;
                         }
                     }
-                    
                     goToSlide(nextIndex);
                 }
-                
+
                 function goToPrev() {
                     let prevIndex = state.currentIndex - 1;
-                    
                     if (prevIndex < 0) {
                         if (state.loop) {
                             prevIndex = state.slideCount - 1;
                         } else {
-                            prevIndex = 0;
+                            return;
+                        }
+                    }
+                    goToSlide(prevIndex);
+                }
+
+                function goToSlide(index) {
+                    if (index < 0 || index >= state.slideCount) {
+                        if (state.loop) {
+                            index = (index + state.slideCount) % state.slideCount;
+                        } else {
+                            return;
                         }
                     }
                     
-                    goToSlide(prevIndex);
-                }
-                
-                function goToSlide(index) {
                     if (index === state.currentIndex) return;
-                    
+
                     state.currentIndex = index;
                     updateTrackPosition();
                     updateIndicators();
                     updateButtons();
-                    
-                    if (state.autoplay) {
+
+                    if (state.autoplay && !state.isHovering) {
                         stopAutoplay();
-                        if (!state.isHovering) {
-                            startAutoplay();
-                        }
-                    }
-                }
-                
-                function handleTouchStart(event) {
-                    state.touchStartX = event.touches[0].clientX;
-                }
-                
-                function handleTouchEnd(event) {
-                    const touchEndX = event.changedTouches[0].clientX;
-                    const diff = state.touchStartX - touchEndX;
-                    
-                    if (Math.abs(diff) > 50) {
-                        if (diff > 0) {
-                            goToNext();
-                        } else {
-                            goToPrev();
-                        }
-                    }
-                }
-                
-                if (track) {
-                    track.addEventListener('touchstart', handleTouchStart);
-                    track.addEventListener('touchend', handleTouchEnd);
-                }
-                
-                indicators.forEach((indicator, index) => {
-                    indicator.addEventListener('click', () => goToSlide(index));
-                });
-                
-                if (prevBtn) {
-                    prevBtn.addEventListener('click', goToPrev);
-                }
-                
-                if (nextBtn) {
-                    nextBtn.addEventListener('click', goToNext);
-                }
-                
-                carouselEl.addEventListener('mouseenter', () => {
-                    state.isHovering = true;
-                    if (state.autoplay) {
-                        stopAutoplay();
-                    }
-                });
-                
-                carouselEl.addEventListener('mouseleave', () => {
-                    state.isHovering = false;
-                    if (state.autoplay) {
                         startAutoplay();
                     }
+                }
+
+                if (track) {
+                    track.addEventListener('touchstart', (e) => {
+                        state.touchStartX = e.touches[0].clientX;
+                    }, { passive: true });
+                    
+                    track.addEventListener('touchend', (e) => {
+                        const touchEndX = e.changedTouches[0].clientX;
+                        const diff = state.touchStartX - touchEndX;
+                        const sensitivity = 50;
+
+                        if (Math.abs(diff) > sensitivity) {
+                            diff > 0 ? goToNext() : goToPrev();
+                        }
+                    }, { passive: true });
+                }
+
+                indicators.forEach((indicator, index) => {
+                    if (index < state.slideCount) {
+                        indicator.addEventListener('click', () => goToSlide(index));
+                    }
                 });
-                
+
+                if (prevBtn) prevBtn.addEventListener('click', goToPrev);
+                if (nextBtn) nextBtn.addEventListener('click', goToNext);
+
+                carousel.addEventListener('mouseenter', () => {
+                    state.isHovering = true;
+                    if (state.autoplay) stopAutoplay();
+                });
+
+                carousel.addEventListener('mouseleave', () => {
+                    state.isHovering = false;
+                    if (state.autoplay) startAutoplay();
+                });
+
                 updateTrackPosition();
                 updateIndicators();
                 updateButtons();
-                
-                if (state.autoplay) {
-                    startAutoplay();
+
+                if (state.autoplay) startAutoplay();
+            }
+
+            function initAllComponents(root = document) {
+                for (const carousel of root.querySelectorAll('.carousel-component')) {
+                    initCarousel(carousel);
                 }
             }
-            
-            document.addEventListener('DOMContentLoaded', () => {
-                document.querySelectorAll('.carousel-component').forEach(carousel => {
-                    initCarousel(carousel);
-                });
-            });
-        </script>
+
+            document.addEventListener('DOMContentLoaded', () => initAllComponents());
+            document.body.addEventListener('htmx:afterSwap', (e) => initAllComponents(e.target));
+		</script>
 	}
 }

@@ -1,6 +1,9 @@
 package modal
 
-import "github.com/axzilla/templui/util"
+import (
+	"github.com/axzilla/templui/util"
+	"strconv"
+)
 
 type Props struct {
 	ID               string
@@ -15,14 +18,14 @@ type TriggerProps struct {
 	Class      string
 	Attributes templ.Attributes
 	Disabled   bool
-	ModalID    string
+	ModalID    string // ID of the modal to trigger
 }
 
 type CloseProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
-	ModalID    string
+	ModalID    string // ID of the modal to close (optional, defaults to closest modal)
 }
 
 type HeaderProps struct {
@@ -44,46 +47,36 @@ type FooterProps struct {
 }
 
 templ Modal(props ...Props) {
+	@Script()
 	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
 	if p.ID == "" {
-		{{ p.ID = util.RandomID() }}
+		{{ p.ID = "modal-" + util.RandomID() }}
 	}
 	<div
 		id={ p.ID }
-		x-data="modal"
-		x-on:open-modal.window="handleOpenModal"
-		x-on:close-modal.window="handleCloseModal"
-		data-modal-id={ p.ID }
-		x-show="open"
-		x-transition:enter="transition ease-out duration-300"
-		x-transition:enter-start="opacity-0"
-		x-transition:enter-end="opacity-100"
-		x-transition:leave="transition ease-in duration-200"
-		x-transition:leave-start="opacity-100"
-		x-transition:leave-end="opacity-0"
-		class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto"
-		aria-labelledby="modal-title"
+		data-modal
+		data-disable-click-away={ strconv.FormatBool(p.DisableClickAway) }
+		data-disable-esc={ strconv.FormatBool(p.DisableESC) }
+		style="display: none;"
+		class="modal-container fixed inset-0 z-50 flex items-center justify-center overflow-y-auto opacity-0 transition-opacity duration-300 ease-out"
+		aria-labelledby={ p.ID + "-title" }
 		role="dialog"
 		aria-modal="true"
 		{ p.Attributes... }
 	>
-		<div class="fixed inset-0 bg-background/70 bg-opacity-50 transition-opacity" aria-hidden="true"></div>
+		<div data-modal-backdrop class="fixed inset-0 bg-background/70 bg-opacity-50" aria-hidden="true"></div>
 		<div
 			id={ p.ID + "-content" }
+			data-modal-content
 			class={
 				util.TwMerge(
-					"relative bg-background rounded-lg border text-left overflow-hidden shadow-xl transform transition-all sm:my-8 w-full",
+					"modal-content relative bg-background rounded-lg border text-left overflow-hidden shadow-xl transform transition-all sm:my-8 w-full scale-95 opacity-0", // Base classes + transition start
+					"duration-300 ease-out", // Enter duration
 					p.Class,
 				),
-			}
-			if !p.DisableClickAway {
-				@click.outside="handleClickAway"
-			}
-			if !p.DisableESC {
-				x-on:keydown.esc.window="handleClickAway"
 			}
 		>
 			{ children... }
@@ -100,16 +93,13 @@ templ Trigger(props ...TriggerProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		x-data="modalTriggers"
+		data-modal-trigger
 		if p.ModalID != "" {
-			data-modal-id={ p.ModalID }
-		}
-		if !p.Disabled {
-			@click="openModal"
+			data-modal-target-id={ p.ModalID }
 		}
 		class={
 			util.TwMerge(
-				util.IfElse(p.Disabled, "cursor-not-allowed", "cursor-pointer"),
+				util.IfElse(p.Disabled, "cursor-not-allowed opacity-50", "cursor-pointer"),
 				p.Class,
 			),
 		}
@@ -128,12 +118,11 @@ templ Close(props ...CloseProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		x-data="modalTriggers"
+		data-modal-close
 		if p.ModalID != "" {
-			data-modal-id={ p.ModalID }
+			data-modal-target-id={ p.ModalID }
 		}
-		@click="closeModal"
-		class={ util.TwMerge("", p.Class) }
+		class={ util.TwMerge("cursor-pointer", p.Class) }
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -152,8 +141,11 @@ templ Header(props ...HeaderProps) {
 		class={ util.TwMerge("px-4 pt-5 pb-4 sm:p-6 sm:pb-4 text-lg leading-6 font-medium text-foreground", p.Class) }
 		{ p.Attributes... }
 	>
-		{ children... }
-	</h3>
+		<h3 class="text-lg leading-6 font-medium text-foreground" id={ p.ID + "-title" }>
+			// Ensure title ID matches aria-labelledby
+			{ children... }
+		</h3>
+	</div>
 }
 
 templ Body(props ...BodyProps) {
@@ -188,40 +180,195 @@ templ Footer(props ...FooterProps) {
 	</div>
 }
 
+var handle = templ.NewOnceHandle()
+
 templ Script() {
-	{{ handler := templ.NewOnceHandle() }}
-	@handler.Once() {
-		<script defer nonce={ templ.GetNonce(ctx) }>
-			document.addEventListener('alpine:init', () => {
-				Alpine.data('modal', () => ({
-					open: false,
-					handleOpenModal(event) {
-						if (event.detail.id === this.$el.dataset.modalId) {
-							this.open = true
-						}
-					},
-					handleCloseModal(event) {
-						if (event.detail.id === this.$el.dataset.modalId) {
-							this.open = false
-						}
-					},
-					handleClickAway() {
-						this.open = false;
-					},
-				}))
-				Alpine.data('modalTriggers', () => ({
-					openModal() {
-						this.$dispatch('open-modal', { 
-							id: this.$el.dataset.modalId 
-						})
-					},
-					closeModal() {
-						this.$dispatch('close-modal', { 
-							id: this.$el.dataset.modalId 
-						})
+	@handle.Once() {
+		<script nonce={ templ.GetNonce(ctx) }>
+			// Statemanagement - safely check if already defined
+			if (typeof window.modalState === 'undefined') {
+				window.modalState = {
+					openModalId: null
+				};
+			}
+			
+			function closeModal(modal, immediate = false) {
+				if (!modal || modal.style.display === 'none') return;
+				
+				const content = modal.querySelector('[data-modal-content]');
+				const modalId = modal.id;
+				
+				// Apply leaving transitions
+				modal.classList.remove('opacity-100');
+				modal.classList.add('opacity-0');
+				
+				if (content) {
+					content.classList.remove('scale-100', 'opacity-100');
+					content.classList.add('scale-95', 'opacity-0');
+				}
+				
+				function hideModal() {
+					modal.style.display = 'none';
+					
+					if (window.modalState.openModalId === modalId) {
+						window.modalState.openModalId = null;
+						document.body.style.overflow = '';
 					}
-				}))
-			})
+				}
+				
+				if (immediate) {
+					hideModal();
+				} else {
+					setTimeout(hideModal, 300);
+				}
+			}
+			
+			function openModal(modal) {
+				if (!modal) return;
+				
+				// Close any open modal first
+				if (window.modalState.openModalId) {
+					const openModal = document.getElementById(window.modalState.openModalId);
+					if (openModal && openModal !== modal) {
+						closeModal(openModal, true);
+					}
+				}
+				
+				const content = modal.querySelector('[data-modal-content]');
+				
+				// Display and prepare for animation
+				modal.style.display = 'flex';
+				
+				// Store as currently open modal
+				window.modalState.openModalId = modal.id;
+				document.body.style.overflow = 'hidden';
+				
+				// Force reflow before adding transition classes
+				void modal.offsetHeight;
+				
+				// Start animations
+				modal.classList.remove('opacity-0');
+				modal.classList.add('opacity-100');
+				
+				if (content) {
+					content.classList.remove('scale-95', 'opacity-0');
+					content.classList.add('scale-100', 'opacity-100');
+					
+					// Focus first focusable element
+					setTimeout(() => {
+						const focusable = content.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+						if (focusable) focusable.focus();
+					}, 50);
+				}
+			}
+			
+			function closeModalById(modalId, immediate = false) {
+				const modal = document.getElementById(modalId);
+				if (modal) closeModal(modal, immediate);
+			}
+			
+			function openModalById(modalId) {
+				const modal = document.getElementById(modalId);
+				if (modal) openModal(modal);
+			}
+			
+			function handleClickAway(e) {
+				const openModalId = window.modalState.openModalId;
+				if (!openModalId) return;
+				
+				const modal = document.getElementById(openModalId);
+				if (!modal || modal.getAttribute('data-disable-click-away') === 'true') return;
+				
+				const content = modal.querySelector('[data-modal-content]');
+				const trigger = e.target.closest('[data-modal-trigger]');
+				
+				if (content && !content.contains(e.target) && 
+					(!trigger || trigger.getAttribute('data-modal-target-id') !== openModalId)) {
+					closeModal(modal);
+				}
+			}
+			
+			function handleEscKey(e) {
+				if (e.key !== 'Escape' || !window.modalState.openModalId) return;
+				
+				const modal = document.getElementById(window.modalState.openModalId);
+				if (modal && modal.getAttribute('data-disable-esc') !== 'true') {
+					closeModal(modal);
+				}
+			}
+			
+			function initTrigger(trigger) {
+				const targetId = trigger.getAttribute('data-modal-target-id');
+				if (!targetId) return;
+				
+				trigger.addEventListener('click', () => {
+					if (!trigger.hasAttribute('disabled') && 
+						!trigger.classList.contains('opacity-50')) {
+						openModalById(targetId);
+					}
+				});
+			}
+			
+			function initCloseButton(closeBtn) {
+				closeBtn.addEventListener('click', () => {
+					const targetId = closeBtn.getAttribute('data-modal-target-id');
+					if (targetId) {
+						closeModalById(targetId);
+					} else {
+						const modal = closeBtn.closest('[data-modal]');
+						if (modal && modal.id) {
+							closeModal(modal);
+						}
+					}
+				});
+			}
+			
+			function initModal(modal) {
+				// No specific initialization needed for the modal element itself
+			}
+			
+			function initAllComponents(root = document) {
+				// Initialize all modal triggers in this context
+				for (const trigger of root.querySelectorAll('[data-modal-trigger]')) {
+					initTrigger(trigger);
+				}
+				
+				// Initialize all close buttons in this context
+				for (const closeBtn of root.querySelectorAll('[data-modal-close]')) {
+					initCloseButton(closeBtn);
+				}
+				
+				// Initialize modals
+				for (const modal of root.querySelectorAll('[data-modal]')) {
+					initModal(modal);
+				}
+			}
+			
+			// Setup global event listeners (only once)
+			if (typeof window.modalEventsInitialized === 'undefined') {
+				// Click outside to close
+				document.addEventListener('click', handleClickAway);
+				
+				// ESC key to close
+				document.addEventListener('keydown', handleEscKey);
+				
+				window.modalEventsInitialized = true;
+			}
+			
+			// Initialize after HTMX swaps
+			document.body.addEventListener('htmx:afterSwap', (evt) => {
+				if (evt.target) {
+					setTimeout(() => initAllComponents(evt.target), 0);
+				}
+			});
+			
+			// Initialize on page load
+			document.addEventListener('DOMContentLoaded', () => initAllComponents());
+			
+			// Initialize immediately if DOM is already ready
+			if (document.readyState === 'complete' || document.readyState === 'interactive') {
+				initAllComponents();
+			}
 		</script>
 	}
 }

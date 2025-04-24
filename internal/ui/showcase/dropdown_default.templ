@@ -33,24 +33,22 @@ templ DropdownDefault() {
 							Invite users
 						</span>
 					}
-					@dropdown.Portal() {
-						@dropdown.SubContent() {
-							@dropdown.Item() {
-								<span class="flex items-center">
-									@icon.Mail(icon.Props{Size: 16, Class: "mr-2"})
-									Email
-								</span>
-							}
-							@dropdown.Item() {
-								<span class="flex items-center">
-									@icon.MessageSquare(icon.Props{Size: 16, Class: "mr-2"})
-									Message
-								</span>
-							}
-							@dropdown.Separator()
-							@dropdown.Item() {
-								More...
-							}
+					@dropdown.SubContent() {
+						@dropdown.Item() {
+							<span class="flex items-center">
+								@icon.Mail(icon.Props{Size: 16, Class: "mr-2"})
+								Email
+							</span>
+						}
+						@dropdown.Item() {
+							<span class="flex items-center">
+								@icon.MessageSquare(icon.Props{Size: 16, Class: "mr-2"})
+								Message
+							</span>
+						}
+						@dropdown.Separator()
+						@dropdown.Item() {
+							More...
 						}
 					}
 				}

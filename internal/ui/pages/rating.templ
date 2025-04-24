@@ -43,7 +43,7 @@ templ Rating() {
 			Name:        "Rating",
 			Description: templ.Raw("Interactive rating component for capturing user feedback and displaying scores."),
 			Tailwind:    true,
-			Alpine:      true,
+			VanillaJS:   true,
 			Breadcrumbs: modules.Breadcrumbs{
 				Items: []modules.BreadcrumbItem{
 					{
@@ -60,10 +60,6 @@ templ Rating() {
 				ShowcaseFile:      showcase.RatingDefault(),
 				PreviewCodeFile:   "rating_default.templ",
 				ComponentCodeFile: "rating/rating.templ",
-			})
-			@modules.Usage(modules.UsageProps{
-				ComponentName: "Rating",
-				NeedsHandler:  true,
 			})
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
 				Title: "Examples",

@@ -82,6 +82,7 @@ type PortalProps struct {
 }
 
 templ Dropdown(props ...Props) {
+	@Script()
 	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
@@ -91,7 +92,7 @@ templ Dropdown(props ...Props) {
 	}
 	<div
 		id={ p.ID }
-		x-data="dropdown"
+		data-dropdown
 		class={ util.TwMerge("relative inline-block text-left", p.Class) }
 		{ p.Attributes... }
 	>
@@ -108,9 +109,8 @@ templ Trigger(props ...TriggerProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		@click="toggleMenu"
+		data-dropdown-trigger
 		class={ util.TwMerge("inline-block", p.Class) }
-		data-trigger
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -122,30 +122,25 @@ templ Content(props ...ContentProps) {
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
+	{{
+		var maxHeight string = "300px"
+		if p.MaxHeight != "" {
+			maxHeight = p.MaxHeight
+		}
+	}}
 	<div
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		x-ref="panel"
-		x-show="isMenuOpen"
-		@click.outside="closeMenu"
-		@keydown.escape.window="closeMenu"
-		x-transition:enter="transition ease-out duration-100"
-		x-transition:enter-start="opacity-0 scale-95"
-		x-transition:enter-end="opacity-100 scale-100"
-		x-transition:leave="transition ease-in duration-75"
-		x-transition:leave-start="opacity-100 scale-100"
-		x-transition:leave-end="opacity-0 scale-95"
-		class={
-			util.TwMerge(
+		data-dropdown-content
+		class={ util.TwMerge(
 				"absolute z-50 rounded-md bg-popover p-1 shadow-md focus:outline-none overflow-auto",
 				"border border-border",
 				"min-w-[8rem]",
 				p.Width,
 				p.Class,
-			),
-		}
-		style="top: 100%; margin-top: 0.25rem; left: 0; max-height: var(--dropdown-max-height, 300px);"
+		) }
+		style={ "display: none; top: 100%; margin-top: 0.25rem; left: 0; max-height: " + maxHeight + ";" }
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -211,7 +206,7 @@ templ Item(props ...ItemProps) {
 				),
 			}
 			role="menuitem"
-			data-menu-item=""
+			data-dropdown-item
 			{ p.Attributes... }
 		>
 			{ children... }
@@ -228,7 +223,7 @@ templ Item(props ...ItemProps) {
 				),
 			}
 			role="menuitem"
-			data-menu-item=""
+			data-dropdown-item
 			disabled?={ p.Disabled }
 			{ p.Attributes... }
 		>
@@ -277,7 +272,7 @@ templ Sub(props ...SubProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		x-data="dropdownSubmenu"
+		data-dropdown-submenu
 		class={ util.TwMerge("relative", p.Class) }
 		{ p.Attributes... }
 	>
@@ -295,13 +290,11 @@ templ SubTrigger(props ...SubTriggerProps) {
 			id={ p.ID }
 		}
 		type="button"
-		x-ref="subTrigger"
-		data-submenu-trigger
+		data-dropdown-submenu-trigger
 		class={
 			util.TwMerge(
 				"w-full text-left flex items-center justify-between px-2 py-1.5 text-sm rounded-sm",
 				"focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground cursor-default",
-				"data-[state=open]:bg-accent data-[state=open]:text-accent-foreground",
 				p.Class,
 			),
 		}
@@ -316,22 +309,6 @@ templ SubTrigger(props ...SubTriggerProps) {
 	</button>
 }
 
-templ Portal(props ...PortalProps) {
-	{{ var p PortalProps }}
-	if len(props) > 0 {
-		{{ p = props[0] }}
-	}
-	<div
-		if p.ID != "" {
-			id={ p.ID }
-		}
-		class={ util.TwMerge("dropdown-portal", p.Class) }
-		{ p.Attributes... }
-	>
-		{ children... }
-	</div>
-}
-
 templ SubContent(props ...SubContentProps) {
 	{{ var p SubContentProps }}
 	if len(props) > 0 {
@@ -341,335 +318,272 @@ templ SubContent(props ...SubContentProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		x-ref="subContent"
-		data-submenu-content
-		class={
-			util.TwMerge(
-				"z-[9999] min-w-[8rem] rounded-md border bg-popover p-1 shadow-lg",
+		data-dropdown-submenu-content
+		class={ util.TwMerge(
+			"absolute z-[9999] min-w-[8rem] rounded-md border bg-popover p-1 shadow-lg",
 				p.Class,
-			),
-		}
-		style="position: fixed; display: none;"
+		) }
+		style="display: none; top: 0; left: 100%; margin-left: 0.25rem;"
 		{ p.Attributes... }
 	>
 		{ children... }
 	</div>
 }
 
+var dropdownHandle = templ.NewOnceHandle()
+
 templ Script() {
-	<script defer nonce={ templ.GetNonce(ctx) }>
-	document.addEventListener('alpine:init', () => {
-		// Dropdown component with improved positioning
-		Alpine.data('dropdown', () => ({
-			isMenuOpen: false,
-			
-			toggleMenu() {
-				this.isMenuOpen = !this.isMenuOpen;
-				
-				if (this.isMenuOpen) {
-					this.$nextTick(() => {
-						this.adjustPosition();
-						window.addEventListener('resize', this.adjustPosition.bind(this));
-					});
-				} else {
-					window.removeEventListener('resize', this.adjustPosition.bind(this));
-				}
-			},
-			
-			closeMenu() {
-				this.isMenuOpen = false;
-				window.removeEventListener('resize', this.adjustPosition.bind(this));
-			},
-			
-			adjustPosition() {
-				const panel = this.$refs.panel;
-				if (!panel) return;
-				
-				const viewportHeight = window.innerHeight;
-				const viewportWidth = window.innerWidth;
-				
-				const triggerRect = this.$el.getBoundingClientRect();
-				
-				// First set standard values for measurements
-				panel.style.top = '100%';
-				panel.style.left = '0';
-				panel.style.bottom = 'auto';
-				panel.style.right = 'auto';
-				panel.style.maxHeight = '';
-				
-				// Re-measure after positioning
-				const panelRect = panel.getBoundingClientRect();
-				
-				// Horizontal positioning
-				if (triggerRect.left + panelRect.width > viewportWidth) {
-					panel.style.left = 'auto';
-					panel.style.right = '0';
-				}
-				
-				// Vertical positioning - more complex for different cases
-				const spaceBelow = viewportHeight - triggerRect.bottom;
-				const spaceAbove = triggerRect.top;
-				
-				// If there is enough space below
-				if (panelRect.height <= spaceBelow) {
-					// Position below the trigger
-					panel.style.top = '100%';
-					panel.style.bottom = 'auto';
-					panel.style.marginTop = '0.25rem';
-					panel.style.maxHeight = `${Math.max(100, spaceBelow - 10)}px`;
-				}
-				// If not enough space below, but enough space above
-				else if (panelRect.height <= spaceAbove) {
-					// Position above the trigger
-					panel.style.top = 'auto';
-					panel.style.bottom = '100%';
-					panel.style.marginTop = '0';
-					panel.style.marginBottom = '0.25rem';
-					panel.style.maxHeight = `${Math.max(100, spaceAbove - 10)}px`;
-				}
-				// If there isn't enough space either above or below
-				else {
-					// Decide where there is more space and use the maximum available space
-					if (spaceBelow >= spaceAbove) {
-						// If there's more space below than above
-						panel.style.top = '100%';
-						panel.style.bottom = 'auto';
-						panel.style.marginTop = '0.25rem';
-						panel.style.maxHeight = `${Math.max(100, spaceBelow - 10)}px`;
-					} else {
-						// If there's more space above than below
-						panel.style.top = 'auto';
-						panel.style.bottom = '100%';
-						panel.style.marginTop = '0';
-						panel.style.marginBottom = '0.25rem';
-						panel.style.maxHeight = `${Math.max(100, spaceAbove - 10)}px`;
-					}
-				}
-				
-				// CSS variable for other components that need it
-				document.documentElement.style.setProperty('--dropdown-max-height', panel.style.maxHeight);
+	@dropdownHandle.Once() {
+		<script nonce={ templ.GetNonce(ctx) }>
+			// Statemanagement - safely check if already defined
+			if (typeof window.dropdownState === 'undefined') {
+				window.dropdownState = new Map();
 			}
-		}));
-		
-		// Submenu component with improved positioning and manual event setup
-		Alpine.data('dropdownSubmenu', () => ({
-			isSubmenuOpen: false,
-			closeTimer: null,
-			isMouseOverSubmenu: false,
+			if (typeof window.submenuState === 'undefined') {
+				window.submenuState = new Map();
+			}
 			
-			init() {
-				// Find or create portal container
-				const portalContainer = document.getElementById('dropdown-portal-container');
-				if (!portalContainer) {
-					const container = document.createElement('div');
-					container.id = 'dropdown-portal-container';
-					container.style.position = 'fixed';
-					container.style.top = '0';
-					container.style.left = '0';
-					container.style.pointerEvents = 'none';
-					container.style.zIndex = '9999';
-					document.body.appendChild(container);
-				}
+			function positionSubmenu(trigger, content) {
+				if (!trigger || !content) return;
 				
-				// Move sub-content to portal if portal exists
-				const portalElement = this.$el.querySelector('.dropdown-portal');
-				if (portalElement) {
-					const subContent = portalElement.querySelector('[data-submenu-content]');
-					if (subContent) {
-						document.getElementById('dropdown-portal-container').appendChild(subContent);
-					}
-				}
-				
-				// Manual event setup
-				this.$nextTick(() => {
-					const self = this;
-					const trigger = this.$refs.subTrigger;
-					const content = this.$refs.subContent;
-					
-					if (trigger) {
-						trigger.addEventListener('mouseenter', function() {
-							self.openSubmenu();
-						});
-						
-						trigger.addEventListener('focus', function() {
-							self.openSubmenu();
-						});
-						
-						trigger.addEventListener('mouseleave', function() {
-							self.startCloseTimer();
-						});
-						
-						trigger.addEventListener('blur', function() {
-							self.startCloseTimer();
-						});
-					}
-					
-					if (content) {
-						content.addEventListener('mouseenter', function() {
-							self.isMouseOverSubmenu = true;
-							self.openSubmenu();
-						});
-						
-						content.addEventListener('mouseleave', function() {
-							self.isMouseOverSubmenu = false;
-							self.startCloseTimer();
-						});
-					}
-				});
-			},
-			
-			openSubmenu() {
-				clearTimeout(this.closeTimer);
-				this.isSubmenuOpen = true;
-				
-				const submenu = this.$refs.subContent;
-				if (submenu) {
-					submenu.style.display = 'block';
-					this.positionSubmenu();
-				}
-			},
-			
-			startCloseTimer() {
-				const self = this;
-				
-				// Delay to give the mouse time to move to the submenu
-				this.closeTimer = setTimeout(function() {
-					if (!self.isMouseOverSubmenu) {
-						self.closeSubmenu();
-					}
-				}, 300);
-			},
-			
-			closeSubmenu() {
-				this.isSubmenuOpen = false;
-				
-				const submenu = this.$refs.subContent;
-				if (submenu) {
-					submenu.style.display = 'none';
-				}
-			},
-			
-			positionSubmenu() {
-				const submenu = this.$refs.subContent;
-				const trigger = this.$refs.subTrigger;
-				
-				if (!submenu || !trigger) return;
-				
-				// Make visible for correct measurements
-				submenu.style.display = 'block';
-				submenu.style.pointerEvents = 'auto';
-				
+				content.style.display = 'block';
 				const triggerRect = trigger.getBoundingClientRect();
-				const viewportWidth = window.innerWidth;
-				const viewportHeight = window.innerHeight;
+				const vw = window.innerWidth;
+				const vh = window.innerHeight;
 				
-				// Default position: right of the trigger
-				submenu.style.top = `${triggerRect.top}px`;
-				submenu.style.left = `${triggerRect.right + 4}px`;
+				// Default position (right side)
+				let top = triggerRect.top;
+				let left = triggerRect.right + 4;
 				
-				// Re-measure and adjust if needed
-				const submenuRect = submenu.getBoundingClientRect();
-				
-				// Check horizontal positioning
-				if (triggerRect.right + submenuRect.width + 4 > viewportWidth) {
-					// If there's no space on the right, show left of the trigger
-					submenu.style.left = `${triggerRect.left - submenuRect.width - 4}px`;
+				// Check if overflows right edge
+				if (left + content.offsetWidth > vw) {
+					left = triggerRect.left - content.offsetWidth - 4;
 				}
 				
-				// Check vertical positioning
-				const spaceBelow = viewportHeight - triggerRect.top;
-				const spaceAbove = triggerRect.bottom;
-				
-				if (submenuRect.height > spaceBelow) {
-					// If there isn't enough space below...
-					if (submenuRect.height <= spaceAbove) {
-						// If there's enough space above, show submenu above the trigger
-						submenu.style.top = `${triggerRect.bottom - submenuRect.height}px`;
-					} else {
-						// If there isn't enough space either above or below, use maximum available height
-						const maxHeight = Math.max(spaceBelow, spaceAbove);
-						submenu.style.maxHeight = `${maxHeight - 20}px`; // 20px spacing
-						
-						if (spaceBelow >= spaceAbove) {
-							// More space below than above
-							submenu.style.top = `${triggerRect.top}px`;
-						} else {
-							// More space above than below
-							submenu.style.top = `${Math.max(10, triggerRect.bottom - maxHeight + 10)}px`;
-						}
-					}
+				// Check if overflows bottom
+				if (top + content.offsetHeight > vh) {
+					top = vh - content.offsetHeight - 10;
 				}
 				
-				// Check if the submenu is still in the visible area
-				const updatedSubmenuRect = submenu.getBoundingClientRect();
+				// Ensure minimum spacing from edges
+				top = Math.max(10, top);
+				left = Math.max(10, left);
 				
-				// Ensure the top edge doesn't extend beyond the viewport
-				if (updatedSubmenuRect.top < 10) {
-					submenu.style.top = '10px';
-				}
-				
-				// Ensure the bottom edge doesn't extend beyond the viewport
-				if (updatedSubmenuRect.bottom > viewportHeight - 10) {
-					if (updatedSubmenuRect.height > viewportHeight - 20) {
-						// If the submenu is larger than the viewport, make it scrollable
-						submenu.style.maxHeight = `${viewportHeight - 20}px`;
-						submenu.style.top = '10px';
-						submenu.style.overflowY = 'auto';
-					} else {
-						// Otherwise simply move it up
-						submenu.style.top = `${viewportHeight - updatedSubmenuRect.height - 10}px`;
+				// Position submenu
+				content.style.position = 'fixed';
+				content.style.top = `${top}px`;
+				content.style.left = `${left}px`;
+			}
+			
+			function closeAllDropdowns() {
+				for (const [dropdown, state] of window.dropdownState.entries()) {
+					if (state.isOpen) {
+						state.close();
 					}
 				}
 			}
-		}));
-	});
-	
-	// Event listener for clicks on menu items to close all menus
-	document.addEventListener('DOMContentLoaded', function() {
-		document.addEventListener('click', function(event) {
-			// Check if a menu item was clicked
-			const menuItem = event.target.closest('[data-menu-item]');
-			if (menuItem) {
-				// Close all dropdown menus
-				document.querySelectorAll('[x-data="dropdown"]').forEach(dropdown => {
-					if (Alpine.$data) {
-						const instance = Alpine.$data(dropdown);
-						if (instance && typeof instance.closeMenu === 'function') {
-							instance.closeMenu();
+			
+			function initDropdown(dropdown) {
+				// Skip if already initialized
+				if (window.dropdownState.has(dropdown)) return;
+				
+				const trigger = dropdown.querySelector('[data-dropdown-trigger]');
+				const content = dropdown.querySelector('[data-dropdown-content]');
+				if (!trigger || !content) return;
+				
+				// Create state object with needed references and flags
+				const state = { 
+					isOpen: false, 
+					clickAwayHandler: null,
+					escHandler: null
+				};
+				
+				function closeSubmenus() {
+					dropdown.querySelectorAll('[data-dropdown-submenu]').forEach(submenu => {
+						const subState = window.submenuState.get(submenu);
+						if (subState?.isOpen) {
+							clearTimeout(subState.closeTimer);
+							subState.content.style.display = 'none';
+							subState.isOpen = false;
 						}
+					});
+				}
+				
+				function close() {
+					if (!state.isOpen) return;
+					
+					content.style.display = 'none';
+					closeSubmenus();
+					
+					// Remove event listeners
+					if (state.clickAwayHandler) {
+						document.removeEventListener('click', state.clickAwayHandler);
+					}
+					if (state.escHandler) {
+						document.removeEventListener('keydown', state.escHandler);
+					}
+					
+					// Reset state
+					state.clickAwayHandler = null;
+					state.escHandler = null;
+					state.isOpen = false;
+				}
+				
+				function handleClickAway(e) {
+					if (!dropdown.contains(e.target)) {
+						close();
+					}
+				}
+				
+				function handleEsc(e) {
+					if (e.key === 'Escape') {
+						close();
+					}
+				}
+				
+				function open() {
+					if (state.isOpen) return;
+					
+					closeAllDropdowns();
+					content.style.display = 'block';
+					state.isOpen = true;
+					
+					// Set up and store event handlers
+					state.clickAwayHandler = handleClickAway;
+					state.escHandler = handleEsc;
+					
+					// Add event listeners
+					setTimeout(() => {
+						document.addEventListener('click', state.clickAwayHandler);
+					}, 0);
+					document.addEventListener('keydown', state.escHandler);
+				}
+				
+				// Toggle dropdown on trigger click
+				trigger.addEventListener('click', e => {
+					e.stopPropagation();
+					if (state.isOpen) {
+						close();
 					} else {
-						// Fallback for older Alpine.js versions
-						setTimeout(function() {
-							const triggerButton = dropdown.querySelector('[data-trigger]');
-							if (triggerButton && dropdown.querySelector('[x-ref="panel"]').style.display !== 'none') {
-								triggerButton.click();
-							}
-						}, 10);
+						open();
 					}
 				});
 				
-				// Additionally close all submenus
-				document.querySelectorAll('[data-submenu-content]').forEach(submenu => {
-					submenu.style.display = 'none';
-				});
+				// Close dropdown when an item is clicked
+				for (const item of dropdown.querySelectorAll('[data-dropdown-item]')) {
+					item.addEventListener('click', close);
+				}
 				
-				// Reset all submenu states in dropdownSubmenu components
-				document.querySelectorAll('[x-data="dropdownSubmenu"]').forEach(submenuComponent => {
-					if (Alpine.$data) {
-						const instance = Alpine.$data(submenuComponent);
-						if (instance) {
-							instance.isSubmenuOpen = false;
-							instance.isMouseOverSubmenu = false;
-							clearTimeout(instance.closeTimer);
-							
-							if (typeof instance.closeSubmenu === 'function') {
-								instance.closeSubmenu();
-							}
-						}
-					}
-				});
+				// Initialize submenus
+				for (const submenu of dropdown.querySelectorAll('[data-dropdown-submenu]')) {
+					initSubmenu(submenu);
+				}
+				
+				// Store functions in state for access from outside
+				state.close = close;
+				
+				// Store dropdown state
+				window.dropdownState.set(dropdown, state);
 			}
-		});
-	});
-</script>
+			
+			function initSubmenu(submenu) {
+				// Skip if already initialized
+				if (window.submenuState.has(submenu)) return;
+				
+				const trigger = submenu.querySelector('[data-dropdown-submenu-trigger]');
+				const content = submenu.querySelector('[data-dropdown-submenu-content]');
+				if (!trigger || !content) return;
+				
+				const state = {
+					isOpen: false,
+					closeTimer: null,
+					trigger,
+					content
+				};
+				
+				function openSubmenu() {
+					clearTimeout(state.closeTimer);
+					if (state.isOpen) return;
+					
+					state.isOpen = true;
+					document.body.appendChild(content);
+					content.style.display = 'block';
+					positionSubmenu(trigger, content);
+				}
+				
+				function startCloseTimer() {
+					clearTimeout(state.closeTimer);
+					state.closeTimer = setTimeout(() => {
+						if (state.isOpen) {
+							content.style.display = 'none';
+							state.isOpen = false;
+						}
+					}, 200);
+				}
+				
+				// Add event listeners
+				trigger.addEventListener('mouseenter', openSubmenu);
+				trigger.addEventListener('focus', openSubmenu);
+				trigger.addEventListener('mouseleave', startCloseTimer);
+				trigger.addEventListener('blur', startCloseTimer);
+				
+				content.addEventListener('mouseenter', () => clearTimeout(state.closeTimer));
+				content.addEventListener('mouseleave', startCloseTimer);
+				
+				// Store state
+				window.submenuState.set(submenu, state);
+			}
+			
+			// Clean up before HTMX swap
+			document.body.addEventListener('htmx:beforeSwap', (evt) => {
+				const target = evt.detail.target;
+				if (!target) return;
+				
+				// Clean up dropdowns being removed
+				for (const dropdown of target.querySelectorAll('[data-dropdown]')) {
+					const state = window.dropdownState.get(dropdown);
+					if (state?.isOpen) {
+						state.close();
+					}
+					window.dropdownState.delete(dropdown);
+				}
+				
+				// Clean up submenus being removed
+				for (const submenu of target.querySelectorAll('[data-dropdown-submenu]')) {
+					const state = window.submenuState.get(submenu);
+					if (state) {
+						clearTimeout(state.closeTimer);
+						if (state.isOpen && state.content.parentNode === document.body) {
+							document.body.removeChild(state.content);
+						}
+						window.submenuState.delete(submenu);
+					}
+				}
+			});
+			
+			// Global initialization function
+			function initAllDropdowns(root = document) {
+				for (const dropdown of root.querySelectorAll('[data-dropdown]')) {
+					initDropdown(dropdown);
+				}
+			}
+			
+			// Initialize after HTMX swaps
+			document.body.addEventListener('htmx:afterSwap', (evt) => {
+				if (evt.target) {
+					setTimeout(() => {
+						initAllDropdowns(evt.target);
+					}, 0);
+				}
+			});
+			
+			// Initialize on page load or DOM content loaded
+			document.addEventListener('DOMContentLoaded', () => initAllDropdowns());
+			
+			// Initialize immediately if DOM is already ready
+			if (document.readyState === 'complete' || document.readyState === 'interactive') {
+				initAllDropdowns();
+			}
+		</script>
+	}
 }

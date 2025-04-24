@@ -105,7 +105,7 @@ templ Chart() {
 			Name:        "Chart",
 			Description: templ.Raw(`Beautiful charts. Built using <a href="https://chartjs.org" target="_blank" rel="noopener noreferrer" class="text-primary underline underline-offset-2 hover:opacity-80 transition-opacity">Chart.js</a>.`),
 			Tailwind:    true,
-			Alpine:      true,
+			VanillaJS:   true,
 			Breadcrumbs: modules.Breadcrumbs{
 				Items: []modules.BreadcrumbItem{
 					{
@@ -122,10 +122,6 @@ templ Chart() {
 				ShowcaseFile:      showcase.ChartDefault(),
 				PreviewCodeFile:   "chart_default.templ",
 				ComponentCodeFile: "chart/chart.templ",
-			})
-			@modules.Usage(modules.UsageProps{
-				ComponentName: "Chart",
-				NeedsHandler:  true,
 			})
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
 				Title: "Examples",

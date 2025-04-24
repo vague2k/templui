@@ -43,7 +43,7 @@ templ Textarea() {
 			Name:        "Textarea",
 			Description: templ.Raw("Multi-line text field for longer form content."),
 			Tailwind:    true,
-			Alpine:      true,
+			VanillaJS:   true,
 			Breadcrumbs: modules.Breadcrumbs{
 				Items: []modules.BreadcrumbItem{
 					{
@@ -60,10 +60,6 @@ templ Textarea() {
 				ShowcaseFile:      showcase.TextareaDefault(),
 				PreviewCodeFile:   "textarea_default.templ",
 				ComponentCodeFile: "textarea/textarea.templ",
-			})
-			@modules.Usage(modules.UsageProps{
-				ComponentName: "Textarea",
-				NeedsHandler:  true,
 			})
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
 				Title: "Examples",

@@ -62,6 +62,7 @@ type CloseProps struct {
 }
 
 templ Drawer(props ...Props) {
+	@Script()
 	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
@@ -71,9 +72,9 @@ templ Drawer(props ...Props) {
 	}
 	<div
 		id={ p.ID }
-		x-data="drawer"
-		@keydown.escape.window="close"
 		class={ util.TwMerge("relative", p.Class) }
+		data-component="drawer"
+		data-drawer-id={ p.ID }
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -89,8 +90,8 @@ templ Trigger(props ...TriggerProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		@click="open"
 		class={ util.TwMerge("cursor-pointer", p.Class) }
+		data-drawer-trigger
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -106,25 +107,15 @@ templ Content(props ...ContentProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		x-show="isOpen"
-		class="fixed inset-0 z-50 bg-background/80 backdrop-blur-xs"
-		@click="close"
-		x-transition:enter="transition ease-out duration-300"
-		x-transition:enter-start="opacity-0"
-		x-transition:enter-end="opacity-100"
-		x-transition:leave="transition ease-in duration-300"
-		x-transition:leave-start="opacity-100"
-		x-transition:leave-end="opacity-0"
+		class="fixed inset-0 z-50 bg-background/80 backdrop-blur-xs templui-drawer-backdrop"
+		style="display: none;"
+		data-drawer-backdrop
 	></div>
 	<div
-		if p.ID != "" {
-			id={ p.ID + "-content" }
-		}
-		x-show="isOpen"
-		@click.away="close"
+		id={ p.ID + "-content" }
 		class={
 			util.TwMerge(
-				"fixed z-50",
+				"fixed z-50 templui-drawer-content",
 				p.Class,
 				util.If(p.Position == PositionRight, "inset-y-0 right-0 w-3/4 md:w-1/2 lg:w-1/3"),
 				util.If(p.Position == PositionLeft, "inset-y-0 left-0 w-3/4 md:w-1/2 lg:w-1/3"),
@@ -132,32 +123,9 @@ templ Content(props ...ContentProps) {
 				util.If(p.Position == PositionBottom, "inset-x-0 bottom-0 h-auto sm:h-1/2"),
 			),
 		}
-		x-transition:enter="transition ease-out duration-300"
-		x-transition:leave="transition ease-in duration-300"
-		if p.Position == PositionLeft {
-			x-transition:enter-start="opacity-0 transform -translate-x-full"
-			x-transition:enter-end="opacity-100 transform translate-x-0"
-			x-transition:leave-start="opacity-100 transform translate-x-0"
-			x-transition:leave-end="opacity-0 transform -translate-x-full"
-		}
-		if p.Position == PositionRight {
-			x-transition:enter-start="opacity-0 transform translate-x-full"
-			x-transition:enter-end="opacity-100 transform translate-x-0"
-			x-transition:leave-start="opacity-100 transform translate-x-0"
-			x-transition:leave-end="opacity-0 transform translate-x-full"
-		}
-		if p.Position == PositionTop {
-			x-transition:enter-start="opacity-0 transform -translate-y-full"
-			x-transition:enter-end="opacity-100 transform translate-y-0"
-			x-transition:leave-start="opacity-100 transform translate-y-0"
-			x-transition:leave-end="opacity-0 transform -translate-y-full"
-		}
-		if p.Position == PositionBottom {
-			x-transition:enter-start="opacity-0 transform translate-y-full"
-			x-transition:enter-end="opacity-100 transform translate-y-0"
-			x-transition:leave-start="opacity-100 transform translate-y-0"
-			x-transition:leave-end="opacity-0 transform translate-y-full"
-		}
+		style="display: none;"
+		data-drawer-content
+		data-drawer-position={ string(p.Position) }
 		{ p.Attributes... }
 	>
 		<div
@@ -170,7 +138,7 @@ templ Content(props ...ContentProps) {
 					util.If(p.Position == PositionTop, "border-b"),
 				),
 			}
-			@click.stop
+			data-drawer-inner
 		>
 			{ children... }
 		</div>
@@ -250,7 +218,6 @@ templ Close(props ...CloseProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		@click="close"
 		class={
 			util.TwMerge(
 				"inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background",
@@ -260,29 +227,215 @@ templ Close(props ...CloseProps) {
 				p.Class,
 			),
 		}
+		data-drawer-close
 		{ p.Attributes... }
 	>
 		{ children... }
 	</button>
 }
 
+var handle = templ.NewOnceHandle()
+
 templ Script() {
-	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
 		<script nonce={ templ.GetNonce(ctx) }>
-            document.addEventListener('alpine:init', () => {
-                Alpine.data('drawer', () => ({
-                    isOpen: false,
-                    open() {
-                        this.isOpen = true
-                        document.body.style.overflow = 'hidden'
+            // Initialize a single drawer instance
+            function initDrawer(drawer) {
+                // Get the drawer elements
+                const triggers = drawer.querySelectorAll('[data-drawer-trigger]');
+                const content = drawer.querySelector('[data-drawer-content]');
+                const backdrop = drawer.querySelector('[data-drawer-backdrop]');
+                const closeButtons = drawer.querySelectorAll('[data-drawer-close]');
+                const position = content?.getAttribute('data-drawer-position') || 'right';
+                
+                if (!content || !backdrop) return;
+                
+                // Set up animations based on position
+                const transitions = {
+                    'left': {
+                        enterFrom: 'opacity-0 -translate-x-full',
+                        enterTo: 'opacity-100 translate-x-0',
+                        leaveFrom: 'opacity-100 translate-x-0',
+                        leaveTo: 'opacity-0 -translate-x-full'
                     },
-                    close() {
-                        this.isOpen = false
-                        document.body.style.overflow = ''
+                    'right': {
+                        enterFrom: 'opacity-0 translate-x-full',
+                        enterTo: 'opacity-100 translate-x-0',
+                        leaveFrom: 'opacity-100 translate-x-0',
+                        leaveTo: 'opacity-0 translate-x-full'
                     },
-                }))
-            })
+                    'top': {
+                        enterFrom: 'opacity-0 -translate-y-full',
+                        enterTo: 'opacity-100 translate-y-0',
+                        leaveFrom: 'opacity-100 translate-y-0',
+                        leaveTo: 'opacity-0 -translate-y-full'
+                    },
+                    'bottom': {
+                        enterFrom: 'opacity-0 translate-y-full',
+                        enterTo: 'opacity-100 translate-y-0',
+                        leaveFrom: 'opacity-100 translate-y-0',
+                        leaveTo: 'opacity-0 translate-y-full'
+                    }
+                };
+
+                // Check if drawer is already initialized
+                if (drawer.dataset.drawerInitialized) {
+                    return;
+                }
+                drawer.dataset.drawerInitialized = 'true';
+
+                // Initial styles
+                content.style.transform = position === 'left' ? 'translateX(-100%)' : 
+                                         position === 'right' ? 'translateX(100%)' :
+                                         position === 'top' ? 'translateY(-100%)' : 
+                                         'translateY(100%)';
+                content.style.opacity = '0';
+                backdrop.style.opacity = '0';
+                content.style.display = 'none'; // Ensure it starts hidden
+                backdrop.style.display = 'none'; // Ensure it starts hidden
+                
+                // Function to open the drawer
+                function openDrawer() {
+                    // Display elements
+                    backdrop.style.display = 'block';
+                    content.style.display = 'block';
+                    
+                    // Trigger reflow
+                    void content.offsetWidth;
+                    
+                    // Apply transitions
+                    backdrop.style.transition = 'opacity 300ms ease-out';
+                    content.style.transition = 'opacity 300ms ease-out, transform 300ms ease-out';
+                    
+                    // Animate in
+                    backdrop.style.opacity = '1';
+                    content.style.opacity = '1';
+                    content.style.transform = 'translate(0)';
+                    
+                    // Lock body scroll
+                    document.body.style.overflow = 'hidden';
+                    
+                    // Add event listeners for close actions
+                    backdrop.addEventListener('click', closeDrawer);
+                    document.addEventListener('keydown', handleEscKey);
+                    document.addEventListener('click', handleClickAway);
+                }
+                
+                // Function to close the drawer
+                function closeDrawer() {
+                    // Remove event listeners before animation starts
+                    backdrop.removeEventListener('click', closeDrawer);
+                    document.removeEventListener('keydown', handleEscKey);
+                    document.removeEventListener('click', handleClickAway);
+
+                    // Apply transitions
+                    backdrop.style.transition = 'opacity 300ms ease-in';
+                    content.style.transition = 'opacity 300ms ease-in, transform 300ms ease-in';
+                    
+                    // Animate out
+                    backdrop.style.opacity = '0';
+                    
+                    if (position === 'left') {
+                        content.style.transform = 'translateX(-100%)';
+                    } else if (position === 'right') {
+                        content.style.transform = 'translateX(100%)';
+                    } else if (position === 'top') {
+                        content.style.transform = 'translateY(-100%)';
+                    } else if (position === 'bottom') {
+                        content.style.transform = 'translateY(100%)';
+                    }
+                    
+                    content.style.opacity = '0';
+                    
+                    // Hide elements after animation
+                    setTimeout(() => {
+                        if (content.style.opacity === '0') { // Check if it wasn't reopened during the timeout
+                            backdrop.style.display = 'none';
+                            content.style.display = 'none';
+                        }
+                        // Unlock body scroll only if no other drawers are open
+                         const anyDrawerOpen = document.querySelector('[data-component="drawer"] [data-drawer-backdrop][style*="display: block"]');
+                         if (!anyDrawerOpen) {
+                            document.body.style.overflow = '';
+                         }
+                    }, 300);
+                }
+                
+                // Click away handler
+                function handleClickAway(e) {
+                    // Check if the click is outside the content AND not on any trigger associated with THIS drawer
+                    if (content.style.display === 'block' &&
+                        !content.contains(e.target) &&
+                        !Array.from(triggers).some(trigger => trigger.contains(e.target))) {
+                        closeDrawer();
+                    }
+                }
+                
+                // ESC key handler
+                function handleEscKey(e) {
+                    if (e.key === 'Escape' && content.style.display === 'block') {
+                        closeDrawer();
+                    }
+                }
+                
+                // Set up trigger click listeners
+                triggers.forEach(trigger => {
+                    trigger.removeEventListener('click', openDrawer); // Remove potential duplicates
+                    trigger.addEventListener('click', openDrawer);
+                });
+                
+                // Set up close button listeners
+                closeButtons.forEach(button => {
+                     button.removeEventListener('click', closeDrawer); // Remove potential duplicates
+                    button.addEventListener('click', closeDrawer);
+                });
+                
+                // Stop propagation on the inner content click to prevent backdrop click handler
+                const inner = content.querySelector('[data-drawer-inner]');
+                if (inner) {
+                    inner.removeEventListener('click', stopPropagationHandler); // Remove potential duplicates
+                    inner.addEventListener('click', stopPropagationHandler);
+                }
+            }
+
+            function stopPropagationHandler(e) {
+                e.stopPropagation();
+            }
+
+            // Initialize all drawers within a given root element (default is document)
+            function initAllDrawers(root = document) {
+                const drawers = root.querySelectorAll('[data-component="drawer"]');
+                drawers.forEach(drawer => {
+                    // If the root itself is a drawer component, initialize it
+                    if (root.matches && root.matches('[data-component="drawer"]')) {
+                         initDrawer(root);
+                    } else {
+                        // Otherwise, find drawers within the root
+                        const drawers = root.querySelectorAll('[data-component="drawer"]');
+                        drawers.forEach(initDrawer);
+                    }
+                });
+            }
+
+            // Initialize drawers on page load
+            document.addEventListener('DOMContentLoaded', () => initAllDrawers());
+            
+            // Re-initialize drawers after HTMX swaps
+            document.body.addEventListener('htmx:afterSwap', (event) => {
+                 // Check if the swapped element itself is a drawer or contains drawers
+                 if (event.target instanceof Element) {
+                    initAllDrawers(event.target);
+                 }
+            });
+            
+            // Also initialize now in case this script loads after DOMContentLoaded
+            // Use a flag to prevent double initialization on readyState change
+            if (document.readyState === 'complete' || (document.readyState !== 'loading' && !document.documentElement.doScroll)) {
+                if (!window.templuiDrawersInitialized) {
+                    initAllDrawers();
+                    window.templuiDrawersInitialized = true;
+                }
+            }
         </script>
 	}
 }

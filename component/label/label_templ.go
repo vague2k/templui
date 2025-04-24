@@ -39,6 +39,10 @@ func Label(props ...Props) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
+		templ_7745c5c3_Err = Script().Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
 		var p Props
 		if len(props) > 0 {
 			p = props[0]
@@ -66,7 +70,7 @@ func Label(props ...Props) templ.Component {
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/label/label.templ`, Line: 20, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/label/label.templ`, Line: 21, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -85,7 +89,7 @@ func Label(props ...Props) templ.Component {
 			var templ_7745c5c3_Var4 string
 			templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(p.For)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/label/label.templ`, Line: 23, Col: 14}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/label/label.templ`, Line: 24, Col: 14}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 			if templ_7745c5c3_Err != nil {
@@ -133,6 +137,8 @@ func Label(props ...Props) templ.Component {
 	})
 }
 
+var handle = templ.NewOnceHandle()
+
 func Script() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -154,7 +160,6 @@ func Script() templ.Component {
 			templ_7745c5c3_Var6 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		handle := templ.NewOnceHandle()
 		templ_7745c5c3_Var7 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 			templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 			templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
@@ -167,20 +172,20 @@ func Script() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<script defer nonce=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, "<script nonce=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var8 string
 			templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/label/label.templ`, Line: 42, Col: 43}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/label/label.templ`, Line: 44, Col: 37}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "\">\n\t\t\tdocument.addEventListener('DOMContentLoaded', function() {\n\t\t\t  document.querySelectorAll('label[for]').forEach(function(label) {\n\t\t\t\t// Check if this is our enhanced label with data-disabled-style\n\t\t\t\tif (!label.hasAttribute('data-disabled-style')) {\n\t\t\t\t  return; // Skip regular labels without data-disabled-style attribute\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\t// Disabled style handler\n\t\t\t\tfunction updateLabelStyle(label) {\n\t\t\t\t  const forId = label.getAttribute('for');\n\t\t\t\t  const targetElement = document.getElementById(forId);\n\t\t\t\t  \n\t\t\t\t  if (targetElement && targetElement.disabled) {\n\t\t\t\t\t// Retrieve the custom disabled style or use the default\n\t\t\t\t\tconst disabledStyle = label.getAttribute('data-disabled-style');\n\t\t\t\t\tdisabledStyle.split(' ').forEach(function(className) {\n\t\t\t\t\t  if (className) {\n\t\t\t\t\t\tlabel.classList.add(className);\n\t\t\t\t\t  }\n\t\t\t\t\t});\n\t\t\t\t  } else {\n\t\t\t\t\t// Remove the disabled style\n\t\t\t\t\tconst disabledStyle = label.getAttribute('data-disabled-style');\n\t\t\t\t\tdisabledStyle.split(' ').forEach(function(className) {\n\t\t\t\t\t  if (className) {\n\t\t\t\t\t\tlabel.classList.remove(className);\n\t\t\t\t\t  }\n\t\t\t\t\t});\n\t\t\t\t  }\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\t// Update the initial style\n\t\t\t\tupdateLabelStyle(label);\n\t\t\t\t\n\t\t\t\t// Create a MutationObserver for this specific label\n\t\t\t\tconst forId = label.getAttribute('for');\n\t\t\t\tconst targetElement = document.getElementById(forId);\n\t\t\t\t\n\t\t\t\tif (targetElement) {\n\t\t\t\t  const observer = new MutationObserver(function() {\n\t\t\t\t\tupdateLabelStyle(label);\n\t\t\t\t  });\n\t\t\t\t  \n\t\t\t\t  observer.observe(targetElement, { \n\t\t\t\t\tattributes: true, \n\t\t\t\t\tattributeFilter: ['disabled'] \n\t\t\t\t  });\n\t\t\t\t}\n\t\t\t  });\n\t\t\t});\n\t\t</script>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, "\">\n\t\t\tfunction initLabel(label) {\n\t\t\t\tif (!label.hasAttribute('for') || !label.hasAttribute('data-disabled-style')) {\n\t\t\t\t\treturn;\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\tconst forId = label.getAttribute('for');\n\t\t\t\tconst targetElement = forId ? document.getElementById(forId) : null;\n\t\t\t\tconst disabledStyle = label.getAttribute('data-disabled-style');\n\t\t\t\t\n\t\t\t\tif (!disabledStyle) return;\n\t\t\t\t\n\t\t\t\tconst classes = disabledStyle.split(' ').filter(Boolean);\n\t\t\t\t\n\t\t\t\tfunction updateStyle() {\n\t\t\t\t\tif (targetElement && targetElement.disabled) {\n\t\t\t\t\t\tlabel.classList.add(...classes);\n\t\t\t\t\t} else {\n\t\t\t\t\t\tlabel.classList.remove(...classes);\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\t// Set up mutation observer to detect disabled state changes\n\t\t\t\tif (targetElement) {\n\t\t\t\t\tconst observer = new MutationObserver(mutations => {\n\t\t\t\t\t\tfor (const mutation of mutations) {\n\t\t\t\t\t\t\tif (mutation.type === 'attributes' && mutation.attributeName === 'disabled') {\n\t\t\t\t\t\t\t\tupdateStyle();\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t}\n\t\t\t\t\t});\n\t\t\t\t\t\n\t\t\t\t\tobserver.observe(targetElement, { \n\t\t\t\t\t\tattributes: true, \n\t\t\t\t\t\tattributeFilter: ['disabled'] \n\t\t\t\t\t});\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\t// Initial style update\n\t\t\t\tupdateStyle();\n\t\t\t}\n\t\t\t\n\t\t\tfunction initAllComponents(root = document) {\n\t\t\t\tfor (const label of root.querySelectorAll('label[for][data-disabled-style]')) {\n\t\t\t\t\tinitLabel(label);\n\t\t\t\t}\n\t\t\t}\n\t\t\t\n\t\t\t// Initialize on page load\n\t\t\tdocument.addEventListener('DOMContentLoaded', () => initAllComponents());\n\t\t\t\n\t\t\t// Initialize after HTMX swaps\n\t\t\tdocument.body.addEventListener('htmx:afterSwap', (evt) => {\n\t\t\t\tif (evt.target) {\n\t\t\t\t\tsetTimeout(() => initAllComponents(evt.target), 0);\n\t\t\t\t}\n\t\t\t});\n\t\t\t\n\t\t\t// Initialize immediately if DOM is already ready\n\t\t\tif (document.readyState === 'complete' || document.readyState === 'interactive') {\n\t\t\t\tinitAllComponents();\n\t\t\t}\n\t\t</script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
