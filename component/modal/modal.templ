@@ -184,199 +184,191 @@ var handle = templ.NewOnceHandle()
 
 templ Script() {
 	@handle.Once() {
-		<script defer nonce={ templ.GetNonce(ctx) }>
-			// --- Core Modal Logic (can be defined multiple times, but should be idempotent) ---
-
-			function closeModalById(modalId, immediate = false) {
-				const modal = document.getElementById(modalId);
+		<script nonce={ templ.GetNonce(ctx) }>
+			// Statemanagement - safely check if already defined
+			if (typeof window.modalState === 'undefined') {
+				window.modalState = {
+					openModalId: null
+				};
+			}
+			
+			function closeModal(modal, immediate = false) {
 				if (!modal || modal.style.display === 'none') return;
-
-				const content = modal.querySelector('[data-modal-content]');
 				
-				function hideModal() {
-					modal.style.display = 'none';
-					modal.classList.remove('modal-open'); // Optional: Remove marker class
-					if (window.openModalIdGlobal === modalId) {
-						window.openModalIdGlobal = null;
-						document.body.style.overflow = '';
-					}
-				}
-
+				const content = modal.querySelector('[data-modal-content]');
+				const modalId = modal.id;
+				
 				// Apply leaving transitions
 				modal.classList.remove('opacity-100');
 				modal.classList.add('opacity-0');
+				
 				if (content) {
 					content.classList.remove('scale-100', 'opacity-100');
 					content.classList.add('scale-95', 'opacity-0');
 				}
-
+				
+				function hideModal() {
+					modal.style.display = 'none';
+					
+					if (window.modalState.openModalId === modalId) {
+						window.modalState.openModalId = null;
+						document.body.style.overflow = '';
+					}
+				}
+				
 				if (immediate) {
 					hideModal();
 				} else {
-					const duration = 300; 
-					setTimeout(hideModal, duration);
+					setTimeout(hideModal, 300);
 				}
 			}
-
-			function openModalById(modalId) {
-				if (typeof window.openModalIdGlobal === 'undefined') {
-					console.error("Modal global setup not run before opening.");
-					return;
+			
+			function openModal(modal) {
+				if (!modal) return;
+				
+				// Close any open modal first
+				if (window.modalState.openModalId) {
+					const openModal = document.getElementById(window.modalState.openModalId);
+					if (openModal && openModal !== modal) {
+						closeModal(openModal, true);
+					}
 				}
 				
-				if (window.openModalIdGlobal && window.openModalIdGlobal !== modalId) {
-					closeModalById(window.openModalIdGlobal, true); 
-				}
-
-				const modal = document.getElementById(modalId);
-				if (!modal) return;
-
 				const content = modal.querySelector('[data-modal-content]');
-
+				
+				// Display and prepare for animation
 				modal.style.display = 'flex';
-				modal.classList.add('modal-open'); // Optional: Add marker class
-				window.openModalIdGlobal = modalId; 
-				document.body.style.overflow = 'hidden'; 
-
-				void modal.offsetHeight; // Force reflow
-
+				
+				// Store as currently open modal
+				window.modalState.openModalId = modal.id;
+				document.body.style.overflow = 'hidden';
+				
+				// Force reflow before adding transition classes
+				void modal.offsetHeight;
+				
+				// Start animations
 				modal.classList.remove('opacity-0');
 				modal.classList.add('opacity-100');
+				
 				if (content) {
 					content.classList.remove('scale-95', 'opacity-0');
 					content.classList.add('scale-100', 'opacity-100');
-				}
-
-				// Focus management (optional but good for accessibility)
-				const focusableElements = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
-				const firstFocusableElement = content ? content.querySelector(focusableElements) : null;
-				if (firstFocusableElement) {
-					setTimeout(() => firstFocusableElement.focus(), 50);
+					
+					// Focus first focusable element
+					setTimeout(() => {
+						const focusable = content.querySelector('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
+						if (focusable) focusable.focus();
+					}, 50);
 				}
 			}
-
-			// --- Initialization Functions (Defined once, called repeatedly) ---
-
-			function initModalElement(modal) {
-				if (!modal || modal.dataset.modalInitialized) return;
-				modal.dataset.modalInitialized = 'true';
-				// No specific setup needed for the modal div itself currently
+			
+			function closeModalById(modalId, immediate = false) {
+				const modal = document.getElementById(modalId);
+				if (modal) closeModal(modal, immediate);
 			}
-
-			function initModalTriggerElement(trigger) {
-				if (!trigger || trigger.dataset.modalTriggerInitialized) return;
-				trigger.dataset.modalTriggerInitialized = 'true';
-
-				// Remove previous listener if any (safer for re-initialization scenarios)
-				const oldListener = trigger._modalTriggerListener;
-				if (oldListener) {
-					trigger.removeEventListener('click', oldListener);
-				}
-
-				const newListener = (event) => {
-					if (trigger.hasAttribute('disabled') || trigger.classList.contains('opacity-50')) {
-						return;
-					}
-					const targetId = trigger.getAttribute('data-modal-target-id');
-					if (targetId) {
-						openModalById(targetId);
-					} else {
-						console.warn('Modal trigger clicked without data-modal-target-id', trigger);
-					}
-				};
-				trigger.addEventListener('click', newListener);
-				trigger._modalTriggerListener = newListener; // Store listener reference
+			
+			function openModalById(modalId) {
+				const modal = document.getElementById(modalId);
+				if (modal) openModal(modal);
 			}
-
-			function initModalCloseElement(closeButton) {
-				if (!closeButton || closeButton.dataset.modalCloseInitialized) return;
-				closeButton.dataset.modalCloseInitialized = 'true';
-
-				// Remove previous listener if any
-				const oldListener = closeButton._modalCloseListener;
-				if (oldListener) {
-					closeButton.removeEventListener('click', oldListener);
-				}
+			
+			function handleClickAway(e) {
+				const openModalId = window.modalState.openModalId;
+				if (!openModalId) return;
 				
-				const newListener = (event) => {
-					const targetId = closeButton.getAttribute('data-modal-target-id');
+				const modal = document.getElementById(openModalId);
+				if (!modal || modal.getAttribute('data-disable-click-away') === 'true') return;
+				
+				const content = modal.querySelector('[data-modal-content]');
+				const trigger = e.target.closest('[data-modal-trigger]');
+				
+				if (content && !content.contains(e.target) && 
+					(!trigger || trigger.getAttribute('data-modal-target-id') !== openModalId)) {
+					closeModal(modal);
+				}
+			}
+			
+			function handleEscKey(e) {
+				if (e.key !== 'Escape' || !window.modalState.openModalId) return;
+				
+				const modal = document.getElementById(window.modalState.openModalId);
+				if (modal && modal.getAttribute('data-disable-esc') !== 'true') {
+					closeModal(modal);
+				}
+			}
+			
+			function initTrigger(trigger) {
+				const targetId = trigger.getAttribute('data-modal-target-id');
+				if (!targetId) return;
+				
+				trigger.addEventListener('click', () => {
+					if (!trigger.hasAttribute('disabled') && 
+						!trigger.classList.contains('opacity-50')) {
+						openModalById(targetId);
+					}
+				});
+			}
+			
+			function initCloseButton(closeBtn) {
+				closeBtn.addEventListener('click', () => {
+					const targetId = closeBtn.getAttribute('data-modal-target-id');
 					if (targetId) {
 						closeModalById(targetId);
 					} else {
-						const modal = closeButton.closest('[data-modal]');
+						const modal = closeBtn.closest('[data-modal]');
 						if (modal && modal.id) {
-							closeModalById(modal.id);
-						} else {
-							console.warn('Modal close button clicked without target ID or modal ancestor', closeButton);
-						}
-					}
-				};
-				closeButton.addEventListener('click', newListener);
-				closeButton._modalCloseListener = newListener; // Store listener reference
-			}
-
-			// --- Global Setup (Runs only ONCE per page load) ---
-			function setupModalGlobals() {
-				if (window.modalScriptInitialized) return; // Prevent re-running
-
-				window.openModalIdGlobal = null; 
-
-				// Global Click Away Listener
-				document.addEventListener('click', (event) => {
-					if (!window.openModalIdGlobal) return; 
-
-					const openModalElement = document.getElementById(window.openModalIdGlobal);
-					if (!openModalElement || openModalElement.getAttribute('data-disable-click-away') === 'true') {
-						return; 
-					}
-
-					const contentElement = openModalElement.querySelector('[data-modal-content]');
-					if (contentElement && !contentElement.contains(event.target)) {
-						const trigger = event.target.closest('[data-modal-trigger]');
-						if (!trigger || trigger.getAttribute('data-modal-target-id') !== window.openModalIdGlobal) {
-							closeModalById(window.openModalIdGlobal);
+							closeModal(modal);
 						}
 					}
 				});
-
-				// Global ESC Key Listener
-				document.addEventListener('keydown', (event) => {
-					if (event.key === 'Escape' && window.openModalIdGlobal) {
-						const openModalElement = document.getElementById(window.openModalIdGlobal);
-						if (openModalElement && openModalElement.getAttribute('data-disable-esc') !== 'true') {
-							closeModalById(window.openModalIdGlobal);
-						}
-					}
-				});
-
-				window.modalScriptInitialized = true;
 			}
-
-			// --- Initialization Triggers (Initialization Pattern) ---
-
-			// Function to initialize all relevant modal elements currently in the DOM
-			function initializeAllModals() {
-				document.querySelectorAll('[data-modal]:not([data-modal-initialized])').forEach(initModalElement);
-				document.querySelectorAll('[data-modal-trigger]:not([data-modal-trigger-initialized])').forEach(initModalTriggerElement);
-				document.querySelectorAll('[data-modal-close]:not([data-modal-close-initialized])').forEach(initModalCloseElement);
+			
+			function initModal(modal) {
+				// No specific initialization needed for the modal element itself
 			}
-
-			// 1. Setup Globals and Initial Run
-			if (document.readyState === 'loading') {
-				document.addEventListener('DOMContentLoaded', () => {
-					setupModalGlobals(); // Setup globals first
-					initializeAllModals(); // Then initialize existing elements
-				});
-			} else {
-				setupModalGlobals(); // Setup globals if DOM already loaded
-				initializeAllModals(); // Initialize existing elements
+			
+			function initAllComponents(root = document) {
+				// Initialize all modal triggers in this context
+				for (const trigger of root.querySelectorAll('[data-modal-trigger]')) {
+					initTrigger(trigger);
+				}
+				
+				// Initialize all close buttons in this context
+				for (const closeBtn of root.querySelectorAll('[data-modal-close]')) {
+					initCloseButton(closeBtn);
+				}
+				
+				// Initialize modals
+				for (const modal of root.querySelectorAll('[data-modal]')) {
+					initModal(modal);
+				}
 			}
-
-			// 2. After HTMX swaps (Re-run initialization for new elements)
-			document.body.addEventListener('htmx:afterSwap', function(event) {
-				// No need to check the target itself, initializeAllModals covers everything new
-				initializeAllModals(); 
+			
+			// Setup global event listeners (only once)
+			if (typeof window.modalEventsInitialized === 'undefined') {
+				// Click outside to close
+				document.addEventListener('click', handleClickAway);
+				
+				// ESC key to close
+				document.addEventListener('keydown', handleEscKey);
+				
+				window.modalEventsInitialized = true;
+			}
+			
+			// Initialize after HTMX swaps
+			document.body.addEventListener('htmx:afterSwap', (evt) => {
+				if (evt.target) {
+					setTimeout(() => initAllComponents(evt.target), 0);
+				}
 			});
+			
+			// Initialize on page load
+			document.addEventListener('DOMContentLoaded', () => initAllComponents());
+			
+			// Initialize immediately if DOM is already ready
+			if (document.readyState === 'complete' || document.readyState === 'interactive') {
+				initAllComponents();
+			}
 		</script>
 	}
 }
