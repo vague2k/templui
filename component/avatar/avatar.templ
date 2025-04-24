@@ -225,14 +225,9 @@ var handle = templ.NewOnceHandle()
 templ Script() {
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
-			function initAvatarElement(avatar) {
-				if (!avatar || avatar.dataset.avatarInitialized) {
-					return; // Already initialized or invalid element
-				}
-				avatar.dataset.avatarInitialized = 'true';
-
-				const image = avatar.querySelector("[data-avatar-image]");
-				const fallback = avatar.querySelector("[data-avatar-fallback]");
+			function initAvatar(avatar) {
+				const image = avatar.querySelector('[data-avatar-image]');
+				const fallback = avatar.querySelector('[data-avatar-fallback]');
 
 				if (image && fallback) {
 					image.style.display = 'none';
@@ -248,63 +243,33 @@ templ Script() {
 						fallback.style.display = 'none';
 					};
 
-					// Check initial state
 					if (image.complete) {
-						if (image.naturalWidth > 0 && image.naturalHeight > 0) {
-							showImage();
-						} else {
-							showFallback();
-						}
+						image.naturalWidth > 0 && image.naturalHeight > 0 ? showImage() : showFallback();
 					} else {
-						// Add listeners only if not already loaded
-						image.addEventListener('load', showImage, { once: true }); // Use { once: true } to auto-remove
-						image.addEventListener('error', showFallback, { once: true }); // Use { once: true } to auto-remove
-						// As a safety net, if the browser already cached the error/load state
-						// and the event doesn't fire, re-check after a small delay.
-						// This addresses some edge cases in certain browsers.
+						image.addEventListener('load', showImage, { once: true });
+						image.addEventListener('error', showFallback, { once: true });
+						
 						setTimeout(() => {
-							if (!image.complete) {
-								// If still not complete, assume error (e.g., network issue before listeners attached)
-								// showFallback(); // Be cautious with this, could cause flicker.
-							} else if (!(image.naturalWidth > 0 && image.naturalHeight > 0)) {
+							if (image.complete && !(image.naturalWidth > 0 && image.naturalHeight > 0)) {
 								showFallback();
 							}
 						}, 50);
 					}
 				} else if (fallback) {
-					// If there's only a fallback, ensure it's visible
 					fallback.style.display = '';
 				} else if (image) {
-					// If there's only an image, ensure it's visible
 					image.style.display = '';
 				}
 			}
 
-			// --- Initialization Triggers ---
-
-			function initializeAllAvatars() {
-				document.querySelectorAll('[data-avatar]:not([data-avatar-initialized])').forEach(initAvatarElement);
-			}
-
-			// 1. Initial page load
-			if (document.readyState === 'loading') {
-				document.addEventListener('DOMContentLoaded', initializeAllAvatars);
-			} else {
-				initializeAllAvatars(); // Already loaded
-			}
-
-			// 2. After HTMX swaps
-			document.body.addEventListener('htmx:afterSwap', function(event) {
-				const targetElement = event.target;
-				if (targetElement instanceof Element) {
-					// Check if the swapped element itself is an avatar
-					if (targetElement.matches('[data-avatar]:not([data-avatar-initialized])')) {
-						initAvatarElement(targetElement);
-					}
-					// Check for avatars within the swapped element
-					targetElement.querySelectorAll('[data-avatar]:not([data-avatar-initialized])').forEach(initAvatarElement);
+			function initAllComponents(root = document) {
+				for (const avatar of root.querySelectorAll('[data-avatar]')) {
+					initAvatar(avatar);
 				}
-			});
+			}
+
+			document.addEventListener('DOMContentLoaded', () => initAllComponents());
+			document.body.addEventListener('htmx:afterSwap', (e) => initAllComponents(e.target));
 		</script>
 	}
 }
