@@ -67,94 +67,33 @@ var handle = templ.NewOnceHandle()
 templ Script() {
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
-			function initializeTextarea(textarea) {
-				if (textarea.dataset.textareaInitialized === 'true') {
-					return; // Already initialized
-				}
-				textarea.dataset.textareaInitialized = 'true';
-
+			function initTextarea(textarea) {
+				if (textarea.hasAttribute('data-initialized')) return;
+				
+				textarea.setAttribute('data-initialized', 'true');
+				
 				const autoResize = textarea.dataset.autoResize === 'true';
-				let handleInput = null; // Store listener reference for cleanup
-
-				if (autoResize) {
-					// Calculate initial min-height based on CSS or rows attribute
-					const computedStyle = window.getComputedStyle(textarea);
-					const initialMinHeight = computedStyle.minHeight;
-					// Store it for resetting
-					textarea.dataset.initialMinHeight = initialMinHeight;
-
-					const resizeTextarea = () => {
-						// Reset height to recalculate scrollHeight correctly
-						textarea.style.height = textarea.dataset.initialMinHeight || 'auto'; 
-						// Set height to scrollHeight to fit content
-						textarea.style.height = `${textarea.scrollHeight}px`;
-					};
-
-					handleInput = resizeTextarea; // Assign function to variable
-
-					// --- Initialization ---
-					resizeTextarea(); // Initial resize on load
-					textarea.addEventListener('input', handleInput);
-
-					// Store cleanup function
-					textarea._textareaCleanup = () => {
-						if (handleInput) {
-							textarea.removeEventListener('input', handleInput);
-						}
-					};
-				} else {
-					// No cleanup needed if not auto-resizing initially
-					textarea._textareaCleanup = () => {}; 
+				if (!autoResize) return;
+				
+				const computedStyle = window.getComputedStyle(textarea);
+				const initialMinHeight = computedStyle.minHeight;
+				
+				function resize() {
+					textarea.style.height = initialMinHeight;
+					textarea.style.height = `${textarea.scrollHeight}px`;
 				}
+				
+				resize();
+				textarea.addEventListener('input', resize);
 			}
-
-			// --- Global Initialization Triggers ---
-			function initializeAllTextareas() {
-				document.querySelectorAll('textarea[data-textarea]:not([data-textarea-initialized])').forEach(initializeTextarea);
+			
+			function initAllTextareas(root = document) {
+				const textareas = root.querySelectorAll('textarea[data-textarea]:not([data-initialized])');
+				textareas.forEach(initTextarea);
 			}
-
-			// 1. Initial page load
-			if (document.readyState === 'loading') {
-				document.addEventListener('DOMContentLoaded', initializeAllTextareas);
-			} else {
-				initializeAllTextareas(); // Already loaded
-			}
-
-			// 2. After HTMX swaps
-			document.body.addEventListener('htmx:afterSwap', function(event) {
-				const targetElement = event.target instanceof Element ? event.target : null;
-				if (targetElement) {
-					// Check if the swapped element itself is a textarea
-					if (targetElement.matches('textarea[data-textarea]:not([data-textarea-initialized])')) {
-						initializeTextarea(targetElement);
-					}
-					// Check for textareas within the swapped content
-					targetElement.querySelectorAll('textarea[data-textarea]:not([data-textarea-initialized])').forEach(initializeTextarea);
-				}
-			});
-
-			// 3. Cleanup before HTMX removes elements
-			document.body.addEventListener('htmx:beforeCleanup', (event) => {
-				let containerToRemove = event.detail.target || event.detail.elt;
-				if (containerToRemove && containerToRemove.querySelectorAll) {
-					// Cleanup textareas within the container
-					containerToRemove.querySelectorAll('textarea[data-textarea][data-textarea-initialized]').forEach(textarea => {
-						if (typeof textarea._textareaCleanup === 'function') {
-							textarea._textareaCleanup();
-							delete textarea._textareaCleanup;
-							textarea.removeAttribute('data-textarea-initialized');
-						}
-					});
-					// Cleanup if the container itself is a textarea
-					if (containerToRemove.matches('textarea[data-textarea][data-textarea-initialized]')) {
-						if (typeof containerToRemove._textareaCleanup === 'function') {
-							containerToRemove._textareaCleanup();
-							delete containerToRemove._textareaCleanup;
-							containerToRemove.removeAttribute('data-textarea-initialized');
-						}
-					}
-				}
-			});
+			
+			document.addEventListener('DOMContentLoaded', () => initAllTextareas());
+			document.body.addEventListener('htmx:afterSwap', evt => initAllTextareas(evt.target));
 		</script>
 	}
 }
