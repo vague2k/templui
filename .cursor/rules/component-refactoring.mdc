@@ -1,0 +1,87 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# TemplUI Vanilla JS Refactor Guide – Clean, Tailwind-Based & HTMX Ready
+
+Du arbeitest an einer UI-Komponenten-Library mit Go, Templ und Vanilla JavaScript. Alle Komponenten funktionieren ohne Alpine.js und müssen nach einem HTMX-Swap korrekt neu initialisiert werden. Tailwind CSS wird als Styling-System verwendet.
+
+Ziel:  
+Der Code soll kürzer, idiomatischer, übersichtlicher und wartbarer sein – ohne jegliche Funktionalität zu verlieren. Keine überladene Architektur, kein unnötiger Boilerplate. Komponenten sollen möglichst wartungsarm, selbsterklärend und performant bleiben.
+
+---
+
+## Ziele
+
+- Funktionalität vollständig erhalten
+- Initialisierung nach `DOMContentLoaded` **und** `htmx:afterSwap`
+- Kein Overengineering
+- Kein Alpine.js
+- Kein Inline-JS im HTML
+- HTMX-Kompatibilität beibehalten
+- Verwendung von `data-*` Attributen zur Komponentensteuerung
+- **Tailwind CSS primär im HTML**, nicht im JS (außer für dynamisches Toggling)
+- **Kommentare nur da, wo wirklich nötig – und in allen Sprachen/Dateitypen geprüft**
+
+---
+
+## Editor-Regeln
+
+1. Verwende `querySelector`, `closest`, `matches` statt mehrfaches `getElementById`
+2. Nutze delegierte Events, wo sinnvoll
+3. Initialisiere alles über eine zentrale Funktion `initAllComponents(root)`
+   - `root` ist standardmäßig `document`, aber bei HTMX-Swaps wird nur der jeweilige Swapped-Bereich verwendet
+4. Registriere Initialisierung bei:
+    - `DOMContentLoaded`
+    - `htmx:afterSwap`
+5. Kein Inline-JS im HTML (`onclick`, `onchange`, etc.)
+6. Verwende durchgehend `data-*` Attribute zum Selektieren und Initialisieren  
+   z. B. `data-component="modal"`, `data-toggle`, `data-close`
+7. Vermeide doppelte oder unnötige Funktionen
+8. Nutze moderne ES6+ Features:
+    - `for...of`, Arrow Functions, optional chaining, `.some`, `.map` etc.
+9. Tailwind CSS-Klassen gehören direkt ins HTML  
+   – JavaScript darf nur dynamisch Klassen wie `hidden`, `opacity-0`, `translate-x-full`, etc. toggeln
+10. Alles bleibt inline in der jeweiligen Komponente – keine Utility-Files oder Funktionsauslagerung
+11. **Kommentare – für alle Dateitypen und Sprachen:**
+    - **In JavaScript, HTML, Templ, Go, Structs, Props, Templates, etc.**
+    - Entferne triviale oder redundante Kommentare wie `// close modal` oder `// add class`
+    - Erlaube nur:
+        - technische Besonderheiten oder Workarounds
+        - Hinweise für Nutzer der Library (z. B. wie man ein Attribut verwendet)
+        - Dinge, die sich **nicht direkt aus dem Code ableiten lassen**
+    - Ziel: Clean Code. Verständlich ohne Erklärung. Kommentar nur, wenn **echter Mehrwert**
+
+12. **HTMX-Optimierung**:
+    - Bei `htmx:afterSwap` wird **nur `evt.target`**, also der neue DOM-Bereich, neu initialisiert:
+      ```js
+      document.body.addEventListener('htmx:afterSwap', (evt) => {
+        initAllComponents(evt.target); // Nur neu geladener Bereich
+      });
+      ```
+    - Dadurch wird vermieden, dass globale oder andere bereits initialisierte Komponenten mehrfach initialisiert werden
+
+---
+
+## Beispielstruktur (JS)
+
+```js
+function initModal(modal) {
+  const closeBtn = modal.querySelector('[data-close]');
+  if (closeBtn) {
+    closeBtn.addEventListener('click', () => modal.classList.add('hidden'));
+  }
+}
+
+function initAllComponents(root = document) {
+  for (const modal of root.querySelectorAll('[data-component="modal"]')) {
+    initModal(modal);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => initAllComponents());
+
+document.body.addEventListener('htmx:afterSwap', (evt) => {
+  initAllComponents(evt.target); // Nur neu geladener Bereich
+});
