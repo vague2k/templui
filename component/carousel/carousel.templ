@@ -48,7 +48,6 @@ type IndicatorsProps struct {
 }
 
 templ Carousel(props ...Props) {
-	@Script()
 	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}

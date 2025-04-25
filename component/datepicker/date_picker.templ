@@ -73,7 +73,6 @@ templ DatePicker(props ...Props) {
 			valuePtr = &p.Value
 		}
 	}}
-	@Script()
 	@popover.Popover() {
 		@popover.Trigger(popover.TriggerProps{For: contentID}) {
 			@button.Button(button.Props{

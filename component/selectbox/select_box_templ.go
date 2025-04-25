@@ -86,10 +86,6 @@ func SelectBox(props ...Props) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = Script().Render(ctx, templ_7745c5c3_Buffer)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
 		var p Props
 		if len(props) > 0 {
 			p = props[0]
@@ -111,7 +107,7 @@ func SelectBox(props ...Props) templ.Component {
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID + "-container")
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 68, Col: 27}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 67, Col: 27}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -142,7 +138,7 @@ func SelectBox(props ...Props) templ.Component {
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 71, Col: 23}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 70, Col: 23}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
@@ -221,7 +217,7 @@ func Trigger(props ...TriggerProps) templ.Component {
 				var templ_7745c5c3_Var8 string
 				templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(p.Name)
 				if templ_7745c5c3_Err != nil {
-					return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 107, Col: 17}
+					return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 106, Col: 17}
 				}
 				_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 				if templ_7745c5c3_Err != nil {
@@ -333,7 +329,7 @@ func Value(props ...ValueProps) templ.Component {
 			var templ_7745c5c3_Var11 string
 			templ_7745c5c3_Var11, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 128, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 127, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var11))
 			if templ_7745c5c3_Err != nil {
@@ -373,7 +369,7 @@ func Value(props ...ValueProps) templ.Component {
 			var templ_7745c5c3_Var13 string
 			templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(p.Placeholder)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 134, Col: 18}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 133, Col: 18}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 			if templ_7745c5c3_Err != nil {
@@ -441,7 +437,7 @@ func Content(props ...ContentProps) templ.Component {
 			var templ_7745c5c3_Var16 string
 			templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 147, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 146, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
 			if templ_7745c5c3_Err != nil {
@@ -531,7 +527,7 @@ func Group(props ...GroupProps) templ.Component {
 			var templ_7745c5c3_Var20 string
 			templ_7745c5c3_Var20, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 173, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 172, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var20))
 			if templ_7745c5c3_Err != nil {
@@ -621,7 +617,7 @@ func Label(props ...LabelProps) templ.Component {
 			var templ_7745c5c3_Var24 string
 			templ_7745c5c3_Var24, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 190, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 189, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var24))
 			if templ_7745c5c3_Err != nil {
@@ -720,7 +716,7 @@ func Item(props ...ItemProps) templ.Component {
 			var templ_7745c5c3_Var28 string
 			templ_7745c5c3_Var28, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 206, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 205, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var28))
 			if templ_7745c5c3_Err != nil {
@@ -751,7 +747,7 @@ func Item(props ...ItemProps) templ.Component {
 		var templ_7745c5c3_Var30 string
 		templ_7745c5c3_Var30, templ_7745c5c3_Err = templ.JoinStringErrs(p.Value)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 219, Col: 22}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 218, Col: 22}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var30))
 		if templ_7745c5c3_Err != nil {
@@ -764,7 +760,7 @@ func Item(props ...ItemProps) templ.Component {
 		var templ_7745c5c3_Var31 string
 		templ_7745c5c3_Var31, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.FormatBool(p.Selected))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 220, Col: 48}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 219, Col: 48}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var31))
 		if templ_7745c5c3_Err != nil {
@@ -777,7 +773,7 @@ func Item(props ...ItemProps) templ.Component {
 		var templ_7745c5c3_Var32 string
 		templ_7745c5c3_Var32, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.FormatBool(p.Disabled))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 221, Col: 48}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 220, Col: 48}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var32))
 		if templ_7745c5c3_Err != nil {
@@ -884,7 +880,7 @@ func Script() templ.Component {
 			var templ_7745c5c3_Var37 string
 			templ_7745c5c3_Var37, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 245, Col: 43}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 244, Col: 43}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var37))
 			if templ_7745c5c3_Err != nil {

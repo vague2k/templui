@@ -47,7 +47,6 @@ type FooterProps struct {
 }
 
 templ Modal(props ...Props) {
-	@Script()
 	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}

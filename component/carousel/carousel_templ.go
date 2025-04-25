@@ -76,10 +76,6 @@ func Carousel(props ...Props) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = Script().Render(ctx, templ_7745c5c3_Buffer)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
 		var p Props
 		if len(props) > 0 {
 			p = props[0]
@@ -106,7 +102,7 @@ func Carousel(props ...Props) templ.Component {
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 58, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 57, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -137,7 +133,7 @@ func Carousel(props ...Props) templ.Component {
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.FormatBool(p.Autoplay))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 66, Col: 48}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 65, Col: 48}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
@@ -155,7 +151,7 @@ func Carousel(props ...Props) templ.Component {
 			return p.Interval
 		}()))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 72, Col: 12}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 71, Col: 12}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 		if templ_7745c5c3_Err != nil {
@@ -168,7 +164,7 @@ func Carousel(props ...Props) templ.Component {
 		var templ_7745c5c3_Var7 string
 		templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.FormatBool(p.Loop))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 73, Col: 40}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 72, Col: 40}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 		if templ_7745c5c3_Err != nil {
@@ -245,7 +241,7 @@ func Content(props ...ContentProps) templ.Component {
 			var templ_7745c5c3_Var10 string
 			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 87, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 86, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {
@@ -340,7 +336,7 @@ func Item(props ...ItemProps) templ.Component {
 			var templ_7745c5c3_Var14 string
 			templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 108, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 107, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 			if templ_7745c5c3_Err != nil {
@@ -435,7 +431,7 @@ func Previous(props ...PreviousProps) templ.Component {
 			var templ_7745c5c3_Var18 string
 			templ_7745c5c3_Var18, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 129, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 128, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var18))
 			if templ_7745c5c3_Err != nil {
@@ -530,7 +526,7 @@ func Next(props ...NextProps) templ.Component {
 			var templ_7745c5c3_Var22 string
 			templ_7745c5c3_Var22, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 152, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 151, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var22))
 			if templ_7745c5c3_Err != nil {
@@ -625,7 +621,7 @@ func Indicators(props ...IndicatorsProps) templ.Component {
 			var templ_7745c5c3_Var26 string
 			templ_7745c5c3_Var26, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 175, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 174, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var26))
 			if templ_7745c5c3_Err != nil {
@@ -692,7 +688,7 @@ func Indicators(props ...IndicatorsProps) templ.Component {
 			var templ_7745c5c3_Var30 string
 			templ_7745c5c3_Var30, templ_7745c5c3_Err = templ.JoinStringErrs(fmt.Sprintf("Go to slide %d", i+1))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 193, Col: 51}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 192, Col: 51}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var30))
 			if templ_7745c5c3_Err != nil {
@@ -753,7 +749,7 @@ func Script() templ.Component {
 			var templ_7745c5c3_Var33 string
 			templ_7745c5c3_Var33, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 204, Col: 43}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/carousel/carousel.templ`, Line: 203, Col: 43}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var33))
 			if templ_7745c5c3_Err != nil {
