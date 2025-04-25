@@ -9,6 +9,12 @@ type Props struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
+}
+
+type InputProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
 	Name       string
 	Min        int
 	Max        int
@@ -42,8 +48,8 @@ templ Slider(props ...Props) {
 	</div>
 }
 
-templ Input(props ...Props) {
-	{{ var p Props }}
+templ Input(props ...InputProps) {
+	{{ var p InputProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}

@@ -61,7 +61,7 @@ templ Popover(props ...Props) {
 	<div class={ p.Class }>
 		{ children... }
 	</div>
-	<div id="popover-portal-container" class="fixed inset-0 z-[9999] pointer-events-none"></div>
+	<div data-popover-portal-container class="fixed inset-0 z-[9999] pointer-events-none"></div>
 }
 
 templ Trigger(props ...TriggerProps) {
@@ -269,9 +269,12 @@ templ Script() {
 					// Don't reopen if already open
 					if (state.isOpen) return;
 					
-					// Find portal container
-					const portal = document.getElementById('popover-portal-container');
-					if (!portal) return;
+					// Find portal container using data attribute
+					const portal = document.querySelector('[data-popover-portal-container]');
+					if (!portal) {
+						console.error("Popover portal container '[data-popover-portal-container]' not found.");
+						return;
+					}
 					
 					// Move to portal if needed
 					if (content.parentNode !== portal) {

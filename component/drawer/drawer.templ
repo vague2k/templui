@@ -103,6 +103,9 @@ templ Content(props ...ContentProps) {
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
+	if p.ID == "" {
+		{{ p.ID = util.RandomID() }}
+	}
 	<div
 		if p.ID != "" {
 			id={ p.ID }
