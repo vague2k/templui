@@ -160,228 +160,236 @@ var handle = templ.NewOnceHandle()
 templ Script() {
 	@handle.Once() {
 		<script nonce={ templ.GetNonce(ctx) }>
-			// Statemanagement - safely check if already defined
 			if (typeof window.inputOTPState === 'undefined') {
 				window.inputOTPState = new WeakMap();
 			}
 			
-			function initInputOTP(container) {
-				// Basic elements
-				const hiddenInput = container.querySelector('[data-input-otp-value-target]');
-				const slots = Array.from(container.querySelectorAll('[data-input-otp-slot]'))
-					.sort((a, b) => parseInt(a.dataset.inputIndex) - parseInt(b.dataset.inputIndex));
-				
-				if (!hiddenInput || slots.length === 0) return;
-				
-				// Core functionality
-				function updateHiddenValue() {
-					hiddenInput.value = slots.map(slot => slot.value).join('');
-				}
-				
-				function findFirstEmptySlotIndex() {
-					return slots.findIndex(slot => !slot.value);
-				}
-				
-				function handleInput(e) {
-					const input = e.target;
-					const index = parseInt(input.dataset.inputIndex);
+			(function() { 
+				function initInputOTP(container) {
+					// Basic elements
+					const hiddenInput = container.querySelector('[data-input-otp-value-target]');
+					const slots = Array.from(container.querySelectorAll('[data-input-otp-slot]'))
+						.sort((a, b) => parseInt(a.dataset.inputIndex) - parseInt(b.dataset.inputIndex));
 					
-					// Prevent space character
-					if (input.value === ' ') {
-						input.value = '';
-						return;
+					if (!hiddenInput || slots.length === 0) return;
+					
+					// Core functionality
+					function updateHiddenValue() {
+						hiddenInput.value = slots.map(slot => slot.value).join('');
 					}
 					
-					// Limit to single character
-					if (input.value.length > 1) {
-						input.value = input.value.slice(-1);
+					function findFirstEmptySlotIndex() {
+						return slots.findIndex(slot => !slot.value);
 					}
 					
-					// Auto-advance to next slot
-					if (input.value && index < slots.length - 1) {
-						slots[index + 1].focus();
+					function handleInput(e) {
+						const input = e.target;
+						const index = parseInt(input.dataset.inputIndex);
+						
+						// Prevent space character
+						if (input.value === ' ') {
+							input.value = '';
+							return;
+						}
+						
+						// Limit to single character
+						if (input.value.length > 1) {
+							input.value = input.value.slice(-1);
+						}
+						
+						// Auto-advance to next slot
+						if (input.value && index < slots.length - 1) {
+							slots[index + 1].focus();
+						}
+						
+						updateHiddenValue();
 					}
 					
-					updateHiddenValue();
-				}
-				
-				function handleKeydown(e) {
-					const input = e.target;
-					const index = parseInt(input.dataset.inputIndex);
-					
-					// Handle backspace
-					if (e.key === 'Backspace') {
-						const currentValue = input.value;
-						if (index > 0) {
+					function handleKeydown(e) {
+						const input = e.target;
+						const index = parseInt(input.dataset.inputIndex);
+						
+						// Handle backspace
+						if (e.key === 'Backspace') {
+							const currentValue = input.value;
+							if (index > 0) {
+								e.preventDefault();
+								
+								if (currentValue) {
+									input.value = '';
+									updateHiddenValue();
+									focusSlot(index - 1);
+								} else {
+									// If current was empty, clear previous and focus it
+									slots[index - 1].value = '';
+									updateHiddenValue(); 
+									focusSlot(index - 1);
+								}
+							}
+						}
+						
+						// Arrow key navigation
+						if (e.key === 'ArrowLeft' && index > 0) {
 							e.preventDefault();
-							
-							if (currentValue) {
-								input.value = '';
-								updateHiddenValue();
-								focusSlot(index - 1);
-							} else {
-								// If current was empty, clear previous and focus it
-								slots[index - 1].value = '';
-								updateHiddenValue(); 
-								focusSlot(index - 1);
+							focusSlot(index - 1);
+						}
+						
+						if (e.key === 'ArrowRight' && index < slots.length - 1) {
+							e.preventDefault();
+							focusSlot(index + 1);
+						}
+					}
+					
+					function focusSlot(index) {
+						if (index >= 0 && index < slots.length) {
+							slots[index].focus();
+							setTimeout(() => slots[index].select(), 0);
+						}
+					}
+					
+					function handleFocus(e) {
+						const input = e.target;
+						const index = parseInt(input.dataset.inputIndex);
+						const firstEmptyIndex = findFirstEmptySlotIndex();
+						
+						// Redirect focus to first empty slot if needed
+						if (firstEmptyIndex !== -1 && index !== firstEmptyIndex) {
+							focusSlot(firstEmptyIndex);
+							return;
+						}
+						
+						input.select();
+					}
+					
+					function handlePaste(e) {
+						e.preventDefault();
+						
+						const pastedData = (e.clipboardData || window.clipboardData).getData('text');
+						const pastedChars = pastedData.replace(/\s/g, '').split('');
+						
+						// Fill slots with pasted characters
+						let currentSlot = 0;
+						for (let i = 0; i < pastedChars.length && currentSlot < slots.length; i++) {
+							slots[currentSlot].value = pastedChars[i];
+							currentSlot++;
+						}
+						
+						// Focus appropriately after paste
+						let focusIndex = findFirstEmptySlotIndex();
+						if (focusIndex === -1) {
+							focusIndex = slots.length - 1;
+						}
+						
+						focusSlot(focusIndex);
+						updateHiddenValue();
+					}
+					
+					// Add all event listeners
+					for (const slot of slots) {
+						slot.addEventListener('input', handleInput);
+						slot.addEventListener('keydown', handleKeydown);
+						slot.addEventListener('focus', handleFocus);
+					}
+					
+					// Paste event on container for delegation
+					container.addEventListener('paste', handlePaste);
+					
+					// Set up label click handling
+					const targetId = hiddenInput.id;
+					if (targetId) {
+						for (const label of document.querySelectorAll(`label[for="${targetId}"]`)) {
+							if (!label.dataset.inputOtpListener) {
+								label.addEventListener('click', e => {
+									e.preventDefault();
+									if (slots.length > 0) focusSlot(0);
+								});
+								label.dataset.inputOtpListener = 'true';
 							}
 						}
 					}
 					
-					// Arrow key navigation
-					if (e.key === 'ArrowLeft' && index > 0) {
-						e.preventDefault();
-						focusSlot(index - 1);
+					// Initial value handling
+					if (container.dataset.value) {
+						const initialValue = container.dataset.value;
+						for (let i = 0; i < slots.length; i++) {
+							if (i < initialValue.length) {
+								slots[i].value = initialValue[i];
+							}
+						}
+						updateHiddenValue();
 					}
 					
-					if (e.key === 'ArrowRight' && index < slots.length - 1) {
-						e.preventDefault();
-						focusSlot(index + 1);
-					}
+					// Store event handlers for potential cleanup
+					const state = {
+						slots,
+						hiddenInput,
+						handlers: { handleInput, handleKeydown, handleFocus, handlePaste }
+					};
+					
+					window.inputOTPState.set(container, state);
 				}
 				
-				function focusSlot(index) {
-					if (index >= 0 && index < slots.length) {
-						slots[index].focus();
-						setTimeout(() => slots[index].select(), 0);
-					}
-				}
-				
-				function handleFocus(e) {
-					const input = e.target;
-					const index = parseInt(input.dataset.inputIndex);
-					const firstEmptyIndex = findFirstEmptySlotIndex();
+				// Handle cleanup before HTMX swap
+				function cleanupInputOTP(container) {
+					const state = window.inputOTPState.get(container);
+					if (!state) return;
 					
-					// Redirect focus to first empty slot if needed
-					if (firstEmptyIndex !== -1 && index !== firstEmptyIndex) {
-						focusSlot(firstEmptyIndex);
-						return;
+					// Remove all event listeners
+					for (const slot of state.slots) {
+						slot.removeEventListener('input', state.handlers.handleInput);
+						slot.removeEventListener('keydown', state.handlers.handleKeydown);
+						slot.removeEventListener('focus', state.handlers.handleFocus);
 					}
 					
-					input.select();
+					container.removeEventListener('paste', state.handlers.handlePaste);
+					
+					// Clean up state
+					window.inputOTPState.delete(container);
 				}
 				
-				function handlePaste(e) {
-					e.preventDefault();
-					
-					const pastedData = (e.clipboardData || window.clipboardData).getData('text');
-					const pastedChars = pastedData.replace(/\s/g, '').split('');
-					
-					// Fill slots with pasted characters
-					let currentSlot = 0;
-					for (let i = 0; i < pastedChars.length && currentSlot < slots.length; i++) {
-						slots[currentSlot].value = pastedChars[i];
-						currentSlot++;
-					}
-					
-					// Focus appropriately after paste
-					let focusIndex = findFirstEmptySlotIndex();
-					if (focusIndex === -1) {
-						focusIndex = slots.length - 1;
-					}
-					
-					focusSlot(focusIndex);
-					updateHiddenValue();
-				}
-				
-				// Add all event listeners
-				for (const slot of slots) {
-					slot.addEventListener('input', handleInput);
-					slot.addEventListener('keydown', handleKeydown);
-					slot.addEventListener('focus', handleFocus);
-				}
-				
-				// Paste event on container for delegation
-				container.addEventListener('paste', handlePaste);
-				
-				// Set up label click handling
-				const targetId = hiddenInput.id;
-				if (targetId) {
-					for (const label of document.querySelectorAll(`label[for="${targetId}"]`)) {
-						if (!label.dataset.inputOtpListener) {
-							label.addEventListener('click', e => {
-								e.preventDefault();
-								if (slots.length > 0) focusSlot(0);
-							});
-							label.dataset.inputOtpListener = 'true';
+				function initAllInputOTP(root = document) {
+					const containers = root.querySelectorAll('[data-input-otp]');
+					for (const container of containers) {
+						// Check if already initialized for this container
+						if (!window.inputOTPState.has(container)) {
+							initInputOTP(container);
 						}
 					}
 				}
 				
-				// Initial value handling
-				if (container.dataset.value) {
-					const initialValue = container.dataset.value;
-					for (let i = 0; i < slots.length; i++) {
-						if (i < initialValue.length) {
-							slots[i].value = initialValue[i];
-						}
+				// HTMX cleanup before swap
+				document.body.addEventListener('htmx:beforeSwap', (evt) => {
+					const target = evt.detail.target;
+					if (!target) return;
+					
+					// Clean up elements being removed or within the target
+					if (target.matches && target.matches('[data-input-otp]')) {
+						cleanupInputOTP(target);
 					}
-					updateHiddenValue();
+					// Also cleanup descendants in case the target itself isn't the OTP container
+					for (const container of target.querySelectorAll('[data-input-otp]')) {
+						cleanupInputOTP(container);
+					}
+				});
+				
+				// Initialize after HTMX swaps
+				document.body.addEventListener('htmx:afterSwap', (evt) => {
+					if (evt.target) {
+						// Use setTimeout to ensure the new content is fully in the DOM
+						setTimeout(() => initAllInputOTP(evt.target), 0);
+					}
+				});
+				
+				// Initialize on DOM load
+				document.addEventListener('DOMContentLoaded', () => {
+					initAllInputOTP();
+				});
+				
+				// Initialize immediately if DOM is already ready
+				if (document.readyState === 'complete' || document.readyState === 'interactive') {
+					initAllInputOTP();
 				}
-				
-				// Store event handlers for potential cleanup
-				const state = {
-					slots,
-					hiddenInput,
-					handlers: { handleInput, handleKeydown, handleFocus, handlePaste }
-				};
-				
-				window.inputOTPState.set(container, state);
-			}
-			
-			// Handle cleanup before HTMX swap
-			function cleanupInputOTP(container) {
-				const state = window.inputOTPState.get(container);
-				if (!state) return;
-				
-				// Remove all event listeners
-				for (const slot of state.slots) {
-					slot.removeEventListener('input', state.handlers.handleInput);
-					slot.removeEventListener('keydown', state.handlers.handleKeydown);
-					slot.removeEventListener('focus', state.handlers.handleFocus);
-				}
-				
-				container.removeEventListener('paste', state.handlers.handlePaste);
-				
-				// Clean up state
-				window.inputOTPState.delete(container);
-			}
-			
-			function initAllComponents(root = document) {
-				for (const container of root.querySelectorAll('[data-input-otp]')) {
-					initInputOTP(container);
-				}
-			}
-			
-			// HTMX cleanup before swap
-			document.body.addEventListener('htmx:beforeSwap', (evt) => {
-				const target = evt.detail.target;
-				if (!target) return;
-				
-				// Clean up elements being removed
-				if (target.matches && target.matches('[data-input-otp]')) {
-					cleanupInputOTP(target);
-				}
-				
-				for (const container of target.querySelectorAll('[data-input-otp]')) {
-					cleanupInputOTP(container);
-				}
-			});
-			
-			// Initialize after HTMX swaps
-			document.body.addEventListener('htmx:afterSwap', (evt) => {
-				if (evt.target) {
-					setTimeout(() => initAllComponents(evt.target), 0);
-				}
-			});
-			
-			// Initialize on DOM load
-			document.addEventListener('DOMContentLoaded', () => initAllComponents());
-			
-			// Initialize immediately if DOM is already ready
-			if (document.readyState === 'complete' || document.readyState === 'interactive') {
-				initAllComponents();
-			}
+			})();
 		</script>
 	}
 }
