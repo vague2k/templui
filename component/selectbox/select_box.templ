@@ -242,278 +242,280 @@ var handle = templ.NewOnceHandle()
 templ Script() {
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
-			function positionDropdown(trigger, content) {
-				const triggerRect = trigger.getBoundingClientRect();
-				const viewportHeight = window.innerHeight;
-				const viewportWidth = window.innerWidth;
-				
-				content.style.display = 'block';
-				content.style.visibility = 'hidden';
-				content.style.maxHeight = '';
-				
-				// Force reflow
-				void content.offsetHeight;
-				
-				const contentHeight = content.scrollHeight;
-				const contentWidth = content.scrollWidth;
-				
-				const spaceBelow = viewportHeight - triggerRect.bottom;
-				const spaceAbove = triggerRect.top;
-				const spaceRight = viewportWidth - triggerRect.left;
-				
-				content.style.visibility = '';
-				
-				// Position vertically
-				if (spaceBelow >= contentHeight) {
-					// Enough space below
-					content.style.top = '100%';
-					content.style.bottom = 'auto';
-					content.style.marginTop = '0.25rem';
-					content.style.marginBottom = '0';
-					content.style.maxHeight = `${spaceBelow - 10}px`;
-				} else if (spaceAbove >= contentHeight) {
-					// Enough space above
-					content.style.bottom = '100%';
-					content.style.top = 'auto';
-					content.style.marginBottom = '0.25rem';
-					content.style.marginTop = '0';
-					content.style.maxHeight = `${spaceAbove - 10}px`;
-				} else {
-					// Limited space - choose the larger area and add scrolling
-					if (spaceBelow >= spaceAbove) {
+			(function() { // IIFE
+				function positionDropdown(trigger, content) {
+					const triggerRect = trigger.getBoundingClientRect();
+					const viewportHeight = window.innerHeight;
+					const viewportWidth = window.innerWidth;
+					
+					content.style.display = 'block';
+					content.style.visibility = 'hidden';
+					content.style.maxHeight = '';
+					
+					// Force reflow
+					void content.offsetHeight;
+					
+					const contentHeight = content.scrollHeight;
+					const contentWidth = content.scrollWidth;
+					
+					const spaceBelow = viewportHeight - triggerRect.bottom;
+					const spaceAbove = triggerRect.top;
+					const spaceRight = viewportWidth - triggerRect.left;
+					
+					content.style.visibility = '';
+					
+					// Position vertically
+					if (spaceBelow >= contentHeight) {
+						// Enough space below
 						content.style.top = '100%';
 						content.style.bottom = 'auto';
 						content.style.marginTop = '0.25rem';
 						content.style.marginBottom = '0';
 						content.style.maxHeight = `${spaceBelow - 10}px`;
-					} else {
+					} else if (spaceAbove >= contentHeight) {
+						// Enough space above
 						content.style.bottom = '100%';
 						content.style.top = 'auto';
 						content.style.marginBottom = '0.25rem';
 						content.style.marginTop = '0';
 						content.style.maxHeight = `${spaceAbove - 10}px`;
-					}
-					content.style.overflowY = 'auto';
-				}
-				
-				// Position horizontally
-				if (contentWidth > triggerRect.width && contentWidth > spaceRight) {
-					content.style.right = '0';
-					content.style.left = 'auto';
-				} else {
-					content.style.left = '0';
-					content.style.right = 'auto';
-				}
-			}
-
-			function initSelect(container) {
-				// Skip if already initialized
-				if (!container || container.hasAttribute('data-initialized')) {
-					return;
-				}
-				
-				// Mark as initialized
-				container.setAttribute('data-initialized', 'true');
-				
-				// Find required elements
-				const trigger = container.querySelector('button.select-trigger');
-				const content = container.querySelector('.select-content');
-				const valueEl = container.querySelector('.select-value');
-				const hiddenInput = container.querySelector('input[type="hidden"]');
-				
-				// Exit if critical elements are missing
-				if (!trigger || !content) {
-					console.error('Select box missing required elements', container);
-					return;
-				}
-				
-				// State variables
-				let isOpen = false;
-				
-				// Find selected item or highlight first item
-				const selectedItem = container.querySelector('.select-item[data-selected="true"]');
-				
-				// If no item is selected, mark first as visually highlighted
-				if (!selectedItem) {
-					const firstItem = container.querySelector('.select-item');
-					if (firstItem) {
-						firstItem.classList.add('bg-muted');
-					}
-				}
-				
-				// Initialize values if item is selected
-				if (selectedItem && valueEl) {
-					const itemText = selectedItem.querySelector('.select-item-text');
-					if (itemText) {
-						valueEl.textContent = itemText.textContent;
-						valueEl.classList.remove('text-muted-foreground');
-					}
-					if (hiddenInput) {
-						hiddenInput.value = selectedItem.getAttribute('data-value');
-					}
-				}
-				
-				// Toggle dropdown open/closed
-				function toggleDropdown() {
-					isOpen = !isOpen;
-					trigger.setAttribute('aria-expanded', String(isOpen));
-					
-					if (isOpen) {
-						// Open dropdown
-						positionDropdown(trigger, content);
-						content.style.display = 'block';
-						
-						// Force reflow then animate
-						void content.offsetHeight;
-						content.classList.remove('opacity-0', '-translate-y-1', 'scale-95');
-						content.classList.add('opacity-100', 'translate-y-0', 'scale-100');
 					} else {
-						// Close dropdown with animation
-						content.classList.remove('opacity-100', 'translate-y-0', 'scale-100');
-						content.classList.add('opacity-0', '-translate-y-1', 'scale-95');
-						
-						// Hide after animation completes
-						setTimeout(() => {
-							if (!isOpen) {
-								content.style.display = 'none';
-							}
-						}, 100);
-						
-						// Reset focus
-						trigger.style.outline = '';
-						trigger.style.boxShadow = '';
-						trigger.focus();
-					}
-				}
-				
-				// Reset hover effects, restore selected item styling
-				function resetItemStyles() {
-					container.querySelectorAll('.select-item').forEach(item => {
-						if (item.getAttribute('data-selected') === 'true') {
-							item.classList.add('bg-accent', 'text-accent-foreground');
-							item.classList.remove('bg-muted');
+						// Limited space - choose the larger area and add scrolling
+						if (spaceBelow >= spaceAbove) {
+							content.style.top = '100%';
+							content.style.bottom = 'auto';
+							content.style.marginTop = '0.25rem';
+							content.style.marginBottom = '0';
+							content.style.maxHeight = `${spaceBelow - 10}px`;
 						} else {
-							item.classList.remove('bg-accent', 'text-accent-foreground', 'bg-muted');
+							content.style.bottom = '100%';
+							content.style.top = 'auto';
+							content.style.marginBottom = '0.25rem';
+							content.style.marginTop = '0';
+							content.style.maxHeight = `${spaceAbove - 10}px`;
 						}
-					});
+						content.style.overflowY = 'auto';
+					}
+					
+					// Position horizontally
+					if (contentWidth > triggerRect.width && contentWidth > spaceRight) {
+						content.style.right = '0';
+						content.style.left = 'auto';
+					} else {
+						content.style.left = '0';
+						content.style.right = 'auto';
+					}
 				}
-				
-				// Select an item
-				function selectItem(item) {
-					if (item.getAttribute('data-disabled') === 'true') return;
+
+				function initSelect(container) {
+					// Skip if already initialized
+					if (!container || container.hasAttribute('data-initialized')) {
+						return;
+					}
 					
-					const value = item.getAttribute('data-value');
-					const itemText = item.querySelector('.select-item-text');
+					// Mark as initialized
+					container.setAttribute('data-initialized', 'true');
 					
-					// Reset all items
-					container.querySelectorAll('.select-item').forEach(el => {
-						el.setAttribute('data-selected', 'false');
-						el.classList.remove('bg-accent', 'text-accent-foreground', 'bg-muted');
+					// Find required elements
+					const trigger = container.querySelector('button.select-trigger');
+					const content = container.querySelector('.select-content');
+					const valueEl = container.querySelector('.select-value');
+					const hiddenInput = container.querySelector('input[type="hidden"]');
+					
+					// Exit if critical elements are missing
+					if (!trigger || !content) {
+						console.error('Select box missing required elements', container);
+						return;
+					}
+					
+					// State variables
+					let isOpen = false;
+					
+					// Find selected item or highlight first item
+					const selectedItem = container.querySelector('.select-item[data-selected="true"]');
+					
+					// If no item is selected, mark first as visually highlighted
+					if (!selectedItem) {
+						const firstItem = container.querySelector('.select-item');
+						if (firstItem) {
+							firstItem.classList.add('bg-muted');
+						}
+					}
+					
+					// Initialize values if item is selected
+					if (selectedItem && valueEl) {
+						const itemText = selectedItem.querySelector('.select-item-text');
+						if (itemText) {
+							valueEl.textContent = itemText.textContent;
+							valueEl.classList.remove('text-muted-foreground');
+						}
+						if (hiddenInput) {
+							hiddenInput.value = selectedItem.getAttribute('data-value');
+						}
+					}
+					
+					// Toggle dropdown open/closed
+					function toggleDropdown() {
+						isOpen = !isOpen;
+						trigger.setAttribute('aria-expanded', String(isOpen));
 						
-						const check = el.querySelector('.select-check');
+						if (isOpen) {
+							// Open dropdown
+							positionDropdown(trigger, content);
+							content.style.display = 'block';
+							
+							// Force reflow then animate
+							void content.offsetHeight;
+							content.classList.remove('opacity-0', '-translate-y-1', 'scale-95');
+							content.classList.add('opacity-100', 'translate-y-0', 'scale-100');
+						} else {
+							// Close dropdown with animation
+							content.classList.remove('opacity-100', 'translate-y-0', 'scale-100');
+							content.classList.add('opacity-0', '-translate-y-1', 'scale-95');
+							
+							// Hide after animation completes
+							setTimeout(() => {
+								if (!isOpen) {
+									content.style.display = 'none';
+								}
+							}, 100);
+							
+							// Reset focus
+							trigger.style.outline = '';
+							trigger.style.boxShadow = '';
+							trigger.focus();
+						}
+					}
+					
+					// Reset hover effects, restore selected item styling
+					function resetItemStyles() {
+						container.querySelectorAll('.select-item').forEach(item => {
+							if (item.getAttribute('data-selected') === 'true') {
+								item.classList.add('bg-accent', 'text-accent-foreground');
+								item.classList.remove('bg-muted');
+							} else {
+								item.classList.remove('bg-accent', 'text-accent-foreground', 'bg-muted');
+							}
+						});
+					}
+					
+					// Select an item
+					function selectItem(item) {
+						if (item.getAttribute('data-disabled') === 'true') return;
+						
+						const value = item.getAttribute('data-value');
+						const itemText = item.querySelector('.select-item-text');
+						
+						// Reset all items
+						container.querySelectorAll('.select-item').forEach(el => {
+							el.setAttribute('data-selected', 'false');
+							el.classList.remove('bg-accent', 'text-accent-foreground', 'bg-muted');
+							
+							const check = el.querySelector('.select-check');
+							if (check) {
+								check.classList.replace('opacity-100', 'opacity-0');
+							}
+						});
+						
+						// Mark new selection
+						item.setAttribute('data-selected', 'true');
+						item.classList.add('bg-accent', 'text-accent-foreground');
+						
+						const check = item.querySelector('.select-check');
 						if (check) {
-							check.classList.replace('opacity-100', 'opacity-0');
+							check.classList.replace('opacity-0', 'opacity-100');
+						}
+						
+						// Update display value
+						if (valueEl && itemText) {
+							valueEl.textContent = itemText.textContent;
+							valueEl.classList.remove('text-muted-foreground');
+						}
+						
+						// Update hidden input & trigger change event
+						if (hiddenInput && value) {
+							hiddenInput.value = value;
+							hiddenInput.dispatchEvent(new Event('change', {bubbles: true}));
+						}
+						
+						// Close dropdown
+						toggleDropdown();
+					}
+					
+					// Event: Trigger click
+					trigger.addEventListener('mousedown', e => {
+						if (e.button === 0) {
+							e.currentTarget.style.outline = 'none';
+							e.currentTarget.style.boxShadow = 'none';
 						}
 					});
 					
-					// Mark new selection
-					item.setAttribute('data-selected', 'true');
-					item.classList.add('bg-accent', 'text-accent-foreground');
+					trigger.addEventListener('click', e => {
+						if (e.currentTarget.disabled) return;
+						toggleDropdown();
+					});
 					
-					const check = item.querySelector('.select-check');
-					if (check) {
-						check.classList.replace('opacity-0', 'opacity-100');
-					}
+					// Event: Keyboard navigation
+					trigger.addEventListener('keydown', e => {
+						if ((e.key === 'Enter' || e.key === ' ') && !e.currentTarget.disabled) {
+							e.preventDefault();
+							toggleDropdown();
+						} else if ((e.key === 'Escape' || e.key === 'Tab') && isOpen) {
+							e.preventDefault();
+							toggleDropdown();
+						}
+					});
 					
-					// Update display value
-					if (valueEl && itemText) {
-						valueEl.textContent = itemText.textContent;
-						valueEl.classList.remove('text-muted-foreground');
-					}
+					// Event: Mouse hover on items
+					content.addEventListener('mouseover', e => {
+						const item = e.target.closest('.select-item');
+						if (!item || item.getAttribute('data-disabled') === 'true') return;
+						
+						container.querySelectorAll('.select-item').forEach(el => {
+							el.classList.remove('bg-accent', 'text-accent-foreground', 'bg-muted');
+						});
+						
+						item.classList.add('bg-accent', 'text-accent-foreground');
+					});
 					
-					// Update hidden input & trigger change event
-					if (hiddenInput && value) {
-						hiddenInput.value = value;
-						hiddenInput.dispatchEvent(new Event('change', {bubbles: true}));
-					}
+					content.addEventListener('mouseleave', resetItemStyles);
 					
-					// Close dropdown
-					toggleDropdown();
+					// Event: Item selection
+					container.querySelectorAll('.select-item').forEach(item => {
+						item.addEventListener('click', () => selectItem(item));
+						
+						item.addEventListener('keydown', e => {
+							if (e.key === 'Enter' || e.key === ' ') {
+								e.preventDefault();
+								selectItem(item);
+							}
+						});
+					});
+					
+					// Event: Outside click
+					document.addEventListener('click', e => {
+						if (isOpen && !container.contains(e.target)) {
+							toggleDropdown();
+						}
+					});
 				}
 				
-				// Event: Trigger click
-				trigger.addEventListener('mousedown', e => {
-					if (e.button === 0) {
-						e.currentTarget.style.outline = 'none';
-						e.currentTarget.style.boxShadow = 'none';
-					}
+				// Initialize all select boxes
+				function initAllComponents(root = document) {
+					const selects = root.querySelectorAll('.select-container:not([data-initialized])');
+					selects.forEach(initSelect);
+				}
+				
+				// Init on page load
+				document.addEventListener('DOMContentLoaded', () => {
+					initAllComponents();
 				});
 				
-				trigger.addEventListener('click', e => {
-					if (e.currentTarget.disabled) return;
-					toggleDropdown();
+				// Init after HTMX swaps
+				document.body.addEventListener('htmx:afterSwap', evt => {
+					initAllComponents(evt.target);
 				});
-				
-				// Event: Keyboard navigation
-				trigger.addEventListener('keydown', e => {
-					if ((e.key === 'Enter' || e.key === ' ') && !e.currentTarget.disabled) {
-						e.preventDefault();
-						toggleDropdown();
-					} else if ((e.key === 'Escape' || e.key === 'Tab') && isOpen) {
-						e.preventDefault();
-						toggleDropdown();
-					}
-				});
-				
-				// Event: Mouse hover on items
-				content.addEventListener('mouseover', e => {
-					const item = e.target.closest('.select-item');
-					if (!item || item.getAttribute('data-disabled') === 'true') return;
-					
-					container.querySelectorAll('.select-item').forEach(el => {
-						el.classList.remove('bg-accent', 'text-accent-foreground', 'bg-muted');
-					});
-					
-					item.classList.add('bg-accent', 'text-accent-foreground');
-				});
-				
-				content.addEventListener('mouseleave', resetItemStyles);
-				
-				// Event: Item selection
-				container.querySelectorAll('.select-item').forEach(item => {
-					item.addEventListener('click', () => selectItem(item));
-					
-					item.addEventListener('keydown', e => {
-						if (e.key === 'Enter' || e.key === ' ') {
-							e.preventDefault();
-							selectItem(item);
-						}
-					});
-				});
-				
-				// Event: Outside click
-				document.addEventListener('click', e => {
-					if (isOpen && !container.contains(e.target)) {
-						toggleDropdown();
-					}
-				});
-			}
-			
-			// Initialize all select boxes
-			function initAllSelects(root = document) {
-				const selects = root.querySelectorAll('.select-container:not([data-initialized])');
-				selects.forEach(initSelect);
-			}
-			
-			// Init on page load
-			document.addEventListener('DOMContentLoaded', () => {
-				initAllSelects();
-			});
-			
-			// Init after HTMX swaps
-			document.body.addEventListener('htmx:afterSwap', evt => {
-				initAllSelects(evt.target);
-			});
+			})(); // End of IIFE
 		</script>
 	}
 }
