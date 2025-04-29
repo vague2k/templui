@@ -225,105 +225,107 @@ var handle = templ.NewOnceHandle()
 templ Script() {
 	@handle.Once() {
 		<script nonce={ templ.GetNonce(ctx) }>
-			if (typeof window.toastHandler === 'undefined') {
-				window.toastHandler = true;
-				window.toasts = new Map();
+			(function() { // IIFE
+				if (typeof window.toastHandler === 'undefined') {
+					window.toastHandler = true;
+					window.toasts = new Map();
 
-				function setupToast(toast) {
-					if (window.toasts.has(toast)) return;
+					function initToast(toast) {
+						if (window.toasts.has(toast)) return;
 
-					const duration = parseInt(toast.dataset.duration || '0');
-					const progress = toast.querySelector('[data-toast-progress]');
-					const dismiss = toast.querySelector('[data-toast-dismiss]');
-					
-					const state = {
-						timer: null,
-						remaining: duration,
-						startTime: Date.now(),
-						progress: progress,
-						paused: false
-					};
-					window.toasts.set(toast, state);
-
-					function removeToast() {
-						clearTimeout(state.timer);
-						toast.classList.remove('toast-enter-active');
-						toast.classList.add('toast-leave-active');
+						const duration = parseInt(toast.dataset.duration || '0');
+						const progress = toast.querySelector('[data-toast-progress]');
+						const dismiss = toast.querySelector('[data-toast-dismiss]');
 						
-						toast.addEventListener('transitionend', () => {
-							toast.remove();
-							window.toasts.delete(toast);
-						}, { once: true });
-					}
+						const state = {
+							timer: null,
+							remaining: duration,
+							startTime: Date.now(),
+							progress: progress,
+							paused: false
+						};
+						window.toasts.set(toast, state);
 
-					function startTimer(time) {
-						if (time <= 0) return;
-						
-						clearTimeout(state.timer);
-						state.startTime = Date.now();
-						state.remaining = time;
-						state.paused = false;
-						state.timer = setTimeout(removeToast, time);
-
-						if (state.progress) {
-							state.progress.style.transition = `width ${time}ms linear`;
-							void state.progress.offsetWidth;
-							state.progress.style.width = '0%';
+						function removeToast() {
+							clearTimeout(state.timer);
+							toast.classList.remove('toast-enter-active');
+							toast.classList.add('toast-leave-active');
+							
+							toast.addEventListener('transitionend', () => {
+								toast.remove();
+								window.toasts.delete(toast);
+							}, { once: true });
 						}
-					}
 
-					function pauseTimer() {
-						if (state.paused || state.remaining <= 0) return;
-						
-						clearTimeout(state.timer);
-						state.remaining -= (Date.now() - state.startTime);
-						state.paused = true;
-						
-						if (state.progress) {
-							const width = window.getComputedStyle(state.progress).width;
-							state.progress.style.transition = 'none';
-							state.progress.style.width = width;
+						function startTimer(time) {
+							if (time <= 0) return;
+							
+							clearTimeout(state.timer);
+							state.startTime = Date.now();
+							state.remaining = time;
+							state.paused = false;
+							state.timer = setTimeout(removeToast, time);
+
+							if (state.progress) {
+								state.progress.style.transition = `width ${time}ms linear`;
+								void state.progress.offsetWidth;
+								state.progress.style.width = '0%';
+							}
 						}
-					}
 
-					function resumeTimer() {
-						if (!state.paused || state.remaining <= 0) return;
-						startTimer(state.remaining);
-					}
-
-					if (duration > 0) {
-						toast.addEventListener('mouseenter', pauseTimer);
-						toast.addEventListener('mouseleave', resumeTimer);
-					}
-					
-					if (dismiss) {
-						dismiss.addEventListener('click', removeToast);
-					}
-
-					setTimeout(() => {
-						toast.classList.add('toast-enter-active');
-						if (state.progress) {
-							state.progress.style.width = '100%';
+						function pauseTimer() {
+							if (state.paused || state.remaining <= 0) return;
+							
+							clearTimeout(state.timer);
+							state.remaining -= (Date.now() - state.startTime);
+							state.paused = true;
+							
+							if (state.progress) {
+								const width = window.getComputedStyle(state.progress).width;
+								state.progress.style.transition = 'none';
+								state.progress.style.width = width;
+							}
 						}
-						startTimer(duration);
-					}, 50);
+
+						function resumeTimer() {
+							if (!state.paused || state.remaining <= 0) return;
+							startTimer(state.remaining);
+						}
+
+						if (duration > 0) {
+							toast.addEventListener('mouseenter', pauseTimer);
+							toast.addEventListener('mouseleave', resumeTimer);
+						}
+						
+						if (dismiss) {
+							dismiss.addEventListener('click', removeToast);
+						}
+
+						setTimeout(() => {
+							toast.classList.add('toast-enter-active');
+							if (state.progress) {
+								state.progress.style.width = '100%';
+							}
+							startTimer(duration);
+						}, 50);
+					}
+
+					document.addEventListener('DOMContentLoaded', () => {
+						document.querySelectorAll('[data-toast]').forEach(initToast);
+					});
+
+					document.body.addEventListener('htmx:afterSwap', (evt) => {
+						const target = evt.detail.target || evt.target;
+						if (!target) return;
+						
+						if (target.matches && target.matches('[data-toast]')) {
+							initToast(target);
+						}
+						
+						target.querySelectorAll('[data-toast]').forEach(initToast);
+					});
 				}
-
-				document.addEventListener('DOMContentLoaded', () => {
-					document.querySelectorAll('[data-toast]').forEach(setupToast);
-				});
-
-				document.body.addEventListener('htmx:afterSwap', (evt) => {
-					const target = evt.detail.target || evt.target;
-					if (!target) return;
-					
-					if (target.matches && target.matches('[data-toast]')) {
-						setupToast(target);
-					}
-					
-					target.querySelectorAll('[data-toast]').forEach(setupToast);
-				});
-			}
+			})(); // End of IIFE
 		</script>
 	}
 }
