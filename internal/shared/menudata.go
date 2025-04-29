@@ -99,8 +99,8 @@ var Sections = []Section{
 			},
 
 			{
-				Text: "Dropdown Menu",
-				Href: "/docs/components/dropdown-menu",
+				Text: "Dropdown",
+				Href: "/docs/components/dropdown",
 			},
 			{
 				Text: "Form",
