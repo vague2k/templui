@@ -19,6 +19,7 @@ import (
 	"github.com/axzilla/templui/component/slider"
 	"github.com/axzilla/templui/component/tabs"
 	"github.com/axzilla/templui/component/textarea"
+	"github.com/axzilla/templui/component/toast"
 	"github.com/axzilla/templui/internal/config"
 	"github.com/axzilla/templui/internal/ctxkeys"
 	"github.com/axzilla/templui/internal/ui/modules"
@@ -117,6 +118,7 @@ templ BaseLayout(title, description string) {
 			@selectbox.Script()
 			@slider.Script()
 			@tabs.Script()
+			@toast.Script()
 			@textarea.Script()
 		</body>
 	</html>
