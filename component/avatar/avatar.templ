@@ -224,51 +224,53 @@ var handle = templ.NewOnceHandle()
 templ Script() {
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
-			function initAvatar(avatar) {
-				const image = avatar.querySelector('[data-avatar-image]');
-				const fallback = avatar.querySelector('[data-avatar-fallback]');
+			(function() {
+				function initAvatar(avatar) {
+					const image = avatar.querySelector('[data-avatar-image]');
+					const fallback = avatar.querySelector('[data-avatar-fallback]');
 
-				if (image && fallback) {
-					image.style.display = 'none';
-					fallback.style.display = 'none';
-
-					const showFallback = () => {
+					if (image && fallback) {
 						image.style.display = 'none';
-						fallback.style.display = '';
-					};
-
-					const showImage = () => {
-						image.style.display = '';
 						fallback.style.display = 'none';
-					};
 
-					if (image.complete) {
-						image.naturalWidth > 0 && image.naturalHeight > 0 ? showImage() : showFallback();
-					} else {
-						image.addEventListener('load', showImage, { once: true });
-						image.addEventListener('error', showFallback, { once: true });
-						
-						setTimeout(() => {
-							if (image.complete && !(image.naturalWidth > 0 && image.naturalHeight > 0)) {
-								showFallback();
-							}
-						}, 50);
+						const showFallback = () => {
+							image.style.display = 'none';
+							fallback.style.display = '';
+						};
+
+						const showImage = () => {
+							image.style.display = '';
+							fallback.style.display = 'none';
+						};
+
+						if (image.complete) {
+							image.naturalWidth > 0 && image.naturalHeight > 0 ? showImage() : showFallback();
+						} else {
+							image.addEventListener('load', showImage, { once: true });
+							image.addEventListener('error', showFallback, { once: true });
+							
+							setTimeout(() => {
+								if (image.complete && !(image.naturalWidth > 0 && image.naturalHeight > 0)) {
+									showFallback();
+								}
+							}, 50);
+						}
+					} else if (fallback) {
+						fallback.style.display = '';
+					} else if (image) {
+						image.style.display = '';
 					}
-				} else if (fallback) {
-					fallback.style.display = '';
-				} else if (image) {
-					image.style.display = '';
 				}
-			}
 
-			function initAllComponents(root = document) {
-				for (const avatar of root.querySelectorAll('[data-avatar]')) {
-					initAvatar(avatar);
+				function initAllAvatars(root = document) {
+					for (const avatar of root.querySelectorAll('[data-avatar]')) {
+						initAvatar(avatar);
+					}
 				}
-			}
 
-			document.addEventListener('DOMContentLoaded', () => initAllComponents());
-			document.body.addEventListener('htmx:afterSwap', (e) => initAllComponents(e.target));
+				document.addEventListener('DOMContentLoaded', () => initAllAvatars());
+				document.body.addEventListener('htmx:afterSwap', (e) => initAllAvatars(e.target));
+			})();
 		</script>
 	}
 }
