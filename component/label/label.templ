@@ -41,67 +41,70 @@ var handle = templ.NewOnceHandle()
 templ Script() {
 	@handle.Once() {
 		<script nonce={ templ.GetNonce(ctx) }>
-			function initLabel(label) {
-				if (!label.hasAttribute('for') || !label.hasAttribute('data-disabled-style')) {
-					return;
+
+			(function() { // IIFE
+				function initLabel(label) {
+					if (!label.hasAttribute('for') || !label.hasAttribute('data-disabled-style')) {
+						return;
+					}
+					
+					const forId = label.getAttribute('for');
+					const targetElement = forId ? document.getElementById(forId) : null;
+					const disabledStyle = label.getAttribute('data-disabled-style');
+					
+					if (!disabledStyle) return;
+					
+					const classes = disabledStyle.split(' ').filter(Boolean);
+					
+					function updateStyle() {
+						if (targetElement && targetElement.disabled) {
+							label.classList.add(...classes);
+						} else {
+							label.classList.remove(...classes);
+						}
+					}
+					
+					// Set up mutation observer to detect disabled state changes
+					if (targetElement) {
+						const observer = new MutationObserver(mutations => {
+							for (const mutation of mutations) {
+								if (mutation.type === 'attributes' && mutation.attributeName === 'disabled') {
+									updateStyle();
+								}
+							}
+						});
+						
+						observer.observe(targetElement, { 
+							attributes: true, 
+							attributeFilter: ['disabled'] 
+						});
+					}
+					
+					// Initial style update
+					updateStyle();
 				}
 				
-				const forId = label.getAttribute('for');
-				const targetElement = forId ? document.getElementById(forId) : null;
-				const disabledStyle = label.getAttribute('data-disabled-style');
-				
-				if (!disabledStyle) return;
-				
-				const classes = disabledStyle.split(' ').filter(Boolean);
-				
-				function updateStyle() {
-					if (targetElement && targetElement.disabled) {
-						label.classList.add(...classes);
-					} else {
-						label.classList.remove(...classes);
+				function initAllComponents(root = document) {
+					for (const label of root.querySelectorAll('label[for][data-disabled-style]')) {
+						initLabel(label);
 					}
 				}
 				
-				// Set up mutation observer to detect disabled state changes
-				if (targetElement) {
-					const observer = new MutationObserver(mutations => {
-						for (const mutation of mutations) {
-							if (mutation.type === 'attributes' && mutation.attributeName === 'disabled') {
-								updateStyle();
-							}
-						}
-					});
-					
-					observer.observe(targetElement, { 
-						attributes: true, 
-						attributeFilter: ['disabled'] 
-					});
-				}
+				// Initialize on page load
+				document.addEventListener('DOMContentLoaded', () => initAllComponents());
 				
-				// Initial style update
-				updateStyle();
-			}
-			
-			function initAllComponents(root = document) {
-				for (const label of root.querySelectorAll('label[for][data-disabled-style]')) {
-					initLabel(label);
+				// Initialize after HTMX swaps
+				document.body.addEventListener('htmx:afterSwap', (evt) => {
+					if (evt.target) {
+						setTimeout(() => initAllComponents(evt.target), 0);
+					}
+				});
+				
+				// Initialize immediately if DOM is already ready
+				if (document.readyState === 'complete' || document.readyState === 'interactive') {
+					initAllComponents();
 				}
-			}
-			
-			// Initialize on page load
-			document.addEventListener('DOMContentLoaded', () => initAllComponents());
-			
-			// Initialize after HTMX swaps
-			document.body.addEventListener('htmx:afterSwap', (evt) => {
-				if (evt.target) {
-					setTimeout(() => initAllComponents(evt.target), 0);
-				}
-			});
-			
-			// Initialize immediately if DOM is already ready
-			if (document.readyState === 'complete' || document.readyState === 'interactive') {
-				initAllComponents();
-			}
+			})(); // End of IIFE
 		</script>
 	}
 }
