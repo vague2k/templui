@@ -87,13 +87,13 @@ templ Script() {
 					textarea.addEventListener('input', resize);
 				}
 				
-				function initAllTextareas(root = document) {
+				function initAllComponents(root = document) {
 					const textareas = root.querySelectorAll('textarea[data-textarea]:not([data-initialized])');
 					textareas.forEach(initTextarea);
 				}
 				
-				document.addEventListener('DOMContentLoaded', () => initAllTextareas());
-				document.body.addEventListener('htmx:afterSwap', evt => initAllTextareas(evt.target));
+				document.addEventListener('DOMContentLoaded', () => initAllComponents());
+				document.body.addEventListener('htmx:afterSwap', evt => initAllComponents(evt.target));
 			})(); // End of IIFE
 		</script>
 	}

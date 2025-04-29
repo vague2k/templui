@@ -221,13 +221,13 @@ templ Script() {
 					}
 				}
 
-				function initAllTabs(root = document) {
+				function initAllComponents(root = document) {
 					const tabsContainers = root.querySelectorAll('[data-tabs]:not([data-initialized])');
 					tabsContainers.forEach(initTabs);
 				}
 
-				document.addEventListener('DOMContentLoaded', () => initAllTabs());
-				document.body.addEventListener('htmx:afterSwap', evt => initAllTabs(evt.target));
+				document.addEventListener('DOMContentLoaded', () => initAllComponents());
+				document.body.addEventListener('htmx:afterSwap', evt => initAllComponents(evt.target));
 			})(); // End of IIFE
 		</script>
 	}
