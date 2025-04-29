@@ -347,7 +347,7 @@ templ Script() {
 					window.inputOTPState.delete(container);
 				}
 				
-				function initAllInputOTP(root = document) {
+				function initAllComponents(root = document) {
 					const containers = root.querySelectorAll('[data-input-otp]');
 					for (const container of containers) {
 						// Check if already initialized for this container
@@ -376,18 +376,18 @@ templ Script() {
 				document.body.addEventListener('htmx:afterSwap', (evt) => {
 					if (evt.target) {
 						// Use setTimeout to ensure the new content is fully in the DOM
-						setTimeout(() => initAllInputOTP(evt.target), 0);
+						setTimeout(() => initAllComponents(evt.target), 0);
 					}
 				});
 				
 				// Initialize on DOM load
 				document.addEventListener('DOMContentLoaded', () => {
-					initAllInputOTP();
+					initAllComponents();
 				});
 				
 				// Initialize immediately if DOM is already ready
 				if (document.readyState === 'complete' || document.readyState === 'interactive') {
-					initAllInputOTP();
+					initAllComponents();
 				}
 			})();
 		</script>

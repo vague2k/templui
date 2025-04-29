@@ -267,12 +267,12 @@ templ Script() {
                 }
 
                 // Global Init & HTMX Hook
-                function initCalendarsInScope(scopeElement) {
+                function initAllComponents(scopeElement) {
                     scopeElement.querySelectorAll('[data-calendar-container]').forEach(initCalendar);
                 }
 
                 document.addEventListener('DOMContentLoaded', () => {
-                    initCalendarsInScope(document.body);
+                    initAllComponents(document.body);
                 });
 
                 document.body.addEventListener('htmx:afterSwap', (event) => {
@@ -281,7 +281,7 @@ templ Script() {
                         if (target.matches('[data-calendar-container]')) {
                             initCalendar(target);
                         }
-						initCalendarsInScope(target);
+						initAllComponents(target);
 					}
 				});
 			})();

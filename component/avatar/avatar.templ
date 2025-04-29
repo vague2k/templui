@@ -262,14 +262,14 @@ templ Script() {
 					}
 				}
 
-				function initAllAvatars(root = document) {
+				function initAllComponents(root = document) {
 					for (const avatar of root.querySelectorAll('[data-avatar]')) {
 						initAvatar(avatar);
 					}
 				}
 
-				document.addEventListener('DOMContentLoaded', () => initAllAvatars());
-				document.body.addEventListener('htmx:afterSwap', (e) => initAllAvatars(e.target));
+				document.addEventListener('DOMContentLoaded', () => initAllComponents());
+				document.body.addEventListener('htmx:afterSwap', (e) => initAllComponents(e.target));
 			})();
 		</script>
 	}
