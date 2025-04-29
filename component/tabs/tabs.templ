@@ -166,67 +166,69 @@ var handle = templ.NewOnceHandle()
 templ Script() {
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
-			function initTabs(container) {
-				if (container.hasAttribute('data-initialized')) return;
-				
-				container.setAttribute('data-initialized', 'true');
-
-				const tabsId = container.dataset.tabsId;
-				if (!tabsId) return;
-
-				const triggers = Array.from(container.querySelectorAll(`[data-tabs-trigger][data-tabs-id="${tabsId}"]`));
-				const contents = Array.from(container.querySelectorAll(`[data-tabs-content][data-tabs-id="${tabsId}"]`));
-				const marker = container.querySelector(`[data-tabs-marker][data-tabs-id="${tabsId}"]`);
-
-				function updateMarker(activeTrigger) {
-					if (!marker || !activeTrigger) return;
+			(function() { // IIFE
+				function initTabs(container) {
+					if (container.hasAttribute('data-initialized')) return;
 					
-					marker.style.width = activeTrigger.offsetWidth + 'px';
-					marker.style.height = activeTrigger.offsetHeight + 'px';
-					marker.style.left = activeTrigger.offsetLeft + 'px';
-				}
+					container.setAttribute('data-initialized', 'true');
 
-				function setActiveTab(value) {
-					let activeTrigger = null;
-					
-					for (const trigger of triggers) {
-						const isActive = trigger.dataset.tabsValue === value;
-						trigger.dataset.state = isActive ? "active" : "inactive";
-						trigger.classList.toggle('text-foreground', isActive);
-						trigger.classList.toggle('bg-background', isActive);
-						trigger.classList.toggle('shadow-xs', isActive);
+					const tabsId = container.dataset.tabsId;
+					if (!tabsId) return;
+
+					const triggers = Array.from(container.querySelectorAll(`[data-tabs-trigger][data-tabs-id="${tabsId}"]`));
+					const contents = Array.from(container.querySelectorAll(`[data-tabs-content][data-tabs-id="${tabsId}"]`));
+					const marker = container.querySelector(`[data-tabs-marker][data-tabs-id="${tabsId}"]`);
+
+					function updateMarker(activeTrigger) {
+						if (!marker || !activeTrigger) return;
 						
-						if (isActive) activeTrigger = trigger;
+						marker.style.width = activeTrigger.offsetWidth + 'px';
+						marker.style.height = activeTrigger.offsetHeight + 'px';
+						marker.style.left = activeTrigger.offsetLeft + 'px';
 					}
 
-					for (const content of contents) {
-						const isActive = content.dataset.tabsValue === value;
-						content.dataset.state = isActive ? "active" : "inactive";
-						content.classList.toggle('hidden', !isActive);
+					function setActiveTab(value) {
+						let activeTrigger = null;
+						
+						for (const trigger of triggers) {
+							const isActive = trigger.dataset.tabsValue === value;
+							trigger.dataset.state = isActive ? "active" : "inactive";
+							trigger.classList.toggle('text-foreground', isActive);
+							trigger.classList.toggle('bg-background', isActive);
+							trigger.classList.toggle('shadow-xs', isActive);
+							
+							if (isActive) activeTrigger = trigger;
+						}
+
+						for (const content of contents) {
+							const isActive = content.dataset.tabsValue === value;
+							content.dataset.state = isActive ? "active" : "inactive";
+							content.classList.toggle('hidden', !isActive);
+						}
+
+						updateMarker(activeTrigger);
 					}
 
-					updateMarker(activeTrigger);
+					const defaultTrigger = triggers.find(t => t.dataset.state === 'active') || triggers[0];
+					if (defaultTrigger) {
+						setActiveTab(defaultTrigger.dataset.tabsValue);
+					}
+
+					for (const trigger of triggers) {
+						trigger.addEventListener('click', () => {
+							setActiveTab(trigger.dataset.tabsValue);
+						});
+					}
 				}
 
-				const defaultTrigger = triggers.find(t => t.dataset.state === 'active') || triggers[0];
-				if (defaultTrigger) {
-					setActiveTab(defaultTrigger.dataset.tabsValue);
+				function initAllTabs(root = document) {
+					const tabsContainers = root.querySelectorAll('[data-tabs]:not([data-initialized])');
+					tabsContainers.forEach(initTabs);
 				}
 
-				for (const trigger of triggers) {
-					trigger.addEventListener('click', () => {
-						setActiveTab(trigger.dataset.tabsValue);
-					});
-				}
-			}
-
-			function initAllTabs(root = document) {
-				const tabsContainers = root.querySelectorAll('[data-tabs]:not([data-initialized])');
-				tabsContainers.forEach(initTabs);
-			}
-
-			document.addEventListener('DOMContentLoaded', () => initAllTabs());
-			document.body.addEventListener('htmx:afterSwap', evt => initAllTabs(evt.target));
+				document.addEventListener('DOMContentLoaded', () => initAllTabs());
+				document.body.addEventListener('htmx:afterSwap', evt => initAllTabs(evt.target));
+			})(); // End of IIFE
 		</script>
 	}
 }

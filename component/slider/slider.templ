@@ -140,13 +140,13 @@ templ Script() {
 					sliderInput.addEventListener('input', updateValues);
 				}
 
-				function initAllSliders(root = document) {
+				function initAllComponents(root = document) {
 					const sliders = root.querySelectorAll('input[type="range"][data-slider-input]:not([data-initialized])');
 					sliders.forEach(initSlider);
 				}
 
-				document.addEventListener('DOMContentLoaded', () => initAllSliders());
-				document.body.addEventListener('htmx:afterSwap', evt => initAllSliders(evt.target));
+				document.addEventListener('DOMContentLoaded', () => initAllComponents());
+				document.body.addEventListener('htmx:afterSwap', evt => initAllComponents(evt.target));
 			})(); // End of IIFE
 		</script>
 	}
