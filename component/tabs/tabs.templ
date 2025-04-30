@@ -222,12 +222,24 @@ templ Script() {
 				}
 
 				function initAllComponents(root = document) {
-					const tabsContainers = root.querySelectorAll('[data-tabs]:not([data-initialized])');
-					tabsContainers.forEach(initTabs);
+					if (root instanceof Element && root.matches('[data-tabs]')) {
+						initTabs(root);
+					}
+					for (const tabs of root.querySelectorAll('[data-tabs]:not([data-initialized])')) {
+						initTabs(tabs);
+					}
 				}
 
+				const handleHtmxSwap = (event) => {
+					const target = event.detail.target || event.target;
+					if (target instanceof Element) {
+						initAllComponents(target);
+					}
+				};
+
 				document.addEventListener('DOMContentLoaded', () => initAllComponents());
-				document.body.addEventListener('htmx:afterSwap', evt => initAllComponents(evt.target));
+				document.body.addEventListener('htmx:afterSwap', handleHtmxSwap);
+				document.body.addEventListener('htmx:oobAfterSwap', handleHtmxSwap);
 			})(); // End of IIFE
 		</script>
 	}
