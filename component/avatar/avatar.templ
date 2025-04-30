@@ -224,7 +224,7 @@ var handle = templ.NewOnceHandle()
 templ Script() {
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
-			(function() {
+			(function() { // IIFE
 				function initAvatar(avatar) {
 					const image = avatar.querySelector('[data-avatar-image]');
 					const fallback = avatar.querySelector('[data-avatar-fallback]');
@@ -270,7 +270,8 @@ templ Script() {
 
 				document.addEventListener('DOMContentLoaded', () => initAllComponents());
 				document.body.addEventListener('htmx:afterSwap', (e) => initAllComponents(e.target));
-			})();
+				document.body.addEventListener('htmx:oobAfterSwap', (e) => initAllComponents(e.target));
+			})(); // End of IIFE
 		</script>
 	}
 }
