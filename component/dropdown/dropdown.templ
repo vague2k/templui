@@ -343,247 +343,254 @@ templ Script() {
 				window.submenuState = new Map();
 			}
 			
-			function positionSubmenu(trigger, content) {
-				if (!trigger || !content) return;
-				
-				content.style.display = 'block';
-				const triggerRect = trigger.getBoundingClientRect();
-				const vw = window.innerWidth;
-				const vh = window.innerHeight;
-				
-				// Default position (right side)
-				let top = triggerRect.top;
-				let left = triggerRect.right + 4;
-				
-				// Check if overflows right edge
-				if (left + content.offsetWidth > vw) {
-					left = triggerRect.left - content.offsetWidth - 4;
+			(function() { // IIFE
+				function positionSubmenu(trigger, content) {
+					if (!trigger || !content) return;
+					
+					content.style.display = 'block';
+					const triggerRect = trigger.getBoundingClientRect();
+					const vw = window.innerWidth;
+					const vh = window.innerHeight;
+					
+					// Default position (right side)
+					let top = triggerRect.top;
+					let left = triggerRect.right + 4;
+					
+					// Check if overflows right edge
+					if (left + content.offsetWidth > vw) {
+						left = triggerRect.left - content.offsetWidth - 4;
+					}
+					
+					// Check if overflows bottom
+					if (top + content.offsetHeight > vh) {
+						top = vh - content.offsetHeight - 10;
+					}
+					
+					// Ensure minimum spacing from edges
+					top = Math.max(10, top);
+					left = Math.max(10, left);
+					
+					// Position submenu
+					content.style.position = 'fixed';
+					content.style.top = `${top}px`;
+					content.style.left = `${left}px`;
 				}
 				
-				// Check if overflows bottom
-				if (top + content.offsetHeight > vh) {
-					top = vh - content.offsetHeight - 10;
-				}
-				
-				// Ensure minimum spacing from edges
-				top = Math.max(10, top);
-				left = Math.max(10, left);
-				
-				// Position submenu
-				content.style.position = 'fixed';
-				content.style.top = `${top}px`;
-				content.style.left = `${left}px`;
-			}
-			
-			function closeAllDropdowns() {
-				for (const [dropdown, state] of window.dropdownState.entries()) {
-					if (state.isOpen) {
-						state.close();
+				function closeAllDropdowns() {
+					for (const [dropdown, state] of window.dropdownState.entries()) {
+						if (state.isOpen) {
+							state.close();
+						}
 					}
 				}
-			}
-			
-			function initDropdown(dropdown) {
-				// Skip if already initialized
-				if (window.dropdownState.has(dropdown)) return;
 				
-				const trigger = dropdown.querySelector('[data-dropdown-trigger]');
-				const content = dropdown.querySelector('[data-dropdown-content]');
-				if (!trigger || !content) return;
-				
-				// Create state object with needed references and flags
-				const state = { 
-					isOpen: false, 
-					clickAwayHandler: null,
-					escHandler: null
-				};
-				
-				function closeSubmenus() {
-					dropdown.querySelectorAll('[data-dropdown-submenu]').forEach(submenu => {
-						const subState = window.submenuState.get(submenu);
-						if (subState?.isOpen) {
-							clearTimeout(subState.closeTimer);
-							subState.content.style.display = 'none';
-							subState.isOpen = false;
+				function initDropdown(dropdown) {
+					// Skip if already initialized
+					if (window.dropdownState.has(dropdown)) return;
+					
+					const trigger = dropdown.querySelector('[data-dropdown-trigger]');
+					const content = dropdown.querySelector('[data-dropdown-content]');
+					if (!trigger || !content) return;
+					
+					// Create state object with needed references and flags
+					const state = { 
+						isOpen: false, 
+						clickAwayHandler: null,
+						escHandler: null
+					};
+					
+					function closeSubmenus() {
+						dropdown.querySelectorAll('[data-dropdown-submenu]').forEach(submenu => {
+							const subState = window.submenuState.get(submenu);
+							if (subState?.isOpen) {
+								clearTimeout(subState.closeTimer);
+								subState.content.style.display = 'none';
+								subState.isOpen = false;
+							}
+						});
+					}
+					
+					function close() {
+						if (!state.isOpen) return;
+						
+						content.style.display = 'none';
+						closeSubmenus();
+						
+						// Remove event listeners
+						if (state.clickAwayHandler) {
+							document.removeEventListener('click', state.clickAwayHandler);
+						}
+						if (state.escHandler) {
+							document.removeEventListener('keydown', state.escHandler);
+						}
+						
+						// Reset state
+						state.clickAwayHandler = null;
+						state.escHandler = null;
+						state.isOpen = false;
+					}
+					
+					function handleClickAway(e) {
+						if (!dropdown.contains(e.target)) {
+							close();
+						}
+					}
+					
+					function handleEsc(e) {
+						if (e.key === 'Escape') {
+							close();
+						}
+					}
+					
+					function open() {
+						if (state.isOpen) return;
+						
+						closeAllDropdowns();
+						content.style.display = 'block';
+						state.isOpen = true;
+						
+						// Set up and store event handlers
+						state.clickAwayHandler = handleClickAway;
+						state.escHandler = handleEsc;
+						
+						// Add event listeners
+						setTimeout(() => {
+							document.addEventListener('click', state.clickAwayHandler);
+						}, 0);
+						document.addEventListener('keydown', state.escHandler);
+					}
+					
+					// Toggle dropdown on trigger click
+					trigger.addEventListener('click', e => {
+						e.stopPropagation();
+						if (state.isOpen) {
+							close();
+						} else {
+							open();
 						}
 					});
-				}
-				
-				function close() {
-					if (!state.isOpen) return;
 					
-					content.style.display = 'none';
-					closeSubmenus();
-					
-					// Remove event listeners
-					if (state.clickAwayHandler) {
-						document.removeEventListener('click', state.clickAwayHandler);
-					}
-					if (state.escHandler) {
-						document.removeEventListener('keydown', state.escHandler);
+					// Close dropdown when an item is clicked
+					for (const item of dropdown.querySelectorAll('[data-dropdown-item]')) {
+						item.addEventListener('click', close);
 					}
 					
-					// Reset state
-					state.clickAwayHandler = null;
-					state.escHandler = null;
-					state.isOpen = false;
-				}
-				
-				function handleClickAway(e) {
-					if (!dropdown.contains(e.target)) {
-						close();
+					// Initialize submenus
+					for (const submenu of dropdown.querySelectorAll('[data-dropdown-submenu]')) {
+						initSubmenu(submenu);
 					}
+					
+					// Store functions in state for access from outside
+					state.close = close;
+					
+					// Store dropdown state
+					window.dropdownState.set(dropdown, state);
 				}
 				
-				function handleEsc(e) {
-					if (e.key === 'Escape') {
-						close();
+				function initSubmenu(submenu) {
+					// Skip if already initialized
+					if (window.submenuState.has(submenu)) return;
+					
+					const trigger = submenu.querySelector('[data-dropdown-submenu-trigger]');
+					const content = submenu.querySelector('[data-dropdown-submenu-content]');
+					if (!trigger || !content) return;
+					
+					const state = {
+						isOpen: false,
+						closeTimer: null,
+						trigger,
+						content
+					};
+					
+					function openSubmenu() {
+						clearTimeout(state.closeTimer);
+						if (state.isOpen) return;
+						
+						state.isOpen = true;
+						document.body.appendChild(content);
+						content.style.display = 'block';
+						positionSubmenu(trigger, content);
 					}
-				}
-				
-				function open() {
-					if (state.isOpen) return;
 					
-					closeAllDropdowns();
-					content.style.display = 'block';
-					state.isOpen = true;
-					
-					// Set up and store event handlers
-					state.clickAwayHandler = handleClickAway;
-					state.escHandler = handleEsc;
+					function startCloseTimer() {
+						clearTimeout(state.closeTimer);
+						state.closeTimer = setTimeout(() => {
+							if (state.isOpen) {
+								content.style.display = 'none';
+								state.isOpen = false;
+							}
+						}, 200);
+					}
 					
 					// Add event listeners
-					setTimeout(() => {
-						document.addEventListener('click', state.clickAwayHandler);
-					}, 0);
-					document.addEventListener('keydown', state.escHandler);
+					trigger.addEventListener('mouseenter', openSubmenu);
+					trigger.addEventListener('focus', openSubmenu);
+					trigger.addEventListener('mouseleave', startCloseTimer);
+					trigger.addEventListener('blur', startCloseTimer);
+					
+					content.addEventListener('mouseenter', () => clearTimeout(state.closeTimer));
+					content.addEventListener('mouseleave', startCloseTimer);
+					
+					// Store state
+					window.submenuState.set(submenu, state);
 				}
 				
-				// Toggle dropdown on trigger click
-				trigger.addEventListener('click', e => {
-					e.stopPropagation();
-					if (state.isOpen) {
-						close();
-					} else {
-						open();
+				function initAllComponents(root = document) {
+					if (root instanceof Element && root.matches('[data-dropdown]')) {
+						initDropdown(root);
+					}
+					if (root && typeof root.querySelectorAll === 'function') {
+						for (const dropdown of root.querySelectorAll('[data-dropdown]')) {
+							initDropdown(dropdown);
+						}
+					}
+				}
+
+				const handleHtmxSwap = (event) => {
+					const target = event.detail.target || event.target;
+					if (target instanceof Element) {
+						setTimeout(() => initAllComponents(target), 0);
+					}
+				};
+				
+				document.addEventListener('DOMContentLoaded', () => initAllComponents());
+
+				document.body.addEventListener('htmx:beforeSwap', (evt) => {
+					// Keep existing beforeSwap logic for cleanup
+					const target = evt.detail.target || evt.detail.elt; // Handle different HTMX versions/contexts
+					if (!target || typeof target.matches !== 'function') return;
+
+					const cleanupDropdown = (dropdown) => {
+						const state = window.dropdownState.get(dropdown);
+						if (state?.isOpen) state.close(); // Close if open
+						window.dropdownState.delete(dropdown);
+					};
+
+					const cleanupSubmenu = (submenu) => {
+						const state = window.submenuState.get(submenu);
+						if (state) {
+							clearTimeout(state.closeTimer);
+							if (state.isOpen && state.content.parentNode === document.body) {
+								try { document.body.removeChild(state.content); } catch(e) {}
+							}
+							window.submenuState.delete(submenu);
+						}
+					};
+
+					// Cleanup target itself if it's a dropdown or submenu
+					if (target.matches('[data-dropdown]')) cleanupDropdown(target);
+					if (target.matches('[data-dropdown-submenu]')) cleanupSubmenu(target);
+
+					// Cleanup descendants
+					if (typeof target.querySelectorAll === 'function') {
+						target.querySelectorAll('[data-dropdown]').forEach(cleanupDropdown);
+						target.querySelectorAll('[data-dropdown-submenu]').forEach(cleanupSubmenu);
 					}
 				});
 				
-				// Close dropdown when an item is clicked
-				for (const item of dropdown.querySelectorAll('[data-dropdown-item]')) {
-					item.addEventListener('click', close);
-				}
-				
-				// Initialize submenus
-				for (const submenu of dropdown.querySelectorAll('[data-dropdown-submenu]')) {
-					initSubmenu(submenu);
-				}
-				
-				// Store functions in state for access from outside
-				state.close = close;
-				
-				// Store dropdown state
-				window.dropdownState.set(dropdown, state);
-			}
-			
-			function initSubmenu(submenu) {
-				// Skip if already initialized
-				if (window.submenuState.has(submenu)) return;
-				
-				const trigger = submenu.querySelector('[data-dropdown-submenu-trigger]');
-				const content = submenu.querySelector('[data-dropdown-submenu-content]');
-				if (!trigger || !content) return;
-				
-				const state = {
-					isOpen: false,
-					closeTimer: null,
-					trigger,
-					content
-				};
-				
-				function openSubmenu() {
-					clearTimeout(state.closeTimer);
-					if (state.isOpen) return;
-					
-					state.isOpen = true;
-					document.body.appendChild(content);
-					content.style.display = 'block';
-					positionSubmenu(trigger, content);
-				}
-				
-				function startCloseTimer() {
-					clearTimeout(state.closeTimer);
-					state.closeTimer = setTimeout(() => {
-						if (state.isOpen) {
-							content.style.display = 'none';
-							state.isOpen = false;
-						}
-					}, 200);
-				}
-				
-				// Add event listeners
-				trigger.addEventListener('mouseenter', openSubmenu);
-				trigger.addEventListener('focus', openSubmenu);
-				trigger.addEventListener('mouseleave', startCloseTimer);
-				trigger.addEventListener('blur', startCloseTimer);
-				
-				content.addEventListener('mouseenter', () => clearTimeout(state.closeTimer));
-				content.addEventListener('mouseleave', startCloseTimer);
-				
-				// Store state
-				window.submenuState.set(submenu, state);
-			}
-			
-			// Clean up before HTMX swap
-			document.body.addEventListener('htmx:beforeSwap', (evt) => {
-				const target = evt.detail.target;
-				if (!target) return;
-				
-				// Clean up dropdowns being removed
-				for (const dropdown of target.querySelectorAll('[data-dropdown]')) {
-					const state = window.dropdownState.get(dropdown);
-					if (state?.isOpen) {
-						state.close();
-					}
-					window.dropdownState.delete(dropdown);
-				}
-				
-				// Clean up submenus being removed
-				for (const submenu of target.querySelectorAll('[data-dropdown-submenu]')) {
-					const state = window.submenuState.get(submenu);
-					if (state) {
-						clearTimeout(state.closeTimer);
-						if (state.isOpen && state.content.parentNode === document.body) {
-							document.body.removeChild(state.content);
-						}
-						window.submenuState.delete(submenu);
-					}
-				}
-			});
-			
-			// Global initialization function
-			function initAllDropdowns(root = document) {
-				for (const dropdown of root.querySelectorAll('[data-dropdown]')) {
-					initDropdown(dropdown);
-				}
-			}
-			
-			// Initialize after HTMX swaps
-			document.body.addEventListener('htmx:afterSwap', (evt) => {
-				if (evt.target) {
-					setTimeout(() => {
-						initAllDropdowns(evt.target);
-					}, 0);
-				}
-			});
-			
-			// Initialize on page load or DOM content loaded
-			document.addEventListener('DOMContentLoaded', () => initAllDropdowns());
-			
-			// Initialize immediately if DOM is already ready
-			if (document.readyState === 'complete' || document.readyState === 'interactive') {
-				initAllDropdowns();
-			}
+				document.body.addEventListener('htmx:afterSwap', handleHtmxSwap);
+				document.body.addEventListener('htmx:oobAfterSwap', handleHtmxSwap);
+			})(); // End of IIFE
 		</script>
 	}
 }

@@ -120,33 +120,47 @@ var handle = templ.NewOnceHandle()
 templ Script() {
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
-			function initSlider(sliderInput) {
-				if (sliderInput.hasAttribute('data-initialized')) return;
-				
-				sliderInput.setAttribute('data-initialized', 'true');
+			(function() { // IIFE
+				function initSlider(sliderInput) {
+					if (sliderInput.hasAttribute('data-initialized')) return;
+					
+					sliderInput.setAttribute('data-initialized', 'true');
 
-				const sliderId = sliderInput.id;
-				if (!sliderId) return;
+					const sliderId = sliderInput.id;
+					if (!sliderId) return;
 
-				const valueElements = document.querySelectorAll(`[data-slider-value][data-slider-value-for="${sliderId}"]`);
-				
-				function updateValues() {
-					valueElements.forEach(el => {
-						el.textContent = sliderInput.value;
-					});
+					const valueElements = document.querySelectorAll(`[data-slider-value][data-slider-value-for="${sliderId}"]`);
+					
+					function updateValues() {
+						valueElements.forEach(el => {
+							el.textContent = sliderInput.value;
+						});
+					}
+
+					updateValues(); 
+					sliderInput.addEventListener('input', updateValues);
 				}
 
-				updateValues(); 
-				sliderInput.addEventListener('input', updateValues);
-			}
+				function initAllComponents(root = document) {
+					if (root instanceof Element && root.matches('input[type="range"][data-slider-input]')) {
+						initSlider(root);
+					}
+					for (const slider of root.querySelectorAll('input[type="range"][data-slider-input]:not([data-initialized])')) {
+						initSlider(slider);
+					}
+				}
 
-			function initAllSliders(root = document) {
-				const sliders = root.querySelectorAll('input[type="range"][data-slider-input]:not([data-initialized])');
-				sliders.forEach(initSlider);
-			}
+				const handleHtmxSwap = (event) => {
+					const target = event.detail.target || event.target;
+					if (target instanceof Element) {
+						initAllComponents(target);
+					}
+				};
 
-			document.addEventListener('DOMContentLoaded', () => initAllSliders());
-			document.body.addEventListener('htmx:afterSwap', evt => initAllSliders(evt.target));
+				document.addEventListener('DOMContentLoaded', () => initAllComponents());
+				document.body.addEventListener('htmx:afterSwap', handleHtmxSwap);
+				document.body.addEventListener('htmx:oobAfterSwap', handleHtmxSwap);
+			})(); // End of IIFE
 		</script>
 	}
 }
