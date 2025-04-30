@@ -379,53 +379,44 @@ templ Script() {
 					ratingElement.removeAttribute('data-rating-initialized');
 				}
 
-				function initAllComponents() {
-					document.querySelectorAll('[data-rating-component]:not([data-rating-initialized])').forEach(initRating);
+				function initAllComponents(root = document) {
+					if (root instanceof Element && root.matches('[data-rating-component]')) {
+						initRating(root); // initRating handles already initialized check internally
+					}
+					if (root && typeof root.querySelectorAll === 'function') {
+						root.querySelectorAll('[data-rating-component]').forEach(initRating);
+					}
 				}
 
-				document.addEventListener('DOMContentLoaded', initAllComponents);
-				
-				if (document.readyState === 'complete' || document.readyState === 'interactive') {
-					initAllComponents();
-				}
+				const handleHtmxSwap = (event) => {
+					const target = event.detail.target || event.target;
+					if (target instanceof Element) {
+						setTimeout(() => initAllComponents(target), 0);
+					}
+				};
 
-				document.body.addEventListener('htmx:afterSwap', event => {
-					setTimeout(() => {
-						const target = event.target;
-						if (!target) return;
-						
-						if (target.tagName === 'DIV' && target.closest('form[hx-post="/swap"]')) {
-							const ratings = target.querySelectorAll('[data-rating-component]:not([data-rating-initialized])');
-							if (ratings.length > 0) {
-								ratings.forEach(initRating);
-							}
-						} else {
-							if (target.matches && target.matches('[data-rating-component]:not([data-rating-initialized])')) {
-								initRating(target);
-							}
-							target.querySelectorAll('[data-rating-component]:not([data-rating-initialized])').forEach(initRating);
-						}
-					}, 10);
-				});
+				document.addEventListener('DOMContentLoaded', () => initAllComponents());
 
 				document.body.addEventListener('htmx:beforeCleanup', event => {
-					const containerToRemove = event.detail.target || event.detail.elt;
-					if (!containerToRemove || !containerToRemove.querySelectorAll) return;
-					
-					for (const ratingEl of containerToRemove.querySelectorAll('[data-rating-component][data-rating-initialized]')) {
-						const state = window.ratingState.get(ratingEl);
-						if (state) {
-							cleanupRating(ratingEl, state);
+					const containerToRemove = event.detail.elt; // Use elt for beforeCleanup
+					if (containerToRemove instanceof Element) {
+						// Cleanup target itself
+						if (containerToRemove.matches && containerToRemove.matches('[data-rating-component][data-rating-initialized]')) {
+							const state = window.ratingState.get(containerToRemove);
+							if (state) cleanupRating(containerToRemove, state);
 						}
-					}
-					
-					if (containerToRemove.matches && containerToRemove.matches('[data-rating-component][data-rating-initialized]')) {
-						const state = window.ratingState.get(containerToRemove);
-						if (state) {
-							cleanupRating(containerToRemove, state);
+						// Cleanup descendants
+						if (containerToRemove.querySelectorAll) {
+							for (const ratingEl of containerToRemove.querySelectorAll('[data-rating-component][data-rating-initialized]')) {
+								const state = window.ratingState.get(ratingEl);
+								if (state) cleanupRating(ratingEl, state);
+							}
 						}
 					}
 				});
+
+				document.body.addEventListener('htmx:afterSwap', handleHtmxSwap);
+				document.body.addEventListener('htmx:oobAfterSwap', handleHtmxSwap);
 			})(); // End of IIFE
 		</script>
 	}
