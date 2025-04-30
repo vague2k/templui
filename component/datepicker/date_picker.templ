@@ -121,8 +121,54 @@ var handle = templ.NewOnceHandle()
 templ Script() {
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
+			(function() { // IIFE Start
+				function parseISODate(isoString) {
+					if (!isoString || typeof isoString !== 'string') return null;
+					const parts = isoString.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+					if (!parts) return null;
+					const year = parseInt(parts[1], 10);
+					const month = parseInt(parts[2], 10) - 1; // JS month is 0-indexed
+					const day = parseInt(parts[3], 10);
+					const date = new Date(Date.UTC(year, month, day));
+					if (date.getUTCFullYear() === year && date.getUTCMonth() === month && date.getUTCDate() === day) {
+						return date;
+					}
+					return null;
+				}
 
-			(function() { // IIFE
+				function formatDateWithIntl(date, format, localeTag) {
+					if (!date || isNaN(date.getTime())) return '';
+
+					let options = {};
+					switch(format) {
+						case 'locale-short': 
+							options = { dateStyle: 'short' }; 
+							break;
+						case 'locale-long': 
+							options = { dateStyle: 'long' }; 
+							break;
+						case 'locale-full':
+							options = { dateStyle: 'full' }; 
+							break;
+						case 'locale-medium': // Default to medium
+						default: 
+							options = { dateStyle: 'medium' }; 
+							break;
+					}
+					
+					try {
+						return new Intl.DateTimeFormat(localeTag, options).format(date);
+					} catch (e) {
+						console.error(`Error formatting date with Intl (locale: ${localeTag}, format: ${format}):`, e);
+						// Fallback to locale default medium on error
+						try {
+							return new Intl.DateTimeFormat(localeTag, { dateStyle: 'medium' }).format(date);
+						} catch {
+							return date.toDateString(); // Absolute fallback
+						}
+					}
+				}
+
 				function initDatePicker(triggerButton) {
 					if (!triggerButton || triggerButton._datePickerInitialized) return;
 
@@ -133,19 +179,15 @@ templ Script() {
 					const calendarHiddenInputId = calendarInstanceId + '-hidden';
 					const calendarHiddenInput = document.getElementById(calendarHiddenInputId);
 
-					// Fallback to find calendar by container if direct ID approach fails
+					// Fallback to find calendar relatively
 					let calendar = calendarInstance;
 					let hiddenInput = calendarHiddenInput;
 					
 					if (!calendarInstance || !calendarHiddenInput) {
-						// Try to find calendar relatively via popover content (more robust)
 						const popoverContentId = triggerButton.getAttribute('aria-controls');
 						const popoverContent = popoverContentId ? document.getElementById(popoverContentId) : null;
-						
 						if (popoverContent) {
-							if (!calendar) {
-								calendar = popoverContent.querySelector('[data-calendar-container]');
-							}
+							if (!calendar) calendar = popoverContent.querySelector('[data-calendar-container]');
 							if (!hiddenInput) {
 								const wrapper = popoverContent.querySelector('[data-calendar-wrapper]');
 								hiddenInput = wrapper ? wrapper.querySelector('[data-calendar-hidden-input]') : null;
@@ -154,7 +196,7 @@ templ Script() {
 					}
 
 					if (!displaySpan || !calendar || !hiddenInput) {
-						console.error("DatePicker init error: Missing required elements.", { datePickerID });
+						console.error("DatePicker init error: Missing required elements.", { datePickerID, displaySpan, calendar, hiddenInput });
 						return;
 					}
 
@@ -162,65 +204,23 @@ templ Script() {
 					const localeTag = triggerButton.dataset.localeTag || 'en-US';
 					const placeholder = triggerButton.dataset.placeholder || 'Select a date';
 
-					function parseISODate(isoString) {
-						if (!isoString || typeof isoString !== 'string') return null;
-						const parts = isoString.match(/^(\d{4})-(\d{2})-(\d{2})$/);
-						if (!parts) return null;
-						const year = parseInt(parts[1], 10);
-						const month = parseInt(parts[2], 10) - 1; // JS month is 0-indexed
-						const day = parseInt(parts[3], 10);
-						const date = new Date(Date.UTC(year, month, day));
-						if (date.getUTCFullYear() === year && date.getUTCMonth() === month && date.getUTCDate() === day) {
-							return date;
-						}
-						return null;
-					}
-
-					function formatDateWithIntl(date, format, localeTag) {
-						if (!date || isNaN(date.getTime())) return '';
-
-						let options = {};
-						switch(format) {
-							case 'locale-short': 
-								options = { dateStyle: 'short' }; 
-								break;
-							case 'locale-long': 
-								options = { dateStyle: 'long' }; 
-								break;
-							case 'locale-full':
-								options = { dateStyle: 'full' }; 
-								break;
-							case 'locale-medium': // Default to medium
-							default: 
-								options = { dateStyle: 'medium' }; 
-								break;
-						}
-						
-						try {
-							return new Intl.DateTimeFormat(localeTag, options).format(date);
-						} catch (e) {
-							console.error(`Error formatting date with Intl (locale: ${localeTag}, format: ${format}):`, e);
-							// Fallback to locale default medium on error
-							try {
-								return new Intl.DateTimeFormat(localeTag, { dateStyle: 'medium' }).format(date);
-							} catch {
-								return date.toDateString(); // Absolute fallback
-							}
-						}
-					}
-
-					function onCalendarSelect(event) {
-						if (!event.detail || !event.detail.date || !(event.detail.date instanceof Date)) {
-							return; 
-						}
+					const onCalendarSelect = (event) => {
+						if (!event.detail || !event.detail.date || !(event.detail.date instanceof Date)) return;
 						const selectedDate = event.detail.date;
 						const displayFormattedValue = formatDateWithIntl(selectedDate, displayFormat, localeTag);
 						displaySpan.textContent = displayFormattedValue;
 						displaySpan.classList.remove('text-muted-foreground');
-						triggerButton.click();
-					}
+						
+						// Find and click the popover trigger to close it
+						const popoverTrigger = triggerButton.closest('[data-popover]')?.querySelector('[data-popover-trigger]');
+						if (popoverTrigger instanceof HTMLElement) {
+							popoverTrigger.click(); 
+						} else {
+							triggerButton.click(); // Fallback: click the button itself (might not work if inside popover)
+						}
+					};
 
-					function updateDisplay() {
+					const updateDisplay = () => {
 						if (hiddenInput && hiddenInput.value) {
 							const initialDate = parseISODate(hiddenInput.value);
 							if (initialDate) {
@@ -229,66 +229,58 @@ templ Script() {
 									displaySpan.textContent = correctlyFormatted;
 									displaySpan.classList.remove('text-muted-foreground');
 								}
-							}
-						} else {
-							// Ensure placeholder is shown if no initial value
-							if (!displaySpan.textContent.trim() || displaySpan.textContent.trim() === placeholder) {
+							} else {
+								// Handle case where hidden input has invalid value
 								displaySpan.textContent = placeholder;
 								displaySpan.classList.add('text-muted-foreground');
 							}
+						} else {
+							// Ensure placeholder is shown if no value
+							displaySpan.textContent = placeholder;
+							displaySpan.classList.add('text-muted-foreground');
 						}
-					}
+					};
 
-					if (calendar) {
-						calendar.addEventListener('calendar-date-selected', onCalendarSelect);
-					} else {
-						console.error(`[DatePicker ${datePickerID}] Could not find calendar instance to attach listener!`);
-					}
-
-					updateDisplay(); 
+					// Attach listener to the specific calendar instance
+					calendar.addEventListener('calendar-date-selected', onCalendarSelect);
+					
+					updateDisplay(); // Initial display update
 
 					triggerButton._datePickerInitialized = true;
 
+					// Store cleanup function on the button itself
 					triggerButton._datePickerCleanup = () => {
 						if (calendar) {
 							calendar.removeEventListener('calendar-date-selected', onCalendarSelect);
 						}
 					};
-				} // End initializeDatePickerInstance
+				} 
 
-				// --- Global Init & HTMX Hooks ---
-				function initAllComponents(root) {
-					root.querySelectorAll('[data-datepicker="true"]').forEach(button => {
-						try {
-							initDatePicker(button);
-						} catch(e) {
-							console.error("Error initializing DatePicker trigger:", e, button);
-						}
+				function initAllComponents(root = document) {
+					if (root instanceof Element && root.matches('[data-datepicker="true"]')) {
+						initDatePicker(root);
+					}
+					root.querySelectorAll('[data-datepicker="true"]').forEach(triggerButton => {
+						initDatePicker(triggerButton);
 					});
 				}
 
-				document.addEventListener('DOMContentLoaded', () => {
-					initAllComponents(document.body);
-				});
-
-				document.body.addEventListener('htmx:afterSwap', (event) => {
+				const handleHtmxSwap = (event) => {
 					const target = event.detail.target || event.target;
 					if (target instanceof Element) {
-						// Initialize trigger if the swapped element IS the button
-						if (target.matches('[data-datepicker="true"]')) {
-							initDatePicker(target);
-						}
-						// Initialize any triggers INSIDE the swapped element
 						initAllComponents(target);
 					}
-				});
+				};
+
+
+				document.addEventListener('DOMContentLoaded', () => initAllComponents());
 
 				document.body.addEventListener('htmx:beforeSwap', (event) => {
+					// Keep existing beforeSwap logic for cleanup
 					let target = event.detail.target || event.detail.elt;
 					if (target instanceof Element) {
 						const cleanup = (button) => {
-							// Check button directly for attributes
-							if (button.matches('[data-datepicker="true"]')) {
+							if (button.matches && button.matches('[data-datepicker="true"]')) {
 								if (button._datePickerCleanup) {
 									button._datePickerCleanup();
 									delete button._datePickerCleanup;
@@ -296,16 +288,20 @@ templ Script() {
 								}
 							}
 						};
-						// Cleanup the target itself if it's a valid button
+						
+						// Cleanup the target itself if it's a trigger button
 						if (target.matches && target.matches('[data-datepicker="true"]')) {
 							cleanup(target);
 						}
-						// Cleanup buttons within the target
+						// Cleanup trigger buttons within the target
 						if (target.querySelectorAll) {
 							target.querySelectorAll('[data-datepicker="true"]').forEach(cleanup);
 						}
 					}
 				});
+
+				document.body.addEventListener('htmx:afterSwap', handleHtmxSwap);
+				document.body.addEventListener('htmx:oobAfterSwap', handleHtmxSwap);
 			})(); // End of IIFE
 		</script>
 	}
