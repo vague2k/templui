@@ -534,56 +534,61 @@ templ Script() {
 					window.submenuState.set(submenu, state);
 				}
 				
-				// Clean up before HTMX swap
-				document.body.addEventListener('htmx:beforeSwap', (evt) => {
-					const target = evt.detail.target;
-					if (!target) return;
-					
-					// Clean up dropdowns being removed
-					for (const dropdown of target.querySelectorAll('[data-dropdown]')) {
-						const state = window.dropdownState.get(dropdown);
-						if (state?.isOpen) {
-							state.close();
-						}
-						window.dropdownState.delete(dropdown);
+				function initAllComponents(root = document) {
+					if (root instanceof Element && root.matches('[data-dropdown]')) {
+						initDropdown(root);
 					}
-					
-					// Clean up submenus being removed
-					for (const submenu of target.querySelectorAll('[data-dropdown-submenu]')) {
+					if (root && typeof root.querySelectorAll === 'function') {
+						for (const dropdown of root.querySelectorAll('[data-dropdown]')) {
+							initDropdown(dropdown);
+						}
+					}
+				}
+
+				const handleHtmxSwap = (event) => {
+					const target = event.detail.target || event.target;
+					if (target instanceof Element) {
+						setTimeout(() => initAllComponents(target), 0);
+					}
+				};
+				
+				document.addEventListener('DOMContentLoaded', () => initAllComponents());
+
+				document.body.addEventListener('htmx:beforeSwap', (evt) => {
+					// Keep existing beforeSwap logic for cleanup
+					const target = evt.detail.target || evt.detail.elt; // Handle different HTMX versions/contexts
+					if (!target || typeof target.matches !== 'function') return;
+
+					const cleanupDropdown = (dropdown) => {
+						const state = window.dropdownState.get(dropdown);
+						if (state?.isOpen) state.close(); // Close if open
+						window.dropdownState.delete(dropdown);
+					};
+
+					const cleanupSubmenu = (submenu) => {
 						const state = window.submenuState.get(submenu);
 						if (state) {
 							clearTimeout(state.closeTimer);
 							if (state.isOpen && state.content.parentNode === document.body) {
-								document.body.removeChild(state.content);
+								try { document.body.removeChild(state.content); } catch(e) {}
 							}
 							window.submenuState.delete(submenu);
 						}
+					};
+
+					// Cleanup target itself if it's a dropdown or submenu
+					if (target.matches('[data-dropdown]')) cleanupDropdown(target);
+					if (target.matches('[data-dropdown-submenu]')) cleanupSubmenu(target);
+
+					// Cleanup descendants
+					if (typeof target.querySelectorAll === 'function') {
+						target.querySelectorAll('[data-dropdown]').forEach(cleanupDropdown);
+						target.querySelectorAll('[data-dropdown-submenu]').forEach(cleanupSubmenu);
 					}
 				});
 				
-				// Global initialization function
-				function initAllComponents(root = document) {
-					for (const dropdown of root.querySelectorAll('[data-dropdown]')) {
-						initDropdown(dropdown);
-					}
-				}
-				
-				// Initialize after HTMX swaps
-				document.body.addEventListener('htmx:afterSwap', (evt) => {
-					if (evt.target) {
-						setTimeout(() => {
-							initAllComponents(evt.target);
-						}, 0);
-					}
-				});
-				
-				// Initialize on page load or DOM content loaded
-				document.addEventListener('DOMContentLoaded', () => initAllComponents());
-				
-				// Initialize immediately if DOM is already ready
-				if (document.readyState === 'complete' || document.readyState === 'interactive') {
-					initAllComponents();
-				}
+				document.body.addEventListener('htmx:afterSwap', handleHtmxSwap);
+				document.body.addEventListener('htmx:oobAfterSwap', handleHtmxSwap);
 			})(); // End of IIFE
 		</script>
 	}
