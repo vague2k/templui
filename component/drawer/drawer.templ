@@ -405,40 +405,26 @@ templ Script() {
 					e.stopPropagation();
 				}
 
-				// Initialize all drawers within a given root element (default is document)
 				function initAllComponents(root = document) {
-					const drawers = root.querySelectorAll('[data-component="drawer"]');
-					drawers.forEach(drawer => {
-						// If the root itself is a drawer component, initialize it
-						if (root.matches && root.matches('[data-component="drawer"]')) {
-							initDrawer(root);
-						} else {
-							// Otherwise, find drawers within the root
-							const drawers = root.querySelectorAll('[data-component="drawer"]');
-							drawers.forEach(initDrawer);
-						}
-					});
+					if (root instanceof Element && root.matches('[data-component="drawer"]')) {
+						initDrawer(root);
+					}
+					if (root && typeof root.querySelectorAll === 'function') {
+						const drawers = root.querySelectorAll('[data-component="drawer"]');
+						drawers.forEach(initDrawer);
+					}
 				}
 
-				// Initialize drawers on page load
+				const handleHtmxSwap = (event) => {
+					const target = event.detail.target || event.target;
+					if (target instanceof Element) {
+						initAllComponents(target);
+					}
+				};
+
 				document.addEventListener('DOMContentLoaded', () => initAllComponents());
-				
-				// Re-initialize drawers after HTMX swaps
-				document.body.addEventListener('htmx:afterSwap', (event) => {
-					// Check if the swapped element itself is a drawer or contains drawers
-					if (event.target instanceof Element) {
-						initAllComponents(event.target);
-					}
-				});
-				
-				// Also initialize now in case this script loads after DOMContentLoaded
-				// Use a flag to prevent double initialization on readyState change
-				if (document.readyState === 'complete' || (document.readyState !== 'loading' && !document.documentElement.doScroll)) {
-					if (!window.templuiDrawersInitialized) {
-						initAllComponents();
-						window.templuiDrawersInitialized = true;
-					}
-				}
+				document.body.addEventListener('htmx:afterSwap', handleHtmxSwap);
+				document.body.addEventListener('htmx:oobAfterSwap', handleHtmxSwap);
 			})(); // End of IIFE
         </script>
 	}
