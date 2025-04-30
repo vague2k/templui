@@ -38,6 +38,7 @@ type SeparatorProps struct {
 }
 
 templ InputOTP(props ...Props) {
+	@Script()
 	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}

@@ -51,6 +51,7 @@ type GroupProps struct {
 }
 
 templ Avatar(props ...Props) {
+	@Script()
 	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}

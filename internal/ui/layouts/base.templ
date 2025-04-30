@@ -2,24 +2,6 @@ package layouts
 
 import (
 	"fmt"
-	"github.com/axzilla/templui/component/avatar"
-	"github.com/axzilla/templui/component/calendar"
-	"github.com/axzilla/templui/component/carousel"
-	"github.com/axzilla/templui/component/chart"
-	"github.com/axzilla/templui/component/code"
-	"github.com/axzilla/templui/component/datepicker"
-	"github.com/axzilla/templui/component/drawer"
-	"github.com/axzilla/templui/component/dropdown"
-	"github.com/axzilla/templui/component/inputotp"
-	"github.com/axzilla/templui/component/label"
-	"github.com/axzilla/templui/component/modal"
-	"github.com/axzilla/templui/component/popover"
-	"github.com/axzilla/templui/component/rating"
-	"github.com/axzilla/templui/component/selectbox"
-	"github.com/axzilla/templui/component/slider"
-	"github.com/axzilla/templui/component/tabs"
-	"github.com/axzilla/templui/component/textarea"
-	"github.com/axzilla/templui/component/toast"
 	"github.com/axzilla/templui/internal/config"
 	"github.com/axzilla/templui/internal/ctxkeys"
 	"github.com/axzilla/templui/internal/ui/modules"
@@ -100,26 +82,6 @@ templ BaseLayout(title, description string) {
 			<div class="flex flex-col min-h-screen">
 				{ children... }
 			</div>
-			// Components
-			@avatar.Script()
-			@calendar.Script()
-			@carousel.Script()
-			@chart.Script()
-			@code.Script()
-			@datepicker.Script()
-			@drawer.Script()
-			@dropdown.Script()
-			@inputotp.Script()
-			@label.Script()
-			@modal.Script()
-			@popover.Script()
-			@carousel.Script()
-			@rating.Script()
-			@selectbox.Script()
-			@slider.Script()
-			@tabs.Script()
-			@toast.Script()
-			@textarea.Script()
 		</body>
 	</html>
 }
