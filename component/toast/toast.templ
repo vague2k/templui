@@ -310,20 +310,33 @@ templ Script() {
 						}, 50);
 					}
 
-					document.addEventListener('DOMContentLoaded', () => {
-						document.querySelectorAll('[data-toast]').forEach(initToast);
-					});
-
-					document.body.addEventListener('htmx:afterSwap', (evt) => {
-						const target = evt.detail.target || evt.target;
-						if (!target) return;
-						
-						if (target.matches && target.matches('[data-toast]')) {
-							initToast(target);
+					function initAllComponents(root = document) {
+						const toastsToInit = [];
+						if (root instanceof Element && root.matches('[data-toast]')) {
+							if (!window.toasts.has(root)) {
+								toastsToInit.push(root);
+							}
 						}
-						
-						target.querySelectorAll('[data-toast]').forEach(initToast);
-					});
+						if (root && typeof root.querySelectorAll === 'function') {
+							root.querySelectorAll('[data-toast]').forEach(toast => {
+								if (!window.toasts.has(toast)) {
+									toastsToInit.push(toast);
+								}
+							});
+						}
+						toastsToInit.forEach(initToast);
+					}
+
+					const handleHtmxSwap = (event) => {
+						const target = event.detail.target || event.target;
+						if (target instanceof Element) {
+							initAllComponents(target);
+						}
+					};
+
+					document.addEventListener('DOMContentLoaded', () => initAllComponents());
+					document.body.addEventListener('htmx:afterSwap', handleHtmxSwap);
+					document.body.addEventListener('htmx:oobAfterSwap', handleHtmxSwap);
 				}
 			})(); // End of IIFE
 		</script>
