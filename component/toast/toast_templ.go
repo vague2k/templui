@@ -522,7 +522,7 @@ func ToastCSS() templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "\">\n\t\t\t[data-toast].toast-enter {\n\t\t\t\topacity: 0;\n\t\t\t}\n\t\t\t[data-toast].toast-enter-active {\n\t\t\t\topacity: 1;\n\t\t\t\ttransform: translateY(0) translateX(-50%);\n\t\t\t}\n\t\t\t[data-toast][class*=\" right-\"].toast-enter-active,\n\t\t\t[data-toast][class*=\" left-\"].toast-enter-active {\n\t\t\t\ttransform: translateY(0) translateX(0);\n\t\t\t}\n\n\t\t\t[data-toast].toast-leave {\n\t\t\t\topacity: 1;\n\t\t\t\ttransform: translateY(0) translateX(-50%);\n\t\t\t}\n\t\t\t[data-toast][class*=\" right-\"].toast-leave,\n\t\t\t[data-toast][class*=\" left-\"].toast-leave {\n\t\t\t\ttransform: translateY(0) translateX(0);\n\t\t\t}\n\n\t\t\t[data-toast].toast-leave-active {\n\t\t\t\topacity: 0;\n\t\t\t}\n\t\t\t[data-toast][class*=\" top-\"].toast-leave-active {\n\t\t\t\ttransform: translateY(1rem) translateX(-50%);\n\t\t\t}\n\t\t\t[data-toast][class*=\" bottom-\"].toast-leave-active {\n\t\t\t\ttransform: translateY(-1rem) translateX(-50%);\n\t\t\t}\n\t\t\t[data-toast][class*=\" top-\"][class*=\" right-\"].toast-leave-active,\n\t\t\t[data-toast][class*=\" top-\"][class*=\" left-\"].toast-leave-active {\n\t\t\t\ttransform: translateY(1rem) translateX(0);\n\t\t\t}\n\t\t\t[data-toast][class*=\" bottom-\"][class*=\" right-\"].toast-leave-active,\n\t\t\t[data-toast][class*=\" bottom-\"][class*=\" left-\"].toast-leave-active {\n\t\t\t\ttransform: translateY(-1rem) translateX(0);\n\t\t\t}\n\t\t</style>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "\">\n\t\t\t[data-toast].toast-enter {\n\t\t\t\topacity: 0;\n\t\t\t\t/* Initial vertical offset is handled by classes in the component */\n\t\t\t}\n\t\t\t[data-toast].toast-enter-active {\n\t\t\t\topacity: 1;\n\t\t\t\ttransform: translateY(0); /* Only handle vertical transition */\n\t\t\t}\n\t\t\t[data-toast].toast-leave {\n\t\t\t\topacity: 1;\n\t\t\t\ttransform: translateY(0); /* Start leave from final vertical position */\n\t\t\t}\n\t\t\t[data-toast].toast-leave-active {\n\t\t\t\topacity: 0;\n\t\t\t\t/* Apply final vertical offset based on position */\n\t\t\t}\n\t\t\t[data-toast][class*=\" top-\"].toast-leave-active {\n\t\t\t\ttransform: translateY(1rem); /* Move down */\n\t\t\t}\n\t\t\t[data-toast][class*=\" bottom-\"].toast-leave-active {\n\t\t\t\ttransform: translateY(-1rem); /* Move up */\n\t\t\t}\n\t\t</style>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -578,7 +578,7 @@ func Script() templ.Component {
 			var templ_7745c5c3_Var21 string
 			templ_7745c5c3_Var21, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/toast/toast.templ`, Line: 228, Col: 37}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/toast/toast.templ`, Line: 212, Col: 37}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var21))
 			if templ_7745c5c3_Err != nil {

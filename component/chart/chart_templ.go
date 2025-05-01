@@ -21,14 +21,14 @@ const (
 )
 
 type Dataset struct {
-	Label           string    `json:"label"`
-	Data            []float64 `json:"data"`
-	BorderWidth     int       `json:"borderWidth,omitempty"`
-	BorderColor     string    `json:"borderColor,omitempty"`
-	BackgroundColor string    `json:"backgroundColor,omitempty"`
-	Tension         float64   `json:"tension,omitempty"`
-	Fill            bool      `json:"fill,omitempty"`
-	Stepped         bool      `json:"stepped,omitempty"`
+	Label           string      `json:"label"`
+	Data            []float64   `json:"data"`
+	BorderWidth     int         `json:"borderWidth,omitempty"`
+	BorderColor     interface{} `json:"borderColor,omitempty"`
+	BackgroundColor interface{} `json:"backgroundColor,omitempty"`
+	Tension         float64     `json:"tension,omitempty"`
+	Fill            bool        `json:"fill,omitempty"`
+	Stepped         bool        `json:"stepped,omitempty"`
 }
 
 type Options struct {

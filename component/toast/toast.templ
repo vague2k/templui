@@ -181,41 +181,25 @@ templ ToastCSS() {
 		<style nonce={ templ.GetNonce(ctx) }>
 			[data-toast].toast-enter {
 				opacity: 0;
+				/* Initial vertical offset is handled by classes in the component */
 			}
 			[data-toast].toast-enter-active {
 				opacity: 1;
-				transform: translateY(0) translateX(-50%);
+				transform: translateY(0); /* Only handle vertical transition */
 			}
-			[data-toast][class*=" right-"].toast-enter-active,
-			[data-toast][class*=" left-"].toast-enter-active {
-				transform: translateY(0) translateX(0);
-			}
-
 			[data-toast].toast-leave {
 				opacity: 1;
-				transform: translateY(0) translateX(-50%);
+				transform: translateY(0); /* Start leave from final vertical position */
 			}
-			[data-toast][class*=" right-"].toast-leave,
-			[data-toast][class*=" left-"].toast-leave {
-				transform: translateY(0) translateX(0);
-			}
-
 			[data-toast].toast-leave-active {
 				opacity: 0;
+				/* Apply final vertical offset based on position */
 			}
 			[data-toast][class*=" top-"].toast-leave-active {
-				transform: translateY(1rem) translateX(-50%);
+				transform: translateY(1rem); /* Move down */
 			}
 			[data-toast][class*=" bottom-"].toast-leave-active {
-				transform: translateY(-1rem) translateX(-50%);
-			}
-			[data-toast][class*=" top-"][class*=" right-"].toast-leave-active,
-			[data-toast][class*=" top-"][class*=" left-"].toast-leave-active {
-				transform: translateY(1rem) translateX(0);
-			}
-			[data-toast][class*=" bottom-"][class*=" right-"].toast-leave-active,
-			[data-toast][class*=" bottom-"][class*=" left-"].toast-leave-active {
-				transform: translateY(-1rem) translateX(0);
+				transform: translateY(-1rem); /* Move up */
 			}
 		</style>
 	}
