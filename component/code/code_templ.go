@@ -52,14 +52,18 @@ func Code(props ...Props) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
+		templ_7745c5c3_Err = Script().Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
 		var p Props
 		if len(props) > 0 {
 			p = props[0]
 		}
 		if p.ID == "" {
-			p.ID = util.RandomID()
+			p.ID = "code-" + util.RandomID()
 		}
-		var templ_7745c5c3_Var2 = []any{util.TwMerge("relative", p.Class)}
+		var templ_7745c5c3_Var2 = []any{util.TwMerge("relative code-component", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
@@ -71,7 +75,7 @@ func Code(props ...Props) templ.Component {
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/code/code.templ`, Line: 35, Col: 11}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/code/code.templ`, Line: 36, Col: 11}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
@@ -90,7 +94,7 @@ func Code(props ...Props) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\" data-code-component")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -98,7 +102,7 @@ func Code(props ...Props) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, " x-data=\"code\"><pre class=\"overflow-hidden!\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "><pre class=\"overflow-hidden!\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -117,7 +121,7 @@ func Code(props ...Props) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<code x-ref=\"code\" class=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "<code data-code-block class=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -143,7 +147,7 @@ func Code(props ...Props) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		if p.ShowCopyButton {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "<button class=\"absolute top-2 right-2 hover:bg-gray-500 hover:bg-opacity-30 text-white p-2 rounded\" @click=\"copyCode\"><span x-show=\"isCopied\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "<button data-copy-button type=\"button\" class=\"absolute top-2 right-2 hover:bg-gray-500 hover:bg-opacity-30 text-white p-2 rounded\"><span data-icon-check style=\"display: none;\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -151,7 +155,7 @@ func Code(props ...Props) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "</span> <span x-show=\"isNotCopied\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "</span> <span data-icon-clipboard>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -171,6 +175,8 @@ func Code(props ...Props) templ.Component {
 		return nil
 	})
 }
+
+var handle = templ.NewOnceHandle()
 
 func Script() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
@@ -193,7 +199,6 @@ func Script() templ.Component {
 			templ_7745c5c3_Var7 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		handle := templ.NewOnceHandle()
 		templ_7745c5c3_Var8 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 			templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
 			templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
@@ -213,7 +218,7 @@ func Script() templ.Component {
 			var templ_7745c5c3_Var9 string
 			templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/code/code.templ`, Line: 78, Col: 37}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/code/code.templ`, Line: 81, Col: 37}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 			if templ_7745c5c3_Err != nil {
@@ -226,13 +231,13 @@ func Script() templ.Component {
 			var templ_7745c5c3_Var10 string
 			templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/code/code.templ`, Line: 79, Col: 37}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/code/code.templ`, Line: 82, Col: 37}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "\">\n\t\t\tdocument.addEventListener('alpine:init', () => {\n\t\t\t\tdocument.querySelectorAll('code.hljs-target').forEach((block) => {\n\t\t\t\t  try {\n\t\t\t\t    hljs.highlightElement(block);\n\t\t\t\t  } catch (error) {\n\t\t\t\t    console.error(\"Highlight.js error on element:\", error, block);\n\t\t\t\t  }\n\t\t\t});\n\n\t\t\t\tAlpine.data('code', () => ({\n\t\t\t\t\tisCopied: false,\n\t\t\t\t\tisNotCopied: true,\n\t\t\t\t\tcopyCode() {\n\t\t\t\t\t\ttry {\n\t\t\t\t\t\t\tif (navigator.clipboard && window.isSecureContext) {\n\t\t\t\t\t\t\t\tnavigator.clipboard.writeText(this.$refs.code.textContent);\n\t\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\t\tconst textArea = document.createElement('textarea');\n\t\t\t\t\t\t\t\ttextArea.value = this.$refs.code.textContent;\n\t\t\t\t\t\t\t\tdocument.body.appendChild(textArea);\n\t\t\t\t\t\t\t\ttextArea.select();\n\t\t\t\t\t\t\t\tdocument.execCommand('copy');\n\t\t\t\t\t\t\t\tdocument.body.removeChild(textArea);\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\tthis.isCopied = true;\n\t\t\t\t\t\t\tthis.isNotCopied = false;\n\t\t\t\t\t\t\tsetTimeout(() => {\n\t\t\t\t\t\t\t\tthis.isCopied = false;\n\t\t\t\t\t\t\t\tthis.isNotCopied = true;\n\t\t\t\t\t\t\t}, 2000);\n\t\t\t\t\t\t} catch (err) {\n\t\t\t\t\t\t\tconsole.error('Copy failed', err);\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}))\n\t\t\t})\n\t\t</script>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "\">\n\t\t\t(function() { // IIFE Start\n\t\t\t\tfunction whenHljsReady(callback, attempt = 1) {\n\t\t\t\t\tif (typeof hljs !== \"undefined\") {\n\t\t\t\t\t\tcallback();\n\t\t\t\t\t} else if (attempt < 20) { // Retry for a few seconds\n\t\t\t\t\t\tsetTimeout(() => whenHljsReady(callback, attempt + 1), 100);\n\t\t\t\t\t} else {\n\t\t\t\t\t\tconsole.error(\"highlight.js (hljs) failed to load after several attempts.\");\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\tfunction fallbackCopyText(text, iconCheck, iconClipboard) {\n\t\t\t\t\tconst textArea = document.createElement('textarea');\n\t\t\t\t\ttextArea.value = text;\n\t\t\t\t\ttextArea.style.position = 'fixed';\n\t\t\t\t\ttextArea.style.top = '-9999px';\n\t\t\t\t\ttextArea.style.left = '-9999px';\n\t\t\t\t\tdocument.body.appendChild(textArea);\n\t\t\t\t\ttextArea.focus();\n\t\t\t\t\ttextArea.select();\n\t\t\t\t\t\n\t\t\t\t\ttry {\n\t\t\t\t\t\tif (document.execCommand('copy')) {\n\t\t\t\t\t\t\ticonCheck.style.display = 'inline';\n\t\t\t\t\t\t\ticonClipboard.style.display = 'none';\n\t\t\t\t\t\t\tsetTimeout(() => {\n\t\t\t\t\t\t\t\ticonCheck.style.display = 'none';\n\t\t\t\t\t\t\t\ticonClipboard.style.display = 'inline';\n\t\t\t\t\t\t\t}, 2000);\n\t\t\t\t\t\t}\n\t\t\t\t\t} catch (err) {\n\t\t\t\t\t\tconsole.error('Fallback copy failed', err);\n\t\t\t\t\t} finally {\n\t\t\t\t\t\tdocument.body.removeChild(textArea);\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\tfunction initCode(component) {\n\t\t\t\t\tif (!component || component._codeInitialized) return; // Basic initialized check\n\n\t\t\t\t\tconst codeBlock = component.querySelector('[data-code-block]');\n\t\t\t\t\tconst copyButton = component.querySelector('[data-copy-button]');\n\t\t\t\t\tconst iconCheck = component.querySelector('[data-icon-check]');\n\t\t\t\t\tconst iconClipboard = component.querySelector('[data-icon-clipboard]');\n\n\t\t\t\t\t// Highlight if hljs is available and not already highlighted\n\t\t\t\t\tif (codeBlock && typeof hljs !== 'undefined') {\n\t\t\t\t\t\tif (!codeBlock.classList.contains('hljs')) {\n\t\t\t\t\t\t\thljs.highlightElement(codeBlock);\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\n\t\t\t\t\t// Setup copy button if elements exist\n\t\t\t\t\tif (copyButton && codeBlock && iconCheck && iconClipboard) {\n\t\t\t\t\t\t// Remove previous listener if any (important for re-initialization)\n\t\t\t\t\t\tconst oldListener = copyButton._copyListener;\n\t\t\t\t\t\tif (oldListener) {\n\t\t\t\t\t\t\tcopyButton.removeEventListener('click', oldListener);\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\tconst newListener = () => {\n\t\t\t\t\t\t\tconst codeToCopy = codeBlock.textContent || '';\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\tconst showCopied = () => {\n\t\t\t\t\t\t\t\ticonCheck.style.display = 'inline';\n\t\t\t\t\t\t\t\ticonClipboard.style.display = 'none';\n\t\t\t\t\t\t\t\tsetTimeout(() => {\n\t\t\t\t\t\t\t\t\ticonCheck.style.display = 'none';\n\t\t\t\t\t\t\t\t\ticonClipboard.style.display = 'inline';\n\t\t\t\t\t\t\t\t}, 2000);\n\t\t\t\t\t\t\t};\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\tif (navigator.clipboard && window.isSecureContext) {\n\t\t\t\t\t\t\t\tnavigator.clipboard.writeText(codeToCopy)\n\t\t\t\t\t\t\t\t\t.then(showCopied)\n\t\t\t\t\t\t\t\t\t.catch(() => fallbackCopyText(codeToCopy, iconCheck, iconClipboard));\n\t\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\t\tfallbackCopyText(codeToCopy, iconCheck, iconClipboard);\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t};\n\n\t\t\t\t\t\tcopyButton.addEventListener('click', newListener);\n\t\t\t\t\t\tcopyButton._copyListener = newListener; // Store listener for removal\n\t\t\t\t\t}\n\t\t\t\t\t\n\t\t\t\t\tcomponent._codeInitialized = true; // Mark as initialized\n\t\t\t\t}\n\n\t\t\t\tfunction initAllComponents(root = document) {\n\t\t\t\t\tif (root instanceof Element && root.matches('[data-code-component]')) {\n\t\t\t\t\t\tinitCode(root);\n\t\t\t\t\t}\n\t\t\t\t\tfor (const component of root.querySelectorAll('[data-code-component]')) {\n\t\t\t\t\t\tinitCode(component);\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\tconst handleHtmxSwap = (event) => {\n\t\t\t\t\tconst target = event.detail.target || event.target;\n\t\t\t\t\tif (target instanceof Element) {\n\t\t\t\t\t\twhenHljsReady(() => initAllComponents(target));\n\t\t\t\t\t}\n\t\t\t\t};\n\n\t\t\t\tdocument.addEventListener('DOMContentLoaded', () => {\n\t\t\t\t\twhenHljsReady(() => initAllComponents());\n\t\t\t\t});\n\t\t\t\tdocument.body.addEventListener('htmx:afterSwap', handleHtmxSwap);\n\t\t\t\tdocument.body.addEventListener('htmx:oobAfterSwap', handleHtmxSwap);\n\n\t\t\t})(); // IIFE End\n\t\t</script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

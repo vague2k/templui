@@ -64,6 +64,10 @@ func Tabs(props ...Props) templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
+		templ_7745c5c3_Err = Script().Render(ctx, templ_7745c5c3_Buffer)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
 		var p Props
 		if len(props) > 0 {
 			p = props[0]
@@ -89,7 +93,7 @@ func Tabs(props ...Props) templ.Component {
 			var templ_7745c5c3_Var3 string
 			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/tabs/tabs.templ`, Line: 49, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/tabs/tabs.templ`, Line: 50, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 			if templ_7745c5c3_Err != nil {
@@ -120,7 +124,7 @@ func Tabs(props ...Props) templ.Component {
 		var templ_7745c5c3_Var5 string
 		templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(tabsID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/tabs/tabs.templ`, Line: 53, Col: 23}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/tabs/tabs.templ`, Line: 54, Col: 23}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
 		if templ_7745c5c3_Err != nil {
@@ -176,6 +180,7 @@ func List(props ...ListProps) templ.Component {
 		if len(props) > 0 {
 			p = props[0]
 		}
+		tabsID := IDFromContext(ctx)
 		var templ_7745c5c3_Var7 = []any{
 			util.TwMerge(
 				"relative flex items-center justify-center h-10 p-1 rounded-lg select-none bg-muted text-muted-foreground",
@@ -198,7 +203,7 @@ func List(props ...ListProps) templ.Component {
 			var templ_7745c5c3_Var8 string
 			templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/tabs/tabs.templ`, Line: 68, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/tabs/tabs.templ`, Line: 70, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 			if templ_7745c5c3_Err != nil {
@@ -243,9 +248,9 @@ func List(props ...ListProps) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var10 string
-		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(ID(ctx))
+		templ_7745c5c3_Var10, templ_7745c5c3_Err = templ.JoinStringErrs(tabsID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/tabs/tabs.templ`, Line: 81, Col: 25}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/tabs/tabs.templ`, Line: 83, Col: 24}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var10))
 		if templ_7745c5c3_Err != nil {
@@ -286,12 +291,17 @@ func Trigger(props ...TriggerProps) templ.Component {
 		}
 		tabsID := p.TabsID
 		if tabsID == "" {
-			tabsID = ID(ctx)
+			tabsID = IDFromContext(ctx)
+		}
+		if p.Value == "" {
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "<span class=\"text-xs text-destructive\">Error: Tab Trigger missing required 'Value' attribute.</span> ")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
 		}
 		var templ_7745c5c3_Var12 = []any{
 			util.TwMerge(
 				"relative z-20 flex-1 inline-flex items-center justify-center h-8 px-3 text-sm font-medium transition-all rounded-md cursor-pointer whitespace-nowrap hover:text-foreground",
-				util.If(p.IsActive, "text-foreground bg-background shadow-xs"),
 				p.Class,
 			),
 		}
@@ -299,30 +309,30 @@ func Trigger(props ...TriggerProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "<button")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "<button")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		if p.ID != "" {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, " id=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, " id=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var13 string
 			templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/tabs/tabs.templ`, Line: 100, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/tabs/tabs.templ`, Line: 105, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, " type=\"button\" class=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, " type=\"button\" class=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -335,46 +345,46 @@ func Trigger(props ...TriggerProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, "\" data-tabs-trigger data-tabs-id=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "\" data-tabs-trigger data-tabs-id=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var15 string
 		templ_7745c5c3_Var15, templ_7745c5c3_Err = templ.JoinStringErrs(tabsID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/tabs/tabs.templ`, Line: 111, Col: 23}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/tabs/tabs.templ`, Line: 115, Col: 23}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var15))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "\" data-tabs-value=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 23, "\" data-tabs-value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var16 string
 		templ_7745c5c3_Var16, templ_7745c5c3_Err = templ.JoinStringErrs(p.Value)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/tabs/tabs.templ`, Line: 112, Col: 27}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/tabs/tabs.templ`, Line: 116, Col: 27}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var16))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 23, "\" data-state=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 24, "\" data-state=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var17 string
 		templ_7745c5c3_Var17, templ_7745c5c3_Err = templ.JoinStringErrs(util.IfElse(p.IsActive, "active", "inactive"))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/tabs/tabs.templ`, Line: 113, Col: 60}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/tabs/tabs.templ`, Line: 117, Col: 60}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var17))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 24, "\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 25, "\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -382,7 +392,7 @@ func Trigger(props ...TriggerProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 25, ">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 26, ">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -390,7 +400,7 @@ func Trigger(props ...TriggerProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 26, "</button>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 27, "</button>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -425,7 +435,13 @@ func Content(props ...ContentProps) templ.Component {
 		}
 		tabsID := p.TabsID
 		if tabsID == "" {
-			tabsID = ID(ctx)
+			tabsID = IDFromContext(ctx)
+		}
+		if p.Value == "" {
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 28, "<span class=\"text-xs text-destructive\">Error: Tab Content missing required 'Value' attribute.</span> return templ.NopComponent")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
 		}
 		var templ_7745c5c3_Var19 = []any{
 			util.TwMerge(
@@ -438,30 +454,30 @@ func Content(props ...ContentProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 27, "<div")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 29, "<div")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		if p.ID != "" {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 28, " id=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 30, " id=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var20 string
 			templ_7745c5c3_Var20, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/tabs/tabs.templ`, Line: 131, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/tabs/tabs.templ`, Line: 139, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var20))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 29, "\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 31, "\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 30, " class=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 32, " class=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -474,46 +490,46 @@ func Content(props ...ContentProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 31, "\" data-tabs-content data-tabs-id=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 33, "\" data-tabs-content data-tabs-id=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var22 string
 		templ_7745c5c3_Var22, templ_7745c5c3_Err = templ.JoinStringErrs(tabsID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/tabs/tabs.templ`, Line: 141, Col: 23}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/tabs/tabs.templ`, Line: 149, Col: 23}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var22))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 32, "\" data-tabs-value=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 34, "\" data-tabs-value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var23 string
 		templ_7745c5c3_Var23, templ_7745c5c3_Err = templ.JoinStringErrs(p.Value)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/tabs/tabs.templ`, Line: 142, Col: 27}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/tabs/tabs.templ`, Line: 150, Col: 27}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var23))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 33, "\" data-state=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 35, "\" data-state=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var24 string
 		templ_7745c5c3_Var24, templ_7745c5c3_Err = templ.JoinStringErrs(util.IfElse(p.IsActive, "active", "inactive"))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/tabs/tabs.templ`, Line: 143, Col: 60}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/tabs/tabs.templ`, Line: 151, Col: 60}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var24))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 34, "\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 36, "\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -521,7 +537,7 @@ func Content(props ...ContentProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 35, ">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 37, ">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -529,7 +545,7 @@ func Content(props ...ContentProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 36, "</div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 38, "</div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -537,12 +553,14 @@ func Content(props ...ContentProps) templ.Component {
 	})
 }
 
-func ID(ctx context.Context) string {
+func IDFromContext(ctx context.Context) string {
 	if tabsID, ok := ctx.Value("tabsId").(string); ok {
 		return tabsID
 	}
 	return ""
 }
+
+var handle = templ.NewOnceHandle()
 
 func Script() templ.Component {
 	return templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
@@ -565,20 +583,38 @@ func Script() templ.Component {
 			templ_7745c5c3_Var25 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 37, "<script nonce=\"")
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		var templ_7745c5c3_Var26 string
-		templ_7745c5c3_Var26, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
-		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/tabs/tabs.templ`, Line: 158, Col: 36}
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var26))
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 38, "\">\n\t\tdocument.addEventListener('DOMContentLoaded', () => {\n\t\t\tdocument.querySelectorAll('[data-tabs]').forEach(tabs => {\n\t\t\t\tconst tabsId = tabs.dataset.tabsId;\n\t\t\t\tconst triggers = tabs.querySelectorAll(`[data-tabs-trigger][data-tabs-id=\"${tabsId}\"]`);\n\t\t\t\tconst contents = tabs.querySelectorAll(`[data-tabs-content][data-tabs-id=\"${tabsId}\"]`);\n\t\t\t\tconst marker = tabs.querySelector(`[data-tabs-marker][data-tabs-id=\"${tabsId}\"]`);\n\t\t\t\t\n\t\t\t\t// Initial setup\n\t\t\t\tif (triggers.length > 0 && marker) {\n\t\t\t\t\tconst activeTab = tabs.querySelector(`[data-tabs-trigger][data-tabs-id=\"${tabsId}\"][data-state=\"active\"]`) || triggers[0];\n\t\t\t\t\t\n\t\t\t\t\t// Set initial marker position\n\t\t\t\t\tmarker.style.width = activeTab.offsetWidth + 'px';\n\t\t\t\t\tmarker.style.height = activeTab.offsetHeight + 'px';\n\t\t\t\t\tmarker.style.left = activeTab.offsetLeft + 'px';\n\t\t\t\t\t\n\t\t\t\t\t// Set initial active state if not already set\n\t\t\t\t\tif (!activeTab.dataset.state || activeTab.dataset.state !== \"active\") {\n\t\t\t\t\t\tactiveTab.dataset.state = \"active\";\n\t\t\t\t\t\tactiveTab.classList.add('text-foreground', 'bg-background', 'shadow-xs');\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Find and show the corresponding content\n\t\t\t\t\t\tconst activeValue = activeTab.dataset.tabsValue;\n\t\t\t\t\t\tconst activeContent = tabs.querySelector(`[data-tabs-content][data-tabs-id=\"${tabsId}\"][data-tabs-value=\"${activeValue}\"]`);\n\t\t\t\t\t\tif (activeContent) {\n\t\t\t\t\t\t\tactiveContent.dataset.state = \"active\";\n\t\t\t\t\t\t\tactiveContent.classList.remove('hidden');\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\t\t\t\t}\n\t\t\t\t\n\t\t\t\t// Event listeners\n\t\t\t\ttriggers.forEach(trigger => {\n\t\t\t\t\ttrigger.addEventListener('click', () => {\n\t\t\t\t\t\tconst value = trigger.dataset.tabsValue;\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Update trigger states\n\t\t\t\t\t\ttriggers.forEach(t => {\n\t\t\t\t\t\t\tt.dataset.state = t.dataset.tabsValue === value ? \"active\" : \"inactive\";\n\t\t\t\t\t\t\tt.classList.remove('text-foreground', 'bg-background', 'shadow-xs');\n\t\t\t\t\t\t\tif (t.dataset.state === \"active\") {\n\t\t\t\t\t\t\t\tt.classList.add('text-foreground', 'bg-background', 'shadow-xs');\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t});\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Update content states\n\t\t\t\t\t\tcontents.forEach(content => {\n\t\t\t\t\t\t\tcontent.dataset.state = content.dataset.tabsValue === value ? \"active\" : \"inactive\";\n\t\t\t\t\t\t\tif (content.dataset.state === \"active\") {\n\t\t\t\t\t\t\t\tcontent.classList.remove('hidden');\n\t\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\t\tcontent.classList.add('hidden');\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t});\n\t\t\t\t\t\t\n\t\t\t\t\t\t// Update marker\n\t\t\t\t\t\tif (marker) {\n\t\t\t\t\t\t\tmarker.style.width = trigger.offsetWidth + 'px';\n\t\t\t\t\t\t\tmarker.style.height = trigger.offsetHeight + 'px';\n\t\t\t\t\t\t\tmarker.style.left = trigger.offsetLeft + 'px';\n\t\t\t\t\t\t}\n\t\t\t\t\t});\n\t\t\t\t});\n\t\t\t});\n\t\t});\n\t</script>")
+		templ_7745c5c3_Var26 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
+			templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
+			templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templruntime.GetBuffer(templ_7745c5c3_W)
+			if !templ_7745c5c3_IsBuffer {
+				defer func() {
+					templ_7745c5c3_BufErr := templruntime.ReleaseBuffer(templ_7745c5c3_Buffer)
+					if templ_7745c5c3_Err == nil {
+						templ_7745c5c3_Err = templ_7745c5c3_BufErr
+					}
+				}()
+			}
+			ctx = templ.InitializeContext(ctx)
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 39, "<script defer nonce=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var27 string
+			templ_7745c5c3_Var27, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/tabs/tabs.templ`, Line: 169, Col: 43}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var27))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 40, "\">\n\t\t\t(function() { // IIFE\n\t\t\t\tfunction initTabs(container) {\n\t\t\t\t\tif (container.hasAttribute('data-initialized')) return;\n\t\t\t\t\t\n\t\t\t\t\tcontainer.setAttribute('data-initialized', 'true');\n\n\t\t\t\t\tconst tabsId = container.dataset.tabsId;\n\t\t\t\t\tif (!tabsId) return;\n\n\t\t\t\t\tconst triggers = Array.from(container.querySelectorAll(`[data-tabs-trigger][data-tabs-id=\"${tabsId}\"]`));\n\t\t\t\t\tconst contents = Array.from(container.querySelectorAll(`[data-tabs-content][data-tabs-id=\"${tabsId}\"]`));\n\t\t\t\t\tconst marker = container.querySelector(`[data-tabs-marker][data-tabs-id=\"${tabsId}\"]`);\n\n\t\t\t\t\tfunction updateMarker(activeTrigger) {\n\t\t\t\t\t\tif (!marker || !activeTrigger) return;\n\t\t\t\t\t\t\n\t\t\t\t\t\tmarker.style.width = activeTrigger.offsetWidth + 'px';\n\t\t\t\t\t\tmarker.style.height = activeTrigger.offsetHeight + 'px';\n\t\t\t\t\t\tmarker.style.left = activeTrigger.offsetLeft + 'px';\n\t\t\t\t\t}\n\n\t\t\t\t\tfunction setActiveTab(value) {\n\t\t\t\t\t\tlet activeTrigger = null;\n\t\t\t\t\t\t\n\t\t\t\t\t\tfor (const trigger of triggers) {\n\t\t\t\t\t\t\tconst isActive = trigger.dataset.tabsValue === value;\n\t\t\t\t\t\t\ttrigger.dataset.state = isActive ? \"active\" : \"inactive\";\n\t\t\t\t\t\t\ttrigger.classList.toggle('text-foreground', isActive);\n\t\t\t\t\t\t\ttrigger.classList.toggle('bg-background', isActive);\n\t\t\t\t\t\t\ttrigger.classList.toggle('shadow-xs', isActive);\n\t\t\t\t\t\t\t\n\t\t\t\t\t\t\tif (isActive) activeTrigger = trigger;\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\tfor (const content of contents) {\n\t\t\t\t\t\t\tconst isActive = content.dataset.tabsValue === value;\n\t\t\t\t\t\t\tcontent.dataset.state = isActive ? \"active\" : \"inactive\";\n\t\t\t\t\t\t\tcontent.classList.toggle('hidden', !isActive);\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\tupdateMarker(activeTrigger);\n\t\t\t\t\t}\n\n\t\t\t\t\tconst defaultTrigger = triggers.find(t => t.dataset.state === 'active') || triggers[0];\n\t\t\t\t\tif (defaultTrigger) {\n\t\t\t\t\t\tsetActiveTab(defaultTrigger.dataset.tabsValue);\n\t\t\t\t\t}\n\n\t\t\t\t\tfor (const trigger of triggers) {\n\t\t\t\t\t\ttrigger.addEventListener('click', () => {\n\t\t\t\t\t\t\tsetActiveTab(trigger.dataset.tabsValue);\n\t\t\t\t\t\t});\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\tfunction initAllComponents(root = document) {\n\t\t\t\t\tif (root instanceof Element && root.matches('[data-tabs]')) {\n\t\t\t\t\t\tinitTabs(root);\n\t\t\t\t\t}\n\t\t\t\t\tfor (const tabs of root.querySelectorAll('[data-tabs]:not([data-initialized])')) {\n\t\t\t\t\t\tinitTabs(tabs);\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\tconst handleHtmxSwap = (event) => {\n\t\t\t\t\tconst target = event.detail.target || event.target;\n\t\t\t\t\tif (target instanceof Element) {\n\t\t\t\t\t\tinitAllComponents(target);\n\t\t\t\t\t}\n\t\t\t\t};\n\n\t\t\t\tdocument.addEventListener('DOMContentLoaded', () => initAllComponents());\n\t\t\t\tdocument.body.addEventListener('htmx:afterSwap', handleHtmxSwap);\n\t\t\t\tdocument.body.addEventListener('htmx:oobAfterSwap', handleHtmxSwap);\n\t\t\t})(); // End of IIFE\n\t\t</script>")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			return nil
+		})
+		templ_7745c5c3_Err = handle.Once().Render(templ.WithChildren(ctx, templ_7745c5c3_Var26), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

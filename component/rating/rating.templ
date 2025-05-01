@@ -1,7 +1,7 @@
 package rating
 
 import (
-	"context"
+	"fmt"
 	"github.com/axzilla/templui/icon"
 	"github.com/axzilla/templui/util"
 	"strconv"
@@ -41,19 +41,19 @@ type ItemProps struct {
 }
 
 templ Rating(props ...Props) {
+	@Script()
 	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
 	{{ p.setDefaults() }}
-	{{ ctx = context.WithValue(ctx, "readOnly", p.ReadOnly) }}
 	<div
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		x-data="rating"
-		data-value={ strconv.FormatFloat(p.Value, 'f', -1, 64) }
-		data-precision={ strconv.FormatFloat(p.Precision, 'f', -1, 64) }
+		data-rating-component
+		data-initial-value={ fmt.Sprintf("%.2f", p.Value) }
+		data-precision={ fmt.Sprintf("%.2f", p.Precision) }
 		data-readonly={ strconv.FormatBool(p.ReadOnly) }
 		if p.Name != "" {
 			data-name={ p.Name }
@@ -68,15 +68,14 @@ templ Rating(props ...Props) {
 		{ p.Attributes... }
 	>
 		{ children... }
-		<input
-			type="hidden"
-			if p.Name != "" {
+		if p.Name != "" {
+			<input
+				type="hidden"
 				name={ p.Name }
-			}
-			x-bind:value="value"
-			disabled?={ p.Name == "" }
-			x-ref="input"
-		/>
+				value={ fmt.Sprintf("%.2f", p.Value) }
+				data-rating-input
+			/>
+		}
 	</div>
 }
 
@@ -102,26 +101,20 @@ templ Item(props ...ItemProps) {
 		{{ p = props[0] }}
 	}
 	{{ p.setDefaults() }}
-	{{ readOnly, _ := ctx.Value("readOnly").(bool) }}
 	<div
 		if p.ID != "" {
 			id={ p.ID }
 		}
+		data-rating-item
+		data-rating-value={ strconv.Itoa(p.Value) }
 		class={
 			util.TwMerge(
 				"relative",
 				colorClass(p.Style),
 				"transition-opacity",
-				"cursor-pointer",
-				util.If(readOnly, "cursor-default"),
+				"cursor-pointer", // Default cursor
 				p.Class,
 			),
-		}
-		data-rating-value={ strconv.Itoa(p.Value) }
-		if !readOnly {
-			@click="setValue"
-			@mouseover="hover"
-			@mouseleave="resetPreview"
 		}
 		{ p.Attributes... }
 	>
@@ -130,8 +123,8 @@ templ Item(props ...ItemProps) {
 		</div>
 		<div
 			class="absolute inset-0 overflow-hidden"
-			x-bind:style="getItemStyle"
-			data-index={ strconv.Itoa(p.Value) }
+			data-rating-item-foreground
+			style="width: 0%;"
 		>
 			@ratingIcon(p.Style, true, float64(p.Value))
 		</div>
@@ -167,20 +160,15 @@ func ratingIcon(style Style, filled bool, value float64) templ.Component {
 		}
 		return icon.Meh()
 	}
+	iconProps := icon.Props{}
 	if filled {
-		switch style {
-		case StyleHeart:
-			return icon.Heart(icon.Props{Fill: "currentColor"})
-		default:
-			return icon.Star(icon.Props{Fill: "currentColor"})
-		}
-	} else {
-		switch style {
-		case StyleHeart:
-			return icon.Heart()
-		default:
-			return icon.Star()
-		}
+		iconProps.Fill = "currentColor"
+	}
+	switch style {
+	case StyleHeart:
+		return icon.Heart(iconProps)
+	default:
+		return icon.Star(iconProps)
 	}
 }
 
@@ -196,148 +184,241 @@ func (p *Props) setDefaults() {
 	}
 }
 
+var handle = templ.NewOnceHandle()
+
 templ Script() {
-	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
-		<script defer nonce={ templ.GetNonce(ctx) }>
-			document.addEventListener('alpine:init', () => {
-				Alpine.data('rating', () => ({
-					value: 0,
-					maxValue: 5, // Default value, will be dynamically updated
-					precision: 1,
-					readonly: false,
-					name: '',
-					onlyInteger: false,
-					previewValue: 0,
+		<script nonce={ templ.GetNonce(ctx) }>
+			if (typeof window.ratingState === 'undefined') {
+				window.ratingState = new WeakMap();
+			}
+			
+			(function() { // IIFE
+				function initRating(ratingElement) {
+					if (!ratingElement) return;
 					
-					init() {
-						this.value = parseFloat(this.$el.dataset.value) || 0;
-						this.precision = parseFloat(this.$el.dataset.precision) || 1;
-						this.readonly = this.$el.dataset.readonly === 'true';
-						this.name = this.$el.dataset.name || '';
-						this.onlyInteger = this.$el.dataset.onlyinteger === 'true';
-						
-						// Dynamically calculate maxValue based on the items
-						this.calculateMaxValue();
-						
-						// Ensure value is within valid range
-						this.value = Math.min(this.maxValue, this.value);
-						this.value = Math.round(this.value / this.precision) * this.precision;
-						
-						// Initialize the form element for proper form integration
-						if (this.$refs.input) {
-							this.$refs.input.value = this.value;
-						}
-						
-						// Check if we're in a form context
-						this.form = this.$el.closest('form');
-						if (this.form && this.name) {
-							// Add validation support
-							this.form.addEventListener('submit', () => {
-								this.validate();
-							});
-						}
-						
-						// Setup mutation observer to react to DOM changes
-						this.observeDOMChanges();
-					},
+					const existingState = window.ratingState.get(ratingElement);
+					if (existingState) {
+						cleanupRating(ratingElement, existingState);
+					}
 					
-					calculateMaxValue() {
-						// Find all rating items and determine the highest value
-						const items = this.$el.querySelectorAll('[data-rating-value]');
+					ratingElement.dataset.ratingInitialized = 'true';
+					
+					const config = {
+						value: parseFloat(ratingElement.dataset.initialValue) || 0,
+						precision: parseFloat(ratingElement.dataset.precision) || 1,
+						readonly: ratingElement.dataset.readonly === 'true',
+						name: ratingElement.dataset.name || '',
+						onlyInteger: ratingElement.dataset.onlyinteger === 'true',
+						maxValue: 0
+					};
+
+					const hiddenInput = ratingElement.querySelector('[data-rating-input]');
+					let items = Array.from(ratingElement.querySelectorAll('[data-rating-item]'));
+
+					let currentValue = config.value;
+					let previewValue = 0;
+					
+					const handlers = {
+						click: handleClick,
+						mouseover: handleMouseOver,
+						mouseleave: handleMouseLeave
+					};
+					
+					function calculateMaxValue() {
 						let highestValue = 0;
-						
-						items.forEach(item => {
+						for (const item of items) {
 							const value = parseInt(item.dataset.ratingValue, 10);
-							if (value > highestValue) {
+							if (!isNaN(value) && value > highestValue) {
 								highestValue = value;
 							}
-						});
-						
-						// Set minimum maxValue of 1
-						this.maxValue = Math.max(1, highestValue);
-					},
-					
-					observeDOMChanges() {
-						// Use MutationObserver to react to DOM changes
-						const observer = new MutationObserver(() => {
-							this.calculateMaxValue();
-						});
-						
-						// Watch for changes in the child node list
-						observer.observe(this.$el, { childList: true, subtree: true });
-					},
-					
-					validate() {
-						// Basic validation - can be extended as needed
-						const isValid = this.value > 0;
-						// Trigger custom event for form validation
-						this.$dispatch('rating-validate', { 
-							name: this.name, 
-							value: this.value,
-							valid: isValid
-						});
-						return isValid;
-					},
-					
-					setValue() {
-						if (this.readonly) return;
-						const item = this.$event.target.closest('[data-rating-value]');
-						if (!item) return;
-						const newValue = parseInt(item.dataset.ratingValue);
-						if (this.onlyInteger) {
-							this.value = Math.round(newValue);
-						} else {
-							this.value = Math.round(newValue / this.precision) * this.precision;
 						}
-						this.value = Math.max(0, Math.min(this.maxValue, this.value));
-						
-						// Update the hidden input value
-						if (this.$refs.input) {
-							this.$refs.input.value = this.value;
-						}
-						
-						// Trigger change events for form integration
-						this.$dispatch('rating-change', { 
-							name: this.name, 
-							value: this.value,
-							maxValue: this.maxValue
-						});
-						
-						// Trigger input event for better form integration
-						if (this.$refs.input) {
-							this.$refs.input.dispatchEvent(new Event('input', { bubbles: true }));
-							this.$refs.input.dispatchEvent(new Event('change', { bubbles: true }));
-						}
-					},
-					
-					getFormattedValue() {
-						return Math.round(this.value * 100) / 100;
-					},
-					
-					getItemStyle() {
-						const index = parseInt(this.$el.dataset.index || '0');
-						const filled = index <= Math.floor(this.value);
-						const partial = !filled && (index - 1 < this.value && this.value < index);
-						const percentage = partial ? (this.value - Math.floor(this.value)) * 100 : 0;
-						return {
-							width: filled ? '100%' : (partial ? percentage + '%' : '0%')
-						};
-					},
-					
-					hover() {
-						if (this.readonly) return;
-						const item = this.$event.target.closest('[data-rating-value]');
-						if (!item) return;
-						this.previewValue = parseInt(item.dataset.ratingValue);
-					},
-					
-					resetPreview() {
-						if (this.readonly) return;
-						this.previewValue = 0;
+						config.maxValue = Math.max(1, highestValue);
+						currentValue = Math.max(0, Math.min(config.maxValue, currentValue));
+						currentValue = Math.round(currentValue / config.precision) * config.precision;
+						updateHiddenInput();
 					}
-				}));
-			});
+
+					function updateHiddenInput() {
+						if (hiddenInput) {
+							hiddenInput.value = currentValue.toFixed(2);
+						}
+					}
+
+					function updateItemStyles(displayValue) {
+						for (const item of items) {
+							const itemValue = parseInt(item.dataset.ratingValue, 10);
+							if (isNaN(itemValue)) continue;
+							
+							const foreground = item.querySelector('[data-rating-item-foreground]');
+							if (!foreground) continue;
+							
+							const valueToCompare = displayValue > 0 ? displayValue : currentValue;
+							
+							const filled = itemValue <= Math.floor(valueToCompare);
+							const partial = !filled && (itemValue - 1 < valueToCompare && valueToCompare < itemValue);
+							const percentage = partial ? (valueToCompare - Math.floor(valueToCompare)) * 100 : 0;
+							
+							foreground.style.width = filled ? '100%' : (partial ? `${percentage}%` : '0%');
+						}
+					}
+
+					function setValue(itemValue) {
+						if (config.readonly) return;
+						
+						let newValue = itemValue;
+						if (config.onlyInteger) {
+							newValue = Math.round(newValue);
+						} else {
+							if (currentValue === newValue && newValue % 1 === 0) {
+								newValue = Math.max(0, newValue - config.precision);
+							} else {
+								newValue = Math.round(newValue / config.precision) * config.precision;
+							}
+						}
+						
+						currentValue = Math.max(0, Math.min(config.maxValue, newValue));
+						previewValue = 0;
+						updateHiddenInput();
+						updateItemStyles(0);
+						
+						ratingElement.dispatchEvent(new CustomEvent('rating-change', {
+							bubbles: true,
+							detail: { 
+								name: config.name, 
+								value: currentValue, 
+								maxValue: config.maxValue 
+							}
+						}));
+						
+						if (hiddenInput) {
+							hiddenInput.dispatchEvent(new Event('input', { bubbles: true }));
+							hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));
+						}
+					}
+					
+					function handleMouseOver(event) {
+						if (config.readonly) return;
+						const item = event.target.closest('[data-rating-item]');
+						if (!item) return;
+						
+						previewValue = parseInt(item.dataset.ratingValue, 10);
+						if (!isNaN(previewValue)) {
+							updateItemStyles(previewValue);
+						}
+					}
+					
+					function handleMouseLeave() {
+						if (config.readonly) return;
+						previewValue = 0;
+						updateItemStyles(0);
+					}
+					
+					function handleClick(event) {
+						if (config.readonly) return;
+						const item = event.target.closest('[data-rating-item]');
+						if (!item) return;
+						
+						const itemValue = parseInt(item.dataset.ratingValue, 10);
+						if (!isNaN(itemValue)) {
+							setValue(itemValue);
+						}
+					}
+					
+					calculateMaxValue();
+					updateItemStyles(0);
+					
+					if (config.readonly) {
+						ratingElement.style.cursor = 'default';
+						for (const item of items) {
+							item.style.cursor = 'default';
+						}
+					} else {
+						ratingElement.addEventListener('click', handlers.click);
+						ratingElement.addEventListener('mouseover', handlers.mouseover);
+						ratingElement.addEventListener('mouseleave', handlers.mouseleave);
+					}
+					
+					const observer = new MutationObserver(() => {
+						try {
+							const currentItemCount = ratingElement.querySelectorAll('[data-rating-item]').length;
+							if (currentItemCount !== items.length) {
+								items = Array.from(ratingElement.querySelectorAll('[data-rating-item]'));
+								calculateMaxValue();
+								updateItemStyles(previewValue > 0 ? previewValue : 0);
+							}
+						} catch (err) {
+							console.error('Error in rating MutationObserver:', err);
+						}
+					});
+					
+					observer.observe(ratingElement, { childList: true, subtree: true });
+					
+					const state = {
+						handlers,
+						observer,
+						items
+					};
+					
+					window.ratingState.set(ratingElement, state);
+				}
+				
+				function cleanupRating(ratingElement, state) {
+					if (!ratingElement || !state) return;
+					
+					if (!ratingElement.dataset.readonly === 'true') {
+						ratingElement.removeEventListener('click', state.handlers.click);
+						ratingElement.removeEventListener('mouseover', state.handlers.mouseover);
+						ratingElement.removeEventListener('mouseleave', state.handlers.mouseleave);
+					}
+					
+					if (state.observer) {
+						state.observer.disconnect();
+					}
+					
+					window.ratingState.delete(ratingElement);
+					ratingElement.removeAttribute('data-rating-initialized');
+				}
+
+				function initAllComponents(root = document) {
+					if (root instanceof Element && root.matches('[data-rating-component]')) {
+						initRating(root); // initRating handles already initialized check internally
+					}
+					if (root && typeof root.querySelectorAll === 'function') {
+						root.querySelectorAll('[data-rating-component]').forEach(initRating);
+					}
+				}
+
+				const handleHtmxSwap = (event) => {
+					const target = event.detail.target || event.target;
+					if (target instanceof Element) {
+						setTimeout(() => initAllComponents(target), 0);
+					}
+				};
+
+				document.addEventListener('DOMContentLoaded', () => initAllComponents());
+
+				document.body.addEventListener('htmx:beforeCleanup', event => {
+					const containerToRemove = event.detail.elt; // Use elt for beforeCleanup
+					if (containerToRemove instanceof Element) {
+						// Cleanup target itself
+						if (containerToRemove.matches && containerToRemove.matches('[data-rating-component][data-rating-initialized]')) {
+							const state = window.ratingState.get(containerToRemove);
+							if (state) cleanupRating(containerToRemove, state);
+						}
+						// Cleanup descendants
+						if (containerToRemove.querySelectorAll) {
+							for (const ratingEl of containerToRemove.querySelectorAll('[data-rating-component][data-rating-initialized]')) {
+								const state = window.ratingState.get(ratingEl);
+								if (state) cleanupRating(ratingEl, state);
+							}
+						}
+					}
+				});
+
+				document.body.addEventListener('htmx:afterSwap', handleHtmxSwap);
+				document.body.addEventListener('htmx:oobAfterSwap', handleHtmxSwap);
+			})(); // End of IIFE
 		</script>
 	}
 }

@@ -10,7 +10,6 @@ type PageWrapperProps struct {
 	Name        string
 	Description templ.Component
 	Tailwind    bool
-	Alpine      bool
 	VanillaJS   bool
 	Breadcrumbs Breadcrumbs
 }
@@ -61,14 +60,6 @@ templ PageWrapper(p PageWrapperProps) {
 				}) {
 					@wrappedicon.Tailwind(16)
 					TailwindCSS
-				}
-			}
-			if p.Alpine {
-				@badge.Badge(badge.Props{
-					Variant: badge.VariantSecondary,
-				}) {
-					@wrappedicon.Alpine(16)
-					Alpine.js
 				}
 			}
 			if p.VanillaJS {

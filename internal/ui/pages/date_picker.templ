@@ -9,7 +9,7 @@ import (
 templ DatePicker() {
 	@layouts.DocsLayout(
 		"Date Picker",
-		"Calendar interface for selecting and formatting dates.",
+		"Calendar interface for selecting and formatting dates. Uses Popover for the popup.",
 		[]modules.TableOfContentsItem{
 			{
 				Text: "Examples",
@@ -45,9 +45,9 @@ templ DatePicker() {
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Date Picker",
-			Description: templ.Raw("Calendar interface for selecting and formatting dates."),
+			Description: templ.Raw("Calendar interface for selecting and formatting dates. Uses <a href='/docs/components/popover' class='text-primary underline underline-offset-2 hover:opacity-80 transition-opacity'>Popover</a> for the popup."),
 			Tailwind:    true,
-			Alpine:      true,
+			VanillaJS:   true,
 			Breadcrumbs: modules.Breadcrumbs{
 				Items: []modules.BreadcrumbItem{
 					{
@@ -64,10 +64,6 @@ templ DatePicker() {
 				ShowcaseFile:      showcase.DatePickerDefault(),
 				PreviewCodeFile:   "date_picker_default.templ",
 				ComponentCodeFile: "datepicker/date_picker.templ",
-			})
-			@modules.Usage(modules.UsageProps{
-				ComponentName: "DatePicker",
-				NeedsHandler:  true,
 			})
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
 				Title: "Examples",

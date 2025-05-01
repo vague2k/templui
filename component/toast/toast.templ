@@ -42,6 +42,8 @@ type Props struct {
 }
 
 templ Toast(props ...Props) {
+	@Script()
+	@ToastCSS()
 	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
@@ -50,31 +52,25 @@ templ Toast(props ...Props) {
 		{{ p.ID = util.RandomID() }}
 	}
 	{{ p = p.defaults() }}
+	{{ isTop := p.Position == PositionTopRight || p.Position == PositionTopLeft || p.Position == PositionTopCenter }}
+	{{ isBottom := p.Position == PositionBottomRight || p.Position == PositionBottomLeft || p.Position == PositionBottomCenter }}
 	<div
 		id={ p.ID }
+		data-toast
 		data-duration={ strconv.Itoa(p.Duration) }
-		x-data="toast"
-		@mouseenter="pauseTimer"
-		@mouseleave="resumeTimer"
-		x-show="show"
-		x-transition:enter="transition ease-out duration-300"
-		x-transition:enter-start="opacity-0 translate-y-4"
-		x-transition:enter-end="opacity-100 translate-y-0"
-		x-transition:leave="transition ease-in duration-200"
-		x-transition:leave-start="opacity-100 translate-y-0"
-		x-transition:leave-end="opacity-0 translate-y-4"
-		class={
-			util.TwMerge(
-				"z-50 fixed pointer-events-auto p-4",
-				util.If(p.Position == PositionTopRight || p.Position == PositionTopLeft || p.Position == PositionTopCenter, "top-0"),
-				util.If(p.Position == PositionBottomRight || p.Position == PositionBottomLeft || p.Position == PositionBottomCenter, "bottom-0"),
-				util.If(p.Position == PositionTopRight || p.Position == PositionBottomRight, "right-0"),
-				util.If(p.Position == PositionTopLeft || p.Position == PositionBottomLeft, "left-0"),
-				util.If(p.Position == PositionTopCenter || p.Position == PositionBottomCenter, "left-1/2 -translate-x-1/2"),
-				"w-full md:max-w-[420px]",
-				p.Class,
-			),
-		}
+		class={ util.TwMerge(
+			"z-50 fixed pointer-events-auto p-4",
+			"opacity-0 transform transition-all duration-300 ease-out",
+			util.If(isTop, "top-0"),
+			util.If(isBottom, "bottom-0"),
+			util.If(isTop, "translate-y-4"),
+			util.If(isBottom, "-translate-y-4"),
+			util.If(p.Position == PositionTopRight || p.Position == PositionBottomRight, "right-0"),
+			util.If(p.Position == PositionTopLeft || p.Position == PositionBottomLeft, "left-0"),
+			util.If(p.Position == PositionTopCenter || p.Position == PositionBottomCenter, "left-1/2 -translate-x-1/2"),
+			"w-full md:max-w-[420px]",
+			p.Class,
+		) }
 		{ p.Attributes... }
 	>
 		<div class="w-full bg-primary-foreground rounded-lg shadow-xs border pt-5 pb-4 px-4 flex items-center justify-center relative overflow-hidden">
@@ -98,13 +94,11 @@ templ Toast(props ...Props) {
 templ indicator(p Props) {
 	<div class="absolute top-0 left-0 right-0 h-1">
 		<div
-			x-ref="progress"
-			class={
-				util.TwMerge(
-					"absolute inset-0",
-					typeClass(p.Variant),
-				),
-			}
+			data-toast-progress
+			class={ util.TwMerge(
+				"absolute inset-0",
+				typeClass(p.Variant),
+			) }
 		></div>
 	</div>
 }
@@ -138,11 +132,9 @@ templ dismissButton() {
 		Size:    button.SizeIcon,
 		Variant: button.VariantGhost,
 		Attributes: templ.Attributes{
-			"aria-label":       "Close",
-			"@click":           "dismissToast",
-			"@mouseenter.stop": "",
-			"@mouseleave.stop": "",
-			"type":             "button",
+			"aria-label":         "Close",
+			"data-toast-dismiss": "",
+			"type":               "button",
 		},
 	}) {
 		@icon.X(icon.Props{
@@ -182,65 +174,156 @@ func typeClass(t Variant) string {
 	}
 }
 
+var cssHandle = templ.NewOnceHandle()
+
+templ ToastCSS() {
+	@cssHandle.Once() {
+		<style nonce={ templ.GetNonce(ctx) }>
+			[data-toast].toast-enter {
+				opacity: 0;
+				/* Initial vertical offset is handled by classes in the component */
+			}
+			[data-toast].toast-enter-active {
+				opacity: 1;
+				transform: translateY(0); /* Only handle vertical transition */
+			}
+			[data-toast].toast-leave {
+				opacity: 1;
+				transform: translateY(0); /* Start leave from final vertical position */
+			}
+			[data-toast].toast-leave-active {
+				opacity: 0;
+				/* Apply final vertical offset based on position */
+			}
+			[data-toast][class*=" top-"].toast-leave-active {
+				transform: translateY(1rem); /* Move down */
+			}
+			[data-toast][class*=" bottom-"].toast-leave-active {
+				transform: translateY(-1rem); /* Move up */
+			}
+		</style>
+	}
+}
+
+var handle = templ.NewOnceHandle()
+
 templ Script() {
-	{{ handler := templ.NewOnceHandle() }}
-	@handler.Once() {
-		<script defer nonce={ templ.GetNonce(ctx) }>	
-			document.addEventListener('alpine:init', () => {
-				Alpine.data('toast', () => ({
-					show: true,
-					duration: 0,
-					timer: null,
+	@handle.Once() {
+		<script nonce={ templ.GetNonce(ctx) }>
+			(function() { // IIFE
+				if (typeof window.toastHandler === 'undefined') {
+					window.toastHandler = true;
+					window.toasts = new Map();
 
-					init() {
-						this.duration = parseInt(this.$el.dataset.duration || 0);
-						this.startTimer();
+					function initToast(toast) {
+						if (window.toasts.has(toast)) return;
 
-						if (this.duration > 0) {
-							const progress = this.$refs.progress;
-							if (progress) {
-								progress.style.transition = `width ${this.duration}ms linear`;
-								progress.style.width = '100%';
-								setTimeout(() => {
-									progress.style.width = '0%';
-								}, 10);
+						const duration = parseInt(toast.dataset.duration || '0');
+						const progress = toast.querySelector('[data-toast-progress]');
+						const dismiss = toast.querySelector('[data-toast-dismiss]');
+						
+						const state = {
+							timer: null,
+							remaining: duration,
+							startTime: Date.now(),
+							progress: progress,
+							paused: false
+						};
+						window.toasts.set(toast, state);
+
+						function removeToast() {
+							clearTimeout(state.timer);
+							toast.classList.remove('toast-enter-active');
+							toast.classList.add('toast-leave-active');
+							
+							toast.addEventListener('transitionend', () => {
+								toast.remove();
+								window.toasts.delete(toast);
+							}, { once: true });
+						}
+
+						function startTimer(time) {
+							if (time <= 0) return;
+							
+							clearTimeout(state.timer);
+							state.startTime = Date.now();
+							state.remaining = time;
+							state.paused = false;
+							state.timer = setTimeout(removeToast, time);
+
+							if (state.progress) {
+								state.progress.style.transition = `width ${time}ms linear`;
+								void state.progress.offsetWidth;
+								state.progress.style.width = '0%';
 							}
 						}
-					},
 
-					startTimer() {
-						if (this.duration <= 0) return;
-						this.timer = setTimeout(() => {
-							this.show = false;
-						}, this.duration);
-					},
-
-					pauseTimer() {
-						if (this.timer) clearTimeout(this.timer);
-						const progress = this.$refs.progress;
-						if (progress) {
-							const width = progress.getBoundingClientRect().width;
-							const total = progress.parentElement.getBoundingClientRect().width;
-							this.duration = (width / total) * this.duration;
-							progress.style.transition = "none";
-							progress.style.width = width + "px";
+						function pauseTimer() {
+							if (state.paused || state.remaining <= 0) return;
+							
+							clearTimeout(state.timer);
+							state.remaining -= (Date.now() - state.startTime);
+							state.paused = true;
+							
+							if (state.progress) {
+								const width = window.getComputedStyle(state.progress).width;
+								state.progress.style.transition = 'none';
+								state.progress.style.width = width;
+							}
 						}
-					},
 
-					resumeTimer() {
-						const progress = this.$refs.progress;
-						if (progress) {
-							progress.style.transition = "width " + this.duration + "ms linear";
-							progress.style.width = "0";
+						function resumeTimer() {
+							if (!state.paused || state.remaining <= 0) return;
+							startTimer(state.remaining);
 						}
-						this.startTimer();
-					},
 
-					dismissToast() {
-						this.show = false;
+						if (duration > 0) {
+							toast.addEventListener('mouseenter', pauseTimer);
+							toast.addEventListener('mouseleave', resumeTimer);
+						}
+						
+						if (dismiss) {
+							dismiss.addEventListener('click', removeToast);
+						}
+
+						setTimeout(() => {
+							toast.classList.add('toast-enter-active');
+							if (state.progress) {
+								state.progress.style.width = '100%';
+							}
+							startTimer(duration);
+						}, 50);
 					}
-				}))
-			})
+
+					function initAllComponents(root = document) {
+						const toastsToInit = [];
+						if (root instanceof Element && root.matches('[data-toast]')) {
+							if (!window.toasts.has(root)) {
+								toastsToInit.push(root);
+							}
+						}
+						if (root && typeof root.querySelectorAll === 'function') {
+							root.querySelectorAll('[data-toast]').forEach(toast => {
+								if (!window.toasts.has(toast)) {
+									toastsToInit.push(toast);
+								}
+							});
+						}
+						toastsToInit.forEach(initToast);
+					}
+
+					const handleHtmxSwap = (event) => {
+						const target = event.detail.target || event.target;
+						if (target instanceof Element) {
+							initAllComponents(target);
+						}
+					};
+
+					document.addEventListener('DOMContentLoaded', () => initAllComponents());
+					document.body.addEventListener('htmx:afterSwap', handleHtmxSwap);
+					document.body.addEventListener('htmx:oobAfterSwap', handleHtmxSwap);
+				}
+			})(); // End of IIFE
 		</script>
 	}
 }

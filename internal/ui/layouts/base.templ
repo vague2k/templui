@@ -1,7 +1,7 @@
 package layouts
 
 import (
-	"github.com/axzilla/templui/helper"
+	"fmt"
 	"github.com/axzilla/templui/internal/config"
 	"github.com/axzilla/templui/internal/ctxkeys"
 	"github.com/axzilla/templui/internal/ui/modules"
@@ -55,8 +55,6 @@ templ BaseLayout(title, description string) {
 			@ThemeScript()
 			// Shiki Highlighter Script
 			@modules.CodeHighlightingScript()
-			// Component Scripts
-			@helper.ComponentScripts()
 			// Favicon
 			<link rel="icon" href="/assets/img/favicon.svg" type="image/x-icon"/>
 			// Tailwind CSS
@@ -67,6 +65,13 @@ templ BaseLayout(title, description string) {
 			<script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/csp@3.x.x/dist/cdn.min.js"></script>
 			// HTMX
 			<script nonce={ templ.GetNonce(ctx) } src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.4/dist/htmx.min.js"></script>
+			// Set script nonce for HTMX // without this, HTMX will not work with CSP
+			<meta
+				name="htmx-config"
+				content={ fmt.Sprintf(`{
+			    "inlineScriptNonce": "%s"
+			}`, templ.GetNonce(ctx)) }
+			/>
 		</head>
 		<body
 			x-data="themeHandler"

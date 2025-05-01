@@ -13,12 +13,13 @@ type Props struct {
 	Value       string
 	Placeholder string
 	Rows        int
+	AutoResize  bool
 	Disabled    bool
 	Required    bool
-	AutoResize  bool
 }
 
 templ Textarea(props ...Props) {
+	@Script()
 	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
@@ -27,8 +28,8 @@ templ Textarea(props ...Props) {
 		{{ p.ID = util.RandomID() }}
 	}
 	<textarea
-		x-ref={ p.ID }
 		id={ p.ID }
+		data-textarea
 		if p.Name != "" {
 			name={ p.Name }
 		}
@@ -40,39 +41,73 @@ templ Textarea(props ...Props) {
 		}
 		disabled?={ p.Disabled }
 		required?={ p.Required }
+		if p.AutoResize {
+			data-auto-resize="true"
+		}
 		class={
 			util.TwMerge(
 				"flex w-full px-3 py-2",
-				"min-h-[80px]",
+				"min-h-[80px]", // Default min-height (adjust if needed)
 				"rounded-md border border-input bg-background text-sm",
 				"ring-offset-background",
 				"placeholder:text-muted-foreground",
-				"focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
+				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
 				"disabled:cursor-not-allowed disabled:opacity-50",
+				// Add overflow-hidden only if auto-resizing to prevent scrollbar flicker
+				util.If(p.AutoResize, "overflow-hidden resize-none"),
 				p.Class,
 			),
-		}
-		if p.AutoResize {
-			x-data="textarea"
-			x-init="resize"
-			@input="resize"
 		}
 		{ p.Attributes... }
 	>{ p.Value }</textarea>
 }
 
+var handle = templ.NewOnceHandle()
+
 templ Script() {
-	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
-			document.addEventListener('alpine:init', () => {
-				Alpine.data('textarea', () => ({
-					resize() {
-						this.$el.style.height = '80px';
-						this.$el.style.height = this.$el.scrollHeight + 'px';
+			(function() { // IIFE
+				function initTextarea(textarea) {
+					if (textarea.hasAttribute('data-initialized')) return;
+					
+					textarea.setAttribute('data-initialized', 'true');
+					
+					const autoResize = textarea.dataset.autoResize === 'true';
+					if (!autoResize) return;
+					
+					const computedStyle = window.getComputedStyle(textarea);
+					const initialMinHeight = computedStyle.minHeight;
+					
+					function resize() {
+						textarea.style.height = initialMinHeight;
+						textarea.style.height = `${textarea.scrollHeight}px`;
 					}
-				}));
-			});
+					
+					resize();
+					textarea.addEventListener('input', resize);
+				}
+				
+				function initAllComponents(root = document) {
+					if (root instanceof Element && root.matches('textarea[data-textarea]')) {
+						initTextarea(root);
+					}
+					for (const textarea of root.querySelectorAll('textarea[data-textarea]:not([data-initialized])')) {
+						initTextarea(textarea);
+					}
+				}
+				
+				const handleHtmxSwap = (event) => {
+					const target = event.detail.target || event.target;
+					if (target instanceof Element) {
+						initAllComponents(target);
+					}
+				};
+
+				document.addEventListener('DOMContentLoaded', () => initAllComponents());
+				document.body.addEventListener('htmx:afterSwap', handleHtmxSwap);
+				document.body.addEventListener('htmx:oobAfterSwap', handleHtmxSwap);
+			})(); // End of IIFE
 		</script>
 	}
 }

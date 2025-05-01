@@ -36,60 +36,74 @@ templ Label(props ...Props) {
 	</label>
 }
 
+var handle = templ.NewOnceHandle()
+
 templ Script() {
-	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
-		<script defer nonce={ templ.GetNonce(ctx) }>
-			document.addEventListener('DOMContentLoaded', function() {
-			  document.querySelectorAll('label[for]').forEach(function(label) {
-				// Check if this is our enhanced label with data-disabled-style
-				if (!label.hasAttribute('data-disabled-style')) {
-				  return; // Skip regular labels without data-disabled-style attribute
-				}
-				
-				// Disabled style handler
-				function updateLabelStyle(label) {
-				  const forId = label.getAttribute('for');
-				  const targetElement = document.getElementById(forId);
-				  
-				  if (targetElement && targetElement.disabled) {
-					// Retrieve the custom disabled style or use the default
+		<script nonce={ templ.GetNonce(ctx) }>
+
+			(function() { // IIFE
+				function initLabel(label) {
+					if (!label.hasAttribute('for') || !label.hasAttribute('data-disabled-style')) {
+						return;
+					}
+					
+					const forId = label.getAttribute('for');
+					const targetElement = forId ? document.getElementById(forId) : null;
 					const disabledStyle = label.getAttribute('data-disabled-style');
-					disabledStyle.split(' ').forEach(function(className) {
-					  if (className) {
-						label.classList.add(className);
-					  }
-					});
-				  } else {
-					// Remove the disabled style
-					const disabledStyle = label.getAttribute('data-disabled-style');
-					disabledStyle.split(' ').forEach(function(className) {
-					  if (className) {
-						label.classList.remove(className);
-					  }
-					});
-				  }
+					
+					if (!disabledStyle) return;
+					
+					const classes = disabledStyle.split(' ').filter(Boolean);
+					
+					function updateStyle() {
+						if (targetElement && targetElement.disabled) {
+							label.classList.add(...classes);
+						} else {
+							label.classList.remove(...classes);
+						}
+					}
+					
+					// Set up mutation observer to detect disabled state changes
+					if (targetElement) {
+						const observer = new MutationObserver(mutations => {
+							for (const mutation of mutations) {
+								if (mutation.type === 'attributes' && mutation.attributeName === 'disabled') {
+									updateStyle();
+								}
+							}
+						});
+						
+						observer.observe(targetElement, { 
+							attributes: true, 
+							attributeFilter: ['disabled'] 
+						});
+					}
+					
+					// Initial style update
+					updateStyle();
 				}
 				
-				// Update the initial style
-				updateLabelStyle(label);
-				
-				// Create a MutationObserver for this specific label
-				const forId = label.getAttribute('for');
-				const targetElement = document.getElementById(forId);
-				
-				if (targetElement) {
-				  const observer = new MutationObserver(function() {
-					updateLabelStyle(label);
-				  });
-				  
-				  observer.observe(targetElement, { 
-					attributes: true, 
-					attributeFilter: ['disabled'] 
-				  });
+				function initAllComponents(root = document) {
+					if (root instanceof Element && root.matches('label[for][data-disabled-style]')) {
+						initLabel(root);
+					}
+					for (const label of root.querySelectorAll('label[for][data-disabled-style]')) {
+						initLabel(label);
+					}	
 				}
-			  });
-			});
+
+				const handleHtmxSwap = (event) => {
+					const target = event.detail.target || event.target;
+					if (target instanceof Element) {
+						setTimeout(() => initAllComponents(target), 0);
+					}
+				};
+				
+				document.addEventListener('DOMContentLoaded', () => initAllComponents());
+				document.body.addEventListener('htmx:afterSwap', handleHtmxSwap);
+				document.body.addEventListener('htmx:oobAfterSwap', handleHtmxSwap);
+			})(); // End of IIFE
 		</script>
 	}
 }

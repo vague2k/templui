@@ -51,11 +51,13 @@ type GroupProps struct {
 }
 
 templ Avatar(props ...Props) {
+	@Script()
 	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
 	<div
+		data-avatar
 		if p.ID != "" {
 			id={ p.ID }
 		}
@@ -80,6 +82,7 @@ templ Image(props ...ImageProps) {
 		{{ p = props[0] }}
 	}
 	<img
+		data-avatar-image
 		if p.ID != "" {
 			id={ p.ID }
 		}
@@ -104,6 +107,7 @@ templ Fallback(props ...FallbackProps) {
 		{{ p = props[0] }}
 	}
 	<span
+		data-avatar-fallback
 		if p.ID != "" {
 			id={ p.ID }
 		}
@@ -200,7 +204,6 @@ func groupSpacingClasses(spacing GroupSpacing) string {
 	}
 }
 
-
 func avatarAlt(p ImageProps) string {
 	if p.Alt != "" {
 		return p.Alt
@@ -215,4 +218,72 @@ func avatarAlt(p ImageProps) string {
 	}
 
 	return ""
+}
+
+var handle = templ.NewOnceHandle()
+
+templ Script() {
+	@handle.Once() {
+		<script defer nonce={ templ.GetNonce(ctx) }>
+			(function() { // IIFE
+				function initAvatar(avatar) {
+					const image = avatar.querySelector('[data-avatar-image]');
+					const fallback = avatar.querySelector('[data-avatar-fallback]');
+
+					if (image && fallback) {
+						image.style.display = 'none';
+						fallback.style.display = 'none';
+
+						const showFallback = () => {
+							image.style.display = 'none';
+							fallback.style.display = '';
+						};
+
+						const showImage = () => {
+							image.style.display = '';
+							fallback.style.display = 'none';
+						};
+
+						if (image.complete) {
+							image.naturalWidth > 0 && image.naturalHeight > 0 ? showImage() : showFallback();
+						} else {
+							image.addEventListener('load', showImage, { once: true });
+							image.addEventListener('error', showFallback, { once: true });
+							
+							setTimeout(() => {
+								if (image.complete && !(image.naturalWidth > 0 && image.naturalHeight > 0)) {
+									showFallback();
+								}
+							}, 50);
+						}
+					} else if (fallback) {
+						fallback.style.display = '';
+					} else if (image) {
+						image.style.display = '';
+					}
+				}
+
+				function initAllComponents(root = document) {
+					if (root instanceof Element && root.matches('[data-avatar]')) {
+						initAvatar(root);
+					}
+
+					for (const avatar of root.querySelectorAll('[data-avatar]')) {
+						initAvatar(avatar);
+					}
+				}
+
+				const handleHtmxSwap = (event) => {
+					const target = event.detail.target || event.target;
+					if (target instanceof Element) {
+						initAllComponents(target);
+					}
+				};
+
+				document.addEventListener('DOMContentLoaded', () => initAllComponents());
+				document.body.addEventListener('htmx:afterSwap', handleHtmxSwap);
+				document.body.addEventListener('htmx:oobAfterSwap', handleHtmxSwap);
+			})(); // End of IIFE
+		</script>
+	}
 }

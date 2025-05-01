@@ -58,6 +58,7 @@ type ItemProps struct {
 }
 
 templ SelectBox(props ...Props) {
+	@Script()
 	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
@@ -237,115 +238,112 @@ templ Item(props ...ItemProps) {
 	</div>
 }
 
+var handle = templ.NewOnceHandle()
+
 templ Script() {
-	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
-			document.addEventListener('DOMContentLoaded', function() {
-				// Helper function to position dropdown based on available space
-				function updateDropdownPosition(trigger, content) {
-					// Get necessary measurements
+			(function() { // IIFE
+				function positionDropdown(trigger, content) {
 					const triggerRect = trigger.getBoundingClientRect();
 					const viewportHeight = window.innerHeight;
 					const viewportWidth = window.innerWidth;
 					
-					// First make the content visible but off-screen to measure its natural size
 					content.style.display = 'block';
 					content.style.visibility = 'hidden';
-					content.style.maxHeight = 'none'; // Remove max-height to get natural height
+					content.style.maxHeight = '';
 					
-					// Force a reflow to make sure we get accurate measurements
+					// Force reflow
 					void content.offsetHeight;
 					
-					// Get content dimensions
 					const contentHeight = content.scrollHeight;
 					const contentWidth = content.scrollWidth;
 					
-					// Calculate available space in different directions
 					const spaceBelow = viewportHeight - triggerRect.bottom;
 					const spaceAbove = triggerRect.top;
 					const spaceRight = viewportWidth - triggerRect.left;
 					
-					// Reset visibility
 					content.style.visibility = '';
 					
-					// Vertical positioning
-					let needsVerticalScroll = false;
-					let maxHeight;
-					
+					// Position vertically
 					if (spaceBelow >= contentHeight) {
 						// Enough space below
-						content.style.top = "100%";
-						content.style.bottom = "auto";
-						content.style.marginTop = "0.25rem";
-						content.style.marginBottom = "0";
-						maxHeight = spaceBelow - 10; // Add some padding
+						content.style.top = '100%';
+						content.style.bottom = 'auto';
+						content.style.marginTop = '0.25rem';
+						content.style.marginBottom = '0';
+						content.style.maxHeight = `${spaceBelow - 10}px`;
 					} else if (spaceAbove >= contentHeight) {
 						// Enough space above
-						content.style.bottom = "100%";
-						content.style.top = "auto";
-						content.style.marginBottom = "0.25rem";
-						content.style.marginTop = "0";
-						maxHeight = spaceAbove - 10; // Add some padding
+						content.style.bottom = '100%';
+						content.style.top = 'auto';
+						content.style.marginBottom = '0.25rem';
+						content.style.marginTop = '0';
+						content.style.maxHeight = `${spaceAbove - 10}px`;
 					} else {
-						// Not enough space in either direction - use the larger space and add scrolling
-						needsVerticalScroll = true;
+						// Limited space - choose the larger area and add scrolling
 						if (spaceBelow >= spaceAbove) {
-							content.style.top = "100%";
-							content.style.bottom = "auto";
-							content.style.marginTop = "0.25rem";
-							content.style.marginBottom = "0";
-							maxHeight = spaceBelow - 10;
+							content.style.top = '100%';
+							content.style.bottom = 'auto';
+							content.style.marginTop = '0.25rem';
+							content.style.marginBottom = '0';
+							content.style.maxHeight = `${spaceBelow - 10}px`;
 						} else {
-							content.style.bottom = "100%";
-							content.style.top = "auto";
-							content.style.marginBottom = "0.25rem";
-							content.style.marginTop = "0";
-							maxHeight = spaceAbove - 10;
+							content.style.bottom = '100%';
+							content.style.top = 'auto';
+							content.style.marginBottom = '0.25rem';
+							content.style.marginTop = '0';
+							content.style.maxHeight = `${spaceAbove - 10}px`;
 						}
+						content.style.overflowY = 'auto';
 					}
 					
-					// Apply vertical scroll if needed
-					if (needsVerticalScroll) {
-						content.style.maxHeight = maxHeight + "px";
-						content.style.overflowY = "auto";
-					} else {
-						content.style.maxHeight = "none";
-						content.style.overflowY = "visible";
-					}
-					
-					// Handle horizontal positioning if needed (for very wide dropdowns)
+					// Position horizontally
 					if (contentWidth > triggerRect.width && contentWidth > spaceRight) {
-						content.style.right = "0";
-						content.style.left = "auto";
+						content.style.right = '0';
+						content.style.left = 'auto';
 					} else {
-						content.style.left = "0";
-						content.style.right = "auto";
+						content.style.left = '0';
+						content.style.right = 'auto';
 					}
 				}
-				
-				// Find all Select containers
-				document.querySelectorAll('.select-container').forEach(function(selectContainer) {
-					const id = selectContainer.getAttribute('data-select-id');
-					const trigger = selectContainer.querySelector('.select-trigger');
-					const content = selectContainer.querySelector('.select-content');
-					const valueEl = selectContainer.querySelector('.select-value');
-					const hiddenInput = selectContainer.querySelector('input[type="hidden"]');
+
+				function initSelect(container) {
+					// Skip if already initialized
+					if (!container || container.hasAttribute('data-initialized')) {
+						return;
+					}
+					
+					// Mark as initialized
+					container.setAttribute('data-initialized', 'true');
+					
+					// Find required elements
+					const trigger = container.querySelector('button.select-trigger');
+					const content = container.querySelector('.select-content');
+					const valueEl = container.querySelector('.select-value');
+					const hiddenInput = container.querySelector('input[type="hidden"]');
+					
+					// Exit if critical elements are missing
+					if (!trigger || !content) {
+						console.error('Select box missing required elements', container);
+						return;
+					}
+					
+					// State variables
 					let isOpen = false;
 					
-					// Initialize selected value
-					let selectedItem = selectContainer.querySelector('.select-item[data-selected="true"]');
-					let hoverApplied = false; // Track if hover effect is applied
+					// Find selected item or highlight first item
+					const selectedItem = container.querySelector('.select-item[data-selected="true"]');
 					
-					// If no item is selected, mark the first one as pre-selected (just visually)
+					// If no item is selected, mark first as visually highlighted
 					if (!selectedItem) {
-						const firstItem = selectContainer.querySelector('.select-item');
+						const firstItem = container.querySelector('.select-item');
 						if (firstItem) {
-							firstItem.classList.add('bg-muted'); // Add a subtle gray background
+							firstItem.classList.add('bg-muted');
 						}
 					}
 					
-					// Update values if an item is actually selected
+					// Initialize values if item is selected
 					if (selectedItem && valueEl) {
 						const itemText = selectedItem.querySelector('.select-item-text');
 						if (itemText) {
@@ -356,184 +354,173 @@ templ Script() {
 							hiddenInput.value = selectedItem.getAttribute('data-value');
 						}
 					}
-
-					// Handle hover effect on mouse movement
-					content.addEventListener('mouseover', function(e) {
-						const item = e.target.closest('.select-item');
-						if (!item) return;
-						
-						// Reset all items to normal state
-						selectContainer.querySelectorAll('.select-item').forEach(el => {
-							if (el.getAttribute('data-selected') === 'true') {
-								// For selected item, keep check mark but remove background
-								el.classList.remove('bg-accent', 'text-accent-foreground', 'bg-muted');
-							} else {
-								el.classList.remove('bg-accent', 'text-accent-foreground', 'bg-muted');
-							}
-						});
-						
-						// Apply hover effect to current item
-						if (item.getAttribute('data-disabled') !== 'true') {
-							item.classList.add('bg-accent', 'text-accent-foreground');
-							hoverApplied = true;
-						}
-					});
 					
-					// Reset hover effect when mouse leaves content area
-					content.addEventListener('mouseleave', function() {
-						// Remove hover effect
-						selectContainer.querySelectorAll('.select-item').forEach(el => {
-							if (el.getAttribute('data-selected') === 'true') {
-								// Restore background to selected item
-								el.classList.add('bg-accent', 'text-accent-foreground');
-							} else {
-								el.classList.remove('bg-accent', 'text-accent-foreground', 'bg-muted');
-							}
-						});
-						hoverApplied = false;
-					});
-
-					// Toggle dropdown with elegant transitions
-					if (trigger) {
-						// Prevent focus ring on mousedown
-						trigger.addEventListener('mousedown', function(e) {
-							if (e.button === 0) {
-								this.style.outline = 'none';
-								this.style.boxShadow = 'none';
-							}
-						});
+					// Toggle dropdown open/closed
+					function toggleDropdown() {
+						isOpen = !isOpen;
+						trigger.setAttribute('aria-expanded', String(isOpen));
 						
-						trigger.addEventListener('click', function() {
-							if (this.disabled) return;
+						if (isOpen) {
+							// Open dropdown
+							positionDropdown(trigger, content);
+							content.style.display = 'block';
 							
-							isOpen = !isOpen;
-							this.setAttribute('aria-expanded', isOpen.toString());
+							// Force reflow then animate
+							void content.offsetHeight;
+							content.classList.remove('opacity-0', '-translate-y-1', 'scale-95');
+							content.classList.add('opacity-100', 'translate-y-0', 'scale-100');
+						} else {
+							// Close dropdown with animation
+							content.classList.remove('opacity-100', 'translate-y-0', 'scale-100');
+							content.classList.add('opacity-0', '-translate-y-1', 'scale-95');
 							
-							if (isOpen) {
-								// Update position before showing
-								updateDropdownPosition(this, content);
-								
-								// Show dropdown
-								content.style.display = 'block';
-								// Force reflow
-								void content.offsetHeight;
-								// Apply animation end state
-								content.classList.remove('opacity-0', '-translate-y-1', 'scale-95');
-								content.classList.add('opacity-100', 'translate-y-0', 'scale-100');
+							// Hide after animation completes
+							setTimeout(() => {
+								if (!isOpen) {
+									content.style.display = 'none';
+								}
+							}, 100);
+							
+							// Reset focus
+							trigger.style.outline = '';
+							trigger.style.boxShadow = '';
+							trigger.focus();
+						}
+					}
+					
+					// Reset hover effects, restore selected item styling
+					function resetItemStyles() {
+						container.querySelectorAll('.select-item').forEach(item => {
+							if (item.getAttribute('data-selected') === 'true') {
+								item.classList.add('bg-accent', 'text-accent-foreground');
+								item.classList.remove('bg-muted');
 							} else {
-								// Start closing animation
-								content.classList.remove('opacity-100', 'translate-y-0', 'scale-100');
-								content.classList.add('opacity-0', '-translate-y-1', 'scale-95');
-								
-								// Hide after animation completes
-								setTimeout(function() {
-									if (!isOpen) { // Double-check state hasn't changed
-										content.style.display = 'none';
-									}
-								}, 100); // Match duration from CSS
-								
-								// Reset focus styles
-								this.style.outline = '';
-								this.style.boxShadow = '';
-								this.focus();
-							}
-						});
-						
-						// Keyboard navigation
-						trigger.addEventListener('keydown', function(e) {
-							if ((e.key === 'Enter' || e.key === ' ') && !this.disabled) {
-								e.preventDefault();
-								this.click();
-							} else if ((e.key === 'Escape' || e.key === 'Tab') && isOpen) {
-								e.preventDefault();
-								this.click(); // Close dropdown
+								item.classList.remove('bg-accent', 'text-accent-foreground', 'bg-muted');
 							}
 						});
 					}
 					
-					// Handle item selection
-					selectContainer.querySelectorAll('.select-item').forEach(function(item) {
-						item.addEventListener('click', function() {
-							if (this.getAttribute('data-disabled') === 'true') return;
+					// Select an item
+					function selectItem(item) {
+						if (item.getAttribute('data-disabled') === 'true') return;
+						
+						const value = item.getAttribute('data-value');
+						const itemText = item.querySelector('.select-item-text');
+						
+						// Reset all items
+						container.querySelectorAll('.select-item').forEach(el => {
+							el.setAttribute('data-selected', 'false');
+							el.classList.remove('bg-accent', 'text-accent-foreground', 'bg-muted');
 							
-							// Get data
-							const value = this.getAttribute('data-value');
-							const itemText = this.querySelector('.select-item-text');
-							
-							// Reset selection state
-							selectContainer.querySelectorAll('.select-item').forEach(el => {
-								el.setAttribute('data-selected', 'false');
-								el.classList.remove('bg-accent', 'text-accent-foreground', 'bg-muted');
-								const check = el.querySelector('.select-check');
-								if (check) check.classList.replace('opacity-100', 'opacity-0');
-							});
-							
-							// Set new selection
-							this.setAttribute('data-selected', 'true');
-							this.classList.add('bg-accent', 'text-accent-foreground');
-							const check = this.querySelector('.select-check');
-							if (check) check.classList.replace('opacity-0', 'opacity-100');
-							
-							// Update UI
-							if (valueEl && itemText) {
-								valueEl.textContent = itemText.textContent;
-								valueEl.classList.remove('text-muted-foreground');
+							const check = el.querySelector('.select-check');
+							if (check) {
+								check.classList.replace('opacity-100', 'opacity-0');
 							}
-							
-							// Update hidden input
-							if (hiddenInput && value) {
-								hiddenInput.value = value;
-								hiddenInput.dispatchEvent(new Event('change', {bubbles: true}));
-							}
-							
-							// Close dropdown elegantly
-							isOpen = false;
-							content.classList.remove('opacity-100', 'translate-y-0', 'scale-100');
-							content.classList.add('opacity-0', '-translate-y-1', 'scale-95');
-							
-							setTimeout(function() {
-								if (!isOpen) {
-									content.style.display = 'none';
-								}
-							}, 100);
-							
-							trigger.setAttribute('aria-expanded', 'false');
-							trigger.style.outline = '';
-							trigger.style.boxShadow = '';
-							trigger.focus();
 						});
 						
-						// Keyboard selection
-						item.addEventListener('keydown', function(e) {
+						// Mark new selection
+						item.setAttribute('data-selected', 'true');
+						item.classList.add('bg-accent', 'text-accent-foreground');
+						
+						const check = item.querySelector('.select-check');
+						if (check) {
+							check.classList.replace('opacity-0', 'opacity-100');
+						}
+						
+						// Update display value
+						if (valueEl && itemText) {
+							valueEl.textContent = itemText.textContent;
+							valueEl.classList.remove('text-muted-foreground');
+						}
+						
+						// Update hidden input & trigger change event
+						if (hiddenInput && value) {
+							hiddenInput.value = value;
+							hiddenInput.dispatchEvent(new Event('change', {bubbles: true}));
+						}
+						
+						// Close dropdown
+						toggleDropdown();
+					}
+					
+					// Event: Trigger click
+					trigger.addEventListener('mousedown', e => {
+						if (e.button === 0) {
+							e.currentTarget.style.outline = 'none';
+							e.currentTarget.style.boxShadow = 'none';
+						}
+					});
+					
+					trigger.addEventListener('click', e => {
+						if (e.currentTarget.disabled) return;
+						toggleDropdown();
+					});
+					
+					// Event: Keyboard navigation
+					trigger.addEventListener('keydown', e => {
+						if ((e.key === 'Enter' || e.key === ' ') && !e.currentTarget.disabled) {
+							e.preventDefault();
+							toggleDropdown();
+						} else if ((e.key === 'Escape' || e.key === 'Tab') && isOpen) {
+							e.preventDefault();
+							toggleDropdown();
+						}
+					});
+					
+					// Event: Mouse hover on items
+					content.addEventListener('mouseover', e => {
+						const item = e.target.closest('.select-item');
+						if (!item || item.getAttribute('data-disabled') === 'true') return;
+						
+						container.querySelectorAll('.select-item').forEach(el => {
+							el.classList.remove('bg-accent', 'text-accent-foreground', 'bg-muted');
+						});
+						
+						item.classList.add('bg-accent', 'text-accent-foreground');
+					});
+					
+					content.addEventListener('mouseleave', resetItemStyles);
+					
+					// Event: Item selection
+					container.querySelectorAll('.select-item').forEach(item => {
+						item.addEventListener('click', () => selectItem(item));
+						
+						item.addEventListener('keydown', e => {
 							if (e.key === 'Enter' || e.key === ' ') {
 								e.preventDefault();
-								this.click();
+								selectItem(item);
 							}
 						});
 					});
 					
-					// Close on outside click
-					document.addEventListener('click', function(e) {
-						if (isOpen && !selectContainer.contains(e.target)) {
-							isOpen = false;
-							
-							// Close with animation
-							content.classList.remove('opacity-100', 'translate-y-0', 'scale-100');
-							content.classList.add('opacity-0', '-translate-y-1', 'scale-95');
-							
-							setTimeout(function() {
-								if (!isOpen) {
-									content.style.display = 'none';
-								}
-							}, 100);
-							
-							trigger.setAttribute('aria-expanded', 'false');
-							trigger.style.outline = '';
-							trigger.style.boxShadow = '';
+					// Event: Outside click
+					document.addEventListener('click', e => {
+						if (isOpen && !container.contains(e.target)) {
+							toggleDropdown();
 						}
 					});
-				});
-			});
+				}
+				
+				function initAllComponents(root = document) {
+					if (root instanceof Element && root.matches('.select-container')) {
+						initSelect(root);
+					}
+					for (const select of root.querySelectorAll('.select-container:not([data-initialized])')) {
+						initSelect(select);
+					}
+				}
+				
+				const handleHtmxSwap = (event) => {
+					const target = event.detail.target || event.target;
+					if (target instanceof Element) {
+						setTimeout(() => initAllComponents(target), 0);
+					}
+				};
+				
+				document.addEventListener('DOMContentLoaded', () => initAllComponents());
+				document.body.addEventListener('htmx:afterSwap', handleHtmxSwap);
+				document.body.addEventListener('htmx:oobAfterSwap', handleHtmxSwap);
+			})(); // End of IIFE
 		</script>
 	}
 }

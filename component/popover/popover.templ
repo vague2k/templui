@@ -5,21 +5,21 @@ import (
 	"strconv"
 )
 
-type Position string
+type Placement string
 
 const (
-	PositionTop         Position = "top"
-	PositionTopStart    Position = "top-start"
-	PositionTopEnd      Position = "top-end"
-	PositionRight       Position = "right"
-	PositionRightStart  Position = "right-start"
-	PositionRightEnd    Position = "right-end"
-	PositionBottom      Position = "bottom"
-	PositionBottomStart Position = "bottom-start"
-	PositionBottomEnd   Position = "bottom-end"
-	PositionLeft        Position = "left"
-	PositionLeftStart   Position = "left-start"
-	PositionLeftEnd     Position = "left-end"
+	PlacementTop         Placement = "top"
+	PlacementTopStart    Placement = "top-start"
+	PlacementTopEnd      Placement = "top-end"
+	PlacementRight       Placement = "right"
+	PlacementRightStart  Placement = "right-start"
+	PlacementRightEnd    Placement = "right-end"
+	PlacementBottom      Placement = "bottom"
+	PlacementBottomStart Placement = "bottom-start"
+	PlacementBottomEnd   Placement = "bottom-end"
+	PlacementLeft        Placement = "left"
+	PlacementLeftStart   Placement = "left-start"
+	PlacementLeftEnd     Placement = "left-end"
 )
 
 type TriggerType string
@@ -43,7 +43,8 @@ type ContentProps struct {
 	ID               string
 	Class            string
 	Attributes       templ.Attributes
-	Position         Position
+	Placement        Placement
+	Offset           int
 	DisableClickAway bool
 	DisableESC       bool
 	ShowArrow        bool
@@ -52,17 +53,15 @@ type ContentProps struct {
 }
 
 templ Popover(props ...Props) {
+	@Script()
 	{{ var p Props }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
-	<div class={ util.TwMerge("relative inline-block", p.Class) }>
+	<div class={ p.Class }>
 		{ children... }
 	</div>
-	<div
-		data-popover-portal-container
-		class="fixed inset-0 z-[9999] pointer-events-none"
-	></div>
+	<div data-popover-portal-container class="fixed inset-0 z-[9999] pointer-events-none"></div>
 }
 
 templ Trigger(props ...TriggerProps) {
@@ -90,557 +89,374 @@ templ Content(props ...ContentProps) {
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
-	if p.Position == "" {
-		{{ p.Position = PositionBottom }}
+	if p.Placement == "" {
+		{{ p.Placement = PlacementBottom }}
 	}
-	<template
-		data-popover-content-template
+	if p.Offset == 0 {
+		if p.ShowArrow {
+			{{ p.Offset = 8 }}
+		} else {
+			{{ p.Offset = 4 }}
+		}
+	}
+	<div
+		id={ p.ID }
 		data-popover-id={ p.ID }
-		data-popover-position={ string(p.Position) }
+		data-popover-placement={ string(p.Placement) }
+		data-popover-offset={ strconv.Itoa(p.Offset) }
 		data-popover-disable-clickaway={ strconv.FormatBool(p.DisableClickAway) }
 		data-popover-disable-esc={ strconv.FormatBool(p.DisableESC) }
 		data-popover-show-arrow={ strconv.FormatBool(p.ShowArrow) }
 		data-popover-hover-delay={ strconv.Itoa(p.HoverDelay) }
 		data-popover-hover-out-delay={ strconv.Itoa(p.HoverOutDelay) }
-	>
-		<div
-			class={ util.TwMerge(
+		class={ util.TwMerge(
 			"bg-background rounded-lg border text-sm shadow-lg pointer-events-auto absolute z-[9999]",
 			p.Class,
 		) }
-		>
-			<div class="w-full overflow-hidden">
-				{ children... }
-			</div>
-			if p.ShowArrow {
-				<!-- We generate all arrows with unique data attributes for easier identification -->
-				<!-- Top arrows -->
-				<div
-					data-arrow={ string(PositionTop) }
-					class="absolute h-2.5 w-2.5 rotate-45 bg-background top-[-5px] left-1/2 -translate-x-1/2 border-t border-l hidden"
-				></div>
-				<div
-					data-arrow={ string(PositionTopStart) }
-					class="absolute h-2.5 w-2.5 rotate-45 bg-background top-[-5px] left-4 border-t border-l hidden"
-				></div>
-				<div
-					data-arrow={ string(PositionTopEnd) }
-					class="absolute h-2.5 w-2.5 rotate-45 bg-background top-[-5px] right-4 border-t border-l hidden"
-				></div>
-				<!-- Bottom arrows -->
-				<div
-					data-arrow={ string(PositionBottom) }
-					class="absolute h-2.5 w-2.5 rotate-45 bg-background bottom-[-5px] left-1/2 -translate-x-1/2 border-b border-r hidden"
-				></div>
-				<div
-					data-arrow={ string(PositionBottomStart) }
-					class="absolute h-2.5 w-2.5 rotate-45 bg-background bottom-[-5px] left-4 border-b border-r hidden"
-				></div>
-				<div
-					data-arrow={ string(PositionBottomEnd) }
-					class="absolute h-2.5 w-2.5 rotate-45 bg-background bottom-[-5px] right-4 border-b border-r hidden"
-				></div>
-				<!-- Left arrows -->
-				<div
-					data-arrow={ string(PositionLeft) }
-					class="absolute h-2.5 w-2.5 rotate-45 bg-background left-[-5px] top-1/2 -translate-y-1/2 border-b border-l hidden"
-				></div>
-				<div
-					data-arrow={ string(PositionLeftStart) }
-					class="absolute h-2.5 w-2.5 rotate-45 bg-background left-[-5px] top-2 border-b border-l hidden"
-				></div>
-				<div
-					data-arrow={ string(PositionLeftEnd) }
-					class="absolute h-2.5 w-2.5 rotate-45 bg-background left-[-5px] bottom-2 border-b border-l hidden"
-				></div>
-				<!-- Right arrows -->
-				<div
-					data-arrow={ string(PositionRight) }
-					class="absolute h-2.5 w-2.5 rotate-45 bg-background right-[-5px] top-1/2 -translate-y-1/2 border-t border-r hidden"
-				></div>
-				<div
-					data-arrow={ string(PositionRightStart) }
-					class="absolute h-2.5 w-2.5 rotate-45 bg-background right-[-5px] top-2 border-t border-r hidden"
-				></div>
-				<div
-					data-arrow={ string(PositionRightEnd) }
-					class="absolute h-2.5 w-2.5 rotate-45 bg-background right-[-5px] bottom-2 border-t border-r hidden"
-				></div>
-			}
+		style="display: none; top: 0; left: 0;"
+		{ p.Attributes... }
+	>
+		<div class="w-full overflow-hidden">
+			{ children... }
 		</div>
-	</template>
+		if p.ShowArrow {
+			<div data-popover-arrow class="absolute h-2.5 w-2.5 rotate-45 bg-background border"></div>
+		}
+	</div>
 }
 
+var handle = templ.NewOnceHandle()
+
 templ Script() {
-	<script defer nonce={ templ.GetNonce(ctx) }>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Minimal CSS-Animation for the rubber effect
-            const style = document.createElement('style');
-            style.textContent = `
-                @keyframes popover-in {
-                    0% { opacity: 0; transform: scale(0.95); }
-                    100% { opacity: 1; transform: scale(1); }
-                }
-                
-                @keyframes popover-out {
-                    0% { opacity: 1; transform: scale(1); }
-                    100% { opacity: 0; transform: scale(0.95); }
-                }
-                
-                .popover-animate-in {
-                    animation: popover-in 0.15s cubic-bezier(0.16, 1, 0.3, 1);
-                }
-                
-                .popover-animate-out {
-                    animation: popover-out 0.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-                }
-            `;
-            document.head.appendChild(style);
-            
-            const portalContainer = document.querySelector('[data-popover-portal-container]');
-            const triggers = document.querySelectorAll('[data-popover-trigger]');
-            const templates = document.querySelectorAll('[data-popover-content-template]');
-            
-            // Active popovers
-            const activePopovers = new Map();
-            
-            // Function to update the arrow based on the position
-            const updateArrow = (popoverElement, position) => {
-                if (popoverElement.dataset.popoverShowArrow !== 'true') return;
-                
-                // Initially hide all arrows
-                popoverElement.querySelectorAll('[data-arrow]').forEach(arrow => {
-                    arrow.classList.add('hidden');
-                });
-                
-                // Get the background and border color from the parent element
-                const computedStyle = window.getComputedStyle(popoverElement);
-                const bgColor = computedStyle.backgroundColor;
-                const borderColor = computedStyle.borderColor;
-                
-                // Arrow direction is always opposite to the position
-                let arrowPosition;
-                
-                if (position.startsWith('top')) {
-                    arrowPosition = position.replace('top', 'bottom');
-                } else if (position.startsWith('bottom')) {
-                    arrowPosition = position.replace('bottom', 'top');
-                } else if (position.startsWith('left')) {
-                    arrowPosition = position.replace('left', 'right');
-                } else if (position.startsWith('right')) {
-                    arrowPosition = position.replace('right', 'left');
-                } else {
-                    arrowPosition = position;
-                }
-                
-                // Show the correct arrow based on the direction
-                const arrow = popoverElement.querySelector(`[data-arrow="${arrowPosition}"]`);
-                if (arrow) {
-                    arrow.classList.remove('hidden');
-                    arrow.style.backgroundColor = bgColor;
-                    arrow.style.borderColor = borderColor;
-                }
-            };
-            
-            // Positioning function
-            const positionPopover = (trigger, popoverElement) => {
-                // Find the actual element the popover refers to
-                let triggerElement = trigger;
-                let largestArea = 0;
-                
-                // Check all direct children of the trigger
-                const children = trigger.children;
-                for (let i = 0; i < children.length; i++) {
-                    const child = children[i];
-                    const rect = child.getBoundingClientRect();
-                    const area = rect.width * rect.height;
-                    
-                    if (area > largestArea) {
-                        largestArea = area;
-                        triggerElement = child;
-                    }
-                }
-                
-                const triggerRect = triggerElement.getBoundingClientRect();
-                const contentRect = popoverElement.getBoundingClientRect();
-                const margin = popoverElement.dataset.popoverShowArrow === 'true' ? 8 : 4;
-                const scrollY = window.scrollY || window.pageYOffset;
-                const scrollX = window.scrollX || window.pageXOffset;
+	@handle.Once() {
+		<script src="https://cdn.jsdelivr.net/npm/@floating-ui/core@1/dist/floating-ui.core.umd.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/@floating-ui/dom@1/dist/floating-ui.dom.umd.min.js"></script>
+		<script nonce={ templ.GetNonce(ctx) }>
+			if (typeof window.popoverState === 'undefined') {
+				window.popoverState = new Map();
+			}
 
-                // Position from the dataset
-                const requestedPosition = popoverElement.dataset.popoverPosition || 'bottom';
-                // We store the final position, which can be adjusted based on viewport space
-                let finalPosition = requestedPosition;
+			(function() { // IIFE Start
+				// Add the check inside the IIFE
+				if (window.popoverSystemInitialized) return;
 
-                // Viewport dimensions
-                const viewportWidth = window.innerWidth;
-                const viewportHeight = window.innerHeight;
+				// --- Floating UI Check & Helper ---
+				let FloatingUIDOM = null; // Will hold the library once loaded
 
-                // Get element heights and widths
-                const triggerHeight = triggerRect.height;
-                const contentHeight = contentRect.height;
-                const contentWidth = contentRect.width;
-                
-                // Define anchor points
-                const triggerTop = triggerRect.top + scrollY;
-                const triggerBottom = triggerRect.bottom + scrollY;
-                const triggerLeft = triggerRect.left + scrollX;
-                const triggerRight = triggerRect.right + scrollX;
-                
-                // Calculate available space in each direction
-                const spaceAbove = triggerRect.top;
-                const spaceBelow = viewportHeight - triggerRect.bottom;
-                const spaceLeft = triggerRect.left;
-                const spaceRight = viewportWidth - triggerRect.right;
+				function whenFloatingUiReady(callback, attempt = 1) {
+					if (window.FloatingUIDOM) {
+						FloatingUIDOM = window.FloatingUIDOM;
+						callback();
+					} else if (attempt < 40) { // Retry for ~2 seconds
+						setTimeout(() => whenFloatingUiReady(callback, attempt + 1), 50);
+					} else {
+						console.error("Floating UI DOM failed to load after several attempts.");
+					}
+				}
 
-                // Intelligent position adjustment
-                // We check the opposite position if there is not enough space
-                if (finalPosition.startsWith('top') && spaceAbove < contentHeight + margin) {
-                    // If there is not enough space above, show below
-                    finalPosition = finalPosition.replace('top', 'bottom');
-                } else if (finalPosition.startsWith('bottom') && spaceBelow < contentHeight + margin) {
-                    // If there is not enough space below, show above
-                    finalPosition = finalPosition.replace('bottom', 'top');
-                } else if (finalPosition.startsWith('left') && spaceLeft < contentWidth + margin) {
-                    // If there is not enough space on the left, show on the right
-                    finalPosition = finalPosition.replace('left', 'right');
-                } else if (finalPosition.startsWith('right') && spaceRight < contentWidth + margin) {
-                    // If there is not enough space on the right, show on the left
-                    finalPosition = finalPosition.replace('right', 'left');
-                }
+				// --- Helper Functions ---
 
-                // Store the current position in the element for CSS adjustments (e.g., arrow position)
-                popoverElement.dataset.popoverCurrentPosition = finalPosition;
-                
-                // Show the correct arrow
-                updateArrow(popoverElement, finalPosition);
-                
-                let top, left;
-                
-                // Positioning logic with the final position
-                switch (finalPosition) {
-                    case 'top':
-                        top = triggerTop - contentHeight - margin;
-                        left = triggerLeft + (triggerRect.width / 2) - (contentRect.width / 2);
-                        break;
-                    case 'top-start':
-                        top = triggerTop - contentHeight - margin;
-                        left = triggerLeft;
-                        break;
-                    case 'top-end':
-                        top = triggerTop - contentHeight - margin;
-                        left = triggerRight - contentRect.width;
-                        break;
-                    case 'right':
-                        top = triggerTop + (triggerHeight / 2) - (contentHeight / 2);
-                        left = triggerRight + margin;
-                        break;
-                    case 'right-start':
-                        top = triggerTop;
-                        left = triggerRight + margin;
-                        break;
-                    case 'right-end':
-                        top = triggerBottom - contentHeight;
-                        left = triggerRight + margin;
-                        break;
-                    case 'bottom':
-                        top = triggerBottom + margin;
-                        left = triggerLeft + (triggerRect.width / 2) - (contentRect.width / 2);
-                        break;
-                    case 'bottom-start':
-                        top = triggerBottom + margin;
-                        left = triggerLeft;
-                        break;
-                    case 'bottom-end':
-                        top = triggerBottom + margin;
-                        left = triggerRight - contentRect.width;
-                        break;
-                    case 'left':
-                        top = triggerTop + (triggerHeight / 2) - (contentHeight / 2);
-                        left = triggerLeft - contentRect.width - margin;
-                        break;
-                    case 'left-start':
-                        top = triggerTop;
-                        left = triggerLeft - contentRect.width - margin;
-                        break;
-                    case 'left-end':
-                        top = triggerBottom - contentHeight;
-                        left = triggerLeft - contentRect.width - margin;
-                        break;
-                    default:
-                        top = triggerBottom + margin;
-                        left = triggerLeft + (triggerRect.width / 2) - (contentRect.width / 2);
-                }
+				function findReferenceElement(triggerSpan) {
+					const children = triggerSpan.children;
+					if (children.length === 0) return triggerSpan;
+					let bestElement = triggerSpan;
+					let largestArea = 0;
+					for (const child of children) {
+						if (typeof child.getBoundingClientRect !== 'function') continue;
+						const rect = child.getBoundingClientRect();
+						const area = rect.width * rect.height;
+						if (area > largestArea) {
+							largestArea = area;
+							bestElement = child;
+						}
+					}
+					return bestElement;
+				}
 
-                // Horizontal boundary - ensures the popover does not overflow the viewport
-                if (left < 10) {
-                    left = 10; // Minimum distance from the left edge
-                } else if (left + contentWidth > viewportWidth - 10) {
-                    left = viewportWidth - contentWidth - 10; // Minimum distance from the right edge
-                }
+				function positionArrow(arrowElement, placement, arrowData, content) {
+					const { x: arrowX, y: arrowY } = arrowData;
+					const staticSide = { top: 'bottom', right: 'left', bottom: 'top', left: 'right' }[placement.split('-')[0]];
+					Object.assign(arrowElement.style, { left: arrowX != null ? `${arrowX}px` : '', top: arrowY != null ? `${arrowY}px` : '', right: '', bottom: '', [staticSide]: '-5px' });
+					const popoverStyle = window.getComputedStyle(content);
+					const popoverBorderColor = popoverStyle.borderColor;
+					arrowElement.style.backgroundColor = popoverStyle.backgroundColor;
+					arrowElement.style.borderTopColor = popoverBorderColor;
+					arrowElement.style.borderRightColor = popoverBorderColor;
+					arrowElement.style.borderBottomColor = popoverBorderColor;
+					arrowElement.style.borderLeftColor = popoverBorderColor;
+					switch (staticSide) {
+						case 'top': arrowElement.style.borderBottomColor = 'transparent'; arrowElement.style.borderRightColor = 'transparent'; break;
+						case 'bottom': arrowElement.style.borderTopColor = 'transparent'; arrowElement.style.borderLeftColor = 'transparent'; break;
+						case 'left': arrowElement.style.borderTopColor = 'transparent'; arrowElement.style.borderRightColor = 'transparent'; break;
+						case 'right': arrowElement.style.borderBottomColor = 'transparent'; arrowElement.style.borderLeftColor = 'transparent'; break;
+					}
+				}
 
-                // Vertical boundary - Optional, can be problematic in some cases
-                if (top < 10) {
-                    top = 10; // Minimum distance from the top edge
-                } else if (top + contentHeight > viewportHeight - 10) {
-                    top = viewportHeight - contentHeight - 10; // Minimum distance from the bottom edge
-                }
+				function addAnimationStyles() {
+					if (document.getElementById('popover-animations')) return;
+					const style = document.createElement('style');
+					style.id = 'popover-animations';
+					style.textContent = `
+						@keyframes popover-in { 0% { opacity: 0; transform: scale(0.95); } 100% { opacity: 1; transform: scale(1); } }
+						@keyframes popover-out { 0% { opacity: 1; transform: scale(1); } 100% { opacity: 0; transform: scale(0.95); } }
+						[data-popover-id].popover-animate-in { animation: popover-in 0.15s cubic-bezier(0.16, 1, 0.3, 1); }
+						[data-popover-id].popover-animate-out { animation: popover-out 0.1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+					`;
+					document.head.appendChild(style);
+				}
 
-                popoverElement.style.top = `${top}px`;
-                popoverElement.style.left = `${left}px`;
-            };
-            
-            // Event handler setup
-            function setupTrigger(trigger) {
-                const popoverId = trigger.dataset.popoverFor
-                const template = document.querySelector(`[data-popover-content-template][data-popover-id="${popoverId}"]`);
-                
-                if (!template) return;
-                
-                const triggerType = trigger.dataset.popoverType;
-                
-                // Click handler
-                if (triggerType === 'click') {
-                    trigger.addEventListener('click', () => {
-                        // If the popover is already active, remove it
-                        if (activePopovers.has(popoverId)) {
-                            const popover = activePopovers.get(popoverId);
-                            popover.remove();
-                            activePopovers.delete(popoverId);
-                            return;
-                        }
-                        
-                        // Otherwise, create a new popover
-                        const content = template.content.cloneNode(true).firstElementChild;
-                        
-                        // Transfer attributes from the template
-                        Object.keys(template.dataset).forEach(key => {
-                            if (key.startsWith('popover')) {
-                                content.dataset[key] = template.dataset[key];
-                            }
-                        });
-                        
-                        // Set initial position
-                        content.dataset.popoverCurrentPosition = content.dataset.popoverPosition;
-                        
-                        // Add to the portal container
-                        portalContainer.appendChild(content);
-                        
-                        // Position it
-                        positionPopover(trigger, content);
-                        
-                        // Apply transition effect
-                        content.classList.remove('popover-transition');
-                        content.classList.remove('show');
-                        content.classList.add('popover-animate-in');
-                        
-                        // Add to active popovers
-                        activePopovers.set(popoverId, content);
-                        
-                        // Clickaway handler
-                        if (content.dataset.popoverDisableClickaway !== 'true') {
-                            const clickHandler = (e) => {
-                                if (!trigger.contains(e.target) && !content.contains(e.target)) {
-                                    // Apply exit animation
-                                    content.classList.remove('popover-animate-in');
-                                    content.classList.add('popover-animate-out');
-                                    
-                                    // Wait for transition to complete before removing
-                                    setTimeout(() => {
-                                        content.remove();
-                                        activePopovers.delete(popoverId);
-                                    }, 100);
-                                    
-                                    document.removeEventListener('click', clickHandler);
-                                }
-                            };
-                            
-                            // Delay to prevent immediate closing on the current click
-                            setTimeout(() => {
-                                document.addEventListener('click', clickHandler);
-                            }, 0);
-                        }
-                        
-                        // ESC handler
-                        if (content.dataset.popoverDisableEsc !== 'true') {
-                            const keyHandler = (e) => {
-                                if (e.key === 'Escape') {
-                                    // Apply exit animation
-                                    content.classList.remove('popover-animate-in');
-                                    content.classList.add('popover-animate-out');
-                                    
-                                    // Wait for transition to complete before removing
-                                    setTimeout(() => {
-                                        content.remove();
-                                        activePopovers.delete(popoverId);
-                                    }, 100);
-                                    
-                                    document.removeEventListener('keydown', keyHandler);
-                                }
-                            };
-                            document.addEventListener('keydown', keyHandler);
-                        }
-                    });
-                } else if (triggerType === 'hover') {
-                    // Hover handlers
-                    let hoverTimeout;
-                    let leaveTimeout;
-                    
-                    trigger.addEventListener('mouseenter', () => {
-                        clearTimeout(leaveTimeout);
-                        
-                        // Get hover delay from template or use default
-                        const hoverDelay = parseInt(template.dataset.popoverHoverDelay) || 100;
-                        
-                        // If the popover is already active, do not recreate it
-                        if (activePopovers.has(popoverId)) return;
-                        
-                        // Delay for showing the popover
-                        hoverTimeout = setTimeout(() => {
-                            // Create a new popover
-                            const content = template.content.cloneNode(true).firstElementChild;
-                            
-                            // Transfer attributes
-                            Object.keys(template.dataset).forEach(key => {
-                                if (key.startsWith('popover')) {
-                                    content.dataset[key] = template.dataset[key];
-                                }
-                            });
-                            
-                            // Add to the portal container
-                            portalContainer.appendChild(content);
-                            
-                            // Position it
-                            positionPopover(trigger, content);
-                            
-                            // Apply animation
-                            content.classList.add('popover-animate-in');
-                            
-                            // Add to active popovers
-                            activePopovers.set(popoverId, content);
-                            
-                            // Hover handler for the content element
-                            content.addEventListener('mouseenter', () => {
-                                clearTimeout(leaveTimeout);
-                            });
-                            
-                            content.addEventListener('mouseleave', () => {
-                                // Get hover out delay from template or use default
-                                const hoverOutDelay = parseInt(content.dataset.popoverHoverOutDelay) || 200;
-                                
-                                leaveTimeout = setTimeout(() => {
-                                    if (activePopovers.has(popoverId)) {
-                                        const popover = activePopovers.get(popoverId);
-                                        
-                                        // Apply exit animation
-                                        popover.classList.remove('popover-animate-in');
-                                        popover.classList.add('popover-animate-out');
-                                        
-                                        // Wait for animation to complete before removing
-                                        setTimeout(() => {
-                                            popover.remove();
-                                            activePopovers.delete(popoverId);
-                                        }, 100);
-                                    }
-                                }, hoverOutDelay);
-                            });
-                        }, hoverDelay);
-                    });
-                    
-                    trigger.addEventListener('mouseleave', (e) => {
-                        // Clear the show timeout if mouse leaves before popover is shown
-                        clearTimeout(hoverTimeout);
-                        
-                        // Check if we are hovering over the content
-                        const related = e.relatedTarget;
-                        const content = activePopovers.get(popoverId);
-                        
-                        // If we are directly hovering over the content, do not close
-                        if (content && content.contains(related)) {
-                            return;
-                        }
-                        
-                        // Get hover out delay from template or use default
-                        const hoverOutDelay = content ? 
-                            (parseInt(content.dataset.popoverHoverOutDelay) || 200) : 200;
-                        
-                        leaveTimeout = setTimeout(() => {
-                            if (activePopovers.has(popoverId)) {
-                                const popover = activePopovers.get(popoverId);
-                                
-                                // Apply exit animation
-                                popover.classList.remove('popover-animate-in');
-                                popover.classList.add('popover-animate-out');
-                                
-                                // Wait for animation to complete before removing
-                                setTimeout(() => {
-                                    popover.remove();
-                                    activePopovers.delete(popoverId);
-                                }, 100);
-                            }
-                        }, hoverOutDelay);
-                    });
-                }
-            }
-            
-            // Set up handlers for each trigger
-            triggers.forEach(setupTrigger);
-            
-            // Scroll handler for all popovers
-            window.addEventListener('scroll', () => {
-                activePopovers.forEach((content, popoverId) => {
-                    const trigger = document.querySelector(`[data-popover-trigger][data-popover-for="${popoverId}"]`);
-                    if (trigger) {
-                        positionPopover(trigger, content);
-                    }
-                });
-            }, { passive: true });
-            
-            // Resize handler
-            window.addEventListener('resize', () => {
-                activePopovers.forEach((content, popoverId) => {
-                    const trigger = document.querySelector(`[data-popover-trigger][data-popover-for="${popoverId}"]`);
-                    if (trigger) {
-                        positionPopover(trigger, content);
-                    }
-                });
-            });
-            
-            // Find all scrollable parent elements and add scroll handlers
-            function setupScrollHandlers() {
-                const scrollableElements = new Set();
-                
-                // Find scrollable parents for each trigger
-                triggers.forEach(trigger => {
-                    let element = trigger.parentElement;
-                    
-                    while (element) {
-                        const style = window.getComputedStyle(element);
-                        const overflow = style.overflow + style.overflowY + style.overflowX;
-                        
-                        if (overflow.includes('scroll') || overflow.includes('auto') || 
-                            element.scrollHeight > element.clientHeight) {
-                            scrollableElements.add(element);
-                        }
-                        
-                        element = element.parentElement;
-                    }
-                });
-                
-                // Scroll handler for each scrollable element
-                scrollableElements.forEach(element => {
-                    element.addEventListener('scroll', () => {
-                        activePopovers.forEach((content, popoverId) => {
-                            const trigger = document.querySelector(`[data-popover-trigger][data-popover-for="${popoverId}"]`);
-                            if (trigger) {
-                                positionPopover(trigger, content);
-                            }
-                        });
-                    }, { passive: true });
-                });
-            }
-            
-            setupScrollHandlers();
-        });
-    </script>
+				// --- Core Popover Logic ---
+				
+				function updatePosition(state) {
+					if (!FloatingUIDOM || !state || !state.trigger || !state.content) return;
+					const { computePosition, offset, flip, shift, arrow } = FloatingUIDOM;
+					const referenceElement = findReferenceElement(state.trigger);
+					const arrowElement = state.content.querySelector('[data-popover-arrow]');
+					const placement = state.content.dataset.popoverPlacement || 'bottom';
+					const offsetValue = parseInt(state.content.dataset.popoverOffset) || (arrowElement ? 8 : 4);
+					const middleware = [offset(offsetValue), flip({ padding: 10 }), shift({ padding: 10 })];
+					if (arrowElement) middleware.push(arrow({ element: arrowElement, padding: 5 }));
+					computePosition(referenceElement, state.content, { placement, middleware }).then(({ x, y, placement, middlewareData }) => {
+						Object.assign(state.content.style, { left: `${x}px`, top: `${y}px` });
+						if (arrowElement && middlewareData.arrow) {
+							positionArrow(arrowElement, placement, middlewareData.arrow, state.content);
+						}
+					});
+				}
+
+				function addGlobalListeners(popoverId, state) {
+					removeGlobalListeners(state); // Ensure no duplicates
+					if (state.content.dataset.popoverDisableClickaway !== 'true') {
+						const handler = (e) => {
+							// Close if click is outside trigger and content
+							if (!state.trigger.contains(e.target) && !state.content.contains(e.target)) {
+								closePopover(popoverId);
+							}
+						};
+						// Use setTimeout to avoid capturing the click that opened the popover
+						setTimeout(() => document.addEventListener('click', handler), 0);
+						state.eventListeners.clickAway = handler;
+					}
+					if (state.content.dataset.popoverDisableEsc !== 'true') {
+						const handler = (e) => { if (e.key === 'Escape') closePopover(popoverId); };
+						document.addEventListener('keydown', handler);
+						state.eventListeners.esc = handler;
+					}
+				}
+
+				function removeGlobalListeners(state) {
+					if (state.eventListeners.clickAway) document.removeEventListener('click', state.eventListeners.clickAway);
+					if (state.eventListeners.esc) document.removeEventListener('keydown', state.eventListeners.esc);
+					state.eventListeners = {}; // Clear stored handlers
+				}
+
+				function openPopover(popoverId, trigger) {
+					if (!FloatingUIDOM) return; 
+					const { autoUpdate } = FloatingUIDOM;
+					const content = document.getElementById(popoverId);
+					if (!content) return;
+
+					let state = window.popoverState.get(popoverId);
+					if (!state) { // Should be created by initTrigger, but as a fallback
+						state = { trigger, content, isOpen: false, cleanup: null, hoverState: {}, eventListeners: {} };
+						window.popoverState.set(popoverId, state);
+					} else if (state.isOpen) return;
+
+					state.trigger = trigger; // Ensure trigger reference is current
+					state.content = content; // Ensure content reference is current
+
+					const portal = document.querySelector('[data-popover-portal-container]');
+					if (portal && content.parentNode !== portal) portal.appendChild(content);
+					
+					content.style.display = 'block';
+					content.classList.remove('popover-animate-out');
+					content.classList.add('popover-animate-in');
+
+					if (state.cleanup) state.cleanup();
+					state.cleanup = autoUpdate(findReferenceElement(trigger), content, () => updatePosition(state));
+
+					addGlobalListeners(popoverId, state);
+					state.isOpen = true;
+				}
+
+				function closePopover(popoverId, immediate = false) {
+					const state = window.popoverState.get(popoverId);
+					if (!state || !state.isOpen) return;
+
+					if (state.cleanup) { state.cleanup(); state.cleanup = null; }
+					removeGlobalListeners(state);
+
+					const content = state.content;
+					function hideContent() { content.style.display = 'none'; content.classList.remove('popover-animate-in', 'popover-animate-out'); }
+					
+					if (immediate) hideContent();
+					else {
+						content.classList.remove('popover-animate-in');
+						content.classList.add('popover-animate-out');
+						setTimeout(hideContent, 150); // Match animation duration
+					}
+					state.isOpen = false;
+				}
+				
+				// --- Trigger Initialization & Handling ---
+
+				function attachClickTrigger(trigger, popoverId) {
+					const handler = (e) => {
+						e.stopPropagation();
+						const state = window.popoverState.get(popoverId);
+						if (state?.isOpen) closePopover(popoverId);
+						else openPopover(popoverId, trigger);
+					};
+					trigger.addEventListener('click', handler);
+					trigger._popoverListener = handler; 
+				}
+
+				function attachHoverTrigger(trigger, popoverId) {
+					const content = document.getElementById(popoverId);
+					if (!content) return;
+					let state = window.popoverState.get(popoverId);
+					if (!state) return; // State should exist from initTrigger
+					
+					const hoverDelay = parseInt(content.dataset.popoverHoverDelay) || 100;
+					const hoverOutDelay = parseInt(content.dataset.popoverHoverOutDelay) || 200;
+
+					const handleTriggerEnter = () => { clearTimeout(state.hoverState.leaveTimeout); state.hoverState.enterTimeout = setTimeout(() => openPopover(popoverId, trigger), hoverDelay); };
+					const handleTriggerLeave = (e) => { clearTimeout(state.hoverState.enterTimeout); state.hoverState.leaveTimeout = setTimeout(() => { if (!content.contains(e.relatedTarget)) closePopover(popoverId); }, hoverOutDelay); };
+					const handleContentEnter = () => clearTimeout(state.hoverState.leaveTimeout);
+					const handleContentLeave = (e) => { state.hoverState.leaveTimeout = setTimeout(() => { if (!trigger.contains(e.relatedTarget)) closePopover(popoverId); }, hoverOutDelay); };
+
+					trigger.addEventListener('mouseenter', handleTriggerEnter);
+					trigger.addEventListener('mouseleave', handleTriggerLeave);
+					content.addEventListener('mouseenter', handleContentEnter);
+					content.addEventListener('mouseleave', handleContentLeave);
+
+					// Store handlers for cleanup
+					trigger._popoverHoverListeners = { handleTriggerEnter, handleTriggerLeave };
+					content._popoverHoverListeners = { handleContentEnter, handleContentLeave };
+				}
+				
+				function initTrigger(trigger) {
+					const popoverId = trigger.dataset.popoverFor;
+					const content = document.getElementById(popoverId);
+					if (!popoverId || !content) return;
+					
+					// Prevent re-attaching listeners to the same DOM element instance
+					if (trigger._popoverListenerAttached) return;
+
+					// Ensure state object exists
+					if (!window.popoverState.has(popoverId)) {
+						window.popoverState.set(popoverId, {
+							trigger, content, isOpen: false, cleanup: null, 
+							hoverState: {}, eventListeners: {}
+						});
+					} else {
+						// Update refs in existing state if trigger persisted
+						const state = window.popoverState.get(popoverId);
+						state.trigger = trigger;
+						state.content = content;
+						// Ensure closed state after potential swap/cleanup
+						if (state.isOpen) closePopover(popoverId, true);
+					}
+					
+					// Cleanup any stray listeners before attaching new ones
+					if (trigger._popoverListener) trigger.removeEventListener('click', trigger._popoverListener);
+					if (trigger._popoverHoverListeners) { trigger.removeEventListener('mouseenter', trigger._popoverHoverListeners.handleTriggerEnter); trigger.removeEventListener('mouseleave', trigger._popoverHoverListeners.handleTriggerLeave); }
+					if (content._popoverHoverListeners) { content.removeEventListener('mouseenter', content._popoverHoverListeners.handleContentEnter); content.removeEventListener('mouseleave', content._popoverHoverListeners.handleContentLeave); }
+					delete trigger._popoverListener;
+					delete trigger._popoverHoverListeners;
+					if (content) delete content._popoverHoverListeners;
+
+					// Attach the correct listener type
+					const triggerType = trigger.dataset.popoverType || 'click';
+					if (triggerType === 'click') {
+						attachClickTrigger(trigger, popoverId);
+					} else if (triggerType === 'hover') {
+						attachHoverTrigger(trigger, popoverId);
+					}
+					trigger._popoverListenerAttached = true;
+				}
+				
+				// --- Cleanup ---
+				
+				function cleanupPopovers(element) {
+					const cleanupTrigger = (trigger) => {
+						const popoverId = trigger.dataset.popoverFor;
+						if (popoverId) {
+							closePopover(popoverId, true); // Close popover, remove global listeners, stop Floating UI
+						}
+						
+						// Remove listeners directly attached to the trigger
+						if (trigger._popoverListener) trigger.removeEventListener('click', trigger._popoverListener);
+						if (trigger._popoverHoverListeners) { 
+							trigger.removeEventListener('mouseenter', trigger._popoverHoverListeners.handleTriggerEnter);
+							trigger.removeEventListener('mouseleave', trigger._popoverHoverListeners.handleTriggerLeave);
+						}
+						
+						// Remove listeners attached to the content (for hover)
+						const content = document.getElementById(popoverId);
+						if (content && content._popoverHoverListeners) {
+							content.removeEventListener('mouseenter', content._popoverHoverListeners.handleContentEnter);
+							content.removeEventListener('mouseleave', content._popoverHoverListeners.handleContentLeave);
+							delete content._popoverHoverListeners;
+						}
+						
+						// Clean up stored references and flags on the trigger
+						delete trigger._popoverListener;
+						delete trigger._popoverHoverListeners;
+						delete trigger._popoverListenerAttached;
+						
+						// Optionally remove state - might be desired if the element is definitely gone
+						// window.popoverState.delete(popoverId);
+					};
+
+					// Cleanup element itself if it's a trigger
+					if (element.matches && element.matches('[data-popover-trigger]')) {
+						cleanupTrigger(element);
+					}
+					// Cleanup descendants
+					if (element.querySelectorAll) {
+						element.querySelectorAll('[data-popover-trigger]').forEach(cleanupTrigger);
+					}
+				}
+
+				function initAllComponents(root = document) {
+					if (!FloatingUIDOM) return; // Don't init if library isn't ready
+					if (root instanceof Element && root.matches('[data-popover-trigger]')) {
+						initTrigger(root);
+					}
+					if (root && typeof root.querySelectorAll === 'function') {
+						for (const trigger of root.querySelectorAll('[data-popover-trigger]')) {
+							initTrigger(trigger);
+						}
+					}
+				}
+
+				const handleHtmxSwap = (event) => {
+					const target = event.detail.target || event.target;
+					if (target instanceof Element) {
+						whenFloatingUiReady(() => initAllComponents(target));
+					}
+				};
+				
+				document.addEventListener('DOMContentLoaded', () => {
+					whenFloatingUiReady(() => {
+						addAnimationStyles();
+						initAllComponents(); 
+					});
+				});
+
+				document.body.addEventListener('htmx:beforeSwap', (evt) => {
+					const target = evt.detail.target || evt.detail.elt;
+					if (target instanceof Element) {
+						cleanupPopovers(target);
+					}
+				});
+
+				document.body.addEventListener('htmx:afterSwap', handleHtmxSwap);
+				document.body.addEventListener('htmx:oobAfterSwap', handleHtmxSwap);
+
+				window.popoverSystemInitialized = true;
+			})(); // IIFE End
+		</script>
+	}
 }

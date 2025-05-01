@@ -66,6 +66,10 @@ var Sections = []Section{
 				Href: "/docs/components/card",
 			},
 			{
+				Text: "Calendar",
+				Href: "/docs/components/calendar",
+			},
+			{
 				Text: "Carousel",
 				Href: "/docs/components/carousel",
 			},
@@ -95,8 +99,8 @@ var Sections = []Section{
 			},
 
 			{
-				Text: "Dropdown Menu",
-				Href: "/docs/components/dropdown-menu",
+				Text: "Dropdown",
+				Href: "/docs/components/dropdown",
 			},
 			{
 				Text: "Form",

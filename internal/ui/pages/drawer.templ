@@ -28,7 +28,7 @@ templ Drawer() {
 			Name:        "Drawer",
 			Description: templ.Raw("Side-anchored panel that slides in from screen edges."),
 			Tailwind:    true,
-			Alpine:      true,
+			VanillaJS:   true,
 			Breadcrumbs: modules.Breadcrumbs{
 				Items: []modules.BreadcrumbItem{
 					{
@@ -45,10 +45,6 @@ templ Drawer() {
 				ShowcaseFile:      showcase.DrawerDefault(),
 				PreviewCodeFile:   "drawer_default.templ",
 				ComponentCodeFile: "drawer/drawer.templ",
-			})
-			@modules.Usage(modules.UsageProps{
-				ComponentName: "Drawer",
-				NeedsHandler:  true,
 			})
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
 				Title: "Examples",

@@ -16,7 +16,7 @@ templ Dropdown() {
 			Name:        "Dropdown",
 			Description: templ.Raw("Floating menu for displaying a list of actions or options."),
 			Tailwind:    true,
-			Alpine:      true,
+			VanillaJS:   true,
 			Breadcrumbs: modules.Breadcrumbs{
 				Items: []modules.BreadcrumbItem{
 					{
@@ -33,10 +33,6 @@ templ Dropdown() {
 				ShowcaseFile:      showcase.DropdownDefault(),
 				PreviewCodeFile:   "dropdown_default.templ",
 				ComponentCodeFile: "dropdown/dropdown.templ",
-			})
-			@modules.Usage(modules.UsageProps{
-				ComponentName: "Dropdown",
-				NeedsHandler:  true,
 			})
 		}
 	}
