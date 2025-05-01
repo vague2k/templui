@@ -1,0 +1,21 @@
+package showcase
+
+import (
+	"github.com/axzilla/templui/component/input"
+	"github.com/axzilla/templui/component/label"
+)
+
+templ InputWithPasswordToggle() {
+	<div class="w-full max-w-sm grid gap-2">
+		@label.Label(label.Props{
+			For: "password",
+		}) {
+			Password
+		}
+		@input.Input(input.Props{
+			ID:          "password",
+			Type:        input.TypePassword,
+			Placeholder: "your password",
+		})
+	</div>
+}
