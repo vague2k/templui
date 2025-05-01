@@ -150,11 +150,10 @@ templ Content(props ...ContentProps) {
 			util.TwMerge(
 				"p-1 select-content absolute z-50 w-full overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md",
 				"transition-all ease-out duration-100",
-				"transform opacity-0 -translate-y-1 scale-95", // initial condition
+				"transform opacity-0 -translate-y-1 scale-95 hidden",
 				p.Class,
 			),
 		}
-		style="display: none;"
 		role="listbox"
 		tabindex="-1"
 		{ p.Attributes... }

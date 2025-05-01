@@ -147,7 +147,7 @@ func Code(props ...Props) templ.Component {
 			return templ_7745c5c3_Err
 		}
 		if p.ShowCopyButton {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "<button data-copy-button type=\"button\" class=\"absolute top-2 right-2 hover:bg-gray-500 hover:bg-opacity-30 text-white p-2 rounded\"><span data-icon-check style=\"display: none;\">")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "<button data-copy-button type=\"button\" class=\"absolute top-2 right-2 hover:bg-gray-500 hover:bg-opacity-30 text-white p-2 rounded\"><span data-icon-check class=\"hidden\">")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

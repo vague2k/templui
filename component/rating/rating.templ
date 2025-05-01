@@ -122,9 +122,8 @@ templ Item(props ...ItemProps) {
 			@ratingIcon(p.Style, false, float64(p.Value))
 		</div>
 		<div
-			class="absolute inset-0 overflow-hidden"
+			class="absolute inset-0 overflow-hidden w-0"
 			data-rating-item-foreground
-			style="width: 0%;"
 		>
 			@ratingIcon(p.Style, true, float64(p.Value))
 		</div>

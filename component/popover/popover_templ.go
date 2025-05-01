@@ -252,7 +252,7 @@ func Content(props ...ContentProps) templ.Component {
 			}
 		}
 		var templ_7745c5c3_Var9 = []any{util.TwMerge(
-			"bg-background rounded-lg border text-sm shadow-lg pointer-events-auto absolute z-[9999]",
+			"bg-background rounded-lg border text-sm shadow-lg pointer-events-auto absolute z-[9999] hidden top-0 left-0",
 			p.Class,
 		)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var9...)
@@ -389,7 +389,7 @@ func Content(props ...ContentProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, "\" style=\"display: none; top: 0; left: 0;\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, "\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -465,7 +465,7 @@ func Script() templ.Component {
 			var templ_7745c5c3_Var22 string
 			templ_7745c5c3_Var22, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/popover/popover.templ`, Line: 134, Col: 37}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/popover/popover.templ`, Line: 133, Col: 37}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var22))
 			if templ_7745c5c3_Err != nil {
