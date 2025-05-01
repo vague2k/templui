@@ -109,10 +109,10 @@ func Code(props ...Props) templ.Component {
 		var templ_7745c5c3_Var5 = []any{
 			util.TwMerge(
 				"language-"+p.Language,
-				"overflow-y-auto! rounded-md block text-sm max-h-[501px]!",
-				util.If(p.Size == SizeSm, "max-h-[250px]!"),
-				util.If(p.Size == SizeLg, "max-h-[1000px]!"),
-				util.If(p.Size == SizeFull, "max-h-full!"),
+				"overflow-y-auto! rounded-md block text-sm max-h-[501px]",
+				util.If(p.Size == SizeSm, "max-h-[250px]"),
+				util.If(p.Size == SizeLg, "max-h-[1000px]"),
+				util.If(p.Size == SizeFull, "max-h-full"),
 				"hljs-target",
 				p.CodeClass,
 			),
