@@ -1,6 +1,9 @@
 package dropdown
 
-import "github.com/axzilla/templui/util"
+import (
+	"fmt"
+	"github.com/axzilla/templui/util"
+)
 
 type Props struct {
 	ID         string
@@ -127,6 +130,7 @@ templ Content(props ...ContentProps) {
 		if p.MaxHeight != "" {
 			maxHeight = p.MaxHeight
 		}
+		maxHeightClass := fmt.Sprintf("max-h-[%s]", maxHeight)
 	}}
 	<div
 		if p.ID != "" {
@@ -134,13 +138,14 @@ templ Content(props ...ContentProps) {
 		}
 		data-dropdown-content
 		class={ util.TwMerge(
-				"absolute z-50 rounded-md bg-popover p-1 shadow-md focus:outline-none overflow-auto",
+				"absolute z-50 rounded-md bg-popover p-1 shadow-md focus:outline-none overflow-auto hidden",
 				"border border-border",
 				"min-w-[8rem]",
+				"top-full mt-1 left-0",
+				maxHeightClass,
 				p.Width,
 				p.Class,
 		) }
-		style={ "display: none; top: 100%; margin-top: 0.25rem; left: 0; max-height: " + maxHeight + ";" }
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -320,10 +325,10 @@ templ SubContent(props ...SubContentProps) {
 		}
 		data-dropdown-submenu-content
 		class={ util.TwMerge(
-			"absolute z-[9999] min-w-[8rem] rounded-md border bg-popover p-1 shadow-lg",
+			"absolute z-[9999] min-w-[8rem] rounded-md border bg-popover p-1 shadow-lg hidden",
+				"top-0 left-full ml-1",
 				p.Class,
 		) }
-		style="display: none; top: 0; left: 100%; margin-left: 0.25rem;"
 		{ p.Attributes... }
 	>
 		{ children... }

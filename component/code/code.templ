@@ -44,10 +44,10 @@ templ Code(props ...Props) {
 				class={
 					util.TwMerge(
 						"language-"+p.Language,
-						"overflow-y-auto! rounded-md block text-sm max-h-[501px]!",
-						util.If(p.Size == SizeSm, "max-h-[250px]!"),
-						util.If(p.Size == SizeLg, "max-h-[1000px]!"),
-						util.If(p.Size == SizeFull, "max-h-full!"),
+						"overflow-y-auto! rounded-md block text-sm max-h-[501px]",
+						util.If(p.Size == SizeSm, "max-h-[250px]"),
+						util.If(p.Size == SizeLg, "max-h-[1000px]"),
+						util.If(p.Size == SizeFull, "max-h-full"),
 						"hljs-target",
 						p.CodeClass,
 					),
@@ -62,7 +62,7 @@ templ Code(props ...Props) {
 				type="button"
 				class="absolute top-2 right-2 hover:bg-gray-500 hover:bg-opacity-30 text-white p-2 rounded"
 			>
-				<span data-icon-check style="display: none;">
+				<span data-icon-check class="hidden">
 					@icon.Check(icon.Props{Size: 14})
 				</span>
 				<span data-icon-clipboard>

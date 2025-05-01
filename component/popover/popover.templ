@@ -110,10 +110,9 @@ templ Content(props ...ContentProps) {
 		data-popover-hover-delay={ strconv.Itoa(p.HoverDelay) }
 		data-popover-hover-out-delay={ strconv.Itoa(p.HoverOutDelay) }
 		class={ util.TwMerge(
-			"bg-background rounded-lg border text-sm shadow-lg pointer-events-auto absolute z-[9999]",
+			"bg-background rounded-lg border text-sm shadow-lg pointer-events-auto absolute z-[9999] hidden top-0 left-0",
 			p.Class,
 		) }
-		style="display: none; top: 0; left: 0;"
 		{ p.Attributes... }
 	>
 		<div class="w-full overflow-hidden">
