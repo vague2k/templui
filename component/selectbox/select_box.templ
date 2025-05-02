@@ -1,11 +1,19 @@
 package selectbox
 
 import (
+	"context"
+	"fmt"
 	"github.com/axzilla/templui/component/button"
+	"github.com/axzilla/templui/component/popover"
 	"github.com/axzilla/templui/icon"
 	"github.com/axzilla/templui/util"
 	"strconv"
 )
+
+// Context key for select content ID
+type selectContentIDKeyType struct{}
+
+var selectContentIDKey = selectContentIDKeyType{}
 
 type Props struct {
 	ID         string
@@ -59,62 +67,98 @@ type ItemProps struct {
 
 templ SelectBox(props ...Props) {
 	@Script()
-	{{ var p Props }}
-	if len(props) > 0 {
-		{{ p = props[0] }}
-	}
-	<div
-		if p.ID != "" {
-			id={ p.ID + "-container" }
+	{{
+		var p Props
+		if len(props) > 0 {
+			p = props[0]
 		}
-		class={ util.TwMerge("w-full select-container relative", p.Class) }
-		data-select-id={ p.ID }
+		// Generate IDs
+		wrapperID := p.ID
+		if wrapperID == "" {
+			wrapperID = util.RandomID()
+		}
+		contentID := fmt.Sprintf("%s-content", wrapperID)
+
+		// Provide contentID via context
+		ctx = context.WithValue(ctx, selectContentIDKey, contentID)
+
+		// Define props for popover - class moved to wrapper div
+		popoverProps := popover.Props{
+			// Class: util.TwMerge("select-container w-full relative", p.Class), // Moved to wrapper
+		}
+	}}
+	// Outer wrapper with ID and main classes
+	<div
+		id={ wrapperID }
+		class={ util.TwMerge("select-container w-full relative", p.Class) }
 		{ p.Attributes... }
 	>
-		{ children... }
+		// Popover component inside the wrapper
+		@popover.Popover(popoverProps) {
+			{ children... }
+			// Should contain Trigger and Content
+		}
 	</div>
 }
 
 templ Trigger(props ...TriggerProps) {
-	{{ var p TriggerProps }}
-	if len(props) > 0 {
-		{{ p = props[0] }}
-	}
-	@button.Button(button.Props{
-		ID:      p.ID,
-		Type:    "button",
-		Variant: button.VariantOutline,
-		Class: util.TwMerge(
-			"w-full select-trigger flex items-center justify-between focus:ring-2 focus:ring-offset-2",
-			util.If(p.HasError, "border-destructive ring-destructive"),
-			p.Class,
-		),
-		Disabled: p.Disabled,
-		Attributes: util.MergeAttributes(
-			templ.Attributes{
-				"aria-haspopup":       "listbox",
-				"aria-expanded":       "false",
-				"data-select-trigger": "true",
-				"tabindex":            "0",
-				"required":            strconv.FormatBool(p.Required),
-			},
-			p.Attributes,
-		),
-	}) {
-		<input
-			type="hidden"
-			if p.Name != "" {
-				name={ p.Name }
-			}
-			required?={ p.Required }
-		/>
-		{ children... }
-		<span class="pointer-events-none ml-1">
-			@icon.ChevronDown(icon.Props{
-				Size:  16,
-				Class: "text-muted-foreground",
-			})
-		</span>
+	{{
+		var p TriggerProps
+		if len(props) > 0 {
+			p = props[0]
+		}
+		// Retrieve contentID from context
+		contentID, ok := ctx.Value(selectContentIDKey).(string)
+		if !ok {
+			contentID = "fallback-select-content-id"
+		}
+
+		// Define props for the popover trigger
+		popoverTriggerProps := popover.TriggerProps{
+			For:         contentID,
+			TriggerType: popover.TriggerTypeClick,
+		}
+
+		// Button props with data-content-id
+		buttonProps := button.Props{
+			ID:      p.ID,
+			Type:    "button",
+			Variant: button.VariantOutline,
+			Class: util.TwMerge(
+				"w-full select-trigger flex items-center justify-between focus:ring-2 focus:ring-offset-2",
+				util.If(p.HasError, "border-destructive ring-destructive"),
+				p.Class,
+			),
+			Disabled: p.Disabled,
+			Attributes: util.MergeAttributes(
+				templ.Attributes{
+					"data-content-id": contentID, // Store contentID here for JS
+					"tabindex":        "0",
+					"required":        strconv.FormatBool(p.Required),
+				},
+				p.Attributes,
+			),
+		}
+	}}
+	// Use popover.Trigger wrapping the button
+	@popover.Trigger(popoverTriggerProps) {
+		@button.Button(buttonProps) {
+			<input
+				type="hidden"
+				if p.Name != "" {
+					name={ p.Name }
+				}
+				required?={ p.Required }
+			/>
+			{ children... }
+			// Includes Value component
+			<span class="pointer-events-none ml-1">
+				@icon.ChevronDown(icon.Props{
+					Size:  16,
+					Class: "text-muted-foreground",
+				})
+			</span>
+		}
 	}
 }
 
@@ -138,28 +182,43 @@ templ Value(props ...ValueProps) {
 }
 
 templ Content(props ...ContentProps) {
-	{{ var p ContentProps }}
-	if len(props) > 0 {
-		{{ p = props[0] }}
-	}
-	<div
-		if p.ID != "" {
-			id={ p.ID }
+	{{
+		var p ContentProps
+		if len(props) > 0 {
+			p = props[0]
 		}
-		class={
-			util.TwMerge(
-				"p-1 select-content absolute z-50 w-full overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md",
-				"transition-all ease-out duration-100",
-				"transform opacity-0 -translate-y-1 scale-95 hidden",
+		// Retrieve contentID from context
+		contentID, ok := ctx.Value(selectContentIDKey).(string)
+		if !ok {
+			contentID = "fallback-select-content-id"
+		}
+
+		// Define props for popover content
+		popoverContentProps := popover.ContentProps{
+			ID:        contentID,
+			Placement: popover.PlacementBottomStart,
+			Offset:    4,
+			// Activate width matching in Popover component
+			MatchWidth: true,
+			Class: util.TwMerge(
+				// Use the CSS variable again
+				"p-1 select-content z-50 overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md",
+				"min-w-[var(--popover-trigger-width)] w-[var(--popover-trigger-width)]",
 				p.Class,
 			),
+			Attributes: util.MergeAttributes(
+				templ.Attributes{
+					"role":     "listbox",
+					"tabindex": "-1",
+				},
+				p.Attributes,
+			),
 		}
-		role="listbox"
-		tabindex="-1"
-		{ p.Attributes... }
-	>
+	}}
+	// Use popover.Content
+	@popover.Content(popoverContentProps) {
 		{ children... }
-	</div>
+	}
 }
 
 templ Group(props ...GroupProps) {
@@ -243,153 +302,43 @@ templ Script() {
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
 			(function() { // IIFE
-				function positionDropdown(trigger, content) {
-					const triggerRect = trigger.getBoundingClientRect();
-					const viewportHeight = window.innerHeight;
-					const viewportWidth = window.innerWidth;
-					
-					content.style.display = 'block';
-					content.style.visibility = 'hidden';
-					content.style.maxHeight = '';
-					
-					// Force reflow
-					void content.offsetHeight;
-					
-					const contentHeight = content.scrollHeight;
-					const contentWidth = content.scrollWidth;
-					
-					const spaceBelow = viewportHeight - triggerRect.bottom;
-					const spaceAbove = triggerRect.top;
-					const spaceRight = viewportWidth - triggerRect.left;
-					
-					content.style.visibility = '';
-					
-					// Position vertically
-					if (spaceBelow >= contentHeight) {
-						// Enough space below
-						content.style.top = '100%';
-						content.style.bottom = 'auto';
-						content.style.marginTop = '0.25rem';
-						content.style.marginBottom = '0';
-						content.style.maxHeight = `${spaceBelow - 10}px`;
-					} else if (spaceAbove >= contentHeight) {
-						// Enough space above
-						content.style.bottom = '100%';
-						content.style.top = 'auto';
-						content.style.marginBottom = '0.25rem';
-						content.style.marginTop = '0';
-						content.style.maxHeight = `${spaceAbove - 10}px`;
-					} else {
-						// Limited space - choose the larger area and add scrolling
-						if (spaceBelow >= spaceAbove) {
-							content.style.top = '100%';
-							content.style.bottom = 'auto';
-							content.style.marginTop = '0.25rem';
-							content.style.marginBottom = '0';
-							content.style.maxHeight = `${spaceBelow - 10}px`;
-						} else {
-							content.style.bottom = '100%';
-							content.style.top = 'auto';
-							content.style.marginBottom = '0.25rem';
-							content.style.marginTop = '0';
-							content.style.maxHeight = `${spaceAbove - 10}px`;
-						}
-						content.style.overflowY = 'auto';
-					}
-					
-					// Position horizontally
-					if (contentWidth > triggerRect.width && contentWidth > spaceRight) {
-						content.style.right = '0';
-						content.style.left = 'auto';
-					} else {
-						content.style.left = '0';
-						content.style.right = 'auto';
-					}
-				}
 
-				function initSelect(container) {
-					// Skip if already initialized
-					if (!container || container.hasAttribute('data-initialized')) {
+				function initSelect(wrapper) {
+					if (!wrapper || wrapper.hasAttribute('data-initialized')) return;
+					wrapper.setAttribute('data-initialized', 'true');
+
+					const triggerButton = wrapper.querySelector('button.select-trigger');
+					if (!triggerButton) {
+						console.error("Select box: Trigger button (.select-trigger) not found in wrapper", wrapper);
 						return;
 					}
-					
-					// Mark as initialized
-					container.setAttribute('data-initialized', 'true');
-					
-					// Find required elements
-					const trigger = container.querySelector('button.select-trigger');
-					const content = container.querySelector('.select-content');
-					const valueEl = container.querySelector('.select-value');
-					const hiddenInput = container.querySelector('input[type="hidden"]');
-					
-					// Exit if critical elements are missing
-					if (!trigger || !content) {
-						console.error('Select box missing required elements', container);
+
+					const contentID = triggerButton.dataset.contentId;
+					const content = contentID ? document.getElementById(contentID) : null;
+					const valueEl = triggerButton.querySelector('.select-value');
+					const hiddenInput = triggerButton.querySelector('input[type="hidden"]');
+
+					if (!content || !valueEl || !hiddenInput) {
+						console.error("Select box: Missing required elements for initialization.", { wrapper, contentID, contentExists: !!content, valueElExists: !!valueEl, hiddenInputExists: !!hiddenInput });
 						return;
 					}
-					
-					// State variables
-					let isOpen = false;
-					
-					// Find selected item or highlight first item
-					const selectedItem = container.querySelector('.select-item[data-selected="true"]');
-					
-					// If no item is selected, mark first as visually highlighted
-					if (!selectedItem) {
-						const firstItem = container.querySelector('.select-item');
-						if (firstItem) {
-							firstItem.classList.add('bg-muted');
-						}
-					}
-					
-					// Initialize values if item is selected
-					if (selectedItem && valueEl) {
+
+					// Initialize display value if an item is pre-selected
+					const selectedItem = content.querySelector('.select-item[data-selected="true"]');
+					if (selectedItem) {
 						const itemText = selectedItem.querySelector('.select-item-text');
 						if (itemText) {
 							valueEl.textContent = itemText.textContent;
 							valueEl.classList.remove('text-muted-foreground');
 						}
 						if (hiddenInput) {
-							hiddenInput.value = selectedItem.getAttribute('data-value');
+							hiddenInput.value = selectedItem.getAttribute('data-value') || '';
 						}
 					}
-					
-					// Toggle dropdown open/closed
-					function toggleDropdown() {
-						isOpen = !isOpen;
-						trigger.setAttribute('aria-expanded', String(isOpen));
-						
-						if (isOpen) {
-							// Open dropdown
-							positionDropdown(trigger, content);
-							content.style.display = 'block';
-							
-							// Force reflow then animate
-							void content.offsetHeight;
-							content.classList.remove('opacity-0', '-translate-y-1', 'scale-95');
-							content.classList.add('opacity-100', 'translate-y-0', 'scale-100');
-						} else {
-							// Close dropdown with animation
-							content.classList.remove('opacity-100', 'translate-y-0', 'scale-100');
-							content.classList.add('opacity-0', '-translate-y-1', 'scale-95');
-							
-							// Hide after animation completes
-							setTimeout(() => {
-								if (!isOpen) {
-									content.style.display = 'none';
-								}
-							}, 100);
-							
-							// Reset focus
-							trigger.style.outline = '';
-							trigger.style.boxShadow = '';
-							trigger.focus();
-						}
-					}
-					
-					// Reset hover effects, restore selected item styling
+
+					// Reset visual state of items
 					function resetItemStyles() {
-						container.querySelectorAll('.select-item').forEach(item => {
+						content.querySelectorAll('.select-item').forEach(item => {
 							if (item.getAttribute('data-selected') === 'true') {
 								item.classList.add('bg-accent', 'text-accent-foreground');
 								item.classList.remove('bg-muted');
@@ -398,127 +347,100 @@ templ Script() {
 							}
 						});
 					}
-					
+
 					// Select an item
 					function selectItem(item) {
-						if (item.getAttribute('data-disabled') === 'true') return;
-						
+						if (!item || item.getAttribute('data-disabled') === 'true') return;
+
 						const value = item.getAttribute('data-value');
 						const itemText = item.querySelector('.select-item-text');
-						
-						// Reset all items
-						container.querySelectorAll('.select-item').forEach(el => {
+
+						// Reset all items in this content
+						content.querySelectorAll('.select-item').forEach(el => {
 							el.setAttribute('data-selected', 'false');
 							el.classList.remove('bg-accent', 'text-accent-foreground', 'bg-muted');
-							
 							const check = el.querySelector('.select-check');
-							if (check) {
-								check.classList.replace('opacity-100', 'opacity-0');
-							}
+							if (check) check.classList.replace('opacity-100', 'opacity-0');
 						});
-						
+
 						// Mark new selection
 						item.setAttribute('data-selected', 'true');
 						item.classList.add('bg-accent', 'text-accent-foreground');
-						
 						const check = item.querySelector('.select-check');
-						if (check) {
-							check.classList.replace('opacity-0', 'opacity-100');
-						}
-						
+						if (check) check.classList.replace('opacity-0', 'opacity-100');
+
 						// Update display value
-						if (valueEl && itemText) {
+						if (valueEl && itemText) { // Check if valueEl exists
 							valueEl.textContent = itemText.textContent;
 							valueEl.classList.remove('text-muted-foreground');
 						}
-						
+
 						// Update hidden input & trigger change event
-						if (hiddenInput && value) {
+						if (hiddenInput && value !== null) { // Check if hiddenInput exists
 							hiddenInput.value = value;
-							hiddenInput.dispatchEvent(new Event('change', {bubbles: true}));
+							hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));
 						}
-						
-						// Close dropdown
-						toggleDropdown();
+
+						// Close the popover using the correct contentID
+						if (window.closePopover) {
+							window.closePopover(contentID, true);
+						} else {
+							console.warn("closePopover function not found");
+						}
 					}
-					
-					// Event: Trigger click
-					trigger.addEventListener('mousedown', e => {
-						if (e.button === 0) {
-							e.currentTarget.style.outline = 'none';
-							e.currentTarget.style.boxShadow = 'none';
-						}
+
+					// Event Listeners for Items (delegated from content for robustness)
+					content.addEventListener('click', (e) => {
+						const item = e.target.closest('.select-item');
+						if (item) selectItem(item);
 					});
-					
-					trigger.addEventListener('click', e => {
-						if (e.currentTarget.disabled) return;
-						toggleDropdown();
-					});
-					
-					// Event: Keyboard navigation
-					trigger.addEventListener('keydown', e => {
-						if ((e.key === 'Enter' || e.key === ' ') && !e.currentTarget.disabled) {
+					content.addEventListener('keydown', (e) => {
+						const item = e.target.closest('.select-item');
+						if (item && (e.key === 'Enter' || e.key === ' ')) {
 							e.preventDefault();
-							toggleDropdown();
-						} else if ((e.key === 'Escape' || e.key === 'Tab') && isOpen) {
-							e.preventDefault();
-							toggleDropdown();
+							selectItem(item);
 						}
+						// Add other keyboard navigation (Up/Down/Home/End) if desired
 					});
-					
-					// Event: Mouse hover on items
+
+					// Event: Mouse hover on items (delegated)
 					content.addEventListener('mouseover', e => {
 						const item = e.target.closest('.select-item');
 						if (!item || item.getAttribute('data-disabled') === 'true') return;
-						
-						container.querySelectorAll('.select-item').forEach(el => {
+						// Reset all others first
+						content.querySelectorAll('.select-item:not([data-selected="true"])').forEach(el => {
 							el.classList.remove('bg-accent', 'text-accent-foreground', 'bg-muted');
 						});
-						
-						item.classList.add('bg-accent', 'text-accent-foreground');
-					});
-					
-					content.addEventListener('mouseleave', resetItemStyles);
-					
-					// Event: Item selection
-					container.querySelectorAll('.select-item').forEach(item => {
-						item.addEventListener('click', () => selectItem(item));
-						
-						item.addEventListener('keydown', e => {
-							if (e.key === 'Enter' || e.key === ' ') {
-								e.preventDefault();
-								selectItem(item);
-							}
-						});
-					});
-					
-					// Event: Outside click
-					document.addEventListener('click', e => {
-						if (isOpen && !container.contains(e.target)) {
-							toggleDropdown();
+						// Apply hover style only if not selected
+						if (item.getAttribute('data-selected') !== 'true') {
+							item.classList.add('bg-accent', 'text-accent-foreground');
 						}
 					});
+
+					// Reset hover styles when mouse leaves the content area
+					content.addEventListener('mouseleave', resetItemStyles);
 				}
-				
+
 				function initAllComponents(root = document) {
-					if (root instanceof Element && root.matches('.select-container')) {
+					const containers = root.querySelectorAll('.select-container:not([data-initialized])');
+					if (root instanceof Element && root.matches('.select-container') && !root.hasAttribute('data-initialized')) {
 						initSelect(root);
-					}
-					for (const select of root.querySelectorAll('.select-container:not([data-initialized])')) {
-						initSelect(select);
+					} else {
+						containers.forEach(initSelect);
 					}
 				}
-				
+
 				const handleHtmxSwap = (event) => {
 					const target = event.detail.target || event.target;
 					if (target instanceof Element) {
-						setTimeout(() => initAllComponents(target), 0);
+						setTimeout(() => initAllComponents(target), 50);
 					}
 				};
-				
+
 				document.addEventListener('DOMContentLoaded', () => initAllComponents());
 				document.body.addEventListener('htmx:afterSwap', handleHtmxSwap);
 				document.body.addEventListener('htmx:oobAfterSwap', handleHtmxSwap);
+
 			})(); // End of IIFE
 		</script>
 	}
