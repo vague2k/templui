@@ -140,32 +140,41 @@ templ Script() {
 				function formatDateWithIntl(date, format, localeTag) {
 					if (!date || isNaN(date.getTime())) return '';
 
-					let options = {};
+					// Always use UTC for formatting to avoid timezone shifts
+					let options = { timeZone: 'UTC' }; 
 					switch(format) {
 						case 'locale-short': 
-							options = { dateStyle: 'short' }; 
+							options.dateStyle = 'short'; 
 							break;
 						case 'locale-long': 
-							options = { dateStyle: 'long' }; 
+							options.dateStyle = 'long'; 
 							break;
 						case 'locale-full':
-							options = { dateStyle: 'full' }; 
+							options.dateStyle = 'full'; 
 							break;
 						case 'locale-medium': // Default to medium
 						default: 
-							options = { dateStyle: 'medium' }; 
+							options.dateStyle = 'medium'; 
 							break;
 					}
 					
 					try {
+						// Explicitly pass the options object with timeZone: 'UTC'
 						return new Intl.DateTimeFormat(localeTag, options).format(date);
 					} catch (e) {
-						console.error(`Error formatting date with Intl (locale: ${localeTag}, format: ${format}):`, e);
-						// Fallback to locale default medium on error
+						console.error(`Error formatting date with Intl (locale: ${localeTag}, format: ${format}, timezone: UTC):`, e);
+						// Fallback to locale default medium on error, still using UTC
 						try {
-							return new Intl.DateTimeFormat(localeTag, { dateStyle: 'medium' }).format(date);
-						} catch {
-							return date.toDateString(); // Absolute fallback
+							const fallbackOptions = { dateStyle: 'medium', timeZone: 'UTC' }; 
+							return new Intl.DateTimeFormat(localeTag, fallbackOptions).format(date);
+						} catch (fallbackError) {
+							console.error(`Error formatting date with fallback Intl (locale: ${localeTag}, timezone: UTC):`, fallbackError);
+							// Absolute fallback: Format the UTC date parts manually if Intl fails completely
+							const year = date.getUTCFullYear();
+							// getUTCMonth is 0-indexed, add 1 for display
+							const month = (date.getUTCMonth() + 1).toString().padStart(2, '0'); 
+							const day = date.getUTCDate().toString().padStart(2, '0');
+							return `${year}-${month}-${day}`; // Simple ISO format as absolute fallback
 						}
 					}
 				}

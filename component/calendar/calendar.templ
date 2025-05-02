@@ -168,15 +168,12 @@ templ Script() {
                     }
 
                     function updateMonthDisplay() {
-                        try {
-                            const dateForDisplay = new Date(Date.UTC(currentYear, currentMonth));
-                            monthDisplay.textContent = new Intl.DateTimeFormat(localeTag, {
-                                month: 'long', year: 'numeric'
-                            }).format(dateForDisplay);
-                        } catch (e) {
-                            console.error("Error formatting month display with Intl:", e);
-                            monthDisplay.textContent = `${monthNamesFallback[currentMonth]} ${currentYear}`; // Use fallback month name if Intl fails
-                        }
+                        // Always use the fallback month name combined with the current year
+                        // Ensure month index is within bounds (0-11)
+                        const monthIndex = Math.max(0, Math.min(11, currentMonth)); 
+                        const monthName = monthNamesFallback[monthIndex]; 
+                        const displayString = `${monthName} ${currentYear}`;
+                        monthDisplay.textContent = displayString;
                     }
 
                     function renderWeekdays() {
@@ -198,7 +195,9 @@ templ Script() {
                         // Intl doesn't directly provide this easily yet. Keep Sunday start for simplicity.
 
                         const daysInMonth = new Date(Date.UTC(currentYear, currentMonth + 1, 0)).getUTCDate();
-                        const today = new Date(); today.setUTCHours(0,0,0,0);
+                        // Calculate 'today' based on the browser's local date for correct highlighting
+                        const now = new Date(); 
+                        const today = new Date(Date.UTC(now.getFullYear(), now.getMonth(), now.getDate()));
 
                         for (let i = 0; i < startOffset; i++) {
                             const blank = document.createElement('div');
