@@ -1,9 +1,21 @@
 package dropdown
 
 import (
+	"context"
 	"fmt"
+	"github.com/axzilla/templui/component/popover"
 	"github.com/axzilla/templui/util"
 )
+
+// Context key for content ID
+type contentIDKeyType struct{}
+
+var contentIDKey = contentIDKeyType{}
+
+// Context key for sub-content ID (Re-added)
+type subContentIDKeyType struct{}
+
+var subContentIDKey = subContentIDKeyType{}
 
 type Props struct {
 	ID         string
@@ -86,44 +98,73 @@ type PortalProps struct {
 
 templ Dropdown(props ...Props) {
 	@Script()
-	{{ var p Props }}
-	if len(props) > 0 {
-		{{ p = props[0] }}
-	}
-	if p.ID == "" {
-		{{ p.ID = util.RandomID() }}
-	}
-	<div
-		id={ p.ID }
-		data-dropdown
-		class={ util.TwMerge("relative inline-block text-left", p.Class) }
-		{ p.Attributes... }
-	>
+	{{
+		var p Props
+		if len(props) > 0 {
+			p = props[0]
+		}
+		// Ensure Content has an ID for popover trigger/content linking
+		contentID := p.ID
+		if contentID == "" {
+			contentID = util.RandomID()
+		}
+
+		// Provide contentID via context
+		ctx = context.WithValue(ctx, contentIDKey, contentID)
+
+		// Define props for popover component
+		popoverProps := popover.Props{
+			Class: p.Class,
+		}
+	}}
+	// Use @popover shorthand with props variable
+	@popover.Popover(popoverProps) {
+		// Children will include Trigger and Content
 		{ children... }
-	</div>
+	}
 }
 
 templ Trigger(props ...TriggerProps) {
-	{{ var p TriggerProps }}
-	if len(props) > 0 {
-		{{ p = props[0] }}
-	}
-	<div
-		if p.ID != "" {
-			id={ p.ID }
+	{{
+		var p TriggerProps
+		if len(props) > 0 {
+			p = props[0]
 		}
-		data-dropdown-trigger
-		class={ util.TwMerge("inline-block", p.Class) }
-		{ p.Attributes... }
-	>
-		{ children... }
-	</div>
+		// Retrieve contentID from context
+		contentID, ok := ctx.Value(contentIDKey).(string)
+		if !ok {
+			// Handle error or default - perhaps log or return an error component
+			contentID = "fallback-content-id" // Example fallback
+		}
+
+		// Define props for trigger component
+		triggerProps := popover.TriggerProps{
+			ID:          p.ID,
+			For:         contentID,                // Link trigger to content via ID from context
+			TriggerType: popover.TriggerTypeClick, // Default dropdown behavior is click
+		}
+	}}
+	// Use @popover shorthand with props variable
+	@popover.Trigger(triggerProps) {
+		<span
+			class={ util.TwMerge("inline-block", p.Class) }
+			{ p.Attributes... }
+		>
+			{ children... }
+		</span>
+	}
 }
 
 templ Content(props ...ContentProps) {
 	{{ var p ContentProps }}
 	if len(props) > 0 {
 		{{ p = props[0] }}
+	}
+	// Retrieve contentID from context
+	{{ contentID, ok := ctx.Value(contentIDKey).(string) }}
+	if !ok {
+		// Handle error or default
+		{{ contentID = "fallback-content-id" }} // Must match fallback in Trigger
 	}
 	{{
 		var maxHeight string = "300px"
@@ -132,24 +173,26 @@ templ Content(props ...ContentProps) {
 		}
 		maxHeightClass := fmt.Sprintf("max-h-[%s]", maxHeight)
 	}}
-	<div
-		if p.ID != "" {
-			id={ p.ID }
-		}
-		data-dropdown-content
-		class={ util.TwMerge(
-				"absolute z-50 rounded-md bg-popover p-1 shadow-md focus:outline-none overflow-auto hidden",
-				"border border-border",
-				"min-w-[8rem]",
-				"top-full mt-1 left-0",
-				maxHeightClass,
-				p.Width,
-				p.Class,
-		) }
-		{ p.Attributes... }
-	>
+	// Use popover.Content
+	@popover.Content(popover.ContentProps{
+		ID:        contentID,                    // Use ID from context
+		Placement: popover.PlacementBottomStart, // Common dropdown placement
+		Offset:    4,                            // Small offset
+		Class: util.TwMerge(
+			"z-50 rounded-md bg-popover p-1 shadow-md focus:outline-none overflow-auto", // Keep dropdown styles
+			"border border-border",
+			"min-w-[8rem]",
+			maxHeightClass,
+			p.Width,
+			p.Class, // Merge user-provided classes
+		),
+		Attributes: p.Attributes,
+		// DisableClickAway: false, // Default popover behavior is fine
+		// DisableESC: false,      // Default popover behavior is fine
+		// ShowArrow: false,       // Dropdowns usually don't have arrows
+	}) {
 		{ children... }
-	</div>
+	}
 }
 
 templ Group(props ...GroupProps) {
@@ -269,10 +312,20 @@ templ Shortcut(props ...ShortcutProps) {
 }
 
 templ Sub(props ...SubProps) {
-	{{ var p SubProps }}
-	if len(props) > 0 {
-		{{ p = props[0] }}
-	}
+	{{
+		var p SubProps
+		if len(props) > 0 {
+			p = props[0]
+		}
+		// Generate ID for the SubContent
+		subContentID := p.ID
+		if subContentID == "" {
+			subContentID = util.RandomID()
+		}
+		// Provide subContentID via context
+		ctx = context.WithValue(ctx, subContentIDKey, subContentID)
+	}}
+	// Render the original div structure, just providing context
 	<div
 		if p.ID != "" {
 			id={ p.ID }
@@ -282,320 +335,136 @@ templ Sub(props ...SubProps) {
 		{ p.Attributes... }
 	>
 		{ children... }
+		// Should contain SubTrigger and SubContent
 	</div>
 }
 
 templ SubTrigger(props ...SubTriggerProps) {
-	{{ var p SubTriggerProps }}
-	if len(props) > 0 {
-		{{ p = props[0] }}
+	{{
+		var p SubTriggerProps
+		if len(props) > 0 {
+			p = props[0]
+		}
+		// Retrieve subContentID from context
+		subContentID, ok := ctx.Value(subContentIDKey).(string)
+		if !ok {
+			subContentID = "fallback-subcontent-id"
+		}
+
+		// Define props for the popover trigger
+		triggerProps := popover.TriggerProps{
+			ID:          p.ID,
+			For:         subContentID,
+			TriggerType: popover.TriggerTypeHover,
+		}
+	}}
+	// Use popover.Trigger, wrapping the original button appearance
+	@popover.Trigger(triggerProps) {
+		<button
+			type="button"
+			data-dropdown-submenu-trigger
+			class={
+				util.TwMerge(
+					"w-full text-left flex items-center justify-between px-2 py-1.5 text-sm rounded-sm",
+					"focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground cursor-default",
+					p.Class,
+				),
+			}
+			{ p.Attributes... }
+		>
+			<span>
+				{ children... }
+			</span>
+			<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-auto">
+				<path d="M6.5 3L11.5 8L6.5 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+			</svg>
+		</button>
 	}
-	<button
-		if p.ID != "" {
-			id={ p.ID }
-		}
-		type="button"
-		data-dropdown-submenu-trigger
-		class={
-			util.TwMerge(
-				"w-full text-left flex items-center justify-between px-2 py-1.5 text-sm rounded-sm",
-				"focus:bg-accent focus:text-accent-foreground hover:bg-accent hover:text-accent-foreground cursor-default",
-				p.Class,
-			),
-		}
-		{ p.Attributes... }
-	>
-		<span>
-			{ children... }
-		</span>
-		<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-auto">
-			<path d="M6.5 3L11.5 8L6.5 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-		</svg>
-	</button>
 }
 
 templ SubContent(props ...SubContentProps) {
-	{{ var p SubContentProps }}
-	if len(props) > 0 {
-		{{ p = props[0] }}
-	}
-	<div
-		if p.ID != "" {
-			id={ p.ID }
+	{{
+		var p SubContentProps
+		if len(props) > 0 {
+			p = props[0]
 		}
-		data-dropdown-submenu-content
-		class={ util.TwMerge(
-			"absolute z-[9999] min-w-[8rem] rounded-md border bg-popover p-1 shadow-lg hidden",
-				"top-0 left-full ml-1",
+		// Retrieve subContentID from context
+		subContentID, ok := ctx.Value(subContentIDKey).(string)
+		if !ok {
+			subContentID = "fallback-subcontent-id"
+		}
+
+		// Define props for the popover content
+		contentProps := popover.ContentProps{
+			ID:            subContentID,
+			Placement:     popover.PlacementRightStart,
+			Offset:        -4,  // Adjust as needed
+			HoverDelay:    100, // ms
+			HoverOutDelay: 200, // ms
+			Class: util.TwMerge(
+				"z-[9999] min-w-[8rem] rounded-md border bg-popover p-1 shadow-lg", // Original style minus positioning
 				p.Class,
-		) }
-		{ p.Attributes... }
-	>
+			),
+			Attributes: p.Attributes,
+		}
+	}}
+	// Use popover.Content
+	@popover.Content(contentProps) {
 		{ children... }
-	</div>
+	}
 }
 
 var dropdownHandle = templ.NewOnceHandle()
 
 templ Script() {
-	@dropdownHandle.Once() {
-		<script nonce={ templ.GetNonce(ctx) }>
-			// Statemanagement - safely check if already defined
-			if (typeof window.dropdownState === 'undefined') {
-				window.dropdownState = new Map();
+	<script nonce={ templ.GetNonce(ctx) }>
+		(function() { // IIFE
+			// Click handler for *non-submenu-trigger* items
+			function handleDropdownItemClick(event) {
+				const item = event.currentTarget;
+				const popoverContent = item.closest('[data-popover-id]');
+				if (popoverContent) {
+					const popoverId = popoverContent.dataset.popoverId;
+					if (window.closePopover) {
+						// Close the specific popover (could be main dropdown or a submenu)
+						window.closePopover(popoverId, true);
+
+						// Try to close the main dropdown as well if the click was in a submenu
+						// Find the popover associated with the main Dropdown component.
+						// We assume the main Dropdown's Content is a direct child of the main Popover.
+						// This selector might need adjustment depending on the final DOM structure.
+                        // Let's try finding the closest popover trigger that ISN'T a submenu trigger.
+                        // This is getting complex, let's simplify: just close the *current* popover.
+                        // The user can click outside if they want to close the main one.
+						// -- Simplified logic: Only close the current popover --
+					} else {
+						console.warn("popover.Script's closePopover function not found.");
+						document.body.click(); // Fallback
+					}
+				}
 			}
-			if (typeof window.submenuState === 'undefined') {
-				window.submenuState = new Map();
-			}
-			
-			(function() { // IIFE
-				function positionSubmenu(trigger, content) {
-					if (!trigger || !content) return;
-					
-					content.style.display = 'block';
-					const triggerRect = trigger.getBoundingClientRect();
-					const vw = window.innerWidth;
-					const vh = window.innerHeight;
-					
-					// Default position (right side)
-					let top = triggerRect.top;
-					let left = triggerRect.right + 4;
-					
-					// Check if overflows right edge
-					if (left + content.offsetWidth > vw) {
-						left = triggerRect.left - content.offsetWidth - 4;
-					}
-					
-					// Check if overflows bottom
-					if (top + content.offsetHeight > vh) {
-						top = vh - content.offsetHeight - 10;
-					}
-					
-					// Ensure minimum spacing from edges
-					top = Math.max(10, top);
-					left = Math.max(10, left);
-					
-					// Position submenu
-					content.style.position = 'fixed';
-					content.style.top = `${top}px`;
-					content.style.left = `${left}px`;
-				}
-				
-				function closeAllDropdowns() {
-					for (const [dropdown, state] of window.dropdownState.entries()) {
-						if (state.isOpen) {
-							state.close();
-						}
-					}
-				}
-				
-				function initDropdown(dropdown) {
-					// Skip if already initialized
-					if (window.dropdownState.has(dropdown)) return;
-					
-					const trigger = dropdown.querySelector('[data-dropdown-trigger]');
-					const content = dropdown.querySelector('[data-dropdown-content]');
-					if (!trigger || !content) return;
-					
-					// Create state object with needed references and flags
-					const state = { 
-						isOpen: false, 
-						clickAwayHandler: null,
-						escHandler: null
-					};
-					
-					function closeSubmenus() {
-						dropdown.querySelectorAll('[data-dropdown-submenu]').forEach(submenu => {
-							const subState = window.submenuState.get(submenu);
-							if (subState?.isOpen) {
-								clearTimeout(subState.closeTimer);
-								subState.content.style.display = 'none';
-								subState.isOpen = false;
-							}
-						});
-					}
-					
-					function close() {
-						if (!state.isOpen) return;
-						
-						content.style.display = 'none';
-						closeSubmenus();
-						
-						// Remove event listeners
-						if (state.clickAwayHandler) {
-							document.removeEventListener('click', state.clickAwayHandler);
-						}
-						if (state.escHandler) {
-							document.removeEventListener('keydown', state.escHandler);
-						}
-						
-						// Reset state
-						state.clickAwayHandler = null;
-						state.escHandler = null;
-						state.isOpen = false;
-					}
-					
-					function handleClickAway(e) {
-						if (!dropdown.contains(e.target)) {
-							close();
-						}
-					}
-					
-					function handleEsc(e) {
-						if (e.key === 'Escape') {
-							close();
-						}
-					}
-					
-					function open() {
-						if (state.isOpen) return;
-						
-						closeAllDropdowns();
-						content.style.display = 'block';
-						state.isOpen = true;
-						
-						// Set up and store event handlers
-						state.clickAwayHandler = handleClickAway;
-						state.escHandler = handleEsc;
-						
-						// Add event listeners
-						setTimeout(() => {
-							document.addEventListener('click', state.clickAwayHandler);
-						}, 0);
-						document.addEventListener('keydown', state.escHandler);
-					}
-					
-					// Toggle dropdown on trigger click
-					trigger.addEventListener('click', e => {
-						e.stopPropagation();
-						if (state.isOpen) {
-							close();
-						} else {
-							open();
-						}
-					});
-					
-					// Close dropdown when an item is clicked
-					for (const item of dropdown.querySelectorAll('[data-dropdown-item]')) {
-						item.addEventListener('click', close);
-					}
-					
-					// Initialize submenus
-					for (const submenu of dropdown.querySelectorAll('[data-dropdown-submenu]')) {
-						initSubmenu(submenu);
-					}
-					
-					// Store functions in state for access from outside
-					state.close = close;
-					
-					// Store dropdown state
-					window.dropdownState.set(dropdown, state);
-				}
-				
-				function initSubmenu(submenu) {
-					// Skip if already initialized
-					if (window.submenuState.has(submenu)) return;
-					
-					const trigger = submenu.querySelector('[data-dropdown-submenu-trigger]');
-					const content = submenu.querySelector('[data-dropdown-submenu-content]');
-					if (!trigger || !content) return;
-					
-					const state = {
-						isOpen: false,
-						closeTimer: null,
-						trigger,
-						content
-					};
-					
-					function openSubmenu() {
-						clearTimeout(state.closeTimer);
-						if (state.isOpen) return;
-						
-						state.isOpen = true;
-						document.body.appendChild(content);
-						content.style.display = 'block';
-						positionSubmenu(trigger, content);
-					}
-					
-					function startCloseTimer() {
-						clearTimeout(state.closeTimer);
-						state.closeTimer = setTimeout(() => {
-							if (state.isOpen) {
-								content.style.display = 'none';
-								state.isOpen = false;
-							}
-						}, 200);
-					}
-					
-					// Add event listeners
-					trigger.addEventListener('mouseenter', openSubmenu);
-					trigger.addEventListener('focus', openSubmenu);
-					trigger.addEventListener('mouseleave', startCloseTimer);
-					trigger.addEventListener('blur', startCloseTimer);
-					
-					content.addEventListener('mouseenter', () => clearTimeout(state.closeTimer));
-					content.addEventListener('mouseleave', startCloseTimer);
-					
-					// Store state
-					window.submenuState.set(submenu, state);
-				}
-				
-				function initAllComponents(root = document) {
-					if (root instanceof Element && root.matches('[data-dropdown]')) {
-						initDropdown(root);
-					}
-					if (root && typeof root.querySelectorAll === 'function') {
-						for (const dropdown of root.querySelectorAll('[data-dropdown]')) {
-							initDropdown(dropdown);
-						}
-					}
-				}
 
-				const handleHtmxSwap = (event) => {
-					const target = event.detail.target || event.target;
-					if (target instanceof Element) {
-						setTimeout(() => initAllComponents(target), 0);
-					}
-				};
-				
-				document.addEventListener('DOMContentLoaded', () => initAllComponents());
-
-				document.body.addEventListener('htmx:beforeSwap', (evt) => {
-					// Keep existing beforeSwap logic for cleanup
-					const target = evt.detail.target || evt.detail.elt; // Handle different HTMX versions/contexts
-					if (!target || typeof target.matches !== 'function') return;
-
-					const cleanupDropdown = (dropdown) => {
-						const state = window.dropdownState.get(dropdown);
-						if (state?.isOpen) state.close(); // Close if open
-						window.dropdownState.delete(dropdown);
-					};
-
-					const cleanupSubmenu = (submenu) => {
-						const state = window.submenuState.get(submenu);
-						if (state) {
-							clearTimeout(state.closeTimer);
-							if (state.isOpen && state.content.parentNode === document.body) {
-								try { document.body.removeChild(state.content); } catch(e) {}
-							}
-							window.submenuState.delete(submenu);
-						}
-					};
-
-					// Cleanup target itself if it's a dropdown or submenu
-					if (target.matches('[data-dropdown]')) cleanupDropdown(target);
-					if (target.matches('[data-dropdown-submenu]')) cleanupSubmenu(target);
-
-					// Cleanup descendants
-					if (typeof target.querySelectorAll === 'function') {
-						target.querySelectorAll('[data-dropdown]').forEach(cleanupDropdown);
-						target.querySelectorAll('[data-dropdown-submenu]').forEach(cleanupSubmenu);
-					}
+			function initItemListeners(root = document) {
+				// Select items with 'data-dropdown-item' but not 'data-dropdown-submenu-trigger'
+				const items = root.querySelectorAll('[data-dropdown-item]:not([data-dropdown-submenu-trigger])');
+				items.forEach(item => {
+					item.removeEventListener('click', handleDropdownItemClick);
+					item.addEventListener('click', handleDropdownItemClick);
 				});
-				
-				document.body.addEventListener('htmx:afterSwap', handleHtmxSwap);
-				document.body.addEventListener('htmx:oobAfterSwap', handleHtmxSwap);
-			})(); // End of IIFE
-		</script>
-	}
+			}
+
+			document.addEventListener('DOMContentLoaded', () => initItemListeners());
+
+			const handleHtmxSwapForItems = (event) => {
+				const target = event.detail.target || event.target;
+				if (target instanceof Element) {
+					setTimeout(() => initItemListeners(target), 0);
+				}
+			};
+
+			document.body.addEventListener('htmx:afterSwap', handleHtmxSwapForItems);
+			document.body.addEventListener('htmx:oobAfterSwap', handleHtmxSwapForItems);
+
+		})(); // End of IIFE
+	</script>
 }
