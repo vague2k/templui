@@ -23,7 +23,7 @@ tailwind-watch:
 
 dev:
 	make tailwind-clean
-	make -j4 templ server tailwind-watch shiki-highlighter
+	make -j4 tailwind-watch templ server shiki-highlighter
 
 debug:
 	make -j3 templ tailwind-app tailwind
