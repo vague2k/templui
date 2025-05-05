@@ -28,6 +28,10 @@ templ Input() {
 						ID:   "with-label",
 					},
 					{
+						Text: "Password",
+						ID:   "password",
+					},
+					{
 						Text: "Form",
 						ID:   "form",
 					},
@@ -39,6 +43,7 @@ templ Input() {
 			Name:        "Input",
 			Description: templ.Raw("Text field that allows users to enter and edit values."),
 			Tailwind:    true,
+			VanillaJS:   true,
 			Breadcrumbs: modules.Breadcrumbs{
 				Items: []modules.BreadcrumbItem{
 					{
@@ -77,6 +82,12 @@ templ Input() {
 					ShowcaseFile:    showcase.InputWithLabel(),
 					PreviewCodeFile: "input_with_label.templ",
 					ID:              "with-label",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:     "Password",
+					ShowcaseFile:    showcase.InputPassword(),
+					PreviewCodeFile: "input_password.templ",
+					ID:              "password",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Form",
