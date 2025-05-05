@@ -73,6 +73,9 @@ func Input(props ...Props) templ.Component {
 		if p.Type == "" {
 			p.Type = TypeText
 		}
+		if p.ID == "" {
+			p.ID = util.RandomID()
+		}
 		if p.Type == TypePassword && !p.NoTogglePassword {
 			templ_7745c5c3_Err = Script().Render(ctx, templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
@@ -100,57 +103,66 @@ func Input(props ...Props) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<input")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 2, "<input id=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		if p.ID != "" {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, " id=\"")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			var templ_7745c5c3_Var3 string
-			templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/input/input.templ`, Line: 54, Col: 13}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "\"")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
+		var templ_7745c5c3_Var3 string
+		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
+		if templ_7745c5c3_Err != nil {
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/input/input.templ`, Line: 56, Col: 12}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, " type=\"")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 3, "\" type=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var4 string
 		templ_7745c5c3_Var4, templ_7745c5c3_Err = templ.JoinStringErrs(string(p.Type))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/input/input.templ`, Line: 56, Col: 24}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/input/input.templ`, Line: 57, Col: 24}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var4))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 4, "\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		if p.Name != "" {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, " name=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, " name=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var5 string
 			templ_7745c5c3_Var5, templ_7745c5c3_Err = templ.JoinStringErrs(p.Name)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/input/input.templ`, Line: 58, Col: 17}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/input/input.templ`, Line: 59, Col: 17}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var5))
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+		}
+		if p.Placeholder != "" {
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, " placeholder=\"")
+			if templ_7745c5c3_Err != nil {
+				return templ_7745c5c3_Err
+			}
+			var templ_7745c5c3_Var6 string
+			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(p.Placeholder)
+			if templ_7745c5c3_Err != nil {
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/input/input.templ`, Line: 62, Col: 31}
+			}
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -159,17 +171,17 @@ func Input(props ...Props) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		if p.Placeholder != "" {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, " placeholder=\"")
+		if p.Value != "" {
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, " value=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var6 string
-			templ_7745c5c3_Var6, templ_7745c5c3_Err = templ.JoinStringErrs(p.Placeholder)
+			var templ_7745c5c3_Var7 string
+			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(p.Value)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/input/input.templ`, Line: 61, Col: 31}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/input/input.templ`, Line: 65, Col: 19}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var6))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -178,17 +190,17 @@ func Input(props ...Props) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		if p.Value != "" {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, " value=\"")
+		if p.Type == TypeFile && p.FileAccept != "" {
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, " accept=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			var templ_7745c5c3_Var7 string
-			templ_7745c5c3_Var7, templ_7745c5c3_Err = templ.JoinStringErrs(p.Value)
+			var templ_7745c5c3_Var8 string
+			templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(p.FileAccept)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/input/input.templ`, Line: 64, Col: 19}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/input/input.templ`, Line: 68, Col: 25}
 			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var7))
+			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
@@ -197,44 +209,25 @@ func Input(props ...Props) templ.Component {
 				return templ_7745c5c3_Err
 			}
 		}
-		if p.Type == TypeFile && p.FileAccept != "" {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, " accept=\"")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			var templ_7745c5c3_Var8 string
-			templ_7745c5c3_Var8, templ_7745c5c3_Err = templ.JoinStringErrs(p.FileAccept)
-			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/input/input.templ`, Line: 67, Col: 25}
-			}
-			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var8))
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "\"")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
-		}
 		if p.Disabled {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, " disabled")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, " disabled")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
 		if p.Readonly {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, " readonly")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, " readonly")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
 		if p.Required {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, " required")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, " required")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, " class=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, " class=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -247,7 +240,7 @@ func Input(props ...Props) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -255,7 +248,7 @@ func Input(props ...Props) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "> ")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "> ")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -272,23 +265,27 @@ func Input(props ...Props) templ.Component {
 					}()
 				}
 				ctx = templ.InitializeContext(ctx)
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, "<span class=\"icon-open block\">")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "<span class=\"icon-open block\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = icon.Eye().Render(ctx, templ_7745c5c3_Buffer)
+				templ_7745c5c3_Err = icon.Eye(icon.Props{
+					Size: 18,
+				}).Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "</span> <span class=\"icon-closed hidden\">")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "</span> <span class=\"icon-closed hidden\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = icon.EyeOff().Render(ctx, templ_7745c5c3_Buffer)
+				templ_7745c5c3_Err = icon.EyeOff(icon.Props{
+					Size: 18,
+				}).Render(ctx, templ_7745c5c3_Buffer)
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 23, "</span>")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, "</span>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -297,14 +294,14 @@ func Input(props ...Props) templ.Component {
 			templ_7745c5c3_Err = button.Button(button.Props{
 				Size:       button.SizeIcon,
 				Variant:    button.VariantGhost,
-				Class:      "absolute right-0 top-1/2 -translate-y-1/2 transition-opacity duration-200 opacity-0 pointer-events-none cursor-pointer",
+				Class:      "absolute right-0 top-1/2 -translate-y-1/2 opacity-50 cursor-pointer",
 				Attributes: templ.Attributes{"data-toggle-password": p.ID},
 			}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var10), templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 24, "</div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "</div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -347,20 +344,20 @@ func Script() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 25, "<script nonce=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 23, "<script nonce=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var13 string
 			templ_7745c5c3_Var13, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/input/input.templ`, Line: 109, Col: 37}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/input/input.templ`, Line: 114, Col: 37}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var13))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 26, "\">\n\t\t(function() { // IIFE Start\n\n            function initPasswordToggles(root = document) {\n                const buttons = root.querySelectorAll('[data-toggle-password]');\n                buttons.forEach(function (button) {\n                    button.removeEventListener('click', togglePassword);\n                    button.addEventListener('click', togglePassword);\n                    const inputId = button.getAttribute('data-toggle-password');\n                    const input = document.getElementById(inputId);\n\n                    if (input) {\n                        updateButtonVisibility(input, button);\n                        input.removeEventListener('input', handleInputChange);\n                        input.addEventListener('input', handleInputChange);\n                    }\n                });\n            }\n\n            function togglePassword(event) {\n                const button = event.currentTarget;\n                const inputId = button.getAttribute('data-toggle-password');\n                const input = document.getElementById(inputId);\n                if (input) {\n                    const iconOpen = button.querySelector('.icon-open');\n                    const iconClosed = button.querySelector('.icon-closed');\n\n                    if (input.type === 'password') {\n                        input.type = 'text';\n                        iconOpen.classList.add('hidden');\n                        iconClosed.classList.remove('hidden');\n                    } else {\n                        input.type = 'password';\n                        iconOpen.classList.remove('hidden');\n                        iconClosed.classList.add('hidden');\n                    }\n                }\n            }\n\n            function handleInputChange(event) {\n                const input = event.target;\n                const button = document.querySelector('[data-toggle-password=\"' + input.id + '\"]');\n                if (button) {\n                    updateButtonVisibility(input, button);\n                }\n            }\n\n            function updateButtonVisibility(input, button) {\n                if (input.value.trim() == \"\") {\n                    button.classList.add('opacity-0');\n                    button.classList.add('pointer-events-none');\n                    button.classList.remove('opacity-50');\n                    button.setAttribute('tabindex', '-1');\n                } else {\n                    button.classList.remove('opacity-0');\n                    button.classList.remove('pointer-events-none');\n                    button.classList.add('opacity-50');\n                    button.setAttribute('tabindex', '0');\n                }\n            }\n\n            const handleHtmxSwap = (event) => {\n                const target = event.detail.target || event.target;\n                if (target instanceof Element) {\n                    requestAnimationFrame(() => initPasswordToggles());\n                }\n            };\n\n            if (!window.templuiPasswordToggleBtnInitialized) {\n                window.templuiPasswordToggleBtnInitialized = true;\n                initPasswordToggles(document.currentScript?.parentNode || document);\n                document.addEventListener('DOMContentLoaded', () => initPasswordToggles());\n                document.body.addEventListener('htmx:afterSwap', handleHtmxSwap);\n                document.body.addEventListener('htmx:oobAfterSwap', handleHtmxSwap);\n            }\n         })(); // IIFE End\n        </script>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 24, "\">\n\t\t(function() { // IIFE Start\n            function initPasswordToggle(button) {\n                if (button.hasAttribute('data-password-initialized')) {\n                    return;\n                }\n                \n                button.setAttribute('data-password-initialized', 'true');\n                \n                button.addEventListener('click', function(event) {\n                    const inputId = button.getAttribute('data-toggle-password');\n                    const input = document.getElementById(inputId);\n                    if (input) {\n                        const iconOpen = button.querySelector('.icon-open');\n                        const iconClosed = button.querySelector('.icon-closed');\n\n                        if (input.type === 'password') {\n                            input.type = 'text';\n                            iconOpen.classList.add('hidden');\n                            iconClosed.classList.remove('hidden');\n                        } else {\n                            input.type = 'password';\n                            iconOpen.classList.remove('hidden');\n                            iconClosed.classList.add('hidden');\n                        }\n                    }\n                });\n            }\n\n            function initAllComponents(root = document) {\n                const buttons = root.querySelectorAll('[data-toggle-password]:not([data-password-initialized])');\n                buttons.forEach(button => {\n                    initPasswordToggle(button);\n                });\n            }\n\n            const handleHtmxSwap = (event) => {\n                const target = event.detail.target || event.target;\n                if (target instanceof Element) {\n                    setTimeout(() => initAllComponents(target), 0);\n                }\n            };\n\n            document.addEventListener('DOMContentLoaded', () => initAllComponents());\n            document.body.addEventListener('htmx:afterSwap', handleHtmxSwap);\n            document.body.addEventListener('htmx:oobAfterSwap', handleHtmxSwap);\n         })(); // IIFE End\n        </script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
