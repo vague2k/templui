@@ -18,10 +18,9 @@ import (
 	"strconv"
 )
 
-// Context key for select content ID
-type selectContentIDKeyType struct{}
+type contextKey string
 
-var selectContentIDKey = selectContentIDKeyType{}
+var contentIDKey contextKey = "contentID"
 
 type Props struct {
 	ID         string
@@ -103,20 +102,12 @@ func SelectBox(props ...Props) templ.Component {
 		if len(props) > 0 {
 			p = props[0]
 		}
-		// Generate IDs
 		wrapperID := p.ID
 		if wrapperID == "" {
 			wrapperID = util.RandomID()
 		}
 		contentID := fmt.Sprintf("%s-content", wrapperID)
-
-		// Provide contentID via context
-		ctx = context.WithValue(ctx, selectContentIDKey, contentID)
-
-		// Define props for popover - class moved to wrapper div
-		popoverProps := popover.Props{
-			// Class: util.TwMerge("select-container w-full relative", p.Class), // Moved to wrapper
-		}
+		ctx = context.WithValue(ctx, contentIDKey, contentID)
 		var templ_7745c5c3_Var2 = []any{util.TwMerge("select-container w-full relative", p.Class)}
 		templ_7745c5c3_Err = templ.RenderCSSItems(ctx, templ_7745c5c3_Buffer, templ_7745c5c3_Var2...)
 		if templ_7745c5c3_Err != nil {
@@ -129,7 +120,7 @@ func SelectBox(props ...Props) templ.Component {
 		var templ_7745c5c3_Var3 string
 		templ_7745c5c3_Var3, templ_7745c5c3_Err = templ.JoinStringErrs(wrapperID)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 92, Col: 16}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 82, Col: 16}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var3))
 		if templ_7745c5c3_Err != nil {
@@ -176,17 +167,13 @@ func SelectBox(props ...Props) templ.Component {
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, " ")
-			if templ_7745c5c3_Err != nil {
-				return templ_7745c5c3_Err
-			}
 			return nil
 		})
-		templ_7745c5c3_Err = popover.Popover(popoverProps).Render(templ.WithChildren(ctx, templ_7745c5c3_Var5), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = popover.Popover().Render(templ.WithChildren(ctx, templ_7745c5c3_Var5), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "</div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 5, "</div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -220,37 +207,9 @@ func Trigger(props ...TriggerProps) templ.Component {
 		if len(props) > 0 {
 			p = props[0]
 		}
-		// Retrieve contentID from context
-		contentID, ok := ctx.Value(selectContentIDKey).(string)
+		contentID, ok := ctx.Value(contentIDKey).(string)
 		if !ok {
 			contentID = "fallback-select-content-id"
-		}
-
-		// Define props for the popover trigger
-		popoverTriggerProps := popover.TriggerProps{
-			For:         contentID,
-			TriggerType: popover.TriggerTypeClick,
-		}
-
-		// Button props with data-content-id
-		buttonProps := button.Props{
-			ID:      p.ID,
-			Type:    "button",
-			Variant: button.VariantOutline,
-			Class: util.TwMerge(
-				"w-full select-trigger flex items-center justify-between focus:ring-2 focus:ring-offset-2",
-				util.If(p.HasError, "border-destructive ring-destructive"),
-				p.Class,
-			),
-			Disabled: p.Disabled,
-			Attributes: util.MergeAttributes(
-				templ.Attributes{
-					"data-content-id": contentID, // Store contentID here for JS
-					"tabindex":        "0",
-					"required":        strconv.FormatBool(p.Required),
-				},
-				p.Attributes,
-			),
 		}
 		templ_7745c5c3_Var7 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 			templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -276,36 +235,36 @@ func Trigger(props ...TriggerProps) templ.Component {
 					}()
 				}
 				ctx = templ.InitializeContext(ctx)
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, "<input type=\"hidden\"")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 6, "<input type=\"hidden\"")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 				if p.Name != "" {
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, " name=\"")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 7, " name=\"")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
 					var templ_7745c5c3_Var9 string
 					templ_7745c5c3_Var9, templ_7745c5c3_Err = templ.JoinStringErrs(p.Name)
 					if templ_7745c5c3_Err != nil {
-						return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 149, Col: 18}
+						return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 129, Col: 18}
 					}
 					_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var9))
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, "\"")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 8, "\"")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
 				}
 				if p.Required {
-					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, " required")
+					templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 9, " required")
 					if templ_7745c5c3_Err != nil {
 						return templ_7745c5c3_Err
 					}
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, ">")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 10, ">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -313,7 +272,7 @@ func Trigger(props ...TriggerProps) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "  <span class=\"pointer-events-none ml-1\">")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 11, " <span class=\"pointer-events-none ml-1\">")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
@@ -324,19 +283,40 @@ func Trigger(props ...TriggerProps) templ.Component {
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
-				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "</span>")
+				templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 12, "</span>")
 				if templ_7745c5c3_Err != nil {
 					return templ_7745c5c3_Err
 				}
 				return nil
 			})
-			templ_7745c5c3_Err = button.Button(buttonProps).Render(templ.WithChildren(ctx, templ_7745c5c3_Var8), templ_7745c5c3_Buffer)
+			templ_7745c5c3_Err = button.Button(button.Props{
+				ID:      p.ID,
+				Type:    "button",
+				Variant: button.VariantOutline,
+				Class: util.TwMerge(
+					"w-full select-trigger flex items-center justify-between focus:ring-2 focus:ring-offset-2",
+					util.If(p.HasError, "border-destructive ring-destructive"),
+					p.Class,
+				),
+				Disabled: p.Disabled,
+				Attributes: util.MergeAttributes(
+					templ.Attributes{
+						"data-content-id": contentID,
+						"tabindex":        "0",
+						"required":        strconv.FormatBool(p.Required),
+					},
+					p.Attributes,
+				),
+			}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var8), templ_7745c5c3_Buffer)
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = popover.Trigger(popoverTriggerProps).Render(templ.WithChildren(ctx, templ_7745c5c3_Var7), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = popover.Trigger(popover.TriggerProps{
+			For:         contentID,
+			TriggerType: popover.TriggerTypeClick,
+		}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var7), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -374,30 +354,30 @@ func Value(props ...ValueProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, "<span")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 13, "<span")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		if p.ID != "" {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, " id=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 14, " id=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var12 string
 			templ_7745c5c3_Var12, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 172, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 151, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var12))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, "\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 15, "\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, " class=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 16, " class=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -410,7 +390,7 @@ func Value(props ...ValueProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, "\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 17, "\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -418,7 +398,7 @@ func Value(props ...ValueProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, ">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 18, ">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -426,7 +406,7 @@ func Value(props ...ValueProps) templ.Component {
 			var templ_7745c5c3_Var14 string
 			templ_7745c5c3_Var14, templ_7745c5c3_Err = templ.JoinStringErrs(p.Placeholder)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 178, Col: 18}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 157, Col: 18}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var14))
 			if templ_7745c5c3_Err != nil {
@@ -437,7 +417,7 @@ func Value(props ...ValueProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "</span>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 19, "</span>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -471,32 +451,9 @@ func Content(props ...ContentProps) templ.Component {
 		if len(props) > 0 {
 			p = props[0]
 		}
-		// Retrieve contentID from context
-		contentID, ok := ctx.Value(selectContentIDKey).(string)
+		contentID, ok := ctx.Value(contentIDKey).(string)
 		if !ok {
 			contentID = "fallback-select-content-id"
-		}
-
-		// Define props for popover content
-		popoverContentProps := popover.ContentProps{
-			ID:        contentID,
-			Placement: popover.PlacementBottomStart,
-			Offset:    4,
-			// Activate width matching in Popover component
-			MatchWidth: true,
-			Class: util.TwMerge(
-				// Use the CSS variable again
-				"p-1 select-content z-50 overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md",
-				"min-w-[var(--popover-trigger-width)] w-[var(--popover-trigger-width)]",
-				p.Class,
-			),
-			Attributes: util.MergeAttributes(
-				templ.Attributes{
-					"role":     "listbox",
-					"tabindex": "-1",
-				},
-				p.Attributes,
-			),
 		}
 		templ_7745c5c3_Var16 := templruntime.GeneratedTemplate(func(templ_7745c5c3_Input templruntime.GeneratedComponentInput) (templ_7745c5c3_Err error) {
 			templ_7745c5c3_W, ctx := templ_7745c5c3_Input.Writer, templ_7745c5c3_Input.Context
@@ -516,7 +473,24 @@ func Content(props ...ContentProps) templ.Component {
 			}
 			return nil
 		})
-		templ_7745c5c3_Err = popover.Content(popoverContentProps).Render(templ.WithChildren(ctx, templ_7745c5c3_Var16), templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = popover.Content(popover.ContentProps{
+			ID:         contentID,
+			Placement:  popover.PlacementBottomStart,
+			Offset:     4,
+			MatchWidth: true,
+			Class: util.TwMerge(
+				"p-1 select-content z-50 overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md",
+				"min-w-[var(--popover-trigger-width)] w-[var(--popover-trigger-width)]",
+				p.Class,
+			),
+			Attributes: util.MergeAttributes(
+				templ.Attributes{
+					"role":     "listbox",
+					"tabindex": "-1",
+				},
+				p.Attributes,
+			),
+		}).Render(templ.WithChildren(ctx, templ_7745c5c3_Var16), templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -554,30 +528,30 @@ func Group(props ...GroupProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, "<div")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 20, "<div")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		if p.ID != "" {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, " id=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 21, " id=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var19 string
 			templ_7745c5c3_Var19, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 231, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 203, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var19))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 23, "\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 22, "\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 24, " class=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 23, " class=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -590,7 +564,7 @@ func Group(props ...GroupProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 25, "\" role=\"group\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 24, "\" role=\"group\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -598,7 +572,7 @@ func Group(props ...GroupProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 26, ">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 25, ">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -606,7 +580,7 @@ func Group(props ...GroupProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 27, "</div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 26, "</div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -644,30 +618,30 @@ func Label(props ...LabelProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 28, "<span")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 27, "<span")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		if p.ID != "" {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 29, " id=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 28, " id=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var23 string
 			templ_7745c5c3_Var23, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 248, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 220, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var23))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 30, "\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 29, "\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 31, " class=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 30, " class=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -680,7 +654,7 @@ func Label(props ...LabelProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 32, "\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 31, "\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -688,7 +662,7 @@ func Label(props ...LabelProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 33, ">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 32, ">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -696,7 +670,7 @@ func Label(props ...LabelProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 34, "</span>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 33, "</span>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -743,30 +717,30 @@ func Item(props ...ItemProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 35, "<div")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 34, "<div")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		if p.ID != "" {
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 36, " id=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 35, " id=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var27 string
 			templ_7745c5c3_Var27, templ_7745c5c3_Err = templ.JoinStringErrs(p.ID)
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 264, Col: 12}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 236, Col: 12}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var27))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 37, "\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 36, "\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 38, " class=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 37, " class=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -779,46 +753,46 @@ func Item(props ...ItemProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 39, "\" role=\"option\" data-value=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 38, "\" role=\"option\" data-value=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var29 string
 		templ_7745c5c3_Var29, templ_7745c5c3_Err = templ.JoinStringErrs(p.Value)
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 277, Col: 22}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 249, Col: 22}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var29))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 40, "\" data-selected=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 39, "\" data-selected=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var30 string
 		templ_7745c5c3_Var30, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.FormatBool(p.Selected))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 278, Col: 48}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 250, Col: 48}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var30))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 41, "\" data-disabled=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 40, "\" data-disabled=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
 		var templ_7745c5c3_Var31 string
 		templ_7745c5c3_Var31, templ_7745c5c3_Err = templ.JoinStringErrs(strconv.FormatBool(p.Disabled))
 		if templ_7745c5c3_Err != nil {
-			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 279, Col: 48}
+			return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 251, Col: 48}
 		}
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var31))
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 42, "\" tabindex=\"0\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 41, "\" tabindex=\"0\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -826,7 +800,7 @@ func Item(props ...ItemProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 43, "><span class=\"truncate select-item-text\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 42, "><span class=\"truncate select-item-text\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -834,7 +808,7 @@ func Item(props ...ItemProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 44, "</span> ")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 43, "</span> ")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -848,7 +822,7 @@ func Item(props ...ItemProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 45, "<span class=\"")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 44, "<span class=\"")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -861,7 +835,7 @@ func Item(props ...ItemProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 46, "\">")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 45, "\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -869,7 +843,7 @@ func Item(props ...ItemProps) templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 47, "</span></div>")
+		templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 46, "</span></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
@@ -912,20 +886,20 @@ func Script() templ.Component {
 				}()
 			}
 			ctx = templ.InitializeContext(ctx)
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 48, "<script defer nonce=\"")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 47, "<script defer nonce=\"")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
 			var templ_7745c5c3_Var36 string
 			templ_7745c5c3_Var36, templ_7745c5c3_Err = templ.JoinStringErrs(templ.GetNonce(ctx))
 			if templ_7745c5c3_Err != nil {
-				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 303, Col: 43}
+				return templ.Error{Err: templ_7745c5c3_Err, FileName: `component/selectbox/select_box.templ`, Line: 275, Col: 43}
 			}
 			_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ.EscapeString(templ_7745c5c3_Var36))
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}
-			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 49, "\">\n\t\t\t(function() { // IIFE\n\n\t\t\t\tfunction initSelect(wrapper) {\n\t\t\t\t\tif (!wrapper || wrapper.hasAttribute('data-initialized')) return;\n\t\t\t\t\twrapper.setAttribute('data-initialized', 'true');\n\n\t\t\t\t\tconst triggerButton = wrapper.querySelector('button.select-trigger');\n\t\t\t\t\tif (!triggerButton) {\n\t\t\t\t\t\tconsole.error(\"Select box: Trigger button (.select-trigger) not found in wrapper\", wrapper);\n\t\t\t\t\t\treturn;\n\t\t\t\t\t}\n\n\t\t\t\t\tconst contentID = triggerButton.dataset.contentId;\n\t\t\t\t\tconst content = contentID ? document.getElementById(contentID) : null;\n\t\t\t\t\tconst valueEl = triggerButton.querySelector('.select-value');\n\t\t\t\t\tconst hiddenInput = triggerButton.querySelector('input[type=\"hidden\"]');\n\n\t\t\t\t\tif (!content || !valueEl || !hiddenInput) {\n\t\t\t\t\t\tconsole.error(\"Select box: Missing required elements for initialization.\", { wrapper, contentID, contentExists: !!content, valueElExists: !!valueEl, hiddenInputExists: !!hiddenInput });\n\t\t\t\t\t\treturn;\n\t\t\t\t\t}\n\n\t\t\t\t\t// Initialize display value if an item is pre-selected\n\t\t\t\t\tconst selectedItem = content.querySelector('.select-item[data-selected=\"true\"]');\n\t\t\t\t\tif (selectedItem) {\n\t\t\t\t\t\tconst itemText = selectedItem.querySelector('.select-item-text');\n\t\t\t\t\t\tif (itemText) {\n\t\t\t\t\t\t\tvalueEl.textContent = itemText.textContent;\n\t\t\t\t\t\t\tvalueEl.classList.remove('text-muted-foreground');\n\t\t\t\t\t\t}\n\t\t\t\t\t\tif (hiddenInput) {\n\t\t\t\t\t\t\thiddenInput.value = selectedItem.getAttribute('data-value') || '';\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\n\t\t\t\t\t// Reset visual state of items\n\t\t\t\t\tfunction resetItemStyles() {\n\t\t\t\t\t\tcontent.querySelectorAll('.select-item').forEach(item => {\n\t\t\t\t\t\t\tif (item.getAttribute('data-selected') === 'true') {\n\t\t\t\t\t\t\t\titem.classList.add('bg-accent', 'text-accent-foreground');\n\t\t\t\t\t\t\t\titem.classList.remove('bg-muted');\n\t\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\t\titem.classList.remove('bg-accent', 'text-accent-foreground', 'bg-muted');\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t});\n\t\t\t\t\t}\n\n\t\t\t\t\t// Select an item\n\t\t\t\t\tfunction selectItem(item) {\n\t\t\t\t\t\tif (!item || item.getAttribute('data-disabled') === 'true') return;\n\n\t\t\t\t\t\tconst value = item.getAttribute('data-value');\n\t\t\t\t\t\tconst itemText = item.querySelector('.select-item-text');\n\n\t\t\t\t\t\t// Reset all items in this content\n\t\t\t\t\t\tcontent.querySelectorAll('.select-item').forEach(el => {\n\t\t\t\t\t\t\tel.setAttribute('data-selected', 'false');\n\t\t\t\t\t\t\tel.classList.remove('bg-accent', 'text-accent-foreground', 'bg-muted');\n\t\t\t\t\t\t\tconst check = el.querySelector('.select-check');\n\t\t\t\t\t\t\tif (check) check.classList.replace('opacity-100', 'opacity-0');\n\t\t\t\t\t\t});\n\n\t\t\t\t\t\t// Mark new selection\n\t\t\t\t\t\titem.setAttribute('data-selected', 'true');\n\t\t\t\t\t\titem.classList.add('bg-accent', 'text-accent-foreground');\n\t\t\t\t\t\tconst check = item.querySelector('.select-check');\n\t\t\t\t\t\tif (check) check.classList.replace('opacity-0', 'opacity-100');\n\n\t\t\t\t\t\t// Update display value\n\t\t\t\t\t\tif (valueEl && itemText) { // Check if valueEl exists\n\t\t\t\t\t\t\tvalueEl.textContent = itemText.textContent;\n\t\t\t\t\t\t\tvalueEl.classList.remove('text-muted-foreground');\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\t// Update hidden input & trigger change event\n\t\t\t\t\t\tif (hiddenInput && value !== null) { // Check if hiddenInput exists\n\t\t\t\t\t\t\thiddenInput.value = value;\n\t\t\t\t\t\t\thiddenInput.dispatchEvent(new Event('change', { bubbles: true }));\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\t// Close the popover using the correct contentID\n\t\t\t\t\t\tif (window.closePopover) {\n\t\t\t\t\t\t\twindow.closePopover(contentID, true);\n\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\tconsole.warn(\"closePopover function not found\");\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\n\t\t\t\t\t// Event Listeners for Items (delegated from content for robustness)\n\t\t\t\t\tcontent.addEventListener('click', (e) => {\n\t\t\t\t\t\tconst item = e.target.closest('.select-item');\n\t\t\t\t\t\tif (item) selectItem(item);\n\t\t\t\t\t});\n\t\t\t\t\tcontent.addEventListener('keydown', (e) => {\n\t\t\t\t\t\tconst item = e.target.closest('.select-item');\n\t\t\t\t\t\tif (item && (e.key === 'Enter' || e.key === ' ')) {\n\t\t\t\t\t\t\te.preventDefault();\n\t\t\t\t\t\t\tselectItem(item);\n\t\t\t\t\t\t}\n\t\t\t\t\t\t// Add other keyboard navigation (Up/Down/Home/End) if desired\n\t\t\t\t\t});\n\n\t\t\t\t\t// Event: Mouse hover on items (delegated)\n\t\t\t\t\tcontent.addEventListener('mouseover', e => {\n\t\t\t\t\t\tconst item = e.target.closest('.select-item');\n\t\t\t\t\t\tif (!item || item.getAttribute('data-disabled') === 'true') return;\n\t\t\t\t\t\t// Reset all others first\n\t\t\t\t\t\tcontent.querySelectorAll('.select-item:not([data-selected=\"true\"])').forEach(el => {\n\t\t\t\t\t\t\tel.classList.remove('bg-accent', 'text-accent-foreground', 'bg-muted');\n\t\t\t\t\t\t});\n\t\t\t\t\t\t// Apply hover style only if not selected\n\t\t\t\t\t\tif (item.getAttribute('data-selected') !== 'true') {\n\t\t\t\t\t\t\titem.classList.add('bg-accent', 'text-accent-foreground');\n\t\t\t\t\t\t}\n\t\t\t\t\t});\n\n\t\t\t\t\t// Reset hover styles when mouse leaves the content area\n\t\t\t\t\tcontent.addEventListener('mouseleave', resetItemStyles);\n\t\t\t\t}\n\n\t\t\t\tfunction initAllComponents(root = document) {\n\t\t\t\t\tconst containers = root.querySelectorAll('.select-container:not([data-initialized])');\n\t\t\t\t\tif (root instanceof Element && root.matches('.select-container') && !root.hasAttribute('data-initialized')) {\n\t\t\t\t\t\tinitSelect(root);\n\t\t\t\t\t} else {\n\t\t\t\t\t\tcontainers.forEach(initSelect);\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\tconst handleHtmxSwap = (event) => {\n\t\t\t\t\tconst target = event.detail.target || event.target;\n\t\t\t\t\tif (target instanceof Element) {\n\t\t\t\t\t\tsetTimeout(() => initAllComponents(target), 50);\n\t\t\t\t\t}\n\t\t\t\t};\n\n\t\t\t\tdocument.addEventListener('DOMContentLoaded', () => initAllComponents());\n\t\t\t\tdocument.body.addEventListener('htmx:afterSwap', handleHtmxSwap);\n\t\t\t\tdocument.body.addEventListener('htmx:oobAfterSwap', handleHtmxSwap);\n\n\t\t\t})(); // End of IIFE\n\t\t</script>")
+			templ_7745c5c3_Err = templruntime.WriteString(templ_7745c5c3_Buffer, 48, "\">\n\t\t\t(function() { // IIFE\n\t\t\t\tfunction initSelect(wrapper) {\n\t\t\t\t\tif (!wrapper || wrapper.hasAttribute('data-initialized')) return;\n\t\t\t\t\twrapper.setAttribute('data-initialized', 'true');\n\n\t\t\t\t\tconst triggerButton = wrapper.querySelector('button.select-trigger');\n\t\t\t\t\tif (!triggerButton) {\n\t\t\t\t\t\tconsole.error(\"Select box: Trigger button (.select-trigger) not found in wrapper\", wrapper);\n\t\t\t\t\t\treturn;\n\t\t\t\t\t}\n\n\t\t\t\t\tconst contentID = triggerButton.dataset.contentId;\n\t\t\t\t\tconst content = contentID ? document.getElementById(contentID) : null;\n\t\t\t\t\tconst valueEl = triggerButton.querySelector('.select-value');\n\t\t\t\t\tconst hiddenInput = triggerButton.querySelector('input[type=\"hidden\"]');\n\n\t\t\t\t\tif (!content || !valueEl || !hiddenInput) {\n\t\t\t\t\t\tconsole.error(\"Select box: Missing required elements for initialization.\", { wrapper, contentID, contentExists: !!content, valueElExists: !!valueEl, hiddenInputExists: !!hiddenInput });\n\t\t\t\t\t\treturn;\n\t\t\t\t\t}\n\n\t\t\t\t\t// Initialize display value if an item is pre-selected\n\t\t\t\t\tconst selectedItem = content.querySelector('.select-item[data-selected=\"true\"]');\n\t\t\t\t\tif (selectedItem) {\n\t\t\t\t\t\tconst itemText = selectedItem.querySelector('.select-item-text');\n\t\t\t\t\t\tif (itemText) {\n\t\t\t\t\t\t\tvalueEl.textContent = itemText.textContent;\n\t\t\t\t\t\t\tvalueEl.classList.remove('text-muted-foreground');\n\t\t\t\t\t\t}\n\t\t\t\t\t\tif (hiddenInput) {\n\t\t\t\t\t\t\thiddenInput.value = selectedItem.getAttribute('data-value') || '';\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\n\t\t\t\t\t// Reset visual state of items\n\t\t\t\t\tfunction resetItemStyles() {\n\t\t\t\t\t\tcontent.querySelectorAll('.select-item').forEach(item => {\n\t\t\t\t\t\t\tif (item.getAttribute('data-selected') === 'true') {\n\t\t\t\t\t\t\t\titem.classList.add('bg-accent', 'text-accent-foreground');\n\t\t\t\t\t\t\t\titem.classList.remove('bg-muted');\n\t\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\t\titem.classList.remove('bg-accent', 'text-accent-foreground', 'bg-muted');\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t});\n\t\t\t\t\t}\n\n\t\t\t\t\t// Select an item\n\t\t\t\t\tfunction selectItem(item) {\n\t\t\t\t\t\tif (!item || item.getAttribute('data-disabled') === 'true') return;\n\n\t\t\t\t\t\tconst value = item.getAttribute('data-value');\n\t\t\t\t\t\tconst itemText = item.querySelector('.select-item-text');\n\n\t\t\t\t\t\t// Reset all items in this content\n\t\t\t\t\t\tcontent.querySelectorAll('.select-item').forEach(el => {\n\t\t\t\t\t\t\tel.setAttribute('data-selected', 'false');\n\t\t\t\t\t\t\tel.classList.remove('bg-accent', 'text-accent-foreground', 'bg-muted');\n\t\t\t\t\t\t\tconst check = el.querySelector('.select-check');\n\t\t\t\t\t\t\tif (check) check.classList.replace('opacity-100', 'opacity-0');\n\t\t\t\t\t\t});\n\n\t\t\t\t\t\t// Mark new selection\n\t\t\t\t\t\titem.setAttribute('data-selected', 'true');\n\t\t\t\t\t\titem.classList.add('bg-accent', 'text-accent-foreground');\n\t\t\t\t\t\tconst check = item.querySelector('.select-check');\n\t\t\t\t\t\tif (check) check.classList.replace('opacity-0', 'opacity-100');\n\n\t\t\t\t\t\t// Update display value\n\t\t\t\t\t\tif (valueEl && itemText) { // Check if valueEl exists\n\t\t\t\t\t\t\tvalueEl.textContent = itemText.textContent;\n\t\t\t\t\t\t\tvalueEl.classList.remove('text-muted-foreground');\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\t// Update hidden input & trigger change event\n\t\t\t\t\t\tif (hiddenInput && value !== null) { // Check if hiddenInput exists\n\t\t\t\t\t\t\thiddenInput.value = value;\n\t\t\t\t\t\t\thiddenInput.dispatchEvent(new Event('change', { bubbles: true }));\n\t\t\t\t\t\t}\n\n\t\t\t\t\t\t// Close the popover using the correct contentID\n\t\t\t\t\t\tif (window.closePopover) {\n\t\t\t\t\t\t\twindow.closePopover(contentID, true);\n\t\t\t\t\t\t} else {\n\t\t\t\t\t\t\tconsole.warn(\"closePopover function not found\");\n\t\t\t\t\t\t}\n\t\t\t\t\t}\n\n\t\t\t\t\t// Event Listeners for Items (delegated from content for robustness)\n\t\t\t\t\tcontent.addEventListener('click', (e) => {\n\t\t\t\t\t\tconst item = e.target.closest('.select-item');\n\t\t\t\t\t\tif (item) selectItem(item);\n\t\t\t\t\t});\n\t\t\t\t\tcontent.addEventListener('keydown', (e) => {\n\t\t\t\t\t\tconst item = e.target.closest('.select-item');\n\t\t\t\t\t\tif (item && (e.key === 'Enter' || e.key === ' ')) {\n\t\t\t\t\t\t\te.preventDefault();\n\t\t\t\t\t\t\tselectItem(item);\n\t\t\t\t\t\t}\n\t\t\t\t\t\t// Add other keyboard navigation (Up/Down/Home/End) if desired\n\t\t\t\t\t});\n\n\t\t\t\t\t// Event: Mouse hover on items (delegated)\n\t\t\t\t\tcontent.addEventListener('mouseover', e => {\n\t\t\t\t\t\tconst item = e.target.closest('.select-item');\n\t\t\t\t\t\tif (!item || item.getAttribute('data-disabled') === 'true') return;\n\t\t\t\t\t\t// Reset all others first\n\t\t\t\t\t\tcontent.querySelectorAll('.select-item:not([data-selected=\"true\"])').forEach(el => {\n\t\t\t\t\t\t\tel.classList.remove('bg-accent', 'text-accent-foreground', 'bg-muted');\n\t\t\t\t\t\t});\n\t\t\t\t\t\t// Apply hover style only if not selected\n\t\t\t\t\t\tif (item.getAttribute('data-selected') !== 'true') {\n\t\t\t\t\t\t\titem.classList.add('bg-accent', 'text-accent-foreground');\n\t\t\t\t\t\t}\n\t\t\t\t\t});\n\n\t\t\t\t\t// Reset hover styles when mouse leaves the content area\n\t\t\t\t\tcontent.addEventListener('mouseleave', resetItemStyles);\n\t\t\t\t}\n\n\t\t\t\tfunction initAllComponents(root = document) {\n\t\t\t\t\tconst containers = root.querySelectorAll('.select-container:not([data-initialized])');\n\t\t\t\t\tif (root instanceof Element && root.matches('.select-container') && !root.hasAttribute('data-initialized')) {\n\t\t\t\t\t\tinitSelect(root);\n\t\t\t\t\t} else {\n\t\t\t\t\t\tcontainers.forEach(initSelect);\n\t\t\t\t\t}\n\t\t\t\t}\n\n\t\t\t\tconst handleHtmxSwap = (event) => {\n\t\t\t\t\tconst target = event.detail.target || event.target;\n\t\t\t\t\tif (target instanceof Element) {\n\t\t\t\t\t\tsetTimeout(() => initAllComponents(target), 50);\n\t\t\t\t\t}\n\t\t\t\t};\n\n\t\t\t\tdocument.addEventListener('DOMContentLoaded', () => initAllComponents());\n\t\t\t\tdocument.body.addEventListener('htmx:afterSwap', handleHtmxSwap);\n\t\t\t\tdocument.body.addEventListener('htmx:oobAfterSwap', handleHtmxSwap);\n\n\t\t\t})(); // End of IIFE\n\t\t</script>")
 			if templ_7745c5c3_Err != nil {
 				return templ_7745c5c3_Err
 			}

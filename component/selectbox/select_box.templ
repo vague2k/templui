@@ -10,10 +10,9 @@ import (
 	"strconv"
 )
 
-// Context key for select content ID
-type selectContentIDKeyType struct{}
+type contextKey string
 
-var selectContentIDKey = selectContentIDKeyType{}
+var contentIDKey contextKey = "contentID"
 
 type Props struct {
 	ID         string
@@ -72,31 +71,20 @@ templ SelectBox(props ...Props) {
 		if len(props) > 0 {
 			p = props[0]
 		}
-		// Generate IDs
 		wrapperID := p.ID
 		if wrapperID == "" {
 			wrapperID = util.RandomID()
 		}
 		contentID := fmt.Sprintf("%s-content", wrapperID)
-
-		// Provide contentID via context
-		ctx = context.WithValue(ctx, selectContentIDKey, contentID)
-
-		// Define props for popover - class moved to wrapper div
-		popoverProps := popover.Props{
-			// Class: util.TwMerge("select-container w-full relative", p.Class), // Moved to wrapper
-		}
+		ctx = context.WithValue(ctx, contentIDKey, contentID)
 	}}
-	// Outer wrapper with ID and main classes
 	<div
 		id={ wrapperID }
 		class={ util.TwMerge("select-container w-full relative", p.Class) }
 		{ p.Attributes... }
 	>
-		// Popover component inside the wrapper
-		@popover.Popover(popoverProps) {
+		@popover.Popover() {
 			{ children... }
-			// Should contain Trigger and Content
 		}
 	</div>
 }
@@ -107,20 +95,16 @@ templ Trigger(props ...TriggerProps) {
 		if len(props) > 0 {
 			p = props[0]
 		}
-		// Retrieve contentID from context
-		contentID, ok := ctx.Value(selectContentIDKey).(string)
+		contentID, ok := ctx.Value(contentIDKey).(string)
 		if !ok {
 			contentID = "fallback-select-content-id"
 		}
-
-		// Define props for the popover trigger
-		popoverTriggerProps := popover.TriggerProps{
-			For:         contentID,
-			TriggerType: popover.TriggerTypeClick,
-		}
-
-		// Button props with data-content-id
-		buttonProps := button.Props{
+	}}
+	@popover.Trigger(popover.TriggerProps{
+		For:         contentID,
+		TriggerType: popover.TriggerTypeClick,
+	}) {
+		@button.Button(button.Props{
 			ID:      p.ID,
 			Type:    "button",
 			Variant: button.VariantOutline,
@@ -132,17 +116,13 @@ templ Trigger(props ...TriggerProps) {
 			Disabled: p.Disabled,
 			Attributes: util.MergeAttributes(
 				templ.Attributes{
-					"data-content-id": contentID, // Store contentID here for JS
+					"data-content-id": contentID,
 					"tabindex":        "0",
 					"required":        strconv.FormatBool(p.Required),
 				},
 				p.Attributes,
 			),
-		}
-	}}
-	// Use popover.Trigger wrapping the button
-	@popover.Trigger(popoverTriggerProps) {
-		@button.Button(buttonProps) {
+		}) {
 			<input
 				type="hidden"
 				if p.Name != "" {
@@ -151,7 +131,6 @@ templ Trigger(props ...TriggerProps) {
 				required?={ p.Required }
 			/>
 			{ children... }
-			// Includes Value component
 			<span class="pointer-events-none ml-1">
 				@icon.ChevronDown(icon.Props{
 					Size:  16,
@@ -187,36 +166,29 @@ templ Content(props ...ContentProps) {
 		if len(props) > 0 {
 			p = props[0]
 		}
-		// Retrieve contentID from context
-		contentID, ok := ctx.Value(selectContentIDKey).(string)
+		contentID, ok := ctx.Value(contentIDKey).(string)
 		if !ok {
 			contentID = "fallback-select-content-id"
 		}
-
-		// Define props for popover content
-		popoverContentProps := popover.ContentProps{
-			ID:        contentID,
-			Placement: popover.PlacementBottomStart,
-			Offset:    4,
-			// Activate width matching in Popover component
-			MatchWidth: true,
-			Class: util.TwMerge(
-				// Use the CSS variable again
-				"p-1 select-content z-50 overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md",
-				"min-w-[var(--popover-trigger-width)] w-[var(--popover-trigger-width)]",
-				p.Class,
-			),
-			Attributes: util.MergeAttributes(
-				templ.Attributes{
-					"role":     "listbox",
-					"tabindex": "-1",
-				},
-				p.Attributes,
-			),
-		}
 	}}
-	// Use popover.Content
-	@popover.Content(popoverContentProps) {
+	@popover.Content(popover.ContentProps{
+		ID:         contentID,
+		Placement:  popover.PlacementBottomStart,
+		Offset:     4,
+		MatchWidth: true,
+		Class: util.TwMerge(
+			"p-1 select-content z-50 overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md",
+			"min-w-[var(--popover-trigger-width)] w-[var(--popover-trigger-width)]",
+			p.Class,
+		),
+		Attributes: util.MergeAttributes(
+			templ.Attributes{
+				"role":     "listbox",
+				"tabindex": "-1",
+			},
+			p.Attributes,
+		),
+	}) {
 		{ children... }
 	}
 }
@@ -302,7 +274,6 @@ templ Script() {
 	@handle.Once() {
 		<script defer nonce={ templ.GetNonce(ctx) }>
 			(function() { // IIFE
-
 				function initSelect(wrapper) {
 					if (!wrapper || wrapper.hasAttribute('data-initialized')) return;
 					wrapper.setAttribute('data-initialized', 'true');
