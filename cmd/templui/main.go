@@ -11,82 +11,84 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
-	// "log"   // For error logging during download
+	// "log" // Can be used for more detailed error logging if needed
 )
 
 const (
 	configFileName = ".templui.json"
-	manifestPath   = "internal/manifest.json" // Path to the manifest in the repository
-	// Default ref (branch/tag/commit) to load if none is specified.
-	// TODO: Replace with getLatestTag() later?
+	manifestPath   = "internal/manifest.json" // Path to the manifest within the repository
+	// Default git ref (branch, tag, commit) to use when none is specified by the user.
+	// TODO: Implement fetching the latest stable tag?
 	defaultRef = "main"
-	// Base URL for raw content. Adjust <user>/<repo> to your GitHub repository!
-	// Example: "https://raw.githubusercontent.com/axzilla/templui/"
+	// Base URL for fetching raw file content.
+	// Needs adjustment if the repository location changes.
 	rawContentBaseURL = "https://raw.githubusercontent.com/axzilla/templui/"
 )
 
-// Version of the tool (can be set via ldflags)
-var version = "0.0.0-dev" // Default value
+// version of the tool (can be set during build with ldflags).
+var version = "0.0.0-dev"
 
-// Regex to extract the version from the comment (compile once)
+// versionRegex extracts the version ref from the component/util file comment.
 var versionRegex = regexp.MustCompile(`(?m)^\s*//\s*templui\s+(?:component|util)\s+.*\s+-\s+version:\s+(\S+)`)
 
-// --- Flags ---
+// Flags defined for the command line interface.
 var forceOverwrite = flag.Bool("force", false, "Force overwrite existing files without asking")
 
-// Extend Config to include UtilsDir
+// Config defines the structure for the .templui.json file.
 type Config struct {
 	ComponentsDir string `json:"componentsDir"`
-	UtilsDir      string `json:"utilsDir"` // Added
+	UtilsDir      string `json:"utilsDir"`
 	ModuleName    string `json:"moduleName"`
 }
 
-// Manifest structure (matches the JSON file)
+// Manifest defines the structure of the manifest.json file.
 type Manifest struct {
 	Version    string         `json:"version"`
 	Components []ComponentDef `json:"components"`
 	Utils      []UtilDef      `json:"utils"`
 }
 
+// ComponentDef describes a single component within the manifest.
 type ComponentDef struct {
 	Name          string   `json:"name"`
 	Description   string   `json:"description"`
-	Files         []string `json:"files"`         // Paths in the repository
-	Dependencies  []string `json:"dependencies"`  // Names of other components
-	RequiredUtils []string `json:"requiredUtils"` // Paths to utils in the repository
+	Files         []string `json:"files"`         // Paths relative to the repository root
+	Dependencies  []string `json:"dependencies"`  // Names of other required components
+	RequiredUtils []string `json:"requiredUtils"` // Paths to required utils relative to the repository root
 }
 
+// UtilDef describes a single utility file within the manifest.
 type UtilDef struct {
-	Path        string `json:"path"`
+	Path        string `json:"path"` // Path relative to the repository root
 	Description string `json:"description"`
 }
 
-// --- Main function ---
 func main() {
-	// Add alias -f for --force
+	// Define a shorthand -f for the --force flag.
 	flag.BoolVar(forceOverwrite, "f", false, "Force overwrite existing files without asking (shorthand)")
-	flag.Usage = func() { // Custom usage for better help
-		showHelp(nil, defaultRef) // Show our help instead of the default flag help
+	// Set a custom usage function to show our specific help message.
+	flag.Usage = func() {
+		showHelp(nil, defaultRef)
 	}
-	flag.Parse() // Parse flags first
+	flag.Parse() // Parse command line flags first.
 
-	args := flag.Args() // Get non-flag arguments
+	args := flag.Args() // Get the remaining non-flag arguments.
 
-	if len(args) == 0 { // No command provided
+	if len(args) == 0 {
 		fmt.Println("No command specified.")
 		showHelp(nil, defaultRef)
 		return
 	}
 
-	commandArg := args[0] // The first non-flag argument is the command
+	commandArg := args[0] // The command is the first non-flag argument.
 
-	// Check if we should show the version (remains special, no @ref)
+	// Handle version display.
 	if commandArg == "-v" || commandArg == "--version" {
 		fmt.Printf("templUI Component Installer v%s\n", version)
 		return
 	}
 
-	// Check if we should show help (remains special)
+	// Handle help display.
 	if commandArg == "-h" || commandArg == "--help" {
 		fmt.Println("Fetching manifest for help...")
 		manifest, err := fetchManifest(defaultRef)
@@ -99,11 +101,11 @@ func main() {
 		return
 	}
 
-	// --- Check for 'init' command ---
+	// Handle the 'init' command.
 	if strings.HasPrefix(commandArg, "init") {
-		initRef := defaultRef // Default ref
+		initRef := defaultRef
 
-		// Parse @ref from the command argument itself (commandArg = args[0])
+		// Parse optional @ref from the command argument itself.
 		if strings.Contains(commandArg, "@") {
 			parts := strings.SplitN(commandArg, "@", 2)
 			if len(parts) == 2 && parts[0] == "init" && parts[1] != "" {
@@ -113,27 +115,27 @@ func main() {
 				fmt.Printf("Error: Invalid format '%s'. Use 'init' or 'init@<ref>'.\n", commandArg)
 				return
 			}
-		} else if commandArg != "init" { // Prevent e.g. "initialise"
+		} else if commandArg != "init" {
 			fmt.Printf("Error: Unknown command '%s'. Did you mean 'init'?\n", commandArg)
 			showHelp(nil, defaultRef)
 			return
 		}
 
-		// Check for additional unexpected arguments
-		if len(args) > 1 { // Check length of non-flag args
+		// Warn about extra arguments.
+		if len(args) > 1 {
 			fmt.Printf("Warning: Extra arguments found after '%s'. Ignoring: %v\n", commandArg, args[1:])
 		}
 
-		initConfig(initRef, *forceOverwrite) // Pass the determined ref and force status
+		initConfig(initRef, *forceOverwrite) // Pass ref and force status.
 		return
 	}
 
-	// --- Check for 'add' command ---
+	// Handle the 'add' command.
 	if strings.HasPrefix(commandArg, "add") {
-		targetRef := defaultRef     // Default ref
-		commandRefProvided := false // Flag to indicate if @ref was provided with the add command
+		targetRef := defaultRef
+		commandRefProvided := false
 
-		// Parse @ref from the command argument itself (commandArg = args[0])
+		// Parse optional @ref from the command argument.
 		if strings.Contains(commandArg, "@") {
 			parts := strings.SplitN(commandArg, "@", 2)
 			if len(parts) == 2 && parts[0] == "add" && parts[1] != "" {
@@ -144,20 +146,20 @@ func main() {
 				fmt.Printf("Error: Invalid format '%s'. Use 'add' or 'add@<ref>'.\n", commandArg)
 				return
 			}
-		} else if commandArg != "add" { // Prevent e.g. "addition"
+		} else if commandArg != "add" {
 			fmt.Printf("Error: Unknown command '%s'. Did you mean 'add'?\n", commandArg)
 			showHelp(nil, defaultRef)
 			return
 		}
 
-		// Component arguments start at args[1]
-		if len(args) < 2 { // Need at least command + component/star
+		// Ensure component arguments are provided after the command.
+		if len(args) < 2 {
 			fmt.Println("Error: No component(s) specified after 'add'.")
 			fmt.Println("Usage: templui add[@<ref>] <component>... | *")
 			return
 		}
 
-		// Load the local config
+		// Load user configuration.
 		config, err := loadConfig()
 		if err != nil {
 			fmt.Printf("Error loading config: %v\n", err)
@@ -165,29 +167,29 @@ func main() {
 			return
 		}
 
-		// --- Argument parsing for components (starting at args[1]) ---
-		componentsToInstallNames := []string{} // Only the names of the components
-		isInstallAll := false                  // Flag for '*'
+		// Parse component arguments (start from the second non-flag argument).
+		componentsToInstallNames := []string{}
+		isInstallAll := false
 
-		// Check if '*' is the first component argument
 		firstCompArg := args[1]
 		if firstCompArg == "*" {
-			if len(args) > 2 { // Must only be '*'
+			if len(args) > 2 { // Only '*' allowed after 'add[*]' command.
 				fmt.Println("Error: '*' must be the only component argument after 'add'.")
 				fmt.Println("Usage: templui add[@<ref>] *")
 				return
 			}
 			isInstallAll = true
 		} else {
-			// Parse component names (starting at args[1])
+			// Parse individual component names.
 			for _, arg := range args[1:] {
-				// @ref on individual components is ignored or causes an error, since the ref is attached to the command
+				// Disallow @ref on individual components if ref was given with the command.
 				if strings.Contains(arg, "@") {
 					compName := strings.SplitN(arg, "@", 2)[0]
 					if commandRefProvided {
 						fmt.Printf("Warning: Ignoring '@...' for component '%s' because ref '%s' was specified with the 'add' command.\n", compName, targetRef)
 						componentsToInstallNames = append(componentsToInstallNames, compName)
 					} else {
+						// Enforce specifying the ref only with the 'add' command itself.
 						fmt.Printf("Error: Specify the ref with the 'add' command (e.g., 'add@%s %s'), not on individual components like '%s'.\n", targetRef, compName, arg)
 						return
 					}
@@ -197,9 +199,8 @@ func main() {
 			}
 		}
 
-		// --- Download logic ---
+		// Fetch the manifest for the target ref.
 		fmt.Printf("Using ref: %s\n", targetRef)
-
 		fmt.Printf("Fetching component manifest from ref '%s'...\n", targetRef)
 		manifest, err := fetchManifest(targetRef)
 		if err != nil {
@@ -214,11 +215,13 @@ func main() {
 		}
 		fmt.Printf("Using components from templui manifest version %s (fetched from ref %s)\n", manifest.Version, targetRef)
 
+		// Build a map for quick component lookup.
 		componentMap := make(map[string]ComponentDef)
 		for _, comp := range manifest.Components {
 			componentMap[comp.Name] = comp
 		}
 
+		// If '*' was requested, get all component names from the manifest.
 		if isInstallAll {
 			fmt.Println("Preparing to install all components...")
 			componentsToInstallNames = []string{}
@@ -227,10 +230,11 @@ func main() {
 			}
 		}
 
+		// Track installed state and required utils for this run.
 		installedComponents := make(map[string]bool)
 		requiredUtils := make(map[string]bool)
 
-		// Install each requested component (and dependencies)
+		// Install each requested component and its dependencies.
 		for _, componentName := range componentsToInstallNames {
 			compDef, exists := componentMap[componentName]
 			if !exists {
@@ -239,25 +243,25 @@ func main() {
 				for _, availableComp := range manifest.Components {
 					fmt.Printf(" - %s\n", availableComp.Name)
 				}
-				continue
+				continue // Skip to next requested component
 			}
 
-			// Pass force status to installComponent
+			// Pass the force flag down to the installation function.
 			err = installComponent(config, compDef, componentMap, targetRef, installedComponents, requiredUtils, *forceOverwrite)
 			if err != nil {
 				fmt.Printf("Error installing component %s: %v\n", componentName, err)
-				// TODO: Decide whether to abort here
+				// Decide whether to continue or stop on error
 			}
 		}
 
-		// Install required utils
+		// Install all collected required utils.
 		if len(requiredUtils) > 0 {
 			fmt.Println("Installing required utils...")
 			utilsToInstallPaths := []string{}
 			for utilPath := range requiredUtils {
 				utilsToInstallPaths = append(utilsToInstallPaths, utilPath)
 			}
-			// Pass force status to installUtils
+			// Pass the force flag down.
 			err = installUtils(config, utilsToInstallPaths, targetRef, *forceOverwrite)
 			if err != nil {
 				fmt.Printf("Error installing utils: %v\n", err)
@@ -268,11 +272,11 @@ func main() {
 		return
 	}
 
-	// --- Check for 'list' command ---
+	// Handle the 'list' command.
 	if strings.HasPrefix(commandArg, "list") {
-		listRef := defaultRef // Default ref
+		listRef := defaultRef
 
-		// Parse @ref from the command argument itself
+		// Parse optional @ref from the command argument.
 		if strings.Contains(commandArg, "@") {
 			parts := strings.SplitN(commandArg, "@", 2)
 			if len(parts) == 2 && parts[0] == "list" && parts[1] != "" {
@@ -288,7 +292,7 @@ func main() {
 			return
 		}
 
-		// Check for additional arguments
+		// Warn about extra arguments.
 		if len(args) > 1 {
 			fmt.Printf("Warning: Extra arguments found after '%s'. Ignoring: %v\n", commandArg, args[1:])
 		}
@@ -300,14 +304,13 @@ func main() {
 		return
 	}
 
-	// If no known command was matched
+	// Fallback for unknown commands.
 	fmt.Printf("Error: Unknown command '%s'\n", commandArg)
 	showHelp(nil, defaultRef)
 }
 
-// --- Help function ---
+// showHelp displays the command usage instructions.
 func showHelp(manifest *Manifest, refUsedForHelp string) {
-	// Adjusted usage
 	fmt.Println("templUI Component Installer (v" + version + ")")
 	fmt.Println("Usage:")
 	fmt.Println("  templui [flags] init[@<ref>]         - Initialize config and install utils from <ref>")
@@ -319,9 +322,9 @@ func showHelp(manifest *Manifest, refUsedForHelp string) {
 	fmt.Println("\n<ref> can be a branch name, tag name, or commit hash.")
 	fmt.Printf("If no <ref> is specified, components are fetched from the default ref (currently '%s').\n", refUsedForHelp)
 	fmt.Println("\nFlags:")
-	flag.PrintDefaults() // Displays the defined flags (-f, --force)
+	flag.PrintDefaults() // Display defined flags (-f, --force).
 
-	// Show component list only for explicit -h / --help and successful loading
+	// Show component/util list only if -h was used and manifest was fetched.
 	if manifest != nil {
 		if len(manifest.Components) > 0 {
 			fmt.Printf("\nAvailable components in manifest (fetched from ref '%s'):\n", refUsedForHelp)
@@ -335,7 +338,6 @@ func showHelp(manifest *Manifest, refUsedForHelp string) {
 		} else {
 			fmt.Printf("\nNo components found in manifest for ref '%s'.\n", refUsedForHelp)
 		}
-		// Optional: Show utils only if manifest != nil
 		if len(manifest.Utils) > 0 {
 			fmt.Printf("\nAvailable utils in ref '%s':\n", refUsedForHelp)
 			for _, util := range manifest.Utils {
@@ -352,30 +354,28 @@ func showHelp(manifest *Manifest, refUsedForHelp string) {
 			}
 		}
 	} else {
-		// This message is shown when `templui` is called without arguments
+		// Hint for users who call the tool without arguments.
 		fmt.Println("\nUse 'templui list' or 'templui list@<ref>' to see available components and utils.")
 	}
 }
 
-// --- Configuration functions ---
-func initConfig(ref string, force bool) { // Now accepts force
+// initConfig handles the creation of the config file and initial utils installation.
+func initConfig(ref string, force bool) {
 	if _, err := os.Stat(configFileName); err == nil {
-		// If --force is specified, don't overwrite existing config, just warn
+		// If config exists, don't overwrite it, but proceed to install/check utils.
 		if !force {
 			fmt.Println("Config file already exists. Use --force with init to overwrite *utils* if needed, but the config file itself won't be changed.")
-			// TODO: Better logic? Update config if necessary?
-			// return // Don't return here so utils are still installed/checked
+			// TODO: Consider updating existing config fields?
 		} else {
 			fmt.Println("Config file already exists, proceeding with utils installation (--force specified).")
 		}
 	} else {
-		// Config doesn't exist, create it
-		// --- Suggest default values ---
+		// Config file does not exist, create it.
 		defaultComponentsDir := "./components"
 		defaultUtilsDir := filepath.Join(filepath.Dir(defaultComponentsDir), "utils")
 		defaultModuleName := detectModuleName()
 
-		// --- User prompts ---
+		// Prompt user for configuration values.
 		fmt.Printf("Enter the directory for components [%s]: ", defaultComponentsDir)
 		var componentsDir string
 		fmt.Scanln(&componentsDir)
@@ -420,14 +420,14 @@ func initConfig(ref string, force bool) { // Now accepts force
 		fmt.Printf("Using module name: %s\n", config.ModuleName)
 	}
 
-	// Load the (possibly newly created or existing) config to ensure paths are correct
+	// Load the config (either existing or newly created) to proceed.
 	config, err := loadConfig()
 	if err != nil {
 		fmt.Printf("Error loading config for initial utils installation: %v\n", err)
-		return // Abort if config cannot be loaded
+		return
 	}
 
-	// --- Install utils directly after init ---
+	// Install all available utils from the specified ref.
 	fmt.Printf("\nAttempting to install initial utils from ref '%s'...\n", ref)
 	manifest, err := fetchManifest(ref)
 	if err != nil {
@@ -452,7 +452,7 @@ func initConfig(ref string, force bool) { // Now accepts force
 		fmt.Printf(" - %s\n", utilDef.Path)
 	}
 
-	// Use the force status from initConfig
+	// Pass the force flag from the init command.
 	err = installUtils(config, allUtilPaths, ref, *forceOverwrite)
 	if err != nil {
 		fmt.Printf("Error during initial utils installation: %v\n", err)
@@ -461,11 +461,12 @@ func initConfig(ref string, force bool) { // Now accepts force
 	}
 }
 
+// detectModuleName tries to read the module name from go.mod.
 func detectModuleName() string {
 	data, err := os.ReadFile("go.mod")
 	if err != nil {
 		fmt.Println("Warning: Could not read go.mod to detect module name. Using default.")
-		return "your/module/path" // Safe default
+		return "your/module/path" // Provide a fallback placeholder
 	}
 	re := regexp.MustCompile(`(?m)^\s*module\s+(\S+)`)
 	matches := re.FindSubmatch(data)
@@ -476,6 +477,7 @@ func detectModuleName() string {
 	return string(matches[1])
 }
 
+// loadConfig reads and parses the .templui.json configuration file.
 func loadConfig() (Config, error) {
 	var config Config
 	if _, err := os.Stat(configFileName); os.IsNotExist(err) {
@@ -489,16 +491,14 @@ func loadConfig() (Config, error) {
 	if err != nil {
 		return config, fmt.Errorf("error parsing config file: %w", err)
 	}
-	// Validate config
-	if config.ComponentsDir == "" || config.ModuleName == "" || config.UtilsDir == "" { // Added check for UtilsDir
+	// Validate essential config fields.
+	if config.ComponentsDir == "" || config.ModuleName == "" || config.UtilsDir == "" {
 		return config, fmt.Errorf("invalid config: ComponentsDir, UtilsDir, and ModuleName must be set")
 	}
 	return config, nil
 }
 
-// --- Download helper functions ---
-
-// fetchManifest downloads the manifest for a given Git ref (branch/tag/commit)
+// fetchManifest downloads and parses the manifest.json file for a given git ref.
 func fetchManifest(ref string) (Manifest, error) {
 	manifestURL := rawContentBaseURL + ref + "/" + manifestPath
 	resp, err := http.Get(manifestURL)
@@ -526,7 +526,7 @@ func fetchManifest(ref string) (Manifest, error) {
 	return manifest, nil
 }
 
-// downloadFile downloads a single file from a URL
+// downloadFile fetches the content of a single file from a URL.
 func downloadFile(url string) ([]byte, error) {
 	resp, err := http.Get(url)
 	if err != nil {
@@ -546,9 +546,7 @@ func downloadFile(url string) ([]byte, error) {
 	return data, nil
 }
 
-// --- Installation logic ---
-
-// installComponent installs a component and its dependencies
+// installComponent handles the installation of a single component and its dependencies.
 func installComponent(
 	config Config,
 	comp ComponentDef,
@@ -556,16 +554,16 @@ func installComponent(
 	ref string,
 	installed map[string]bool,
 	requiredUtils map[string]bool,
-	force bool, // Added force parameter
+	force bool,
 ) error {
 	if installed[comp.Name] {
-		return nil
+		return nil // Already processed in this run
 	}
 	installed[comp.Name] = true
 
 	fmt.Printf("Processing component: %s (from ref: %s)\n", comp.Name, ref)
 
-	// 1. Install dependencies first (recursively)
+	// Install dependencies first recursively.
 	for _, depName := range comp.Dependencies {
 		if installed[depName] {
 			continue
@@ -575,7 +573,7 @@ func installComponent(
 			fmt.Printf("Warning: Dependency '%s' for component '%s' not found in manifest for ref '%s'. Skipping dependency.\n", depName, comp.Name, ref)
 			continue
 		}
-		// Pass force to recursive calls
+		// Pass force flag to recursive calls.
 		err := installComponent(config, depComp, componentMap, ref, installed, requiredUtils, force)
 		if err != nil {
 			return fmt.Errorf("failed to install dependency '%s' for '%s': %w", depName, comp.Name, err)
@@ -583,59 +581,59 @@ func installComponent(
 		fmt.Printf(" -> Installed dependency: %s\n", depName)
 	}
 
-	// 2. Download and write files for the current component
+	// Download and write component files.
 	fmt.Printf(" Installing files for: %s\n", comp.Name)
 	repoComponentBasePath := "internal/components/"
 
 	for _, repoFilePath := range comp.Files {
+		// Determine the destination path, preserving subdirectory structure.
 		var destPath string
 		if strings.HasPrefix(repoFilePath, repoComponentBasePath) {
 			relativePath := repoFilePath[len(repoComponentBasePath):]
 			destPath = filepath.Join(config.ComponentsDir, relativePath)
 		} else {
+			// Fallback for unexpected paths (shouldn't happen with proper manifest).
 			fmt.Printf("  Warning: File path '%s' does not start with '%s'. Placing it directly in '%s'.\n", repoFilePath, repoComponentBasePath, config.ComponentsDir)
 			fileName := filepath.Base(repoFilePath)
 			destPath = filepath.Join(config.ComponentsDir, fileName)
 		}
 
+		// Ensure the destination directory exists.
 		compDestDir := filepath.Dir(destPath)
 		err := os.MkdirAll(compDestDir, 0755)
 		if err != nil {
 			return fmt.Errorf("failed to create destination directory '%s': %w", compDestDir, err)
 		}
 
-		// --- Overwrite logic ---
+		// Check if file exists and handle overwrite logic.
 		fileExists := false
 		if _, err := os.Stat(destPath); err == nil {
 			fileExists = true
 		}
 
-		shouldWriteFile := true // Default to writing (if file doesn't exist or will be overwritten)
+		shouldWriteFile := true // Assume write unless file exists and is up-to-date or user skips.
 
 		if fileExists {
-			existingRef, _ := readFileVersion(destPath) // Ignore errors here? Or log?
+			existingRef, _ := readFileVersion(destPath)
 			if existingRef == ref {
 				fmt.Printf("  Info: File '%s' already up-to-date (ref: %s). Skipping.\n", destPath, ref)
-				shouldWriteFile = false // Don't write
+				shouldWriteFile = false
 			} else {
-				// Versions differ or old version not readable
+				// Versions differ or existing version couldn't be read.
 				if force {
-					fmt.Printf("  Info: File '%s' exists Version: '%s'). Forcing overwrite with ref '%s'.\n", destPath, existingRef, ref)
-					// shouldWriteFile remains true
+					fmt.Printf("  Info: File '%s' exists (Version: '%s'). Forcing overwrite with ref '%s'.\n", destPath, existingRef, ref)
 				} else {
 					shouldOverwrite := askForOverwrite(destPath, existingRef, ref)
 					if !shouldOverwrite {
 						fmt.Printf("  Info: Skipping overwrite for '%s'.\n", destPath)
-						shouldWriteFile = false // Don't write
+						shouldWriteFile = false
 					}
-					// Otherwise: shouldWriteFile remains true
 				}
 			}
 		}
 
-		// Only proceed (download + write) if necessary
+		// Proceed with download and write only if necessary.
 		if shouldWriteFile {
-			// --- Download ---
 			fileURL := rawContentBaseURL + ref + "/" + repoFilePath
 			fmt.Printf("   Downloading %s...\n", fileURL)
 			data, err := downloadFile(fileURL)
@@ -644,19 +642,19 @@ func installComponent(
 				return fmt.Errorf("failed to download file '%s' for component '%s' from %s: %w", fileNameForError, comp.Name, fileURL, err)
 			}
 
-			// --- Modifications ---
+			// Add version comment and replace imports.
 			versionComment := fmt.Sprintf("// templui component %s - version: %s installed by templui v%s\n", comp.Name, ref, version)
 			modifiedData := append([]byte(versionComment), data...)
 			if strings.HasSuffix(repoFilePath, ".templ") || strings.HasSuffix(repoFilePath, ".go") {
 				modifiedData = replaceImports(modifiedData, config.ModuleName, comp.Name)
 			}
 
-			// --- Write ---
+			// Write the file.
 			err = os.WriteFile(destPath, modifiedData, 0644)
 			if err != nil {
 				return fmt.Errorf("failed to write file '%s': %w", destPath, err)
 			}
-			if fileExists { // Only report if actually overwritten
+			if fileExists {
 				fmt.Printf("   Overwritten %s\n", destPath)
 			} else {
 				fmt.Printf("   Installed %s\n", destPath)
@@ -664,7 +662,7 @@ func installComponent(
 		}
 	}
 
-	// 3. Collect required utils
+	// Collect required utils for later installation.
 	for _, repoUtilPath := range comp.RequiredUtils {
 		requiredUtils[repoUtilPath] = true
 	}
@@ -672,8 +670,8 @@ func installComponent(
 	return nil
 }
 
-// installUtils installs the required util files
-func installUtils(config Config, utilPaths []string, ref string, force bool) error { // Added force parameter
+// installUtils handles the installation of required utility files.
+func installUtils(config Config, utilPaths []string, ref string, force bool) error {
 	if len(utilPaths) == 0 {
 		return nil
 	}
@@ -682,12 +680,14 @@ func installUtils(config Config, utilPaths []string, ref string, force bool) err
 	fmt.Printf("Ensuring utils are installed in: %s (from ref: %s)\n", utilsBaseDestDir, ref)
 	repoUtilBasePath := "internal/utils/"
 
+	// Ensure base utils directory exists.
 	err := os.MkdirAll(utilsBaseDestDir, 0755)
 	if err != nil {
 		return fmt.Errorf("failed to create base utils directory '%s': %w", utilsBaseDestDir, err)
 	}
 
 	for _, repoUtilPath := range utilPaths {
+		// Determine destination path, preserving subdirectory structure.
 		var destPath string
 		if strings.HasPrefix(repoUtilPath, repoUtilBasePath) {
 			relativePath := repoUtilPath[len(repoUtilBasePath):]
@@ -698,19 +698,20 @@ func installUtils(config Config, utilPaths []string, ref string, force bool) err
 			destPath = filepath.Join(utilsBaseDestDir, fileName)
 		}
 
+		// Ensure the specific util directory exists.
 		utilDestDir := filepath.Dir(destPath)
 		err := os.MkdirAll(utilDestDir, 0755)
 		if err != nil {
 			return fmt.Errorf("failed to create destination utils directory '%s': %w", utilDestDir, err)
 		}
 
-		// --- Overwrite logic ---
+		// Check if file exists and handle overwrite logic.
 		fileExists := false
 		if _, err := os.Stat(destPath); err == nil {
 			fileExists = true
 		}
 
-		shouldWriteFile := true // Default to writing
+		shouldWriteFile := true
 
 		if fileExists {
 			existingRef, _ := readFileVersion(destPath)
@@ -731,7 +732,6 @@ func installUtils(config Config, utilPaths []string, ref string, force bool) err
 		}
 
 		if shouldWriteFile {
-			// --- Download ---
 			fileURL := rawContentBaseURL + ref + "/" + repoUtilPath
 			fmt.Printf("   Downloading util %s...\n", fileURL)
 			data, err := downloadFile(fileURL)
@@ -740,7 +740,7 @@ func installUtils(config Config, utilPaths []string, ref string, force bool) err
 				return fmt.Errorf("failed to download util '%s' from %s: %w", fileNameForError, fileURL, err)
 			}
 
-			// --- Modifications ---
+			// Add version comment and replace imports.
 			utilNameForComment := filepath.Base(repoUtilPath)
 			versionComment := fmt.Sprintf("// templui util %s - version: %s installed by templui v%s\n", utilNameForComment, ref, version)
 			modifiedData := append([]byte(versionComment), data...)
@@ -748,7 +748,7 @@ func installUtils(config Config, utilPaths []string, ref string, force bool) err
 				modifiedData = replaceImports(modifiedData, config.ModuleName, "")
 			}
 
-			// --- Write ---
+			// Write the file.
 			err = os.WriteFile(destPath, modifiedData, 0644)
 			if err != nil {
 				return fmt.Errorf("failed to write util file '%s': %w", destPath, err)
@@ -764,14 +764,11 @@ func installUtils(config Config, utilPaths []string, ref string, force bool) err
 	return nil
 }
 
-// --- New function for the list command ---
-
-// listComponents fetches the manifest for a given ref and lists available components
+// listComponents fetches the manifest and lists available components and utils.
 func listComponents(ref string) error {
 	fmt.Printf("Fetching component manifest from ref '%s'...\n", ref)
 	manifest, err := fetchManifest(ref)
 	if err != nil {
-		// Specific error message for 404
 		if strings.Contains(err.Error(), "status code 404") {
 			return fmt.Errorf("could not fetch manifest: ref '%s' not found or does not contain '%s'", ref, manifestPath)
 		}
@@ -781,28 +778,21 @@ func listComponents(ref string) error {
 	fmt.Printf("\nAvailable components in ref '%s' (Manifest Version: %s):\n", ref, manifest.Version)
 	if len(manifest.Components) == 0 {
 		fmt.Println("  No components found in this manifest.")
-		return nil
-	}
-
-	// Print components (optionally sort)
-	// sort.Slice(manifest.Components, func(i, j int) bool {
-	// 	return manifest.Components[i].Name < manifest.Components[j].Name
-	// })
-
-	for _, comp := range manifest.Components {
-		desc := comp.Description
-		if len(desc) > 60 { // Truncate description
-			desc = desc[:57] + "..."
+	} else {
+		// Print components.
+		for _, comp := range manifest.Components {
+			desc := comp.Description
+			if len(desc) > 60 {
+				desc = desc[:57] + "..."
+			}
+			fmt.Printf("  - %-20s : %s\n", comp.Name, desc)
 		}
-		// Formatted output
-		fmt.Printf("  - %-20s : %s\n", comp.Name, desc)
 	}
 
-	// Optional: List utils as well?
+	// Print utils.
 	if len(manifest.Utils) > 0 {
 		fmt.Printf("\nAvailable utils in ref '%s':\n", ref)
 		for _, util := range manifest.Utils {
-			// Show only the filename or relative path
 			utilName := filepath.Base(util.Path)
 			if util.Description != "" {
 				desc := util.Description
@@ -819,40 +809,35 @@ func listComponents(ref string) error {
 	return nil
 }
 
-// --- New helper functions for overwriting ---
-
-// readFileVersion reads the version from the comment in the first line
+// readFileVersion reads the version ref from the comment in the first line of a file.
 func readFileVersion(filePath string) (string, error) {
 	file, err := os.Open(filePath)
 	if err != nil {
-		// If file doesn't exist, it's not an error for this function
 		if os.IsNotExist(err) {
-			return "", nil
+			return "", nil // File not existing is not an error here.
 		}
 		return "", fmt.Errorf("failed to open file %s: %w", filePath, err)
 	}
 	defer file.Close()
 
-	// Reading only the first line should suffice
+	// Read only the first line.
 	scanner := bufio.NewScanner(file)
 	if scanner.Scan() {
 		line := scanner.Text()
 		matches := versionRegex.FindStringSubmatch(line)
-		// Index 1 contains the first capturing group (the ref)
 		if len(matches) > 1 {
-			return matches[1], nil
+			return matches[1], nil // Return the captured ref.
 		}
 	}
 
-	// No comment found or error while scanning
 	if err := scanner.Err(); err != nil {
 		return "", fmt.Errorf("error scanning file %s: %w", filePath, err)
 	}
 
-	return "", nil // No error, but no version found
+	return "", nil // No version comment found.
 }
 
-// askForOverwrite prompts the user to confirm overwriting a file
+// askForOverwrite prompts the user to confirm overwriting an existing file.
 func askForOverwrite(filePath, oldRef, newRef string) bool {
 	reader := bufio.NewReader(os.Stdin)
 
@@ -874,30 +859,24 @@ func askForOverwrite(filePath, oldRef, newRef string) bool {
 	return input == "y"
 }
 
-// replaceImports replaces internal templUI import paths with the user's module name
-func replaceImports(data []byte, userModuleName string, context string) []byte { // Added context
+// replaceImports replaces internal templUI import paths with the user's configured module name.
+func replaceImports(data []byte, userModuleName string, context string) []byte {
 	content := string(data)
-	// The pattern must exactly match the import path used in your internal components/utils!
-	// Assumption: Your internal imports look like "github.com/axzilla/templui/internal/..."
-	// Adjust <user>/<repo> to your repository!
+	// This pattern needs to exactly match the import paths used within internal/* files.
 	internalImportPattern := `"github.com/axzilla/templui/internal/([^"]+)"`
-	// targetImportFormat builds the new path based on the user's module name
-	// e.g., if $1="utils", it becomes "your/module/path/utils"
-	// e.g., if $1="components/icon", it becomes "your/module/path/components/icon" (if needed)
+	// Build the replacement format using the user's module name.
 	targetImportFormat := fmt.Sprintf(`"%s/$1"`, userModuleName)
 
 	re := regexp.MustCompile(internalImportPattern)
 	newContent := re.ReplaceAllString(content, targetImportFormat)
 
-	// Log if replacements occurred (optional for debugging)
+	// Log if replacements happened (useful for debugging).
 	if content != newContent {
 		logPrefix := "    ->"
 		if context != "" {
 			logPrefix = fmt.Sprintf("    -> [%s]", context)
 		}
 		fmt.Printf("%s Replaced import paths.\n", logPrefix)
-	} else {
-		//fmt.Println("    -> No import paths needed replacement.") // Less verbose
 	}
 
 	return []byte(newContent)
