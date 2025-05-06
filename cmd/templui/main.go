@@ -643,7 +643,7 @@ func installComponent(
 			}
 
 			// Add version comment and replace imports.
-			versionComment := fmt.Sprintf("// templui component %s - version: %s installed by templui v%s\n", comp.Name, ref, version)
+			versionComment := fmt.Sprintf("// templui component %s - version: %s installed by templui %s\n", comp.Name, ref, version)
 			modifiedData := append([]byte(versionComment), data...)
 			if strings.HasSuffix(repoFilePath, ".templ") || strings.HasSuffix(repoFilePath, ".go") {
 				modifiedData = replaceImports(modifiedData, config.ModuleName, comp.Name)
@@ -742,7 +742,7 @@ func installUtils(config Config, utilPaths []string, ref string, force bool) err
 
 			// Add version comment and replace imports.
 			utilNameForComment := filepath.Base(repoUtilPath)
-			versionComment := fmt.Sprintf("// templui util %s - version: %s installed by templui v%s\n", utilNameForComment, ref, version)
+			versionComment := fmt.Sprintf("// templui util %s - version: %s installed by templui %s\n", utilNameForComment, ref, version)
 			modifiedData := append([]byte(versionComment), data...)
 			if strings.HasSuffix(repoUtilPath, ".go") {
 				modifiedData = replaceImports(modifiedData, config.ModuleName, "")
