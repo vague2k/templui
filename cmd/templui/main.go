@@ -27,9 +27,10 @@ const (
 // Version des Tools (kann über ldflags gesetzt werden)
 var version = "0.0.0-dev" // Standardwert
 
-// Config bleibt gleich
+// Config um UtilsDir erweitern
 type Config struct {
 	ComponentsDir string `json:"componentsDir"`
+	UtilsDir      string `json:"utilsDir"` // Hinzugefügt
 	ModuleName    string `json:"moduleName"`
 }
 
@@ -286,7 +287,7 @@ func showHelp(manifest *Manifest, refUsedForHelp string) {
 	}
 }
 
-// --- Konfigurationsfunktionen (unverändert) ---
+// --- Konfigurationsfunktionen ---
 func initConfig() {
 	if _, err := os.Stat(configFileName); err == nil {
 		fmt.Println("Config file already exists.")
@@ -294,27 +295,42 @@ func initConfig() {
 		return
 	}
 
-	defaultConfig := Config{
-		ComponentsDir: "./components", // Standardziel
-		ModuleName:    detectModuleName(),
-	}
+	// --- Standardwerte vorschlagen ---
+	defaultComponentsDir := "./components"
+	// Schlage Utils-Verzeichnis relativ zum Komponenten-Verzeichnis vor
+	defaultUtilsDir := filepath.Join(filepath.Dir(defaultComponentsDir), "utils") // Ergibt "./utils"
+	defaultModuleName := detectModuleName()
 
-	fmt.Printf("Enter the directory for components [%s]: ", defaultConfig.ComponentsDir)
+	// --- Benutzerabfragen ---
+	fmt.Printf("Enter the directory for components [%s]: ", defaultComponentsDir)
 	var componentsDir string
 	fmt.Scanln(&componentsDir)
 	if componentsDir == "" {
-		componentsDir = defaultConfig.ComponentsDir
+		componentsDir = defaultComponentsDir
+	}
+	// Passe den Vorschlag für UtilsDir an, falls ComponentsDir geändert wurde
+	if componentsDir != defaultComponentsDir {
+		defaultUtilsDir = filepath.Join(filepath.Dir(componentsDir), "utils")
 	}
 
-	fmt.Printf("Enter your Go module name [%s]: ", defaultConfig.ModuleName)
+	fmt.Printf("Enter the directory for utils [%s]: ", defaultUtilsDir)
+	var utilsDir string
+	fmt.Scanln(&utilsDir)
+	if utilsDir == "" {
+		utilsDir = defaultUtilsDir
+	}
+
+	fmt.Printf("Enter your Go module name [%s]: ", defaultModuleName)
 	var moduleName string
 	fmt.Scanln(&moduleName)
 	if moduleName == "" {
-		moduleName = defaultConfig.ModuleName
+		moduleName = defaultModuleName
 	}
 
+	// --- Config erstellen und speichern ---
 	config := Config{
 		ComponentsDir: componentsDir,
+		UtilsDir:      utilsDir, // Hinzugefügt
 		ModuleName:    moduleName,
 	}
 
@@ -332,7 +348,35 @@ func initConfig() {
 
 	fmt.Println("Config file created successfully at", configFileName)
 	fmt.Printf("Components will be installed to: %s\n", config.ComponentsDir)
+	fmt.Printf("Utils will be installed to: %s\n", config.UtilsDir) // Info hinzugefügt
 	fmt.Printf("Using module name: %s\n", config.ModuleName)
+
+	// --- Utils direkt nach init installieren ---
+	fmt.Printf("\nAttempting to install initial utils from ref '%s'...\n", defaultRef)
+	manifest, err := fetchManifest(defaultRef)
+	if err != nil {
+		fmt.Printf("Warning: Could not fetch manifest to install initial utils: %v\n", err)
+		return // Beende hier, da Utils nicht installiert werden können
+	}
+
+	if len(manifest.Utils) == 0 {
+		fmt.Println("No utils defined in the manifest. Skipping initial utils installation.")
+		return
+	}
+
+	allUtilPaths := []string{}
+	fmt.Println("Found utils in manifest:")
+	for _, utilDef := range manifest.Utils {
+		allUtilPaths = append(allUtilPaths, utilDef.Path)
+		fmt.Printf(" - %s\n", utilDef.Path)
+	}
+
+	err = installUtils(config, allUtilPaths, defaultRef) // Verwende config, alle Utils und defaultRef
+	if err != nil {
+		fmt.Printf("Error during initial utils installation: %v\n", err)
+	} else {
+		fmt.Println("Initial utils installation completed.")
+	}
 }
 
 func detectModuleName() string {
@@ -363,9 +407,9 @@ func loadConfig() (Config, error) {
 	if err != nil {
 		return config, fmt.Errorf("error parsing config file: %w", err)
 	}
-	// Validate config? (e.g., ensure ModuleName is not empty)
-	if config.ComponentsDir == "" || config.ModuleName == "" {
-		return config, fmt.Errorf("invalid config: ComponentsDir and ModuleName must be set")
+	// Validate config
+	if config.ComponentsDir == "" || config.ModuleName == "" || config.UtilsDir == "" { // Prüfung für UtilsDir hinzugefügt
+		return config, fmt.Errorf("invalid config: ComponentsDir, UtilsDir, and ModuleName must be set")
 	}
 	return config, nil
 }
@@ -542,24 +586,30 @@ func installComponent(
 	return nil
 }
 
-// installUtils installiert die benötigten Util-Dateien
+// installUtils anpassen, um config.UtilsDir zu verwenden
 func installUtils(config Config, utilPaths []string, ref string) error { // Geändert zu ref
 	if len(utilPaths) == 0 {
-		return nil
+		return nil // Nichts zu tun
 	}
 
-	utilsBaseDestDir := filepath.Join(filepath.Dir(config.ComponentsDir), "utils") // z.B. ./utils
-	fmt.Printf("Installing utils to: %s (from ref: %s)\n", utilsBaseDestDir, ref)
+	// Verwende UtilsDir direkt aus der Config
+	utilsBaseDestDir := config.UtilsDir
+	fmt.Printf("Ensuring utils are installed in: %s (from ref: %s)\n", utilsBaseDestDir, ref)
 	repoUtilBasePath := "internal/utils/" // Basispfad im Repo
+
+	// Stelle sicher, dass das Basis-Utils-Verzeichnis existiert
+	// MkdirAll im Loop unten kümmert sich auch darum, aber hier explizit schadet nicht.
+	err := os.MkdirAll(utilsBaseDestDir, 0755)
+	if err != nil {
+		return fmt.Errorf("failed to create base utils directory '%s': %w", utilsBaseDestDir, err)
+	}
 
 	for _, repoUtilPath := range utilPaths { // z.B. "internal/utils/classname.go" oder "internal/utils/forms/validation.go"
 
 		// --- Zielpfad bestimmen ---
 		var destPath string
 		if strings.HasPrefix(repoUtilPath, repoUtilBasePath) {
-			// Relativen Pfad extrahieren (z.B. "classname.go" oder "forms/validation.go")
 			relativePath := repoUtilPath[len(repoUtilBasePath):]
-			// Zielpfad konstruieren (z.B. "./utils/classname.go" oder "./utils/forms/validation.go")
 			destPath = filepath.Join(utilsBaseDestDir, relativePath)
 		} else {
 			fmt.Printf("  Warning: Util path '%s' does not start with '%s'. Placing it directly in '%s'.\n", repoUtilPath, repoUtilBasePath, utilsBaseDestDir)
@@ -568,19 +618,16 @@ func installUtils(config Config, utilPaths []string, ref string) error { // Geä
 		}
 
 		// Stelle sicher, dass das *gesamte* Zielverzeichnis existiert
-		utilDestDir := filepath.Dir(destPath) // z.B. "./utils" oder "./utils/forms"
-		err := os.MkdirAll(utilDestDir, 0755)
+		utilDestDir := filepath.Dir(destPath)
+		err := os.MkdirAll(utilDestDir, 0755) // <- Doppelt geprüft, schadet aber nicht
 		if err != nil {
 			return fmt.Errorf("failed to create destination utils directory '%s': %w", utilDestDir, err)
 		}
 
 		// --- Überschreiben-Logik (ähnlich wie bei Komponenten) ---
 		if _, err := os.Stat(destPath); err == nil {
-			// Datei existiert
-			// TODO: Implementiere Logik zum Lesen der Version aus der Datei
-			// TODO: Frage den Benutzer, ob überschrieben werden soll
-			fmt.Printf("  Warning: Util file '%s' already exists. Skipping overwrite for now.\n", destPath)
-			continue // Überspringe diese Datei
+			fmt.Printf("  Info: Util file '%s' already exists. Skipping download.\n", destPath) // Geändert zu Info
+			continue                                                                            // Überspringe diese Datei
 		}
 
 		// --- Download ---
@@ -593,17 +640,11 @@ func installUtils(config Config, utilPaths []string, ref string) error { // Geä
 		}
 
 		// --- Modifikationen ---
-		// a) Versionskommentar
-		utilNameForComment := filepath.Base(repoUtilPath) // Nur Dateiname für Kommentar
+		utilNameForComment := filepath.Base(repoUtilPath)
 		versionComment := fmt.Sprintf("// templui util %s - version: %s installed by templui v%s\n", utilNameForComment, ref, version)
 		modifiedData := append([]byte(versionComment), data...)
-
-		// b) Importpfade ersetzen (nur für .go Dateien relevant)
 		if strings.HasSuffix(repoUtilPath, ".go") {
-			// Ersetze interne Pfade (z.B. "github.com/axzilla/templui/internal/utils")
-			// mit dem Modulnamen des Nutzers (z.B. "your/module/path/utils")
-			// Wichtig: Der Pfad im replaceImports muss dem internen Pfad entsprechen!
-			modifiedData = replaceImports(modifiedData, config.ModuleName, "") // Kein spezifischer Komponentenkontext für Utils
+			modifiedData = replaceImports(modifiedData, config.ModuleName, "")
 		}
 
 		// --- Schreiben ---
