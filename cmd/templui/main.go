@@ -268,6 +268,38 @@ func main() {
 		return
 	}
 
+	// --- Check for 'list' command ---
+	if strings.HasPrefix(commandArg, "list") {
+		listRef := defaultRef // Standard-Ref
+
+		// Parse @ref from the command argument itself
+		if strings.Contains(commandArg, "@") {
+			parts := strings.SplitN(commandArg, "@", 2)
+			if len(parts) == 2 && parts[0] == "list" && parts[1] != "" {
+				listRef = parts[1]
+				fmt.Printf("Listing components using specified ref: %s\n", listRef)
+			} else {
+				fmt.Printf("Error: Invalid format '%s'. Use 'list' or 'list@<ref>'.\n", commandArg)
+				return
+			}
+		} else if commandArg != "list" {
+			fmt.Printf("Error: Unknown command '%s'. Did you mean 'list'?\n", commandArg)
+			showHelp(nil, defaultRef)
+			return
+		}
+
+		// Prüfen auf zusätzliche Argumente
+		if len(args) > 1 {
+			fmt.Printf("Warning: Extra arguments found after '%s'. Ignoring: %v\n", commandArg, args[1:])
+		}
+
+		err := listComponents(listRef)
+		if err != nil {
+			fmt.Printf("Error listing components: %v\n", err)
+		}
+		return
+	}
+
 	// If no known command was matched
 	fmt.Printf("Error: Unknown command '%s'\n", commandArg)
 	showHelp(nil, defaultRef)
@@ -281,6 +313,7 @@ func showHelp(manifest *Manifest, refUsedForHelp string) {
 	fmt.Println("  templui [flags] init[@<ref>]         - Initialize config and install utils from <ref>")
 	fmt.Println("  templui [flags] add[@<ref>] <comp>... - Add component(s) from specified <ref>")
 	fmt.Println("  templui [flags] add[@<ref>] *         - Add all components from specified <ref>")
+	fmt.Println("  templui [flags] list[@<ref>]        - List available components and utils from <ref>")
 	fmt.Println("  templui -v, --version               - Show installer version")
 	fmt.Println("  templui -h, --help                  - Show this help message")
 	fmt.Println("\n<ref> can be a branch name, tag name, or commit hash.")
@@ -702,6 +735,61 @@ func installUtils(config Config, utilPaths []string, ref string, force bool) err
 				fmt.Printf("   Overwritten %s\n", destPath)
 			} else {
 				fmt.Printf("   Installed %s\n", destPath)
+			}
+		}
+	}
+
+	return nil
+}
+
+// --- Neue Funktion für den list-Befehl ---
+
+// listComponents fetches the manifest for a given ref and lists available components.
+func listComponents(ref string) error {
+	fmt.Printf("Fetching component manifest from ref '%s'...\n", ref)
+	manifest, err := fetchManifest(ref)
+	if err != nil {
+		// Spezifische Fehlermeldung für 404
+		if strings.Contains(err.Error(), "status code 404") {
+			return fmt.Errorf("could not fetch manifest: ref '%s' not found or does not contain '%s'", ref, manifestPath)
+		}
+		return fmt.Errorf("could not fetch manifest: %w", err)
+	}
+
+	fmt.Printf("\nAvailable components in ref '%s' (Manifest Version: %s):\n", ref, manifest.Version)
+	if len(manifest.Components) == 0 {
+		fmt.Println("  No components found in this manifest.")
+		return nil
+	}
+
+	// Komponenten ausgeben (optional sortieren)
+	// sort.Slice(manifest.Components, func(i, j int) bool {
+	// 	return manifest.Components[i].Name < manifest.Components[j].Name
+	// })
+
+	for _, comp := range manifest.Components {
+		desc := comp.Description
+		if len(desc) > 60 { // Beschreibung kürzen
+			desc = desc[:57] + "..."
+		}
+		// Formatierte Ausgabe
+		fmt.Printf("  - %-20s : %s\n", comp.Name, desc)
+	}
+
+	// Optional: Auch Utils auflisten?
+	if len(manifest.Utils) > 0 {
+		fmt.Printf("\nAvailable utils in ref '%s':\n", ref)
+		for _, util := range manifest.Utils {
+			// Nur den Dateinamen oder den relativen Pfad anzeigen
+			utilName := filepath.Base(util.Path)
+			if util.Description != "" {
+				desc := util.Description
+				if len(desc) > 50 {
+					desc = desc[:47] + "..."
+				}
+				fmt.Printf("  - %-20s : %s\n", utilName, desc)
+			} else {
+				fmt.Printf("  - %s\n", utilName)
 			}
 		}
 	}
