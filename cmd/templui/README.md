@@ -1,6 +1,6 @@
-# TemplUI Component Installer
+# templUI Component Installer
 
-Ein CLI-Tool zum einfachen Installieren von TemplUI-Komponenten in dein Projekt, ähnlich wie shadcn/ui.
+Ein CLI-Tool zum einfachen Installieren von templUI-Komponenten in dein Projekt, ähnlich wie shadcn/ui.
 
 ## Installation
 
@@ -72,14 +72,14 @@ compinstall add card
 
 ## Ähnlich wie shadcn/ui
 
-Dieses Tool ist inspiriert von shadcn/ui und bietet eine ähnliche Erfahrung für TemplUI-Komponenten:
+Dieses Tool ist inspiriert von shadcn/ui und bietet eine ähnliche Erfahrung für templUI-Komponenten:
 
 ```bash
 # shadcn/ui
 npx shadcn@latest init
 npx shadcn@latest add button
 
-# TemplUI Component Installer
+# templUI Component Installer
 compinstall init
 compinstall add button
 ```

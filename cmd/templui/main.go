@@ -55,7 +55,7 @@ type UtilDef struct {
 func main() {
 	// Check if we should show the version
 	if len(os.Args) > 1 && (os.Args[1] == "-v" || os.Args[1] == "--version") {
-		fmt.Printf("TemplUI Component Installer v%s\n", version)
+		fmt.Printf("templUI Component Installer v%s\n", version)
 		return
 	}
 
@@ -162,7 +162,7 @@ func main() {
 
 // --- Platzhalter für Hilfe ---
 func showHelpPlaceholder() {
-	fmt.Println("TemplUI Component Installer (v" + version + ")")
+	fmt.Println("templUI Component Installer (v" + version + ")")
 	fmt.Println("Usage:")
 	fmt.Println("  templui init                - Initialize the config file (.templui.json)")
 	fmt.Println("  templui add <comp> [<comp>..] - Add component(s) to your project")
@@ -466,7 +466,7 @@ func installUtils(config Config, utilPaths []string, versionTag string) error {
 	return nil
 }
 
-// replaceImports ersetzt die internen TemplUI-Importpfade durch den Modulnamen des Benutzers
+// replaceImports ersetzt die internen templUI-Importpfade durch den Modulnamen des Benutzers
 func replaceImports(data []byte, userModuleName string) []byte {
 	content := string(data)
 	// Das Muster muss exakt den Importpfad matchen, der in deinen internen Komponenten/Utils verwendet wird!
