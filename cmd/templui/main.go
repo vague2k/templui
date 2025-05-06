@@ -76,7 +76,7 @@ func main() {
 	if len(os.Args) > 1 && os.Args[1] == "add" {
 		if len(os.Args) < 3 {
 			fmt.Println("Error: No component(s) specified.")
-			fmt.Println("Usage: templui-install add <component1> [component2...] | *")
+			fmt.Println("Usage: templui add <component1> [component2...] | *")
 			return
 		}
 
@@ -84,7 +84,7 @@ func main() {
 		config, err := loadConfig()
 		if err != nil {
 			fmt.Printf("Error loading config: %v\n", err)
-			fmt.Println("Run 'templui-install init' to create a config file.")
+			fmt.Println("Run 'templui init' to create a config file.")
 			return
 		}
 
@@ -164,13 +164,13 @@ func main() {
 func showHelpPlaceholder() {
 	fmt.Println("TemplUI Component Installer (v" + version + ")")
 	fmt.Println("Usage:")
-	fmt.Println("  templui-install init                - Initialize the config file (.templui.json)")
-	fmt.Println("  templui-install add <comp> [<comp>..] - Add component(s) to your project")
-	fmt.Println("  templui-install add *               - Add all available components")
-	// fmt.Println("  templui-install add <comp>@<version> - Add a specific version of a component") // Zukünftig
-	fmt.Println("  templui-install -v, --version       - Show installer version")
-	fmt.Println("  templui-install -h, --help          - Show this help message")
-	fmt.Println("\nRun 'templui-install add <component>' after 'init'.")
+	fmt.Println("  templui init                - Initialize the config file (.templui.json)")
+	fmt.Println("  templui add <comp> [<comp>..] - Add component(s) to your project")
+	fmt.Println("  templui add *               - Add all available components")
+	// fmt.Println("  templui add <comp>@<version> - Add a specific version of a component") // Zukünftig
+	fmt.Println("  templui -v, --version       - Show installer version")
+	fmt.Println("  templui -h, --help          - Show this help message")
+	fmt.Println("\nRun 'templui add <component>' after 'init'.")
 	fmt.Println("Available components will be listed once the manifest can be fetched.")
 }
 
@@ -382,7 +382,7 @@ func installComponent(
 
 		// --- Modifikationen ---
 		// a) Versionskommentar hinzufügen
-		versionComment := fmt.Sprintf("// templui component version: %s installed by templui-install v%s\n", versionTag, version)
+		versionComment := fmt.Sprintf("// templui component version: %s installed by templui v%s\n", versionTag, version)
 		modifiedData := append([]byte(versionComment), data...)
 
 		// b) Importpfade ersetzen (nur für .templ und .go Dateien relevant?)
@@ -444,7 +444,7 @@ func installUtils(config Config, utilPaths []string, versionTag string) error {
 
 		// --- Modifikationen ---
 		// a) Versionskommentar
-		versionComment := fmt.Sprintf("// templui util version: %s installed by templui-install v%s\n", versionTag, version)
+		versionComment := fmt.Sprintf("// templui util version: %s installed by templui v%s\n", versionTag, version)
 		modifiedData := append([]byte(versionComment), data...)
 
 		// b) Importpfade ersetzen (nur für .go Dateien relevant)
