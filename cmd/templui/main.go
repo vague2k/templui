@@ -84,7 +84,7 @@ func main() {
 
 	// Handle version display.
 	if commandArg == "-v" || commandArg == "--version" {
-		fmt.Printf("templUI Component Installer v%s\n", version)
+		fmt.Printf("templUI %s\n", version)
 		return
 	}
 

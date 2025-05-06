@@ -141,57 +141,25 @@ var inputCss = `@import 'tailwindcss';
   }
 }`
 
-var installTemplUI = `go get github.com/axzilla/templui`
-
-var goPath = `@source "${GOPATH}/pkg/mod/github.com/axzilla/templui@*/**/*.{go,templ}";`
-
-var usingComponents = `import "github.com/axzilla/templui/component"
-
-@components.Button(components.ButtonProps{Text: "Click me"})`
-
-var cspMiddleware = `import "github.com/axzilla/templui/middleware"
-
-// Optional: Configure CSP for additional external resources
-cspConfig := middleware.CSPConfig{
-    ScriptSrc: []string{"cdn.jsdelivr.net"}, // Add external script sources here
-}
-
-// Apply the middleware to your server
-wrappedMux := middleware.WithCSP(cspConfig)(mux)
-mux.Handle("GET /", templ.Handler(pages.Landing()))
-http.ListenAndServe(":8090", wrappedMux)`
-
-var staticComponent = `// Static components (Tailwind only) can be used directly
-@components.Button(components.ButtonProps{...})
-@components.Card(components.CardProps{...})`
-
-var interactiveComponent = `// First, include required scripts
-@components.AccordionScript()
-
-// Then use the component
-@components.Accordion(components.AccordionProps{...})`
-
 var installAir = `go install github.com/air-verse/air@latest`
 
 var devCommand = `make dev`
 
-var goEnvGopath = `go env GOPATH`
-
 templ HowToUse() {
 	@layouts.DocsLayout(
 		"How To Use",
-		"Learn how to integrate templUI into your projects.",
+		"Learn how to integrate templUI into your projects using the CLI.",
 		[]modules.TableOfContentsItem{
 			{ID: "requirements", Text: "Requirements"},
 			{ID: "base-configuration", Text: "Base Configuration"},
 			{ID: "development-tools", Text: "Development Tools"},
-			{ID: "installation-options", Text: "Installation Options"},
+			{ID: "installation", Text: "Installation (CLI)"},
 			{ID: "advanced-configuration", Text: "Advanced Configuration"},
 		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "How To Use",
-			Description: templ.Raw("Learn how to integrate templUI into your projects."),
+			Description: templ.Raw("Learn how to integrate templUI into your projects using the official CLI."),
 			Breadcrumbs: modules.Breadcrumbs{
 				Items: []modules.BreadcrumbItem{
 					{
@@ -275,7 +243,7 @@ templ HowToUse() {
 				ID:    "base-configuration",
 			}) {
 				<section class="mb-12">
-					<p class="mb-4 text-muted-foreground">templUI provides pre-configured styles and themes. You'll need these files in your project:</p>
+					<p class="mb-4 text-muted-foreground">templUI provides pre-configured styles and themes. You will need these files in your project:</p>
 					<div class="space-y-6">
 						<div>
 							<h3 class="text-xl font-semibold mb-2">1. CSS Configuration file + Base Styles</h3>
@@ -297,7 +265,7 @@ templ HowToUse() {
 				<section class="mb-12">
 					<div class="bg-muted p-4 rounded-lg mb-6">
 						<p class="mb-2 text-muted-foreground">
-							Here's our recommended development setup for Go and templ projects, adapted from official documentation and community best practices:
+							Here is our recommended development setup for Go and templ projects, adapted from official documentation and community best practices:
 						</p>
 						<ul class="list-disc pl-6 space-y-1 text-muted-foreground">
 							<li>Hot reloading for Go, Templ, and Tailwind</li>
@@ -331,7 +299,7 @@ templ HowToUse() {
 								<p class="font-medium mb-2 text-muted-foreground">Note about ports:</p>
 								<ul class="list-disc pl-6 space-y-1 text-sm text-muted-foreground">
 									<li>In this example configuration, the Go application runs on port 8090</li>
-									<li>Templ's development server will be available at http://localhost:7331</li>
+									<li>templs development server will be available at http://localhost:7331</li>
 									<li>Adjust the --proxy flag in the templ command if your app uses a different port</li>
 								</ul>
 							</div>
@@ -361,54 +329,87 @@ templ HowToUse() {
 				</section>
 			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
-				Title: "Installation Options",
-				ID:    "installation-options",
+				Title: "Installation (CLI)",
+				ID:    "installation",
 			}) {
 				<section class="mb-12">
-					<p class="mb-4 text-muted-foreground">After installing the requirements, you have three ways to use templUI:</p>
+					<p class="mb-4 text-muted-foreground">The recommended way to use templUI components is via the official CLI tool.</p>
 					<div class="space-y-8">
 						<div>
-							<h3 class="text-xl font-semibold mb-2">1. Quickstart Template (Recommended for new projects)</h3>
-							<p class="mb-4 text-muted-foreground">
-								For a ready-to-go setup, check out our <a href="https://github.com/axzilla/templui-quickstart" class="text-primary underline" target="_blank">templUI Quickstart</a> template.
-								It includes all requirements and configurations, using templUI as a package library by default but can be easily modified to use copied components or a mix of both approaches.
-							</p>
-						</div>
-						<div>
-							<h3 class="text-xl font-semibold mb-2">2. Package Installation</h3>
-							<p class="mb-4 text-muted-foreground">Install templUI as a Go package:</p>
-							<div class="mb-4">
-								@modules.Code(modules.CodeProps{
-									Language:       "shell",
-									ShowCopyButton: true,
-									CodeContent:    installTemplUI,
-								})
-							</div>
-							<h4 class="font-semibold mb-2">*Required: Additional Tailwind Configuration</h4>
-							<p class="mb-2 text-muted-foreground">When using templUI as a package, add this to your input.css:</p>
-							<div class="mb-4">
-								@modules.Code(modules.CodeProps{
-									Language:       "css",
-									ShowCopyButton: true,
-									CodeContent:    goPath,
-								})
-							</div>
-							<p class="mb-2 text-muted-foreground">Replace { string("${GOPATH}") } with your actual Go path:</p>
+							<h3 class="text-xl font-semibold mb-2">1. Install the templUI CLI</h3>
+							<p class="mb-2 text-muted-foreground">Install the latest version using `go install`:</p>
 							@modules.Code(modules.CodeProps{
 								Language:       "shell",
 								ShowCopyButton: true,
-								CodeContent:    goEnvGopath,
+								CodeContent:    "go install github.com/axzilla/templui/cmd/templui@latest",
+							})
+							<br/>
+							<p class="mb-2 text-muted-foreground">Verify the installation:</p>
+							@modules.Code(modules.CodeProps{
+								Language:       "shell",
+								ShowCopyButton: true,
+								CodeContent:    "templui -v",
 							})
 						</div>
 						<div>
-							<h3 class="text-xl font-semibold mb-2">3. Copy Components</h3>
-							<p class="mb-4 text-muted-foreground">For maximum customization, copy components directly into your project (requires manual updates).</p>
+							<h3 class="text-xl font-semibold mb-2">2. Initialize templUI in Your Project</h3>
+							<p class="mb-2 text-muted-foreground">Navigate to your projects root directory and run:</p>
+							@modules.Code(modules.CodeProps{
+								Language:       "shell",
+								ShowCopyButton: true,
+								CodeContent:    "templui init",
+							})
+							<p class="text-sm mt-2 mb-4 text-muted-foreground">You will be prompted to configure the destination directories for components and utils, and your projects Go module name.</p>
+							<p class="mb-2 text-muted-foreground">You can specify a specific version (tag, branch, commit):</p>
+							@modules.Code(modules.CodeProps{
+								Language:       "shell",
+								ShowCopyButton: true,
+								CodeContent:    "templui init@v0.1.0 # Example: Initialize using version v0.1.0",
+							})
 						</div>
-						<div class="mb-8">
-							<h3 class="text-xl font-semibold mb-2">4. Mix and Match</h3>
-							<p class="text-muted-foreground">
-								You can also combine approaches. For example, use some components as a package and copy others for customization.
-								Remember that when using any components as a package (including mix and match), you need to add the GOPATH configuration to your input.css as shown in the Package Installation section.
+						<div>
+							<h3 class="text-xl font-semibold mb-2">3. Add Components</h3>
+							<p class="mb-2 text-muted-foreground">Use the `add` command to install specific components and their dependencies into your configured directories.</p>
+							@modules.Code(modules.CodeProps{
+								Language:       "shell",
+								ShowCopyButton: true,
+								CodeContent:    "templui add button card",
+							})
+							<br/>
+							<p class="mb-2 text-muted-foreground">To install all available components:</p>
+							@modules.Code(modules.CodeProps{
+								Language:       "shell",
+								ShowCopyButton: true,
+								CodeContent:    "templui add *",
+							})
+							<br/>
+							<p class="mb-2 text-muted-foreground">To install components from a specific version (tag, branch, commit):</p>
+							@modules.Code(modules.CodeProps{
+								Language:       "shell",
+								ShowCopyButton: true,
+								CodeContent:    "templui add@main button # Install button from the main branch",
+							})
+							<p class="text-sm mt-2 mb-4 text-muted-foreground">The CLI automatically handles dependencies defined in the manifest and adjusts import paths within the copied `.templ` files to match your projects module path.</p>
+						</div>
+						<div>
+							<h3 class="text-xl font-semibold mb-2">4. List Available Components</h3>
+							<p class="mb-2 text-muted-foreground">To see a list of all components and utils available in the manifest (for the default or a specific version):</p>
+							@modules.Code(modules.CodeProps{
+								Language:       "shell",
+								ShowCopyButton: true,
+								CodeContent:    "templui list\ntemplui list@v0.1.0", // Keep newline for display
+							})
+						</div>
+						<div>
+							<h3 class="text-xl font-semibold mb-2">Copy & Paste</h3>
+							<p class="mb-4 text-muted-foreground">
+								Alternatively, instead of using our CLI, you can copy any component directly from the docs or the GitHub repository and paste it into your project. Just make sure to manually include any required dependencies and adjust import paths accordingly.
+							</p>
+						</div>
+						<div>
+							<h3 class="text-xl font-semibold mb-2">Quickstart Template</h3>
+							<p class="mb-4 text-muted-foreground">
+								For a completely new project with everything pre-configured, use our <a href="https://github.com/axzilla/templui-quickstart" class="text-primary underline" target="_blank">templUI Quickstart</a> template.
 							</p>
 						</div>
 					</div>
