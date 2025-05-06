@@ -113,7 +113,7 @@ func main() {
 				return
 			}
 			isInstallAll = true
-			compName := "*" // Platzhalter
+			// compName := "*" // Platzhalter
 			refFromArg := ""
 
 			if strings.Contains(lastArg, "@") {
