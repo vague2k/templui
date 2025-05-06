@@ -233,7 +233,7 @@ templ Script() {
 								responsive: true,
 								maintainAspectRatio: false,
 								interaction: {
-									intersect: false,
+									intersect: isComplexChart ? true : false,
 									axis: "xy",
 									mode: isComplexChart ? "nearest" : "index"
 								},
