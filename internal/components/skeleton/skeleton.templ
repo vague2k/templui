@@ -1,6 +1,6 @@
 package skeleton
 
-import "github.com/axzilla/templui/util"
+import "github.com/axzilla/templui/internal/utils"
 
 type Props struct {
 	ID         string
@@ -18,7 +18,7 @@ templ Skeleton(props ...Props) {
 			id={ p.ID }
 		}
 		class={
-			util.TwMerge(
+			utils.TwMerge(
 				"animate-pulse rounded bg-muted",
 				p.Class,
 			),

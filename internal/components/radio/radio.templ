@@ -1,6 +1,6 @@
 package radio
 
-import "github.com/axzilla/templui/util"
+import "github.com/axzilla/templui/internal/utils"
 
 type Props struct {
 	ID         string
@@ -33,7 +33,7 @@ templ Radio(props ...Props) {
 		disabled?={ p.Disabled }
 		required?={ p.Required }
 		class={
-			util.TwMerge(
+			utils.TwMerge(
 				"relative h-4 w-4",
 				"before:absolute before:left-1/2 before:top-1/2",
 				"before:h-1.5 before:w-1.5 before:-translate-x-1/2 before:-translate-y-1/2",

@@ -5,7 +5,7 @@ import (
 	"context"
 	"encoding/json"
 	"github.com/axzilla/templui/icon"
-	"github.com/axzilla/templui/util"
+	"github.com/axzilla/templui/internal/utils"
 	"html"
 	"io"
 	"log"
@@ -36,18 +36,18 @@ type CodeProps struct {
 
 templ Code(p CodeProps) {
 	if p.ID == "" {
-		{{ p.ID = util.RandomID() }}
+		{{ p.ID = utils.RandomID() }}
 	}
 	{{ highlightedHTML := GetHighlightedHTML(ctx, p.CodeContent, p.Language) }}
 	<div
 		id={ p.ID }
-		class={ util.TwMerge("relative", p.Class) }
+		class={ utils.TwMerge("relative", p.Class) }
 		{ p.Attrs... }
 		x-data="codeHighlighting"
 	>
 		// Temporarily remove p.CodeClass to avoid conflicts
 		<div
-			class={ util.TwMerge(
+			class={ utils.TwMerge(
 			"shiki",
 			"[&_pre]:block",
 			"[&_pre]:overflow-x-auto",

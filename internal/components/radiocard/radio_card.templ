@@ -1,6 +1,6 @@
 package radiocard
 
-import "github.com/axzilla/templui/util"
+import "github.com/axzilla/templui/internal/utils"
 
 type Props struct {
 	ID         string
@@ -37,14 +37,14 @@ templ RadioCard(props ...Props) {
 		{{ p = props[0] }}
 	}
 	if p.ID == "" {
-		{{ p.ID = util.RandomID() }}
+		{{ p.ID = utils.RandomID() }}
 	}
 	<div
 		id={ p.ID + "-container" }
 		class={
-			util.TwMerge(
+			utils.TwMerge(
 				"relative",
-				util.If(p.Disabled, "opacity-60"),
+				utils.If(p.Disabled, "opacity-60"),
 				p.Class,
 			),
 		}
@@ -67,13 +67,13 @@ templ RadioCard(props ...Props) {
 		<label
 			for={ p.ID }
 			class={
-				util.TwMerge(
+				utils.TwMerge(
 					"block w-full rounded-lg border overflow-hidden h-full",
 					"bg-card text-card-foreground p-4 flex flex-col",
 					"cursor-pointer",
 					"hover:border-primary/50",
 					"peer-checked:ring-1 peer-checked:ring-primary peer-checked:border-primary",
-					util.If(p.Disabled, "cursor-not-allowed"),
+					utils.If(p.Disabled, "cursor-not-allowed"),
 					"transition-all duration-200",
 					p.Class,
 				),
@@ -94,7 +94,7 @@ templ Header(props ...HeaderProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		class={ util.TwMerge("flex items-center justify-between mb-2", p.Class) }
+		class={ utils.TwMerge("flex items-center justify-between mb-2", p.Class) }
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -110,7 +110,7 @@ templ Description(props ...DescriptionProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		class={ util.TwMerge("text-sm text-muted-foreground", p.Class) }
+		class={ utils.TwMerge("text-sm text-muted-foreground", p.Class) }
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -126,7 +126,7 @@ templ Footer(props ...FooterProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		class={ util.TwMerge("mt-auto pt-4 w-full", p.Class) }
+		class={ utils.TwMerge("mt-auto pt-4 w-full", p.Class) }
 		{ p.Attributes... }
 	>
 		{ children... }

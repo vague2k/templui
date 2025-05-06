@@ -1,6 +1,6 @@
 package chart
 
-import "github.com/axzilla/templui/util"
+import "github.com/axzilla/templui/internal/utils"
 
 type Variant string
 
@@ -74,14 +74,14 @@ templ Chart(props ...Props) {
 		{{ p = props[0] }}
 	}
 	if p.ID == "" {
-		{{ p.ID = "chart-" + util.RandomID() }}
+		{{ p.ID = "chart-" + utils.RandomID() }}
 	}
 	{{ canvasId := p.ID + "-canvas" }}
 	{{ dataId := p.ID + "-data" }}
 	<div
 		id={ p.ID }
 		class={
-			util.TwMerge(
+			utils.TwMerge(
 				"chart-container relative",
 				p.Class),
 		}

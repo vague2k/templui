@@ -2,7 +2,7 @@ package avatar
 
 import (
 	"fmt"
-	"github.com/axzilla/templui/util"
+	"github.com/axzilla/templui/internal/utils"
 	"strings"
 )
 
@@ -62,11 +62,11 @@ templ Avatar(props ...Props) {
 			id={ p.ID }
 		}
 		class={
-			util.TwMerge(
+			utils.TwMerge(
 				"inline-flex items-center justify-center",
 				SizeClasses(p.Size),
 				"rounded-full bg-muted",
-				util.If(p.InGroup, "ring-2 ring-background"),
+				utils.If(p.InGroup, "ring-2 ring-background"),
 				p.Class,
 			),
 		}
@@ -91,7 +91,7 @@ templ Image(props ...ImageProps) {
 		}
 		alt={ avatarAlt(p) }
 		class={
-			util.TwMerge(
+			utils.TwMerge(
 				"w-full h-full",
 				"rounded-full object-cover",
 				p.Class,
@@ -112,7 +112,7 @@ templ Fallback(props ...FallbackProps) {
 			id={ p.ID }
 		}
 		class={
-			util.TwMerge(
+			utils.TwMerge(
 				"font-medium text-muted-foreground",
 				p.Class,
 			),
@@ -133,7 +133,7 @@ templ Group(props ...GroupProps) {
 			id={ p.ID }
 		}
 		class={
-			util.TwMerge(
+			utils.TwMerge(
 				"flex items-center -space-x-3",
 				groupSpacingClasses(p.Spacing),
 				p.Class,
@@ -155,7 +155,7 @@ templ GroupOverflow(count int, props ...Props) {
 			id={ p.ID }
 		}
 		class={
-			util.TwMerge(
+			utils.TwMerge(
 				"inline-flex items-center justify-center",
 				SizeClasses(p.Size),
 				"rounded-full bg-muted ring-2 ring-background",

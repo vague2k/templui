@@ -1,8 +1,8 @@
 package card
 
 import (
-	"github.com/axzilla/templui/component/aspectratio"
-	"github.com/axzilla/templui/util"
+	"github.com/axzilla/templui/internal/components/aspectratio"
+	"github.com/axzilla/templui/internal/utils"
 )
 
 type MediaPosition string
@@ -88,7 +88,7 @@ templ Card(props ...Props) {
 			id={ p.ID }
 		}
 		class={
-			util.TwMerge(
+			utils.TwMerge(
 				"w-full rounded-lg border bg-card text-card-foreground shadow-xs",
 				p.Class,
 			),
@@ -109,7 +109,7 @@ templ Header(props ...HeaderProps) {
 			id={ p.ID }
 		}
 		class={
-			util.TwMerge(
+			utils.TwMerge(
 				"flex flex-col space-y-1.5 p-6 pb-0",
 				p.Class,
 			),
@@ -130,7 +130,7 @@ templ Title(props ...TitleProps) {
 			id={ p.ID }
 		}
 		class={
-			util.TwMerge(
+			utils.TwMerge(
 				"text-lg font-semibold leading-none tracking-tight",
 				p.Class,
 			),
@@ -151,7 +151,7 @@ templ Description(props ...DescriptionProps) {
 			id={ p.ID }
 		}
 		class={
-			util.TwMerge(
+			utils.TwMerge(
 				"text-sm text-muted-foreground",
 				p.Class,
 			),
@@ -172,7 +172,7 @@ templ Content(props ...ContentProps) {
 			id={ p.ID }
 		}
 		class={
-			util.TwMerge(
+			utils.TwMerge(
 				"p-6",
 				p.Class,
 			),
@@ -193,7 +193,7 @@ templ Footer(props ...FooterProps) {
 			id={ p.ID }
 		}
 		class={
-			util.TwMerge(
+			utils.TwMerge(
 				"flex items-center p-6 pt-0",
 				p.Class,
 			),
@@ -214,7 +214,7 @@ templ Horizontal(props ...HorizontalProps) {
 			id={ p.ID }
 		}
 		class={
-			util.TwMerge(
+			utils.TwMerge(
 				"flex overflow-hidden",
 				p.Class,
 			),
@@ -235,7 +235,7 @@ templ Media(props ...MediaProps) {
 			id={ p.ID }
 		}
 		class={
-			util.TwMerge(
+			utils.TwMerge(
 				"overflow-hidden",
 				mediaPositionClasses(p.Position, p.Width),
 				p.Class,

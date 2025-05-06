@@ -1,7 +1,7 @@
 package textarea
 
 import (
-	"github.com/axzilla/templui/util"
+	"github.com/axzilla/templui/internal/utils"
 	"strconv"
 )
 
@@ -25,7 +25,7 @@ templ Textarea(props ...Props) {
 		{{ p = props[0] }}
 	}
 	if p.ID == "" {
-		{{ p.ID = util.RandomID() }}
+		{{ p.ID = utils.RandomID() }}
 	}
 	<textarea
 		id={ p.ID }
@@ -45,7 +45,7 @@ templ Textarea(props ...Props) {
 			data-auto-resize="true"
 		}
 		class={
-			util.TwMerge(
+			utils.TwMerge(
 				"flex w-full px-3 py-2",
 				"min-h-[80px]", // Default min-height (adjust if needed)
 				"rounded-md border border-input bg-background text-sm",
@@ -54,7 +54,7 @@ templ Textarea(props ...Props) {
 				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
 				"disabled:cursor-not-allowed disabled:opacity-50",
 				// Add overflow-hidden only if auto-resizing to prevent scrollbar flicker
-				util.If(p.AutoResize, "overflow-hidden resize-none"),
+				utils.If(p.AutoResize, "overflow-hidden resize-none"),
 				p.Class,
 			),
 		}

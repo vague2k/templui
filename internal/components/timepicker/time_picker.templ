@@ -2,10 +2,10 @@ package timepicker
 
 import (
 	"fmt"
-	"github.com/axzilla/templui/component/button"
-	"github.com/axzilla/templui/component/selectbox"
 	"github.com/axzilla/templui/icon"
-	"github.com/axzilla/templui/util"
+	"github.com/axzilla/templui/internal/components/button"
+	"github.com/axzilla/templui/internal/components/selectbox"
+	"github.com/axzilla/templui/internal/utils"
 	"strconv"
 	"time"
 )
@@ -36,7 +36,7 @@ templ TimePicker(props ...Props) {
 		{{ p = props[0] }}
 	}
 	if p.ID == "" {
-		{{ p.ID = util.RandomID() }}
+		{{ p.ID = utils.RandomID() }}
 	}
 	if p.Placeholder == "" {
 		{{ p.Placeholder = "Select time" }}
@@ -48,7 +48,7 @@ templ TimePicker(props ...Props) {
 		{{ p.PMLabel = "PM" }}
 	}
 	<div
-		class={ util.TwMerge("relative", p.Class) }
+		class={ utils.TwMerge("relative", p.Class) }
 		if p.Value != (time.Time{}) {
 			data-value={ p.Value.Format("15:04") }
 		}
@@ -66,12 +66,12 @@ templ TimePicker(props ...Props) {
 				ID:      p.ID,
 				Type:    "button",
 				Variant: button.VariantOutline,
-				Class: util.TwMerge(
+				Class: utils.TwMerge(
 					"w-full flex justify-between items-center",
-					util.If(p.HasError, "border-destructive ring-destructive"),
+					utils.If(p.HasError, "border-destructive ring-destructive"),
 				),
 				Disabled: p.Disabled,
-				Attributes: util.MergeAttributes(
+				Attributes: utils.MergeAttributes(
 					templ.Attributes{
 						"@click": "toggleTimePicker",
 					},
@@ -80,9 +80,9 @@ templ TimePicker(props ...Props) {
 			}) {
 				<span
 					class={
-						util.TwMerge(
+						utils.TwMerge(
 							"timepicker-display truncate",
-							util.If(p.Value == (time.Time{}), "text-muted-foreground"),
+							utils.If(p.Value == (time.Time{}), "text-muted-foreground"),
 						),
 					}
 				>
@@ -195,9 +195,9 @@ templ TimePicker(props ...Props) {
 							data-period="AM"
 							@click="selectPeriod"
 							class={
-								util.TwMerge(
+								utils.TwMerge(
 									"px-3 py-1 text-sm rounded-md hover:bg-muted",
-									util.If(p.Value != (time.Time{}) && p.Value.Hour() < 12, "bg-primary text-primary-foreground"),
+									utils.If(p.Value != (time.Time{}) && p.Value.Hour() < 12, "bg-primary text-primary-foreground"),
 								),
 							}
 						>
@@ -208,9 +208,9 @@ templ TimePicker(props ...Props) {
 							data-period="PM"
 							@click="selectPeriod"
 							class={
-								util.TwMerge(
+								utils.TwMerge(
 									"px-3 py-1 text-sm rounded-md hover:bg-muted",
-									util.If(p.Value != (time.Time{}) && p.Value.Hour() >= 12, "bg-primary text-primary-foreground"),
+									utils.If(p.Value != (time.Time{}) && p.Value.Hour() >= 12, "bg-primary text-primary-foreground"),
 								),
 							}
 						>

@@ -2,7 +2,7 @@ package calendar
 
 import (
 	"github.com/axzilla/templui/icon"
-	"github.com/axzilla/templui/util"
+	"github.com/axzilla/templui/internal/utils"
 	"strconv"
 	"time"
 )
@@ -38,7 +38,7 @@ templ Calendar(props ...Props) {
 		p = props[0]
 	}
 	if p.ID == "" {
-		p.ID = util.RandomID() + "-calendar"
+		p.ID = utils.RandomID() + "-calendar"
 	}
 	if p.Name == "" {
 		// Should be provided by parent (e.g., DatePicker or in standalone usage)

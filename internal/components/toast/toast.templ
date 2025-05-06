@@ -1,9 +1,9 @@
 package toast
 
 import (
-	"github.com/axzilla/templui/component/button"
 	"github.com/axzilla/templui/icon"
-	"github.com/axzilla/templui/util"
+	"github.com/axzilla/templui/internal/components/button"
+	"github.com/axzilla/templui/internal/utils"
 	"strconv"
 )
 
@@ -49,7 +49,7 @@ templ Toast(props ...Props) {
 		{{ p = props[0] }}
 	}
 	if p.ID == "" {
-		{{ p.ID = util.RandomID() }}
+		{{ p.ID = utils.RandomID() }}
 	}
 	{{ p = p.defaults() }}
 	{{ isTop := p.Position == PositionTopRight || p.Position == PositionTopLeft || p.Position == PositionTopCenter }}
@@ -58,16 +58,16 @@ templ Toast(props ...Props) {
 		id={ p.ID }
 		data-toast
 		data-duration={ strconv.Itoa(p.Duration) }
-		class={ util.TwMerge(
+		class={ utils.TwMerge(
 			"z-50 fixed pointer-events-auto p-4",
 			"opacity-0 transform transition-all duration-300 ease-out",
-			util.If(isTop, "top-0"),
-			util.If(isBottom, "bottom-0"),
-			util.If(isTop, "translate-y-4"),
-			util.If(isBottom, "-translate-y-4"),
-			util.If(p.Position == PositionTopRight || p.Position == PositionBottomRight, "right-0"),
-			util.If(p.Position == PositionTopLeft || p.Position == PositionBottomLeft, "left-0"),
-			util.If(p.Position == PositionTopCenter || p.Position == PositionBottomCenter, "left-1/2 -translate-x-1/2"),
+			utils.If(isTop, "top-0"),
+			utils.If(isBottom, "bottom-0"),
+			utils.If(isTop, "translate-y-4"),
+			utils.If(isBottom, "-translate-y-4"),
+			utils.If(p.Position == PositionTopRight || p.Position == PositionBottomRight, "right-0"),
+			utils.If(p.Position == PositionTopLeft || p.Position == PositionBottomLeft, "left-0"),
+			utils.If(p.Position == PositionTopCenter || p.Position == PositionBottomCenter, "left-1/2 -translate-x-1/2"),
 			"w-full md:max-w-[420px]",
 			p.Class,
 		) }
@@ -95,7 +95,7 @@ templ indicator(p Props) {
 	<div class="absolute top-0 left-0 right-0 h-1">
 		<div
 			data-toast-progress
-			class={ util.TwMerge(
+			class={ utils.TwMerge(
 				"absolute inset-0",
 				typeClass(p.Variant),
 			) }

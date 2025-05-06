@@ -1,7 +1,7 @@
 package popover
 
 import (
-	"github.com/axzilla/templui/util"
+	"github.com/axzilla/templui/internal/utils"
 	"strconv"
 )
 
@@ -113,7 +113,7 @@ templ Content(props ...ContentProps) {
 		if p.MatchWidth {
 			data-popover-match-width="true"
 		}
-		class={ util.TwMerge(
+		class={ utils.TwMerge(
 			"bg-background rounded-lg border text-sm shadow-lg pointer-events-auto absolute z-[9999] hidden top-0 left-0",
 			p.Class,
 		) }

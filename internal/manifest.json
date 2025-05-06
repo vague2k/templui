@@ -1,0 +1,46 @@
+{
+  "version": "0.1.0",
+  "components": [
+    {
+      "name": "button",
+      "description": ".",
+      "files": ["internal/components/button/button.templ"],
+      "dependencies": [],
+      "utils": ["internal/utils/classname.go"]
+    },
+    {
+      "name": "card",
+      "description": "Eine Card-Komponente zur Anzeige von Inhalten.",
+      "files": ["internal/components/card/card.templ"],
+      "dependencies": [],
+      "utils": ["internal/utils/classname.go"]
+    },
+    {
+      "name": "input",
+      "description": "Eine Input-Komponente für Formulare.",
+      "files": ["internal/components/input/input.templ"],
+      "dependencies": [],
+      "utils": []
+    },
+    {
+      "name": "modal",
+      "description": "Eine Modal-Dialog-Komponente.",
+      "files": ["internal/components/modal/modal.templ"],
+      "dependencies": ["button"],
+      "utils": []
+    },
+    {
+      "name": "toast",
+      "description": "Eine Toast-Benachrichtigungskomponente.",
+      "files": ["internal/components/toast/toast.templ"],
+      "dependencies": [],
+      "utils": []
+    }
+  ],
+  "utils": [
+    {
+      "path": "internal/utils/classname.go",
+      "description": "Helper zum Verwalten von CSS-Klassen."
+    }
+  ]
+}

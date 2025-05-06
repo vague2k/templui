@@ -2,7 +2,7 @@ package checkbox
 
 import (
 	"github.com/axzilla/templui/icon"
-	"github.com/axzilla/templui/util"
+	"github.com/axzilla/templui/internal/utils"
 )
 
 type Props struct {
@@ -38,7 +38,7 @@ templ Checkbox(props ...Props) {
 			}
 			type="checkbox"
 			class={
-				util.TwMerge(
+				utils.TwMerge(
 					"relative size-4 overflow-hidden peer",
 					"before:absolute before:inset-0 before:content['']",
 					"appearance-none rounded-sm border-2 border-primary bg-background",
@@ -52,7 +52,7 @@ templ Checkbox(props ...Props) {
 		/>
 		<div
 			class={
-				util.TwMerge(
+				utils.TwMerge(
 					"absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2",
 					"size-3 text-primary-foreground pointer-events-none opacity-0",
 					"peer-checked:opacity-100",

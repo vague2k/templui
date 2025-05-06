@@ -1,6 +1,6 @@
 package separator
 
-import "github.com/axzilla/templui/util"
+import "github.com/axzilla/templui/internal/utils"
 
 type Orientation string
 type Decoration string
@@ -38,13 +38,13 @@ templ Separator(props ...Props) {
 			}
 			role="separator"
 			aria-orientation="horizontal"
-			class={ util.TwMerge("shrink-0 w-full", p.Class) }
+			class={ utils.TwMerge("shrink-0 w-full", p.Class) }
 			{ p.Attributes... }
 		>
 			<div class="relative flex items-center w-full">
 				<span
 					class={
-						util.TwMerge(
+						utils.TwMerge(
 							"absolute w-full border-t h-[1px]",
 							decorationClasses(p.Decoration),
 						),
@@ -63,13 +63,13 @@ templ Separator(props ...Props) {
 			}
 			role="separator"
 			aria-orientation="vertical"
-			class={ util.TwMerge("shrink-0 h-full", p.Class) }
+			class={ utils.TwMerge("shrink-0 h-full", p.Class) }
 			{ p.Attributes... }
 		>
 			<div class="relative flex flex-col items-center h-full">
 				<span
 					class={
-						util.TwMerge(
+						utils.TwMerge(
 							"absolute h-full border-l w-[1px]",
 							decorationClasses(p.Decoration),
 						),

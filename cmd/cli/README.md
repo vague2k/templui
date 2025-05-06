@@ -88,7 +88,7 @@ Die Verwendung ist fast identisch, was es für Benutzer, die bereits mit shadcn/
 
 ## Anpassung der Imports
 
-Eine besondere Funktion des Tools ist die automatische Anpassung der Imports in den Komponenten. Wenn eine Komponente ursprünglich Imports wie `"github.com/axzilla/templui/utils"` enthält, werden diese automatisch zu `"github.com/username/mein-projekt/utils"` (oder was auch immer dein Modul-Name ist) geändert.
+Eine besondere Funktion des Tools ist die automatische Anpassung der Imports in den Komponenten. Wenn eine Komponente ursprünglich Imports wie `"github.com/axzilla/templui/internal/utilss"` enthält, werden diese automatisch zu `"github.com/username/mein-projekt/utils"` (oder was auch immer dein Modul-Name ist) geändert.
 
 Dies stellt sicher, dass die Komponenten in deinem Projekt ohne weitere Anpassungen funktionieren.
 

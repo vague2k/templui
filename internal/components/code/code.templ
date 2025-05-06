@@ -2,7 +2,7 @@ package code
 
 import (
 	"github.com/axzilla/templui/icon"
-	"github.com/axzilla/templui/util"
+	"github.com/axzilla/templui/internal/utils"
 )
 
 type Size string
@@ -30,11 +30,11 @@ templ Code(props ...Props) {
 		{{ p = props[0] }}
 	}
 	if p.ID == "" {
-		{{ p.ID = "code-" + util.RandomID() }}
+		{{ p.ID = "code-" + utils.RandomID() }}
 	}
 	<div
 		id={ p.ID }
-		class={ util.TwMerge("relative code-component", p.Class) }
+		class={ utils.TwMerge("relative code-component", p.Class) }
 		data-code-component
 		{ p.Attrs... }
 	>
@@ -42,12 +42,12 @@ templ Code(props ...Props) {
 			<code
 				data-code-block
 				class={
-					util.TwMerge(
+					utils.TwMerge(
 						"language-"+p.Language,
 						"overflow-y-auto! rounded-md block text-sm max-h-[501px]",
-						util.If(p.Size == SizeSm, "max-h-[250px]"),
-						util.If(p.Size == SizeLg, "max-h-[1000px]"),
-						util.If(p.Size == SizeFull, "max-h-full"),
+						utils.If(p.Size == SizeSm, "max-h-[250px]"),
+						utils.If(p.Size == SizeLg, "max-h-[1000px]"),
+						utils.If(p.Size == SizeFull, "max-h-full"),
 						"hljs-target",
 						p.CodeClass,
 					),

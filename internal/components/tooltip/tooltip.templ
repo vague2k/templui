@@ -1,8 +1,8 @@
 package tooltip
 
 import (
-	"github.com/axzilla/templui/component/popover"
-	"github.com/axzilla/templui/util"
+	"github.com/axzilla/templui/internal/components/popover"
+	"github.com/axzilla/templui/internal/utils"
 )
 
 type Position string
@@ -80,7 +80,7 @@ templ Content(props ...ContentProps) {
 	}
 	@popover.Content(popover.ContentProps{
 		ID:            p.ID,
-		Class:         util.TwMerge("px-4 py-1 bg-foreground text-background border-foreground", p.Class),
+		Class:         utils.TwMerge("px-4 py-1 bg-foreground text-background border-foreground", p.Class),
 		Attributes:    p.Attributes,
 		Placement:     mapTooltipPositionToPopover(p.Position),
 		ShowArrow:     p.ShowArrow,

@@ -2,7 +2,7 @@ package slider
 
 import (
 	"fmt"
-	"github.com/axzilla/templui/util"
+	"github.com/axzilla/templui/internal/utils"
 )
 
 type Props struct {
@@ -40,7 +40,7 @@ templ Slider(props ...Props) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		class={ util.TwMerge("w-full", p.Class) }
+		class={ utils.TwMerge("w-full", p.Class) }
 		data-slider-wrapper
 		{ p.Attributes... }
 	>
@@ -54,7 +54,7 @@ templ Input(props ...InputProps) {
 		{{ p = props[0] }}
 	}
 	if p.ID == "" {
-		{{ p.ID = util.RandomID() }}
+		{{ p.ID = utils.RandomID() }}
 	}
 	<input
 		type="range"
@@ -76,7 +76,7 @@ templ Input(props ...InputProps) {
 			step={ fmt.Sprintf("%d", p.Step) }
 		}
 		class={
-			util.TwMerge(
+			utils.TwMerge(
 				"w-full h-2 rounded-full bg-secondary appearance-none cursor-pointer",
 				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
 				"[&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4",
@@ -108,7 +108,7 @@ templ Value(props ...ValueProps) {
 		}
 		data-slider-value
 		data-slider-value-for={ p.For }
-		class={ util.TwMerge("text-sm text-muted-foreground", p.Class) }
+		class={ utils.TwMerge("text-sm text-muted-foreground", p.Class) }
 		{ p.Attributes... }
 	>
 		<!-- Initial value will be set by JS -->

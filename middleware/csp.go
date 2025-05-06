@@ -7,7 +7,7 @@ import (
 	"strings"
 
 	"github.com/a-h/templ"
-	util "github.com/axzilla/templui/internal/util"
+	"github.com/axzilla/templui/internal/utils"
 )
 
 type CSPConfig struct {
@@ -17,7 +17,7 @@ type CSPConfig struct {
 func WithCSP(config CSPConfig) func(http.Handler) http.Handler {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-			nonce, err := util.GenerateNonce()
+			nonce, err := utils.GenerateNonce()
 			if err != nil {
 				log.Printf("failed to generate nonce: %v", err)
 				w.Header().Set("Content-Security-Policy", "script-src 'self'")

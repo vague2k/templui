@@ -1,11 +1,11 @@
 package datepicker
 
 import (
-	"github.com/axzilla/templui/component/button"
-	"github.com/axzilla/templui/component/calendar"
-	"github.com/axzilla/templui/component/popover"
 	"github.com/axzilla/templui/icon"
-	"github.com/axzilla/templui/util"
+	"github.com/axzilla/templui/internal/components/button"
+	"github.com/axzilla/templui/internal/components/calendar"
+	"github.com/axzilla/templui/internal/components/popover"
+	"github.com/axzilla/templui/internal/utils"
 	"time"
 )
 
@@ -53,7 +53,7 @@ templ DatePicker(props ...Props) {
 			p = props[0]
 		}
 		if p.ID == "" {
-			p.ID = util.RandomID()
+			p.ID = utils.RandomID()
 		}
 		if p.Name == "" {
 			p.Name = p.ID
@@ -79,13 +79,13 @@ templ DatePicker(props ...Props) {
 			@button.Button(button.Props{
 				ID:      p.ID,
 				Variant: button.VariantOutline,
-				Class: util.TwMerge(
+				Class: utils.TwMerge(
 					"w-full select-trigger flex items-center justify-between",
-					util.If(p.HasError, "border-destructive ring-destructive"),
+					utils.If(p.HasError, "border-destructive ring-destructive"),
 					p.Class,
 				),
 				Disabled: p.Disabled,
-				Attributes: util.MergeAttributes(p.Attributes, templ.Attributes{
+				Attributes: utils.MergeAttributes(p.Attributes, templ.Attributes{
 					"data-datepicker":     "true",
 					"data-display-format": string(p.Format),
 					"data-locale-tag":     string(p.LocaleTag),

@@ -1,6 +1,6 @@
 package spinner
 
-import "github.com/axzilla/templui/util"
+import "github.com/axzilla/templui/internal/utils"
 
 type Size string
 
@@ -28,7 +28,7 @@ templ Spinner(props ...Props) {
 			id={ p.ID }
 		}
 		class={
-			util.TwMerge(
+			utils.TwMerge(
 				"inline-flex flex-col items-center justify-center",
 				p.Class,
 			),
@@ -39,16 +39,16 @@ templ Spinner(props ...Props) {
 	>
 		<div
 			class={
-				util.TwMerge(
+				utils.TwMerge(
 					"animate-spin rounded-full",
 					sizeClass(p.Size),
 					borderSizeClass(p.Size),
-					util.IfElse(
+					utils.IfElse(
 						p.Color == "",
 						"border-primary border-b-transparent",
 						"border-current border-b-transparent",
 					),
-					util.IfElse(
+					utils.IfElse(
 						p.Color != "",
 						p.Color,
 						"",

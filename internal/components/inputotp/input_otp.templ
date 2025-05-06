@@ -1,7 +1,7 @@
 package inputotp
 
 import (
-	"github.com/axzilla/templui/util"
+	"github.com/axzilla/templui/internal/utils"
 	"strconv"
 )
 
@@ -51,7 +51,7 @@ templ InputOTP(props ...Props) {
 			data-value={ p.Value }
 		}
 		class={
-			util.TwMerge(
+			utils.TwMerge(
 				"flex flex-row items-center gap-2 w-fit",
 				p.Class,
 			),
@@ -84,7 +84,7 @@ templ Group(props ...GroupProps) {
 			id={ p.ID }
 		}
 		class={
-			util.TwMerge(
+			utils.TwMerge(
 				"flex gap-2",
 				p.Class,
 			),
@@ -118,7 +118,7 @@ templ Slot(props ...SlotProps) {
 			}
 			maxlength="1"
 			class={
-				util.TwMerge(
+				utils.TwMerge(
 					"w-10 h-12 text-center",
 					"rounded-md border border-input bg-background text-sm",
 					"file:border-0 file:bg-transparent file:text-sm file:font-medium",
@@ -145,7 +145,7 @@ templ Separator(props ...SeparatorProps) {
 			id={ p.ID }
 		}
 		class={
-			util.TwMerge(
+			utils.TwMerge(
 				"flex items-center text-muted-foreground text-xl",
 				p.Class,
 			),

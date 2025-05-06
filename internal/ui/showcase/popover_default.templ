@@ -1,11 +1,11 @@
 package showcase
 
 import (
-	"github.com/axzilla/templui/component/button"
-	"github.com/axzilla/templui/component/input"
-	"github.com/axzilla/templui/component/label"
-	"github.com/axzilla/templui/component/popover"
-	"github.com/axzilla/templui/util"
+	"github.com/axzilla/templui/internal/components/button"
+	"github.com/axzilla/templui/internal/components/input"
+	"github.com/axzilla/templui/internal/components/label"
+	"github.com/axzilla/templui/internal/components/popover"
+	"github.com/axzilla/templui/internal/utils"
 )
 
 templ PopoverDefault() {
@@ -28,7 +28,7 @@ templ PopoverDefault() {
 }
 
 templ PopoverContent() {
-	{{ var id = util.RandomID() }}
+	{{ var id = utils.RandomID() }}
 	<div class="p-4 space-y-4 min-w-2xs">
 		<div>
 			<h3 class="text-lg font-semibold">Dimensions</h3>

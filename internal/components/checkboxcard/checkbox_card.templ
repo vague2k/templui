@@ -1,6 +1,6 @@
 package checkboxcard
 
-import "github.com/axzilla/templui/util"
+import "github.com/axzilla/templui/internal/utils"
 
 type Props struct {
 	ID         string
@@ -37,7 +37,7 @@ templ CheckboxCard(props ...Props) {
 		{{ p = props[0] }}
 	}
 	if p.ID == "" {
-		{{ p.ID = util.RandomID() }}
+		{{ p.ID = utils.RandomID() }}
 	}
 	{{ inputId := p.ID + "-input" }}
 	<div
@@ -45,9 +45,9 @@ templ CheckboxCard(props ...Props) {
 			id={ p.ID }
 		}
 		class={
-			util.TwMerge(
+			utils.TwMerge(
 				"relative",
-				util.If(p.Disabled, "opacity-60"),
+				utils.If(p.Disabled, "opacity-60"),
 				p.Class,
 			),
 		}
@@ -70,13 +70,13 @@ templ CheckboxCard(props ...Props) {
 		<label
 			for={ inputId }
 			class={
-				util.TwMerge(
+				utils.TwMerge(
 					"block w-full rounded-lg border overflow-hidden h-full",
 					"bg-card text-card-foreground p-4 flex flex-col",
 					"cursor-pointer",
 					"hover:border-primary/50",
 					"peer-checked:ring-1 peer-checked:ring-primary peer-checked:border-primary",
-					util.If(p.Disabled, "cursor-not-allowed"),
+					utils.If(p.Disabled, "cursor-not-allowed"),
 					"transition-all duration-200",
 					p.Class,
 				),
@@ -97,7 +97,7 @@ templ Header(props ...HeaderProps) {
 			id={ p.ID }
 		}
 		class={
-			util.TwMerge(
+			utils.TwMerge(
 				"flex items-center justify-between mb-2",
 				p.Class,
 			),
@@ -118,7 +118,7 @@ templ Description(props ...DescriptionProps) {
 			id={ p.ID }
 		}
 		class={
-			util.TwMerge(
+			utils.TwMerge(
 				"text-sm text-muted-foreground",
 				p.Class,
 			),
@@ -139,7 +139,7 @@ templ Footer(props ...FooterProps) {
 			id={ p.ID }
 		}
 		class={
-			util.TwMerge(
+			utils.TwMerge(
 				"mt-auto pt-4 w-full",
 				p.Class,
 			),

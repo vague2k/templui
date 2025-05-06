@@ -1,9 +1,9 @@
 package input
 
 import (
-	"github.com/axzilla/templui/component/button"
 	"github.com/axzilla/templui/icon"
-	"github.com/axzilla/templui/util"
+	"github.com/axzilla/templui/internal/components/button"
+	"github.com/axzilla/templui/internal/utils"
 )
 
 type Type string
@@ -46,7 +46,7 @@ templ Input(props ...Props) {
 		{{ p.Type = TypeText }}
 	}
 	if p.ID == "" {
-		{{ p.ID = util.RandomID() }}
+		{{ p.ID = utils.RandomID() }}
 	}
 	if p.Type == TypePassword && !p.NoTogglePassword {
 		@Script()
@@ -71,15 +71,15 @@ templ Input(props ...Props) {
 			readonly?={ p.Readonly }
 			required?={ p.Required }
 			class={
-				util.TwMerge(
+				utils.TwMerge(
 					"peer flex h-10 w-full px-3 py-2",
 					"rounded-md border border-input bg-background text-sm ring-offset-background",
 					"file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground",
 					"placeholder:text-muted-foreground",
 					"focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
 					"disabled:cursor-not-allowed disabled:opacity-50",
-					util.If(p.HasError, "border-destructive ring-destructive"),
-					util.If(p.Type == TypePassword && !p.NoTogglePassword, "pr-8"),
+					utils.If(p.HasError, "border-destructive ring-destructive"),
+					utils.If(p.Type == TypePassword && !p.NoTogglePassword, "pr-8"),
 					p.Class,
 				),
 			}
