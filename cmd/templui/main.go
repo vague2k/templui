@@ -321,17 +321,39 @@ func showHelp(manifest *Manifest, refUsedForHelp string) {
 	fmt.Println("\nFlags:")
 	flag.PrintDefaults() // Zeigt die definierten Flags (-f, --force)
 
-	if manifest != nil && len(manifest.Components) > 0 {
-		fmt.Printf("\nAvailable components in manifest (fetched from ref '%s'):\n", refUsedForHelp)
-		for _, comp := range manifest.Components {
-			desc := comp.Description
-			if len(desc) > 60 {
-				desc = desc[:57] + "..."
+	// Zeige Komponentenliste nur bei explizitem -h / --help und erfolgreichem Laden
+	if manifest != nil {
+		if len(manifest.Components) > 0 {
+			fmt.Printf("\nAvailable components in manifest (fetched from ref '%s'):\n", refUsedForHelp)
+			for _, comp := range manifest.Components {
+				desc := comp.Description
+				if len(desc) > 60 {
+					desc = desc[:57] + "..."
+				}
+				fmt.Printf("  - %-15s: %s\n", comp.Name, desc)
 			}
-			fmt.Printf("  - %-15s: %s\n", comp.Name, desc)
+		} else {
+			fmt.Printf("\nNo components found in manifest for ref '%s'.\n", refUsedForHelp)
+		}
+		// Optional: Utils hier auch nur anzeigen, wenn manifest != nil
+		if len(manifest.Utils) > 0 {
+			fmt.Printf("\nAvailable utils in ref '%s':\n", refUsedForHelp)
+			for _, util := range manifest.Utils {
+				utilName := filepath.Base(util.Path)
+				if util.Description != "" {
+					desc := util.Description
+					if len(desc) > 50 {
+						desc = desc[:47] + "..."
+					}
+					fmt.Printf("  - %-20s : %s\n", utilName, desc)
+				} else {
+					fmt.Printf("  - %s\n", utilName)
+				}
+			}
 		}
 	} else {
-		fmt.Println("\nCould not list available components (maybe run 'templui init' first?).")
+		// Diese Meldung wird angezeigt, wenn `templui` ohne Argumente aufgerufen wird.
+		fmt.Println("\nUse 'templui list' or 'templui list@<ref>' to see available components and utils.")
 	}
 }
 
