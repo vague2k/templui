@@ -1,34 +1,34 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import "github.com/axzilla/templui/component/accordion"
 
 templ AccordionDefault() {
 	<div class="w-full max-w-sm">
-		@components.Accordion(components.AccordionProps{
+		@accordion.Accordion(accordion.Props{
 			Class: "w-full",
 		}) {
-			@components.AccordionItem(components.AccordionItemProps{}) {
-				@components.AccordionTrigger(components.AccordionTriggerProps{}) {
+			@accordion.Item() {
+				@accordion.Trigger() {
 					Is it accessible?
 				}
-				@components.AccordionContent(components.AccordionContentProps{}) {
+				@accordion.Content() {
 					Yes. It adheres to the WAI-ARIA design pattern.
 				}
 			}
-			@components.AccordionItem(components.AccordionItemProps{}) {
-				@components.AccordionTrigger(components.AccordionTriggerProps{}) {
+			@accordion.Item() {
+				@accordion.Trigger() {
 					Is it styled?
 				}
-				@components.AccordionContent(components.AccordionContentProps{}) {
+				@accordion.Content() {
 					Yes. It comes with default styles that matches the other components aesthetic.
 				}
 			}
-			@components.AccordionItem(components.AccordionItemProps{}) {
-				@components.AccordionTrigger(components.AccordionTriggerProps{}) {
+			@accordion.Item() {
+				@accordion.Trigger() {
 					Is it animated?
 				}
-				@components.AccordionContent(components.AccordionContentProps{}) {
-					Yes. It's animated by default, but you can disable it if you prefer.
+				@accordion.Content() {
+					Yes. It is animated by default, but you can disable it if you prefer.
 				}
 			}
 		}

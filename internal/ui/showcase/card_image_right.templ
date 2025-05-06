@@ -1,32 +1,36 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import (
+	"github.com/axzilla/templui/component/aspectratio"
+	"github.com/axzilla/templui/component/card"
+)
 
 templ CardImageRight() {
 	<div class="w-full max-w-sm">
-		@components.Card(components.CardProps{}) {
-			@components.CardHorizontal(components.CardHorizontalProps{}) {
+		@card.Card() {
+			@card.Horizontal() {
 				<div class="flex flex-col flex-1">
-					@components.CardHeader(components.CardHeaderProps{}) {
-						@components.CardTitle(components.CardTitleProps{}) {
+					@card.Header() {
+						@card.Title() {
 							Side Image Card
 						}
-						@components.CardDescription(components.CardDescriptionProps{}) {
+						@card.Description() {
 							With right-aligned image
 						}
 					}
-					@components.CardContent(components.CardContentProps{}) {
+					@card.Content() {
 						<p>This card demonstrates the right image layout.</p>
 					}
 				</div>
-				@components.CardMedia(components.CardMediaProps{
+				@card.Media(card.MediaProps{
 					ID:          "right-media",
-					Src:         "/assets/img/card_placeholder.jpeg",
 					Alt:         "Right side image",
-					Position:    components.CardMediaRight,
-					Width:       components.CardMediaWidthThird,
-					AspectRatio: components.AspectRatioAuto,
-				})
+					Position:    card.MediaPositionRight,
+					Width:       card.MediaWidthThird,
+					AspectRatio: aspectratio.RatioAuto,
+					Src:         "/assets/img/card_placeholder.jpeg",
+				},
+				)
 			}
 		}
 	</div>

@@ -1,11 +1,581 @@
 package pages
 
 import (
-	"github.com/axzilla/templui/components"
-	"github.com/axzilla/templui/icons"
+	"github.com/axzilla/templui/component/button"
+	"github.com/axzilla/templui/component/card"
+	"github.com/axzilla/templui/component/checkbox"
+	"github.com/axzilla/templui/component/datepicker"
+	"github.com/axzilla/templui/component/form"
+	"github.com/axzilla/templui/component/input"
+	"github.com/axzilla/templui/component/modal"
+	"github.com/axzilla/templui/component/radio"
+	"github.com/axzilla/templui/component/toggle"
+	"github.com/axzilla/templui/icon"
 	"github.com/axzilla/templui/internal/ui/layouts"
 	"github.com/axzilla/templui/internal/ui/modules"
 )
+
+templ Themes() {
+	@layouts.DocsLayout(
+		"Themes",
+		"Customize the theme of the UI components.",
+		[]modules.TableOfContentsItem{},
+	) {
+		@modules.PageWrapper(modules.PageWrapperProps{
+			Name:        "Themes",
+			Description: templ.Raw("Customize the theme of the UI components."),
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Themes",
+						Path: "/docs/themes",
+					},
+				},
+			},
+		}) {
+			<div
+				x-data="themeCustomizer"
+			>
+				<div class="flex flex-col md:flex-row gap-8">
+					<div class="w-full md:w-1/2">
+						<div class="flex items-start justify-between mb-4">
+							<div>
+								<div class="font-semibold">Customize</div>
+								<div class="text-xs text-muted-foreground">Pick a style and color for your components.</div>
+							</div>
+							@button.Button(button.Props{
+								Size:    button.SizeIcon,
+								Variant: button.VariantOutline,
+								Attributes: templ.Attributes{
+									"@click": "resetTheme",
+								},
+							}) {
+								@icon.RotateCcw(icon.Props{Size: 14})
+							}
+						</div>
+						@ThemeCustomizer(ThemeCustomizerProps{
+							CurrentTheme:  "orange",
+							CurrentRadius: "0.5",
+						})
+					</div>
+					<div class="w-full md:w-1/2">
+						<div class="mb-4">
+							<div class="font-semibold">Preview</div>
+							<div class="text-xs text-muted-foreground">This is how your theme will look like.</div>
+						</div>
+						@ThemePreview()
+					</div>
+				</div>
+			</div>
+			@ThemesHandle()
+		}
+	}
+}
+
+templ ThemePreview() {
+	<div id="theme-preview" class="theme-preview p-6 border rounded-lg">
+		@card.Card() {
+			@card.Header() {
+				@card.Title() {
+					User Registration 
+				}
+				@card.Description() {
+					Please fill out the form below to create your account. 
+				}
+			}
+			@card.Content() {
+				<form class="space-y-4">
+					@form.Item() {
+						@form.Label(form.LabelProps{
+							For: "username",
+						}) {
+							Username
+						}
+						@input.Input(input.Props{
+							ID:          "username",
+							Type:        input.TypeText,
+							Placeholder: "Enter your username",
+						})
+					}
+					@form.Item() {
+						@form.Label(form.LabelProps{
+							For: "email",
+						}) {
+							Email
+						}
+						@input.Input(input.Props{
+							ID:          "email",
+							Type:        input.TypeEmail,
+							Placeholder: "Enter your email",
+						})
+					}
+					@form.Item() {
+						@form.Label(form.LabelProps{
+							For: "password",
+						}) {
+							Password
+						}
+						@input.Input(input.Props{
+							ID:          "password",
+							Type:        input.TypePassword,
+							Placeholder: "Enter your password",
+						})
+					}
+					@form.Item() {
+						@form.Label(form.LabelProps{
+							For: "birthdate",
+						}) {
+							Birth Date
+						}
+						@datepicker.DatePicker(datepicker.Props{
+							ID:          "birthdate",
+							Placeholder: "Select your birth date",
+						})
+					}
+					@form.Item() {
+						<p class="text-sm text-muted-foreground">Contact Method</p>
+						@form.ItemFlex() {
+							@radio.Radio(radio.Props{
+								ID:   "contact-email",
+								Name: "contact-method",
+							})
+							@form.Label(form.LabelProps{
+								For: "contact-email",
+							}) {
+								Email
+							}
+						}
+						@form.ItemFlex() {
+							@radio.Radio(radio.Props{
+								ID:   "contact-phone",
+								Name: "contact-method",
+							})
+							@form.Label(form.LabelProps{
+								For: "contact-phone",
+							}) {
+								Phone
+							}
+						}
+						@form.ItemFlex() {
+							@radio.Radio(radio.Props{
+								ID:       "contact-mail",
+								Name:     "contact-method",
+								Disabled: true,
+							})
+							@form.Label(form.LabelProps{
+								For: "contact-mail",
+							}) {
+								Physical Mail
+							}
+						}
+					}
+					@form.Item() {
+						<p class="text-sm text-muted-foreground">Preferences</p>
+						@form.ItemFlex() {
+							@toggle.Toggle(toggle.Props{
+								ID:   "marketing",
+								Name: "marketing",
+							})
+							@form.Label(form.LabelProps{
+								For: "marketing",
+							}) {
+								Receive marketing emails
+							}
+						}
+						@form.ItemFlex() {
+							@toggle.Toggle(toggle.Props{
+								ID:         "notifications",
+								Name:       "notifications",
+								Attributes: templ.Attributes{"checked": "true"},
+							})
+							@form.Label(form.LabelProps{
+								For: "notifications",
+							}) {
+								Enable notifications
+							}
+						}
+						@form.ItemFlex() {
+							@toggle.Toggle(toggle.Props{
+								ID:         "beta",
+								Name:       "beta",
+								Attributes: templ.Attributes{"disabled": "true"},
+							})
+							@form.Label(form.LabelProps{
+								For: "beta",
+							}) {
+								Join beta program
+							}
+						}
+					}
+					@form.Item() {
+						<p class="text-sm text-muted-foreground">Terms and Conditions</p>
+						@form.ItemFlex() {
+							@checkbox.Checkbox(checkbox.Props{
+								ID: "terms",
+							})
+							@form.Label(form.LabelProps{
+								For: "terms",
+							}) {
+								I accept the terms and conditions
+							}
+						}
+						@form.ItemFlex() {
+							@checkbox.Checkbox(checkbox.Props{
+								ID: "newsletter",
+							})
+							@form.Label(form.LabelProps{
+								For: "newsletter",
+							}) {
+								Subscribe to newsletter
+							}
+						}
+					}
+				</form>
+			}
+			@card.Footer() {
+				<div class="flex justify-between w-full">
+					@button.Button(button.Props{
+						Variant: button.VariantSecondary,
+					}) {
+						Cancel
+					}
+					@button.Button() {
+						Register
+					}
+				</div>
+			}
+		}
+	</div>
+}
+
+type ThemeCustomizerProps struct {
+	CurrentTheme  string
+	CurrentRadius string
+}
+
+templ ThemeCustomizer(props ThemeCustomizerProps) {
+	<div
+		class="theme-customizer w-full flex flex-col gap-2"
+	>
+		<div class="flex flex-1 flex-col space-y-4 md:space-y-6">
+			@ThemeSelector()
+			@RadiusSelector()
+			@ModeSelector()
+		</div>
+		@modal.Trigger(modal.TriggerProps{
+			ModalID: "css-modal",
+		}) {
+			@button.Button(button.Props{
+				FullWidth: true,
+				Attributes: templ.Attributes{
+					"@click": "getGeneratedCSS",
+				},
+			}) {
+				Generate and Copy CSS
+			}
+		}
+		@modal.Modal(modal.Props{
+			ID:    "css-modal",
+			Class: "max-w-xl",
+		}) {
+			@modal.Header() {
+				Generated CSS Code
+			}
+			@modal.Body() {
+				<pre x-text="generatedCSS" class="text-primary p-4 rounded overflow-x-auto max-h-96"></pre>
+			}
+			@modal.Footer() {
+				<div class="flex gap-2">
+					@button.Button(button.Props{
+						Attributes: templ.Attributes{"@click": "copyToClipboard"},
+					}) {
+						Copy to Clipboard
+					}
+					@modal.Close(modal.CloseProps{
+						ModalID: "css-modal",
+					}) {
+						@button.Button(button.Props{
+							Variant: button.VariantSecondary,
+						}) {
+							Close
+						}
+					}
+				</div>
+			}
+		}
+	</div>
+}
+
+templ ThemeSelector() {
+	<div class="space-y-1.5">
+		<label class="text-xs font-medium">Theme</label>
+		<div class="grid grid-cols-3 gap-2">
+			<button
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				style="--theme-primary: hsl(240 5.9% 10%);"
+				data-theme="zinc"
+				x-bind:class="setBorderOnThemeButton"
+				@click="setTheme"
+			>
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
+					<span
+						data-theme="zinc"
+						x-show="isTheme"
+					>
+						@icon.Check(icon.Props{Size: 12, Color: "white"})
+					</span>
+				</span>
+				Zinc
+			</button>
+			<button
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				style="--theme-primary: hsl(215.4 16.3% 46.9%);"
+				data-theme="slate"
+				x-bind:class="setBorderOnThemeButton"
+				@click="setTheme"
+			>
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
+					<span
+						data-theme="slate"
+						x-show="isTheme"
+					>
+						@icon.Check(icon.Props{Size: 12, Color: "white"})
+					</span>
+				</span>
+				Slate
+			</button>
+			<button
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				style="--theme-primary: hsl(25 5.3% 44.7%);"
+				data-theme="stone"
+				x-bind:class="setBorderOnThemeButton"
+				@click="setTheme"
+			>
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
+					<span
+						data-theme="stone"
+						x-show="isTheme"
+					>
+						@icon.Check(icon.Props{Size: 12, Color: "white"})
+					</span>
+				</span>
+				Stone
+			</button>
+			<button
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				style="--theme-primary: hsl(220 8.9% 46.1%);"
+				data-theme="gray"
+				x-bind:class="setBorderOnThemeButton"
+				@click="setTheme"
+			>
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
+					<span
+						data-theme="gray"
+						x-show="isTheme"
+					>
+						@icon.Check(icon.Props{Size: 12, Color: "white"})
+					</span>
+				</span>
+				Gray
+			</button>
+			<button
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				style="--theme-primary: hsl(0 0% 45.1%);"
+				data-theme="neutral"
+				x-bind:class="setBorderOnThemeButton"
+				@click="setTheme"
+			>
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
+					<span
+						data-theme="neutral"
+						x-show="isTheme"
+					>
+						@icon.Check(icon.Props{Size: 12, Color: "white"})
+					</span>
+				</span>
+				Neutral
+			</button>
+			<button
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				style="--theme-primary: hsl(0 72.2% 50.6%);"
+				data-theme="red"
+				x-bind:class="setBorderOnThemeButton"
+				@click="setTheme"
+			>
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
+					<span
+						data-theme="red"
+						x-show="isTheme"
+					>
+						@icon.Check(icon.Props{Size: 12, Color: "white"})
+					</span>
+				</span>
+				Red
+			</button>
+			<button
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				style="--theme-primary: hsl(346.8 77.2% 49.8%);"
+				data-theme="rose"
+				x-bind:class="setBorderOnThemeButton"
+				@click="setTheme"
+			>
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
+					<span
+						data-theme="rose"
+						x-show="isTheme"
+					>
+						@icon.Check(icon.Props{Size: 12, Color: "white"})
+					</span>
+				</span>
+				Rose
+			</button>
+			<button
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				style="--theme-primary: hsl(24.6 95% 53.1%);"
+				data-theme="orange"
+				x-bind:class="setBorderOnThemeButton"
+				@click="setTheme"
+			>
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
+					<span
+						data-theme="orange"
+						x-show="isTheme"
+					>
+						@icon.Check(icon.Props{Size: 12, Color: "white"})
+					</span>
+				</span>
+				Orange
+			</button>
+			<button
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				style="--theme-primary: hsl(142.1 76.2% 36.3%);"
+				data-theme="green"
+				x-bind:class="setBorderOnThemeButton"
+				@click="setTheme"
+			>
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
+					<span
+						data-theme="green"
+						x-show="isTheme"
+					>
+						@icon.Check(icon.Props{Size: 12, Color: "white"})
+					</span>
+				</span>
+				Green
+			</button>
+			<button
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				style="--theme-primary: hsl(221.2 83.2% 53.3%);"
+				data-theme="blue"
+				x-bind:class="setBorderOnThemeButton"
+				@click="setTheme"
+			>
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
+					<span
+						data-theme="blue"
+						x-show="isTheme"
+					>
+						@icon.Check(icon.Props{Size: 12, Color: "white"})
+					</span>
+				</span>
+				Blue
+			</button>
+			<button
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				style="--theme-primary: hsl(47.9 95.8% 53.1%);"
+				data-theme="yellow"
+				x-bind:class="setBorderOnThemeButton"
+				@click="setTheme"
+			>
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
+					<span
+						data-theme="yellow"
+						x-show="isTheme"
+					>
+						@icon.Check(icon.Props{Size: 12, Color: "white"})
+					</span>
+				</span>
+				Yellow
+			</button>
+			<button
+				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
+				style="--theme-primary: hsl(262.1 83.3% 57.8%);"
+				data-theme="violet"
+				x-bind:class="setBorderOnThemeButton"
+				@click="setTheme"
+			>
+				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
+					<span
+						data-theme="violet"
+						x-show="isTheme"
+					>
+						@icon.Check(icon.Props{Size: 12, Color: "white"})
+					</span>
+				</span>
+				Violet
+			</button>
+		</div>
+	</div>
+}
+
+templ RadiusSelector() {
+	<div class="space-y-1.5">
+		<label class="text-xs font-medium">Radius</label>
+		<div class="grid grid-cols-5 gap-2">
+			<button
+				class="px-3 py-1 rounded border"
+				data-radius="0"
+				x-bind:class="setBorderOnRadiusButton"
+				@click="setRadius"
+			>
+				0
+			</button>
+			<button
+				class="px-3 py-1 rounded border"
+				data-radius="0.3"
+				x-bind:class="setBorderOnRadiusButton"
+				@click="setRadius"
+			>
+				0.3
+			</button>
+			<button
+				class="px-3 py-1 rounded border"
+				data-radius="0.5"
+				x-bind:class="setBorderOnRadiusButton"
+				@click="setRadius"
+			>
+				0.5
+			</button>
+			<button
+				class="px-3 py-1 rounded border"
+				data-radius="0.75"
+				x-bind:class="setBorderOnRadiusButton"
+				@click="setRadius"
+			>
+				0.75
+			</button>
+			<button
+				class="px-3 py-1 rounded border"
+				data-radius="1.0"
+				x-bind:class="setBorderOnRadiusButton"
+				@click="setRadius"
+			>
+				1.0
+			</button>
+		</div>
+	</div>
+}
+
+templ ModeSelector() {
+	<div class="space-y-1.5">
+		<label class="text-xs font-medium">Mode</label>
+		@modules.ThemeSwitcher(modules.ThemeSwitcherProps{Class: "w-full border"})
+	</div>
+}
 
 templ ThemesHandle() {
 	{{ handle := templ.NewOnceHandle() }}
@@ -637,569 +1207,4 @@ templ ThemesHandle() {
 			})
 		</script>
 	}
-}
-
-templ Themes() {
-	@layouts.DocsLayout(
-		"Themes",
-		"Customize the theme of the UI components.",
-	) {
-		<div
-			x-data="themeCustomizer"
-		>
-			<div class="mb-16">
-				<h1 class="text-3xl font-bold mb-2">Themes</h1>
-				<p class="mb-4 text-muted-foreground">Customize the theme of the UI components.</p>
-			</div>
-			<div class="flex flex-col md:flex-row gap-8">
-				<div class="w-full md:w-1/2">
-					<div class="flex items-start justify-between mb-4">
-						<div>
-							<div class="font-semibold">Customize</div>
-							<div class="text-xs text-muted-foreground">Pick a style and color for your components.</div>
-						</div>
-						@components.Button(components.ButtonProps{
-							Size:    components.ButtonSizeIcon,
-							Variant: components.ButtonVariantOutline,
-							Attributes: templ.Attributes{
-								"@click": "resetTheme",
-							},
-						}) {
-							@icons.RotateCcw(icons.IconProps{Size: "14"})
-						}
-					</div>
-					@ThemeCustomizer(ThemeCustomizerProps{
-						CurrentTheme:  "orange",
-						CurrentRadius: "0.5",
-					})
-				</div>
-				<div class="w-full md:w-1/2">
-					<div class="mb-4">
-						<div class="font-semibold">Preview</div>
-						<div class="text-xs text-muted-foreground">This is how your theme will look like.</div>
-					</div>
-					@ThemePreview()
-				</div>
-			</div>
-		</div>
-		@ThemesHandle()
-	}
-}
-
-templ ThemePreview() {
-	<div id="theme-preview" class="theme-preview p-6 border rounded-lg">
-		@components.Card(components.CardProps{}) {
-			@components.CardHeader(components.CardHeaderProps{}) {
-				@components.CardTitle(components.CardTitleProps{}) {
-					User Registration 
-				}
-				@components.CardDescription(components.CardDescriptionProps{}) {
-					Please fill out the form below to create your account. 
-				}
-			}
-			@components.CardContent(components.CardContentProps{}) {
-				<form class="space-y-4">
-					@components.FormItem(components.FormItemProps{}) {
-						@components.FormLabel(components.FormLabelProps{
-							For: "username",
-						}) {
-							Username
-						}
-						@components.Input(components.InputProps{
-							ID:          "username",
-							Name:        "username",
-							Type:        components.InputTypeText,
-							Placeholder: "Enter your username",
-						})
-					}
-					@components.FormItem(components.FormItemProps{}) {
-						@components.FormLabel(components.FormLabelProps{
-							For: "email",
-						}) {
-							Email
-						}
-						@components.Input(components.InputProps{
-							ID:          "email",
-							Name:        "email",
-							Type:        components.InputTypeEmail,
-							Placeholder: "Enter your email",
-						})
-					}
-					@components.FormItem(components.FormItemProps{}) {
-						@components.FormLabel(components.FormLabelProps{
-							For: "password",
-						}) {
-							Password
-						}
-						@components.Input(components.InputProps{
-							ID:          "password",
-							Name:        "password",
-							Type:        components.InputTypePassword,
-							Placeholder: "Enter your password",
-						})
-					}
-					@components.FormItem(components.FormItemProps{}) {
-						@components.FormLabel(components.FormLabelProps{
-							For: "birthdate",
-						}) {
-							Birth Date
-						}
-						@components.DatePicker(components.DatePickerProps{
-							ID:          "birthdate",
-							Name:        "birthdate",
-							Placeholder: "Select your birth date",
-						})
-					}
-					@components.FormItem(components.FormItemProps{}) {
-						@components.FormLabel(components.FormLabelProps{
-							For: "contact-method",
-						}) {
-							Contact Method
-						}
-						@components.FormItemFlex(components.FormItemProps{}) {
-							@components.Radio(components.RadioProps{
-								Value: "email",
-								ID:    "contact-email",
-								Name:  "contact-method",
-							})
-							@components.FormLabel(components.FormLabelProps{
-								For: "contact-email",
-							}) {
-								Email
-							}
-						}
-						@components.FormItemFlex(components.FormItemProps{}) {
-							@components.Radio(components.RadioProps{
-								Value: "phone",
-								ID:    "contact-phone",
-								Name:  "contact-method",
-							})
-							@components.FormLabel(components.FormLabelProps{
-								For: "contact-phone",
-							}) {
-								Phone
-							}
-						}
-						@components.FormItemFlex(components.FormItemProps{}) {
-							@components.Radio(components.RadioProps{
-								Value:      "mail",
-								ID:         "contact-mail",
-								Name:       "contact-method",
-								Attributes: templ.Attributes{"disabled": "true"},
-							})
-							@components.FormLabel(components.FormLabelProps{
-								For: "contact-mail",
-							}) {
-								Physical Mail
-							}
-						}
-					}
-					@components.FormItem(components.FormItemProps{}) {
-						@components.FormLabel(components.FormLabelProps{}) {
-							Preferences
-						}
-						@components.FormItemFlex(components.FormItemProps{}) {
-							@components.Toggle(components.ToggleProps{
-								ID:   "marketing",
-								Name: "marketing",
-							})
-							@components.FormLabel(components.FormLabelProps{
-								For: "marketing",
-							}) {
-								Receive marketing emails
-							}
-						}
-						@components.FormItemFlex(components.FormItemProps{}) {
-							@components.Toggle(components.ToggleProps{
-								ID:         "notifications",
-								Name:       "notifications",
-								Attributes: templ.Attributes{"checked": "true"},
-							})
-							@components.FormLabel(components.FormLabelProps{
-								For: "notifications",
-							}) {
-								Enable notifications
-							}
-						}
-						@components.FormItemFlex(components.FormItemProps{}) {
-							@components.Toggle(components.ToggleProps{
-								ID:         "beta",
-								Name:       "beta",
-								Attributes: templ.Attributes{"disabled": "true"},
-							})
-							@components.FormLabel(components.FormLabelProps{
-								For: "beta",
-							}) {
-								Join beta program
-							}
-						}
-					}
-					@components.FormItem(components.FormItemProps{}) {
-						@components.FormLabel(components.FormLabelProps{}) {
-							Terms and Conditions
-						}
-						@components.FormItemFlex(components.FormItemProps{}) {
-							@components.Checkbox(components.CheckboxProps{
-								ID:    "terms",
-								Name:  "terms",
-								Value: "accepted",
-							})
-							@components.FormLabel(components.FormLabelProps{
-								For: "terms",
-							}) {
-								I accept the terms and conditions
-							}
-						}
-						@components.FormItemFlex(components.FormItemProps{}) {
-							@components.Checkbox(components.CheckboxProps{
-								ID:    "newsletter",
-								Name:  "newsletter",
-								Value: "subscribed",
-							})
-							@components.FormLabel(components.FormLabelProps{
-								For: "newsletter",
-							}) {
-								Subscribe to newsletter
-							}
-						}
-					}
-				</form>
-			}
-			@components.CardFooter(components.CardFooterProps{}) {
-				<div class="flex justify-between w-full">
-					@components.Button(components.ButtonProps{
-						Variant: components.ButtonVariantSecondary,
-					}) {
-						Cancel
-					}
-					@components.Button(components.ButtonProps{}) {
-						Register
-					}
-				</div>
-			}
-		}
-	</div>
-}
-
-type ThemeCustomizerProps struct {
-	CurrentTheme  string
-	CurrentRadius string
-}
-
-templ ThemeCustomizer(props ThemeCustomizerProps) {
-	<div
-		class="theme-customizer w-full flex flex-col gap-2"
-	>
-		<div class="flex flex-1 flex-col space-y-4 md:space-y-6">
-			@ThemeSelector()
-			@RadiusSelector()
-			@ModeSelector()
-		</div>
-		@components.ModalTrigger(components.ModalTriggerProps{
-			ModalID: "css-modal",
-		}) {
-			@components.Button(components.ButtonProps{
-				FullWidth: true,
-				Attributes: templ.Attributes{
-					"@click": "getGeneratedCSS",
-				},
-			}) {
-				Generate and Copy CSS
-			}
-		}
-		@components.Modal(components.ModalProps{ID: "css-modal", Class: "max-w-xl"}) {
-			@components.ModalHeader(components.ModalHeaderProps{}) {
-				Generated CSS Code
-			}
-			@components.ModalBody(components.ModalBodyProps{}) {
-				<pre x-text="generatedCSS" class="text-primary p-4 rounded overflow-x-auto max-h-96"></pre>
-			}
-			@components.ModalFooter(components.ModalFooterProps{}) {
-				<div class="flex gap-2">
-					@components.Button(components.ButtonProps{
-						Variant:    "primary",
-						Attributes: templ.Attributes{"@click": "copyToClipboard"},
-					}) {
-						Copy to Clipboard
-					}
-					@components.ModalClose(components.ModalCloseProps{
-						ModalID: "css-modal",
-					}) {
-						@components.Button(components.ButtonProps{
-							Variant: "secondary",
-						}) {
-							Close
-						}
-					}
-				</div>
-			}
-		}
-	</div>
-}
-
-templ ThemeSelector() {
-	<div class="space-y-1.5">
-		<label class="text-xs font-medium">Theme</label>
-		<div class="grid grid-cols-3 gap-2">
-			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
-				style="--theme-primary: hsl(240 5.9% 10%);"
-				data-theme="zinc"
-				x-bind:class="setBorderOnThemeButton"
-				@click="setTheme"
-			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
-					<span
-						data-theme="zinc"
-						x-show="isTheme"
-					>
-						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
-					</span>
-				</span>
-				Zinc
-			</button>
-			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
-				style="--theme-primary: hsl(215.4 16.3% 46.9%);"
-				data-theme="slate"
-				x-bind:class="setBorderOnThemeButton"
-				@click="setTheme"
-			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
-					<span
-						data-theme="slate"
-						x-show="isTheme"
-					>
-						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
-					</span>
-				</span>
-				Slate
-			</button>
-			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
-				style="--theme-primary: hsl(25 5.3% 44.7%);"
-				data-theme="stone"
-				x-bind:class="setBorderOnThemeButton"
-				@click="setTheme"
-			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
-					<span
-						data-theme="stone"
-						x-show="isTheme"
-					>
-						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
-					</span>
-				</span>
-				Stone
-			</button>
-			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
-				style="--theme-primary: hsl(220 8.9% 46.1%);"
-				data-theme="gray"
-				x-bind:class="setBorderOnThemeButton"
-				@click="setTheme"
-			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
-					<span
-						data-theme="gray"
-						x-show="isTheme"
-					>
-						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
-					</span>
-				</span>
-				Gray
-			</button>
-			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
-				style="--theme-primary: hsl(0 0% 45.1%);"
-				data-theme="neutral"
-				x-bind:class="setBorderOnThemeButton"
-				@click="setTheme"
-			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
-					<span
-						data-theme="neutral"
-						x-show="isTheme"
-					>
-						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
-					</span>
-				</span>
-				Neutral
-			</button>
-			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
-				style="--theme-primary: hsl(0 72.2% 50.6%);"
-				data-theme="red"
-				x-bind:class="setBorderOnThemeButton"
-				@click="setTheme"
-			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
-					<span
-						data-theme="red"
-						x-show="isTheme"
-					>
-						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
-					</span>
-				</span>
-				Red
-			</button>
-			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
-				style="--theme-primary: hsl(346.8 77.2% 49.8%);"
-				data-theme="rose"
-				x-bind:class="setBorderOnThemeButton"
-				@click="setTheme"
-			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
-					<span
-						data-theme="rose"
-						x-show="isTheme"
-					>
-						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
-					</span>
-				</span>
-				Rose
-			</button>
-			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
-				style="--theme-primary: hsl(24.6 95% 53.1%);"
-				data-theme="orange"
-				x-bind:class="setBorderOnThemeButton"
-				@click="setTheme"
-			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
-					<span
-						data-theme="orange"
-						x-show="isTheme"
-					>
-						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
-					</span>
-				</span>
-				Orange
-			</button>
-			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
-				style="--theme-primary: hsl(142.1 76.2% 36.3%);"
-				data-theme="green"
-				x-bind:class="setBorderOnThemeButton"
-				@click="setTheme"
-			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
-					<span
-						data-theme="green"
-						x-show="isTheme"
-					>
-						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
-					</span>
-				</span>
-				Green
-			</button>
-			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
-				style="--theme-primary: hsl(221.2 83.2% 53.3%);"
-				data-theme="blue"
-				x-bind:class="setBorderOnThemeButton"
-				@click="setTheme"
-			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
-					<span
-						data-theme="blue"
-						x-show="isTheme"
-					>
-						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
-					</span>
-				</span>
-				Blue
-			</button>
-			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
-				style="--theme-primary: hsl(47.9 95.8% 53.1%);"
-				data-theme="yellow"
-				x-bind:class="setBorderOnThemeButton"
-				@click="setTheme"
-			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
-					<span
-						data-theme="yellow"
-						x-show="isTheme"
-					>
-						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
-					</span>
-				</span>
-				Yellow
-			</button>
-			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
-				style="--theme-primary: hsl(262.1 83.3% 57.8%);"
-				data-theme="violet"
-				x-bind:class="setBorderOnThemeButton"
-				@click="setTheme"
-			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
-					<span
-						data-theme="violet"
-						x-show="isTheme"
-					>
-						@icons.Check(icons.IconProps{Size: "12", Color: "white"})
-					</span>
-				</span>
-				Violet
-			</button>
-		</div>
-	</div>
-}
-
-templ RadiusSelector() {
-	<div class="space-y-1.5">
-		<label class="text-xs font-medium">Radius</label>
-		<div class="grid grid-cols-5 gap-2">
-			<button
-				class="px-3 py-1 rounded border"
-				data-radius="0"
-				x-bind:class="setBorderOnRadiusButton"
-				@click="setRadius"
-			>
-				0
-			</button>
-			<button
-				class="px-3 py-1 rounded border"
-				data-radius="0.3"
-				x-bind:class="setBorderOnRadiusButton"
-				@click="setRadius"
-			>
-				0.3
-			</button>
-			<button
-				class="px-3 py-1 rounded border"
-				data-radius="0.5"
-				x-bind:class="setBorderOnRadiusButton"
-				@click="setRadius"
-			>
-				0.5
-			</button>
-			<button
-				class="px-3 py-1 rounded border"
-				data-radius="0.75"
-				x-bind:class="setBorderOnRadiusButton"
-				@click="setRadius"
-			>
-				0.75
-			</button>
-			<button
-				class="px-3 py-1 rounded border"
-				data-radius="1.0"
-				x-bind:class="setBorderOnRadiusButton"
-				@click="setRadius"
-			>
-				1.0
-			</button>
-		</div>
-	</div>
-}
-
-templ ModeSelector() {
-	<div class="space-y-1.5">
-		<label class="text-xs font-medium">Mode</label>
-		@modules.ThemeSwitcher(modules.ThemeSwitcherProps{Class: "w-full border"})
-	</div>
 }

@@ -1,56 +1,53 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import (
+	"github.com/axzilla/templui/component/form"
+	"github.com/axzilla/templui/component/radio"
+)
 
 templ RadioForm() {
 	<div class="w-full max-w-sm">
-		@components.FormItem(components.FormItemProps{}) {
-			@components.FormLabel(components.FormLabelProps{}) {
-				Nofity me about new products
-			}
-			@components.FormItemFlex(components.FormItemProps{}) {
-				@components.Radio(components.RadioProps{
+		@form.Item() {
+			@form.ItemFlex() {
+				@radio.Radio(radio.Props{
+					Name:    "radio-form",
 					ID:      "r1",
-					Name:    "notify",
-					Value:   "all",
 					Checked: true,
 				})
-				@components.FormLabel(components.FormLabelProps{
+				@form.Label(form.LabelProps{
 					For: "r1",
 				}) {
 					All new products
 				}
 			}
-			@components.FormItemFlex(components.FormItemProps{}) {
-				@components.Radio(components.RadioProps{
+			@form.ItemFlex() {
+				@radio.Radio(radio.Props{
+					Name:     "radio-form",
 					ID:       "r2",
-					Name:     "notify",
-					Value:    "wishlist",
 					Disabled: true,
 				})
-				@components.FormLabel(components.FormLabelProps{
+				@form.Label(form.LabelProps{
 					For: "r2",
 				}) {
 					Create a wishlist (Coming Soon)
 				}
 			}
-			@components.FormItemFlex(components.FormItemProps{}) {
-				@components.Radio(components.RadioProps{
-					ID:    "r3",
-					Name:  "notify",
-					Value: "none",
+			@form.ItemFlex() {
+				@radio.Radio(radio.Props{
+					Name: "radio-form",
+					ID:   "r3",
 				})
-				@components.FormLabel(components.FormLabelProps{
+				@form.Label(form.LabelProps{
 					For: "r3",
 				}) {
 					No notifications
 				}
 			}
-			@components.FormDescription(components.FormDescriptionProps{}) {
+			@form.Description() {
 				You can change your preferences at any time.
 			}
-			@components.FormMessage(components.FormMessageProps{
-				Variant: components.FormMessageVariantError,
+			@form.Message(form.MessageProps{
+				Variant: form.MessageVariantError,
 			}) {
 				We will send you an email when new products are available.
 			}

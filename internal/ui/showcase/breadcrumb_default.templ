@@ -1,24 +1,28 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import "github.com/axzilla/templui/component/breadcrumb"
 
 templ BreadcrumbDefault() {
-	@components.Breadcrumb(components.BreadcrumbProps{}) {
-		@components.BreadcrumbList(components.BreadcrumbListProps{}) {
-			@components.BreadcrumbItem(components.BreadcrumbItemProps{}) {
-				@components.BreadcrumbLink(components.BreadcrumbLinkProps{Href: "/"}) {
+	@breadcrumb.Breadcrumb() {
+		@breadcrumb.List() {
+			@breadcrumb.Item() {
+				@breadcrumb.Link(breadcrumb.LinkProps{
+					Href: "/",
+				}) {
 					Home
 				}
 			}
-			@components.BreadcrumbItem(components.BreadcrumbItemProps{}) {
-				@components.BreadcrumbSeparator(components.BreadcrumbSeparatorProps{})
-				@components.BreadcrumbLink(components.BreadcrumbLinkProps{Href: "/docs"}) {
+			@breadcrumb.Item() {
+				@breadcrumb.Separator()
+				@breadcrumb.Link(breadcrumb.LinkProps{
+					Href: "/docs",
+				}) {
 					Documentation
 				}
 			}
-			@components.BreadcrumbItem(components.BreadcrumbItemProps{}) {
-				@components.BreadcrumbSeparator(components.BreadcrumbSeparatorProps{})
-				@components.BreadcrumbPage(components.BreadcrumbItemProps{Current: true}) {
+			@breadcrumb.Item() {
+				@breadcrumb.Separator()
+				@breadcrumb.Page(breadcrumb.ItemProps{Current: true}) {
 					Components
 				}
 			}

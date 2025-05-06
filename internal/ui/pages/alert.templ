@@ -10,27 +10,49 @@ templ Alert() {
 	@layouts.DocsLayout(
 		"Alert",
 		"Status message that displays contextual feedback or notifications.",
+		[]modules.TableOfContentsItem{
+			{
+				ID:   "examples",
+				Text: "Examples",
+				Children: []modules.TableOfContentsItem{
+					{
+						ID:   "destructive",
+						Text: "Destructive",
+					},
+				},
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Alert",
 			Description: templ.Raw("Status message that displays contextual feedback or notifications."),
 			Tailwind:    true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Alert",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.AlertDefault(),
 				PreviewCodeFile:   "alert_default.templ",
-				ComponentCodeFile: "alert.templ",
+				ComponentCodeFile: "alert/alert.templ",
 			})
-			@modules.Usage(modules.UsageProps{
-				ComponentName: "Alert",
-				PropsExample:  "...",
-			})
-			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Examples",
+				ID:    "examples",
+			}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Destructive",
-					ShowcaseFile:      showcase.AlertDestructive(),
-					PreviewCodeFile:   "alert_destructive.templ",
-					ComponentCodeFile: "alert.templ",
+					SectionName:     "Destructive",
+					ShowcaseFile:    showcase.AlertDestructive(),
+					PreviewCodeFile: "alert_destructive.templ",
+					ID:              "destructive",
 				})
 			}
 		}

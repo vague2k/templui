@@ -1,65 +1,88 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import (
+	"github.com/axzilla/templui/component/button"
+	"github.com/axzilla/templui/component/tooltip"
+)
 
 templ TooltipPositions() {
 	<div class="flex gap-2">
-		@components.Tooltip(components.TooltipProps{}) {
-			@components.TooltipTrigger(components.TooltipTriggerProps{}) {
-				@components.Button(components.ButtonProps{
-					Variant: components.ButtonVariantOutline,
+		@tooltip.Tooltip() {
+			@tooltip.Trigger(tooltip.TriggerProps{
+				For: "top-tooltip",
+			}) {
+				@button.Button(button.Props{
+					Variant: button.VariantOutline,
 				}) {
 					Top
 				}
 			}
-			@components.TooltipContent(components.TooltipContentProps{
-				Side:      components.TooltipPositionTop,
-				ShowArrow: true,
+			@tooltip.Content(tooltip.ContentProps{
+				ID:            "top-tooltip",
+				Position:      tooltip.PositionTop,
+				ShowArrow:     true,
+				HoverDelay:    500,
+				HoverOutDelay: 100,
 			}) {
 				Tooltip on top
 			}
 		}
-		@components.Tooltip(components.TooltipProps{}) {
-			@components.TooltipTrigger(components.TooltipTriggerProps{}) {
-				@components.Button(components.ButtonProps{
-					Variant: components.ButtonVariantOutline,
+		@tooltip.Tooltip() {
+			@tooltip.Trigger(tooltip.TriggerProps{
+				For: "right-tooltip",
+			}) {
+				@button.Button(button.Props{
+					Variant: button.VariantOutline,
 				}) {
 					Right
 				}
 			}
-			@components.TooltipContent(components.TooltipContentProps{
-				Side:      components.TooltipPositionRight,
-				ShowArrow: true,
+			@tooltip.Content(tooltip.ContentProps{
+				ID:            "right-tooltip",
+				Position:      tooltip.PositionRight,
+				ShowArrow:     true,
+				HoverDelay:    500,
+				HoverOutDelay: 100,
 			}) {
 				Tooltip on right
 			}
 		}
-		@components.Tooltip(components.TooltipProps{}) {
-			@components.TooltipTrigger(components.TooltipTriggerProps{}) {
-				@components.Button(components.ButtonProps{
-					Variant: components.ButtonVariantOutline,
+		@tooltip.Tooltip() {
+			@tooltip.Trigger(tooltip.TriggerProps{
+				For: "bottom-tooltip",
+			}) {
+				@button.Button(button.Props{
+					Variant: button.VariantOutline,
 				}) {
 					Bottom
 				}
 			}
-			@components.TooltipContent(components.TooltipContentProps{
-				Side:      components.TooltipPositionBottom,
-				ShowArrow: true,
+			@tooltip.Content(tooltip.ContentProps{
+				ID:            "bottom-tooltip",
+				Position:      tooltip.PositionBottom,
+				ShowArrow:     true,
+				HoverDelay:    500,
+				HoverOutDelay: 100,
 			}) {
 				Tooltip on bottom
 			}
 		}
-		@components.Tooltip(components.TooltipProps{}) {
-			@components.TooltipTrigger(components.TooltipTriggerProps{}) {
-				@components.Button(components.ButtonProps{
-					Variant: components.ButtonVariantOutline,
+		@tooltip.Tooltip() {
+			@tooltip.Trigger(tooltip.TriggerProps{
+				For: "left-tooltip",
+			}) {
+				@button.Button(button.Props{
+					Variant: button.VariantOutline,
 				}) {
 					Left
 				}
 			}
-			@components.TooltipContent(components.TooltipContentProps{
-				Side:      components.TooltipPositionLeft,
-				ShowArrow: true,
+			@tooltip.Content(tooltip.ContentProps{
+				ID:            "left-tooltip",
+				Position:      tooltip.PositionLeft,
+				ShowArrow:     true,
+				HoverDelay:    500,
+				HoverOutDelay: 100,
 			}) {
 				Tooltip on left
 			}

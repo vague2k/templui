@@ -1,18 +1,18 @@
 package showcase
 
 import (
-	"github.com/axzilla/templui/components"
-	"github.com/axzilla/templui/icons"
+	"github.com/axzilla/templui/component/alert"
+	"github.com/axzilla/templui/icon"
 )
 
 templ AlertDestructive() {
 	<div class="w-full max-w-xl">
-		@components.Alert(components.AlertProps{Variant: components.AlertVariantDestructive}) {
-			@icons.TriangleAlert(icons.IconProps{Size: "16"})
-			@components.AlertTitle(components.AlertTitleProps{}) {
+		@alert.Alert(alert.Props{Variant: alert.VariantDestructive}) {
+			@icon.TriangleAlert(icon.Props{Size: 16})
+			@alert.Title() {
 				Error
 			}
-			@components.AlertDescription(components.AlertDescriptionProps{}) {
+			@alert.Description() {
 				Your session has expired. Please log in again.
 			}
 		}

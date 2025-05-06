@@ -1,7 +1,7 @@
 package pages
 
 import (
-	"github.com/axzilla/templui/components"
+	"github.com/axzilla/templui/component/card"
 	"github.com/axzilla/templui/internal/ui/layouts"
 	"github.com/axzilla/templui/internal/ui/modules"
 	"github.com/axzilla/templui/internal/ui/showcase"
@@ -11,61 +11,73 @@ templ Label() {
 	@layouts.DocsLayout(
 		"Label",
 		"Renders an accessible label associated with controls.",
+		[]modules.TableOfContentsItem{},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Label",
 			Description: templ.Raw("Renders an accessible label associated with controls."),
 			Tailwind:    true,
 			VanillaJS:   true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Label",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				SectionName:       "",
 				ShowcaseFile:      showcase.CheckboxWithLabel(),
 				PreviewCodeFile:   "checkbox_with_label.templ",
-				ComponentCodeFile: "label.templ",
+				ComponentCodeFile: "label/label.templ",
 			})
 			<div>
-				@components.Card(components.CardProps{}) {
-					@components.CardHeader(components.CardHeaderProps{}) {
-						@components.CardTitle(components.CardTitleProps{}) {
+				@card.Card() {
+					@card.Header() {
+						@card.Title() {
 							Usage
 						}
-						@components.CardDescription(components.CardDescriptionProps{}) {
+						@card.Description() {
 							The Label component enhances the following form controls:
 						}
 					}
-					@components.CardContent(components.CardContentProps{}) {
+					@card.Content() {
 						<ul class="list-disc pl-6 space-y-2">
 							<ul class="list-disc pl-6 space-y-2">
 								<li>
-									<a href="/docs/components/checkbox#label" class="font-medium hover:underline">Checkbox</a>
+									<a href="/docs/components/checkbox#with-label" class="font-medium hover:underline">Checkbox</a>
 								</li>
 								<li>
-									<a href="/docs/components/date-picker#label" class="font-medium hover:underline">Date Picker</a>
+									<a href="/docs/components/date-picker#with-label" class="font-medium hover:underline">Date Picker</a>
 								</li>
 								<li>
-									<a href="/docs/components/input#label" class="font-medium hover:underline">Input</a>
+									<a href="/docs/components/input#with-label" class="font-medium hover:underline">Input</a>
 								</li>
 								<li>
-									<a href="/docs/components/input-otp#label" class="font-medium hover:underline">Input OTP</a>
+									<a href="/docs/components/input-otp#with-label" class="font-medium hover:underline">Input OTP</a>
 								</li>
 								<li>
-									<a href="/docs/components/radio#label" class="font-medium hover:underline">Radio</a>
+									<a href="/docs/components/radio#with-label" class="font-medium hover:underline">Radio</a>
 								</li>
 								<li>
-									<a href="/docs/components/select#label" class="font-medium hover:underline">Select</a>
+									<a href="/docs/components/select#with-label" class="font-medium hover:underline">Select</a>
 								</li>
 								<li>
-									<a href="/docs/components/textarea#label" class="font-medium hover:underline">Textarea</a>
+									<a href="/docs/components/textarea#with-label" class="font-medium hover:underline">Textarea</a>
 								</li>
 								<!-- <li> -->
-								<!-- 	<a href="/docs/components/time-picker#label" class="font-medium hover:underline">Time Picker</a> -->
+								<!-- 	<a href="/docs/components/time-picker#with-label" class="font-medium hover:underline">Time Picker</a> -->
 								<!-- </li> -->
 								<li>
-									<a href="/docs/components/toggle#label" class="font-medium hover:underline">Toggle</a>
+									<a href="/docs/components/toggle#with-label" class="font-medium hover:underline">Toggle</a>
 								</li>
 								<li>
-									<a href="/docs/components/rating#label" class="font-medium hover:underline">Rating</a>
+									<a href="/docs/components/rating#with-label" class="font-medium hover:underline">Rating</a>
 								</li>
 							</ul>
 						</ul>

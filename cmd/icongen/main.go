@@ -13,9 +13,9 @@ import (
 )
 
 const (
-	outputFile     = "./icons/icon_defs.go"
-	iconContentDir = "./icons/content" // Directory for individual icon contents
-	lucideVersion  = "0.452.0"         // Current Lucide version - update as needed
+	outputFile     = "./icon/icon_defs.go"
+	iconContentDir = "./icon/content" // Directory for individual icon contents
+	lucideVersion  = "0.452.0"        // Current Lucide version - update as needed
 )
 
 type GitHubContent struct {
@@ -33,7 +33,7 @@ func main() {
 
 	// Initialize slice for icon definitions
 	var iconDefs []string
-	iconDefs = append(iconDefs, "package icons\n")
+	iconDefs = append(iconDefs, "package icon\n")
 	iconDefs = append(iconDefs, "// This file is auto generated\n")
 	iconDefs = append(iconDefs, fmt.Sprintf("// Using Lucide icons version %s\n", lucideVersion))
 

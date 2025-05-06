@@ -1,13 +1,15 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import "github.com/axzilla/templui/component/avatar"
 
 templ AvatarFallback() {
-	@components.Avatar(components.AvatarProps{
-		Size: components.AvatarSizeMedium,
-	}) {
-		@components.AvatarFallback(components.AvatarFallbackProps{}) {
-			{ components.AvatarInitials("John Doe") }
+	@avatar.Avatar() {
+		@avatar.Image(avatar.ImageProps{
+			// simulate a broken image
+			Src: "broken-image.jpg",
+		})
+		@avatar.Fallback() {
+			{ avatar.Initials("John Doe") }
 		}
 	}
 }

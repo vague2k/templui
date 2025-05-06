@@ -10,39 +10,69 @@ templ Spinner() {
 	@layouts.DocsLayout(
 		"Spinner",
 		"Visual indicators for loading states and processes in progress.",
+		[]modules.TableOfContentsItem{
+			{
+				Text: "Examples",
+				ID:   "examples",
+				Children: []modules.TableOfContentsItem{
+					{
+						Text: "Sizes",
+						ID:   "sizes",
+					},
+					{
+						Text: "Colors",
+						ID:   "colors",
+					},
+					{
+						Text: "In Button",
+						ID:   "in-button",
+					},
+				},
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Spinner",
 			Description: templ.Raw("Visual indicators for loading states and processes in progress."),
 			Tailwind:    true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Spinner",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.SpinnerDefault(),
 				PreviewCodeFile:   "spinner_default.templ",
-				ComponentCodeFile: "spinner.templ",
+				ComponentCodeFile: "spinner/spinner.templ",
 			})
-			@modules.Usage(modules.UsageProps{
-				ComponentName: "Spinner",
-				PropsExample:  "...",
-			})
-			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Examples",
+				ID:    "examples",
+			}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Sizes",
-					ShowcaseFile:      showcase.SpinnerSizes(),
-					PreviewCodeFile:   "spinner_sizes.templ",
-					ComponentCodeFile: "spinner.templ",
+					SectionName:     "Sizes",
+					ShowcaseFile:    showcase.SpinnerSizes(),
+					PreviewCodeFile: "spinner_sizes.templ",
+					ID:              "sizes",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Colors",
-					ShowcaseFile:      showcase.SpinnerColors(),
-					PreviewCodeFile:   "spinner_colors.templ",
-					ComponentCodeFile: "spinner.templ",
+					SectionName:     "Colors",
+					ShowcaseFile:    showcase.SpinnerColors(),
+					PreviewCodeFile: "spinner_colors.templ",
+					ID:              "colors",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "In Button",
-					ShowcaseFile:      showcase.SpinnerInButton(),
-					PreviewCodeFile:   "spinner_in_button.templ",
-					ComponentCodeFile: "spinner.templ",
+					SectionName:     "In Button",
+					ShowcaseFile:    showcase.SpinnerInButton(),
+					PreviewCodeFile: "spinner_in_button.templ",
+					ID:              "in-button",
 				})
 			}
 		}

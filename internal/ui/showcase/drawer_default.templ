@@ -1,36 +1,41 @@
 package showcase
 
 import (
-	"github.com/axzilla/templui/components"
+	"github.com/axzilla/templui/component/button"
+	"github.com/axzilla/templui/component/card"
+	"github.com/axzilla/templui/component/drawer"
+	"github.com/axzilla/templui/component/input"
 )
 
 templ DrawerDefault() {
-	@components.Drawer(components.DrawerProps{}) {
-		@components.DrawerTrigger(components.DrawerTriggerProps{Class: "mb-4"}) {
-			@components.Button(components.ButtonProps{}) {
+	@drawer.Drawer() {
+		@drawer.Trigger(drawer.TriggerProps{Class: "mb-4"}) {
+			@button.Button() {
 				Open
 			}
 		}
-		@components.DrawerContent(components.DrawerContentProps{Side: components.DrawerPositionRight}) {
-			@components.DrawerHeader(components.DrawerHeaderProps{}) {
-				@components.DrawerTitle(components.DrawerTitleProps{}) {
+		@drawer.Content(drawer.ContentProps{
+			Position: drawer.PositionRight,
+		}) {
+			@drawer.Header() {
+				@drawer.Title() {
 					Account
 				}
-				@components.DrawerDescription(components.DrawerDescriptionProps{}) {
+				@drawer.Description() {
 					Make changes to your account here. Click save when you are done.
 				}
 			}
-			@components.Card(components.CardProps{}) {
-				@components.CardContent(components.CardContentProps{}) {
+			@card.Card() {
+				@card.Content() {
 					<div class="flex flex-col gap-4">
-						@components.Input(components.InputProps{
-							Type:        components.InputTypeText,
+						@input.Input(input.Props{
+							Type:        input.TypeText,
 							Placeholder: "Name",
 							ID:          "name",
 							Value:       "John Doe",
 						})
-						@components.Input(components.InputProps{
-							Type:        components.InputTypeText,
+						@input.Input(input.Props{
+							Type:        input.TypeText,
 							Placeholder: "Username",
 							ID:          "username",
 							Value:       "@johndoe",
@@ -38,11 +43,11 @@ templ DrawerDefault() {
 					</div>
 				}
 			}
-			@components.DrawerFooter(components.DrawerFooterProps{}) {
-				@components.DrawerClose(components.DrawerCloseProps{}) {
+			@drawer.Footer() {
+				@drawer.Close() {
 					Cancel
 				}
-				@components.Button(components.ButtonProps{}) {
+				@button.Button() {
 					Save
 				}
 			}

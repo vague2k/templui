@@ -10,47 +10,80 @@ templ Slider() {
 	@layouts.DocsLayout(
 		"Slider",
 		"Control for selecting a numeric value within a range.",
+		[]modules.TableOfContentsItem{
+			{
+				Text: "Examples",
+				ID:   "examples",
+				Children: []modules.TableOfContentsItem{
+					{
+						Text: "Value",
+						ID:   "value",
+					},
+					{
+						Text: "Steps",
+						ID:   "steps",
+					},
+					{
+						Text: "Disabled",
+						ID:   "disabled",
+					},
+					{
+						Text: "External Value",
+						ID:   "external-value",
+					},
+				},
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Slider",
 			Description: templ.Raw("Control for selecting a numeric value within a range."),
 			Tailwind:    true,
 			VanillaJS:   true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Slider",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.SliderDefault(),
 				PreviewCodeFile:   "slider_default.templ",
-				ComponentCodeFile: "slider.templ",
+				ComponentCodeFile: "slider/slider.templ",
 			})
-			@modules.Usage(modules.UsageProps{
-				ComponentName: "Slider",
-				NeedsHandler:  true,
-				PropsExample:  "...",
-			})
-			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Examples",
+				ID:    "examples",
+			}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Value",
-					ShowcaseFile:      showcase.SliderValue(),
-					PreviewCodeFile:   "slider_value.templ",
-					ComponentCodeFile: "slider.templ",
+					SectionName:     "Value",
+					ShowcaseFile:    showcase.SliderValue(),
+					PreviewCodeFile: "slider_value.templ",
+					ID:              "value",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Steps",
-					ShowcaseFile:      showcase.SliderSteps(),
-					PreviewCodeFile:   "slider_steps.templ",
-					ComponentCodeFile: "slider.templ",
+					SectionName:     "Steps",
+					ShowcaseFile:    showcase.SliderSteps(),
+					PreviewCodeFile: "slider_steps.templ",
+					ID:              "steps",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Disabled",
-					ShowcaseFile:      showcase.SliderDisabled(),
-					PreviewCodeFile:   "slider_disabled.templ",
-					ComponentCodeFile: "slider.templ",
+					SectionName:     "Disabled",
+					ShowcaseFile:    showcase.SliderDisabled(),
+					PreviewCodeFile: "slider_disabled.templ",
+					ID:              "disabled",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "External Value",
-					ShowcaseFile:      showcase.SliderExternalValue(),
-					PreviewCodeFile:   "slider_external_value.templ",
-					ComponentCodeFile: "slider.templ",
+					SectionName:     "External Value",
+					ShowcaseFile:    showcase.SliderExternalValue(),
+					PreviewCodeFile: "slider_external_value.templ",
+					ID:              "external-value",
 				})
 			}
 		}

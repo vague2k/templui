@@ -1,23 +1,26 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import (
+	"github.com/axzilla/templui/component/label"
+	"github.com/axzilla/templui/component/rating"
+)
 
 templ RatingWithLabel() {
 	<div class="items-center">
 		<div class="flex flex-col gap-2">
-			@components.Label(components.LabelProps{
-				For: "select-with-label",
+			@label.Label(label.Props{
+				For: "rating-with-label",
 			}) {
 				Fruit
 			}
-			@components.Rating(components.RatingProps{
+			@rating.Rating(rating.Props{
 				Value: 2,
 			}) {
-				@components.RatingGroup(components.RatingGroupProps{}) {
+				@rating.Group() {
 					for i := 1; i <= 5; i++ {
-						@components.RatingItem(components.RatingItemProps{
+						@rating.Item(rating.ItemProps{
 							Value: i,
-							Style: components.RatingStyleStar,
+							Style: rating.StyleStar,
 						})
 					}
 				}

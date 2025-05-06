@@ -1,0 +1,243 @@
+package modules
+
+import (
+	"bytes"
+	"context"
+	"encoding/json"
+	"github.com/axzilla/templui/icon"
+	"github.com/axzilla/templui/util"
+	"html"
+	"io"
+	"log"
+	"net/http"
+	"os"
+	"sync"
+	"time"
+)
+
+type Size string
+
+const (
+	SizeSm   Size = "sm"
+	SizeLg   Size = "lg"
+	SizeFull Size = "full"
+)
+
+type CodeProps struct {
+	ID             string
+	Class          string
+	Attrs          templ.Attributes
+	Language       string
+	ShowCopyButton bool
+	Size           Size
+	CodeClass      string
+	CodeContent    string
+}
+
+templ Code(p CodeProps) {
+	if p.ID == "" {
+		{{ p.ID = util.RandomID() }}
+	}
+	{{ highlightedHTML := GetHighlightedHTML(ctx, p.CodeContent, p.Language) }}
+	<div
+		id={ p.ID }
+		class={ util.TwMerge("relative", p.Class) }
+		{ p.Attrs... }
+		x-data="codeHighlighting"
+	>
+		// Temporarily remove p.CodeClass to avoid conflicts
+		<div
+			class={ util.TwMerge(
+			"shiki",
+			"[&_pre]:block",
+			"[&_pre]:overflow-x-auto",
+			"[&_pre]:overflow-y-auto",
+			"[&_pre]:max-h-96",
+			"[&_pre]:p-4",
+			"[&_pre]:rounded-md",
+			"[&_pre]:text-sm",
+		) }
+			x-ref="container"
+		>
+			@templ.Raw(highlightedHTML)
+		</div>
+		if p.ShowCopyButton {
+			<button
+				class="absolute top-2 right-2 bg-gray-700 hover:bg-gray-600 text-white p-1.5 rounded opacity-75 hover:opacity-100 transition-opacity z-10"
+				@click="copyCode"
+				title="Copy code"
+			>
+				<span x-show="isCopied" class="flex items-center">
+					@icon.Check(icon.Props{Class: "w-4 h-4"})
+				</span>
+				<span x-show="isNotCopied" class="flex items-center">
+					@icon.Clipboard(icon.Props{Class: "w-4 h-4"})
+				</span>
+			</button>
+		}
+	</div>
+}
+
+// Configurable URL for the Shiki service
+var shikiServiceURL = getShikiServiceURL()
+
+// Helper function to read URL from environment variable
+// with fallback for local development
+func getShikiServiceURL() string {
+	url := os.Getenv("SHIKI_URL")
+	if url == "" {
+		// Fallback when environment variable is not set
+		// Useful for local development without Docker Compose
+		url = "http://localhost:3000/highlight"
+	}
+	log.Printf("INFO: Using Shiki Service URL: %s", url)
+	return url
+}
+
+type ShikiRequest struct {
+	Code string `json:"code"`
+	Lang string `json:"lang"`
+}
+
+var (
+	httpClient = &http.Client{
+		Timeout: 5 * time.Second, // Timeout for HTTP requests
+		Transport: &http.Transport{
+			MaxIdleConns:        10, // Pool size for reused connections
+			IdleConnTimeout:     30 * time.Second,
+			MaxIdleConnsPerHost: 10,
+		},
+	}
+	// Simple cache to avoid repeated requests for identical code
+	// For production, a more robust cache (e.g., with LRU) would be advisable
+	cache      = make(map[string]string)
+	cacheMutex sync.RWMutex
+)
+
+// GetHighlightedHTML calls the Shiki service and returns HTML.
+// Returns HTML-escaped original code on errors.
+// Uses a simple in-memory cache.
+func GetHighlightedHTML(ctx context.Context, codeContent string, language string) string {
+	log.Printf("INFO: GetHighlightedHTML called for lang '%s'", language)
+	if codeContent == "" {
+		return ""
+	}
+	if language == "" {
+		language = "templ" // Default
+	}
+
+	// Create cache key
+	cacheKey := language + "|" + codeContent
+
+	// Check cache (with read lock)
+	cacheMutex.RLock()
+	cachedValue, ok := cache[cacheKey]
+	if ok {
+		log.Println("Shiki Cache Hit for lang:", language)
+		cacheMutex.RUnlock()
+		return cachedValue
+	}
+	cacheMutex.RUnlock()
+
+	log.Println("Shiki Cache Miss for lang:", language)
+
+	log.Printf("INFO: Calling Shiki for lang '%s'...", language)
+	requestBody, err := json.Marshal(ShikiRequest{Code: codeContent, Lang: language})
+	if err != nil {
+		log.Printf("WARN: Error marshalling Shiki request: %v. Returning escaped code.", err)
+		return html.EscapeString(codeContent) // Fallback
+	}
+
+	// Use a context with timeout if the passed context doesn't have one
+	reqCtx, cancel := context.WithTimeout(ctx, httpClient.Timeout)
+	defer cancel()
+
+	req, err := http.NewRequestWithContext(reqCtx, "POST", shikiServiceURL, bytes.NewBuffer(requestBody))
+	if err != nil {
+		log.Printf("WARN: Error creating Shiki request: %v. Returning escaped code.", err)
+		return html.EscapeString(codeContent) // Fallback
+	}
+	req.Header.Set("Content-Type", "application/json")
+	req.Header.Set("Accept", "text/html")
+
+	resp, err := httpClient.Do(req)
+	log.Printf("INFO: Shiki call finished for lang '%s'. Error: %v", language, err)
+	if err != nil {
+		// Distinguish between timeout and other errors
+		if reqCtx.Err() == context.DeadlineExceeded { // Check reqCtx for timeout
+			log.Printf("WARN: Shiki service request timed out for lang %s. Returning escaped code.", language)
+		} else {
+			log.Printf("WARN: Error calling Shiki service: %v. Returning escaped code.", err)
+		}
+		return html.EscapeString(codeContent) // Fallback
+	}
+	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		bodyBytes, _ := io.ReadAll(resp.Body)
+		log.Printf("WARN: Shiki service returned error (%d) for lang %s: %s. Returning escaped code.", resp.StatusCode, language, string(bodyBytes))
+		return html.EscapeString(codeContent) // Fallback
+	}
+
+	highlightedBytes, err := io.ReadAll(resp.Body)
+	if err != nil {
+		log.Printf("WARN: Error reading Shiki service response: %v. Returning escaped code.", err)
+		return html.EscapeString(codeContent) // Fallback
+	}
+
+	highlightedHTML := string(highlightedBytes)
+
+	// Store in cache (with write lock)
+	cacheMutex.Lock()
+	defer cacheMutex.Unlock()
+	cache[cacheKey] = highlightedHTML
+
+	// IMPORTANT: Since we use templ.Raw, we assume Shiki
+	// generates safe HTML. No additional escape function needed.
+	return highlightedHTML
+}
+
+templ CodeHighlightingScript() {
+	{{ handle := templ.NewOnceHandle() }}
+	@handle.Once() {
+		<script nonce={ templ.GetNonce(ctx) }>
+			document.addEventListener('alpine:init', () => {
+				Alpine.data('codeHighlighting', () => ({
+					isCopied: false,
+					isNotCopied: true,
+					copyCode() {
+						const container = this.$refs.container;
+						const codeElement = container.querySelector('pre > code');
+						if (!codeElement) {
+							console.error("Could not find code element generated by Shiki.");
+							return;
+						}
+						const codeText = codeElement.textContent || "";
+						try {
+							if (navigator.clipboard && window.isSecureContext) {
+								navigator.clipboard.writeText(codeText);
+							} else {
+								const textArea = document.createElement('textarea');
+								textArea.value = codeText;
+								textArea.style.position = 'fixed';
+								textArea.style.left = '-9999px';
+								document.body.appendChild(textArea);
+								textArea.select();
+								document.execCommand('copy');
+								document.body.removeChild(textArea);
+							}
+							this.isCopied = true;
+							this.isNotCopied = false;
+							setTimeout(() => {
+								this.isCopied = false;
+								this.isNotCopied = true;
+							}, 2000);
+						} catch (err) {
+							console.error('Copy failed', err);
+						}
+					}
+				}))
+			})
+		</script>
+	}
+}

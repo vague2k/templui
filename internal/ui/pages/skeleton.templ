@@ -10,39 +10,69 @@ templ Skeleton() {
 	@layouts.DocsLayout(
 		"Skeleton",
 		"UI placeholder for indicating content that is loading.",
+		[]modules.TableOfContentsItem{
+			{
+				Text: "Examples",
+				ID:   "examples",
+				Children: []modules.TableOfContentsItem{
+					{
+						Text: "Profile",
+						ID:   "profile",
+					},
+					{
+						Text: "Card",
+						ID:   "card",
+					},
+					{
+						Text: "Dashboard",
+						ID:   "dashboard",
+					},
+				},
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Skeleton",
 			Description: templ.Raw("UI placeholder for indicating content that is loading. It's designed to be a simple building block that users can compose into more complex loading UI patterns."),
 			Tailwind:    true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Skeleton",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.SkeletonDefault(),
 				PreviewCodeFile:   "skeleton_default.templ",
-				ComponentCodeFile: "skeleton.templ",
+				ComponentCodeFile: "skeleton/skeleton.templ",
 			})
-			@modules.Usage(modules.UsageProps{
-				ComponentName: "Skeleton",
-				PropsExample:  "...",
-			})
-			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Examples",
+				ID:    "examples",
+			}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Profile",
-					ShowcaseFile:      showcase.SkeletonProfile(),
-					PreviewCodeFile:   "skeleton_profile.templ",
-					ComponentCodeFile: "skeleton.templ",
+					SectionName:     "Profile",
+					ShowcaseFile:    showcase.SkeletonProfile(),
+					PreviewCodeFile: "skeleton_profile.templ",
+					ID:              "profile",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Card",
-					ShowcaseFile:      showcase.SkeletonCard(),
-					PreviewCodeFile:   "skeleton_card.templ",
-					ComponentCodeFile: "skeleton.templ",
+					SectionName:     "Card",
+					ShowcaseFile:    showcase.SkeletonCard(),
+					PreviewCodeFile: "skeleton_card.templ",
+					ID:              "card",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Dashboard",
-					ShowcaseFile:      showcase.SkeletonDashboard(),
-					PreviewCodeFile:   "skeleton_dashboard.templ",
-					ComponentCodeFile: "skeleton.templ",
+					SectionName:     "Dashboard",
+					ShowcaseFile:    showcase.SkeletonDashboard(),
+					PreviewCodeFile: "skeleton_dashboard.templ",
+					ID:              "dashboard",
 				})
 			}
 		}

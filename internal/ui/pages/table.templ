@@ -10,20 +10,28 @@ templ Table() {
 	@layouts.DocsLayout(
 		"Table",
 		"Display tabular data with rich formatting and interaction options",
+		[]modules.TableOfContentsItem{},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Table",
 			Description: templ.Raw("Display tabular data with rich formatting and interaction options"),
 			Tailwind:    true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Table",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.Table(),
 				PreviewCodeFile:   "table.templ",
-				ComponentCodeFile: "table.templ",
-			})
-			@modules.Usage(modules.UsageProps{
-				ComponentName: "Table",
-				PropsExample:  "...",
+				ComponentCodeFile: "table/table.templ",
 			})
 		}
 	}

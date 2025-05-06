@@ -7,7 +7,7 @@ The UI Kit for templ
 
 ## About
 
-templUI is an enterprise-ready library of UI components designed specifically for templ. It leverages Alpine.js for enhanced interactivity and Tailwind CSS for elegant styling. Built with CSP compliance and modern development practices in mind, templUI provides everything you need to create professional web applications.
+templUI is an enterprise-ready library of UI components designed specifically for templ. It utilizes lightweight Vanilla JavaScript for enhanced interactivity and Tailwind CSS for elegant styling. Built with CSP compliance, minimal dependencies, and modern development practices in mind, templUI provides everything you need to create professional, performant web applications.
 
 ## Features
 
@@ -16,9 +16,10 @@ templUI is an enterprise-ready library of UI components designed specifically fo
 - **HTMX Optimized**: Seamless integration with HTMX for dynamic interactions
 - **Component Driven**: Flexible, composable components for rapid development
 - **Fully Customizable**: Adapt components to match your brand and requirements
+- **Lightweight Vanilla JS**: Uses pure JavaScript for interactivity, ensuring minimal overhead and maximum performance.
 - **Type-Safe**: Leveraging Go's type system for robust development
 - **Server-Side Focused**: Excellent performance and SEO benefits
-- **Modern Stack**: Go, Templ, Alpine.js, and Tailwind CSS working in harmony
+- **Modern Stack**: Go, Templ, Vanilla JavaScript, and Tailwind CSS working in harmony
 
 ## Quick Start
 

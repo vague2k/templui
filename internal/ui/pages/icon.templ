@@ -1,8 +1,6 @@
 package pages
 
 import (
-	"fmt"
-	"github.com/axzilla/templui/components"
 	"github.com/axzilla/templui/internal/ui/layouts"
 	"github.com/axzilla/templui/internal/ui/modules"
 	"github.com/axzilla/templui/internal/ui/showcase"
@@ -12,49 +10,70 @@ templ Icon() {
 	@layouts.DocsLayout(
 		"Icon",
 		"A wrapper for Lucide Icons with optional settings for size, color, fill, stroke, and custom classes.",
+		[]modules.TableOfContentsItem{
+			{
+				Text: "Examples",
+				ID:   "examples",
+				Children: []modules.TableOfContentsItem{
+					{
+						Text: "Colored",
+						ID:   "colored",
+					},
+					{
+						Text: "Filled",
+						ID:   "filled",
+					},
+					{
+						Text: "Sizes",
+						ID:   "sizes",
+					},
+				},
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Icon",
 			Description: templ.Raw(`A wrapper for <a href="https://lucide.dev" target="_blank" rel="noopener noreferrer" class="text-primary underline underline-offset-2 hover:opacity-80 transition-opacity">Lucide Icons</a> with optional settings for size, color, fill, stroke, and custom classes. Browse available icons in the Lucide library to see what you can use.`),
 			Tailwind:    true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Icon",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:    showcase.IconDefault(),
 				PreviewCodeFile: "icon_default.templ",
 			})
-			@Usage()
-			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Examples",
+				ID:    "examples",
+			}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Colored",
 					ShowcaseFile:    showcase.IconColored(),
 					PreviewCodeFile: "icon_colored.templ",
+					ID:              "colored",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Filled",
 					ShowcaseFile:    showcase.IconFilled(),
 					PreviewCodeFile: "icon_filled.templ",
+					ID:              "filled",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Sizes",
 					ShowcaseFile:    showcase.IconSizes(),
 					PreviewCodeFile: "icon_sizes.templ",
+					ID:              "sizes",
 				})
 			}
 		}
 	}
-}
-
-templ Usage() {
-	<div class="mb-8">
-		<h2 class="text-2xl font-bold mb-4">Usage</h2>
-		<div>
-			@components.Code(components.CodeProps{Language: "go"}) {
-				{ fmt.Sprintf(`@icons.%s(icons.%sProps{%s})`,
-				"ArrowRight",
-				"Icon",
-				"Size: \"24\", Color: \"text-primary\"",
-			) }
-			}
-		</div>
-	</div>
 }

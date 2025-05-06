@@ -1,18 +1,21 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import (
+	"github.com/axzilla/templui/component/card"
+	"github.com/axzilla/templui/component/chart"
+)
 
 templ ChartBarHorizontal() {
-	@components.Card(components.CardProps{Class: "max-w-sm"}) {
-		@components.CardContent(components.CardContentProps{}) {
-			@components.Chart(components.ChartProps{
-				Variant:     components.ChartVariantBar,
+	@card.Card(card.Props{Class: "max-w-sm"}) {
+		@card.Content() {
+			@chart.Chart(chart.Props{
+				Variant:     chart.VariantBar,
 				Horizontal:  true,
 				ShowXGrid:   true,
 				ShowYLabels: true,
-				Data: components.ChartData{
+				Data: chart.Data{
 					Labels: []string{"Jan", "Feb", "March", "April", "May", "June"},
-					Datasets: []components.ChartDataset{
+					Datasets: []chart.Dataset{
 						{
 							Data: []float64{12, 19, 12, 5, 2, 3},
 						},

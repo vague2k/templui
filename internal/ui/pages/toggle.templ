@@ -10,47 +10,79 @@ templ Toggle() {
 	@layouts.DocsLayout(
 		"Toggle",
 		"Two-state button that can be switched on or off.",
+		[]modules.TableOfContentsItem{
+			{
+				Text: "Examples",
+				ID:   "examples",
+				Children: []modules.TableOfContentsItem{
+					{
+						Text: "Checked",
+						ID:   "checked",
+					},
+					{
+						Text: "With Label",
+						ID:   "with-label",
+					},
+					{
+						Text: "Disabled",
+						ID:   "disabled",
+					},
+					{
+						Text: "Form",
+						ID:   "form",
+					},
+				},
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Toggle",
 			Description: templ.Raw("Two-state button that can be switched on or off."),
 			Tailwind:    true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Toggle",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.ToggleDefault(),
 				PreviewCodeFile:   "toggle_default.templ",
-				ComponentCodeFile: "toggle.templ",
+				ComponentCodeFile: "toggle/toggle.templ",
 			})
-			@modules.Usage(modules.UsageProps{
-				ComponentName: "Toggle",
-				PropsExample:  "...",
-			})
-			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Examples",
+				ID:    "examples",
+			}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Checked",
-					ShowcaseFile:      showcase.ToggleChecked(),
-					PreviewCodeFile:   "toggle_checked.templ",
-					ComponentCodeFile: "toggle.templ",
+					SectionName:     "Checked",
+					ShowcaseFile:    showcase.ToggleChecked(),
+					PreviewCodeFile: "toggle_checked.templ",
+					ID:              "checked",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "With Label",
-					ShowcaseFile:      showcase.ToggleWithLabel(),
-					PreviewCodeFile:   "toggle_with_label.templ",
-					ComponentCodeFile: "toggle.templ",
-					ID:                "label",
+					SectionName:     "With Label",
+					ShowcaseFile:    showcase.ToggleWithLabel(),
+					PreviewCodeFile: "toggle_with_label.templ",
+					ID:              "with-label",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Disabled",
-					ShowcaseFile:      showcase.ToggleDisabled(),
-					PreviewCodeFile:   "toggle_disabled.templ",
-					ComponentCodeFile: "toggle.templ",
+					SectionName:     "Disabled",
+					ShowcaseFile:    showcase.ToggleDisabled(),
+					PreviewCodeFile: "toggle_disabled.templ",
+					ID:              "disabled",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Form",
-					ShowcaseFile:      showcase.ToggleForm(),
-					PreviewCodeFile:   "toggle_form.templ",
-					ComponentCodeFile: "toggle.templ",
-					ID:                "form",
+					SectionName:     "Form",
+					ShowcaseFile:    showcase.ToggleForm(),
+					PreviewCodeFile: "toggle_form.templ",
+					ID:              "form",
 				})
 			}
 		}

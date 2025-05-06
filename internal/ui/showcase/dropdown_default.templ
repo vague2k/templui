@@ -1,0 +1,98 @@
+package showcase
+
+import (
+	"github.com/axzilla/templui/component/button"
+	"github.com/axzilla/templui/component/dropdown"
+	"github.com/axzilla/templui/icon"
+)
+
+templ DropdownDefault() {
+	@dropdown.Dropdown() {
+		@dropdown.Trigger() {
+			@button.Button(button.Props{
+				Variant: button.VariantOutline,
+			}) {
+				Open
+			}
+		}
+		@dropdown.Content(dropdown.ContentProps{
+			Width: "w-56",
+		}) {
+			@dropdown.Label() {
+				My Account
+			}
+			@dropdown.Separator()
+			@dropdown.Group() {
+				@dropdown.Item() {
+					Team
+				}
+				@dropdown.Sub() {
+					@dropdown.SubTrigger() {
+						<span class="flex items-center">
+							@icon.Users(icon.Props{Size: 16, Class: "mr-2"})
+							Invite users
+						</span>
+					}
+					@dropdown.SubContent() {
+						@dropdown.Item() {
+							<span class="flex items-center">
+								@icon.Mail(icon.Props{Size: 16, Class: "mr-2"})
+								Email
+							</span>
+						}
+						@dropdown.Item() {
+							<span class="flex items-center">
+								@icon.MessageSquare(icon.Props{Size: 16, Class: "mr-2"})
+								Message
+							</span>
+						}
+						@dropdown.Separator()
+						@dropdown.Item() {
+							More...
+						}
+					}
+				}
+				@dropdown.Item() {
+					New Team
+					@dropdown.Shortcut() {
+						⌘+T
+					}
+				}
+			}
+			@dropdown.Separator()
+			@dropdown.Item(dropdown.ItemProps{
+				Href:   "https://github.com",
+				Target: "_blank",
+			}) {
+				<span class="flex items-center">
+					@icon.Github(icon.Props{Size: 16, Class: "mr-2"})
+					GitHub
+				</span>
+			}
+			@dropdown.Item() {
+				<span class="flex items-center">
+					@icon.LifeBuoy(icon.Props{Size: 16, Class: "mr-2"})
+					Support
+				</span>
+			}
+			@dropdown.Item(dropdown.ItemProps{
+				Disabled: true,
+			}) {
+				<span class="flex items-center">
+					@icon.Code(icon.Props{Size: 16, Class: "mr-2"})
+					API
+				</span>
+			}
+			@dropdown.Separator()
+			@dropdown.Item() {
+				<span class="flex items-center">
+					@icon.LogOut(icon.Props{Size: 16, Class: "mr-2"})
+					Log out
+				</span>
+				@dropdown.Shortcut() {
+					⇧⌘Q
+				}
+			}
+		}
+	}
+}

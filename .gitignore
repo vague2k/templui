@@ -10,3 +10,6 @@ bin
 node_modules
 tmp
 .env
+
+out
+assets/css/output.css

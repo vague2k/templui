@@ -1,41 +1,41 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import "github.com/axzilla/templui/component/rating"
 
 templ RatingStyles() {
 	<div class="flex flex-col gap-4">
-		@components.Rating(components.RatingProps{
+		@rating.Rating(rating.Props{
 			Value: 2,
 		}) {
-			@components.RatingGroup(components.RatingGroupProps{}) {
+			@rating.Group() {
 				for i := 1; i <= 5; i++ {
-					@components.RatingItem(components.RatingItemProps{
+					@rating.Item(rating.ItemProps{
 						Value: i,
-						Style: components.RatingStyleStar,
+						Style: rating.StyleStar,
 					})
 				}
 			}
 		}
-		@components.Rating(components.RatingProps{
+		@rating.Rating(rating.Props{
 			Value: 3,
 		}) {
-			@components.RatingGroup(components.RatingGroupProps{}) {
+			@rating.Group() {
 				for i := 1; i <= 5; i++ {
-					@components.RatingItem(components.RatingItemProps{
+					@rating.Item(rating.ItemProps{
 						Value: i,
-						Style: components.RatingStyleHeart,
+						Style: rating.StyleHeart,
 					})
 				}
 			}
 		}
-		@components.Rating(components.RatingProps{
+		@rating.Rating(rating.Props{
 			Value: 4,
 		}) {
-			@components.RatingGroup(components.RatingGroupProps{}) {
+			@rating.Group() {
 				for i := 1; i <= 5; i++ {
-					@components.RatingItem(components.RatingItemProps{
+					@rating.Item(rating.ItemProps{
 						Value: i,
-						Style: components.RatingStyleEmoji,
+						Style: rating.StyleEmoji,
 					})
 				}
 			}

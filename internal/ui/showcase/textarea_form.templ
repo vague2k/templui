@@ -1,25 +1,28 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import (
+	"github.com/axzilla/templui/component/form"
+	"github.com/axzilla/templui/component/textarea"
+)
 
 templ TextareaForm() {
 	<div class="w-full max-w-md">
-		@components.FormItem(components.FormItemProps{}) {
-			@components.Label(components.LabelProps{
+		@form.Item() {
+			@form.Label(form.LabelProps{
 				For: "textarea-form",
 			}) {
 				Your Message
 			}
-			@components.Textarea(components.TextareaProps{
+			@textarea.Textarea(textarea.Props{
 				ID:          "textarea-form",
 				Name:        "message",
 				Placeholder: "Type your message here...",
 			})
-			@components.FormDescription(components.FormDescriptionProps{}) {
+			@form.Description() {
 				Please type your message in the textarea.
 			}
-			@components.FormMessage(components.FormMessageProps{
-				Variant: components.FormMessageVariantError,
+			@form.Message(form.MessageProps{
+				Variant: form.MessageVariantError,
 			}) {
 				This message is required.
 			}

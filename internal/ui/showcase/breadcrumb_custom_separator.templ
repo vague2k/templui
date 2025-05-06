@@ -1,31 +1,35 @@
 package showcase
 
 import (
-	"github.com/axzilla/templui/components"
-	"github.com/axzilla/templui/icons"
+	"github.com/axzilla/templui/component/breadcrumb"
+	"github.com/axzilla/templui/icon"
 )
 
 templ BreadcrumbCustomSeparator() {
-	@components.Breadcrumb(components.BreadcrumbProps{}) {
-		@components.BreadcrumbList(components.BreadcrumbListProps{}) {
-			@components.BreadcrumbItem(components.BreadcrumbItemProps{}) {
-				@components.BreadcrumbLink(components.BreadcrumbLinkProps{Href: "/"}) {
+	@breadcrumb.Breadcrumb() {
+		@breadcrumb.List() {
+			@breadcrumb.Item() {
+				@breadcrumb.Link(breadcrumb.LinkProps{
+					Href: "/",
+				}) {
 					Home
 				}
 			}
-			@components.BreadcrumbItem(components.BreadcrumbItemProps{}) {
-				@components.BreadcrumbSeparator(components.BreadcrumbSeparatorProps{UseCustom: true}) {
-					@icons.Slash(icons.IconProps{Size: "14"})
+			@breadcrumb.Item() {
+				@breadcrumb.Separator(breadcrumb.SeparatorProps{UseCustom: true}) {
+					@icon.Slash(icon.Props{Size: 14})
 				}
-				@components.BreadcrumbLink(components.BreadcrumbLinkProps{Href: "/products"}) {
+				@breadcrumb.Link(breadcrumb.LinkProps{
+					Href: "/products",
+				}) {
 					Products
 				}
 			}
-			@components.BreadcrumbItem(components.BreadcrumbItemProps{}) {
-				@components.BreadcrumbSeparator(components.BreadcrumbSeparatorProps{UseCustom: true}) {
-					@icons.Slash(icons.IconProps{Size: "14"})
+			@breadcrumb.Item() {
+				@breadcrumb.Separator(breadcrumb.SeparatorProps{UseCustom: true}) {
+					@icon.Slash(icon.Props{Size: 14})
 				}
-				@components.BreadcrumbPage(components.BreadcrumbItemProps{Current: true}) {
+				@breadcrumb.Page(breadcrumb.ItemProps{Current: true}) {
 					Category
 				}
 			}

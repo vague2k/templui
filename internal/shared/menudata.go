@@ -66,6 +66,10 @@ var Sections = []Section{
 				Href: "/docs/components/card",
 			},
 			{
+				Text: "Calendar",
+				Href: "/docs/components/calendar",
+			},
+			{
 				Text: "Carousel",
 				Href: "/docs/components/carousel",
 			},
@@ -74,16 +78,16 @@ var Sections = []Section{
 				Href: "/docs/components/charts",
 			},
 			{
-				Text: "Code",
-				Href: "/docs/components/code",
-			},
-			{
 				Text: "Checkbox",
 				Href: "/docs/components/checkbox",
 			},
 			{
 				Text: "Checkbox Card",
 				Href: "/docs/components/checkbox-card",
+			},
+			{
+				Text: "Code",
+				Href: "/docs/components/code",
 			},
 			{
 				Text: "Date Picker",
@@ -95,8 +99,8 @@ var Sections = []Section{
 			},
 
 			{
-				Text: "Dropdown Menu",
-				Href: "/docs/components/dropdown-menu",
+				Text: "Dropdown",
+				Href: "/docs/components/dropdown",
 			},
 			{
 				Text: "Form",
@@ -127,6 +131,10 @@ var Sections = []Section{
 				Href: "/docs/components/pagination",
 			},
 			{
+				Text: "Popover",
+				Href: "/docs/components/popover",
+			},
+			{
 				Text: "Progress",
 				Href: "/docs/components/progress",
 			},
@@ -143,8 +151,8 @@ var Sections = []Section{
 				Href: "/docs/components/rating",
 			},
 			{
-				Text: "Select",
-				Href: "/docs/components/select",
+				Text: "Select Box",
+				Href: "/docs/components/select-box",
 			},
 			{
 				Text: "Separator",

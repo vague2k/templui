@@ -1,10 +1,10 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import "github.com/axzilla/templui/component/badge"
 
 templ BadgeDestructive() {
-	@components.Badge(components.BadgeProps{
-		Variant: components.BadgeVariantDestructive,
+	@badge.Badge(badge.Props{
+		Variant: badge.VariantDestructive,
 	}) {
 		Destructive
 	}

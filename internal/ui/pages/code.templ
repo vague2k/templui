@@ -10,34 +10,60 @@ templ Code() {
 	@layouts.DocsLayout(
 		"Code",
 		"Code displays a code block with optional syntax highlighting and copy functionality.",
+		[]modules.TableOfContentsItem{
+			{
+				Text: "Examples",
+				ID:   "examples",
+				Children: []modules.TableOfContentsItem{
+					{
+						Text: "Copy Button",
+						ID:   "copy-button",
+					},
+					{
+						Text: "Custom Size",
+						ID:   "custom-size",
+					},
+				},
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Code",
 			Description: templ.Raw("Code displays a code block with optional syntax highlighting and copy functionality"),
 			Tailwind:    true,
+			VanillaJS:   true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Code",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.CodeDefault(),
 				PreviewCodeFile:   "code_default.templ",
-				ComponentCodeFile: "code.templ",
+				ComponentCodeFile: "code/code.templ",
 			})
-			@modules.Usage(modules.UsageProps{
-				ComponentName: "Code",
-				NeedsHandler:  true,
-				PropsExample:  "...",
-			})
-			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Examples",
+				ID:    "examples",
+			}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Copy Button",
-					ShowcaseFile:      showcase.CodeCopyButton(),
-					PreviewCodeFile:   "code_copy_button.templ",
-					ComponentCodeFile: "code.templ",
+					SectionName:     "Copy Button",
+					ShowcaseFile:    showcase.CodeCopyButton(),
+					PreviewCodeFile: "code_copy_button.templ",
+					ID:              "copy-button",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Custom Size",
-					ShowcaseFile:      showcase.CodeCustomSize(),
-					PreviewCodeFile:   "code_custom_size.templ",
-					ComponentCodeFile: "code.templ",
+					SectionName:     "Custom Size",
+					ShowcaseFile:    showcase.CodeCustomSize(),
+					PreviewCodeFile: "code_custom_size.templ",
+					ID:              "custom-size",
 				})
 			}
 		}

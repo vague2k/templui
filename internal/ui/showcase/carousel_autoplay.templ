@@ -1,30 +1,28 @@
 package showcase
 
-import (
-	"github.com/axzilla/templui/components"
-)
+import "github.com/axzilla/templui/component/carousel"
 
 templ CarouselAutoplay() {
-	@components.Carousel(components.CarouselProps{
+	@carousel.Carousel(carousel.Props{
 		Autoplay: true,
 		Interval: 3000,
 		Loop:     true,
 		Class:    "rounded-md",
 	}) {
-		@components.CarouselContent(components.CarouselContentProps{}) {
-			@components.CarouselItem(components.CarouselItemProps{}) {
+		@carousel.Content() {
+			@carousel.Item() {
 				@CarouselAutoplaySlide("Slide 1", "This is the first slide", "bg-blue-500")
 			}
-			@components.CarouselItem(components.CarouselItemProps{}) {
+			@carousel.Item() {
 				@CarouselAutoplaySlide("Slide 2", "This is the second slide", "bg-green-500")
 			}
-			@components.CarouselItem(components.CarouselItemProps{}) {
+			@carousel.Item() {
 				@CarouselAutoplaySlide("Slide 3", "This is the third slide", "bg-purple-500")
 			}
 		}
-		@components.CarouselPrevious(components.CarouselPreviousProps{})
-		@components.CarouselNext(components.CarouselNextProps{})
-		@components.CarouselIndicators(components.CarouselIndicatorsProps{
+		@carousel.Previous()
+		@carousel.Next()
+		@carousel.Indicators(carousel.IndicatorsProps{
 			Count: 3,
 		})
 	}

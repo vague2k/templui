@@ -1,0 +1,39 @@
+package pages
+
+import (
+	"github.com/axzilla/templui/internal/ui/layouts"
+	"github.com/axzilla/templui/internal/ui/modules"
+	"github.com/axzilla/templui/internal/ui/showcase"
+)
+
+templ Calendar() {
+	@layouts.DocsLayout(
+		"Calendar",
+		"A date field component that allows users to enter and edit date.",
+		[]modules.TableOfContentsItem{},
+	) {
+		@modules.PageWrapper(modules.PageWrapperProps{
+			Name:        "Calendar",
+			Description: templ.Raw("A date field component that allows users to enter and edit date."),
+			Tailwind:    true,
+			VanillaJS:   true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Calendar",
+					},
+				},
+			},
+		}) {
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				ShowcaseFile:      showcase.CalendarDefault(),
+				PreviewCodeFile:   "calendar_default.templ",
+				ComponentCodeFile: "calendar/calendar.templ",
+			})
+		}
+	}
+}

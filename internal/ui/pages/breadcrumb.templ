@@ -10,39 +10,69 @@ templ Breadcrumb() {
 	@layouts.DocsLayout(
 		"Breadcrumb",
 		"Navigation component that helps users understand their location within a website's hierarchy.",
+		[]modules.TableOfContentsItem{
+			{
+				ID:   "examples",
+				Text: "Examples",
+				Children: []modules.TableOfContentsItem{
+					{
+						ID:   "with-icons",
+						Text: "With Icons",
+					},
+					{
+						ID:   "custom-separator",
+						Text: "Custom Separator",
+					},
+					{
+						ID:   "responsive",
+						Text: "Responsive",
+					},
+				},
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Breadcrumb",
 			Description: templ.Raw("Navigation component that helps users understand their location within a website's hierarchy."),
 			Tailwind:    true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Breadcrumb",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.BreadcrumbDefault(),
 				PreviewCodeFile:   "breadcrumb_default.templ",
-				ComponentCodeFile: "breadcrumb.templ",
+				ComponentCodeFile: "breadcrumb/breadcrumb.templ",
 			})
-			@modules.Usage(modules.UsageProps{
-				ComponentName: "Breadcrumb",
-				PropsExample:  "...",
-			})
-			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Examples",
+				ID:    "examples",
+			}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "With Icons",
-					ShowcaseFile:      showcase.BreadcrumbWithIcons(),
-					PreviewCodeFile:   "breadcrumb_with_icons.templ",
-					ComponentCodeFile: "breadcrumb.templ",
+					SectionName:     "With Icons",
+					ShowcaseFile:    showcase.BreadcrumbWithIcons(),
+					PreviewCodeFile: "breadcrumb_with_icons.templ",
+					ID:              "with-icons",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Custom Separator",
-					ShowcaseFile:      showcase.BreadcrumbCustomSeparator(),
-					PreviewCodeFile:   "breadcrumb_custom_separator.templ",
-					ComponentCodeFile: "breadcrumb.templ",
+					SectionName:     "Custom Separator",
+					ShowcaseFile:    showcase.BreadcrumbCustomSeparator(),
+					PreviewCodeFile: "breadcrumb_custom_separator.templ",
+					ID:              "custom-separator",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Responsive",
-					ShowcaseFile:      showcase.BreadcrumbResponsive(),
-					PreviewCodeFile:   "breadcrumb_responsive.templ",
-					ComponentCodeFile: "breadcrumb.templ",
+					SectionName:     "Responsive",
+					ShowcaseFile:    showcase.BreadcrumbResponsive(),
+					PreviewCodeFile: "breadcrumb_responsive.templ",
+					ID:              "responsive",
 				})
 			}
 		}

@@ -10,41 +10,70 @@ templ Carousel() {
 	@layouts.DocsLayout(
 		"Carousel",
 		"Interactive slideshow for cycling through a series of content.",
+		[]modules.TableOfContentsItem{
+			{
+				ID:   "examples",
+				Text: "Examples",
+				Children: []modules.TableOfContentsItem{
+					{
+						ID:   "autoplay",
+						Text: "Autoplay",
+					},
+					{
+						ID:   "minimal",
+						Text: "Minimal",
+					},
+					{
+						ID:   "with-images",
+						Text: "With Images",
+					},
+				},
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Carousel",
 			Description: templ.Raw("Interactive slideshow for cycling through a series of content."),
 			Tailwind:    true,
 			VanillaJS:   true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Carousel",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.CarouselDefault(),
 				PreviewCodeFile:   "carousel_default.templ",
-				ComponentCodeFile: "carousel.templ",
+				ComponentCodeFile: "carousel/carousel.templ",
 			})
-			@modules.Usage(modules.UsageProps{
-				ComponentName: "Carousel",
-				NeedsHandler:  true,
-				PropsExample:  "...",
-			})
-			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Examples",
+				ID:    "examples",
+			}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Autoplay",
-					ShowcaseFile:      showcase.CarouselAutoplay(),
-					PreviewCodeFile:   "carousel_autoplay.templ",
-					ComponentCodeFile: "carousel.templ",
+					SectionName:     "Autoplay",
+					ShowcaseFile:    showcase.CarouselAutoplay(),
+					PreviewCodeFile: "carousel_autoplay.templ",
+					ID:              "autoplay",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Minimal",
-					ShowcaseFile:      showcase.CarouselMinimal(),
-					PreviewCodeFile:   "carousel_minimal.templ",
-					ComponentCodeFile: "carousel.templ",
+					SectionName:     "Minimal",
+					ShowcaseFile:    showcase.CarouselMinimal(),
+					PreviewCodeFile: "carousel_minimal.templ",
+					ID:              "minimal",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "With Images",
-					ShowcaseFile:      showcase.CarouselWithImages(),
-					PreviewCodeFile:   "carousel_with_images.templ",
-					ComponentCodeFile: "carousel.templ",
+					SectionName:     "With Images",
+					ShowcaseFile:    showcase.CarouselWithImages(),
+					PreviewCodeFile: "carousel_with_images.templ",
+					ID:              "with-images",
 				})
 			}
 		}

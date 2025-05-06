@@ -1,8 +1,8 @@
 package pages
 
 import (
-	"github.com/axzilla/templui/components"
 	"github.com/axzilla/templui/internal/ui/layouts"
+	"github.com/axzilla/templui/internal/ui/modules"
 )
 
 var installGo = `go version`
@@ -24,7 +24,7 @@ chmod +x tailwindcss-linux-x64
 sudo mv tailwindcss-linux-x64 /usr/local/bin/tailwindcss`
 
 var tailwindWindowsX64 = `# On Windows (x64i
-// # Download from: https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-windows-x64.exe
+# Download from: https://github.com/tailwindlabs/tailwindcss/releases/latest/download/tailwindcss-windows-x64.exe
 # Add to your PATH as 'tailwindcss'`
 
 var makeFile = `# Run templ generation in watch mode
@@ -48,7 +48,7 @@ tailwind:
 
 # Start development server with all watchers
 dev:
-    make -j3 templ server tailwind`
+    make -j3 tailwind templ server`
 
 var inputCss = `@import 'tailwindcss';
 
@@ -145,7 +145,7 @@ var installTemplUI = `go get github.com/axzilla/templui`
 
 var goPath = `@source "${GOPATH}/pkg/mod/github.com/axzilla/templui@*/**/*.{go,templ}";`
 
-var usingComponents = `import "github.com/axzilla/templui/components"
+var usingComponents = `import "github.com/axzilla/templui/component"
 
 @components.Button(components.ButtonProps{Text: "Click me"})`
 
@@ -161,14 +161,6 @@ wrappedMux := middleware.WithCSP(cspConfig)(mux)
 mux.Handle("GET /", templ.Handler(pages.Landing()))
 http.ListenAndServe(":8090", wrappedMux)`
 
-var alpineHelpers = `// Option A: Include Alpine.js and all component scripts (recommended)
-@helpers.ComponentScripts()
-
-// Option B: Include Alpine.js and specific component scripts
-@components.AccordionScript()
-@components.ModalScript()
-// ... other specific component scripts as needed`
-
 var staticComponent = `// Static components (Tailwind only) can be used directly
 @components.Button(components.ButtonProps{...})
 @components.Card(components.CardProps{...})`
@@ -179,255 +171,263 @@ var interactiveComponent = `// First, include required scripts
 // Then use the component
 @components.Accordion(components.AccordionProps{...})`
 
+var installAir = `go install github.com/air-verse/air@latest`
+
+var devCommand = `make dev`
+
+var goEnvGopath = `go env GOPATH`
+
 templ HowToUse() {
 	@layouts.DocsLayout(
 		"How To Use",
 		"Learn how to integrate templUI into your projects.",
+		[]modules.TableOfContentsItem{
+			{ID: "requirements", Text: "Requirements"},
+			{ID: "base-configuration", Text: "Base Configuration"},
+			{ID: "development-tools", Text: "Development Tools"},
+			{ID: "installation-options", Text: "Installation Options"},
+			{ID: "advanced-configuration", Text: "Advanced Configuration"},
+		},
 	) {
-		<div>
-			<div class="mb-16">
-				<h1 class="text-3xl font-bold mb-2">How To Use</h1>
-				<p class="mb-4 text-muted-foreground">Learn how to integrate templUI into your projects.</p>
-			</div>
-			<section class="mb-12">
-				<h2 class="text-2xl font-semibold mb-4 text-primary">Requirements</h2>
-				<p class="mb-4 text-muted-foreground">Before using templUI, ensure you have these tools installed:</p>
-				<div class="space-y-6">
-					<div>
-						<h3 class="text-xl font-semibold mb-2">1. Go (1.24 or later)</h3>
-						<p class="text-muted-foreground mb-2">Check your Go version:</p>
-						@components.Code(components.CodeProps{Language: "shell", ShowCopyButton: true}) {
-							{ installGo }
-						}
-						<p class="text-sm mt-2 text-muted-foreground">For installation instructions, visit <a href="https://golang.org/dl" class="text-primary/90 underline" target="_blank">golang.org/dl</a>.</p>
-					</div>
-					<div>
-						<h3 class="text-xl font-semibold mb-2">2. templ (v0.3.833 or later)</h3>
-						<p class="mb-2 text-muted-foreground">Install the templ CLI:</p>
-						@components.Code(components.CodeProps{Language: "shell", ShowCopyButton: true}) {
-							{ installTempl }
-						}
-					</div>
-					<div>
-						<h3 class="text-xl font-semibold mb-2">3. Tailwind CSS Standalone CLI (v4.0.5 or later)</h3>
-						<p class="mb-2 text-muted-foreground">Install the standalone CLI based on your operating system:</p>
-						<div class="space-y-4">
-							<p class="mb-2 text-muted-foreground">Homebrew (macOS):</p>
-							@components.Code(components.CodeProps{Language: "shell", ShowCopyButton: true}) {
-								{ tailwindHomebrew }
-							}
-							<p class="mb-2 text-muted-foreground">macOS (Apple Silicon):</p>
-							@components.Code(components.CodeProps{Language: "shell", ShowCopyButton: true}) {
-								{ tailwindMacOSArm64 }
-							}
-							<p class="mb-2 text-muted-foreground">macOS (Intel):</p>
-							@components.Code(components.CodeProps{Language: "shell", ShowCopyButton: true}) {
-								{ tailwindMacOSX64 }
-							}
-							<p class="mb-2 text-muted-foreground">Linux (x64):</p>
-							@components.Code(components.CodeProps{Language: "shell", ShowCopyButton: true}) {
-								{ tailwindLinuxX64 }
-							}
-							<p class="mb-2 text-muted-foreground">Windows (x64):</p>
-							@components.Code(components.CodeProps{Language: "shell", ShowCopyButton: true}) {
-								{ tailwindWindowsX64 }
-							}
+		@modules.PageWrapper(modules.PageWrapperProps{
+			Name:        "How To Use",
+			Description: templ.Raw("Learn how to integrate templUI into your projects."),
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "How To Use",
+						Path: "/docs/how-to-use",
+					},
+				},
+			},
+		}) {
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Requirements",
+				ID:    "requirements",
+			}) {
+				<section class="mb-12">
+					<p class="mb-4 text-muted-foreground">Before using templUI, ensure you have these tools installed:</p>
+					<div class="space-y-6">
+						<div>
+							<h3 class="text-xl font-semibold mb-2">1. Go (1.24 or later)</h3>
+							<p class="text-muted-foreground mb-2">Check your Go version:</p>
+							@modules.Code(modules.CodeProps{
+								Language:       "shell",
+								ShowCopyButton: true,
+								CodeContent:    installGo,
+							})
+							<p class="text-sm mt-2 text-muted-foreground">For installation instructions, visit <a href="https://golang.org/dl" class="text-primary/90 underline" target="_blank">golang.org/dl</a>.</p>
 						</div>
-					</div>
-				</div>
-			</section>
-			<section class="mb-12">
-				<h2 class="text-2xl font-semibold mb-4 text-primary">Base Configuration</h2>
-				<p class="mb-4 text-muted-foreground">templUI provides pre-configured styles and themes. You'll need these files in your project:</p>
-				<div class="space-y-6">
-					<div>
-						<h3 class="text-xl font-semibold mb-2">1. CSS Configuration file + Base Styles</h3>
-						<p class="mb-2 text-muted-foreground">Create assets/css/input.css with our base styles:</p>
-						@components.Code(components.CodeProps{Language: "css", ShowCopyButton: true}) {
-							{ inputCss }
-						}
-						<p class="text-sm mt-2">For custom themes and additional styles, check our <a href="/docs/themes" class="text-primary underline">themes documentation</a>.</p>
-					</div>
-					<div class="space-y-2">
-						<h3 class="text-xl font-semibold">2. Alpine.js Installation</h3>
-						<p class="mb-2 text-muted-foreground">Add Alpine.js to your layout template:</p>
-						<div class="space-y-4">
-							<div>
-								<p class="font-medium text-muted-foreground">Standard Installation (Recommended)</p>
-								<p class="mb-2 text-muted-foreground">For most projects, use the standard Alpine.js build:</p>
-								@components.Code(components.CodeProps{Language: "html", ShowCopyButton: true}) {
-									{ `<script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>` }
-								}
-							</div>
-							<div class="border-l-4 border-info pl-4 mt-4">
-								<p class="font-medium text-muted-foreground">Enhanced Security Installation</p>
-								<p class="mb-2 text-sm text-muted-foreground">templUI is built to be CSP-compliant. If your application requires strict Content Security Policy (CSP):</p>
-								<div class="space-y-4">
-									<div>
-										<p class="text-sm mb-2 text-muted-foreground">1. Use Alpine.js CSP build instead:</p>
-										@components.Code(components.CodeProps{Language: "html", ShowCopyButton: true}) {
-											{ `<script defer src="https://cdn.jsdelivr.net/npm/@alpinejs/csp@3.x.x/dist/cdn.min.js"></script>` }
-										}
-									</div>
-									<div>
-										<p class="text-sm mb-2 text-muted-foreground">2. Add CSP middleware if you're using external resources (like HTMX, highlight.js):</p>
-										@components.Code(components.CodeProps{Language: "go", ShowCopyButton: true}) {
-											{ cspMiddleware }
-										}
-									</div>
-								</div>
+						<div>
+							<h3 class="text-xl font-semibold mb-2">2. templ (v0.3.865 or later)</h3>
+							<p class="mb-2 text-muted-foreground">Install the templ CLI:</p>
+							@modules.Code(modules.CodeProps{
+								Language:       "shell",
+								ShowCopyButton: true,
+								CodeContent:    installTempl,
+							})
+						</div>
+						<div>
+							<h3 class="text-xl font-semibold mb-2">3. Tailwind CSS Standalone CLI (v4.0.5 or later)</h3>
+							<p class="mb-2 text-muted-foreground">Install the standalone CLI based on your operating system:</p>
+							<div class="space-y-4">
+								<p class="mb-2 text-muted-foreground">Homebrew (macOS):</p>
+								@modules.Code(modules.CodeProps{
+									Language:       "shell",
+									ShowCopyButton: true,
+									CodeContent:    tailwindHomebrew,
+								})
+								<p class="mb-2 text-muted-foreground">macOS (Apple Silicon):</p>
+								@modules.Code(modules.CodeProps{
+									Language:       "shell",
+									ShowCopyButton: true,
+									CodeContent:    tailwindMacOSArm64,
+								})
+								<p class="mb-2 text-muted-foreground">macOS (Intel):</p>
+								@modules.Code(modules.CodeProps{
+									Language:       "shell",
+									ShowCopyButton: true,
+									CodeContent:    tailwindMacOSX64,
+								})
+								<p class="mb-2 text-muted-foreground">Linux (x64):</p>
+								@modules.Code(modules.CodeProps{
+									Language:       "shell",
+									ShowCopyButton: true,
+									CodeContent:    tailwindLinuxX64,
+								})
+								<p class="mb-2 text-muted-foreground">Windows (x64):</p>
+								@modules.Code(modules.CodeProps{
+									Language:       "shell",
+									ShowCopyButton: true,
+									CodeContent:    tailwindWindowsX64,
+								})
 							</div>
 						</div>
 					</div>
-				</div>
-			</section>
-			<section class="mb-12">
-				<h2 class="text-2xl font-semibold mb-4 text-primary">Development Tools</h2>
-				<div class="bg-muted p-4 rounded-lg mb-6">
-					<p class="mb-2 text-muted-foreground">
-						Here's our recommended development setup for Go and templ projects, adapted from official documentation and community best practices:
-					</p>
-					<ul class="list-disc pl-6 space-y-1 text-muted-foreground">
-						<li>Hot reloading for Go, Templ, and Tailwind</li>
-						<li>Convenient development commands via Make</li>
-						<li>Automated file watching and rebuilding</li>
-					</ul>
-					<p class="mt-2 text-sm text-muted-foreground">
-						The Makefile configuration is based on the <a href="https://templ.guide" class="text-primary underline" target="_blank">templ documentation</a> and adapted for our use case.
-						While there are many ways to set up your development environment, this configuration provides a solid starting point.
-					</p>
-				</div>
-				<div class="space-y-6">
-					<div>
-						<h3 class="text-xl font-semibold mb-2">1. Air (Live Reload for Go)</h3>
-						<p class="mb-2 text-muted-foreground">Install Air for automatic Go server rebuilds:</p>
-						@components.Code(components.CodeProps{Language: "shell", ShowCopyButton: true}) {
-							{ "go install github.com/air-verse/air@latest" }
-						}
+				</section>
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Base Configuration",
+				ID:    "base-configuration",
+			}) {
+				<section class="mb-12">
+					<p class="mb-4 text-muted-foreground">templUI provides pre-configured styles and themes. You'll need these files in your project:</p>
+					<div class="space-y-6">
+						<div>
+							<h3 class="text-xl font-semibold mb-2">1. CSS Configuration file + Base Styles</h3>
+							<p class="mb-2 text-muted-foreground">Create assets/css/input.css with our base styles:</p>
+							@modules.Code(modules.CodeProps{
+								Language:       "css",
+								ShowCopyButton: true,
+								CodeContent:    inputCss,
+							})
+							<p class="text-sm mt-2">For custom themes and additional styles, check our <a href="/docs/themes" class="text-primary underline">themes documentation</a>.</p>
+						</div>
 					</div>
-					<div>
-						<h3 class="text-xl font-semibold mb-2">2. Development Makefile</h3>
-						<p class="mb-2 text-muted-foreground">Create a Makefile in your project root:</p>
-						@components.Code(components.CodeProps{Language: "makefile", ShowCopyButton: true}) {
-							{ makeFile }
-						}
-						<div class="bg-muted p-4 rounded-lg mt-4">
-							<p class="font-medium mb-2 text-muted-foreground">Note about ports:</p>
-							<ul class="list-disc pl-6 space-y-1 text-sm text-muted-foreground">
-								<li>In this example configuration, the Go application runs on port 8090</li>
-								<li>Templ's development server will be available at http://localhost:7331</li>
-								<li>Adjust the --proxy flag in the templ command if your app uses a different port</li>
+				</section>
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Development Tools",
+				ID:    "development-tools",
+			}) {
+				<section class="mb-12">
+					<div class="bg-muted p-4 rounded-lg mb-6">
+						<p class="mb-2 text-muted-foreground">
+							Here's our recommended development setup for Go and templ projects, adapted from official documentation and community best practices:
+						</p>
+						<ul class="list-disc pl-6 space-y-1 text-muted-foreground">
+							<li>Hot reloading for Go, Templ, and Tailwind</li>
+							<li>Convenient development commands via Make</li>
+							<li>Automated file watching and rebuilding</li>
+						</ul>
+						<p class="mt-2 text-sm text-muted-foreground">
+							The Makefile configuration is based on the <a href="https://templ.guide" class="text-primary underline" target="_blank">templ documentation</a> and adapted for our use case.
+							While there are many ways to set up your development environment, this configuration provides a solid starting point.
+						</p>
+					</div>
+					<div class="space-y-6">
+						<div>
+							<h3 class="text-xl font-semibold mb-2">1. Air (Live Reload for Go)</h3>
+							<p class="mb-2 text-muted-foreground">Install Air for automatic Go server rebuilds:</p>
+							@modules.Code(modules.CodeProps{
+								Language:       "shell",
+								ShowCopyButton: true,
+								CodeContent:    installAir,
+							})
+						</div>
+						<div>
+							<h3 class="text-xl font-semibold mb-2">2. Development Makefile</h3>
+							<p class="mb-2 text-muted-foreground">Create a Makefile in your project root:</p>
+							@modules.Code(modules.CodeProps{
+								Language:       "shell",
+								ShowCopyButton: true,
+								CodeContent:    makeFile,
+							})
+							<div class="bg-muted p-4 rounded-lg mt-4">
+								<p class="font-medium mb-2 text-muted-foreground">Note about ports:</p>
+								<ul class="list-disc pl-6 space-y-1 text-sm text-muted-foreground">
+									<li>In this example configuration, the Go application runs on port 8090</li>
+									<li>Templ's development server will be available at http://localhost:7331</li>
+									<li>Adjust the --proxy flag in the templ command if your app uses a different port</li>
+								</ul>
+							</div>
+						</div>
+						<div>
+							<h3 class="text-xl font-semibold mb-2">3. Start Development Server</h3>
+							<p class="mb-2 text-muted-foreground">Start all development tools with a single command:</p>
+							@modules.Code(modules.CodeProps{
+								Language:       "shell",
+								ShowCopyButton: true,
+								CodeContent:    devCommand,
+							})
+							<p class="text-sm mt-2 text-muted-foreground">This will:</p>
+							<ul class="list-disc pl-6 text-sm space-y-1 text-muted-foreground">
+								<li>Watch and compile templ files</li>
+								<li>Start the Go server with hot reload via Air</li>
+								<li>Watch and compile Tailwind CSS changes</li>
+							</ul>
+							<p class="text-sm mt-2 text-muted-foreground">Or run services individually:</p>
+							<ul class="list-disc pl-6 text-sm space-y-1 text-muted-foreground">
+								<li>{ `make templ` } - Watch templ files only</li>
+								<li>{ `make server` } - Run Go server only</li>
+								<li>{ `make tailwind` } - Watch Tailwind CSS only</li>
 							</ul>
 						</div>
 					</div>
-					<div>
-						<h3 class="text-xl font-semibold mb-2">3. Start Development Server</h3>
-						<p class="mb-2 text-muted-foreground">Start all development tools with a single command:</p>
-						@components.Code(components.CodeProps{Language: "shell", ShowCopyButton: true}) {
-							{ "make dev" }
-						}
-						<p class="text-sm mt-2 text-muted-foreground">This will:</p>
-						<ul class="list-disc pl-6 text-sm space-y-1 text-muted-foreground">
-							<li>Watch and compile templ files</li>
-							<li>Start the Go server with hot reload via Air</li>
-							<li>Watch and compile Tailwind CSS changes</li>
-						</ul>
-						<p class="text-sm mt-2 text-muted-foreground">Or run services individually:</p>
-						<ul class="list-disc pl-6 text-sm space-y-1 text-muted-foreground">
-							<li>{ `make templ` } - Watch templ files only</li>
-							<li>{ `make server` } - Run Go server only</li>
-							<li>{ `make tailwind` } - Watch Tailwind CSS only</li>
-						</ul>
-					</div>
-				</div>
-			</section>
-			<section class="mb-12">
-				<h2 class="text-2xl font-semibold mb-4 text-primary">Installation Options</h2>
-				<p class="mb-4 text-muted-foreground">After installing the requirements, you have three ways to use templUI:</p>
-				<div class="space-y-8">
-					<div>
-						<h3 class="text-xl font-semibold mb-2">1. Quickstart Template (Recommended for new projects)</h3>
-						<p class="mb-4 text-muted-foreground">
-							For a ready-to-go setup, check out our <a href="https://github.com/axzilla/templui-quickstart" class="text-primary underline" target="_blank">templUI Quickstart</a> template.
-							It includes all requirements and configurations, using templUI as a package library by default but can be easily modified to use copied components or a mix of both approaches.
-						</p>
-					</div>
-					<div>
-						<h3 class="text-xl font-semibold mb-2">2. Package Installation</h3>
-						<p class="mb-4 text-muted-foreground">Install templUI as a Go package:</p>
-						<div class="mb-4">
-							@components.Code(components.CodeProps{Language: "shell", ShowCopyButton: true}) {
-								{ installTemplUI }
-							}
+				</section>
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation Options",
+				ID:    "installation-options",
+			}) {
+				<section class="mb-12">
+					<p class="mb-4 text-muted-foreground">After installing the requirements, you have three ways to use templUI:</p>
+					<div class="space-y-8">
+						<div>
+							<h3 class="text-xl font-semibold mb-2">1. Quickstart Template (Recommended for new projects)</h3>
+							<p class="mb-4 text-muted-foreground">
+								For a ready-to-go setup, check out our <a href="https://github.com/axzilla/templui-quickstart" class="text-primary underline" target="_blank">templUI Quickstart</a> template.
+								It includes all requirements and configurations, using templUI as a package library by default but can be easily modified to use copied components or a mix of both approaches.
+							</p>
 						</div>
-						<h4 class="font-semibold mb-2">*Required: Additional Tailwind Configuration</h4>
-						<p class="mb-2 text-muted-foreground">When using templUI as a package, add this to your input.css:</p>
-						<div class="mb-4">
-							@components.Code(components.CodeProps{Language: "markdown", ShowCopyButton: true}) {
-								{ goPath }
-							}
-						</div>
-						<p class="mb-2 text-muted-foreground">Replace { string("${GOPATH}") } with your actual Go path:</p>
-						@components.Code(components.CodeProps{Language: "shell", ShowCopyButton: true}) {
-							{ "go env GOPATH" }
-						}
-					</div>
-					<div>
-						<h3 class="text-xl font-semibold mb-2">3. Copy Components</h3>
-						<p class="mb-4 text-muted-foreground">For maximum customization, copy components directly into your project (requires manual updates).</p>
-					</div>
-					<div class="mb-8">
-						<h3 class="text-xl font-semibold mb-2">4. Mix and Match</h3>
-						<p class="text-muted-foreground">
-							You can also combine approaches. For example, use some components as a package and copy others for customization.
-							Remember that when using any components as a package (including mix and match), you need to add the GOPATH configuration to your input.css as shown in the Package Installation section.
-						</p>
-					</div>
-				</div>
-			</section>
-			<section class="mb-12">
-				<h2 class="text-2xl font-semibold mb-4 text-primary">Using Components</h2>
-				<p class="mb-4 text-muted-foreground">Some components require additional scripts for interactivity. Here's how to set them up:</p>
-				<div class="space-y-6">
-					<div>
-						<h3 class="text-xl font-semibold mb-2">1. Include Required Scripts</h3>
-						<p class="mb-4 text-muted-foreground">At the top of your layout template, include the necessary scripts:</p>
-						@components.Code(components.CodeProps{Language: "go", ShowCopyButton: true}) {
-							{ alpineHelpers }
-						}
-					</div>
-					<div>
-						<h3 class="text-xl font-semibold mb-2">2. Component Types</h3>
-						<div class="space-y-4">
-							<div class="bg-muted p-4 rounded-lg">
-								<h4 class="font-medium mb-2">Static Components (Tailwind CSS only)</h4>
-								<p class="mb-2 text-muted-foreground">Can be used directly without additional script includes:</p>
-								@components.Code(components.CodeProps{Language: "go", ShowCopyButton: true}) {
-									{ staticComponent }
-								}
+						<div>
+							<h3 class="text-xl font-semibold mb-2">2. Package Installation</h3>
+							<p class="mb-4 text-muted-foreground">Install templUI as a Go package:</p>
+							<div class="mb-4">
+								@modules.Code(modules.CodeProps{
+									Language:       "shell",
+									ShowCopyButton: true,
+									CodeContent:    installTemplUI,
+								})
 							</div>
-							<div class="bg-muted p-4 rounded-lg">
-								<h4 class="font-medium mb-2">Interactive Components (Alpine.js/Vanilla JS)</h4>
-								<p class="mb-2 text-muted-foreground">Require script includes:</p>
-								@components.Code(components.CodeProps{Language: "go", ShowCopyButton: true}) {
-									{ interactiveComponent }
-								}
+							<h4 class="font-semibold mb-2">*Required: Additional Tailwind Configuration</h4>
+							<p class="mb-2 text-muted-foreground">When using templUI as a package, add this to your input.css:</p>
+							<div class="mb-4">
+								@modules.Code(modules.CodeProps{
+									Language:       "css",
+									ShowCopyButton: true,
+									CodeContent:    goPath,
+								})
 							</div>
+							<p class="mb-2 text-muted-foreground">Replace { string("${GOPATH}") } with your actual Go path:</p>
+							@modules.Code(modules.CodeProps{
+								Language:       "shell",
+								ShowCopyButton: true,
+								CodeContent:    goEnvGopath,
+							})
+						</div>
+						<div>
+							<h3 class="text-xl font-semibold mb-2">3. Copy Components</h3>
+							<p class="mb-4 text-muted-foreground">For maximum customization, copy components directly into your project (requires manual updates).</p>
+						</div>
+						<div class="mb-8">
+							<h3 class="text-xl font-semibold mb-2">4. Mix and Match</h3>
+							<p class="text-muted-foreground">
+								You can also combine approaches. For example, use some components as a package and copy others for customization.
+								Remember that when using any components as a package (including mix and match), you need to add the GOPATH configuration to your input.css as shown in the Package Installation section.
+							</p>
 						</div>
 					</div>
-				</div>
-			</section>
-			<section class="mb-12">
-				<h2 class="text-2xl font-semibold mb-4 text-primary">Advanced Configuration</h2>
-				<p class="mb-4 text-muted-foreground">
-					For advanced configuration and best practices, refer to the official documentation:
-				</p>
-				<ul class="list-disc pl-6 space-y-2 text-muted-foreground">
-					<li><a href="https://templ.guide" class="text-primary underline" target="_blank">templ</a> - Cache configuration, component patterns, etc.</li>
-					<li><a href="https://tailwindcss.com/docs" class="text-primary underline" target="_blank">Tailwind CSS</a> - Custom theming, plugins, optimization</li>
-					<li><a href="https://alpinejs.dev/docs" class="text-primary underline" target="_blank">Alpine.js</a> - Advanced interactivity, state management</li>
-				</ul>
-			</section>
-		</div>
+				</section>
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Advanced Configuration",
+				ID:    "advanced-configuration",
+			}) {
+				<section class="mb-12">
+					<p class="mb-4 text-muted-foreground">
+						For advanced configuration and best practices, refer to the official documentation:
+					</p>
+					<ul class="list-disc pl-6 space-y-2 text-muted-foreground">
+						<li><a href="https://templ.guide" class="text-primary underline" target="_blank">templ</a> - Cache configuration, component patterns, etc.</li>
+						<li><a href="https://tailwindcss.com/docs" class="text-primary underline" target="_blank">Tailwind CSS</a> - Custom theming, plugins, optimization</li>
+					</ul>
+				</section>
+			}
+		}
 	}
 }

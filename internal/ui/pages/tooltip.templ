@@ -9,34 +9,51 @@ import (
 templ Tooltip() {
 	@layouts.DocsLayout(
 		"Tooltip",
-		"A small pop-up box that appears when a user hovers over an element",
+		"A small pop-up box that appears when a user hovers over an element. Uses Popover with Floating UI under the hood.",
+		[]modules.TableOfContentsItem{
+			{
+				Text: "Examples",
+				ID:   "examples",
+				Children: []modules.TableOfContentsItem{
+					{
+						Text: "Positions",
+						ID:   "positions",
+					},
+				},
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Tooltip",
-			Description: templ.Raw("A small pop-up box that appears when a user hovers over an element"),
+			Description: templ.Raw(`Small pop-up that appears on hover. Powered by <a href="/docs/components/popover" class="text-primary underline underline-offset-2 hover:opacity-80 transition-opacity">Popover</a> with <a href="https://floating-ui.com/" target="_blank" rel="noopener noreferrer" class="text-primary underline underline-offset-2 hover:opacity-80 transition-opacity">Floating UI</a>.`),
 			Tailwind:    true,
+			VanillaJS:   true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Tooltip",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.TooltipDefault(),
 				PreviewCodeFile:   "tooltip_default.templ",
-				ComponentCodeFile: "tooltip.templ",
+				ComponentCodeFile: "tooltip/tooltip.templ",
 			})
-			@modules.Usage(modules.UsageProps{
-				ComponentName: "Tooltip",
-				PropsExample:  "...",
-			})
-			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Examples",
+				ID:    "examples",
+			}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Variants",
-					ShowcaseFile:      showcase.TooltipVariants(),
-					PreviewCodeFile:   "tooltip_variants.templ",
-					ComponentCodeFile: "tooltip.templ",
-				})
-				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Sides",
-					ShowcaseFile:      showcase.TooltipPositions(),
-					PreviewCodeFile:   "tooltip_sides.templ",
-					ComponentCodeFile: "tooltip.templ",
+					SectionName:     "Positions",
+					PreviewCodeFile: "tooltip_positions.templ",
+					ShowcaseFile:    showcase.TooltipPositions(),
+					ID:              "positions",
 				})
 			}
 		}

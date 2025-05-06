@@ -1,17 +1,11 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import "github.com/axzilla/templui/component/slider"
 
 templ SliderDefault() {
 	<div class="w-full max-w-sm">
-		@components.Slider(components.SliderProps{
-			ID:   "default",
-			Name: "default",
-		}) {
-			@components.SliderInput(components.SliderProps{
-				ID:   "default",
-				Name: "default",
-			})
+		@slider.Slider() {
+			@slider.Input()
 		}
 	</div>
 }

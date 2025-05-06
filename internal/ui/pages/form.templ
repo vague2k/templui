@@ -1,7 +1,7 @@
 package pages
 
 import (
-	"github.com/axzilla/templui/components"
+	"github.com/axzilla/templui/component/card"
 	"github.com/axzilla/templui/internal/ui/layouts"
 	"github.com/axzilla/templui/internal/ui/modules"
 	"github.com/axzilla/templui/internal/ui/showcase"
@@ -11,29 +11,41 @@ templ Form() {
 	@layouts.DocsLayout(
 		"Form",
 		"A collection of form components and helper utilities for building accessible forms.",
+		[]modules.TableOfContentsItem{},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Form",
 			Description: templ.Raw("A collection of form components and helper utilities for building accessible forms."),
 			Tailwind:    true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Form",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				SectionName:       "",
 				ShowcaseFile:      showcase.InputForm(),
 				PreviewCodeFile:   "input_form.templ",
-				ComponentCodeFile: "form.templ",
+				ComponentCodeFile: "form/form.templ",
 			})
 			<div>
-				@components.Card(components.CardProps{}) {
-					@components.CardHeader(components.CardHeaderProps{}) {
-						@components.CardTitle(components.CardTitleProps{}) {
+				@card.Card() {
+					@card.Header() {
+						@card.Title() {
 							Usage
 						}
-						@components.CardDescription(components.CardDescriptionProps{}) {
+						@card.Description() {
 							Form elements are composed using a set of helper components that enhance the following form controls:
 						}
 					}
-					@components.CardContent(components.CardContentProps{}) {
+					@card.Content() {
 						<ul class="list-disc pl-6 space-y-2">
 							<li>
 								<a href="/docs/components/checkbox#form" class="font-medium hover:underline">Checkbox</a>

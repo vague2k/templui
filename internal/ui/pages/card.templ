@@ -10,45 +10,76 @@ templ Card() {
 	@layouts.DocsLayout(
 		"Card",
 		"Container for organizing related content and ",
+		[]modules.TableOfContentsItem{
+			{
+				ID:   "examples",
+				Text: "Examples",
+				Children: []modules.TableOfContentsItem{
+					{
+						ID:   "image_left",
+						Text: "Image Left",
+					},
+					{
+						ID:   "image_right",
+						Text: "Image Right",
+					},
+					{
+						ID:   "image_top",
+						Text: "Image Top",
+					},
+					{
+						ID:   "image_bottom",
+						Text: "Image Bottom",
+					},
+				},
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Card",
 			Description: templ.Raw("Container for organizing related content and "),
 			Tailwind:    true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Card",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.CardDefault(),
 				PreviewCodeFile:   "card_default.templ",
-				ComponentCodeFile: "card.templ",
-			})
-			@modules.Usage(modules.UsageProps{
-				ComponentName: "Card",
-				PropsExample:  "...",
+				ComponentCodeFile: "card/card.templ",
 			})
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Image Left",
-					ShowcaseFile:      showcase.CardImageLeft(),
-					PreviewCodeFile:   "card_image_left.templ",
-					ComponentCodeFile: "card.templ",
+					SectionName:     "Image Left",
+					ShowcaseFile:    showcase.CardImageLeft(),
+					PreviewCodeFile: "card_image_left.templ",
+					ID:              "image_left",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Image Right",
-					ShowcaseFile:      showcase.CardImageRight(),
-					PreviewCodeFile:   "card_image_right.templ",
-					ComponentCodeFile: "card.templ",
+					SectionName:     "Image Right",
+					ShowcaseFile:    showcase.CardImageRight(),
+					PreviewCodeFile: "card_image_right.templ",
+					ID:              "image_right",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Image Top",
-					ShowcaseFile:      showcase.CardImageTop(),
-					PreviewCodeFile:   "card_image_top.templ",
-					ComponentCodeFile: "card.templ",
+					SectionName:     "Image Top",
+					ShowcaseFile:    showcase.CardImageTop(),
+					PreviewCodeFile: "card_image_top.templ",
+					ID:              "image_top",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Image Bottom",
-					ShowcaseFile:      showcase.CardImageBottom(),
-					PreviewCodeFile:   "card_image_bottom.templ",
-					ComponentCodeFile: "card.templ",
+					SectionName:     "Image Bottom",
+					ShowcaseFile:    showcase.CardImageBottom(),
+					PreviewCodeFile: "card_image_bottom.templ",
+					ID:              "image_bottom",
 				})
 			}
 		}

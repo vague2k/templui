@@ -10,22 +10,29 @@ templ Modal() {
 	@layouts.DocsLayout(
 		"Modal",
 		"Dialog overlay that requires user attention or interaction.",
+		[]modules.TableOfContentsItem{},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Modal",
 			Description: templ.Raw("Dialog overlay that requires user attention or interaction."),
 			Tailwind:    true,
-			Alpine:      true,
+			VanillaJS:   true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Modal",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.ModalDefault(),
 				PreviewCodeFile:   "modal_default.templ",
-				ComponentCodeFile: "modal.templ",
-			})
-			@modules.Usage(modules.UsageProps{
-				ComponentName: "Modal",
-				NeedsHandler:  true,
-				PropsExample:  "...",
+				ComponentCodeFile: "modal/modal.templ",
 			})
 		}
 	}

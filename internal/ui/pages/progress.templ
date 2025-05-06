@@ -4,66 +4,113 @@ import (
 	"github.com/axzilla/templui/internal/ui/layouts"
 	"github.com/axzilla/templui/internal/ui/modules"
 	"github.com/axzilla/templui/internal/ui/showcase"
-	"github.com/axzilla/templui/components"
 )
 
 templ Progress() {
 	@layouts.DocsLayout(
 		"Progress",
 		"Progress indicators inform users about the status of ongoing processes.",
+		[]modules.TableOfContentsItem{
+			{
+				Text: "Examples",
+				ID:   "examples",
+				Children: []modules.TableOfContentsItem{
+					{
+						Text: "Sizes",
+						ID:   "sizes",
+					},
+					{
+						Text: "Colors",
+						ID:   "colors",
+					},
+				},
+			},
+			{
+				Text: "Integration Patterns",
+				ID:   "integration-patterns",
+				Children: []modules.TableOfContentsItem{
+					{
+						Text: "File Uploads",
+						ID:   "file-uploads",
+					},
+					{
+						Text: "Multi-step Forms",
+						ID:   "multi-step-forms",
+					},
+					{
+						Text: "Background Processes",
+						ID:   "background-processes",
+					},
+				},
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Progress",
 			Description: templ.Raw("Progress indicators inform users about the status of ongoing processes."),
 			Tailwind:    true,
+			VanillaJS:   true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Progress",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.ProgressDefault(),
 				PreviewCodeFile:   "progress_default.templ",
-				ComponentCodeFile: "progress.templ",
+				ComponentCodeFile: "progress/progress.templ",
 			})
-			@modules.Usage(modules.UsageProps{
-				ComponentName: "Progress",
-				PropsExample:  "...",
-			})
-			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Examples",
+				ID:    "examples",
+			}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Sizes",
-					ShowcaseFile:      showcase.ProgressSizes(),
-					PreviewCodeFile:   "progress_sizes.templ",
-					ComponentCodeFile: "progress.templ",
+					SectionName:     "Sizes",
+					ShowcaseFile:    showcase.ProgressSizes(),
+					PreviewCodeFile: "progress_sizes.templ",
+					ID:              "sizes",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Colors",
-					ShowcaseFile:      showcase.ProgressColors(),
-					PreviewCodeFile:   "progress_colors.templ",
-					ComponentCodeFile: "progress.templ",
+					SectionName:     "Colors",
+					ShowcaseFile:    showcase.ProgressColors(),
+					PreviewCodeFile: "progress_colors.templ",
+					ID:              "colors",
 				})
 			}
-			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Integration Patterns"}) {
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Integration Patterns",
+				ID:    "integration-patterns",
+			}) {
 				<div class="prose max-w-none">
 					<p>
 						The Progress component can be integrated in different ways depending on your requirements:
 					</p>
-					<h3 class="text-lg font-medium mt-6 mb-2">File Uploads</h3>
+					<h3 class="text-lg font-medium mt-6 mb-2" id="file-uploads">File Uploads</h3>
 					<p class="mb-2">
 						For file uploads, use the browser's XMLHttpRequest or fetch API with progress events:
 					</p>
-					@components.Code(components.CodeProps{
+					@modules.Code(modules.CodeProps{
 						Language: "go",
 					}) {
 						{ exampleFileUploads }
 					}
-					<h3 class="text-lg font-medium mt-6 mb-2">Multi-step Forms</h3>
+					<h3 class="text-lg font-medium mt-6 mb-2" id="multi-step-forms">Multi-step Forms</h3>
 					<p class="mb-2">
 						For multi-step forms, you can use either client-side calculations or HTMX for server-side validation between steps:
 					</p>
-					@components.Code(components.CodeProps{
-						Language: "go",
-					}) {
-						{ exampleMultiStepForms }
-					}
-					<h3 class="text-lg font-medium mt-6 mb-2">Background Processes</h3>
+					@modules.Code(modules.CodeProps{
+						Language:       "templ",
+						ShowCopyButton: true,
+						CodeContent:    exampleMultiStepForms,
+					})
+					<h3 class="text-lg font-medium mt-6 mb-2" id="background-processes">Background Processes</h3>
 					<p>
 						For tracking background processes, choose between:
 					</p>
@@ -72,21 +119,21 @@ templ Progress() {
 							<p class="mb-2">
 								<strong>HTMX Polling</strong>: Simple approach, good for processes under a few minutes
 							</p>
-							@components.Code(components.CodeProps{
-								Language: "go",
-							}) {
-								{ exampleHTMXPolling }
-							}
+							@modules.Code(modules.CodeProps{
+								Language:       "templ",
+								ShowCopyButton: true,
+								CodeContent:    exampleHTMXPolling,
+							})
 						</li>
 						<li>
 							<p class="mb-2">
 								<strong>Server-Sent Events (SSE)</strong>: For real-time updates and longer processes
 							</p>
-							@components.Code(components.CodeProps{
-								Language: "go",
-							}) {
-								{ exampleSSEHandler }
-							}
+							@modules.Code(modules.CodeProps{
+								Language:       "go",
+								ShowCopyButton: true,
+								CodeContent:    exampleSSEHandler,
+							})
 						</li>
 					</ul>
 				</div>

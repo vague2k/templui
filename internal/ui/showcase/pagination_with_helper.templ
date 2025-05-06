@@ -1,65 +1,65 @@
 package showcase
 
 import (
-	"github.com/axzilla/templui/components"
 	"fmt"
+	"github.com/axzilla/templui/component/pagination"
 )
 
 templ PaginationWithHelper() {
-	{{ pagination := components.CreatePagination(5, 20, 3) }}
-	@components.Pagination(components.PaginationProps{}) {
-		@components.PaginationContent() {
-			@components.PaginationItem() {
-				@components.PaginationPrevious(components.PaginationPreviousProps{
-					Href:     fmt.Sprintf("?page=%d", pagination.CurrentPage-1),
-					Disabled: !pagination.HasPrevious,
+	{{ p := pagination.CreatePagination(5, 20, 3) }}
+	@pagination.Pagination() {
+		@pagination.Content() {
+			@pagination.Item() {
+				@pagination.Previous(pagination.PreviousProps{
+					Href:     fmt.Sprintf("?page=%d", p.CurrentPage-1),
+					Disabled: !p.HasPrevious,
 				})
 			}
 			// First page with ellipsis if needed
-			if pagination.Pages[0] > 1 {
-				@components.PaginationItem() {
-					@components.PaginationLink(components.PaginationLinkProps{
+			if p.Pages[0] > 1 {
+				@pagination.Item() {
+					@pagination.Link(pagination.LinkProps{
 						Href: "?page=1",
 					}) {
 						1
 					}
 				}
-				if pagination.Pages[0] > 2 {
-					@components.PaginationItem() {
-						@components.PaginationEllipsis()
+				if p.Pages[0] > 2 {
+					@pagination.Item() {
+						@pagination.Ellipsis()
 					}
 				}
 			}
 			// Visible pages
-			for _, page := range pagination.Pages {
-				@components.PaginationItem() {
-					@components.PaginationLink(components.PaginationLinkProps{
+			for _, page := range p.Pages {
+				@pagination.Item() {
+					@pagination.Link(pagination.LinkProps{
 						Href:     fmt.Sprintf("?page=%d", page),
-						IsActive: page == pagination.CurrentPage,
+						IsActive: page == p.CurrentPage,
 					}) {
 						{ fmt.Sprint(page) }
 					}
 				}
 			}
 			// Last page with ellipsis if needed
-			if pagination.Pages[len(pagination.Pages)-1] < pagination.TotalPages {
-				if pagination.Pages[len(pagination.Pages)-1] < pagination.TotalPages-1 {
-					@components.PaginationItem() {
-						@components.PaginationEllipsis()
+			if p.Pages[len(p.Pages)-1] < p.TotalPages {
+				if p.Pages[len(p.Pages)-1] < p.TotalPages-1 {
+					@pagination.Item() {
+						@pagination.Ellipsis()
 					}
 				}
-				@components.PaginationItem() {
-					@components.PaginationLink(components.PaginationLinkProps{
-						Href: fmt.Sprintf("?page=%d", pagination.TotalPages),
+				@pagination.Item() {
+					@pagination.Link(pagination.LinkProps{
+						Href: fmt.Sprintf("?page=%d", p.TotalPages),
 					}) {
-						{ fmt.Sprint(pagination.TotalPages) }
+						{ fmt.Sprint(p.TotalPages) }
 					}
 				}
 			}
-			@components.PaginationItem() {
-				@components.PaginationNext(components.PaginationNextProps{
-					Href:     fmt.Sprintf("?page=%d", pagination.CurrentPage+1),
-					Disabled: !pagination.HasNext,
+			@pagination.Item() {
+				@pagination.Next(pagination.NextProps{
+					Href:     fmt.Sprintf("?page=%d", p.CurrentPage+1),
+					Disabled: !p.HasNext,
 				})
 			}
 		}

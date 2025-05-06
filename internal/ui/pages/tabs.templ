@@ -10,22 +10,29 @@ templ Tabs() {
 	@layouts.DocsLayout(
 		"Tabs",
 		"Navigation interface that organizes content into sections.",
+		[]modules.TableOfContentsItem{},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Tabs",
 			Description: templ.Raw("Navigation interface that organizes content into sections."),
 			Tailwind:    true,
 			VanillaJS:   true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Tabs",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.TabsDefault(),
 				PreviewCodeFile:   "tabs_default.templ",
-				ComponentCodeFile: "tabs.templ",
-			})
-			@modules.Usage(modules.UsageProps{
-				ComponentName: "Tabs",
-				NeedsHandler:  true,
-				PropsExample:  "...",
+				ComponentCodeFile: "tabs/tabs.templ",
 			})
 		}
 	}

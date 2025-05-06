@@ -1,0 +1,66 @@
+package showcase
+
+import (
+	"github.com/axzilla/templui/component/button"
+	"github.com/axzilla/templui/component/input"
+	"github.com/axzilla/templui/component/label"
+	"github.com/axzilla/templui/component/popover"
+	"github.com/axzilla/templui/util"
+)
+
+templ PopoverDefault() {
+	@popover.Popover() {
+		@popover.Trigger(popover.TriggerProps{
+			For: "default-popover",
+		}) {
+			@button.Button(button.Props{
+				Variant: button.VariantOutline,
+			}) {
+				Open Popover
+			}
+		}
+		@popover.Content(popover.ContentProps{
+			ID: "default-popover",
+		}) {
+			@PopoverContent()
+		}
+	}
+}
+
+templ PopoverContent() {
+	{{ var id = util.RandomID() }}
+	<div class="p-4 space-y-4 min-w-2xs">
+		<div>
+			<h3 class="text-lg font-semibold">Dimensions</h3>
+			<p>Set the dimensions for the layer.</p>
+		</div>
+		<div class="flex flex-col gap-2">
+			<div class="grid grid-cols-3 items-center gap-2">
+				@label.Label(label.Props{
+					For: "width" + id,
+				}) {
+					Width
+				}
+				@input.Input(input.Props{
+					ID:          "width" + id,
+					Placeholder: "Width",
+					Value:       "100%",
+					Class:       "col-span-2",
+				})
+			</div>
+			<div class="grid grid-cols-3 items-center gap-2">
+				@label.Label(label.Props{
+					For: "height" + id,
+				}) {
+					Height
+				}
+				@input.Input(input.Props{
+					ID:          "height" + id,
+					Placeholder: "Height",
+					Value:       "100%",
+					Class:       "col-span-2",
+				})
+			</div>
+		</div>
+	</div>
+}

@@ -1,14 +1,14 @@
 package main
 
 import (
-	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 	"time"
 
 	"github.com/a-h/templ"
 	"github.com/axzilla/templui/assets"
-	"github.com/axzilla/templui/components"
+	"github.com/axzilla/templui/component/toast"
 	"github.com/axzilla/templui/internal/config"
 	"github.com/axzilla/templui/internal/middleware"
 	"github.com/axzilla/templui/internal/ui/pages"
@@ -22,18 +22,18 @@ func toastDemoHandler(w http.ResponseWriter, r *http.Request) {
 		duration = 0
 	}
 
-	toastProps := components.ToastProps{
+	toastProps := toast.Props{
 		Title:         r.FormValue("title"),
 		Description:   r.FormValue("description"),
-		Variant:       components.ToastVariant(r.FormValue("type")),
-		Position:      components.ToastPosition(r.FormValue("position")),
+		Variant:       toast.Variant(r.FormValue("type")),
+		Position:      toast.Position(r.FormValue("position")),
 		Duration:      duration,
 		Dismissible:   r.FormValue("dismissible") == "on",
 		ShowIndicator: r.FormValue("indicator") == "on",
 		Icon:          r.FormValue("icon") == "on",
 	}
 
-	components.Toast(toastProps).Render(r.Context(), w)
+	toast.Toast(toastProps).Render(r.Context(), w)
 }
 
 func buttonHtmxLoadingHandler(w http.ResponseWriter, r *http.Request) {
@@ -55,12 +55,14 @@ func main() {
 
 	wrappedMux := middleware.WithURLPathValue(
 		middleware.CacheControlMiddleware(
-			mw.WithCSP(cspConfig)(mux),
+			middleware.LatestVersion(
+				middleware.LoggingMiddleware(
+					mw.WithCSP(cspConfig)(mux),
+				),
+			),
 		),
 	)
 
-	// SEO
-	// Sitemap.xml Handler mit eingebetteter Datei
 	mux.HandleFunc("GET /sitemap.xml", func(w http.ResponseWriter, r *http.Request) {
 		content, err := static.Files.ReadFile("sitemap.xml")
 		if err != nil {
@@ -72,7 +74,6 @@ func main() {
 		w.Write(content)
 	})
 
-	// Robots.txt Handler mit eingebetteter Datei
 	mux.HandleFunc("GET /robots.txt", func(w http.ResponseWriter, r *http.Request) {
 		content, err := static.Files.ReadFile("robots.txt")
 		if err != nil {
@@ -83,8 +84,9 @@ func main() {
 		w.Header().Set("Content-Type", "text/plain")
 		w.Write(content)
 	})
-	//
+
 	mux.Handle("GET /", templ.Handler(pages.Landing()))
+	mux.Handle("GET /docs", http.RedirectHandler("/docs/introduction", http.StatusSeeOther))
 	mux.Handle("GET /docs/getting-started", http.RedirectHandler("/docs/introduction", http.StatusSeeOther))
 	mux.Handle("GET /docs/components", http.RedirectHandler("/docs/components/accordion", http.StatusSeeOther))
 	mux.Handle("GET /docs/introduction", templ.Handler(pages.Introduction()))
@@ -98,15 +100,16 @@ func main() {
 	mux.Handle("GET /docs/components/badge", templ.Handler(pages.Badge()))
 	mux.Handle("GET /docs/components/breadcrumb", templ.Handler(pages.Breadcrumb()))
 	mux.Handle("GET /docs/components/button", templ.Handler(pages.Button()))
+	mux.Handle("GET /docs/components/calendar", templ.Handler(pages.Calendar()))
 	mux.Handle("GET /docs/components/card", templ.Handler(pages.Card()))
 	mux.Handle("GET /docs/components/carousel", templ.Handler(pages.Carousel()))
 	mux.Handle("GET /docs/components/charts", templ.Handler(pages.Chart()))
-	mux.Handle("GET /docs/components/code", templ.Handler(pages.Code()))
 	mux.Handle("GET /docs/components/checkbox", templ.Handler(pages.Checkbox()))
 	mux.Handle("GET /docs/components/checkbox-card", templ.Handler(pages.CheckboxCard()))
+	mux.Handle("GET /docs/components/code", templ.Handler(pages.Code()))
 	mux.Handle("GET /docs/components/date-picker", templ.Handler(pages.DatePicker()))
 	mux.Handle("GET /docs/components/drawer", templ.Handler(pages.Drawer()))
-	mux.Handle("GET /docs/components/dropdown-menu", templ.Handler(pages.DropdownMenu()))
+	mux.Handle("GET /docs/components/dropdown", templ.Handler(pages.Dropdown()))
 	mux.Handle("GET /docs/components/form", templ.Handler(pages.Form()))
 	mux.Handle("GET /docs/components/icon", templ.Handler(pages.Icon()))
 	mux.Handle("GET /docs/components/input", templ.Handler(pages.Input()))
@@ -118,7 +121,7 @@ func main() {
 	mux.Handle("GET /docs/components/radio", templ.Handler(pages.Radio()))
 	mux.Handle("GET /docs/components/radio-card", templ.Handler(pages.RadioCard()))
 	mux.Handle("GET /docs/components/rating", templ.Handler(pages.Rating()))
-	mux.Handle("GET /docs/components/select", templ.Handler(pages.Select()))
+	mux.Handle("GET /docs/components/select-box", templ.Handler(pages.SelectBox()))
 	mux.Handle("GET /docs/components/separator", templ.Handler(pages.Separator()))
 	mux.Handle("GET /docs/components/skeleton", templ.Handler(pages.Skeleton()))
 	mux.Handle("GET /docs/components/slider", templ.Handler(pages.Slider()))
@@ -130,11 +133,12 @@ func main() {
 	mux.Handle("GET /docs/components/toast", templ.Handler(pages.Toast()))
 	mux.Handle("GET /docs/components/toggle", templ.Handler(pages.Toggle()))
 	mux.Handle("GET /docs/components/tooltip", templ.Handler(pages.Tooltip()))
+	mux.Handle("GET /docs/components/popover", templ.Handler(pages.Popover()))
 	// Showcase API
 	mux.Handle("POST /docs/toast/demo", http.HandlerFunc(toastDemoHandler))
 	mux.Handle("POST /docs/button/htmx-loading", http.HandlerFunc(buttonHtmxLoadingHandler))
 
-	fmt.Println("Server is running on http://localhost:8090")
+	log.Println("Server is running on http://localhost:8090")
 	http.ListenAndServe(":8090", wrappedMux)
 }
 

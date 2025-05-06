@@ -1,0 +1,73 @@
+package showcase
+
+import (
+	"github.com/axzilla/templui/component/button"
+	"github.com/axzilla/templui/component/popover"
+)
+
+templ PopoverTriggers() {
+	<div class="flex gap-2">
+		@popover.Popover() {
+			@popover.Trigger(popover.TriggerProps{
+				For:         "hover-popover",
+				TriggerType: popover.TriggerTypeHover,
+			}) {
+				@button.Button(button.Props{Variant: button.VariantOutline}) {
+					Hover
+				}
+			}
+			@popover.Content(popover.ContentProps{
+				ID:            "hover-popover",
+				HoverDelay:    300,
+				HoverOutDelay: 500,
+			}) {
+				@PopoverContent()
+			}
+		}
+		@popover.Popover() {
+			@popover.Trigger(popover.TriggerProps{
+				For: "click-popover",
+			}) {
+				@button.Button(button.Props{Variant: button.VariantOutline}) {
+					Click
+				}
+			}
+			@popover.Content(popover.ContentProps{
+				ID: "click-popover",
+			}) {
+				@PopoverContent()
+			}
+		}
+		@popover.Popover() {
+			@popover.Trigger(popover.TriggerProps{
+				For: "no-clickaway-popover",
+			}) {
+				@button.Button(button.Props{Variant: button.VariantOutline}) {
+					No ClickAway
+				}
+			}
+			@popover.Content(popover.ContentProps{
+				ID:               "no-clickaway-popover",
+				DisableClickAway: true,
+			}) {
+				@PopoverContent()
+			}
+		}
+		@popover.Popover() {
+			@popover.Trigger(popover.TriggerProps{
+				For: "no-clickaway-esc",
+			}) {
+				@button.Button(button.Props{Variant: button.VariantOutline}) {
+					No ClickAway-ESC
+				}
+			}
+			@popover.Content(popover.ContentProps{
+				ID:               "no-clickaway-esc",
+				DisableClickAway: true,
+				DisableESC:       true,
+			}) {
+				@PopoverContent()
+			}
+		}
+	</div>
+}

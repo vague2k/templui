@@ -10,20 +10,28 @@ templ CheckboxCard() {
 	@layouts.DocsLayout(
 		"Checkbox Card",
 		"Selectable card component that combines a checkbox with rich content for option selection.",
+		[]modules.TableOfContentsItem{},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Checkbox Card",
 			Description: templ.Raw("Selectable card component that combines a checkbox with rich content for option selection."),
 			Tailwind:    true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Checkbox Card",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.CheckboxCardDefault(),
 				PreviewCodeFile:   "checkbox_card_default.templ",
-				ComponentCodeFile: "checkbox_card.templ",
-			})
-			@modules.Usage(modules.UsageProps{
-				ComponentName: "CheckboxCard",
-				PropsExample:  "...",
+				ComponentCodeFile: "checkboxcard/checkbox_card.templ",
 			})
 		}
 	}

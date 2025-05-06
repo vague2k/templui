@@ -10,55 +10,90 @@ templ Rating() {
 	@layouts.DocsLayout(
 		"Rating",
 		"Interactive rating component for capturing user feedback and displaying scores.",
+		[]modules.TableOfContentsItem{
+			{
+				Text: "Examples",
+				ID:   "examples",
+				Children: []modules.TableOfContentsItem{
+					{
+						Text: "With Label",
+						ID:   "with-label",
+					},
+					{
+						Text: "Styles",
+						ID:   "styles",
+					},
+					{
+						Text: "Precision (Read-Only)",
+						ID:   "precision-read-only",
+					},
+					{
+						Text: "Max Values",
+						ID:   "max-values",
+					},
+					{
+						Text: "Form",
+						ID:   "form",
+					},
+				},
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Rating",
 			Description: templ.Raw("Interactive rating component for capturing user feedback and displaying scores."),
 			Tailwind:    true,
-			Alpine:      true,
+			VanillaJS:   true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Rating",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.RatingDefault(),
 				PreviewCodeFile:   "rating_default.templ",
-				ComponentCodeFile: "rating.templ",
+				ComponentCodeFile: "rating/rating.templ",
 			})
-			@modules.Usage(modules.UsageProps{
-				ComponentName: "Rating",
-				NeedsHandler:  true,
-				PropsExample:  "...",
-			})
-			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Examples",
+				ID:    "examples",
+			}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "With Label",
-					ShowcaseFile:      showcase.RatingWithLabel(),
-					PreviewCodeFile:   "rating_with_label.templ",
-					ComponentCodeFile: "rating.templ",
-					ID:                "label",
+					SectionName:     "With Label",
+					ShowcaseFile:    showcase.RatingWithLabel(),
+					PreviewCodeFile: "rating_with_label.templ",
+					ID:              "with-label",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Styles",
-					ShowcaseFile:      showcase.RatingStyles(),
-					PreviewCodeFile:   "rating_styles.templ",
-					ComponentCodeFile: "rating.templ",
+					SectionName:     "Styles",
+					ShowcaseFile:    showcase.RatingStyles(),
+					PreviewCodeFile: "rating_styles.templ",
+					ID:              "styles",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Precision (Read-Only)",
-					ShowcaseFile:      showcase.RatingPrecision(),
-					PreviewCodeFile:   "rating_precision.templ",
-					ComponentCodeFile: "rating.templ",
+					SectionName:     "Precision (Read-Only)",
+					ShowcaseFile:    showcase.RatingPrecision(),
+					PreviewCodeFile: "rating_precision.templ",
+					ID:              "precision-read-only",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Max Values",
-					ShowcaseFile:      showcase.RatingMaxValues(),
-					PreviewCodeFile:   "rating_max_values.templ",
-					ComponentCodeFile: "rating.templ",
+					SectionName:     "Max Values",
+					ShowcaseFile:    showcase.RatingMaxValues(),
+					PreviewCodeFile: "rating_max_values.templ",
+					ID:              "max-values",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Form",
-					ShowcaseFile:      showcase.RatingForm(),
-					PreviewCodeFile:   "rating_form.templ",
-					ComponentCodeFile: "rating.templ",
-					ID:                "form",
+					SectionName:     "Form",
+					ShowcaseFile:    showcase.RatingForm(),
+					PreviewCodeFile: "rating_form.templ",
+					ID:              "form",
 				})
 			}
 		}

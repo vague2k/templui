@@ -1,59 +1,65 @@
 package modules
 
 import (
-	"github.com/axzilla/templui/components"
-	"github.com/axzilla/templui/icons"
+	"github.com/axzilla/templui/component/button"
+	"github.com/axzilla/templui/component/drawer"
+	"github.com/axzilla/templui/icon"
 	"github.com/axzilla/templui/internal/ctxkeys"
 	"github.com/axzilla/templui/internal/shared"
-	wrappedicons "github.com/axzilla/templui/internal/ui/icons"
+	wrappedicon "github.com/axzilla/templui/internal/ui/icons"
+	"github.com/axzilla/templui/component/badge"
 )
 
 templ Navbar() {
 	<nav class="border-b py-1">
-		<div class="container mx-auto px-4 flex justify-between items-center">
+		{{ version := ctx.Value(ctxkeys.Version).(string) }}
+		<div class="container mx-auto px-4 flex justify-between items-center relative">
 			<div class="flex items-center">
 				@NavbarMobileMenu()
 				<a href="/">
-					@wrappedicons.TemplUI("w-auto h-8")
+					@wrappedicon.TemplUI("w-auto h-8")
 				</a>
 			</div>
-			<div class="hidden md:flex gap-4 items-center">
+			<div class="hidden md:flex gap-4 items-center absolute left-1/2 transform -translate-x-1/2">
 				<a href="/docs/getting-started" class="text-sm hover:underline">Docs</a>
 				<a href="/docs/components" class="text-sm hover:underline">Components</a>
 			</div>
-			<div class="flex items-center">
-				@components.Button(components.ButtonProps{
-					Size:    components.ButtonSizeIcon,
-					Variant: components.ButtonVariantGhost,
+			<div class="flex gap-1 items-center justify-center">
+				@ThemeSwitcher()
+				@button.Button(button.Props{
+					Size:    button.SizeIcon,
+					Variant: button.VariantGhost,
 					Href:    "https://github.com/axzilla/templui",
 					Target:  "_blank",
 				}) {
-					@wrappedicons.GitHub(24)
+					@wrappedicon.GitHub(24)
 				}
-				@components.Button(components.ButtonProps{
-					Size:    components.ButtonSizeIcon,
-					Variant: components.ButtonVariantGhost,
-					Href:    "https://x.com/_axzilla/",
-					Target:  "_blank",
-				}) {
-					@wrappedicons.X(16)
-				}
-				@ThemeSwitcher(ThemeSwitcherProps{})
+				<a
+					href="https://github.com/axzilla/templui/releases"
+					target="_blank"
+					class="flex"
+				>
+					@badge.Badge() {
+						{ version }
+					}
+				</a>
 			</div>
 		</div>
 	</nav>
 }
 
 templ NavbarMobileMenu() {
-	@components.Drawer(components.DrawerProps{}) {
-		@components.DrawerTrigger(components.DrawerTriggerProps{}) {
+	@drawer.Drawer() {
+		@drawer.Trigger() {
 			<button
 				class="mr-2 lg:hidden p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-hidden focus:ring-2 focus:ring-inset focus:ring-indigo-500"
 			>
-				@icons.SquareLibrary(icons.IconProps{})
+				@icon.Menu()
 			</button>
 		}
-		@components.DrawerContent(components.DrawerContentProps{Side: components.DrawerPositionLeft}) {
+		@drawer.Content(drawer.ContentProps{
+			Position: drawer.PositionLeft,
+		}) {
 			<div class="space-y-4">
 				for _, section := range shared.Sections {
 					<div class="pb-4">

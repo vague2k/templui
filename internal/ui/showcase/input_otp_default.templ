@@ -1,19 +1,28 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import "github.com/axzilla/templui/component/inputotp"
 
 templ InputOTPDefault() {
-	@components.InputOTP(components.InputOTPProps{
-		ID: "otp-default",
-	}) {
-		@components.InputOTPGroup(components.InputOTPGroupProps{}) {
-			@components.InputOTPSlot(components.InputOTPSlotProps{Index: 0})
-			@components.InputOTPSlot(components.InputOTPSlotProps{Index: 1})
-			@components.InputOTPSlot(components.InputOTPSlotProps{Index: 2})
-			@components.InputOTPSeparator(components.InputOTPSeparatorProps{})
-			@components.InputOTPSlot(components.InputOTPSlotProps{Index: 3})
-			@components.InputOTPSlot(components.InputOTPSlotProps{Index: 4})
-			@components.InputOTPSlot(components.InputOTPSlotProps{Index: 5})
+	@inputotp.InputOTP() {
+		@inputotp.Group() {
+			@inputotp.Slot(inputotp.SlotProps{
+				Index: 0,
+			})
+			@inputotp.Slot(inputotp.SlotProps{
+				Index: 1,
+			})
+			@inputotp.Slot(inputotp.SlotProps{
+				Index: 2,
+			})
+			@inputotp.Slot(inputotp.SlotProps{
+				Index: 3,
+			})
+			@inputotp.Slot(inputotp.SlotProps{
+				Index: 4,
+			})
+			@inputotp.Slot(inputotp.SlotProps{
+				Index: 5,
+			})
 		}
 	}
 }

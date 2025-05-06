@@ -1,20 +1,18 @@
 package showcase
 
-import (
-	"github.com/axzilla/templui/components"
-)
+import "github.com/axzilla/templui/component/separator"
 
 templ SeparatorDecorated() {
 	<div class="flex flex-col gap-16 w-full max-w-md">
-		@components.Separator(components.SeparatorProps{
-			Orientation: components.SeparatorOrientationHorizontal,
-			Decoration:  components.SeparatorDecorationDashed,
-			Label:       "DASHED",
-		})
-		@components.Separator(components.SeparatorProps{
-			Orientation: components.SeparatorOrientationHorizontal,
-			Decoration:  components.SeparatorDecorationDotted,
-			Label:       "DOTTED",
-		})
+		@separator.Separator(separator.Props{
+			Decoration: separator.DecorationDashed,
+		}) {
+			DASHED
+		}
+		@separator.Separator(separator.Props{
+			Decoration: separator.DecorationDotted,
+		}) {
+			DOTTED
+		}
 	</div>
 }

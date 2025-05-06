@@ -1,35 +1,49 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import (
+	"github.com/axzilla/templui/component/form"
+	"github.com/axzilla/templui/component/inputotp"
+)
 
 templ InputOTPForm() {
-	@components.FormItem(components.FormItemProps{}) {
-		@components.FormLabel(components.FormLabelProps{
+	@form.Item() {
+		@form.Label(form.LabelProps{
 			For: "otp-form",
 		}) {
 			Verification Code
 		}
-		@components.InputOTP(components.InputOTPProps{
+		@inputotp.InputOTP(inputotp.Props{
 			ID:       "otp-form",
-			Name:     "verification-code",
 			Required: true,
 			HasError: true,
 		}) {
-			@components.InputOTPGroup(components.InputOTPGroupProps{}) {
-				@components.InputOTPSlot(components.InputOTPSlotProps{Index: 0})
-				@components.InputOTPSlot(components.InputOTPSlotProps{Index: 1})
-				@components.InputOTPSlot(components.InputOTPSlotProps{Index: 2})
-				@components.InputOTPSeparator(components.InputOTPSeparatorProps{})
-				@components.InputOTPSlot(components.InputOTPSlotProps{Index: 3})
-				@components.InputOTPSlot(components.InputOTPSlotProps{Index: 4})
-				@components.InputOTPSlot(components.InputOTPSlotProps{Index: 5})
+			@inputotp.Group() {
+				@inputotp.Slot(inputotp.SlotProps{
+					Index: 0,
+				})
+				@inputotp.Slot(inputotp.SlotProps{
+					Index: 1,
+				})
+				@inputotp.Slot(inputotp.SlotProps{
+					Index: 2,
+				})
+				@inputotp.Separator()
+				@inputotp.Slot(inputotp.SlotProps{
+					Index: 3,
+				})
+				@inputotp.Slot(inputotp.SlotProps{
+					Index: 4,
+				})
+				@inputotp.Slot(inputotp.SlotProps{
+					Index: 5,
+				})
 			}
 		}
-		@components.FormDescription(components.FormDescriptionProps{}) {
+		@form.Description() {
 			Enter the 6-digit code sent to your phone
 		}
-		@components.FormMessage(components.FormMessageProps{
-			Variant: components.FormMessageVariantError,
+		@form.Message(form.MessageProps{
+			Variant: form.MessageVariantError,
 		}) {
 			Invalid verification code.
 		}

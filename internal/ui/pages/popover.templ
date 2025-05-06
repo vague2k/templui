@@ -1,0 +1,71 @@
+package pages
+
+import (
+	"github.com/axzilla/templui/internal/ui/layouts"
+	"github.com/axzilla/templui/internal/ui/modules"
+	"github.com/axzilla/templui/internal/ui/showcase"
+)
+
+templ Popover() {
+	@layouts.DocsLayout(
+		"Popover",
+		"Displays rich content in a floating layer. Powered by Floating UI.",
+		[]modules.TableOfContentsItem{
+			{
+				Text: "Examples",
+				ID:   "examples",
+				Children: []modules.TableOfContentsItem{
+					{
+						Text: "Trigger & Closing",
+						ID:   "trigger-closing",
+					},
+					{
+						Text: "Positions",
+						ID:   "positions",
+					},
+				},
+			},
+		},
+	) {
+		@modules.PageWrapper(modules.PageWrapperProps{
+			Name:        "Popover",
+			Description: templ.Raw(`Displays rich content in a floating layer. Powered by <a href="https://floating-ui.com/" target="_blank" rel="noopener noreferrer" class="text-primary underline underline-offset-2 hover:opacity-80 transition-opacity">Floating UI</a>.`),
+			Tailwind:    true,
+			VanillaJS:   true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Popover",
+					},
+				},
+			},
+		}) {
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				ShowcaseFile:      showcase.PopoverDefault(),
+				PreviewCodeFile:   "popover_default.templ",
+				ComponentCodeFile: "popover/popover.templ",
+			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Examples",
+				ID:    "examples",
+			}) {
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:     "Trigger & Closing",
+					ShowcaseFile:    showcase.PopoverTriggers(),
+					PreviewCodeFile: "popover_triggers.templ",
+					ID:              "trigger-closing",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:     "Positions",
+					ShowcaseFile:    showcase.PopoverPositions(),
+					PreviewCodeFile: "popover_positions.templ",
+					ID:              "positions",
+				})
+			}
+		}
+	}
+}

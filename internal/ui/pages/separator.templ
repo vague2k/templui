@@ -10,39 +10,69 @@ templ Separator() {
 	@layouts.DocsLayout(
 		"Separator",
 		"Visual divider that separates content with an optional label.",
+		[]modules.TableOfContentsItem{
+			{
+				Text: "Examples",
+				ID:   "examples",
+				Children: []modules.TableOfContentsItem{
+					{
+						Text: "Vertical",
+						ID:   "vertical",
+					},
+					{
+						Text: "With Label",
+						ID:   "with-label",
+					},
+					{
+						Text: "Decorated",
+						ID:   "decorated",
+					},
+				},
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Separator",
 			Description: templ.Raw("Visual divider that separates content with an optional label."),
 			Tailwind:    true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Separator",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.SeparatorDefault(),
 				PreviewCodeFile:   "separator_default.templ",
-				ComponentCodeFile: "separator.templ",
+				ComponentCodeFile: "separator/separator.templ",
 			})
-			@modules.Usage(modules.UsageProps{
-				ComponentName: "Separator",
-				PropsExample:  "...",
-			})
-			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Examples",
+				ID:    "examples",
+			}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Vertical",
-					ShowcaseFile:      showcase.SeparatorVertical(),
-					PreviewCodeFile:   "separator_vertical.templ",
-					ComponentCodeFile: "separator.templ",
+					SectionName:     "Vertical",
+					ShowcaseFile:    showcase.SeparatorVertical(),
+					PreviewCodeFile: "separator_vertical.templ",
+					ID:              "vertical",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Label",
-					ShowcaseFile:      showcase.SeparatorLabel(),
-					PreviewCodeFile:   "separator_label.templ",
-					ComponentCodeFile: "separator.templ",
+					SectionName:     "With Label",
+					ShowcaseFile:    showcase.SeparatorLabel(),
+					PreviewCodeFile: "separator_label.templ",
+					ID:              "with-label",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Decorated",
-					ShowcaseFile:      showcase.SeparatorDecorated(),
-					PreviewCodeFile:   "separator_decorated.templ",
-					ComponentCodeFile: "separator.templ",
+					SectionName:     "Decorated",
+					ShowcaseFile:    showcase.SeparatorDecorated(),
+					PreviewCodeFile: "separator_decorated.templ",
+					ID:              "decorated",
 				})
 			}
 		}

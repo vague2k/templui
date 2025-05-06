@@ -2,8 +2,9 @@ package layouts
 
 import "github.com/axzilla/templui/internal/ui/modules"
 
-templ DocsLayout(title, description string) {
+templ DocsLayout(title, description string, tocItems []modules.TableOfContentsItem) {
 	@BaseLayout(title, description) {
+		@modules.TableOfContentsScript()
 		<div class="flex flex-col h-screen">
 			@modules.AnnouncementBar()
 			@modules.Navbar()
@@ -23,7 +24,9 @@ templ DocsLayout(title, description string) {
 				</main>
 				<div class="hidden lg:block w-64 overflow-y-auto">
 					<div class="pt-8 pb-8 pl-4">
-						@modules.SidebarRight()
+						@modules.TableOfContents(modules.TableOfContentsProps{
+							Items: tocItems,
+						})
 					</div>
 				</div>
 			</div>

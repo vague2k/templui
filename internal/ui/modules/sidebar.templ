@@ -10,16 +10,16 @@ templ Sidebar() {
 				<ul class="space-y-2">
 					for _, section := range shared.Sections {
 						<li class="pb-4">
-							<h3 class="text-sm font-bold text-muted-foreground">{ section.Title }</h3>
-							<ul class="mt-2 space-y-1">
+							<h3 class="text-sm font-bold">{ section.Title }</h3>
+							<ul class="mt-2 space-y-0.5">
 								for _, link := range section.Links {
 									<li>
 										if link.Href == ctx.Value(ctxkeys.URLPathValue) {
-											<a href={ templ.SafeURL(link.Href) } class="text-sm flex items-center px-4 py-2 rounded-md text-gray-700 dark:text-gray-200 bg-gray-100 dark:bg-gray-700">
+											<a href={ templ.SafeURL(link.Href) } class="text-accent-foreground text-sm flex items-center px-2 py-2 rounded-md bg-accent">
 												<span>{ link.Text }</span>
 											</a>
 										} else {
-											<a href={ templ.SafeURL(link.Href) } class="text-sm flex items-center px-4 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">
+											<a href={ templ.SafeURL(link.Href) } class="text-accent-foreground text-sm flex items-center px-2 py-2 rounded-md hover:bg-accent">
 												<span>{ link.Text }</span>
 											</a>
 										}

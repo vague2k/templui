@@ -1,15 +1,18 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import (
+	"github.com/axzilla/templui/component/label"
+	"github.com/axzilla/templui/component/timepicker"
+)
 
 templ TimePickerLabel() {
 	<div class="flex flex-col gap-2 w-full max-w-sm">
-		@components.Label(components.LabelProps{
+		@label.Label(label.Props{
 			For: "time-picker-label",
 		}) {
 			Select a time
 		}
-		@components.TimePicker(components.TimePickerProps{
+		@timepicker.TimePicker(timepicker.Props{
 			ID:         "time-picker-label",
 			Use12Hours: true,
 		})

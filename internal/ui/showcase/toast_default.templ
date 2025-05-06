@@ -1,6 +1,6 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import "github.com/axzilla/templui/component/button"
 
 templ ToastDefault() {
 	<div>
@@ -15,8 +15,8 @@ templ ToastDefault() {
 				"dismissible": "on"
 			}'
 		>
-			@components.Button(components.ButtonProps{
-				Type: "submit",
+			@button.Button(button.Props{
+				Type: button.TypeSubmit,
 			}) {
 				Show Toast
 			}

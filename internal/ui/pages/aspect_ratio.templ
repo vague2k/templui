@@ -1,0 +1,37 @@
+
+package pages
+
+import "github.com/axzilla/templui/internal/ui/layouts"
+import "github.com/axzilla/templui/internal/ui/modules"
+import "github.com/axzilla/templui/internal/ui/showcase"
+
+templ AspectRatio() {
+	@layouts.DocsLayout(
+		"Aspect Ratio",
+		"A component for maintaining consistent width-to-height ratios across different screen sizes.",
+		[]modules.TableOfContentsItem{},
+	) {
+		@modules.PageWrapper(modules.PageWrapperProps{
+			Name:        "Aspect Ratio",
+			Description: templ.Raw("A component for maintaining consistent width-to-height ratios across different screen sizes."),
+			Tailwind:    true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Aspect Ratio",
+					},
+				},
+			},
+		}) {
+			@modules.ExampleWrapper(modules.ExampleWrapperProps{
+				ShowcaseFile:      showcase.AspectRatioDefault(),
+				PreviewCodeFile:   "aspect_ratio_default.templ",
+				ComponentCodeFile: "aspectratio/aspect_ratio.templ",
+			})
+		}
+	}
+}

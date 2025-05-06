@@ -1,30 +1,34 @@
 package showcase
 
 import (
-	"github.com/axzilla/templui/components"
-	"github.com/axzilla/templui/icons"
+	"github.com/axzilla/templui/component/breadcrumb"
+	"github.com/axzilla/templui/icon"
 )
 
 templ BreadcrumbWithIcons() {
-	@components.Breadcrumb(components.BreadcrumbProps{}) {
-		@components.BreadcrumbList(components.BreadcrumbListProps{}) {
-			@components.BreadcrumbItem(components.BreadcrumbItemProps{}) {
-				@components.BreadcrumbLink(components.BreadcrumbLinkProps{Href: "/"}) {
-					@icons.House(icons.IconProps{Size: "16"})
+	@breadcrumb.Breadcrumb() {
+		@breadcrumb.List() {
+			@breadcrumb.Item() {
+				@breadcrumb.Link(breadcrumb.LinkProps{
+					Href: "/",
+				}) {
+					@icon.House(icon.Props{Size: 16})
 					<span class="ml-1">Home</span>
 				}
 			}
-			@components.BreadcrumbItem(components.BreadcrumbItemProps{}) {
-				@components.BreadcrumbSeparator(components.BreadcrumbSeparatorProps{})
-				@components.BreadcrumbLink(components.BreadcrumbLinkProps{Href: "/docs"}) {
-					@icons.FileText(icons.IconProps{Size: "16"})
+			@breadcrumb.Item() {
+				@breadcrumb.Separator()
+				@breadcrumb.Link(breadcrumb.LinkProps{
+					Href: "/docs",
+				}) {
+					@icon.FileText(icon.Props{Size: 16})
 					<span class="ml-1">Documentation</span>
 				}
 			}
-			@components.BreadcrumbItem(components.BreadcrumbItemProps{}) {
-				@components.BreadcrumbSeparator(components.BreadcrumbSeparatorProps{})
-				@components.BreadcrumbPage(components.BreadcrumbItemProps{Current: true}) {
-					@icons.Component(icons.IconProps{Size: "16"})
+			@breadcrumb.Item() {
+				@breadcrumb.Separator()
+				@breadcrumb.Page(breadcrumb.ItemProps{Current: true}) {
+					@icon.Component(icon.Props{Size: 16})
 					<span class="ml-1">Components</span>
 				}
 			}

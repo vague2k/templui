@@ -1,25 +1,17 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import "github.com/axzilla/templui/component/slider"
 
 templ SliderValue() {
 	<div class="w-full max-w-sm">
-		@components.Slider(components.SliderProps{
-			ID:    "slider-value",
-			Name:  "slider-value",
-			Value: 75,
-			Min:   0,
-			Max:   100,
-			Step:  1,
-		}) {
+		@slider.Slider() {
 			<div class="flex justify-end mb-1">
-				@components.SliderValue(components.SliderValueProps{
+				@slider.Value(slider.ValueProps{
 					For: "slider-value",
 				})
 			</div>
-			@components.SliderInput(components.SliderProps{
+			@slider.Input(slider.InputProps{
 				ID:    "slider-value",
-				Name:  "slider-value",
 				Value: 75,
 				Min:   0,
 				Max:   100,

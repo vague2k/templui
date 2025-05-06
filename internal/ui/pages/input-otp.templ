@@ -10,54 +10,100 @@ templ InputOtp() {
 	@layouts.DocsLayout(
 		"Input OTP",
 		"Input field for one-time password/verification code entry.",
+		[]modules.TableOfContentsItem{
+			{
+				Text: "Examples",
+				ID:   "examples",
+				Children: []modules.TableOfContentsItem{
+					{
+						Text: "Placeholder",
+						ID:   "placeholder",
+					},
+					{
+						Text: "With Label",
+						ID:   "with-label",
+					},
+					{
+						Text: "Custom Length",
+						ID:   "custom-length",
+					},
+					{
+						Text: "Password Type",
+						ID:   "password-type",
+					},
+					{
+						Text: "Custom Styling",
+						ID:   "custom-styling",
+					},
+					{
+						Text: "Form",
+						ID:   "form",
+					},
+				},
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Input OTP",
 			Description: templ.Raw("Input field for one-time password/verification code entry."),
 			Tailwind:    true,
-			Alpine:      true,
+			VanillaJS:   true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Input OTP",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.InputOTPDefault(),
 				PreviewCodeFile:   "input_otp_default.templ",
-				ComponentCodeFile: "otp_input.templ",
+				ComponentCodeFile: "inputotp/input_otp.templ",
 			})
-			@modules.Usage(modules.UsageProps{
-				ComponentName: "InputOTP",
-				NeedsHandler:  true,
-				PropsExample:  "...",
-			})
-			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Examples",
+				ID:    "examples",
+			}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Placeholder",
-					ShowcaseFile:      showcase.InputOTPPlaceholder(),
-					PreviewCodeFile:   "input_otp_placeholder.templ",
-					ComponentCodeFile: "otp_input.templ",
+					SectionName:     "Placeholder",
+					ShowcaseFile:    showcase.InputOTPPlaceholder(),
+					PreviewCodeFile: "input_otp_placeholder.templ",
+					ID:              "placeholder",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Custom Length",
-					ShowcaseFile:      showcase.InputOTPCustomLength(),
-					PreviewCodeFile:   "input_otp_custom_length.templ",
-					ComponentCodeFile: "otp_input.templ",
+					SectionName:     "With Label",
+					ShowcaseFile:    showcase.InputOTPWithLabel(),
+					PreviewCodeFile: "input_otp_with_label.templ",
+					ID:              "with-label",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Password Type",
-					ShowcaseFile:      showcase.InputOTPPasswordType(),
-					PreviewCodeFile:   "input_otp_password_type.templ",
-					ComponentCodeFile: "otp_input.templ",
+					SectionName:     "Custom Length",
+					ShowcaseFile:    showcase.InputOTPCustomLength(),
+					PreviewCodeFile: "input_otp_custom_length.templ",
+					ID:              "custom-length",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Custom Styling",
-					ShowcaseFile:      showcase.InputOTPCustomStyling(),
-					PreviewCodeFile:   "input_otp_custom_styling.templ",
-					ComponentCodeFile: "otp_input.templ",
+					SectionName:     "Password Type",
+					ShowcaseFile:    showcase.InputOTPPasswordType(),
+					PreviewCodeFile: "input_otp_password_type.templ",
+					ID:              "password-type",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Form",
-					ShowcaseFile:      showcase.InputOTPForm(),
-					PreviewCodeFile:   "input_otp_form.templ",
-					ComponentCodeFile: "otp_input.templ",
-					ID:                "form",
+					SectionName:     "Custom Styling",
+					ShowcaseFile:    showcase.InputOTPCustomStyling(),
+					PreviewCodeFile: "input_otp_custom_styling.templ",
+					ID:              "custom-styling",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:     "Form",
+					ShowcaseFile:    showcase.InputOTPForm(),
+					PreviewCodeFile: "input_otp_form.templ",
+					ID:              "form",
 				})
 			}
 		}

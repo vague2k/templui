@@ -10,40 +10,50 @@ templ Pagination() {
 	@layouts.DocsLayout(
 		"Pagination",
 		"Navigation controls for moving between pages of content. HTMX ready.",
+		[]modules.TableOfContentsItem{
+			{
+				Text: "Examples",
+				ID:   "examples",
+				Children: []modules.TableOfContentsItem{
+					{
+						Text: "With Helper",
+						ID:   "with-helper",
+					},
+				},
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Pagination",
 			Description: templ.Raw("Navigation controls for moving between pages of content. HTMX ready."),
 			Tailwind:    true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Pagination",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.PaginationDefault(),
 				PreviewCodeFile:   "pagination_default.templ",
-				ComponentCodeFile: "pagination.templ",
+				ComponentCodeFile: "pagination/pagination.templ",
 			})
-			@modules.Usage(modules.UsageProps{
-				ComponentName: "Pagination",
-				PropsExample:  "...",
-			})
-			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Examples",
+				ID:    "examples",
+			}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "With Helper",
-					ShowcaseFile:      showcase.PaginationWithHelper(),
-					PreviewCodeFile:   "pagination_with_helper.templ",
-					ComponentCodeFile: "pagination.templ",
+					SectionName:     "With Helper",
+					ShowcaseFile:    showcase.PaginationWithHelper(),
+					PreviewCodeFile: "pagination_with_helper.templ",
+					ID:              "with-helper",
 				})
-				<!-- @modules.ExampleWrapper(modules.ExampleWrapperProps{ -->
-				<!-- 	SectionName:       "Minimal", -->
-				<!-- 	ShowcaseFile:      showcase.PaginationMinimal(), -->
-				<!-- 	PreviewCodeFile:   "pagination_minimal.templ", -->
-				<!-- 	ComponentCodeFile: "pagination.templ", -->
-				<!-- }) -->
-				<!-- @modules.ExampleWrapper(modules.ExampleWrapperProps{ -->
-				<!-- 	SectionName:       "Outline", -->
-				<!-- 	ShowcaseFile:      showcase.PaginationOutline(), -->
-				<!-- 	PreviewCodeFile:   "pagination_outline.templ", -->
-				<!-- 	ComponentCodeFile: "pagination.templ", -->
-				<!-- }) -->
 			}
 		}
 	}

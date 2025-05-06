@@ -1,46 +1,72 @@
 package modules
 
 import (
-	"github.com/axzilla/templui/components"
-	wrappedicons "github.com/axzilla/templui/internal/ui/icons"
+	"github.com/axzilla/templui/component/badge"
+	"github.com/axzilla/templui/component/breadcrumb"
+	"github.com/axzilla/templui/internal/ui/icons"
 )
 
 type PageWrapperProps struct {
 	Name        string
 	Description templ.Component
 	Tailwind    bool
-	Alpine      bool
 	VanillaJS   bool
+	Breadcrumbs Breadcrumbs
+}
+
+type Breadcrumbs struct {
+	Items []BreadcrumbItem
+}
+
+type BreadcrumbItem struct {
+	Text string
+	Path string
 }
 
 templ PageWrapper(p PageWrapperProps) {
 	<div class="mb-8">
+		<div class="mb-4">
+			@breadcrumb.Breadcrumb() {
+				@breadcrumb.List() {
+					for i, path := range p.Breadcrumbs.Items {
+						@breadcrumb.Item() {
+							if i != 0 {
+								@breadcrumb.Separator()
+							}
+							if i == len(p.Breadcrumbs.Items)-1 {
+								@breadcrumb.Page(breadcrumb.ItemProps{Current: true}) {
+									{ path.Text }
+								}
+							} else {
+								@breadcrumb.Link(breadcrumb.LinkProps{
+									Href: path.Path,
+								}) {
+									{ path.Text }
+								}
+							}
+						}
+					}
+				}
+			}
+		</div>
 		<h1 class="text-3xl font-bold mb-2">{ p.Name }</h1>
 		<p class="mb-4 text-muted-foreground">
 			@p.Description
 		</p>
 		<div class="flex gap-2 items-baseline">
 			if p.Tailwind {
-				@components.Badge(components.BadgeProps{
-					Variant: components.BadgeVariantSecondary,
+				@badge.Badge(badge.Props{
+					Variant: badge.VariantSecondary,
 				}) {
-					@wrappedicons.Tailwind(16)
+					@wrappedicon.Tailwind(16)
 					TailwindCSS
 				}
 			}
-			if p.Alpine {
-				@components.Badge(components.BadgeProps{
-					Variant: components.BadgeVariantSecondary,
-				}) {
-					@wrappedicons.Alpine(16)
-					Alpine.js
-				}
-			}
 			if p.VanillaJS {
-				@components.Badge(components.BadgeProps{
-					Variant: components.BadgeVariantSecondary,
+				@badge.Badge(badge.Props{
+					Variant: badge.VariantSecondary,
 				}) {
-					@wrappedicons.JS(16)
+					@wrappedicon.JS(16)
 					Vanilla JS
 				}
 			}

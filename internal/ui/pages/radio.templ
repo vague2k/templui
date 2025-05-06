@@ -10,47 +10,79 @@ templ Radio() {
 	@layouts.DocsLayout(
 		"Radio",
 		"Control for selecting a single option from a list of choices.",
+		[]modules.TableOfContentsItem{
+			{
+				Text: "Examples",
+				ID:   "examples",
+				Children: []modules.TableOfContentsItem{
+					{
+						Text: "Checked",
+						ID:   "checked",
+					},
+					{
+						Text: "With Label",
+						ID:   "with-label",
+					},
+					{
+						Text: "Disabled",
+						ID:   "disabled",
+					},
+					{
+						Text: "Form",
+						ID:   "form",
+					},
+				},
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Radio",
 			Description: templ.Raw("Control for selecting a single option from a list of choices."),
 			Tailwind:    true,
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Radio",
+					},
+				},
+			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:      showcase.RadioDefault(),
 				PreviewCodeFile:   "radio_default.templ",
-				ComponentCodeFile: "radio.templ",
+				ComponentCodeFile: "radio/radio.templ",
 			})
-			@modules.Usage(modules.UsageProps{
-				ComponentName: "Radio",
-				PropsExample:  "...",
-			})
-			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Examples",
+				ID:    "examples",
+			}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Checked",
-					ShowcaseFile:      showcase.RadioChecked(),
-					PreviewCodeFile:   "radio_checked.templ",
-					ComponentCodeFile: "radio.templ",
+					SectionName:     "Checked",
+					ShowcaseFile:    showcase.RadioChecked(),
+					PreviewCodeFile: "radio_checked.templ",
+					ID:              "checked",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "With Label",
-					ShowcaseFile:      showcase.RadioWithLabel(),
-					PreviewCodeFile:   "radio_with_label.templ",
-					ComponentCodeFile: "radio.templ",
-					ID:                "label",
+					SectionName:     "With Label",
+					ShowcaseFile:    showcase.RadioWithLabel(),
+					PreviewCodeFile: "radio_with_label.templ",
+					ID:              "with-label",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Disabled",
-					ShowcaseFile:      showcase.RadioDisabled(),
-					PreviewCodeFile:   "radio_disabled.templ",
-					ComponentCodeFile: "radio.templ",
+					SectionName:     "Disabled",
+					ShowcaseFile:    showcase.RadioDisabled(),
+					PreviewCodeFile: "radio_disabled.templ",
+					ID:              "disabled",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:       "Form",
-					ShowcaseFile:      showcase.RadioForm(),
-					PreviewCodeFile:   "radio_form.templ",
-					ComponentCodeFile: "radio.templ",
-					ID:                "form",
+					SectionName:     "Form",
+					ShowcaseFile:    showcase.RadioForm(),
+					PreviewCodeFile: "radio_form.templ",
+					ID:              "form",
 				})
 			}
 		}

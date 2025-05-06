@@ -1,25 +1,28 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import (
+	"github.com/axzilla/templui/component/form"
+	"github.com/axzilla/templui/component/timepicker"
+)
 
 templ TimePickerForm() {
 	<div class="w-full max-w-sm">
-		@components.FormItem(components.FormItemProps{}) {
-			@components.FormLabel(components.FormLabelProps{
+		@form.Item() {
+			@form.Label(form.LabelProps{
 				For: "time-picker-form",
 			}) {
 				Select a time
 			}
-			@components.TimePicker(components.TimePickerProps{
+			@timepicker.TimePicker(timepicker.Props{
 				ID:       "time-picker-form",
 				Name:     "time-picker-form",
 				HasError: true,
 			})
-			@components.FormDescription(components.FormDescriptionProps{}) {
+			@form.Description() {
 				Select a time from the dropdown.
 			}
-			@components.FormMessage(components.FormMessageProps{
-				Variant: components.FormMessageVariantError,
+			@form.Message(form.MessageProps{
+				Variant: form.MessageVariantError,
 			}) {
 				Please select a time
 			}

@@ -1,13 +1,16 @@
 package showcase
 
-import "github.com/axzilla/templui/components"
+import (
+	"github.com/axzilla/templui/component/label"
+	"github.com/axzilla/templui/component/toggle"
+)
 
 templ ToggleWithLabel() {
 	<div class="flex items-center gap-2">
-		@components.Toggle(components.ToggleProps{
+		@toggle.Toggle(toggle.Props{
 			ID: "toggle-with-label",
 		})
-		@components.Label(components.LabelProps{
+		@label.Label(label.Props{
 			For: "toggle-with-label",
 		}) {
 			Airplane Mode	
