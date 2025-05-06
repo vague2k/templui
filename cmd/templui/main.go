@@ -56,53 +56,90 @@ type UtilDef struct {
 
 // --- Hauptfunktion ---
 func main() {
+	if len(os.Args) < 2 { // Mindestens ein Argument (der Befehl) wird benötigt
+		fmt.Println("No command specified.")
+		showHelp(nil, defaultRef)
+		return
+	}
+
+	commandArg := os.Args[1] // Das erste Argument (z.B. "init", "init@ref", "add", "add@ref", "-v")
+
 	// Check if we should show the version
-	if len(os.Args) > 1 && (os.Args[1] == "-v" || os.Args[1] == "--version") {
+	// Behält die alte Logik bei, da -v und --version keine @ref haben
+	if commandArg == "-v" || commandArg == "--version" {
 		fmt.Printf("templUI Component Installer v%s\n", version)
 		return
 	}
 
 	// Check if we should show help
-	if len(os.Args) > 1 && (os.Args[1] == "-h" || os.Args[1] == "--help") {
-		// Versuche, das Manifest für die Hilfe zu laden (vom Default-Ref)
+	// Behält die alte Logik bei
+	if commandArg == "-h" || commandArg == "--help" {
 		fmt.Println("Fetching manifest for help...")
-		manifest, err := fetchManifest(defaultRef) // Nutze den Default-Ref für die Hilfe
+		manifest, err := fetchManifest(defaultRef)
 		if err != nil {
 			fmt.Println("Could not fetch component list for help:", err)
-			showHelp(nil, defaultRef) // Hilfe ohne Komponentenliste anzeigen, aber mit Default-Ref Info
+			showHelp(nil, defaultRef)
 		} else {
-			showHelp(&manifest, defaultRef) // Hilfe mit Komponentenliste anzeigen
+			showHelp(&manifest, defaultRef)
 		}
 		return
 	}
 
-	// Check if we should initialize the config
-	if len(os.Args) > 1 && os.Args[1] == "init" {
-		initRef := defaultRef // Startet mit dem Standard-Ref
+	// --- Check for 'init' command ---
+	if strings.HasPrefix(commandArg, "init") {
+		initRef := defaultRef // Standard-Ref
 
-		// Prüfen, ob ein optionales @ref Argument vorhanden ist (os.Args[2])
-		if len(os.Args) > 2 {
-			arg := os.Args[2]
-			// Einfache Prüfung: Muss mit @ beginnen und länger als 1 Zeichen sein
-			if strings.HasPrefix(arg, "@") && len(arg) > 1 {
-				initRef = arg[1:] // Extrahiere den Ref-Namen (ohne @)
+		// Parse @ref from the command argument itself (commandArg = os.Args[1])
+		if strings.Contains(commandArg, "@") {
+			parts := strings.SplitN(commandArg, "@", 2)
+			if len(parts) == 2 && parts[0] == "init" && parts[1] != "" {
+				initRef = parts[1]
 				fmt.Printf("Initializing using specified ref: %s\n", initRef)
 			} else {
-				// Optional: Gib eine Warnung oder einen Fehler aus, wenn etwas anderes nach init steht
-				fmt.Printf("Warning: Invalid argument '%s' after 'init'. Expected '@<ref>' or nothing. Using default ref '%s'.\n", arg, defaultRef)
-				// Alternativ: return mit Fehlermeldung
+				fmt.Printf("Error: Invalid format '%s'. Use 'init' or 'init@<ref>'.\n", commandArg)
+				return
 			}
+		} else if commandArg != "init" { // Verhindere z.B. "initialise"
+			fmt.Printf("Error: Unknown command '%s'. Did you mean 'init'?\n", commandArg)
+			showHelp(nil, defaultRef)
+			return
 		}
-		initConfig(initRef) // Übergebe den ermittelten Ref an initConfig
+
+		// Prüfen, ob zusätzliche unerwartete Argumente vorhanden sind
+		if len(os.Args) > 2 {
+			fmt.Printf("Warning: Extra arguments found after '%s'. Ignoring: %v\n", commandArg, os.Args[2:])
+		}
+
+		initConfig(initRef) // Übergebe den ermittelten Ref
 		return
 	}
 
-	// Check if we should add a component
-	if len(os.Args) > 1 && os.Args[1] == "add" {
+	// --- Check for 'add' command ---
+	if strings.HasPrefix(commandArg, "add") {
+		targetRef := defaultRef     // Standard-Ref
+		commandRefProvided := false // Flag, ob @ref mit dem add-Befehl kam
+
+		// Parse @ref from the command argument itself (commandArg = os.Args[1])
+		if strings.Contains(commandArg, "@") {
+			parts := strings.SplitN(commandArg, "@", 2)
+			if len(parts) == 2 && parts[0] == "add" && parts[1] != "" {
+				targetRef = parts[1]
+				commandRefProvided = true
+				fmt.Printf("Using specified ref from command: %s\n", targetRef)
+			} else {
+				fmt.Printf("Error: Invalid format '%s'. Use 'add' or 'add@<ref>'.\n", commandArg)
+				return
+			}
+		} else if commandArg != "add" { // Verhindere z.B. "addition"
+			fmt.Printf("Error: Unknown command '%s'. Did you mean 'add'?\n", commandArg)
+			showHelp(nil, defaultRef)
+			return
+		}
+
+		// Komponenten-Argumente beginnen bei os.Args[2]
 		if len(os.Args) < 3 {
-			fmt.Println("Error: No component(s) specified.")
-			fmt.Println("Usage: templui add <component>[@<ref>] [<component>[@<ref>]...] | *[@<ref>]")
-			fmt.Println("  <ref> can be a branch name, tag name, or commit hash.")
+			fmt.Println("Error: No component(s) specified after 'add'.")
+			fmt.Println("Usage: templui add[@<ref>] <component>[@<ref>]... | *")
 			return
 		}
 
@@ -114,80 +151,53 @@ func main() {
 			return
 		}
 
-		// --- Argument Parsing mit @ref ---
-		targetRef := defaultRef                // Startet mit Default, wird ggf. überschrieben
+		// --- Argument Parsing für Komponenten (ab os.Args[2]) ---
 		componentsToInstallNames := []string{} // Nur die Namen der Komponenten
-		requestedRef := ""                     // Der vom User explizit angeforderte Ref
 		isInstallAll := false                  // Flag für '*'
 
-		// Prüfen, ob '*' als letztes Argument vorkommt (kann @ref haben)
-		lastArg := os.Args[len(os.Args)-1]
-		if strings.HasPrefix(lastArg, "*") {
-			if len(os.Args) > 3 { // Darf nur '*' sein, nicht 'comp1 *'
-				fmt.Println("Error: '*' must be the only component argument.")
-				fmt.Println("Usage: templui add *[@<ref>]")
+		// Prüfen, ob '*' das erste Komponenten-Argument ist
+		firstCompArg := os.Args[2]
+		if firstCompArg == "*" {
+			if len(os.Args) > 3 { // Darf nur '*' sein
+				fmt.Println("Error: '*' must be the only component argument after 'add'.")
+				fmt.Println("Usage: templui add[@<ref>] *")
 				return
 			}
 			isInstallAll = true
-			// compName := "*" // Platzhalter
-			refFromArg := ""
-
-			if strings.Contains(lastArg, "@") {
-				parts := strings.SplitN(lastArg, "@", 2)
-				if len(parts) == 2 && parts[0] == "*" && parts[1] != "" {
-					refFromArg = parts[1]
-				} else {
-					fmt.Printf("Error: Invalid format '%s'. Use '*' or '*@<ref>'.\n", lastArg)
-					return
-				}
-			}
-			if refFromArg != "" {
-				requestedRef = refFromArg // Speichere den explizit für '*' angeforderten Ref
-			}
-			// Namen holen wir später aus dem Manifest
+			// Ref wurde bereits aus commandArg geparst (targetRef)
 		} else {
-			// Parse 'component@ref' für jeden angegebenen Komponenten-Arg
+			// Parse 'component' (ohne @ref, da der Ref vom Befehl kommt)
+			// Die Argumente sind jetzt os.Args[2:]
 			for _, arg := range os.Args[2:] {
-				compName := arg
-				refFromArg := ""
-
-				if strings.Contains(arg, "@") {
+				// Wenn ein Ref mit dem *Befehl* kam, ignoriere @ref bei Komponenten
+				if commandRefProvided && strings.Contains(arg, "@") {
 					parts := strings.SplitN(arg, "@", 2)
-					if len(parts) == 2 && parts[0] != "" && parts[1] != "" {
-						compName = parts[0]
-						refFromArg = parts[1]
-					} else {
-						fmt.Printf("Error: Invalid format '%s'. Use 'component' or 'component@ref'.\n", arg)
-						return
-					}
-				}
+					compName := parts[0]
+					fmt.Printf("Warning: Ignoring '@%s' for component '%s' because ref '%s' was specified with the 'add' command.\n", parts[1], compName, targetRef)
+					componentsToInstallNames = append(componentsToInstallNames, compName)
+				} else if strings.Contains(arg, "@") {
+					// Wenn KEIN Ref mit dem Befehl kam, ABER hier eins ist -> Fehler (oder wir erlauben es doch?)
+					// Aktuell: Fehler, da wir oben entschieden haben, dass der Befehls-Ref gilt.
+					// Alternative: targetRef hier überschreiben, aber nur wenn es das erste ist. Komplex.
+					// Einfacher: @ref nur am Befehl oder gar nicht erlauben.
+					// Für jetzt lassen wir es wie oben: Wenn commandRefProvided, wird ignoriert.
+					// Wenn !commandRefProvided und @ hier -> Fehler (oder targetRef setzen?)
+					// Wir bleiben dabei: @Ref gehört an den Befehl `add` oder `init`.
+					fmt.Printf("Error: Specify the ref with the 'add' command (e.g., 'add@%s %s'), not on individual components.\n", defaultRef, arg)
+					return
 
-				componentsToInstallNames = append(componentsToInstallNames, compName)
-
-				// Sicherstellen, dass alle @ref gleich sind (oder keiner angegeben ist)
-				if refFromArg != "" {
-					if requestedRef != "" && requestedRef != refFromArg {
-						// Fehler: Unterschiedliche Refs im selben Befehl angefordert
-						fmt.Printf("Error: Cannot request components from different refs ('%s' vs '%s') in the same command.\n", requestedRef, refFromArg)
-						fmt.Println("Please run 'add' separately for each ref (branch/tag/commit).")
-						return
-					}
-					requestedRef = refFromArg
+				} else {
+					// Normaler Komponentenname ohne @ref
+					componentsToInstallNames = append(componentsToInstallNames, arg)
 				}
 			}
 		}
-
-		// Wenn ein Ref explizit angefordert wurde (entweder für '*' oder für Komponenten), nutze diesen
-		if requestedRef != "" {
-			targetRef = requestedRef
-		}
-		// Ansonsten bleibt targetRef der defaultRef
 
 		// --- Download-Logik ---
-		fmt.Printf("Using ref: %s\n", targetRef) // Zeige an, welcher Ref verwendet wird
+		fmt.Printf("Using ref: %s\n", targetRef)
 
 		fmt.Printf("Fetching component manifest from ref '%s'...\n", targetRef)
-		manifest, err := fetchManifest(targetRef) // Nutze den ermittelten targetRef
+		manifest, err := fetchManifest(targetRef)
 		if err != nil {
 			// Gib eine spezifischere Fehlermeldung aus, wenn 404 aufgetreten ist
 			if strings.Contains(err.Error(), "status code 404") {
@@ -222,12 +232,9 @@ func main() {
 
 		// Install each requested component (and dependencies)
 		for _, componentName := range componentsToInstallNames {
-			// Hier wird KEINE Version pro Komponente mehr geparst,
-			// da alle aus dem gleichen targetRef kommen müssen.
 			compDef, exists := componentMap[componentName]
 			if !exists {
 				fmt.Printf("Error: Component '%s' not found in manifest for ref '%s'.\n", componentName, targetRef)
-				// Verfügbare Komponenten auflisten
 				fmt.Println("Available components in this manifest:")
 				for _, availableComp := range manifest.Components {
 					fmt.Printf(" - %s\n", availableComp.Name)
@@ -235,11 +242,9 @@ func main() {
 				continue // oder return error
 			}
 
-			// Übergebe den targetRef an installComponent
 			err = installComponent(config, compDef, componentMap, targetRef, installedComponents, requiredUtils)
 			if err != nil {
 				fmt.Printf("Error installing component %s: %v\n", componentName, err)
-				// Entscheiden, ob weitergemacht oder gestoppt werden soll
 			}
 		}
 
@@ -250,7 +255,6 @@ func main() {
 			for utilPath := range requiredUtils {
 				utilsToInstallPaths = append(utilsToInstallPaths, utilPath)
 			}
-			// Übergebe den targetRef an installUtils
 			err = installUtils(config, utilsToInstallPaths, targetRef)
 			if err != nil {
 				fmt.Printf("Error installing utils: %v\n", err)
@@ -258,25 +262,21 @@ func main() {
 		}
 
 		fmt.Println("\nInstallation finished.")
-		// TODO: Ggf. Zusammenfassung ausgeben (was wurde installiert/übersprungen)
-		return
-	}
+		return // Ende des add-Blocks
+	} // Ende 'if strings.HasPrefix(commandArg, "add")'
 
-	// If no command is specified, show the help
-	fmt.Println("No command specified.")
-	showHelp(nil, defaultRef) // Standardhilfe ohne Komponentenliste, aber mit Default-Ref Info
+	// If no known command was matched
+	fmt.Printf("Error: Unknown command '%s'\n", commandArg)
+	showHelp(nil, defaultRef)
 }
 
 // --- Hilfefunktion ---
-// Übergibt jetzt optional das Manifest und den verwendeten Ref für die Anzeige
 func showHelp(manifest *Manifest, refUsedForHelp string) {
 	fmt.Println("templUI Component Installer (v" + version + ")")
 	fmt.Println("Usage:")
-	fmt.Println("  templui init [@<ref>]         - Initialize the config file and install utils from <ref>")
-	fmt.Println("  templui add <comp>[@<ref>] [<comp>[@<ref>]...] - Add component(s)")
-	fmt.Println("                                        (e.g., button@main, card@v0.1.0)")
-	fmt.Println("  templui add *[@<ref>]         - Add all available components from a specific ref")
-	fmt.Println("                                        (e.g., *@main, *@v0.1.0)")
+	fmt.Println("  templui init[@<ref>]         - Initialize the config file and install utils from <ref>")
+	fmt.Println("  templui add[@<ref>] <comp>... - Add component(s) from specified <ref>")
+	fmt.Println("  templui add[@<ref>] *         - Add all available components from a specific ref")
 	fmt.Println("  templui -v, --version       - Show installer version")
 	fmt.Println("  templui -h, --help          - Show this help message")
 	fmt.Println("\n<ref> can be a branch name, tag name, or commit hash.")
