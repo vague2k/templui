@@ -22,7 +22,7 @@
     {
       "name": "aspectratio",
       "description": ".",
-      "files": ["internal/components/aspectratio/aspectratio.templ"],
+      "files": ["internal/components/aspectratio/aspect_ratio.templ"],
       "dependencies": []
     }
   ],

@@ -1,4 +1,4 @@
 {
-  "componentsDir": "xxxxx",
-  "moduleName": "meis"
+  "componentsDir": "./components",
+  "moduleName": "github.com/axzilla/templui"
 }
