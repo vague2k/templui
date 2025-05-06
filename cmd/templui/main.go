@@ -473,20 +473,29 @@ func installComponent(
 
 	// 2. Dateien der aktuellen Komponente herunterladen und schreiben
 	fmt.Printf(" Installing files for: %s\n", comp.Name)
-	for _, repoFilePath := range comp.Files {
-		fileName := filepath.Base(repoFilePath) // z.B. button.templ
-		destDir := config.ComponentsDir         // z.B. ./components
+	repoComponentBasePath := "internal/components/" // Basispfad im Repo
 
-		// Erstelle Unterverzeichnis pro Komponente? (Optional, aktuell flach)
-		// compDestDir := filepath.Join(destDir, comp.Name) // z.B. ./components/button
-		// destPath := filepath.Join(compDestDir, fileName)
-		destPath := filepath.Join(destDir, fileName) // Aktuell: ./components/button.templ
+	for _, repoFilePath := range comp.Files { // z.B. "internal/components/aspectratio/aspect_ratio.templ"
 
-		// Stelle sicher, dass das Zielverzeichnis existiert
-		// err := os.MkdirAll(compDestDir, 0755) // Wenn Unterverzeichnisse verwendet werden
-		err := os.MkdirAll(destDir, 0755) // Aktuell
+		// --- Zielpfad bestimmen ---
+		var destPath string
+		if strings.HasPrefix(repoFilePath, repoComponentBasePath) {
+			// Relativen Pfad extrahieren (z.B. "aspectratio/aspect_ratio.templ")
+			relativePath := repoFilePath[len(repoComponentBasePath):]
+			// Zielpfad konstruieren (z.B. "./components/aspectratio/aspect_ratio.templ")
+			destPath = filepath.Join(config.ComponentsDir, relativePath)
+		} else {
+			// Fallback für unerwartete Pfade (sollte nicht passieren bei korrekter Manifest-Pflege)
+			fmt.Printf("  Warning: File path '%s' does not start with '%s'. Placing it directly in '%s'.\n", repoFilePath, repoComponentBasePath, config.ComponentsDir)
+			fileName := filepath.Base(repoFilePath)
+			destPath = filepath.Join(config.ComponentsDir, fileName)
+		}
+
+		// Stelle sicher, dass das *gesamte* Zielverzeichnis existiert (inkl. Unterordner)
+		compDestDir := filepath.Dir(destPath) // z.B. "./components/aspectratio"
+		err := os.MkdirAll(compDestDir, 0755)
 		if err != nil {
-			return fmt.Errorf("failed to create destination directory '%s': %w", filepath.Dir(destPath), err)
+			return fmt.Errorf("failed to create destination directory '%s': %w", compDestDir, err)
 		}
 
 		// --- Überschreiben-Logik ---
@@ -503,7 +512,8 @@ func installComponent(
 		fmt.Printf("   Downloading %s...\n", fileURL)
 		data, err := downloadFile(fileURL)
 		if err != nil {
-			return fmt.Errorf("failed to download file '%s' for component '%s' from %s: %w", fileName, comp.Name, fileURL, err)
+			fileNameForError := filepath.Base(repoFilePath) // Nur Dateiname für Fehlermeldung
+			return fmt.Errorf("failed to download file '%s' for component '%s' from %s: %w", fileNameForError, comp.Name, fileURL, err)
 		}
 
 		// --- Modifikationen ---
@@ -512,8 +522,8 @@ func installComponent(
 		modifiedData := append([]byte(versionComment), data...)
 
 		// b) Importpfade ersetzen (nur für .templ und .go Dateien relevant?)
-		if strings.HasSuffix(fileName, ".templ") || strings.HasSuffix(fileName, ".go") {
-			modifiedData = replaceImports(modifiedData, config.ModuleName)
+		if strings.HasSuffix(repoFilePath, ".templ") || strings.HasSuffix(repoFilePath, ".go") {
+			modifiedData = replaceImports(modifiedData, config.ModuleName, comp.Name) // Pass component name for better context
 		}
 
 		// --- Schreiben ---
@@ -538,18 +548,31 @@ func installUtils(config Config, utilPaths []string, ref string) error { // Geä
 		return nil
 	}
 
-	// Bestimme das Zielverzeichnis für Utils (z.B. ./utils neben ./components)
-	utilsDestDir := filepath.Join(filepath.Dir(config.ComponentsDir), "utils")
-	fmt.Printf("Installing utils to: %s (from ref: %s)\n", utilsDestDir, ref)
+	utilsBaseDestDir := filepath.Join(filepath.Dir(config.ComponentsDir), "utils") // z.B. ./utils
+	fmt.Printf("Installing utils to: %s (from ref: %s)\n", utilsBaseDestDir, ref)
+	repoUtilBasePath := "internal/utils/" // Basispfad im Repo
 
-	err := os.MkdirAll(utilsDestDir, 0755)
-	if err != nil {
-		return fmt.Errorf("failed to create utils directory '%s': %w", utilsDestDir, err)
-	}
+	for _, repoUtilPath := range utilPaths { // z.B. "internal/utils/classname.go" oder "internal/utils/forms/validation.go"
 
-	for _, repoUtilPath := range utilPaths {
-		fileName := filepath.Base(repoUtilPath) // z.B. classname.go
-		destPath := filepath.Join(utilsDestDir, fileName)
+		// --- Zielpfad bestimmen ---
+		var destPath string
+		if strings.HasPrefix(repoUtilPath, repoUtilBasePath) {
+			// Relativen Pfad extrahieren (z.B. "classname.go" oder "forms/validation.go")
+			relativePath := repoUtilPath[len(repoUtilBasePath):]
+			// Zielpfad konstruieren (z.B. "./utils/classname.go" oder "./utils/forms/validation.go")
+			destPath = filepath.Join(utilsBaseDestDir, relativePath)
+		} else {
+			fmt.Printf("  Warning: Util path '%s' does not start with '%s'. Placing it directly in '%s'.\n", repoUtilPath, repoUtilBasePath, utilsBaseDestDir)
+			fileName := filepath.Base(repoUtilPath)
+			destPath = filepath.Join(utilsBaseDestDir, fileName)
+		}
+
+		// Stelle sicher, dass das *gesamte* Zielverzeichnis existiert
+		utilDestDir := filepath.Dir(destPath) // z.B. "./utils" oder "./utils/forms"
+		err := os.MkdirAll(utilDestDir, 0755)
+		if err != nil {
+			return fmt.Errorf("failed to create destination utils directory '%s': %w", utilDestDir, err)
+		}
 
 		// --- Überschreiben-Logik (ähnlich wie bei Komponenten) ---
 		if _, err := os.Stat(destPath); err == nil {
@@ -565,20 +588,22 @@ func installUtils(config Config, utilPaths []string, ref string) error { // Geä
 		fmt.Printf("   Downloading util %s...\n", fileURL)
 		data, err := downloadFile(fileURL)
 		if err != nil {
-			return fmt.Errorf("failed to download util '%s' from %s: %w", fileName, fileURL, err)
+			fileNameForError := filepath.Base(repoUtilPath)
+			return fmt.Errorf("failed to download util '%s' from %s: %w", fileNameForError, fileURL, err)
 		}
 
 		// --- Modifikationen ---
 		// a) Versionskommentar
-		versionComment := fmt.Sprintf("// templui util %s - version: %s installed by templui v%s\n", fileName, ref, version)
+		utilNameForComment := filepath.Base(repoUtilPath) // Nur Dateiname für Kommentar
+		versionComment := fmt.Sprintf("// templui util %s - version: %s installed by templui v%s\n", utilNameForComment, ref, version)
 		modifiedData := append([]byte(versionComment), data...)
 
 		// b) Importpfade ersetzen (nur für .go Dateien relevant)
-		if strings.HasSuffix(fileName, ".go") {
+		if strings.HasSuffix(repoUtilPath, ".go") {
 			// Ersetze interne Pfade (z.B. "github.com/axzilla/templui/internal/utils")
 			// mit dem Modulnamen des Nutzers (z.B. "your/module/path/utils")
 			// Wichtig: Der Pfad im replaceImports muss dem internen Pfad entsprechen!
-			modifiedData = replaceImports(modifiedData, config.ModuleName)
+			modifiedData = replaceImports(modifiedData, config.ModuleName, "") // Kein spezifischer Komponentenkontext für Utils
 		}
 
 		// --- Schreiben ---
@@ -593,7 +618,7 @@ func installUtils(config Config, utilPaths []string, ref string) error { // Geä
 }
 
 // replaceImports ersetzt die internen templUI-Importpfade durch den Modulnamen des Benutzers
-func replaceImports(data []byte, userModuleName string) []byte {
+func replaceImports(data []byte, userModuleName string, context string) []byte { // context hinzugefügt
 	content := string(data)
 	// Das Muster muss exakt den Importpfad matchen, der in deinen internen Komponenten/Utils verwendet wird!
 	// Annahme: Deine internen Imports sehen aus wie "github.com/axzilla/templui/internal/..."
@@ -609,7 +634,11 @@ func replaceImports(data []byte, userModuleName string) []byte {
 
 	// Logge, ob Ersetzungen stattgefunden haben (optional für Debugging)
 	if content != newContent {
-		fmt.Println("    -> Replaced import paths.")
+		logPrefix := "    ->"
+		if context != "" {
+			logPrefix = fmt.Sprintf("    -> [%s]", context)
+		}
+		fmt.Printf("%s Replaced import paths.\n", logPrefix)
 	} else {
 		//fmt.Println("    -> No import paths needed replacement.") // Weniger verbose
 	}
