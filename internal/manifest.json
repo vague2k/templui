@@ -28,7 +28,7 @@
   ],
   "utils": [
     {
-      "path": "internal/utils/utils.go",
+      "path": "internal/utils/templui.go",
       "description": ""
     }
   ]

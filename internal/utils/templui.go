@@ -1,7 +1,6 @@
 package utils
 
 import (
-	"encoding/base64"
 	"fmt"
 
 	"math/rand"
@@ -10,15 +9,6 @@ import (
 
 	twmerge "github.com/Oudwins/tailwind-merge-go"
 )
-
-func GenerateNonce() (string, error) {
-	nonceBytes := make([]byte, 16)
-	_, err := rand.Read(nonceBytes)
-	if err != nil {
-		return "", fmt.Errorf("failed to generate nonce: %w", err)
-	}
-	return base64.StdEncoding.EncodeToString(nonceBytes), nil
-}
 
 // TwMerge combines Tailwind classes and resolves conflicts.
 // Example: "bg-red-500 hover:bg-blue-500", "bg-green-500" → "hover:bg-blue-500 bg-green-500"
