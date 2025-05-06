@@ -1,8 +1,4 @@
-# exlude generated files but not for the pkg folder
-internal/**/*_templ.go
-internal/**/*_templ.txt
-
-# exclude .txt files because they are not needed as a go package but the .go files are
+**/*_templ.go
 **/*_templ.txt
 
 .DS_Store
