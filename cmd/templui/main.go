@@ -1,7 +1,9 @@
 package main
 
 import (
+	"bufio" // Import für Nutzereingabe
 	"encoding/json"
+	"flag" // Import für Command-Line Flags
 	"fmt"
 	"io"       // Import für I/O (Lesen von HTTP-Responses)
 	"net/http" // Import für HTTP-Anfragen
@@ -9,7 +11,6 @@ import (
 	"path/filepath"
 	"regexp"
 	"strings"
-	// "bufio" // Wird für die Überschreiben-Frage benötigt
 	// "log"   // Für Fehlerlogging beim Download
 )
 
@@ -26,6 +27,12 @@ const (
 
 // Version des Tools (kann über ldflags gesetzt werden)
 var version = "0.0.0-dev" // Standardwert
+
+// Regex zum Extrahieren der Version aus dem Kommentar (einmal kompilieren)
+var versionRegex = regexp.MustCompile(`(?m)^\s*//\s*templui\s+(?:component|util)\s+.*\s+-\s+version:\s+(\S+)`)
+
+// --- Flags ---
+var forceOverwrite = flag.Bool("force", false, "Force overwrite existing files without asking")
 
 // Config um UtilsDir erweitern
 type Config struct {
@@ -56,23 +63,30 @@ type UtilDef struct {
 
 // --- Hauptfunktion ---
 func main() {
-	if len(os.Args) < 2 { // Mindestens ein Argument (der Befehl) wird benötigt
+	// Alias -f für --force hinzufügen
+	flag.BoolVar(forceOverwrite, "f", false, "Force overwrite existing files without asking (shorthand)")
+	flag.Usage = func() { // Custom Usage für bessere Hilfe
+		showHelp(nil, defaultRef) // Zeige unsere Hilfe statt der Standard-Flag-Hilfe
+	}
+	flag.Parse() // Parse Flags zuerst
+
+	args := flag.Args() // Get non-flag arguments
+
+	if len(args) == 0 { // No command provided
 		fmt.Println("No command specified.")
 		showHelp(nil, defaultRef)
 		return
 	}
 
-	commandArg := os.Args[1] // Das erste Argument (z.B. "init", "init@ref", "add", "add@ref", "-v")
+	commandArg := args[0] // The first non-flag argument is the command
 
-	// Check if we should show the version
-	// Behält die alte Logik bei, da -v und --version keine @ref haben
+	// Check if we should show the version (bleibt speziell, kein @ref)
 	if commandArg == "-v" || commandArg == "--version" {
 		fmt.Printf("templUI Component Installer v%s\n", version)
 		return
 	}
 
-	// Check if we should show help
-	// Behält die alte Logik bei
+	// Check if we should show help (bleibt speziell)
 	if commandArg == "-h" || commandArg == "--help" {
 		fmt.Println("Fetching manifest for help...")
 		manifest, err := fetchManifest(defaultRef)
@@ -89,7 +103,7 @@ func main() {
 	if strings.HasPrefix(commandArg, "init") {
 		initRef := defaultRef // Standard-Ref
 
-		// Parse @ref from the command argument itself (commandArg = os.Args[1])
+		// Parse @ref from the command argument itself (commandArg = args[0])
 		if strings.Contains(commandArg, "@") {
 			parts := strings.SplitN(commandArg, "@", 2)
 			if len(parts) == 2 && parts[0] == "init" && parts[1] != "" {
@@ -106,11 +120,11 @@ func main() {
 		}
 
 		// Prüfen, ob zusätzliche unerwartete Argumente vorhanden sind
-		if len(os.Args) > 2 {
-			fmt.Printf("Warning: Extra arguments found after '%s'. Ignoring: %v\n", commandArg, os.Args[2:])
+		if len(args) > 1 { // Check length of non-flag args
+			fmt.Printf("Warning: Extra arguments found after '%s'. Ignoring: %v\n", commandArg, args[1:])
 		}
 
-		initConfig(initRef) // Übergebe den ermittelten Ref
+		initConfig(initRef, *forceOverwrite) // Übergebe den ermittelten Ref und Force-Status
 		return
 	}
 
@@ -119,7 +133,7 @@ func main() {
 		targetRef := defaultRef     // Standard-Ref
 		commandRefProvided := false // Flag, ob @ref mit dem add-Befehl kam
 
-		// Parse @ref from the command argument itself (commandArg = os.Args[1])
+		// Parse @ref from the command argument itself (commandArg = args[0])
 		if strings.Contains(commandArg, "@") {
 			parts := strings.SplitN(commandArg, "@", 2)
 			if len(parts) == 2 && parts[0] == "add" && parts[1] != "" {
@@ -136,10 +150,10 @@ func main() {
 			return
 		}
 
-		// Komponenten-Argumente beginnen bei os.Args[2]
-		if len(os.Args) < 3 {
+		// Komponenten-Argumente beginnen bei args[1]
+		if len(args) < 2 { // Need at least command + component/star
 			fmt.Println("Error: No component(s) specified after 'add'.")
-			fmt.Println("Usage: templui add[@<ref>] <component>[@<ref>]... | *")
+			fmt.Println("Usage: templui add[@<ref>] <component>... | *")
 			return
 		}
 
@@ -151,43 +165,33 @@ func main() {
 			return
 		}
 
-		// --- Argument Parsing für Komponenten (ab os.Args[2]) ---
+		// --- Argument Parsing für Komponenten (ab args[1]) ---
 		componentsToInstallNames := []string{} // Nur die Namen der Komponenten
 		isInstallAll := false                  // Flag für '*'
 
 		// Prüfen, ob '*' das erste Komponenten-Argument ist
-		firstCompArg := os.Args[2]
+		firstCompArg := args[1]
 		if firstCompArg == "*" {
-			if len(os.Args) > 3 { // Darf nur '*' sein
+			if len(args) > 2 { // Darf nur '*' sein
 				fmt.Println("Error: '*' must be the only component argument after 'add'.")
 				fmt.Println("Usage: templui add[@<ref>] *")
 				return
 			}
 			isInstallAll = true
-			// Ref wurde bereits aus commandArg geparst (targetRef)
 		} else {
-			// Parse 'component' (ohne @ref, da der Ref vom Befehl kommt)
-			// Die Argumente sind jetzt os.Args[2:]
-			for _, arg := range os.Args[2:] {
-				// Wenn ein Ref mit dem *Befehl* kam, ignoriere @ref bei Komponenten
-				if commandRefProvided && strings.Contains(arg, "@") {
-					parts := strings.SplitN(arg, "@", 2)
-					compName := parts[0]
-					fmt.Printf("Warning: Ignoring '@%s' for component '%s' because ref '%s' was specified with the 'add' command.\n", parts[1], compName, targetRef)
-					componentsToInstallNames = append(componentsToInstallNames, compName)
-				} else if strings.Contains(arg, "@") {
-					// Wenn KEIN Ref mit dem Befehl kam, ABER hier eins ist -> Fehler (oder wir erlauben es doch?)
-					// Aktuell: Fehler, da wir oben entschieden haben, dass der Befehls-Ref gilt.
-					// Alternative: targetRef hier überschreiben, aber nur wenn es das erste ist. Komplex.
-					// Einfacher: @ref nur am Befehl oder gar nicht erlauben.
-					// Für jetzt lassen wir es wie oben: Wenn commandRefProvided, wird ignoriert.
-					// Wenn !commandRefProvided und @ hier -> Fehler (oder targetRef setzen?)
-					// Wir bleiben dabei: @Ref gehört an den Befehl `add` oder `init`.
-					fmt.Printf("Error: Specify the ref with the 'add' command (e.g., 'add@%s %s'), not on individual components.\n", defaultRef, arg)
-					return
-
+			// Parse component names (ab args[1])
+			for _, arg := range args[1:] {
+				// @ref bei einzelnen Komponenten wird ignoriert/führt zu Fehler, da der Ref am Befehl hängt
+				if strings.Contains(arg, "@") {
+					compName := strings.SplitN(arg, "@", 2)[0]
+					if commandRefProvided {
+						fmt.Printf("Warning: Ignoring '@...' for component '%s' because ref '%s' was specified with the 'add' command.\n", compName, targetRef)
+						componentsToInstallNames = append(componentsToInstallNames, compName)
+					} else {
+						fmt.Printf("Error: Specify the ref with the 'add' command (e.g., 'add@%s %s'), not on individual components like '%s'.\n", targetRef, compName, arg)
+						return
+					}
 				} else {
-					// Normaler Komponentenname ohne @ref
 					componentsToInstallNames = append(componentsToInstallNames, arg)
 				}
 			}
@@ -199,7 +203,6 @@ func main() {
 		fmt.Printf("Fetching component manifest from ref '%s'...\n", targetRef)
 		manifest, err := fetchManifest(targetRef)
 		if err != nil {
-			// Gib eine spezifischere Fehlermeldung aus, wenn 404 aufgetreten ist
 			if strings.Contains(err.Error(), "status code 404") {
 				fmt.Printf("Error fetching manifest: %v\n", err)
 				fmt.Printf("  Check if the ref '%s' exists and contains the file '%s'.\n", targetRef, manifestPath)
@@ -211,24 +214,21 @@ func main() {
 		}
 		fmt.Printf("Using components from templui manifest version %s (fetched from ref %s)\n", manifest.Version, targetRef)
 
-		// Create map for easy lookup
 		componentMap := make(map[string]ComponentDef)
 		for _, comp := range manifest.Components {
 			componentMap[comp.Name] = comp
 		}
 
-		// Wenn '*' angefordert wurde, jetzt die Namen aus dem Manifest holen
 		if isInstallAll {
 			fmt.Println("Preparing to install all components...")
-			componentsToInstallNames = []string{} // Leeren und neu befüllen
+			componentsToInstallNames = []string{}
 			for _, comp := range manifest.Components {
 				componentsToInstallNames = append(componentsToInstallNames, comp.Name)
 			}
 		}
 
-		// Track installed components and required utils to avoid duplicates
 		installedComponents := make(map[string]bool)
-		requiredUtils := make(map[string]bool) // Map von Util-Pfad zu bool
+		requiredUtils := make(map[string]bool)
 
 		// Install each requested component (and dependencies)
 		for _, componentName := range componentsToInstallNames {
@@ -239,12 +239,14 @@ func main() {
 				for _, availableComp := range manifest.Components {
 					fmt.Printf(" - %s\n", availableComp.Name)
 				}
-				continue // oder return error
+				continue
 			}
 
-			err = installComponent(config, compDef, componentMap, targetRef, installedComponents, requiredUtils)
+			// Übergebe Force-Status an installComponent
+			err = installComponent(config, compDef, componentMap, targetRef, installedComponents, requiredUtils, *forceOverwrite)
 			if err != nil {
 				fmt.Printf("Error installing component %s: %v\n", componentName, err)
+				// TODO: Entscheiden, ob hier abgebrochen werden soll
 			}
 		}
 
@@ -255,15 +257,16 @@ func main() {
 			for utilPath := range requiredUtils {
 				utilsToInstallPaths = append(utilsToInstallPaths, utilPath)
 			}
-			err = installUtils(config, utilsToInstallPaths, targetRef)
+			// Übergebe Force-Status an installUtils
+			err = installUtils(config, utilsToInstallPaths, targetRef, *forceOverwrite)
 			if err != nil {
 				fmt.Printf("Error installing utils: %v\n", err)
 			}
 		}
 
 		fmt.Println("\nInstallation finished.")
-		return // Ende des add-Blocks
-	} // Ende 'if strings.HasPrefix(commandArg, "add")'
+		return
+	}
 
 	// If no known command was matched
 	fmt.Printf("Error: Unknown command '%s'\n", commandArg)
@@ -272,30 +275,27 @@ func main() {
 
 // --- Hilfefunktion ---
 func showHelp(manifest *Manifest, refUsedForHelp string) {
+	// Usage angepasst
 	fmt.Println("templUI Component Installer (v" + version + ")")
 	fmt.Println("Usage:")
-	fmt.Println("  templui init[@<ref>]         - Initialize the config file and install utils from <ref>")
-	fmt.Println("  templui add[@<ref>] <comp>... - Add component(s) from specified <ref>")
-	fmt.Println("  templui add[@<ref>] *         - Add all available components from a specific ref")
-	fmt.Println("  templui -v, --version       - Show installer version")
-	fmt.Println("  templui -h, --help          - Show this help message")
+	fmt.Println("  templui [flags] init[@<ref>]         - Initialize config and install utils from <ref>")
+	fmt.Println("  templui [flags] add[@<ref>] <comp>... - Add component(s) from specified <ref>")
+	fmt.Println("  templui [flags] add[@<ref>] *         - Add all components from specified <ref>")
+	fmt.Println("  templui -v, --version               - Show installer version")
+	fmt.Println("  templui -h, --help                  - Show this help message")
 	fmt.Println("\n<ref> can be a branch name, tag name, or commit hash.")
 	fmt.Printf("If no <ref> is specified, components are fetched from the default ref (currently '%s').\n", refUsedForHelp)
+	fmt.Println("\nFlags:")
+	flag.PrintDefaults() // Zeigt die definierten Flags (-f, --force)
 
-	// Komponenten auflisten, wenn Manifest vorhanden ist
 	if manifest != nil && len(manifest.Components) > 0 {
 		fmt.Printf("\nAvailable components in manifest (fetched from ref '%s'):\n", refUsedForHelp)
-		// Sortieren für bessere Lesbarkeit? (Optional)
-		// sort.Slice(manifest.Components, func(i, j int) bool {
-		// 	return manifest.Components[i].Name < manifest.Components[j].Name
-		// })
 		for _, comp := range manifest.Components {
-			// Beschreibung ggf. kürzen oder nur erste Zeile anzeigen?
 			desc := comp.Description
 			if len(desc) > 60 {
 				desc = desc[:57] + "..."
 			}
-			fmt.Printf("  - %-15s: %s\n", comp.Name, desc) // Formatierung für Ausrichtung
+			fmt.Printf("  - %-15s: %s\n", comp.Name, desc)
 		}
 	} else {
 		fmt.Println("\nCould not list available components (maybe run 'templui init' first?).")
@@ -303,81 +303,86 @@ func showHelp(manifest *Manifest, refUsedForHelp string) {
 }
 
 // --- Konfigurationsfunktionen ---
-func initConfig(ref string) {
+func initConfig(ref string, force bool) { // Nimmt jetzt force entgegen
 	if _, err := os.Stat(configFileName); err == nil {
-		fmt.Println("Config file already exists.")
-		// TODO: Fragen, ob überschrieben werden soll?
-		return
+		// Wenn --force angegeben, überschreibe bestehende Config nicht, warne nur.
+		if !force {
+			fmt.Println("Config file already exists. Use --force with init to overwrite *utils* if needed, but the config file itself won't be changed.")
+			// TODO: Bessere Logik? Config ggf. aktualisieren?
+			// return // Hier nicht returnen, damit Utils trotzdem installiert/geprüft werden
+		} else {
+			fmt.Println("Config file already exists, proceeding with utils installation (--force specified).")
+		}
+	} else {
+		// Config existiert nicht, erstelle sie
+		// --- Standardwerte vorschlagen ---
+		defaultComponentsDir := "./components"
+		defaultUtilsDir := filepath.Join(filepath.Dir(defaultComponentsDir), "utils")
+		defaultModuleName := detectModuleName()
+
+		// --- Benutzerabfragen ---
+		fmt.Printf("Enter the directory for components [%s]: ", defaultComponentsDir)
+		var componentsDir string
+		fmt.Scanln(&componentsDir)
+		if componentsDir == "" {
+			componentsDir = defaultComponentsDir
+		}
+		if componentsDir != defaultComponentsDir {
+			defaultUtilsDir = filepath.Join(filepath.Dir(componentsDir), "utils")
+		}
+		fmt.Printf("Enter the directory for utils [%s]: ", defaultUtilsDir)
+		var utilsDir string
+		fmt.Scanln(&utilsDir)
+		if utilsDir == "" {
+			utilsDir = defaultUtilsDir
+		}
+		fmt.Printf("Enter your Go module name [%s]: ", defaultModuleName)
+		var moduleName string
+		fmt.Scanln(&moduleName)
+		if moduleName == "" {
+			moduleName = defaultModuleName
+		}
+
+		config := Config{
+			ComponentsDir: componentsDir,
+			UtilsDir:      utilsDir,
+			ModuleName:    moduleName,
+		}
+
+		data, err := json.MarshalIndent(config, "", "  ")
+		if err != nil {
+			fmt.Printf("Error creating config data: %v\n", err)
+			return
+		}
+		err = os.WriteFile(configFileName, data, 0644)
+		if err != nil {
+			fmt.Printf("Error saving config file: %v\n", err)
+			return
+		}
+		fmt.Println("Config file created successfully at", configFileName)
+		fmt.Printf("Components will be installed to: %s\n", config.ComponentsDir)
+		fmt.Printf("Utils will be installed to: %s\n", config.UtilsDir)
+		fmt.Printf("Using module name: %s\n", config.ModuleName)
 	}
 
-	// --- Standardwerte vorschlagen ---
-	defaultComponentsDir := "./components"
-	// Schlage Utils-Verzeichnis relativ zum Komponenten-Verzeichnis vor
-	defaultUtilsDir := filepath.Join(filepath.Dir(defaultComponentsDir), "utils") // Ergibt "./utils"
-	defaultModuleName := detectModuleName()
-
-	// --- Benutzerabfragen ---
-	fmt.Printf("Enter the directory for components [%s]: ", defaultComponentsDir)
-	var componentsDir string
-	fmt.Scanln(&componentsDir)
-	if componentsDir == "" {
-		componentsDir = defaultComponentsDir
-	}
-	// Passe den Vorschlag für UtilsDir an, falls ComponentsDir geändert wurde
-	if componentsDir != defaultComponentsDir {
-		defaultUtilsDir = filepath.Join(filepath.Dir(componentsDir), "utils")
-	}
-
-	fmt.Printf("Enter the directory for utils [%s]: ", defaultUtilsDir)
-	var utilsDir string
-	fmt.Scanln(&utilsDir)
-	if utilsDir == "" {
-		utilsDir = defaultUtilsDir
-	}
-
-	fmt.Printf("Enter your Go module name [%s]: ", defaultModuleName)
-	var moduleName string
-	fmt.Scanln(&moduleName)
-	if moduleName == "" {
-		moduleName = defaultModuleName
-	}
-
-	// --- Config erstellen und speichern ---
-	config := Config{
-		ComponentsDir: componentsDir,
-		UtilsDir:      utilsDir, // Hinzugefügt
-		ModuleName:    moduleName,
-	}
-
-	data, err := json.MarshalIndent(config, "", "  ")
+	// Lade die (eventuell neu erstellte oder vorhandene) Config, um die Pfade sicher zu haben
+	config, err := loadConfig()
 	if err != nil {
-		fmt.Printf("Error creating config data: %v\n", err)
-		return
+		fmt.Printf("Error loading config for initial utils installation: %v\n", err)
+		return // Abbruch, wenn Config nicht geladen werden kann
 	}
-
-	err = os.WriteFile(configFileName, data, 0644)
-	if err != nil {
-		fmt.Printf("Error saving config file: %v\n", err)
-		return
-	}
-
-	fmt.Println("Config file created successfully at", configFileName)
-	fmt.Printf("Components will be installed to: %s\n", config.ComponentsDir)
-	fmt.Printf("Utils will be installed to: %s\n", config.UtilsDir) // Info hinzugefügt
-	fmt.Printf("Using module name: %s\n", config.ModuleName)
 
 	// --- Utils direkt nach init installieren ---
 	fmt.Printf("\nAttempting to install initial utils from ref '%s'...\n", ref)
 	manifest, err := fetchManifest(ref)
 	if err != nil {
-		// Gib spezifischere Fehlermeldung aus
 		if strings.Contains(err.Error(), "status code 404") {
 			fmt.Printf("Warning: Could not fetch manifest from ref '%s': %v\n", ref, err)
 			fmt.Printf("  Check if the ref '%s' exists and contains the file '%s'.\n", ref, manifestPath)
 		} else {
 			fmt.Printf("Warning: Could not fetch manifest to install initial utils: %v\n", err)
 		}
-		return // Beende hier, da Utils nicht installiert werden können
+		return
 	}
 
 	if len(manifest.Utils) == 0 {
@@ -392,7 +397,8 @@ func initConfig(ref string) {
 		fmt.Printf(" - %s\n", utilDef.Path)
 	}
 
-	err = installUtils(config, allUtilPaths, ref) // Verwende übergebenen ref
+	// Verwende den force-Status von initConfig
+	err = installUtils(config, allUtilPaths, ref, *forceOverwrite)
 	if err != nil {
 		fmt.Printf("Error during initial utils installation: %v\n", err)
 	} else {
@@ -439,11 +445,7 @@ func loadConfig() (Config, error) {
 
 // fetchManifest lädt das Manifest für einen gegebenen Git ref (branch/tag/commit)
 func fetchManifest(ref string) (Manifest, error) {
-	// Bereinige den Ref (optional, entfernt unsichere Zeichen)
-	// ref = url.PathEscape(ref) // Kann Probleme machen, wenn Ref '/' enthält, z.B. release/v1
 	manifestURL := rawContentBaseURL + ref + "/" + manifestPath
-	// fmt.Println("Downloading manifest from:", manifestURL) // Debugging
-
 	resp, err := http.Get(manifestURL)
 	if err != nil {
 		return Manifest{}, fmt.Errorf("failed to start download: %w", err)
@@ -451,7 +453,7 @@ func fetchManifest(ref string) (Manifest, error) {
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		bodyBytes, _ := io.ReadAll(resp.Body) // Versuch, Fehlermeldung zu lesen
+		bodyBytes, _ := io.ReadAll(resp.Body)
 		return Manifest{}, fmt.Errorf("failed to download manifest from %s: status code %d, message: %s", manifestURL, resp.StatusCode, string(bodyBytes))
 	}
 
@@ -463,7 +465,6 @@ func fetchManifest(ref string) (Manifest, error) {
 	var manifest Manifest
 	err = json.Unmarshal(body, &manifest)
 	if err != nil {
-		// Versuche, eine bessere Fehlermeldung für ungültiges JSON zu geben
 		return Manifest{}, fmt.Errorf("failed to parse manifest JSON (from %s): %w", manifestURL, err)
 	}
 
@@ -472,7 +473,6 @@ func fetchManifest(ref string) (Manifest, error) {
 
 // downloadFile lädt eine einzelne Datei von einer URL
 func downloadFile(url string) ([]byte, error) {
-	// fmt.Println("Downloading file:", url) // Debugging
 	resp, err := http.Get(url)
 	if err != nil {
 		return nil, fmt.Errorf("failed to start download from %s: %w", url, err)
@@ -480,7 +480,7 @@ func downloadFile(url string) ([]byte, error) {
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
-		bodyBytes, _ := io.ReadAll(resp.Body) // Versuch, Fehlermeldung zu lesen
+		bodyBytes, _ := io.ReadAll(resp.Body)
 		return nil, fmt.Errorf("failed to download file from %s: status code %d, message: %s", url, resp.StatusCode, string(bodyBytes))
 	}
 
@@ -491,115 +491,125 @@ func downloadFile(url string) ([]byte, error) {
 	return data, nil
 }
 
-// TODO: getLatestTag() - Funktion zum Ermitteln des neuesten Git-Tags (optional)
-
-// --- Installationslogik (Angepasst für Download) ---
+// --- Installationslogik ---
 
 // installComponent installiert eine Komponente und ihre Abhängigkeiten
 func installComponent(
 	config Config,
 	comp ComponentDef,
 	componentMap map[string]ComponentDef,
-	ref string, // Geändert zu ref
+	ref string,
 	installed map[string]bool,
 	requiredUtils map[string]bool,
+	force bool, // force parameter hinzugefügt
 ) error {
-	// Verhindere Endlosschleifen und doppelte Installation
 	if installed[comp.Name] {
-		// Bereits verarbeitet in diesem Durchlauf
 		return nil
 	}
-	installed[comp.Name] = true // Markiere als (versucht) installiert
+	installed[comp.Name] = true
 
 	fmt.Printf("Processing component: %s (from ref: %s)\n", comp.Name, ref)
 
 	// 1. Abhängigkeiten zuerst installieren (rekursiv)
 	for _, depName := range comp.Dependencies {
-		// Prüfe, ob Abhängigkeit bereits verarbeitet wurde, um Zyklen zu vermeiden
-		// (obwohl `installed` dies bereits tut, zusätzliche Klarheit)
 		if installed[depName] {
 			continue
 		}
-
 		depComp, exists := componentMap[depName]
 		if !exists {
-			// Sollte nicht passieren, wenn Manifest korrekt ist und alle Deps auflistet
 			fmt.Printf("Warning: Dependency '%s' for component '%s' not found in manifest for ref '%s'. Skipping dependency.\n", depName, comp.Name, ref)
 			continue
 		}
-		// Installiere Abhängigkeit (vom gleichen Ref wie die Hauptkomponente)
-		err := installComponent(config, depComp, componentMap, ref, installed, requiredUtils)
+		// Übergebe force an rekursive Aufrufe
+		err := installComponent(config, depComp, componentMap, ref, installed, requiredUtils, force)
 		if err != nil {
-			// Fehler bei Abhängigkeit weitergeben
 			return fmt.Errorf("failed to install dependency '%s' for '%s': %w", depName, comp.Name, err)
 		}
-		fmt.Printf(" -> Installed dependency: %s\n", depName) // Info nach erfolgreicher Installation
+		fmt.Printf(" -> Installed dependency: %s\n", depName)
 	}
 
 	// 2. Dateien der aktuellen Komponente herunterladen und schreiben
 	fmt.Printf(" Installing files for: %s\n", comp.Name)
-	repoComponentBasePath := "internal/components/" // Basispfad im Repo
+	repoComponentBasePath := "internal/components/"
 
-	for _, repoFilePath := range comp.Files { // z.B. "internal/components/aspectratio/aspect_ratio.templ"
-
-		// --- Zielpfad bestimmen ---
+	for _, repoFilePath := range comp.Files {
 		var destPath string
 		if strings.HasPrefix(repoFilePath, repoComponentBasePath) {
-			// Relativen Pfad extrahieren (z.B. "aspectratio/aspect_ratio.templ")
 			relativePath := repoFilePath[len(repoComponentBasePath):]
-			// Zielpfad konstruieren (z.B. "./components/aspectratio/aspect_ratio.templ")
 			destPath = filepath.Join(config.ComponentsDir, relativePath)
 		} else {
-			// Fallback für unerwartete Pfade (sollte nicht passieren bei korrekter Manifest-Pflege)
 			fmt.Printf("  Warning: File path '%s' does not start with '%s'. Placing it directly in '%s'.\n", repoFilePath, repoComponentBasePath, config.ComponentsDir)
 			fileName := filepath.Base(repoFilePath)
 			destPath = filepath.Join(config.ComponentsDir, fileName)
 		}
 
-		// Stelle sicher, dass das *gesamte* Zielverzeichnis existiert (inkl. Unterordner)
-		compDestDir := filepath.Dir(destPath) // z.B. "./components/aspectratio"
+		compDestDir := filepath.Dir(destPath)
 		err := os.MkdirAll(compDestDir, 0755)
 		if err != nil {
 			return fmt.Errorf("failed to create destination directory '%s': %w", compDestDir, err)
 		}
 
 		// --- Überschreiben-Logik ---
+		fileExists := false
 		if _, err := os.Stat(destPath); err == nil {
-			// Datei existiert
-			// TODO: Implementiere Logik zum Lesen der Version aus der Datei
-			// TODO: Frage den Benutzer, ob überschrieben werden soll (bufio.NewReader)
-			fmt.Printf("  Warning: File '%s' already exists. Skipping overwrite for now.\n", destPath)
-			continue // Überspringe diese Datei
+			fileExists = true
 		}
 
-		// --- Download ---
-		fileURL := rawContentBaseURL + ref + "/" + repoFilePath
-		fmt.Printf("   Downloading %s...\n", fileURL)
-		data, err := downloadFile(fileURL)
-		if err != nil {
-			fileNameForError := filepath.Base(repoFilePath) // Nur Dateiname für Fehlermeldung
-			return fmt.Errorf("failed to download file '%s' for component '%s' from %s: %w", fileNameForError, comp.Name, fileURL, err)
+		shouldWriteFile := true // Standardmäßig schreiben (wenn Datei nicht existiert oder überschrieben wird)
+
+		if fileExists {
+			existingRef, _ := readFileVersion(destPath) // Fehler hier ignorieren? Oder loggen?
+			if existingRef == ref {
+				fmt.Printf("  Info: File '%s' already up-to-date (ref: %s). Skipping.\n", destPath, ref)
+				shouldWriteFile = false // Nicht schreiben
+			} else {
+				// Versionen unterschiedlich oder alte Version nicht lesbar
+				if force {
+					fmt.Printf("  Info: File '%s' exists (Version: '%s'). Forcing overwrite with ref '%s'.\n", destPath, existingRef, ref)
+					// shouldWriteFile bleibt true
+				} else {
+					shouldOverwrite := askForOverwrite(destPath, existingRef, ref)
+					if !shouldOverwrite {
+						fmt.Printf("  Info: Skipping overwrite for '%s'.\n", destPath)
+						shouldWriteFile = false // Nicht schreiben
+					}
+					// Ansonsten: shouldWriteFile bleibt true
+				}
+			}
 		}
 
-		// --- Modifikationen ---
-		// a) Versionskommentar hinzufügen
-		versionComment := fmt.Sprintf("// templui component %s - version: %s installed by templui v%s\n", comp.Name, ref, version)
-		modifiedData := append([]byte(versionComment), data...)
+		// Nur weitermachen (Download + Schreiben), wenn nötig
+		if shouldWriteFile {
+			// --- Download ---
+			fileURL := rawContentBaseURL + ref + "/" + repoFilePath
+			fmt.Printf("   Downloading %s...\n", fileURL)
+			data, err := downloadFile(fileURL)
+			if err != nil {
+				fileNameForError := filepath.Base(repoFilePath)
+				return fmt.Errorf("failed to download file '%s' for component '%s' from %s: %w", fileNameForError, comp.Name, fileURL, err)
+			}
 
-		// b) Importpfade ersetzen (nur für .templ und .go Dateien relevant?)
-		if strings.HasSuffix(repoFilePath, ".templ") || strings.HasSuffix(repoFilePath, ".go") {
-			modifiedData = replaceImports(modifiedData, config.ModuleName, comp.Name) // Pass component name for better context
-		}
+			// --- Modifikationen ---
+			versionComment := fmt.Sprintf("// templui component %s - version: %s installed by templui v%s\n", comp.Name, ref, version)
+			modifiedData := append([]byte(versionComment), data...)
+			if strings.HasSuffix(repoFilePath, ".templ") || strings.HasSuffix(repoFilePath, ".go") {
+				modifiedData = replaceImports(modifiedData, config.ModuleName, comp.Name)
+			}
 
-		// --- Schreiben ---
-		err = os.WriteFile(destPath, modifiedData, 0644)
-		if err != nil {
-			return fmt.Errorf("failed to write file '%s': %w", destPath, err)
+			// --- Schreiben ---
+			err = os.WriteFile(destPath, modifiedData, 0644)
+			if err != nil {
+				return fmt.Errorf("failed to write file '%s': %w", destPath, err)
+			}
+			if fileExists { // Nur melden, wenn tatsächlich überschrieben wurde
+				fmt.Printf("   Overwritten %s\n", destPath)
+			} else {
+				fmt.Printf("   Installed %s\n", destPath)
+			}
 		}
-		fmt.Printf("   Installed %s\n", destPath)
 	}
 
-	// 3. Benötigte Utils für diese Komponente sammeln (Pfade im Repo)
+	// 3. Benötigte Utils sammeln
 	for _, repoUtilPath := range comp.RequiredUtils {
 		requiredUtils[repoUtilPath] = true
 	}
@@ -607,27 +617,22 @@ func installComponent(
 	return nil
 }
 
-// installUtils anpassen, um config.UtilsDir zu verwenden
-func installUtils(config Config, utilPaths []string, ref string) error { // Geändert zu ref
+// installUtils installiert die benötigten Util-Dateien
+func installUtils(config Config, utilPaths []string, ref string, force bool) error { // force parameter hinzugefügt
 	if len(utilPaths) == 0 {
-		return nil // Nichts zu tun
+		return nil
 	}
 
-	// Verwende UtilsDir direkt aus der Config
 	utilsBaseDestDir := config.UtilsDir
 	fmt.Printf("Ensuring utils are installed in: %s (from ref: %s)\n", utilsBaseDestDir, ref)
-	repoUtilBasePath := "internal/utils/" // Basispfad im Repo
+	repoUtilBasePath := "internal/utils/"
 
-	// Stelle sicher, dass das Basis-Utils-Verzeichnis existiert
-	// MkdirAll im Loop unten kümmert sich auch darum, aber hier explizit schadet nicht.
 	err := os.MkdirAll(utilsBaseDestDir, 0755)
 	if err != nil {
 		return fmt.Errorf("failed to create base utils directory '%s': %w", utilsBaseDestDir, err)
 	}
 
-	for _, repoUtilPath := range utilPaths { // z.B. "internal/utils/classname.go" oder "internal/utils/forms/validation.go"
-
-		// --- Zielpfad bestimmen ---
+	for _, repoUtilPath := range utilPaths {
 		var destPath string
 		if strings.HasPrefix(repoUtilPath, repoUtilBasePath) {
 			relativePath := repoUtilPath[len(repoUtilBasePath):]
@@ -638,45 +643,125 @@ func installUtils(config Config, utilPaths []string, ref string) error { // Geä
 			destPath = filepath.Join(utilsBaseDestDir, fileName)
 		}
 
-		// Stelle sicher, dass das *gesamte* Zielverzeichnis existiert
 		utilDestDir := filepath.Dir(destPath)
-		err := os.MkdirAll(utilDestDir, 0755) // <- Doppelt geprüft, schadet aber nicht
+		err := os.MkdirAll(utilDestDir, 0755)
 		if err != nil {
 			return fmt.Errorf("failed to create destination utils directory '%s': %w", utilDestDir, err)
 		}
 
-		// --- Überschreiben-Logik (ähnlich wie bei Komponenten) ---
+		// --- Überschreiben-Logik ---
+		fileExists := false
 		if _, err := os.Stat(destPath); err == nil {
-			fmt.Printf("  Info: Util file '%s' already exists. Skipping download.\n", destPath) // Geändert zu Info
-			continue                                                                            // Überspringe diese Datei
+			fileExists = true
 		}
 
-		// --- Download ---
-		fileURL := rawContentBaseURL + ref + "/" + repoUtilPath
-		fmt.Printf("   Downloading util %s...\n", fileURL)
-		data, err := downloadFile(fileURL)
-		if err != nil {
-			fileNameForError := filepath.Base(repoUtilPath)
-			return fmt.Errorf("failed to download util '%s' from %s: %w", fileNameForError, fileURL, err)
+		shouldWriteFile := true // Standardmäßig schreiben
+
+		if fileExists {
+			existingRef, _ := readFileVersion(destPath)
+			if existingRef == ref {
+				fmt.Printf("  Info: Util file '%s' already up-to-date (ref: %s). Skipping.\n", destPath, ref)
+				shouldWriteFile = false
+			} else {
+				if force {
+					fmt.Printf("  Info: Util file '%s' exists (Version: '%s'). Forcing overwrite with ref '%s'.\n", destPath, existingRef, ref)
+				} else {
+					shouldOverwrite := askForOverwrite(destPath, existingRef, ref)
+					if !shouldOverwrite {
+						fmt.Printf("  Info: Skipping overwrite for '%s'.\n", destPath)
+						shouldWriteFile = false
+					}
+				}
+			}
 		}
 
-		// --- Modifikationen ---
-		utilNameForComment := filepath.Base(repoUtilPath)
-		versionComment := fmt.Sprintf("// templui util %s - version: %s installed by templui v%s\n", utilNameForComment, ref, version)
-		modifiedData := append([]byte(versionComment), data...)
-		if strings.HasSuffix(repoUtilPath, ".go") {
-			modifiedData = replaceImports(modifiedData, config.ModuleName, "")
-		}
+		if shouldWriteFile {
+			// --- Download ---
+			fileURL := rawContentBaseURL + ref + "/" + repoUtilPath
+			fmt.Printf("   Downloading util %s...\n", fileURL)
+			data, err := downloadFile(fileURL)
+			if err != nil {
+				fileNameForError := filepath.Base(repoUtilPath)
+				return fmt.Errorf("failed to download util '%s' from %s: %w", fileNameForError, fileURL, err)
+			}
 
-		// --- Schreiben ---
-		err = os.WriteFile(destPath, modifiedData, 0644)
-		if err != nil {
-			return fmt.Errorf("failed to write util file '%s': %w", destPath, err)
+			// --- Modifikationen ---
+			utilNameForComment := filepath.Base(repoUtilPath)
+			versionComment := fmt.Sprintf("// templui util %s - version: %s installed by templui v%s\n", utilNameForComment, ref, version)
+			modifiedData := append([]byte(versionComment), data...)
+			if strings.HasSuffix(repoUtilPath, ".go") {
+				modifiedData = replaceImports(modifiedData, config.ModuleName, "")
+			}
+
+			// --- Schreiben ---
+			err = os.WriteFile(destPath, modifiedData, 0644)
+			if err != nil {
+				return fmt.Errorf("failed to write util file '%s': %w", destPath, err)
+			}
+			if fileExists {
+				fmt.Printf("   Overwritten %s\n", destPath)
+			} else {
+				fmt.Printf("   Installed %s\n", destPath)
+			}
 		}
-		fmt.Printf("   Installed %s\n", destPath)
 	}
 
 	return nil
+}
+
+// --- Neue Hilfsfunktionen für Überschreiben ---
+
+// readFileVersion liest die Version aus dem Kommentar in der ersten Zeile
+func readFileVersion(filePath string) (string, error) {
+	file, err := os.Open(filePath)
+	if err != nil {
+		// Wenn Datei nicht existiert, ist das kein Fehler für diese Funktion
+		if os.IsNotExist(err) {
+			return "", nil
+		}
+		return "", fmt.Errorf("failed to open file %s: %w", filePath, err)
+	}
+	defer file.Close()
+
+	// Nur die erste Zeile lesen sollte reichen
+	scanner := bufio.NewScanner(file)
+	if scanner.Scan() {
+		line := scanner.Text()
+		matches := versionRegex.FindStringSubmatch(line)
+		// Index 1 enthält die erste Capturing Group (den Ref)
+		if len(matches) > 1 {
+			return matches[1], nil
+		}
+	}
+
+	// Kein Kommentar gefunden oder Fehler beim Scannen
+	if err := scanner.Err(); err != nil {
+		return "", fmt.Errorf("error scanning file %s: %w", filePath, err)
+	}
+
+	return "", nil // Kein Fehler, aber auch keine Version gefunden
+}
+
+// askForOverwrite fragt den Benutzer, ob eine Datei überschrieben werden soll
+func askForOverwrite(filePath, oldRef, newRef string) bool {
+	reader := bufio.NewReader(os.Stdin)
+
+	oldVersionStr := oldRef
+	if oldVersionStr == "" {
+		oldVersionStr = "<unknown or no comment>"
+	}
+
+	fmt.Printf("  Confirm: File '%s' (Existing Version: %s) differs from requested ref '%s'. Overwrite? [y/N]: ",
+		filePath, oldVersionStr, newRef)
+
+	input, err := reader.ReadString('\n')
+	if err != nil {
+		fmt.Printf("\nError reading input: %v. Assuming No.\n", err)
+		return false
+	}
+
+	input = strings.ToLower(strings.TrimSpace(input))
+	return input == "y"
 }
 
 // replaceImports ersetzt die internen templUI-Importpfade durch den Modulnamen des Benutzers
