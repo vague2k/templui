@@ -78,7 +78,22 @@ func main() {
 
 	// Check if we should initialize the config
 	if len(os.Args) > 1 && os.Args[1] == "init" {
-		initConfig()
+		initRef := defaultRef // Startet mit dem Standard-Ref
+
+		// Prüfen, ob ein optionales @ref Argument vorhanden ist (os.Args[2])
+		if len(os.Args) > 2 {
+			arg := os.Args[2]
+			// Einfache Prüfung: Muss mit @ beginnen und länger als 1 Zeichen sein
+			if strings.HasPrefix(arg, "@") && len(arg) > 1 {
+				initRef = arg[1:] // Extrahiere den Ref-Namen (ohne @)
+				fmt.Printf("Initializing using specified ref: %s\n", initRef)
+			} else {
+				// Optional: Gib eine Warnung oder einen Fehler aus, wenn etwas anderes nach init steht
+				fmt.Printf("Warning: Invalid argument '%s' after 'init'. Expected '@<ref>' or nothing. Using default ref '%s'.\n", arg, defaultRef)
+				// Alternativ: return mit Fehlermeldung
+			}
+		}
+		initConfig(initRef) // Übergebe den ermittelten Ref an initConfig
 		return
 	}
 
@@ -257,7 +272,7 @@ func main() {
 func showHelp(manifest *Manifest, refUsedForHelp string) {
 	fmt.Println("templUI Component Installer (v" + version + ")")
 	fmt.Println("Usage:")
-	fmt.Println("  templui init                - Initialize the config file (.templui.json)")
+	fmt.Println("  templui init [@<ref>]         - Initialize the config file and install utils from <ref>")
 	fmt.Println("  templui add <comp>[@<ref>] [<comp>[@<ref>]...] - Add component(s)")
 	fmt.Println("                                        (e.g., button@main, card@v0.1.0)")
 	fmt.Println("  templui add *[@<ref>]         - Add all available components from a specific ref")
@@ -288,7 +303,7 @@ func showHelp(manifest *Manifest, refUsedForHelp string) {
 }
 
 // --- Konfigurationsfunktionen ---
-func initConfig() {
+func initConfig(ref string) {
 	if _, err := os.Stat(configFileName); err == nil {
 		fmt.Println("Config file already exists.")
 		// TODO: Fragen, ob überschrieben werden soll?
@@ -352,10 +367,16 @@ func initConfig() {
 	fmt.Printf("Using module name: %s\n", config.ModuleName)
 
 	// --- Utils direkt nach init installieren ---
-	fmt.Printf("\nAttempting to install initial utils from ref '%s'...\n", defaultRef)
-	manifest, err := fetchManifest(defaultRef)
+	fmt.Printf("\nAttempting to install initial utils from ref '%s'...\n", ref)
+	manifest, err := fetchManifest(ref)
 	if err != nil {
-		fmt.Printf("Warning: Could not fetch manifest to install initial utils: %v\n", err)
+		// Gib spezifischere Fehlermeldung aus
+		if strings.Contains(err.Error(), "status code 404") {
+			fmt.Printf("Warning: Could not fetch manifest from ref '%s': %v\n", ref, err)
+			fmt.Printf("  Check if the ref '%s' exists and contains the file '%s'.\n", ref, manifestPath)
+		} else {
+			fmt.Printf("Warning: Could not fetch manifest to install initial utils: %v\n", err)
+		}
 		return // Beende hier, da Utils nicht installiert werden können
 	}
 
@@ -371,7 +392,7 @@ func initConfig() {
 		fmt.Printf(" - %s\n", utilDef.Path)
 	}
 
-	err = installUtils(config, allUtilPaths, defaultRef) // Verwende config, alle Utils und defaultRef
+	err = installUtils(config, allUtilPaths, ref) // Verwende übergebenen ref
 	if err != nil {
 		fmt.Printf("Error during initial utils installation: %v\n", err)
 	} else {
