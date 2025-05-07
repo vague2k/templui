@@ -112,7 +112,11 @@
     {
       "name": "icon",
       "description": "",
-      "files": ["internal/components/icon/icon.templ"],
+      "files": [
+        "internal/components/icon/icon_data.go",
+        "internal/components/icon/icon_defs.go",
+        "internal/components/icon/icon.go"
+      ],
       "dependencies": []
     },
     {
