@@ -175,7 +175,7 @@ templ Script() {
 				const handleHtmxSwap = (event) => {
 					const target = event.detail.target || event.target;
 					if (target instanceof Element) {
-						setTimeout(() => initAllProgressBars(target), 0);
+						requestAnimationFrame(() => initAllProgressBars(target));
 					}
 				};
 
