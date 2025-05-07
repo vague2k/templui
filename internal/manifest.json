@@ -2,28 +2,238 @@
   "version": "v0.70.0",
   "components": [
     {
-      "name": "button",
-      "description": ".",
-      "files": ["internal/components/button/button.templ"],
+      "name": "accordion",
+      "description": "",
+      "files": ["internal/components/accordion/accordion.templ"],
       "dependencies": []
     },
     {
-      "name": "card",
-      "description": "Eine Card-Komponente zur Anzeige von Inhalten.",
-      "files": ["internal/components/card/card.templ"],
-      "dependencies": ["aspectratio"]
-    },
-    {
-      "name": "modal",
-      "description": "Eine Modal-Dialog-Komponente.",
-      "files": ["internal/components/modal/modal.templ"],
+      "name": "alert",
+      "description": "",
+      "files": ["internal/components/alert/alert.templ"],
       "dependencies": []
     },
     {
       "name": "aspectratio",
-      "description": ".",
+      "description": "",
       "files": ["internal/components/aspectratio/aspect_ratio.templ"],
       "dependencies": []
+    },
+    {
+      "name": "avatar",
+      "description": "",
+      "files": ["internal/components/avatar/avatar.templ"],
+      "dependencies": []
+    },
+    {
+      "name": "badge",
+      "description": "",
+      "files": ["internal/components/badge/badge.templ"],
+      "dependencies": []
+    },
+    {
+      "name": "breadcrumb",
+      "description": "",
+      "files": ["internal/components/breadcrumb/breadcrumb.templ"],
+      "dependencies": []
+    },
+    {
+      "name": "button",
+      "description": "",
+      "files": ["internal/components/button/button.templ"],
+      "dependencies": []
+    },
+    {
+      "name": "calendar",
+      "description": "",
+      "files": ["internal/components/calendar/calendar.templ"],
+      "dependencies": []
+    },
+    {
+      "name": "card",
+      "description": "",
+      "files": ["internal/components/card/card.templ"],
+      "dependencies": ["aspectratio"]
+    },
+    {
+      "name": "carousel",
+      "description": "",
+      "files": ["internal/components/carousel/carousel.templ"],
+      "dependencies": []
+    },
+    {
+      "name": "chart",
+      "description": "",
+      "files": ["internal/components/chart/chart.templ"],
+      "dependencies": []
+    },
+    {
+      "name": "checkbox",
+      "description": "",
+      "files": ["internal/components/checkbox/checkbox.templ"],
+      "dependencies": []
+    },
+    {
+      "name": "checkboxcard",
+      "description": "",
+      "files": ["internal/components/checkboxcard/checkbox_card.templ"],
+      "dependencies": []
+    },
+    {
+      "name": "code",
+      "description": "",
+      "files": ["internal/components/code/code.templ"],
+      "dependencies": []
+    },
+    {
+      "name": "datepicker",
+      "description": "",
+      "files": ["internal/components/datepicker/date_picker.templ"],
+      "dependencies": ["button", "calendar", "popover"]
+    },
+    {
+      "name": "drawer",
+      "description": "",
+      "files": ["internal/components/drawer/drawer.templ"],
+      "dependencies": []
+    },
+    {
+      "name": "dropdown",
+      "description": "",
+      "files": ["internal/components/dropdown/dropdown.templ"],
+      "dependencies": ["popover"]
+    },
+    {
+      "name": "form",
+      "description": "",
+      "files": ["internal/components/form/form.templ"],
+      "dependencies": ["label"]
+    },
+    {
+      "name": "input",
+      "description": "",
+      "files": ["internal/components/input/input.templ"],
+      "dependencies": ["button"]
+    },
+    {
+      "name": "inputotp",
+      "description": "",
+      "files": ["internal/components/inputotp/input_otp.templ"],
+      "dependencies": ["input"]
+    },
+    {
+      "name": "label",
+      "description": "",
+      "files": ["internal/components/label/label.templ"],
+      "dependencies": []
+    },
+    {
+      "name": "modal",
+      "description": "",
+      "files": ["internal/components/modal/modal.templ"],
+      "dependencies": []
+    },
+    {
+      "name": "pagination",
+      "description": "",
+      "files": ["internal/components/pagination/pagination.templ"],
+      "dependencies": ["button"]
+    },
+    {
+      "name": "popover",
+      "description": "",
+      "files": ["internal/components/popover/popover.templ"],
+      "dependencies": []
+    },
+    {
+      "name": "progress",
+      "description": "",
+      "files": ["internal/components/progress/progress.templ"],
+      "dependencies": []
+    },
+    {
+      "name": "radio",
+      "description": "",
+      "files": ["internal/components/radio/radio.templ"],
+      "dependencies": []
+    },
+    {
+      "name": "radiocard",
+      "description": "",
+      "files": ["internal/components/radiocard/radio_card.templ"],
+      "dependencies": []
+    },
+    {
+      "name": "rating",
+      "description": "",
+      "files": ["internal/components/rating/rating.templ"],
+      "dependencies": []
+    },
+    {
+      "name": "selectbox",
+      "description": "",
+      "files": ["internal/components/selectbox/select_box.templ"],
+      "dependencies": ["button", "popover"]
+    },
+    {
+      "name": "separator",
+      "description": "",
+      "files": ["internal/components/separator/separator.templ"],
+      "dependencies": []
+    },
+    {
+      "name": "skeleton",
+      "description": "",
+      "files": ["internal/components/skeleton/skeleton.templ"],
+      "dependencies": []
+    },
+    {
+      "name": "slider",
+      "description": "",
+      "files": ["internal/components/slider/slider.templ"],
+      "dependencies": []
+    },
+    {
+      "name": "spinner",
+      "description": "",
+      "files": ["internal/components/spinner/spinner.templ"],
+      "dependencies": []
+    },
+    {
+      "name": "table",
+      "description": "",
+      "files": ["internal/components/table/table.templ"],
+      "dependencies": []
+    },
+    {
+      "name": "tabs",
+      "description": "",
+      "files": ["internal/components/tabs/tabs.templ"],
+      "dependencies": []
+    },
+    {
+      "name": "textarea",
+      "description": "",
+      "files": ["internal/components/textarea/textarea.templ"],
+      "dependencies": []
+    },
+    {
+      "name": "toast",
+      "description": "",
+      "files": ["internal/components/toast/toast.templ"],
+      "dependencies": []
+    },
+    {
+      "name": "toggle",
+      "description": "",
+      "files": ["internal/components/toggle/toggle.templ"],
+      "dependencies": []
+    },
+    {
+      "name": "tooltip",
+      "description": "",
+      "files": ["internal/components/tooltip/tooltip.templ"],
+      "dependencies": ["popover"]
     }
   ],
   "utils": [
