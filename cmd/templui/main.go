@@ -371,26 +371,26 @@ func initConfig(ref string, force bool) {
 		}
 	} else {
 		// Config file does not exist, create it.
-		defaultComponentsDir := "./components"
-		defaultUtilsDir := filepath.Join(filepath.Dir(defaultComponentsDir), "utils")
+		// Defaults for prompts - no leading ./ for cleaner DX and no dynamic derivation for utilsDir from componentsDir.
+		initialPromptComponentsDir := "components"
+		initialPromptUtilsDir := "utils" // Fixed default, independent of componentsDir
 		defaultModuleName := detectModuleName()
 
 		// Prompt user for configuration values.
-		fmt.Printf("Enter the directory for components [%s]: ", defaultComponentsDir)
-		var componentsDir string
+		fmt.Printf("Enter the directory for components [%s]: ", initialPromptComponentsDir)
+		var componentsDir string // This will be the actual components directory
 		fmt.Scanln(&componentsDir)
 		if componentsDir == "" {
-			componentsDir = defaultComponentsDir
+			componentsDir = initialPromptComponentsDir
 		}
-		if componentsDir != defaultComponentsDir {
-			defaultUtilsDir = filepath.Join(filepath.Dir(componentsDir), "utils")
-		}
-		fmt.Printf("Enter the directory for utils [%s]: ", defaultUtilsDir)
-		var utilsDir string
+
+		fmt.Printf("Enter the directory for utils [%s]: ", initialPromptUtilsDir)
+		var utilsDir string // This will be the actual utils directory
 		fmt.Scanln(&utilsDir)
 		if utilsDir == "" {
-			utilsDir = defaultUtilsDir
+			utilsDir = initialPromptUtilsDir // Use the fixed default if user enters nothing
 		}
+
 		fmt.Printf("Enter your Go module name [%s]: ", defaultModuleName)
 		var moduleName string
 		fmt.Scanln(&moduleName)
