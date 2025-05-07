@@ -5,7 +5,7 @@
       "name": "accordion",
       "description": "",
       "files": ["internal/components/accordion/accordion.templ"],
-      "dependencies": []
+      "dependencies": ["icon"]
     },
     {
       "name": "alert",
@@ -35,7 +35,7 @@
       "name": "breadcrumb",
       "description": "",
       "files": ["internal/components/breadcrumb/breadcrumb.templ"],
-      "dependencies": []
+      "dependencies": ["icon"]
     },
     {
       "name": "button",
@@ -47,7 +47,7 @@
       "name": "calendar",
       "description": "",
       "files": ["internal/components/calendar/calendar.templ"],
-      "dependencies": []
+      "dependencies": ["icon"]
     },
     {
       "name": "card",
@@ -59,7 +59,7 @@
       "name": "carousel",
       "description": "",
       "files": ["internal/components/carousel/carousel.templ"],
-      "dependencies": []
+      "dependencies": ["icon"]
     },
     {
       "name": "chart",
@@ -71,7 +71,7 @@
       "name": "checkbox",
       "description": "",
       "files": ["internal/components/checkbox/checkbox.templ"],
-      "dependencies": []
+      "dependencies": ["icon"]
     },
     {
       "name": "checkboxcard",
@@ -83,13 +83,13 @@
       "name": "code",
       "description": "",
       "files": ["internal/components/code/code.templ"],
-      "dependencies": []
+      "dependencies": ["icon"]
     },
     {
       "name": "datepicker",
       "description": "",
       "files": ["internal/components/datepicker/date_picker.templ"],
-      "dependencies": ["button", "calendar", "popover"]
+      "dependencies": ["button", "calendar", "icon", "popover"]
     },
     {
       "name": "drawer",
@@ -110,10 +110,16 @@
       "dependencies": ["label"]
     },
     {
+      "name": "icon",
+      "description": "",
+      "files": ["internal/components/icon/icon.templ"],
+      "dependencies": []
+    },
+    {
       "name": "input",
       "description": "",
       "files": ["internal/components/input/input.templ"],
-      "dependencies": ["button"]
+      "dependencies": ["button", "icon"]
     },
     {
       "name": "inputotp",
@@ -137,7 +143,7 @@
       "name": "pagination",
       "description": "",
       "files": ["internal/components/pagination/pagination.templ"],
-      "dependencies": ["button"]
+      "dependencies": ["button", "icon"]
     },
     {
       "name": "popover",
@@ -167,13 +173,13 @@
       "name": "rating",
       "description": "",
       "files": ["internal/components/rating/rating.templ"],
-      "dependencies": []
+      "dependencies": ["icon"]
     },
     {
       "name": "selectbox",
       "description": "",
       "files": ["internal/components/selectbox/select_box.templ"],
-      "dependencies": ["button", "popover"]
+      "dependencies": ["button", "icon", "popover"]
     },
     {
       "name": "separator",
@@ -221,7 +227,7 @@
       "name": "toast",
       "description": "",
       "files": ["internal/components/toast/toast.templ"],
-      "dependencies": []
+      "dependencies": ["icon"]
     },
     {
       "name": "toggle",
