@@ -409,7 +409,7 @@ templ Script() {
 			const handleHtmxSwapForItems = (event) => {
 				const target = event.detail.target || event.target;
 				if (target instanceof Element) {
-					setTimeout(() => initItemListeners(target), 0);
+					requestAnimationFrame(() => initItemListeners(target));
 				}
 			};
 
