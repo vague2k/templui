@@ -13,7 +13,7 @@ import (
 )
 
 const (
-	outputFile     = "./icon/icon_defs.go"
+	outputDir      = "./internal/components/icon/"
 	iconContentDir = "./icon/content" // Directory for individual icon contents
 	lucideVersion  = "0.452.0"        // Current Lucide version - update as needed
 )
@@ -37,18 +37,19 @@ func main() {
 	iconDefs = append(iconDefs, "// This file is auto generated\n")
 	iconDefs = append(iconDefs, fmt.Sprintf("// Using Lucide icons version %s\n", lucideVersion))
 
-	// Create the content directory if it doesn't exist
-	err = os.MkdirAll(iconContentDir, os.ModePerm)
+	// Create the output directory if it doesn't exist
+	err = os.MkdirAll(outputDir, os.ModePerm)
 	if err != nil {
-		panic(err)
+		panic(fmt.Errorf("failed to create output directory %s: %w", outputDir, err))
 	}
 
 	// Create a wait group to synchronize the goroutines
 	var wg sync.WaitGroup
 	// Create a channel to limit the number of concurrent downloads
 	semaphore := make(chan struct{}, 10) // Allow up to 10 concurrent downloads
-	// Create a mutex to protect the iconDefs slice
+	// Create a mutex to protect shared data structures
 	var mu sync.Mutex
+	iconDataEntries := make(map[string]string) // To store "iconName": "innerSvgContent"
 
 	// Filter SVG files
 	var svgFiles []GitHubContent
@@ -102,18 +103,20 @@ func main() {
 			mu.Unlock()
 
 			// Download icon content
-			content, err := downloadFile(file.DownloadUrl)
+			contentBytes, err := downloadFile(file.DownloadUrl)
 			if err != nil {
 				fmt.Printf("\nError downloading %s: %v\n", file.Name, err)
 				statusChan <- true
 				return
 			}
 
-			// Save icon content to a separate file
-			err = os.WriteFile(filepath.Join(iconContentDir, name+".svg"), content, 0644)
-			if err != nil {
-				fmt.Printf("\nError writing %s: %v\n", file.Name, err)
-			}
+			// Extract inner SVG content
+			innerContent := extractSVGContent(string(contentBytes))
+
+			// Store inner content for icon_data.go (thread-safe)
+			mu.Lock()
+			iconDataEntries[name] = innerContent
+			mu.Unlock()
 
 			// Update status
 			statusChan <- true
@@ -126,12 +129,161 @@ func main() {
 	// Signal the progress reporter to stop
 	doneChan <- true
 
-	err = os.WriteFile(outputFile, []byte(strings.Join(iconDefs, "")), 0644)
+	// Write icon_defs.go
+	outputFileDefs := filepath.Join(outputDir, "icon_defs.go")
+	err = os.WriteFile(outputFileDefs, []byte(strings.Join(iconDefs, "")), 0644)
 	if err != nil {
-		panic(err)
+		panic(fmt.Errorf("failed to write icon_defs.go: %w", err))
+	}
+	fmt.Printf("Generated %s successfully!\n", outputFileDefs)
+
+	// Write icon_data.go
+	outputFileData := filepath.Join(outputDir, "icon_data.go")
+	var iconDataContent strings.Builder
+	iconDataContent.WriteString("package icon\n\n")
+	iconDataContent.WriteString("// This file is auto generated\n")
+	iconDataContent.WriteString(fmt.Sprintf("// Using Lucide icons version %s\n\n", lucideVersion))
+	iconDataContent.WriteString(fmt.Sprintf("const LucideVersion = %q\n\n", lucideVersion))
+	iconDataContent.WriteString("var internalSvgData = map[string]string{\n")
+	for name, data := range iconDataEntries {
+		// Escape backticks in SVG data for multi-line string literals
+		escapedData := strings.ReplaceAll(data, "`", "`+\"`\"+`")
+		iconDataContent.WriteString(fmt.Sprintf("\t%q: `%s`,\n", name, escapedData))
+	}
+	iconDataContent.WriteString("}\n")
+
+	err = os.WriteFile(outputFileData, []byte(iconDataContent.String()), 0644)
+	if err != nil {
+		panic(fmt.Errorf("failed to write icon_data.go: %w", err))
+	}
+	fmt.Printf("Generated %s successfully!\n", outputFileData)
+
+	// Write icon.go
+	outputFileIconGo := filepath.Join(outputDir, "icon.go")
+	iconGoContent := `package icon
+
+import (
+	"context"
+	"fmt"
+	"io"
+	"sync"
+
+	"github.com/a-h/templ"
+)
+
+// iconContents caches the fully generated SVG strings for icons that have been used,
+// keyed by a composite key of name and props to handle different stylings.
+var (
+	iconContents = make(map[string]string)
+	iconMutex    sync.RWMutex
+)
+
+// Props defines the properties that can be set for an icon.
+type Props struct {
+	Size        int
+	Color       string
+	Fill        string
+	Stroke      string
+	StrokeWidth string // Stroke Width of Icon, Usage: "2.5"
+	Class       string
+}
+
+// Icon returns a function that generates a templ.Component for the specified icon name.
+func Icon(name string) func(...Props) templ.Component {
+	return func(props ...Props) templ.Component {
+		var p Props
+		if len(props) > 0 {
+			p = props[0]
+		}
+
+		// Create a unique key for the cache based on icon name and all relevant props.
+		// This ensures different stylings of the same icon are cached separately.
+		cacheKey := fmt.Sprintf("%s|s:%d|c:%s|f:%s|sk:%s|sw:%s|cl:%s",
+			name, p.Size, p.Color, p.Fill, p.Stroke, p.StrokeWidth, p.Class)
+
+		return templ.ComponentFunc(func(ctx context.Context, w io.Writer) (err error) {
+			iconMutex.RLock()
+			svg, cached := iconContents[cacheKey]
+			iconMutex.RUnlock()
+
+			if cached {
+				_, err = w.Write([]byte(svg))
+				return err
+			}
+
+			// Not cached, generate it
+			// The actual generation now happens once and is cached.
+			generatedSvg, err := generateSVG(name, p) // p (Props) is passed to generateSVG
+			if err != nil {
+				// Provide more context in the error message
+				return fmt.Errorf("failed to generate svg for icon '%s' with props %+v: %w", name, p, err)
+			}
+
+			iconMutex.Lock()
+			iconContents[cacheKey] = generatedSvg
+			iconMutex.Unlock()
+
+			_, err = w.Write([]byte(generatedSvg))
+			return err
+		})
+	}
+}
+
+// generateSVG creates an SVG string for the specified icon with the given properties.
+// This function is called when an icon-prop combination is not yet in the cache.
+func generateSVG(name string, props Props) (string, error) {
+	// Get the raw, inner SVG content for the icon name from our internal data map.
+	content, err := getIconContent(name) // This now reads from internalSvgData
+	if err != nil {
+		return "", err // Error from getIconContent already includes icon name
 	}
 
-	fmt.Println("Icon definitions and contents generated successfully!")
+	size := props.Size
+	if size <= 0 {
+		size = 24 // Default size
+	}
+
+	fill := props.Fill
+	if fill == "" {
+		fill = "none" // Default fill
+	}
+
+	stroke := props.Stroke
+	if stroke == "" {
+		stroke = props.Color // Fallback to Color if Stroke is not set
+	}
+	if stroke == "" {
+		stroke = "currentColor" // Default stroke color
+	}
+
+	strokeWidth := props.StrokeWidth
+	if strokeWidth == "" {
+		strokeWidth = "2" // Default stroke width
+	}
+
+	// Construct the final SVG string.
+	// The data-lucide attribute helps identify these as Lucide icons if needed.
+	return fmt.Sprintf("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"%d\" height=\"%d\" viewBox=\"0 0 24 24\" fill=\"%s\" stroke=\"%s\" stroke-width=\"%s\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"%s\" data-lucide=\"icon\">%s</svg>",
+		size, size, fill, stroke, strokeWidth, props.Class, content), nil
+}
+
+// getIconContent retrieves the raw inner SVG content for a given icon name.
+// It reads from the pre-generated internalSvgData map from icon_data.go.
+func getIconContent(name string) (string, error) {
+	content, exists := internalSvgData[name]
+	if !exists {
+		return "", fmt.Errorf("icon '%s' not found in internalSvgData map", name)
+	}
+	return content, nil
+}
+`
+	err = os.WriteFile(outputFileIconGo, []byte(iconGoContent), 0644)
+	if err != nil {
+		panic(fmt.Errorf("failed to write icon.go: %w", err))
+	}
+	fmt.Printf("Generated %s successfully!\n", outputFileIconGo)
+
+	fmt.Println("Icon component files generated successfully in " + outputDir)
 }
 
 // toPascalCase converts a kebab-case string to PascalCase
@@ -229,4 +381,18 @@ func downloadFile(url string) ([]byte, error) {
 	}
 
 	return io.ReadAll(resp.Body)
+}
+
+// extractSVGContent removes the outer SVG tags from the icon content.
+func extractSVGContent(svgContent string) string {
+	start := strings.Index(svgContent, ">") + 1
+	end := strings.LastIndex(svgContent, "</svg>")
+	if start == -1 || end == -1 || start >= end {
+		// Return an empty string or the original content if tags are not found or invalid
+		// This prevents panics with malformed SVGs.
+		// Log a warning if this happens frequently.
+		// fmt.Printf("Warning: Could not extract content from SVG: %s\n", svgContent)
+		return ""
+	}
+	return strings.TrimSpace(svgContent[start:end])
 }
