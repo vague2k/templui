@@ -341,7 +341,7 @@ templ Script() {
 				const handleHtmxSwap = (event) => {
 					const target = event.detail.target || event.target;
 					if (target instanceof Element) {
-						setTimeout(() => initAllComponents(target), 0);
+						requestAnimationFrame(() => initAllComponents(target));
 					}
 				};
 
