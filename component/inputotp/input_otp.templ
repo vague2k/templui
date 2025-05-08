@@ -350,8 +350,8 @@ templ Script() {
 				document.addEventListener('DOMContentLoaded', () => initAllComponents());
 
 				// Cleanup before HTMX swap (NEEDS TO STAY)
-				document.body.addEventListener('htmx:beforeSwap', (evt) => {
-					const target = evt.detail.target || evt.detail.elt;
+				document.body.addEventListener('htmx:beforeSwap', (event) => {
+					const target = event.detail.elt;
 					if (target instanceof Element) {
 						// Cleanup target itself if it's an OTP container
 						if (target.matches && target.matches('[data-input-otp]')) {

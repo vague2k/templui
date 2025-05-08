@@ -286,8 +286,7 @@ templ Script() {
 				document.addEventListener('DOMContentLoaded', () => initAllComponents());
 
 				document.body.addEventListener('htmx:beforeSwap', (event) => {
-					// Keep existing beforeSwap logic for cleanup
-					let target = event.detail.target || event.detail.elt;
+					let target = event.detail.elt;
 					if (target instanceof Element) {
 						const cleanup = (button) => {
 							if (button.matches && button.matches('[data-datepicker="true"]')) {
