@@ -404,17 +404,17 @@ templ Script() {
 				});
 			}
 
-			document.addEventListener('DOMContentLoaded', () => initItemListeners());
+			doc`ument.addEventListener('DOMContentLoaded', () => initItemListeners());
 
-			const handleHtmxSwapForItems = (event) => {
-				const target = event.detail.target || event.target;
+			const handleHtmxSwap = (event) => {
+				const target = event.detail.elt
 				if (target instanceof Element) {
 					requestAnimationFrame(() => initItemListeners(target));
 				}
 			};
 
-			document.body.addEventListener('htmx:afterSwap', handleHtmxSwapForItems);
-			document.body.addEventListener('htmx:oobAfterSwap', handleHtmxSwapForItems);
+			document.body.addEventListener('htmx:afterSwap', handleHtmxSwap);
+			document.body.addEventListener('htmx:oobAfterSwap', handleHtmxSwap);
 
 		})(); // End of IIFE
 	</script>

@@ -274,7 +274,7 @@ templ Script() {
 				}
 
 				const handleHtmxSwap = (event) => {
-					const target = event.detail.target || event.target;
+					const target = event.detail.elt
 					if (target instanceof Element) {
 						requestAnimationFrame(() => initAllComponents(target));
 					}
