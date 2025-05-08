@@ -447,11 +447,13 @@ templ Script() {
 				}
 
 				const handleHtmxSwap = (event) => {
-					const target = event.detail.target || event.target;
+					const target = event.detail.elt
 					if (target instanceof Element) {
 						whenFloatingUiReady(() => initAllComponents(target));
 					}
 				};
+				
+				initAllComponents();
 				
 				document.addEventListener('DOMContentLoaded', () => {
 					whenFloatingUiReady(() => {
@@ -460,8 +462,8 @@ templ Script() {
 					});
 				});
 
-				document.body.addEventListener('htmx:beforeSwap', (evt) => {
-					const target = evt.detail.target || evt.detail.elt;
+				document.body.addEventListener('htmx:beforeSwap', (event) => {
+					const target = event.detail.elt;
 					if (target instanceof Element) {
 						cleanupPopovers(target);
 					}
