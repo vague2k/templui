@@ -330,8 +330,6 @@ templ Script() {
 					window.inputOTPState.delete(container);
 				}
 				
-				// --- Standard Init Flow ---
-
 				function initAllComponents(root = document) {
 					if (root instanceof Element && root.matches('[data-input-otp]')) {
 						initInputOTP(root);
@@ -349,9 +347,8 @@ templ Script() {
 
 				document.addEventListener('DOMContentLoaded', () => initAllComponents());
 
-				// Cleanup before HTMX swap (NEEDS TO STAY)
-				document.body.addEventListener('htmx:beforeSwap', (evt) => {
-					const target = evt.detail.target || evt.detail.elt;
+				document.body.addEventListener('htmx:beforeSwap', (event) => {
+					const target = event.detail.elt;
 					if (target instanceof Element) {
 						// Cleanup target itself if it's an OTP container
 						if (target.matches && target.matches('[data-input-otp]')) {
@@ -366,9 +363,7 @@ templ Script() {
 					}
 				});
 
-                // Initialize immediately for any existing elements
 				initAllComponents();
-
 				document.body.addEventListener('htmx:afterSwap', handleHtmxSwap);
 				document.body.addEventListener('htmx:oobAfterSwap', handleHtmxSwap);
 

@@ -453,6 +453,8 @@ templ Script() {
 					}
 				};
 				
+				initAllComponents();
+				
 				document.addEventListener('DOMContentLoaded', () => {
 					whenFloatingUiReady(() => {
 						addAnimationStyles();
@@ -460,8 +462,8 @@ templ Script() {
 					});
 				});
 
-				document.body.addEventListener('htmx:beforeSwap', (evt) => {
-					const target = evt.detail.target || evt.detail.elt;
+				document.body.addEventListener('htmx:beforeSwap', (event) => {
+					const target = event.detail.elt;
 					if (target instanceof Element) {
 						cleanupPopovers(target);
 					}
