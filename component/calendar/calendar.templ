@@ -130,8 +130,17 @@ templ Script() {
                         return;
                     }
 
-                    const localeTag = container.dataset.localeTag || 'en-US'; 
-                    let monthNamesFallback = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']; // Fallback if Intl fails
+                    const localeTag = container.dataset.localeTag || 'en-US';
+                    let monthNames;
+                    try {
+                        monthNames = Array.from({ length: 12 }, (_, i) =>
+                            new Intl.DateTimeFormat(localeTag, { month: 'long', timeZone: 'UTC' }).format(new Date(Date.UTC(2000, i, 1)))
+                        );
+                    } catch (e) {
+                        console.error(`Calendar: Error generating month names via Intl (locale: "${localeTag}"). Falling back to English.`, e);
+                        // Fallback to English names if Intl fails for any reason
+                        monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+                    }
                     let dayNames = ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa']; // Default fallback
                     
                     try {
@@ -171,7 +180,7 @@ templ Script() {
                         // Always use the fallback month name combined with the current year
                         // Ensure month index is within bounds (0-11)
                         const monthIndex = Math.max(0, Math.min(11, currentMonth)); 
-                        const monthName = monthNamesFallback[monthIndex]; 
+                        const monthName = monthNames[monthIndex]; 
                         const displayString = `${monthName} ${currentYear}`;
                         monthDisplay.textContent = displayString;
                     }
@@ -277,12 +286,13 @@ templ Script() {
                 }
 
                 const handleHtmxSwap = (event) => {
-                    const target = event.detail.target || event.target;
+                    const target = event.detail.elt
                     if (target instanceof Element) {
                         requestAnimationFrame(() => initAllComponents(target));
                     }
                 };
 
+                initAllComponents();
                 document.addEventListener('DOMContentLoaded', () => initAllComponents());
                 document.body.addEventListener('htmx:afterSwap', handleHtmxSwap);
                 document.body.addEventListener('htmx:oobAfterSwap', handleHtmxSwap);

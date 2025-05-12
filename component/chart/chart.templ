@@ -290,8 +290,8 @@ templ Script() {
 					}
 				});
 
-				document.body.addEventListener("htmx:afterSwap", (e) => {
-					const target = e.detail.target;
+				document.body.addEventListener("htmx:afterSwap", (event) => {
+					const target = event.detail.elt;
 					if (target instanceof Element) {
 						function tryInit(attempt = 1) {
 							if (typeof Chart !== "undefined") {
