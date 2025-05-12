@@ -379,7 +379,7 @@ templ Script() {
 						const item = e.target.closest('.select-item');
 						if (!item || item.getAttribute('data-disabled') === 'true') return;
 						// Reset all others first
-						content.querySelectorAll('.select-item:not([data-selected="true"])').forEach(el => {
+						content.querySelectorAll('.select-item').forEach(el => {
 							el.classList.remove('bg-accent', 'text-accent-foreground', 'bg-muted');
 						});
 						// Apply hover style only if not selected
