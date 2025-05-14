@@ -12,6 +12,10 @@ templ Drawer() {
 		"Side-anchored panel that slides in from screen edges.",
 		[]modules.TableOfContentsItem{
 			{
+				ID:   "installation",
+				Text: "Installation",
+			},
+			{
 				Text: "Examples",
 				ID:   "examples",
 				Children: []modules.TableOfContentsItem{
@@ -42,10 +46,19 @@ templ Drawer() {
 			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				ShowcaseFile:      showcase.DrawerDefault(),
-				PreviewCodeFile:   "drawer_default.templ",
-				ComponentCodeFile: "drawer/drawer.templ",
+				ShowcaseFile:    showcase.DrawerDefault(),
+				PreviewCodeFile: "drawer_default.templ",
+				// ComponentCodeFile: "drawer/drawer.templ",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@modules.ComponentUsage(modules.ComponentUsageProps{
+					ComponentName: "drawer",
+					ComponentPath: "drawer/drawer.templ",
+				})
+			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
 				Title: "Examples",
 				ID:    "examples",

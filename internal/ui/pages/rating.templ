@@ -12,6 +12,10 @@ templ Rating() {
 		"Interactive rating component for capturing user feedback and displaying scores.",
 		[]modules.TableOfContentsItem{
 			{
+				ID:   "installation",
+				Text: "Installation",
+			},
+			{
 				Text: "Examples",
 				ID:   "examples",
 				Children: []modules.TableOfContentsItem{
@@ -57,10 +61,19 @@ templ Rating() {
 			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				ShowcaseFile:      showcase.RatingDefault(),
-				PreviewCodeFile:   "rating_default.templ",
-				ComponentCodeFile: "rating/rating.templ",
+				ShowcaseFile:    showcase.RatingDefault(),
+				PreviewCodeFile: "rating_default.templ",
+				// ComponentCodeFile: "rating/rating.templ",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@modules.ComponentUsage(modules.ComponentUsageProps{
+					ComponentName: "rating",
+					ComponentPath: "rating/rating.templ",
+				})
+			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
 				Title: "Examples",
 				ID:    "examples",

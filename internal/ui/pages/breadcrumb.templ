@@ -12,6 +12,10 @@ templ Breadcrumb() {
 		"Navigation component that helps users understand their location within a website's hierarchy.",
 		[]modules.TableOfContentsItem{
 			{
+				ID:   "installation",
+				Text: "Installation",
+			},
+			{
 				ID:   "examples",
 				Text: "Examples",
 				Children: []modules.TableOfContentsItem{
@@ -48,10 +52,19 @@ templ Breadcrumb() {
 			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				ShowcaseFile:      showcase.BreadcrumbDefault(),
-				PreviewCodeFile:   "breadcrumb_default.templ",
-				ComponentCodeFile: "breadcrumb/breadcrumb.templ",
+				ShowcaseFile:    showcase.BreadcrumbDefault(),
+				PreviewCodeFile: "breadcrumb_default.templ",
+				// ComponentCodeFile: "breadcrumb/breadcrumb.templ",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@modules.ComponentUsage(modules.ComponentUsageProps{
+					ComponentName: "breadcrumb",
+					ComponentPath: "breadcrumb/breadcrumb.templ",
+				})
+			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
 				Title: "Examples",
 				ID:    "examples",

@@ -59,7 +59,7 @@ func main() {
 	// Command line arguments
 	baseURL := flag.String("baseurl", "https://templui.io", "Base URL for the sitemap")
 	outputFile := flag.String("output", "static/sitemap.xml", "Path to output file")
-	routesFile := flag.String("routes", "cmd/server/main.go", "Path to routes file")
+	routesFile := flag.String("routes", "cmd/docs/main.go", "Path to routes file")
 	robotsFile := flag.String("robots", "static/robots.txt", "Path to robots.txt file")
 	flag.Parse()
 

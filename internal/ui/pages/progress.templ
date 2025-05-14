@@ -12,6 +12,10 @@ templ Progress() {
 		"Progress indicators inform users about the status of ongoing processes.",
 		[]modules.TableOfContentsItem{
 			{
+				ID:   "installation",
+				Text: "Installation",
+			},
+			{
 				Text: "Examples",
 				ID:   "examples",
 				Children: []modules.TableOfContentsItem{
@@ -63,10 +67,19 @@ templ Progress() {
 			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				ShowcaseFile:      showcase.ProgressDefault(),
-				PreviewCodeFile:   "progress_default.templ",
-				ComponentCodeFile: "progress/progress.templ",
+				ShowcaseFile:    showcase.ProgressDefault(),
+				PreviewCodeFile: "progress_default.templ",
+				// ComponentCodeFile: "progress/progress.templ",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@modules.ComponentUsage(modules.ComponentUsageProps{
+					ComponentName: "progress",
+					ComponentPath: "progress/progress.templ",
+				})
+			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
 				Title: "Examples",
 				ID:    "examples",

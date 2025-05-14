@@ -33,7 +33,7 @@ RUN ARCH=$(uname -m) && \
 RUN ./tailwindcss -i ./assets/css/input.css -o ./assets/css/output.css --minify
 
 # Build the application as a static binary
-RUN CGO_ENABLED=0 GOOS=linux go build -o main ./cmd/server/main.go
+RUN CGO_ENABLED=0 GOOS=linux go build -o main ./cmd/docs/main.go
 
 # Deploy-Stage
 FROM alpine:3.20.2

@@ -9,7 +9,12 @@ templ AspectRatio() {
 	@layouts.DocsLayout(
 		"Aspect Ratio",
 		"A component for maintaining consistent width-to-height ratios across different screen sizes.",
-		[]modules.TableOfContentsItem{},
+		[]modules.TableOfContentsItem{
+			{
+				ID:   "installation",
+				Text: "Installation",
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Aspect Ratio",
@@ -28,10 +33,19 @@ templ AspectRatio() {
 			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				ShowcaseFile:      showcase.AspectRatioDefault(),
-				PreviewCodeFile:   "aspect_ratio_default.templ",
-				ComponentCodeFile: "aspectratio/aspect_ratio.templ",
+				ShowcaseFile:    showcase.AspectRatioDefault(),
+				PreviewCodeFile: "aspect_ratio_default.templ",
+				// ComponentCodeFile: "aspectratio/aspect_ratio.templ",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@modules.ComponentUsage(modules.ComponentUsageProps{
+					ComponentName: "aspectratio",
+					ComponentPath: "aspectratio/aspect_ratio.templ",
+				})
+			}
 		}
 	}
 }

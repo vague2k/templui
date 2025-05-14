@@ -12,6 +12,10 @@ templ Checkbox() {
 		"Control that allows selecting multiple options from a list.",
 		[]modules.TableOfContentsItem{
 			{
+				ID:   "installation",
+				Text: "Installation",
+			},
+			{
 				Text: "Examples",
 				ID:   "examples",
 				Children: []modules.TableOfContentsItem{
@@ -52,10 +56,19 @@ templ Checkbox() {
 			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				ShowcaseFile:      showcase.CheckboxDefault(),
-				PreviewCodeFile:   "checkbox_default.templ",
-				ComponentCodeFile: "checkbox/checkbox.templ",
+				ShowcaseFile:    showcase.CheckboxDefault(),
+				PreviewCodeFile: "checkbox_default.templ",
+				// ComponentCodeFile: "checkbox/checkbox.templ",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@modules.ComponentUsage(modules.ComponentUsageProps{
+					ComponentName: "checkbox",
+					ComponentPath: "checkbox/checkbox.templ",
+				})
+			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
 				Title: "Examples",
 				ID:    "examples",

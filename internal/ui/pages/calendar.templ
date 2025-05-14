@@ -10,7 +10,12 @@ templ Calendar() {
 	@layouts.DocsLayout(
 		"Calendar",
 		"A date field component that allows users to enter and edit date.",
-		[]modules.TableOfContentsItem{},
+		[]modules.TableOfContentsItem{
+			{
+				ID:   "installation",
+				Text: "Installation",
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Calendar",
@@ -30,10 +35,19 @@ templ Calendar() {
 			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				ShowcaseFile:      showcase.CalendarDefault(),
-				PreviewCodeFile:   "calendar_default.templ",
-				ComponentCodeFile: "calendar/calendar.templ",
+				ShowcaseFile:    showcase.CalendarDefault(),
+				PreviewCodeFile: "calendar_default.templ",
+				// ComponentCodeFile: "calendar/calendar.templ",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@modules.ComponentUsage(modules.ComponentUsageProps{
+					ComponentName: "calendar",
+					ComponentPath: "calendar/calendar.templ",
+				})
+			}
 		}
 	}
 }

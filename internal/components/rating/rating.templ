@@ -1,0 +1,425 @@
+package rating
+
+import (
+	"fmt"
+	"github.com/axzilla/templui/internal/components/icon"
+	"github.com/axzilla/templui/internal/utils"
+	"strconv"
+)
+
+type Style string
+
+const (
+	StyleStar  Style = "star"
+	StyleHeart Style = "heart"
+	StyleEmoji Style = "emoji"
+)
+
+type Props struct {
+	ID          string
+	Class       string
+	Attributes  templ.Attributes
+	Value       float64
+	ReadOnly    bool
+	Precision   float64
+	Name        string
+	OnlyInteger bool
+}
+
+type GroupProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+}
+
+type ItemProps struct {
+	ID         string
+	Class      string
+	Attributes templ.Attributes
+	Value      int
+	Style      Style
+}
+
+templ Rating(props ...Props) {
+	@Script()
+	{{ var p Props }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
+	{{ p.setDefaults() }}
+	<div
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		data-rating-component
+		data-initial-value={ fmt.Sprintf("%.2f", p.Value) }
+		data-precision={ fmt.Sprintf("%.2f", p.Precision) }
+		data-readonly={ strconv.FormatBool(p.ReadOnly) }
+		if p.Name != "" {
+			data-name={ p.Name }
+		}
+		data-onlyinteger={ strconv.FormatBool(p.OnlyInteger) }
+		class={
+			utils.TwMerge(
+				"flex flex-col items-start gap-1",
+				p.Class,
+			),
+		}
+		{ p.Attributes... }
+	>
+		{ children... }
+		if p.Name != "" {
+			<input
+				type="hidden"
+				name={ p.Name }
+				value={ fmt.Sprintf("%.2f", p.Value) }
+				data-rating-input
+			/>
+		}
+	</div>
+}
+
+templ Group(props ...GroupProps) {
+	{{ var p GroupProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
+	<div
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		class={ utils.TwMerge("flex flex-row items-center gap-1", p.Class) }
+		{ p.Attributes... }
+	>
+		{ children... }
+	</div>
+}
+
+templ Item(props ...ItemProps) {
+	{{ var p ItemProps }}
+	if len(props) > 0 {
+		{{ p = props[0] }}
+	}
+	{{ p.setDefaults() }}
+	<div
+		if p.ID != "" {
+			id={ p.ID }
+		}
+		data-rating-item
+		data-rating-value={ strconv.Itoa(p.Value) }
+		class={
+			utils.TwMerge(
+				"relative",
+				colorClass(p.Style),
+				"transition-opacity",
+				"cursor-pointer", // Default cursor
+				p.Class,
+			),
+		}
+		{ p.Attributes... }
+	>
+		<div class="opacity-30">
+			@ratingIcon(p.Style, false, float64(p.Value))
+		</div>
+		<div
+			class="absolute inset-0 overflow-hidden w-0"
+			data-rating-item-foreground
+		>
+			@ratingIcon(p.Style, true, float64(p.Value))
+		</div>
+	</div>
+}
+
+func colorClass(style Style) string {
+	switch style {
+	case StyleHeart:
+		return "text-destructive"
+	case StyleEmoji:
+		return "text-yellow-500"
+	default:
+		return "text-yellow-400"
+	}
+}
+
+func ratingIcon(style Style, filled bool, value float64) templ.Component {
+	if style == StyleEmoji {
+		if filled {
+			switch {
+			case value <= 1:
+				return icon.Angry()
+			case value <= 2:
+				return icon.Frown()
+			case value <= 3:
+				return icon.Meh()
+			case value <= 4:
+				return icon.Smile()
+			default:
+				return icon.Laugh()
+			}
+		}
+		return icon.Meh()
+	}
+	iconProps := icon.Props{}
+	if filled {
+		iconProps.Fill = "currentColor"
+	}
+	switch style {
+	case StyleHeart:
+		return icon.Heart(iconProps)
+	default:
+		return icon.Star(iconProps)
+	}
+}
+
+func (p *ItemProps) setDefaults() {
+	if p.Style == "" {
+		p.Style = StyleStar
+	}
+}
+
+func (p *Props) setDefaults() {
+	if p.Precision <= 0 {
+		p.Precision = 1.0
+	}
+}
+
+var handle = templ.NewOnceHandle()
+
+templ Script() {
+	@handle.Once() {
+		<script nonce={ templ.GetNonce(ctx) }>
+			if (typeof window.ratingState === 'undefined') {
+				window.ratingState = new WeakMap();
+			}
+			
+			(function() { // IIFE
+				function initRating(ratingElement) {
+					if (!ratingElement) return;
+					
+					const existingState = window.ratingState.get(ratingElement);
+					if (existingState) {
+						cleanupRating(ratingElement, existingState);
+					}
+					
+					ratingElement.dataset.ratingInitialized = 'true';
+					
+					const config = {
+						value: parseFloat(ratingElement.dataset.initialValue) || 0,
+						precision: parseFloat(ratingElement.dataset.precision) || 1,
+						readonly: ratingElement.dataset.readonly === 'true',
+						name: ratingElement.dataset.name || '',
+						onlyInteger: ratingElement.dataset.onlyinteger === 'true',
+						maxValue: 0
+					};
+
+					const hiddenInput = ratingElement.querySelector('[data-rating-input]');
+					let items = Array.from(ratingElement.querySelectorAll('[data-rating-item]'));
+
+					let currentValue = config.value;
+					let previewValue = 0;
+					
+					const handlers = {
+						click: handleClick,
+						mouseover: handleMouseOver,
+						mouseleave: handleMouseLeave
+					};
+					
+					function calculateMaxValue() {
+						let highestValue = 0;
+						for (const item of items) {
+							const value = parseInt(item.dataset.ratingValue, 10);
+							if (!isNaN(value) && value > highestValue) {
+								highestValue = value;
+							}
+						}
+						config.maxValue = Math.max(1, highestValue);
+						currentValue = Math.max(0, Math.min(config.maxValue, currentValue));
+						currentValue = Math.round(currentValue / config.precision) * config.precision;
+						updateHiddenInput();
+					}
+
+					function updateHiddenInput() {
+						if (hiddenInput) {
+							hiddenInput.value = currentValue.toFixed(2);
+						}
+					}
+
+					function updateItemStyles(displayValue) {
+						for (const item of items) {
+							const itemValue = parseInt(item.dataset.ratingValue, 10);
+							if (isNaN(itemValue)) continue;
+							
+							const foreground = item.querySelector('[data-rating-item-foreground]');
+							if (!foreground) continue;
+							
+							const valueToCompare = displayValue > 0 ? displayValue : currentValue;
+							
+							const filled = itemValue <= Math.floor(valueToCompare);
+							const partial = !filled && (itemValue - 1 < valueToCompare && valueToCompare < itemValue);
+							const percentage = partial ? (valueToCompare - Math.floor(valueToCompare)) * 100 : 0;
+							
+							foreground.style.width = filled ? '100%' : (partial ? `${percentage}%` : '0%');
+						}
+					}
+
+					function setValue(itemValue) {
+						if (config.readonly) return;
+						
+						let newValue = itemValue;
+						if (config.onlyInteger) {
+							newValue = Math.round(newValue);
+						} else {
+							if (currentValue === newValue && newValue % 1 === 0) {
+								newValue = Math.max(0, newValue - config.precision);
+							} else {
+								newValue = Math.round(newValue / config.precision) * config.precision;
+							}
+						}
+						
+						currentValue = Math.max(0, Math.min(config.maxValue, newValue));
+						previewValue = 0;
+						updateHiddenInput();
+						updateItemStyles(0);
+						
+						ratingElement.dispatchEvent(new CustomEvent('rating-change', {
+							bubbles: true,
+							detail: { 
+								name: config.name, 
+								value: currentValue, 
+								maxValue: config.maxValue 
+							}
+						}));
+						
+						if (hiddenInput) {
+							hiddenInput.dispatchEvent(new Event('input', { bubbles: true }));
+							hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));
+						}
+					}
+					
+					function handleMouseOver(event) {
+						if (config.readonly) return;
+						const item = event.target.closest('[data-rating-item]');
+						if (!item) return;
+						
+						previewValue = parseInt(item.dataset.ratingValue, 10);
+						if (!isNaN(previewValue)) {
+							updateItemStyles(previewValue);
+						}
+					}
+					
+					function handleMouseLeave() {
+						if (config.readonly) return;
+						previewValue = 0;
+						updateItemStyles(0);
+					}
+					
+					function handleClick(event) {
+						if (config.readonly) return;
+						const item = event.target.closest('[data-rating-item]');
+						if (!item) return;
+						
+						const itemValue = parseInt(item.dataset.ratingValue, 10);
+						if (!isNaN(itemValue)) {
+							setValue(itemValue);
+						}
+					}
+					
+					calculateMaxValue();
+					updateItemStyles(0);
+					
+					if (config.readonly) {
+						ratingElement.style.cursor = 'default';
+						for (const item of items) {
+							item.style.cursor = 'default';
+						}
+					} else {
+						ratingElement.addEventListener('click', handlers.click);
+						ratingElement.addEventListener('mouseover', handlers.mouseover);
+						ratingElement.addEventListener('mouseleave', handlers.mouseleave);
+					}
+					
+					const observer = new MutationObserver(() => {
+						try {
+							const currentItemCount = ratingElement.querySelectorAll('[data-rating-item]').length;
+							if (currentItemCount !== items.length) {
+								items = Array.from(ratingElement.querySelectorAll('[data-rating-item]'));
+								calculateMaxValue();
+								updateItemStyles(previewValue > 0 ? previewValue : 0);
+							}
+						} catch (err) {
+							console.error('Error in rating MutationObserver:', err);
+						}
+					});
+					
+					observer.observe(ratingElement, { childList: true, subtree: true });
+					
+					const state = {
+						handlers,
+						observer,
+						items
+					};
+					
+					window.ratingState.set(ratingElement, state);
+				}
+				
+				function cleanupRating(ratingElement, state) {
+					if (!ratingElement || !state) return;
+					
+					if (!ratingElement.dataset.readonly === 'true') {
+						ratingElement.removeEventListener('click', state.handlers.click);
+						ratingElement.removeEventListener('mouseover', state.handlers.mouseover);
+						ratingElement.removeEventListener('mouseleave', state.handlers.mouseleave);
+					}
+					
+					if (state.observer) {
+						state.observer.disconnect();
+					}
+					
+					window.ratingState.delete(ratingElement);
+					ratingElement.removeAttribute('data-rating-initialized');
+				}
+
+				function initAllComponents(root = document) {
+					if (root instanceof Element && root.matches('[data-rating-component]')) {
+						initRating(root); // initRating handles already initialized check internally
+					}
+					if (root && typeof root.querySelectorAll === 'function') {
+						root.querySelectorAll('[data-rating-component]').forEach(initRating);
+					}
+				}
+
+				const handleHtmxSwap = (event) => {
+					const target = event.detail.elt
+					if (target instanceof Element) {
+						requestAnimationFrame(() => initAllComponents(target));
+					}
+				};
+
+				initAllComponents();
+				
+				document.addEventListener('DOMContentLoaded', () => initAllComponents());
+
+				document.body.addEventListener('htmx:beforeCleanup', event => {
+					const containerToRemove = event.detail.elt; // Use elt for beforeCleanup
+					if (containerToRemove instanceof Element) {
+						// Cleanup target itself
+						if (containerToRemove.matches && containerToRemove.matches('[data-rating-component][data-rating-initialized]')) {
+							const state = window.ratingState.get(containerToRemove);
+							if (state) cleanupRating(containerToRemove, state);
+						}
+						// Cleanup descendants
+						if (containerToRemove.querySelectorAll) {
+							for (const ratingEl of containerToRemove.querySelectorAll('[data-rating-component][data-rating-initialized]')) {
+								const state = window.ratingState.get(ratingEl);
+								if (state) cleanupRating(ratingEl, state);
+							}
+						}
+					}
+				});
+
+				document.body.addEventListener('htmx:afterSwap', handleHtmxSwap);
+				document.body.addEventListener('htmx:oobAfterSwap', handleHtmxSwap);
+			})(); // End of IIFE
+		</script>
+	}
+}

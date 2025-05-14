@@ -12,6 +12,10 @@ templ Input() {
 		"Text field that allows users to enter and edit values.",
 		[]modules.TableOfContentsItem{
 			{
+				ID:   "installation",
+				Text: "Installation",
+			},
+			{
 				Text: "Examples",
 				ID:   "examples",
 				Children: []modules.TableOfContentsItem{
@@ -57,10 +61,19 @@ templ Input() {
 			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				ShowcaseFile:      showcase.InputDefault(),
-				PreviewCodeFile:   "input_default.templ",
-				ComponentCodeFile: "input/input.templ",
+				ShowcaseFile:    showcase.InputDefault(),
+				PreviewCodeFile: "input_default.templ",
+				// ComponentCodeFile: "input/input.templ",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@modules.ComponentUsage(modules.ComponentUsageProps{
+					ComponentName: "input",
+					ComponentPath: "input/input.templ",
+				})
+			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
 				Title: "Examples",
 				ID:    "examples",

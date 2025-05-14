@@ -8,7 +8,7 @@ on:
 
 jobs:
   validate-html:
-    name: 🧪 Build & Lint HTML from TemplUI Components
+    name: 🧪 Build & Lint HTML from templUI Components
     runs-on: ubuntu-latest
 
     steps:

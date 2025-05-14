@@ -1,6 +1,8 @@
 package pages
 
 import (
+	"github.com/axzilla/templui/internal/components"
+	"github.com/axzilla/templui/internal/components/tabs"
 	"github.com/axzilla/templui/internal/ui/layouts"
 	"github.com/axzilla/templui/internal/ui/modules"
 	"github.com/axzilla/templui/internal/ui/showcase"
@@ -11,6 +13,10 @@ templ Icon() {
 		"Icon",
 		"A wrapper for Lucide Icons with optional settings for size, color, fill, stroke, and custom classes.",
 		[]modules.TableOfContentsItem{
+			{
+				ID:   "installation",
+				Text: "Installation",
+			},
 			{
 				Text: "Examples",
 				ID:   "examples",
@@ -51,6 +57,64 @@ templ Icon() {
 				ShowcaseFile:    showcase.IconDefault(),
 				PreviewCodeFile: "icon_default.templ",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@tabs.Tabs(tabs.Props{
+					// ID: "install-" + props.ComponentName,
+				}) {
+					@tabs.List(tabs.ListProps{
+						Class: "w-1/2",
+					}) {
+						@tabs.Trigger(tabs.TriggerProps{
+							Value:    "cli",
+							IsActive: true,
+						}) {
+							CLI
+						}
+						@tabs.Trigger(tabs.TriggerProps{
+							Value: "manual",
+						}) {
+							Manual
+						}
+					}
+					<div class="w-full mt-2">
+						@tabs.Content(tabs.ContentProps{
+							Value:    "cli",
+							IsActive: true,
+						}) {
+							@modules.Code(modules.CodeProps{
+								CodeContent:    "templui add icon",
+								ShowCopyButton: true,
+							})
+						}
+						@tabs.Content(tabs.ContentProps{
+							Value: "manual",
+						}) {
+							<div class="border rounded-md p-4">
+								<ol class="list-decimal pl-5 space-y-8">
+									<li>
+										<p class="mb-4 font-semibold">Copy and paste the following code into your project: (icon.go)</p>
+										@modules.CodeSnippetFromEmbedded("icon/icon.go", "go", components.TemplFiles)
+									</li>
+									<li>
+										<p class="mb-4 font-semibold">Copy and paste the following code into your project: (icon_defs.go)</p>
+										@modules.CodeSnippetFromEmbedded("icon/icon_defs.go", "go", components.TemplFiles)
+									</li>
+									<li>
+										<p class="mb-4 font-semibold">Copy and paste the following code into your project: (icon_data.go)</p>
+										@modules.CodeSnippetFromEmbedded("icon/icon_data.go", "go", components.TemplFiles)
+									</li>
+									<li>
+										<p class="mb-4 font-semibold">Update the import paths to match your project setup.</p>
+									</li>
+								</ol>
+							</div>
+						}
+					</div>
+				}
+			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
 				Title: "Examples",
 				ID:    "examples",

@@ -12,6 +12,10 @@ templ Skeleton() {
 		"UI placeholder for indicating content that is loading.",
 		[]modules.TableOfContentsItem{
 			{
+				ID:   "installation",
+				Text: "Installation",
+			},
+			{
 				Text: "Examples",
 				ID:   "examples",
 				Children: []modules.TableOfContentsItem{
@@ -48,10 +52,19 @@ templ Skeleton() {
 			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				ShowcaseFile:      showcase.SkeletonDefault(),
-				PreviewCodeFile:   "skeleton_default.templ",
-				ComponentCodeFile: "skeleton/skeleton.templ",
+				ShowcaseFile:    showcase.SkeletonDefault(),
+				PreviewCodeFile: "skeleton_default.templ",
+				// ComponentCodeFile: "skeleton/skeleton.templ",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@modules.ComponentUsage(modules.ComponentUsageProps{
+					ComponentName: "skeleton",
+					ComponentPath: "skeleton/skeleton.templ",
+				})
+			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
 				Title: "Examples",
 				ID:    "examples",

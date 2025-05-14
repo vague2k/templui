@@ -62,12 +62,12 @@ var Sections = []Section{
 				Href: "/docs/components/button",
 			},
 			{
-				Text: "Card",
-				Href: "/docs/components/card",
-			},
-			{
 				Text: "Calendar",
 				Href: "/docs/components/calendar",
+			},
+			{
+				Text: "Card",
+				Href: "/docs/components/card",
 			},
 			{
 				Text: "Carousel",

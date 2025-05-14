@@ -10,7 +10,12 @@ templ Table() {
 	@layouts.DocsLayout(
 		"Table",
 		"Display tabular data with rich formatting and interaction options",
-		[]modules.TableOfContentsItem{},
+		[]modules.TableOfContentsItem{
+			{
+				ID:   "installation",
+				Text: "Installation",
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Table",
@@ -29,10 +34,19 @@ templ Table() {
 			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				ShowcaseFile:      showcase.Table(),
-				PreviewCodeFile:   "table.templ",
-				ComponentCodeFile: "table/table.templ",
+				ShowcaseFile:    showcase.Table(),
+				PreviewCodeFile: "table.templ",
+				// ComponentCodeFile: "table/table.templ",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@modules.ComponentUsage(modules.ComponentUsageProps{
+					ComponentName: "table",
+					ComponentPath: "table/table.templ",
+				})
+			}
 		}
 	}
 }

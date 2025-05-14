@@ -12,6 +12,10 @@ templ Code() {
 		"Code displays a code block with optional syntax highlighting and copy functionality.",
 		[]modules.TableOfContentsItem{
 			{
+				ID:   "installation",
+				Text: "Installation",
+			},
+			{
 				Text: "Examples",
 				ID:   "examples",
 				Children: []modules.TableOfContentsItem{
@@ -45,10 +49,19 @@ templ Code() {
 			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				ShowcaseFile:      showcase.CodeDefault(),
-				PreviewCodeFile:   "code_default.templ",
-				ComponentCodeFile: "code/code.templ",
+				ShowcaseFile:    showcase.CodeDefault(),
+				PreviewCodeFile: "code_default.templ",
+				// ComponentCodeFile: "code/code.templ",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@modules.ComponentUsage(modules.ComponentUsageProps{
+					ComponentName: "code",
+					ComponentPath: "code/code.templ",
+				})
+			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
 				Title: "Examples",
 				ID:    "examples",

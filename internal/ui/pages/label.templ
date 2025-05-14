@@ -1,7 +1,7 @@
 package pages
 
 import (
-	"github.com/axzilla/templui/component/card"
+	"github.com/axzilla/templui/internal/components/card"
 	"github.com/axzilla/templui/internal/ui/layouts"
 	"github.com/axzilla/templui/internal/ui/modules"
 	"github.com/axzilla/templui/internal/ui/showcase"
@@ -11,7 +11,12 @@ templ Label() {
 	@layouts.DocsLayout(
 		"Label",
 		"Renders an accessible label associated with controls.",
-		[]modules.TableOfContentsItem{},
+		[]modules.TableOfContentsItem{
+			{
+				ID:   "installation",
+				Text: "Installation",
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Label",
@@ -31,11 +36,20 @@ templ Label() {
 			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				SectionName:       "",
-				ShowcaseFile:      showcase.CheckboxWithLabel(),
-				PreviewCodeFile:   "checkbox_with_label.templ",
-				ComponentCodeFile: "label/label.templ",
+				SectionName:     "",
+				ShowcaseFile:    showcase.CheckboxWithLabel(),
+				PreviewCodeFile: "checkbox_with_label.templ",
+				// ComponentCodeFile: "label/label.templ",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@modules.ComponentUsage(modules.ComponentUsageProps{
+					ComponentName: "label",
+					ComponentPath: "label/label.templ",
+				})
+			}
 			<div>
 				@card.Card() {
 					@card.Header() {

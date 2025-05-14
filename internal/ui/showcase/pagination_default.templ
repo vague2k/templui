@@ -1,6 +1,6 @@
 package showcase
 
-import "github.com/axzilla/templui/component/pagination"
+import "github.com/axzilla/templui/internal/components/pagination"
 
 templ PaginationDefault() {
 	@pagination.Pagination(pagination.Props{
@@ -11,7 +11,7 @@ templ PaginationDefault() {
 				@pagination.Previous(pagination.PreviousProps{
 					Href:     "?page=1",
 					Disabled: false,
-					Label: "Previous",
+					Label:    "Previous",
 				})
 			}
 			@pagination.Item() {
@@ -41,7 +41,7 @@ templ PaginationDefault() {
 			}
 			@pagination.Item() {
 				@pagination.Next(pagination.NextProps{
-					Href: "?page=3",
+					Href:  "?page=3",
 					Label: "Next",
 				})
 			}

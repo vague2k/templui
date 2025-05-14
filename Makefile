@@ -1,10 +1,10 @@
 # Dev Tools
 templ:
-	templ generate --watch --proxy="http://localhost:8090" --open-browser=false -v
+	templ generate --watch --proxy="http://localhost:8090" --open-browser=false
 
-server:
+docs:
 	air \
-	--build.cmd "go build -o tmp/bin/main ./cmd/server" \
+	--build.cmd "go build -o tmp/bin/main ./cmd/docs" \
 	--build.bin "tmp/bin/main" \
 	--build.delay "100" \
 	--build.exclude_dir "node_modules" \
@@ -23,17 +23,20 @@ tailwind-watch:
 
 dev:
 	make tailwind-clean
-	make -j4 tailwind-watch templ server shiki-highlighter
+	make -j4 tailwind-watch templ docs shiki-highlighter
 
 debug:
 	make -j3 templ tailwind-app tailwind
 	
 generate-sitemap:
-	go run ./cmd/sitemap/main.go --baseurl="https://templui.io" --routes="./cmd/server/main.go" --output="./static/sitemap.xml" --robots="./static/robots.txt"
+	go run ./cmd/sitemap/main.go --baseurl="https://templui.io" --routes="./cmd/docs/main.go" --output="./static/sitemap.xml" --robots="./static/robots.txt"
 
 generate-icons:
 	go run cmd/icongen/main.go
 
+install-compinstall:
+	go install ./cmd/compinstall
+	
 # Validate generated HTML files against Eslint plugins
 # Step 1: Compile templ files into Go
 templ-generate:

@@ -12,6 +12,10 @@ templ Toggle() {
 		"Two-state button that can be switched on or off.",
 		[]modules.TableOfContentsItem{
 			{
+				ID:   "installation",
+				Text: "Installation",
+			},
+			{
 				Text: "Examples",
 				ID:   "examples",
 				Children: []modules.TableOfContentsItem{
@@ -52,10 +56,19 @@ templ Toggle() {
 			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				ShowcaseFile:      showcase.ToggleDefault(),
-				PreviewCodeFile:   "toggle_default.templ",
-				ComponentCodeFile: "toggle/toggle.templ",
+				ShowcaseFile:    showcase.ToggleDefault(),
+				PreviewCodeFile: "toggle_default.templ",
+				// ComponentCodeFile: "toggle/toggle.templ",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@modules.ComponentUsage(modules.ComponentUsageProps{
+					ComponentName: "toggle",
+					ComponentPath: "toggle/toggle.templ",
+				})
+			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
 				Title: "Examples",
 				ID:    "examples",

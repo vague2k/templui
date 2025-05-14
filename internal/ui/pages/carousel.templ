@@ -12,6 +12,10 @@ templ Carousel() {
 		"Interactive slideshow for cycling through a series of content.",
 		[]modules.TableOfContentsItem{
 			{
+				ID:   "installation",
+				Text: "Installation",
+			},
+			{
 				ID:   "examples",
 				Text: "Examples",
 				Children: []modules.TableOfContentsItem{
@@ -49,10 +53,19 @@ templ Carousel() {
 			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				ShowcaseFile:      showcase.CarouselDefault(),
-				PreviewCodeFile:   "carousel_default.templ",
-				ComponentCodeFile: "carousel/carousel.templ",
+				ShowcaseFile:    showcase.CarouselDefault(),
+				PreviewCodeFile: "carousel_default.templ",
+				// ComponentCodeFile: "carousel/carousel.templ",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@modules.ComponentUsage(modules.ComponentUsageProps{
+					ComponentName: "carousel",
+					ComponentPath: "carousel/carousel.templ",
+				})
+			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
 				Title: "Examples",
 				ID:    "examples",

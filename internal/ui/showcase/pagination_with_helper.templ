@@ -2,7 +2,7 @@ package showcase
 
 import (
 	"fmt"
-	"github.com/axzilla/templui/component/pagination"
+	"github.com/axzilla/templui/internal/components/pagination"
 )
 
 templ PaginationWithHelper() {
@@ -13,7 +13,7 @@ templ PaginationWithHelper() {
 				@pagination.Previous(pagination.PreviousProps{
 					Href:     fmt.Sprintf("?page=%d", p.CurrentPage-1),
 					Disabled: !p.HasPrevious,
-					Label: "Previous",
+					Label:    "Previous",
 				})
 			}
 			// First page with ellipsis if needed
@@ -61,7 +61,7 @@ templ PaginationWithHelper() {
 				@pagination.Next(pagination.NextProps{
 					Href:     fmt.Sprintf("?page=%d", p.CurrentPage+1),
 					Disabled: !p.HasNext,
-					Label: "Next",
+					Label:    "Next",
 				})
 			}
 		}

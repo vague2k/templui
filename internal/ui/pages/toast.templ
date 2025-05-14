@@ -2,7 +2,7 @@ package pages
 
 import (
 	"fmt"
-	"github.com/axzilla/templui/component/tabs"
+	"github.com/axzilla/templui/internal/components/tabs"
 	"github.com/axzilla/templui/internal/ui/layouts"
 	"github.com/axzilla/templui/internal/ui/modules"
 	"github.com/axzilla/templui/internal/ui/showcase"
@@ -13,6 +13,10 @@ templ Toast() {
 		"Toast",
 		"Flexible toast component for notifications and feedback.",
 		[]modules.TableOfContentsItem{
+			{
+				ID:   "installation",
+				Text: "Installation",
+			},
 			{
 				Text: "Usage",
 				ID:   "usage",
@@ -47,10 +51,19 @@ templ Toast() {
 			},
 		}) {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
-				ShowcaseFile:      showcase.ToastDefault(),
-				PreviewCodeFile:   "toast_default.templ",
-				ComponentCodeFile: "toast/toast.templ",
+				ShowcaseFile:    showcase.ToastDefault(),
+				PreviewCodeFile: "toast_default.templ",
+				// ComponentCodeFile: "toast/toast.templ",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@modules.ComponentUsage(modules.ComponentUsageProps{
+					ComponentName: "toast",
+					ComponentPath: "toast/toast.templ",
+				})
+			}
 			@UsageExamples()
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
 				Title: "Examples",
