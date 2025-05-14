@@ -12,6 +12,10 @@ templ Separator() {
 		"Visual divider that separates content with an optional label.",
 		[]modules.TableOfContentsItem{
 			{
+				ID:   "installation",
+				Text: "Installation",
+			},
+			{
 				Text: "Examples",
 				ID:   "examples",
 				Children: []modules.TableOfContentsItem{
@@ -52,6 +56,15 @@ templ Separator() {
 				PreviewCodeFile:   "separator_default.templ",
 				ComponentCodeFile: "separator/separator.templ",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@modules.ComponentUsage(modules.ComponentUsageProps{
+					ComponentName: "separator",
+					ComponentPath: "separator/separator.templ",
+				})
+			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
 				Title: "Examples",
 				ID:    "examples",

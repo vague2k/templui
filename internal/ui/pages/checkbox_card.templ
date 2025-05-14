@@ -10,7 +10,12 @@ templ CheckboxCard() {
 	@layouts.DocsLayout(
 		"Checkbox Card",
 		"Selectable card component that combines a checkbox with rich content for option selection.",
-		[]modules.TableOfContentsItem{},
+		[]modules.TableOfContentsItem{
+			{
+				ID:   "installation",
+				Text: "Installation",
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Checkbox Card",
@@ -33,6 +38,15 @@ templ CheckboxCard() {
 				PreviewCodeFile:   "checkbox_card_default.templ",
 				ComponentCodeFile: "checkboxcard/checkbox_card.templ",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@modules.ComponentUsage(modules.ComponentUsageProps{
+					ComponentName: "checkboxcard",
+					ComponentPath: "checkboxcard/checkbox_card.templ",
+				})
+			}
 		}
 	}
 }

@@ -12,6 +12,10 @@ templ Avatar() {
 		"Visual representation of a user through images or initials.",
 		[]modules.TableOfContentsItem{
 			{
+				ID:   "installation",
+				Text: "Installation",
+			},
+			{
 				ID:   "examples",
 				Text: "Examples",
 				Children: []modules.TableOfContentsItem{
@@ -57,6 +61,15 @@ templ Avatar() {
 				PreviewCodeFile:   "avatar_default.templ",
 				ComponentCodeFile: "avatar/avatar.templ",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@modules.ComponentUsage(modules.ComponentUsageProps{
+					ComponentName: "avatar",
+					ComponentPath: "avatar/avatar.templ",
+				})
+			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
 				Title: "Examples",
 				ID:    "examples",

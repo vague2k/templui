@@ -12,6 +12,10 @@ templ Spinner() {
 		"Visual indicators for loading states and processes in progress.",
 		[]modules.TableOfContentsItem{
 			{
+				ID:   "installation",
+				Text: "Installation",
+			},
+			{
 				Text: "Examples",
 				ID:   "examples",
 				Children: []modules.TableOfContentsItem{
@@ -52,6 +56,15 @@ templ Spinner() {
 				PreviewCodeFile:   "spinner_default.templ",
 				ComponentCodeFile: "spinner/spinner.templ",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@modules.ComponentUsage(modules.ComponentUsageProps{
+					ComponentName: "spinner",
+					ComponentPath: "spinner/spinner.templ",
+				})
+			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
 				Title: "Examples",
 				ID:    "examples",

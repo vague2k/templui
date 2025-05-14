@@ -10,7 +10,12 @@ templ RadioCard() {
 	@layouts.DocsLayout(
 		"Radio Card",
 		"Selectable card component that uses radio buttons for single-option selection.",
-		[]modules.TableOfContentsItem{},
+		[]modules.TableOfContentsItem{
+			{
+				ID:   "installation",
+				Text: "Installation",
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Radio Card",
@@ -33,6 +38,15 @@ templ RadioCard() {
 				PreviewCodeFile:   "radio_card_default.templ",
 				ComponentCodeFile: "radiocard/radio_card.templ",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@modules.ComponentUsage(modules.ComponentUsageProps{
+					ComponentName: "radiocard",
+					ComponentPath: "radiocard/radio_card.templ",
+				})
+			}
 		}
 	}
 }

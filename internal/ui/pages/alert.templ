@@ -12,6 +12,10 @@ templ Alert() {
 		"Status message that displays contextual feedback or notifications.",
 		[]modules.TableOfContentsItem{
 			{
+				ID:   "installation",
+				Text: "Installation",
+			},
+			{
 				ID:   "examples",
 				Text: "Examples",
 				Children: []modules.TableOfContentsItem{
@@ -44,6 +48,15 @@ templ Alert() {
 				PreviewCodeFile:   "alert_default.templ",
 				ComponentCodeFile: "alert/alert.templ",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@modules.ComponentUsage(modules.ComponentUsageProps{
+					ComponentName: "alert",
+					ComponentPath: "alert/alert.templ",
+				})
+			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
 				Title: "Examples",
 				ID:    "examples",

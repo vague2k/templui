@@ -11,7 +11,12 @@ templ Form() {
 	@layouts.DocsLayout(
 		"Form",
 		"A collection of form components and helper utilities for building accessible forms.",
-		[]modules.TableOfContentsItem{},
+		[]modules.TableOfContentsItem{
+			{
+				ID:   "installation",
+				Text: "Installation",
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Form",
@@ -35,6 +40,15 @@ templ Form() {
 				PreviewCodeFile:   "input_form.templ",
 				ComponentCodeFile: "form/form.templ",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@modules.ComponentUsage(modules.ComponentUsageProps{
+					ComponentName: "form",
+					ComponentPath: "form/form.templ",
+				})
+			}
 			<div>
 				@card.Card() {
 					@card.Header() {

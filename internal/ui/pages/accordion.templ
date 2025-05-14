@@ -11,7 +11,12 @@ templ Accordion() {
 	@layouts.DocsLayout(
 		"Accordion",
 		"Vertically stacked interactive sections to organize content.",
-		[]modules.TableOfContentsItem{},
+		[]modules.TableOfContentsItem{
+			{
+				ID:   "installation",
+				Text: "Installation",
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Accordion",
@@ -34,6 +39,15 @@ templ Accordion() {
 				PreviewCodeFile:   "accordion_default.templ",
 				ComponentCodeFile: "accordion/accordion.templ",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@modules.ComponentUsage(modules.ComponentUsageProps{
+					ComponentName: "accordion",
+					ComponentPath: "accordion/accordion.templ",
+				})
+			}
 		}
 	}
 }

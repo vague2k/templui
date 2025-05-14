@@ -10,7 +10,12 @@ templ Dropdown() {
 	@layouts.DocsLayout(
 		"Dropdown",
 		"Floating menu for displaying a list of actions or options.",
-		[]modules.TableOfContentsItem{},
+		[]modules.TableOfContentsItem{
+			{
+				ID:   "installation",
+				Text: "Installation",
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Dropdown",
@@ -34,6 +39,15 @@ templ Dropdown() {
 				PreviewCodeFile:   "dropdown_default.templ",
 				ComponentCodeFile: "dropdown/dropdown.templ",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@modules.ComponentUsage(modules.ComponentUsageProps{
+					ComponentName: "dropdown",
+					ComponentPath: "dropdown/dropdown.templ",
+				})
+			}
 		}
 	}
 }

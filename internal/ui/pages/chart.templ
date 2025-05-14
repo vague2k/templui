@@ -13,6 +13,10 @@ templ Chart() {
 		"Beautiful charts. Built using Chart.js.",
 		[]modules.TableOfContentsItem{
 			{
+				ID:   "installation",
+				Text: "Installation",
+			},
+			{
 				ID:   "examples",
 				Text: "Examples",
 				Children: []modules.TableOfContentsItem{
@@ -123,6 +127,15 @@ templ Chart() {
 				PreviewCodeFile:   "chart_default.templ",
 				ComponentCodeFile: "chart/chart.templ",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@modules.ComponentUsage(modules.ComponentUsageProps{
+					ComponentName: "chart",
+					ComponentPath: "chart/chart.templ",
+				})
+			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
 				Title: "Examples",
 				ID:    "examples",

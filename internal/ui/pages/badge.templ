@@ -12,6 +12,10 @@ templ Badge() {
 		"Badge component is used to display a small amount of information in a visual style.",
 		[]modules.TableOfContentsItem{
 			{
+				ID:   "installation",
+				Text: "Installation",
+			},
+			{
 				ID:   "examples",
 				Text: "Examples",
 				Children: []modules.TableOfContentsItem{
@@ -60,6 +64,15 @@ templ Badge() {
 				PreviewCodeFile:   "badge_default.templ",
 				ComponentCodeFile: "badge/badge.templ",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@modules.ComponentUsage(modules.ComponentUsageProps{
+					ComponentName: "badge",
+					ComponentPath: "badge/badge.templ",
+				})
+			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
 				Title: "Examples",
 				ID:    "examples",

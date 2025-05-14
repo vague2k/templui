@@ -12,6 +12,10 @@ templ Button() {
 		"Interactive element that triggers actions when clicked.",
 		[]modules.TableOfContentsItem{
 			{
+				ID:   "installation",
+				Text: "Installation",
+			},
+			{
 				ID:   "examples",
 				Text: "Examples",
 				Children: []modules.TableOfContentsItem{
@@ -81,6 +85,15 @@ templ Button() {
 				PreviewCodeFile:   "button_default.templ",
 				ComponentCodeFile: "button/button.templ",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@modules.ComponentUsage(modules.ComponentUsageProps{
+					ComponentName: "button",
+					ComponentPath: "button/button.templ",
+				})
+			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
 				Title: "Examples",
 				ID:    "examples",

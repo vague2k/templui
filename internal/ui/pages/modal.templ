@@ -10,7 +10,12 @@ templ Modal() {
 	@layouts.DocsLayout(
 		"Modal",
 		"Dialog overlay that requires user attention or interaction.",
-		[]modules.TableOfContentsItem{},
+		[]modules.TableOfContentsItem{
+			{
+				ID:   "installation",
+				Text: "Installation",
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Modal",
@@ -34,6 +39,15 @@ templ Modal() {
 				PreviewCodeFile:   "modal_default.templ",
 				ComponentCodeFile: "modal/modal.templ",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@modules.ComponentUsage(modules.ComponentUsageProps{
+					ComponentName: "modal",
+					ComponentPath: "modal/modal.templ",
+				})
+			}
 		}
 	}
 }

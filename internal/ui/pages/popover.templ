@@ -12,6 +12,10 @@ templ Popover() {
 		"Displays rich content in a floating layer. Powered by Floating UI.",
 		[]modules.TableOfContentsItem{
 			{
+				ID:   "installation",
+				Text: "Installation",
+			},
+			{
 				Text: "Examples",
 				ID:   "examples",
 				Children: []modules.TableOfContentsItem{
@@ -49,6 +53,15 @@ templ Popover() {
 				PreviewCodeFile:   "popover_default.templ",
 				ComponentCodeFile: "popover/popover.templ",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@modules.ComponentUsage(modules.ComponentUsageProps{
+					ComponentName: "popover",
+					ComponentPath: "popover/popover.templ",
+				})
+			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
 				Title: "Examples",
 				ID:    "examples",

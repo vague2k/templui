@@ -12,6 +12,10 @@ templ Slider() {
 		"Control for selecting a numeric value within a range.",
 		[]modules.TableOfContentsItem{
 			{
+				ID:   "installation",
+				Text: "Installation",
+			},
+			{
 				Text: "Examples",
 				ID:   "examples",
 				Children: []modules.TableOfContentsItem{
@@ -57,6 +61,15 @@ templ Slider() {
 				PreviewCodeFile:   "slider_default.templ",
 				ComponentCodeFile: "slider/slider.templ",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@modules.ComponentUsage(modules.ComponentUsageProps{
+					ComponentName: "slider",
+					ComponentPath: "slider/slider.templ",
+				})
+			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
 				Title: "Examples",
 				ID:    "examples",

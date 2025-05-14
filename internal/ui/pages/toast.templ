@@ -14,6 +14,10 @@ templ Toast() {
 		"Flexible toast component for notifications and feedback.",
 		[]modules.TableOfContentsItem{
 			{
+				ID:   "installation",
+				Text: "Installation",
+			},
+			{
 				Text: "Usage",
 				ID:   "usage",
 			},
@@ -51,6 +55,15 @@ templ Toast() {
 				PreviewCodeFile:   "toast_default.templ",
 				ComponentCodeFile: "toast/toast.templ",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@modules.ComponentUsage(modules.ComponentUsageProps{
+					ComponentName: "toast",
+					ComponentPath: "toast/toast.templ",
+				})
+			}
 			@UsageExamples()
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
 				Title: "Examples",

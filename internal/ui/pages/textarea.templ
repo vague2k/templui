@@ -12,6 +12,10 @@ templ Textarea() {
 		"Multi-line text field for longer form content.",
 		[]modules.TableOfContentsItem{
 			{
+				ID:   "installation",
+				Text: "Installation",
+			},
+			{
 				Text: "Examples",
 				ID:   "examples",
 				Children: []modules.TableOfContentsItem{
@@ -61,6 +65,15 @@ templ Textarea() {
 				PreviewCodeFile:   "textarea_default.templ",
 				ComponentCodeFile: "textarea/textarea.templ",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@modules.ComponentUsage(modules.ComponentUsageProps{
+					ComponentName: "textarea",
+					ComponentPath: "textarea/textarea.templ",
+				})
+			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
 				Title: "Examples",
 				ID:    "examples",

@@ -12,6 +12,10 @@ templ SelectBox() {
 		"Dropdown control for choosing from predefined options.",
 		[]modules.TableOfContentsItem{
 			{
+				ID:   "installation",
+				Text: "Installation",
+			},
+			{
 				Text: "Examples",
 				ID:   "examples",
 				Children: []modules.TableOfContentsItem{
@@ -53,6 +57,15 @@ templ SelectBox() {
 				PreviewCodeFile:   "select_box_default.templ",
 				ComponentCodeFile: "selectbox/select_box.templ",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@modules.ComponentUsage(modules.ComponentUsageProps{
+					ComponentName: "selectbox",
+					ComponentPath: "selectbox/select_box.templ",
+				})
+			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
 				Title: "Examples",
 				ID:    "examples",

@@ -12,6 +12,10 @@ templ Pagination() {
 		"Navigation controls for moving between pages of content. HTMX ready.",
 		[]modules.TableOfContentsItem{
 			{
+				ID:   "installation",
+				Text: "Installation",
+			},
+			{
 				Text: "Examples",
 				ID:   "examples",
 				Children: []modules.TableOfContentsItem{
@@ -44,6 +48,15 @@ templ Pagination() {
 				PreviewCodeFile:   "pagination_default.templ",
 				ComponentCodeFile: "pagination/pagination.templ",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@modules.ComponentUsage(modules.ComponentUsageProps{
+					ComponentName: "pagination",
+					ComponentPath: "pagination/pagination.templ",
+				})
+			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
 				Title: "Examples",
 				ID:    "examples",

@@ -1,6 +1,6 @@
 # Dev Tools
 templ:
-	templ generate --watch --proxy="http://localhost:8090" --open-browser=false -v
+	templ generate --watch --proxy="http://localhost:8090" --open-browser=false
 
 docs:
 	air \

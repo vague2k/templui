@@ -12,6 +12,10 @@ templ Tooltip() {
 		"A small pop-up box that appears when a user hovers over an element. Uses Popover with Floating UI under the hood.",
 		[]modules.TableOfContentsItem{
 			{
+				ID:   "installation",
+				Text: "Installation",
+			},
+			{
 				Text: "Examples",
 				ID:   "examples",
 				Children: []modules.TableOfContentsItem{
@@ -45,6 +49,15 @@ templ Tooltip() {
 				PreviewCodeFile:   "tooltip_default.templ",
 				ComponentCodeFile: "tooltip/tooltip.templ",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@modules.ComponentUsage(modules.ComponentUsageProps{
+					ComponentName: "tooltip",
+					ComponentPath: "tooltip/tooltip.templ",
+				})
+			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
 				Title: "Examples",
 				ID:    "examples",

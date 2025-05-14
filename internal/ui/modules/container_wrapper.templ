@@ -7,9 +7,9 @@ type ContainerWrapperProps struct {
 }
 
 templ ContainerWrapper(p ContainerWrapperProps) {
-	<div id={ p.ID } class="flex flex-col items-center mb-4">
+	<div id={ p.ID } class="flex flex-col items-center mb-16">
 		<div class="w-full">
-			<h2 class="text-2xl font-bold mb-4">{ p.Title }</h2>
+			<h2 class="text-2xl font-semibold mb-4">{ p.Title }</h2>
 			if p.Description != "" {
 				<p class="mb-4">{ p.Description }</p>
 			}

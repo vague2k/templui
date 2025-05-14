@@ -12,6 +12,10 @@ templ InputOtp() {
 		"Input field for one-time password/verification code entry.",
 		[]modules.TableOfContentsItem{
 			{
+				ID:   "installation",
+				Text: "Installation",
+			},
+			{
 				Text: "Examples",
 				ID:   "examples",
 				Children: []modules.TableOfContentsItem{
@@ -65,6 +69,15 @@ templ InputOtp() {
 				PreviewCodeFile:   "input_otp_default.templ",
 				ComponentCodeFile: "inputotp/input_otp.templ",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@modules.ComponentUsage(modules.ComponentUsageProps{
+					ComponentName: "inputotp",
+					ComponentPath: "inputotp/input_otp.templ",
+				})
+			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
 				Title: "Examples",
 				ID:    "examples",

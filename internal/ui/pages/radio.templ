@@ -12,6 +12,10 @@ templ Radio() {
 		"Control for selecting a single option from a list of choices.",
 		[]modules.TableOfContentsItem{
 			{
+				ID:   "installation",
+				Text: "Installation",
+			},
+			{
 				Text: "Examples",
 				ID:   "examples",
 				Children: []modules.TableOfContentsItem{
@@ -56,6 +60,15 @@ templ Radio() {
 				PreviewCodeFile:   "radio_default.templ",
 				ComponentCodeFile: "radio/radio.templ",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@modules.ComponentUsage(modules.ComponentUsageProps{
+					ComponentName: "radio",
+					ComponentPath: "radio/radio.templ",
+				})
+			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
 				Title: "Examples",
 				ID:    "examples",

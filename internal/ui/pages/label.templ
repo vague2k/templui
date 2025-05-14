@@ -11,7 +11,12 @@ templ Label() {
 	@layouts.DocsLayout(
 		"Label",
 		"Renders an accessible label associated with controls.",
-		[]modules.TableOfContentsItem{},
+		[]modules.TableOfContentsItem{
+			{
+				ID:   "installation",
+				Text: "Installation",
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Label",
@@ -36,6 +41,15 @@ templ Label() {
 				PreviewCodeFile:   "checkbox_with_label.templ",
 				ComponentCodeFile: "label/label.templ",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@modules.ComponentUsage(modules.ComponentUsageProps{
+					ComponentName: "label",
+					ComponentPath: "label/label.templ",
+				})
+			}
 			<div>
 				@card.Card() {
 					@card.Header() {

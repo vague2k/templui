@@ -10,7 +10,12 @@ templ Tabs() {
 	@layouts.DocsLayout(
 		"Tabs",
 		"Navigation interface that organizes content into sections.",
-		[]modules.TableOfContentsItem{},
+		[]modules.TableOfContentsItem{
+			{
+				ID:   "installation",
+				Text: "Installation",
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Tabs",
@@ -34,6 +39,15 @@ templ Tabs() {
 				PreviewCodeFile:   "tabs_default.templ",
 				ComponentCodeFile: "tabs/tabs.templ",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@modules.ComponentUsage(modules.ComponentUsageProps{
+					ComponentName: "tabs",
+					ComponentPath: "tabs/tabs.templ",
+				})
+			}
 		}
 	}
 }

@@ -12,6 +12,10 @@ templ Card() {
 		"Container for organizing related content and ",
 		[]modules.TableOfContentsItem{
 			{
+				ID:   "installation",
+				Text: "Installation",
+			},
+			{
 				ID:   "examples",
 				Text: "Examples",
 				Children: []modules.TableOfContentsItem{
@@ -56,6 +60,15 @@ templ Card() {
 				PreviewCodeFile:   "card_default.templ",
 				ComponentCodeFile: "card/card.templ",
 			})
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@modules.ComponentUsage(modules.ComponentUsageProps{
+					ComponentName: "card",
+					ComponentPath: "card/card.templ",
+				})
+			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Image Left",
