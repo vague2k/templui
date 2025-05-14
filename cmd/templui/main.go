@@ -646,7 +646,7 @@ func installComponent(
 			versionComment := fmt.Sprintf("// templui component %s - version: %s installed by templui %s\n", comp.Name, ref, version)
 			modifiedData := append([]byte(versionComment), data...)
 			if strings.HasSuffix(repoFilePath, ".templ") || strings.HasSuffix(repoFilePath, ".go") {
-				modifiedData = replaceImports(modifiedData, config.ModuleName, comp.Name)
+				modifiedData = replaceImports(modifiedData, config, comp.Name)
 			}
 
 			// Write the file.
@@ -745,7 +745,7 @@ func installUtils(config Config, utilPaths []string, ref string, force bool) err
 			versionComment := fmt.Sprintf("// templui util %s - version: %s installed by templui %s\n", utilNameForComment, ref, version)
 			modifiedData := append([]byte(versionComment), data...)
 			if strings.HasSuffix(repoUtilPath, ".go") {
-				modifiedData = replaceImports(modifiedData, config.ModuleName, "")
+				modifiedData = replaceImports(modifiedData, config, "")
 			}
 
 			// Write the file.
@@ -859,24 +859,57 @@ func askForOverwrite(filePath, oldRef, newRef string) bool {
 	return input == "y"
 }
 
-// replaceImports replaces internal templUI import paths with the user's configured module name.
-func replaceImports(data []byte, userModuleName string, context string) []byte {
+// replaceImports replaces internal templUI import paths with the user's configured module name and paths.
+func replaceImports(data []byte, config Config, context string) []byte {
 	content := string(data)
-	// This pattern needs to exactly match the import paths used within internal/* files.
+	// Pattern to find "github.com/axzilla/templui/internal/..." imports.
+	// It captures the part after "internal/", e.g., "components/icon" or "utils".
 	internalImportPattern := `"github.com/axzilla/templui/internal/([^"]+)"`
-	// Build the replacement format using the user's module name.
-	targetImportFormat := fmt.Sprintf(`"%s/$1"`, userModuleName)
-
 	re := regexp.MustCompile(internalImportPattern)
-	newContent := re.ReplaceAllString(content, targetImportFormat)
 
-	// Log if replacements happened (useful for debugging).
-	if content != newContent {
+	modified := false // Flag to track if any replacement occurred
+
+	newContent := re.ReplaceAllStringFunc(content, func(originalFullImport string) string {
+		// originalFullImport is like: "github.com/axzilla/templui/internal/components/icon" (with quotes)
+		// submatches[0] is originalFullImport
+		// submatches[1] is the captured group, e.g., "components/icon" or "utils"
+		submatches := re.FindStringSubmatch(originalFullImport)
+		if len(submatches) < 2 {
+			return originalFullImport // Should not happen if regex matches
+		}
+		repoRelativePath := submatches[1] // This is "components/icon" or "utils"
+
+		var newImportPath string
+		if strings.HasPrefix(repoRelativePath, "components/") {
+			// For "components/icon", new path is "config.ModuleName/config.ComponentsDir/icon"
+			componentName := strings.TrimPrefix(repoRelativePath, "components/")
+			newImportPath = fmt.Sprintf("%s/%s/%s", config.ModuleName, config.ComponentsDir, componentName)
+			modified = true
+		} else if repoRelativePath == "utils" || strings.HasPrefix(repoRelativePath, "utils/") {
+			// For "utils", new path is "config.ModuleName/config.UtilsDir"
+			// For "utils/sub", new path is "config.ModuleName/config.UtilsDir/sub"
+			utilSubPath := strings.TrimPrefix(repoRelativePath, "utils") // "" or "/sub"
+			utilSubPath = strings.TrimPrefix(utilSubPath, "/")           // "sub" or ""
+
+			if utilSubPath == "" {
+				newImportPath = fmt.Sprintf("%s/%s", config.ModuleName, config.UtilsDir)
+			} else {
+				newImportPath = fmt.Sprintf("%s/%s/%s", config.ModuleName, config.UtilsDir, utilSubPath)
+			}
+			modified = true
+		} else {
+			// Path doesn't match known structures, return original.
+			return originalFullImport
+		}
+		return fmt.Sprintf(`"%s"`, newImportPath)
+	})
+
+	if modified { // Use the flag to log
 		logPrefix := "    ->"
 		if context != "" {
 			logPrefix = fmt.Sprintf("    -> [%s]", context)
 		}
-		fmt.Printf("%s Replaced import paths.\n", logPrefix)
+		fmt.Printf("%s Adjusted import paths according to .templui.json config.\n", logPrefix)
 	}
 
 	return []byte(newContent)
