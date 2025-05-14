@@ -29,15 +29,16 @@ templ PopoverDefault() {
 
 templ PopoverContent() {
 	{{ var id = utils.RandomID() }}
-	<div class="p-4 space-y-4 min-w-2xs">
+	<div class="p-4 space-y-4">
 		<div>
 			<h3 class="text-lg font-semibold">Dimensions</h3>
 			<p>Set the dimensions for the layer.</p>
 		</div>
-		<div class="flex flex-col gap-2">
-			<div class="grid grid-cols-3 items-center gap-2">
+		<div class="flex flex-col gap-2 max-w-fit">
+			<div class="flex items-center gap-2">
 				@label.Label(label.Props{
-					For: "width" + id,
+					For:   "width" + id,
+					Class: "w-24",
 				}) {
 					Width
 				}
@@ -45,12 +46,13 @@ templ PopoverContent() {
 					ID:          "width" + id,
 					Placeholder: "Width",
 					Value:       "100%",
-					Class:       "col-span-2",
+					Class:       "flex-1",
 				})
 			</div>
-			<div class="grid grid-cols-3 items-center gap-2">
+			<div class="flex items-center gap-2">
 				@label.Label(label.Props{
-					For: "height" + id,
+					For:   "height" + id,
+					Class: "w-24",
 				}) {
 					Height
 				}
@@ -58,7 +60,7 @@ templ PopoverContent() {
 					ID:          "height" + id,
 					Placeholder: "Height",
 					Value:       "100%",
-					Class:       "col-span-2",
+					Class:       "flex-1",
 				})
 			</div>
 		</div>
