@@ -1,7 +1,6 @@
 package modules
 
 import (
-	"github.com/axzilla/templui/internal/components"
 	"github.com/axzilla/templui/internal/components/tabs"
 	"github.com/axzilla/templui/internal/ui/showcase"
 )
@@ -17,11 +16,11 @@ templ showcaseWrapper(p showcaseWrapperProps) {
 }
 
 type ExampleWrapperProps struct {
-	SectionName       string
-	ShowcaseFile      templ.Component
-	PreviewCodeFile   string
-	ComponentCodeFile string
-	ID                string // For #id in URL Link
+	SectionName     string
+	ShowcaseFile    templ.Component
+	PreviewCodeFile string
+	// ComponentCodeFile string
+	ID string // For #id in URL Link
 }
 
 templ ExampleWrapper(p ExampleWrapperProps) {
@@ -48,13 +47,13 @@ templ ExampleWrapper(p ExampleWrapperProps) {
 				}) {
 					Code
 				}
-				if p.ComponentCodeFile != "" {
-					@tabs.Trigger(tabs.TriggerProps{
-						Value: "component",
-					}) {
-						Component
-					}
-				}
+				// if p.ComponentCodeFile != "" {
+				// 	@tabs.Trigger(tabs.TriggerProps{
+				// 		Value: "component",
+				// 	}) {
+				// 		Component
+				// 	}
+				// }
 			}
 			<div class="w-full relative mt-2">
 				@tabs.Content(tabs.ContentProps{
@@ -70,13 +69,13 @@ templ ExampleWrapper(p ExampleWrapperProps) {
 				}) {
 					@CodeSnippetFromEmbedded(p.PreviewCodeFile, "go", showcase.TemplFiles)
 				}
-				if p.ComponentCodeFile != "" {
-					@tabs.Content(tabs.ContentProps{
-						Value: "component",
-					}) {
-						@CodeSnippetFromEmbedded(p.ComponentCodeFile, "go", components.TemplFiles)
-					}
-				}
+				// if p.ComponentCodeFile != "" {
+				// 	@tabs.Content(tabs.ContentProps{
+				// 		Value: "component",
+				// 	}) {
+				// 		@CodeSnippetFromEmbedded(p.ComponentCodeFile, "go", components.TemplFiles)
+				// 	}
+				// }
 			</div>
 		}
 	</div>
