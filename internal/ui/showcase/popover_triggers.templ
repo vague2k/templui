@@ -6,7 +6,7 @@ import (
 )
 
 templ PopoverTriggers() {
-	<div class="flex gap-2">
+	<div class="flex gap-2 flex-wrap">
 		@popover.Popover() {
 			@popover.Trigger(popover.TriggerProps{
 				For:         "hover-popover",
