@@ -131,8 +131,8 @@ var handle = templ.NewOnceHandle()
 
 templ Script() {
 	@handle.Once() {
-		<script src="https://cdn.jsdelivr.net/npm/@floating-ui/core@1/dist/floating-ui.core.umd.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/@floating-ui/dom@1/dist/floating-ui.dom.umd.min.js"></script>
+		@FloatingUICore()
+		@FloatingUIDom()
 		<script nonce={ templ.GetNonce(ctx) }>
 			if (typeof window.popoverState === 'undefined') {
 				window.popoverState = new Map();
