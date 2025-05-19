@@ -3,7 +3,7 @@ package utils
 import (
 	"fmt"
 
-	"math/rand"
+	"crypto/rand"
 
 	"github.com/a-h/templ"
 
@@ -48,7 +48,7 @@ func MergeAttributes(attrs ...templ.Attributes) templ.Attributes {
 }
 
 // RandomID generates a random ID string.
-// Example: RandomID() → "id-123456"
+// Example: RandomID() → "id-1a2b3c"
 func RandomID() string {
-	return fmt.Sprintf("id-%d", rand.Intn(1000000))
+	return fmt.Sprintf("id-%s", rand.Text())
 }
