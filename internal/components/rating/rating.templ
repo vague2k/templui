@@ -389,7 +389,7 @@ templ Script() {
 				}
 
 				const handleHtmxSwap = (event) => {
-					const target = event.detail.elt
+					const target = event.detail.target || event.detail.elt;
 					if (target instanceof Element) {
 						requestAnimationFrame(() => initAllComponents(target));
 					}
@@ -400,7 +400,7 @@ templ Script() {
 				document.addEventListener('DOMContentLoaded', () => initAllComponents());
 
 				document.body.addEventListener('htmx:beforeCleanup', event => {
-					const containerToRemove = event.detail.elt; // Use elt for beforeCleanup
+					const containerToRemove = event.detail.target || event.detail.elt;; // Use elt for beforeCleanup
 					if (containerToRemove instanceof Element) {
 						// Cleanup target itself
 						if (containerToRemove.matches && containerToRemove.matches('[data-rating-component][data-rating-initialized]')) {
