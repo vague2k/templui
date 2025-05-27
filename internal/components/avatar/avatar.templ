@@ -187,7 +187,7 @@ func Initials(name string) string {
 			break
 		}
 		if len(part) > 0 {
-			initials += string(part[0])
+			initials += string([]rune(part)[0])
 		}
 	}
 	return strings.ToUpper(initials)
