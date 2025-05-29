@@ -55,7 +55,6 @@ templ SelectBox() {
 			@modules.ExampleWrapper(modules.ExampleWrapperProps{
 				ShowcaseFile:    showcase.SelectBoxDefault(),
 				PreviewCodeFile: "select_box_default.templ",
-				// ComponentCodeFile: "selectbox/select_box.templ",
 			})
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
 				Title: "Installation",
@@ -63,7 +62,7 @@ templ SelectBox() {
 			}) {
 				@modules.ComponentUsage(modules.ComponentUsageProps{
 					ComponentName: "selectbox",
-					ComponentPath: "selectbox/select_box.templ",
+					HasJS:         true,
 				})
 			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{

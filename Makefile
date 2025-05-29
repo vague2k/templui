@@ -23,7 +23,7 @@ tailwind-watch:
 
 dev:
 	make tailwind-clean
-	make -j4 tailwind-watch templ docs shiki-highlighter
+	make -j6 tailwind-watch templ docs shiki-highlighter minify-js-dev minify-js-components
 
 debug:
 	make -j3 templ tailwind-app tailwind
@@ -56,3 +56,34 @@ lint-html:
 
 # Step 6: Run full pipeline (build + lint)
 validate-html: build-html lint-html
+
+minify-js-dev:
+	npx esbuild internal/components/main.js --minify --bundle --watch --outfile=assets/js/templui.min.js
+
+minify-js-components:
+	npx esbuild \
+		internal/components/avatar/avatar.js \
+		internal/components/calendar/calendar.js \
+		internal/components/carousel/carousel.js \
+		internal/components/chart/chart.js \
+		internal/components/code/code.js \
+		internal/components/datepicker/datepicker.js \
+		internal/components/drawer/drawer.js \
+		internal/components/dropdown/dropdown.js \
+		internal/components/input/input.js \
+		internal/components/inputotp/inputotp.js \
+		internal/components/label/label.js \
+		internal/components/modal/modal.js \
+		internal/components/popover/popover.js \
+		internal/components/progress/progress.js \
+		internal/components/rating/rating.js \
+		internal/components/selectbox/selectbox.js \
+		internal/components/slider/slider.js \
+		internal/components/tabs/tabs.js \
+		internal/components/textarea/textarea.js \
+		internal/components/toast/toast.js \
+		--minify \
+		--watch \
+		--bundle \
+		--outdir=internal/components \
+		--out-extension:.js=.min.js
