@@ -26,7 +26,7 @@ const (
 )
 
 // version of the tool (can be set during build with ldflags).
-var version = "v0.72.1"
+var version = "v0.73.0"
 
 // versionRegex extracts the version ref from the component/util file comment.
 var versionRegex = regexp.MustCompile(`(?m)^\s*//\s*templui\s+(?:component|util)\s+.*\s+-\s+version:\s+(\S+)`)
