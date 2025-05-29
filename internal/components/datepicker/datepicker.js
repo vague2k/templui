@@ -197,7 +197,7 @@
   }
 
   const handleHtmxSwap = (event) => {
-    const target = event.detail.elt;
+    const target = event.detail.target || event.detail.elt;
     if (target instanceof Element) {
       requestAnimationFrame(() => initAllComponents(target));
     }
@@ -206,7 +206,7 @@
   document.addEventListener("DOMContentLoaded", () => initAllComponents());
 
   document.body.addEventListener("htmx:beforeSwap", (event) => {
-    let target = event.detail.elt;
+    const target = event.detail.target || event.detail.elt;
     if (target instanceof Element) {
       const cleanup = (button) => {
         if (button.matches && button.matches('[data-datepicker="true"]')) {

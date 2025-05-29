@@ -162,7 +162,7 @@ if (typeof window.modalState === "undefined") {
   }
 
   const handleHtmxSwap = (event) => {
-    const target = event.detail.elt;
+    const target = event.detail.target || event.detail.elt;
     if (target instanceof Element) {
       requestAnimationFrame(() => initAllComponents(target));
     }

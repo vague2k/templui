@@ -222,7 +222,7 @@ if (typeof window.inputOTPState === "undefined") {
   }
 
   const handleHtmxSwap = (event) => {
-    const target = event.detail.elt;
+    const target = event.detail.target || event.detail.elt;
     if (target instanceof Element) {
       requestAnimationFrame(() => initAllComponents(target));
     }
@@ -231,7 +231,7 @@ if (typeof window.inputOTPState === "undefined") {
   document.addEventListener("DOMContentLoaded", () => initAllComponents());
 
   document.body.addEventListener("htmx:beforeSwap", (event) => {
-    const target = event.detail.elt;
+    const target = event.detail.target || event.detail.elt;
     if (target instanceof Element) {
       // Cleanup target itself if it's an OTP container
       if (target.matches && target.matches("[data-input-otp]")) {

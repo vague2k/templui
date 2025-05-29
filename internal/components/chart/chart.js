@@ -175,19 +175,19 @@ window.chartInstances = window.chartInstances || {};
     document.addEventListener("DOMContentLoaded", waitForChartAndInit);
 
     document.body.addEventListener("htmx:beforeSwap", (event) => {
-      const el = event.detail.elt;
-      if (el instanceof Element) {
-        for (const canvas of el.querySelectorAll("canvas[data-chart-id]")) {
+      const target = event.detail.target || event.detail.elt;
+      if (target instanceof Element) {
+        for (const canvas of target.querySelectorAll("canvas[data-chart-id]")) {
           cleanupChart(canvas);
         }
-        if (el.matches("canvas[data-chart-id]")) {
-          cleanupChart(el);
+        if (target.matches("canvas[data-chart-id]")) {
+          cleanupChart(target);
         }
       }
     });
 
     document.body.addEventListener("htmx:afterSwap", (event) => {
-      const target = event.detail.elt;
+      const target = event.detail.target || event.detail.elt;
       if (target instanceof Element) {
         function tryInit(attempt = 1) {
           if (typeof Chart !== "undefined") {

@@ -445,7 +445,7 @@ if (typeof window.popoverState === "undefined") {
   }
 
   const handleHtmxSwap = (event) => {
-    const target = event.detail.elt;
+    const target = event.detail.target || event.detail.elt;
     if (target instanceof Element) {
       whenFloatingUiReady(() => initAllComponents(target));
     }
@@ -459,7 +459,7 @@ if (typeof window.popoverState === "undefined") {
   });
 
   document.body.addEventListener("htmx:beforeSwap", (event) => {
-    const target = event.detail.elt;
+    const target = event.detail.target || event.detail.elt;
     if (target instanceof Element) {
       cleanupPopovers(target);
     }
