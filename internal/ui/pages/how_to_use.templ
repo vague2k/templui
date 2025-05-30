@@ -181,7 +181,7 @@ templ HowToUse() {
 					<p class="mb-4 text-muted-foreground">Before using templUI, ensure you have these tools installed:</p>
 					<div class="space-y-6">
 						<div>
-							<h3 class="text-xl font-semibold mb-2">1. Go (1.24 or later)</h3>
+							<h3 class="text-xl font-semibold mb-2">1. <a href="https://golang.org" class="text-primary/90 underline" target="_blank">Go</a> (1.24 or later)</h3>
 							<p class="text-muted-foreground mb-2">Check your Go version:</p>
 							@modules.Code(modules.CodeProps{
 								Language:       "shell",
@@ -191,7 +191,7 @@ templ HowToUse() {
 							<p class="text-sm mt-2 text-muted-foreground">For installation instructions, visit <a href="https://golang.org/dl" class="text-primary/90 underline" target="_blank">golang.org/dl</a>.</p>
 						</div>
 						<div>
-							<h3 class="text-xl font-semibold mb-2">2. templ (v0.3.865 or later)</h3>
+							<h3 class="text-xl font-semibold mb-2">2. <a href="https://templ.guide" class="text-primary/90 underline" target="_blank">templ</a> (v0.3.865 or later)</h3>
 							<p class="mb-2 text-muted-foreground">Install the templ CLI:</p>
 							@modules.Code(modules.CodeProps{
 								Language:       "shell",
@@ -200,7 +200,7 @@ templ HowToUse() {
 							})
 						</div>
 						<div>
-							<h3 class="text-xl font-semibold mb-2">3. Tailwind CSS Standalone CLI (v4.0.5 or later)</h3>
+							<h3 class="text-xl font-semibold mb-2">3. <a href="https://tailwindcss.com" class="text-primary/90 underline" target="_blank">Tailwind CSS</a> Standalone CLI (v4.0.5 or later)</h3>
 							<p class="mb-2 text-muted-foreground">Install the standalone CLI based on your operating system:</p>
 							<div class="space-y-4">
 								<p class="mb-2 text-muted-foreground">Homebrew (macOS):</p>
@@ -359,24 +359,13 @@ templ HowToUse() {
 								ShowCopyButton: true,
 								CodeContent:    "templui init",
 							})
-							<p class="text-sm mt-2 mb-4 text-muted-foreground">You will be prompted to set directories for components and utils, your Go module name, and a path to save (templui.min.js), which will be downloaded automatically.</p>
+							<p class="text-sm mt-2 mb-4 text-muted-foreground">You will be prompted to set directories for components and utils, your Go module name, and a directory for JavaScript files.</p>
 							<p class="mb-2 text-muted-foreground">You can specify a specific version (tag, branch, commit):</p>
 							@modules.Code(modules.CodeProps{
 								Language:       "shell",
 								ShowCopyButton: true,
 								CodeContent:    "templui init@v0.1.0 # Example: Initialize using version v0.1.0",
 							})
-							<div class="bg-muted p-4 rounded-lg mt-4 mb-4">
-								<h4 class="font-semibold mb-2">Important: Include the JavaScript File</h4>
-								<p class="text-muted-foreground mb-2">Once initialized, you need to include the JavaScript file in your HTML layout:</p>
-								@modules.Code(modules.CodeProps{
-									Language:       "html",
-									ShowCopyButton: true,
-									CodeContent: `<!-- Add this to your base layout file -->
-<script src="/assets/js/templui.min.js"></script>`,
-								})
-								<p class="text-sm mt-2 text-muted-foreground">Make sure the path matches where you saved the file during initialization. The JavaScript is required for interactive components like modals, popovers, tabs, etc.</p>
-							</div>
 						</div>
 						<div>
 							<h3 class="text-xl font-semibold mb-2">3. Add Components</h3>
@@ -401,6 +390,21 @@ templ HowToUse() {
 								CodeContent:    "templui add@main button # Install button from the main branch",
 							})
 							<p class="text-sm mt-2 mb-4 text-muted-foreground">The CLI automatically handles dependencies defined in the manifest and adjusts import paths within the copied `.templ` files to match your projects module path.</p>
+							<div class="bg-muted p-4 rounded-lg mt-4 mb-4">
+								<h4 class="font-semibold mb-2">📝 JavaScript Components</h4>
+								<p class="text-muted-foreground mb-2">For components that require JavaScript (like modals, dropdowns, etc.), the CLI automatically:</p>
+								<ul class="list-disc pl-6 space-y-1 text-muted-foreground mb-2">
+									<li>Downloads the component's JavaScript file</li>
+									<li>Adds a <code class="bg-background px-1 rounded">Script()</code> template to the component</li>
+								</ul>
+								<p class="text-muted-foreground mb-2">You must include the Script() template in your layout:</p>
+								@modules.Code(modules.CodeProps{
+									Language:       "templ",
+									ShowCopyButton: true,
+									CodeContent:    "@modal.Script()  // Include in your base layout",
+								})
+								<p class="text-sm mt-2 text-muted-foreground">Each component manages its own JavaScript - no global bundle needed!</p>
+							</div>
 						</div>
 						<div>
 							<h3 class="text-xl font-semibold mb-2">4. List Available Components</h3>
