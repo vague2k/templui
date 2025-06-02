@@ -62,7 +62,7 @@ templ SelectBox() {
 			}) {
 				@modules.ComponentUsage(modules.ComponentUsageProps{
 					ComponentName: "selectbox",
-					HasJS:         true,
+					JSFiles:       []string{"selectbox", "popover"},
 				})
 			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{

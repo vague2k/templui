@@ -9,7 +9,7 @@ import (
 templ Dropdown() {
 	@layouts.DocsLayout(
 		"Dropdown",
-		"Floating menu for displaying a list of actions or options.",
+		"Floating menu for displaying a list of actions or options. Uses Popover for the popup.",
 		[]modules.TableOfContentsItem{
 			{
 				ID:   "installation",
@@ -19,7 +19,7 @@ templ Dropdown() {
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Dropdown",
-			Description: templ.Raw("Floating menu for displaying a list of actions or options."),
+			Description: templ.Raw("Floating menu for displaying a list of actions or options. Uses Popover for the popup."),
 			Tailwind:    true,
 			VanillaJS:   true,
 			Breadcrumbs: modules.Breadcrumbs{
@@ -44,7 +44,7 @@ templ Dropdown() {
 			}) {
 				@modules.ComponentUsage(modules.ComponentUsageProps{
 					ComponentName: "dropdown",
-					HasJS:         true,
+					JSFiles:       []string{"dropdown", "popover"},
 				})
 			}
 		}

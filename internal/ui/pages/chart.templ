@@ -132,7 +132,7 @@ templ Chart() {
 			}) {
 				@modules.ComponentUsage(modules.ComponentUsageProps{
 					ComponentName: "chart",
-					HasJS:         true,
+					JSFiles:       []string{"chart"},
 				})
 			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{

@@ -76,7 +76,7 @@ templ Progress() {
 			}) {
 				@modules.ComponentUsage(modules.ComponentUsageProps{
 					ComponentName: "progress",
-					HasJS:         true,
+					JSFiles:       []string{"progress"},
 				})
 			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{

@@ -74,7 +74,7 @@ templ DatePicker() {
 			}) {
 				@modules.ComponentUsage(modules.ComponentUsageProps{
 					ComponentName: "datepicker",
-					HasJS:         true,
+					JSFiles:       []string{"datepicker", "popover"},
 				})
 			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
