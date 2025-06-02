@@ -2,11 +2,12 @@ package modules
 
 type ComponentUsageProps struct {
 	ComponentName string
-	HasJS         bool
+	// HasJS         bool
+	JSFiles []string
 }
 
 templ ComponentUsage(props ComponentUsageProps) {
-	if !props.HasJS {
+	if len(props.JSFiles) == 0 {
 		@Code(CodeProps{
 			CodeContent:    "templui add " + props.ComponentName,
 			ShowCopyButton: true,
@@ -22,8 +23,14 @@ templ ComponentUsage(props ComponentUsageProps) {
 			</li>
 			<li>
 				<p class="mb-4 font-semibold">Add the JavaScript to your layout</p>
+				{{
+						var files string
+						for _, jsFile := range props.JSFiles {
+							files += "@" + jsFile + ".Script()\n"
+						}
+				}}
 				@Code(CodeProps{
-					CodeContent:    "@" + props.ComponentName + ".Script()",
+					CodeContent:    files,
 					ShowCopyButton: true,
 				})
 				<p class="text-sm text-muted-foreground mt-2">Call this template in your base layout file (e.g., in the &lt;head&gt; section).</p>

@@ -70,7 +70,7 @@ templ Rating() {
 			}) {
 				@modules.ComponentUsage(modules.ComponentUsageProps{
 					ComponentName: "rating",
-					HasJS:         true,
+					JSFiles:       []string{"rating"},
 				})
 			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
