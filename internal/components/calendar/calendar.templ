@@ -91,10 +91,18 @@ templ Calendar(props ...Props) {
 			<div class="flex items-center justify-between mb-4">
 				<span data-calendar-month-display class="text-sm font-medium"></span>
 				<div class="flex gap-1">
-					<button type="button" data-calendar-prev class="inline-flex items-center justify-center rounded-md text-sm font-medium h-7 w-7 hover:bg-accent hover:text-accent-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:opacity-50">
+					<button
+						type="button"
+						data-calendar-prev
+						class="inline-flex items-center justify-center rounded-md text-sm font-medium h-7 w-7 hover:bg-accent hover:text-accent-foreground focus:outline-none disabled:opacity-50"
+					>
 						@icon.ChevronLeft()
 					</button>
-					<button type="button" data-calendar-next class="inline-flex items-center justify-center rounded-md text-sm font-medium h-7 w-7 hover:bg-accent hover:text-accent-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:opacity-50">
+					<button
+						type="button"
+						data-calendar-next
+						class="inline-flex items-center justify-center rounded-md text-sm font-medium h-7 w-7 hover:bg-accent hover:text-accent-foreground focus:outline-none disabled:opacity-50"
+					>
 						@icon.ChevronRight()
 					</button>
 				</div>
