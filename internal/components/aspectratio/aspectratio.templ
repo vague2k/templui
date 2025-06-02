@@ -53,7 +53,9 @@ func ratioClass(ratio Ratio) string {
 		return "aspect-[3/4]"
 	case RatioWide:
 		return "aspect-[2/1]"
+	case RatioAuto:
+		return "aspect-auto"
 	default:
-		return "aspect-square"
+		return "aspect-auto"
 	}
 }
