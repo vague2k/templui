@@ -129,7 +129,7 @@ templ Trigger(props ...TriggerProps) {
 				}
 				required?={ p.Required }
 				if p.Attributes != nil && p.Attributes["name"] != nil {
-					name={ p.Attributes["name"] }
+					name={ p.Attributes["name"].(string) }
 				}
 			/>
 			{ children... }
