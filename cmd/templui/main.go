@@ -665,8 +665,13 @@ func installComponent(
 		if fileExists {
 			existingRef, _ := readFileVersion(destPath)
 			if existingRef == ref {
-				fmt.Printf("      ℹ️  File '%s' already up-to-date (ref: %s). Skipping.\n", destPath, ref)
-				shouldWriteFile = false
+				// File is up-to-date, but check if force flag is set
+				if force {
+					fmt.Printf("      ⚠️  File '%s' already up-to-date (ref: %s). Forcing overwrite.\n", destPath, ref)
+				} else {
+					fmt.Printf("      ℹ️  File '%s' already up-to-date (ref: %s). Skipping.\n", destPath, ref)
+					shouldWriteFile = false
+				}
 			} else {
 				// Versions differ or existing version couldn't be read.
 				if force {
