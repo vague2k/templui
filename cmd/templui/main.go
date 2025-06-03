@@ -17,9 +17,6 @@ import (
 const (
 	configFileName = ".templui.json"
 	manifestPath   = "internal/manifest.json" // Path to the manifest within the repository
-	// Default git ref (branch, tag, commit) to use when none is specified by the user.
-	// TODO: Implement fetching the latest stable tag?
-	defaultRef = "main"
 	// Base URL for fetching raw file content.
 	// Needs adjustment if the repository location changes.
 	rawContentBaseURL = "https://raw.githubusercontent.com/axzilla/templui/"
@@ -27,6 +24,12 @@ const (
 
 // version of the tool (can be set during build with ldflags).
 var version = "v0.74.1"
+
+// getDefaultRef returns the current stable version
+// Uses the same version as the CLI tool itself for consistency
+func getDefaultRef() string {
+	return version
+}
 
 // versionRegex extracts the version ref from the component/util file comment.
 var versionRegex = regexp.MustCompile(`(?m)^\s*//\s*templui\s+(?:component|util)\s+.*\s+-\s+version:\s+(\S+)`)
@@ -77,7 +80,7 @@ func main() {
 
 	// Set a custom usage function to show our specific help message.
 	flag.Usage = func() {
-		showHelp(nil, defaultRef)
+		showHelp(nil, getDefaultRef())
 	}
 	flag.Parse() // Parse command line flags first.
 
@@ -90,12 +93,12 @@ func main() {
 	// Handle help display.
 	if *helpFlag {
 		fmt.Println("Fetching manifest for help...")
-		manifest, err := fetchManifest(defaultRef)
+		manifest, err := fetchManifest(getDefaultRef())
 		if err != nil {
 			fmt.Println("Could not fetch component list for help:", err)
-			showHelp(nil, defaultRef)
+			showHelp(nil, getDefaultRef())
 		} else {
-			showHelp(&manifest, defaultRef)
+			showHelp(&manifest, getDefaultRef())
 		}
 		return
 	}
@@ -104,7 +107,7 @@ func main() {
 
 	if len(args) == 0 {
 		fmt.Println("No command specified.")
-		showHelp(nil, defaultRef)
+		showHelp(nil, getDefaultRef())
 		return
 	}
 
@@ -112,7 +115,7 @@ func main() {
 
 	// Handle the 'init' command.
 	if strings.HasPrefix(commandArg, "init") {
-		initRef := defaultRef
+		initRef := getDefaultRef()
 
 		// Parse optional @ref from the command argument itself.
 		if strings.Contains(commandArg, "@") {
@@ -126,7 +129,7 @@ func main() {
 			}
 		} else if commandArg != "init" {
 			fmt.Printf("Error: Unknown command '%s'. Did you mean 'init'?\n", commandArg)
-			showHelp(nil, defaultRef)
+			showHelp(nil, getDefaultRef())
 			return
 		}
 
@@ -141,7 +144,7 @@ func main() {
 
 	// Handle the 'add' command.
 	if strings.HasPrefix(commandArg, "add") {
-		targetRef := defaultRef
+		targetRef := getDefaultRef()
 		commandRefProvided := false
 
 		// Parse optional @ref from the command argument.
@@ -157,7 +160,7 @@ func main() {
 			}
 		} else if commandArg != "add" {
 			fmt.Printf("Error: Unknown command '%s'. Did you mean 'add'?\n", commandArg)
-			showHelp(nil, defaultRef)
+			showHelp(nil, getDefaultRef())
 			return
 		}
 
@@ -302,7 +305,7 @@ func main() {
 
 	// Handle the 'list' command.
 	if strings.HasPrefix(commandArg, "list") {
-		listRef := defaultRef
+		listRef := getDefaultRef()
 
 		// Parse optional @ref from the command argument.
 		if strings.Contains(commandArg, "@") {
@@ -316,7 +319,7 @@ func main() {
 			}
 		} else if commandArg != "list" {
 			fmt.Printf("Error: Unknown command '%s'. Did you mean 'list'?\n", commandArg)
-			showHelp(nil, defaultRef)
+			showHelp(nil, getDefaultRef())
 			return
 		}
 
@@ -334,7 +337,7 @@ func main() {
 
 	// Fallback for unknown commands.
 	fmt.Printf("Error: Unknown command '%s'\n", commandArg)
-	showHelp(nil, defaultRef)
+	showHelp(nil, getDefaultRef())
 }
 
 // showHelp displays the command usage instructions.
