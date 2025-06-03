@@ -175,7 +175,6 @@ func main() {
 		config, err := loadConfig()
 		if err != nil {
 			fmt.Printf("Error loading config: %v\n", err)
-			fmt.Println("Run 'templui init' to create a config file.")
 			return
 		}
 
@@ -344,10 +343,11 @@ func main() {
 func showHelp(manifest *Manifest, refUsedForHelp string) {
 	fmt.Println("templUI " + version + " - The UI Kit for templ" + "\n")
 	fmt.Println("Usage:")
-	fmt.Println("  templui [flags] init[@<ref>]         - Initialize config and install utils from <ref>")
-	fmt.Println("  templui [flags] add[@<ref>] <comp>... - Add component(s) from specified <ref>")
-	fmt.Println("  templui [flags] add[@<ref>] *         - Add all components from specified <ref>")
-	fmt.Println("  templui [flags] list[@<ref>]        - List available components and utils from <ref>")
+	fmt.Println("  templui init[@<ref>]                - Initialize config and install utils from <ref>")
+	fmt.Println("  templui -f init[@<ref>]             - Force reinitialize and repair incomplete config")
+	fmt.Println("  templui add[@<ref>] <comp>...       - Add component(s) from specified <ref>")
+	fmt.Println("  templui add[@<ref>] *               - Add all components from specified <ref>")
+	fmt.Println("  templui list[@<ref>]               - List available components and utils from <ref>")
 	fmt.Println("  templui -v, --version               - Show installer version")
 	fmt.Println("  templui -h, --help                  - Show this help message")
 	fmt.Println("\n<ref> can be a branch name, tag name, or commit hash.")
@@ -392,16 +392,99 @@ func showHelp(manifest *Manifest, refUsedForHelp string) {
 
 // initConfig handles the creation of the config file and initial utils installation.
 func initConfig(ref string, force bool) {
+	configExists := false
 	if _, err := os.Stat(configFileName); err == nil {
-		// If config exists, don't overwrite it, but proceed to install/check utils.
+		configExists = true
+	}
+
+	if configExists {
+		// Config exists - check if it needs repair or if force is specified
 		if !force {
-			fmt.Println("Config file already exists. Use --force with init to overwrite *utils* if needed, but the config file itself won't be changed.")
-			// TODO: Consider updating existing config fields?
+			// Check if existing config has missing fields
+			_, err := loadConfig()
+			if err != nil {
+				fmt.Println("Config file exists but has issues. Use 'templui init --force' to repair missing fields and reinstall utils.")
+				return
+			}
+			fmt.Println("Config file already exists and is complete. Use 'templui init --force' to reinstall utils if needed.")
+			// Don't reinstall utils unless forced
+			return
 		} else {
-			fmt.Println("Config file already exists, proceeding with utils installation (--force specified).")
+			fmt.Println("Config file exists. Checking for missing fields and reinstalling utils (--force specified)...")
+
+			// Try to load existing config and repair missing fields
+			_, err := loadConfig()
+			if err != nil {
+				fmt.Println("Repairing config file with missing fields...")
+
+				// Load partial config to see what we have
+				var partialConfig Config
+				if configData, readErr := os.ReadFile(configFileName); readErr == nil {
+					json.Unmarshal(configData, &partialConfig)
+				}
+
+				// Prompt for missing fields
+				if partialConfig.ComponentsDir == "" {
+					fmt.Printf("Enter the directory for components [components]: ")
+					var componentsDir string
+					fmt.Scanln(&componentsDir)
+					if componentsDir == "" {
+						componentsDir = "components"
+					}
+					partialConfig.ComponentsDir = componentsDir
+				}
+
+				if partialConfig.UtilsDir == "" {
+					fmt.Printf("Enter the directory for utils [utils]: ")
+					var utilsDir string
+					fmt.Scanln(&utilsDir)
+					if utilsDir == "" {
+						utilsDir = "utils"
+					}
+					partialConfig.UtilsDir = utilsDir
+				}
+
+				if partialConfig.ModuleName == "" {
+					defaultModuleName := detectModuleName()
+					fmt.Printf("Enter your Go module name [%s]: ", defaultModuleName)
+					var moduleName string
+					fmt.Scanln(&moduleName)
+					if moduleName == "" {
+						moduleName = defaultModuleName
+					}
+					partialConfig.ModuleName = moduleName
+				}
+
+				if partialConfig.JSDir == "" {
+					fmt.Printf("Enter the directory for JavaScript files [assets/js]: ")
+					var jsDir string
+					fmt.Scanln(&jsDir)
+					if jsDir == "" {
+						jsDir = "assets/js"
+					}
+					partialConfig.JSDir = jsDir
+				}
+
+				// Save repaired config
+				data, err := json.MarshalIndent(partialConfig, "", "  ")
+				if err != nil {
+					fmt.Printf("Error creating config data: %v\n", err)
+					return
+				}
+				err = os.WriteFile(configFileName, data, 0644)
+				if err != nil {
+					fmt.Printf("Error saving repaired config file: %v\n", err)
+					return
+				}
+				fmt.Println("Config file repaired successfully!")
+			} else {
+				fmt.Println("Config file is already complete.")
+			}
 		}
 	} else {
 		// Config file does not exist, create it.
+		fmt.Println("Creating new config file...")
+
 		// Defaults for prompts - no leading ./ for cleaner DX and no dynamic derivation for utilsDir from componentsDir.
 		initialPromptComponentsDir := "components"
 		initialPromptUtilsDir := "utils" // Fixed default, independent of componentsDir
@@ -472,44 +555,47 @@ func initConfig(ref string, force bool) {
 		fmt.Printf("JavaScript files will be saved to: %s\n", config.JSDir)
 	}
 
-	// Install the default utilities.
-	config, err := loadConfig()
-	if err != nil {
-		fmt.Printf("Error loading config: %v\n", err)
-		return
-	}
-
-	// Install all available utils from the specified ref.
-	fmt.Printf("\nAttempting to install initial utils from ref '%s'...\n", ref)
-	manifest, err := fetchManifest(ref)
-	if err != nil {
-		if strings.Contains(err.Error(), "status code 404") {
-			fmt.Printf("Warning: Could not fetch manifest from ref '%s': %v\n", ref, err)
-			fmt.Printf("  Check if the ref '%s' exists and contains the file '%s'.\n", ref, manifestPath)
-		} else {
-			fmt.Printf("Warning: Could not fetch manifest to install initial utils: %v\n", err)
+	// Only install utils if we created a new config or if force was specified
+	if !configExists || force {
+		// Install the default utilities.
+		config, err := loadConfig()
+		if err != nil {
+			fmt.Printf("Error loading config: %v\n", err)
+			return
 		}
-		return
-	}
 
-	if len(manifest.Utils) == 0 {
-		fmt.Println("No utils defined in the manifest. Skipping initial utils installation.")
-		return
-	}
+		// Install all available utils from the specified ref.
+		fmt.Printf("\nAttempting to install initial utils from ref '%s'...\n", ref)
+		manifest, err := fetchManifest(ref)
+		if err != nil {
+			if strings.Contains(err.Error(), "status code 404") {
+				fmt.Printf("Warning: Could not fetch manifest from ref '%s': %v\n", ref, err)
+				fmt.Printf("  Check if the ref '%s' exists and contains the file '%s'.\n", ref, manifestPath)
+			} else {
+				fmt.Printf("Warning: Could not fetch manifest to install initial utils: %v\n", err)
+			}
+			return
+		}
 
-	allUtilPaths := []string{}
-	fmt.Println("Found utils in manifest:")
-	for _, utilDef := range manifest.Utils {
-		allUtilPaths = append(allUtilPaths, utilDef.Path)
-		fmt.Printf(" - %s\n", utilDef.Path)
-	}
+		if len(manifest.Utils) == 0 {
+			fmt.Println("No utils defined in the manifest. Skipping initial utils installation.")
+			return
+		}
 
-	// Pass the force flag from the init command.
-	err = installUtils(config, allUtilPaths, ref, *forceOverwrite)
-	if err != nil {
-		fmt.Printf("Error during initial utils installation: %v\n", err)
-	} else {
-		fmt.Println("Initial utils installation completed.")
+		allUtilPaths := []string{}
+		fmt.Println("Found utils in manifest:")
+		for _, utilDef := range manifest.Utils {
+			allUtilPaths = append(allUtilPaths, utilDef.Path)
+			fmt.Printf(" - %s\n", utilDef.Path)
+		}
+
+		// Pass the force flag from the init command.
+		err = installUtils(config, allUtilPaths, ref, force)
+		if err != nil {
+			fmt.Printf("Error during initial utils installation: %v\n", err)
+		} else {
+			fmt.Println("Initial utils installation completed.")
+		}
 	}
 }
 
@@ -530,23 +616,52 @@ func detectModuleName() string {
 }
 
 // loadConfig reads and parses the .templui.json configuration file.
+// Returns an error if the config file doesn't exist or required fields are missing.
 func loadConfig() (Config, error) {
 	var config Config
+
+	// Check if config file exists
 	if _, err := os.Stat(configFileName); os.IsNotExist(err) {
-		return config, fmt.Errorf("config file '%s' not found", configFileName)
+		return config, fmt.Errorf("🚫 Config file not found!\n📁 Looking for: %s\n\n🚀 To get started, run: templui init", configFileName)
 	}
+
+	// Read and parse existing config file
 	data, err := os.ReadFile(configFileName)
 	if err != nil {
 		return config, fmt.Errorf("error reading config file: %w", err)
 	}
+
 	err = json.Unmarshal(data, &config)
 	if err != nil {
 		return config, fmt.Errorf("error parsing config file: %w", err)
 	}
-	// Validate essential config fields.
-	if config.ComponentsDir == "" || config.ModuleName == "" || config.UtilsDir == "" {
-		return config, fmt.Errorf("invalid config: ComponentsDir, UtilsDir, and ModuleName must be set")
+
+	// Validate required fields
+	var missingFields []string
+	if config.ComponentsDir == "" {
+		missingFields = append(missingFields, "componentsDir")
 	}
+	if config.UtilsDir == "" {
+		missingFields = append(missingFields, "utilsDir")
+	}
+	if config.ModuleName == "" {
+		missingFields = append(missingFields, "moduleName")
+	}
+	if config.JSDir == "" {
+		missingFields = append(missingFields, "jsDir")
+	}
+
+	if len(missingFields) > 0 {
+		var errorMsg strings.Builder
+		errorMsg.WriteString("❌ Config file is incomplete!\n")
+		errorMsg.WriteString("📋 Missing required fields:\n")
+		for _, field := range missingFields {
+			errorMsg.WriteString(fmt.Sprintf("   • %s\n", field))
+		}
+		errorMsg.WriteString("\n🔧 To fix this, run: templui -f init")
+		return config, fmt.Errorf(errorMsg.String())
+	}
+
 	return config, nil
 }
 
