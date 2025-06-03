@@ -659,7 +659,7 @@ func loadConfig() (Config, error) {
 			errorMsg.WriteString(fmt.Sprintf("   • %s\n", field))
 		}
 		errorMsg.WriteString("\n🔧 To fix this, run: templui -f init")
-		return config, fmt.Errorf(errorMsg.String())
+		return config, fmt.Errorf("%s", errorMsg.String())
 	}
 
 	return config, nil
