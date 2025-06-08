@@ -76,11 +76,23 @@ templ SelectBox() {
 					ID:              "with-label",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+                    SectionName:     "With multiple items selection",
+                    ShowcaseFile:    showcase.SelectBoxMultipleSelect(),
+                    PreviewCodeFile: "select_box_multiple.templ",
+                    ID:              "multiple-select",
+                })
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Disabled",
 					ShowcaseFile:    showcase.SelectBoxDisabled(),
 					PreviewCodeFile: "select_box_disabled.templ",
 					ID:              "disabled",
 				})
+                @modules.ExampleWrapper(modules.ExampleWrapperProps{
+                    SectionName:     "Without search",
+                    ShowcaseFile:    showcase.SelectBoxNoSearch(),
+                    PreviewCodeFile: "select_box_no_search.templ",
+                    ID:              "no-search",
+                })
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Form",
 					ShowcaseFile:    showcase.SelectBoxForm(),
