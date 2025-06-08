@@ -113,6 +113,9 @@ templ Trigger(props ...TriggerProps) {
 		if !ok {
 			contentID = "fallback-select-content-id"
 		}
+		if p.ShowPills {
+		    p.Multiple = true
+		}
 	}}
 	@popover.Trigger(popover.TriggerProps{
 		For:         contentID,

@@ -81,6 +81,12 @@ templ SelectBox() {
                     PreviewCodeFile: "select_box_multiple.templ",
                     ID:              "multiple-select",
                 })
+                @modules.ExampleWrapper(modules.ExampleWrapperProps{
+                        SectionName:     "With multiple items selection with pills",
+                        ShowcaseFile:    showcase.SelectBoxMultipleSelectPills(),
+                        PreviewCodeFile: "select_box_pills.templ",
+                        ID:              "pills-select",
+                })
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Disabled",
 					ShowcaseFile:    showcase.SelectBoxDisabled(),
