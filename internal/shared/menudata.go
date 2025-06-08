@@ -143,7 +143,7 @@ var Sections = []Section{
 				Href: "/docs/components/radio",
 			},
 			{
-				Text: "RadioCard",
+				Text: "Radio Card",
 				Href: "/docs/components/radio-card",
 			},
 			{
