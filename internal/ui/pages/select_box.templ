@@ -24,6 +24,18 @@ templ SelectBox() {
 						ID:   "with-label",
 					},
 					{
+						Text: "Multiple",
+						ID:   "multiple-select",
+					},
+					{
+						Text: "Multiple Pills",
+						ID:   "pills-select",
+					},
+					{
+						Text: "No Search",
+						ID:   "no-search",
+					},
+					{
 						Text: "Disabled",
 						ID:   "disabled",
 					},
@@ -74,6 +86,24 @@ templ SelectBox() {
 					ShowcaseFile:    showcase.SelectBoxWithLabel(),
 					PreviewCodeFile: "select_box_with_label.templ",
 					ID:              "with-label",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:     "Multiple",
+					ShowcaseFile:    showcase.SelectBoxMultipleSelect(),
+					PreviewCodeFile: "select_box_multiple.templ",
+					ID:              "multiple-select",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:     "Multiple Pills",
+					ShowcaseFile:    showcase.SelectBoxMultipleSelectPills(),
+					PreviewCodeFile: "select_box_pills.templ",
+					ID:              "pills-select",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:     "No Search",
+					ShowcaseFile:    showcase.SelectBoxNoSearch(),
+					PreviewCodeFile: "select_box_no_search.templ",
+					ID:              "no-search",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Disabled",
