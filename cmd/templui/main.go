@@ -44,7 +44,8 @@ type Config struct {
 	ComponentsDir string `json:"componentsDir"`
 	UtilsDir      string `json:"utilsDir"`
 	ModuleName    string `json:"moduleName"`
-	JSDir         string `json:"jsDir,omitempty"` // Directory for component JavaScript files
+	JSDir         string `json:"jsDir,omitempty"`        // Directory for component JavaScript files
+	JSPublicPath  string `json:"jsPublicPath,omitempty"` // Public path where JS files are served (e.g., "/app/assets/js")
 }
 
 // Manifest defines the structure of the manifest.json file.
@@ -465,6 +466,18 @@ func initConfig(ref string, force bool) {
 					partialConfig.JSDir = jsDir
 				}
 
+				// JSPublicPath is optional - if not set, we'll use a fallback
+				if partialConfig.JSPublicPath == "" && partialConfig.JSDir != "" {
+					defaultPublicPath := "/" + partialConfig.JSDir
+					fmt.Printf("Enter the public path for serving JS files [%s]: ", defaultPublicPath)
+					var jsPublicPath string
+					fmt.Scanln(&jsPublicPath)
+					if jsPublicPath == "" {
+						jsPublicPath = defaultPublicPath
+					}
+					partialConfig.JSPublicPath = jsPublicPath
+				}
+
 				// Save repaired config
 				data, err := json.MarshalIndent(partialConfig, "", "  ")
 				if err != nil {
@@ -531,11 +544,19 @@ func initConfig(ref string, force bool) {
 			fmt.Printf("Hint: Absolute path '%s' detected. Using relative path '%s' to avoid potential permission issues.\n", originalPath, jsDir)
 		}
 
+		fmt.Printf("Enter the public path for serving JS files [/%s]: ", jsDir)
+		var jsPublicPath string
+		fmt.Scanln(&jsPublicPath)
+		if jsPublicPath == "" {
+			jsPublicPath = "/" + jsDir
+		}
+
 		config := Config{
 			ComponentsDir: componentsDir,
 			UtilsDir:      utilsDir,
 			ModuleName:    moduleName,
 			JSDir:         jsDir,
+			JSPublicPath:  jsPublicPath,
 		}
 
 		data, err := json.MarshalIndent(config, "", "  ")
@@ -553,6 +574,9 @@ func initConfig(ref string, force bool) {
 		fmt.Printf("Utils will be installed to: %s\n", config.UtilsDir)
 		fmt.Printf("Using module name: %s\n", config.ModuleName)
 		fmt.Printf("JavaScript files will be saved to: %s\n", config.JSDir)
+		if config.JSPublicPath != "" {
+			fmt.Printf("JavaScript files will be served from: %s\n", config.JSPublicPath)
+		}
 	}
 
 	// Only install utils if we created a new config or if force was specified
@@ -650,6 +674,7 @@ func loadConfig() (Config, error) {
 	if config.JSDir == "" {
 		missingFields = append(missingFields, "jsDir")
 	}
+	// Note: JSPublicPath is optional and will fallback to "/" + JSDir if not set
 
 	if len(missingFields) > 0 {
 		var errorMsg strings.Builder
@@ -1032,8 +1057,16 @@ func addScriptTemplateToFiles(config Config, comp ComponentDef, jsFileName strin
 
 		contentStr := string(content)
 
-		// Create the web path for the JavaScript file (always use forward slashes and start with /)
-		webPath := "/" + filepath.ToSlash(filepath.Join(config.JSDir, jsFileName))
+		// Create the web path for the JavaScript file
+		// Use jsPublicPath if set, otherwise fallback to "/" + jsDir
+		var webPath string
+		if config.JSPublicPath != "" {
+			// Use configured public path
+			webPath = strings.TrimSuffix(config.JSPublicPath, "/") + "/" + jsFileName
+		} else {
+			// Fallback to jsDir (backward compatible)
+			webPath = "/" + filepath.ToSlash(filepath.Join(config.JSDir, jsFileName))
+		}
 
 		// Check if Script() template already exists
 		if strings.Contains(contentStr, "templ Script()") {
