@@ -13,6 +13,7 @@ type PageWrapperProps struct {
 	Tailwind    bool
 	VanillaJS   bool
 	Breadcrumbs Breadcrumbs
+	HideSource  bool
 }
 
 type Breadcrumbs struct {
@@ -59,12 +60,14 @@ templ PageWrapper(p PageWrapperProps) {
 			componentName := strings.ToLower(strings.ReplaceAll(p.Name, " ", ""))
 			srcURL := templ.SafeURL("https://github.com/axzilla/templui/tree/main/internal/components/" + componentName)
 			}}
-			<a href={ templ.SafeURL(srcURL) } target="_blank" class="flex">
-				@badge.Badge(badge.Props{}) {
-					@wrappedicon.GitHub(16)
-					Source
-				}
-			</a>
+			if !p.HideSource {
+				<a href={ templ.SafeURL(srcURL) } target="_blank" class="flex">
+					@badge.Badge(badge.Props{}) {
+						@wrappedicon.GitHub(16)
+						Source
+					}
+				</a>
+			}
 			if p.Tailwind {
 				@badge.Badge(badge.Props{
 					Variant: badge.VariantSecondary,
