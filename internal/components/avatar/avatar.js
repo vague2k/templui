@@ -53,7 +53,13 @@
   }
 
   const handleHtmxSwap = (event) => {
-    const target = event.detail.target || event.detail.elt;
+    let target;
+    if (event.type === "htmx:afterSwap") {
+      target = event.detail.elt;
+    }
+    if (event.type === "htmx:oobAfterSwap") {
+      target = event.detail.target;
+    }
     if (target instanceof Element) {
       requestAnimationFrame(() => initAllComponents(target));
     }
