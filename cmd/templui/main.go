@@ -674,7 +674,9 @@ func loadConfig() (Config, error) {
 	if config.JSDir == "" {
 		missingFields = append(missingFields, "jsDir")
 	}
-	// Note: JSPublicPath is optional and will fallback to "/" + JSDir if not set
+	if config.JSPublicPath == "" {
+		missingFields = append(missingFields, "jsPublicPath")
+	}
 
 	if len(missingFields) > 0 {
 		var errorMsg strings.Builder
