@@ -23,7 +23,7 @@ const (
 )
 
 // version of the tool (can be set during build with ldflags).
-var version = "v0.75.3"
+var version = "v0.75.4"
 
 // getDefaultRef returns the current stable version
 // Uses the same version as the CLI tool itself for consistency
@@ -674,7 +674,9 @@ func loadConfig() (Config, error) {
 	if config.JSDir == "" {
 		missingFields = append(missingFields, "jsDir")
 	}
-	// Note: JSPublicPath is optional and will fallback to "/" + JSDir if not set
+	if config.JSPublicPath == "" {
+		missingFields = append(missingFields, "jsPublicPath")
+	}
 
 	if len(missingFields) > 0 {
 		var errorMsg strings.Builder
