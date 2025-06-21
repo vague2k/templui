@@ -2,6 +2,12 @@
   // IIFE
   function handleDropdownItemClick(event) {
     const item = event.currentTarget;
+
+    // Check if this item should prevent dropdown from closing
+    if (item.dataset.preventClose === "true") {
+      return; // Don't close the dropdown
+    }
+
     const popoverContent = item.closest("[data-popover-id]");
     if (popoverContent) {
       const popoverId = popoverContent.dataset.popoverId;
