@@ -7,36 +7,9 @@
     const backdrop = drawer.querySelector("[data-drawer-backdrop]");
     const closeButtons = drawer.querySelectorAll("[data-drawer-close]");
     const position = content?.getAttribute("data-drawer-position") || "right";
+    const initialOpen = drawer.hasAttribute("data-drawer-initial-open");
 
     if (!content || !backdrop) return;
-
-    // Set up animations based on position
-    const transitions = {
-      left: {
-        enterFrom: "opacity-0 -translate-x-full",
-        enterTo: "opacity-100 translate-x-0",
-        leaveFrom: "opacity-100 translate-x-0",
-        leaveTo: "opacity-0 -translate-x-full",
-      },
-      right: {
-        enterFrom: "opacity-0 translate-x-full",
-        enterTo: "opacity-100 translate-x-0",
-        leaveFrom: "opacity-100 translate-x-0",
-        leaveTo: "opacity-0 translate-x-full",
-      },
-      top: {
-        enterFrom: "opacity-0 -translate-y-full",
-        enterTo: "opacity-100 translate-y-0",
-        leaveFrom: "opacity-100 translate-y-0",
-        leaveTo: "opacity-0 -translate-y-full",
-      },
-      bottom: {
-        enterFrom: "opacity-0 translate-y-full",
-        enterTo: "opacity-100 translate-y-0",
-        leaveFrom: "opacity-100 translate-y-0",
-        leaveTo: "opacity-0 translate-y-full",
-      },
-    };
 
     // Check if drawer is already initialized
     if (drawer.dataset.drawerInitialized) {
@@ -44,19 +17,35 @@
     }
     drawer.dataset.drawerInitialized = "true";
 
-    // Initial styles
-    content.style.transform =
-      position === "left"
-        ? "translateX(-100%)"
-        : position === "right"
-        ? "translateX(100%)"
-        : position === "top"
-        ? "translateY(-100%)"
-        : "translateY(100%)";
-    content.style.opacity = "0";
-    backdrop.style.opacity = "0";
-    content.style.display = "none"; // Ensure it starts hidden
-    backdrop.style.display = "none"; // Ensure it starts hidden
+    // Initial styles - modified to handle initial open state
+    if (initialOpen) {
+      // Start open
+      content.style.transform = "translate(0)";
+      content.style.opacity = "1";
+      backdrop.style.opacity = "1";
+      content.style.display = "block";
+      backdrop.style.display = "block";
+      document.body.style.overflow = "hidden";
+
+      // Add event listeners immediately for open drawer
+      backdrop.addEventListener("click", closeDrawer);
+      document.addEventListener("keydown", handleEscKey);
+      document.addEventListener("click", handleClickAway);
+    } else {
+      // Start closed (existing behavior)
+      content.style.transform =
+        position === "left"
+          ? "translateX(-100%)"
+          : position === "right"
+          ? "translateX(100%)"
+          : position === "top"
+          ? "translateY(-100%)"
+          : "translateY(100%)";
+      content.style.opacity = "0";
+      backdrop.style.opacity = "0";
+      content.style.display = "none"; // Ensure it starts hidden
+      backdrop.style.display = "none"; // Ensure it starts hidden
+    }
 
     // Function to open the drawer
     function openDrawer() {

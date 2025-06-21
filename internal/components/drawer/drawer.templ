@@ -12,10 +12,11 @@ const (
 )
 
 type Props struct {
-	ID         string
-	Class      string
-	Attributes templ.Attributes
-	Side       Position
+	ID          string
+	Class       string
+	Attributes  templ.Attributes
+	Side        Position
+	InitialOpen bool
 }
 
 type TriggerProps struct {
@@ -74,6 +75,9 @@ templ Drawer(props ...Props) {
 		class={ utils.TwMerge("relative", p.Class) }
 		data-component="drawer"
 		data-drawer-id={ p.ID }
+		if p.InitialOpen {
+			data-drawer-initial-open="true"
+		}
 		{ p.Attributes... }
 	>
 		{ children... }
