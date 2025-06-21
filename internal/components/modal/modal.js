@@ -159,6 +159,19 @@ if (typeof window.modalState === "undefined") {
     for (const closeBtn of root.querySelectorAll("[data-modal-close]")) {
       initCloseButton(closeBtn);
     }
+
+    // Check for modals that should be initially open
+    if (
+      root instanceof Element &&
+      root.matches("[data-modal][data-initial-open='true']")
+    ) {
+      openModal(root);
+    }
+    for (const modal of root.querySelectorAll(
+      "[data-modal][data-initial-open='true']"
+    )) {
+      openModal(modal);
+    }
   }
 
   const handleHtmxSwap = (event) => {
