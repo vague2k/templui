@@ -259,12 +259,23 @@ if (typeof window.popoverState === "undefined") {
 
   // --- Trigger Initialization & Handling ---
 
+  function closeAllOtherPopovers(exceptId) {
+    for (const [id, state] of window.popoverState) {
+      if (id !== exceptId && state.isOpen) {
+        closePopover(id);
+      }
+    }
+  }
+
   function attachClickTrigger(trigger, popoverId) {
     const handler = (e) => {
       e.stopPropagation();
       const state = window.popoverState.get(popoverId);
       if (state?.isOpen) closePopover(popoverId);
-      else openPopover(popoverId, trigger);
+      else {
+        closeAllOtherPopovers(popoverId);
+        openPopover(popoverId, trigger);
+      }
     };
     trigger.addEventListener("click", handler);
     trigger._popoverListener = handler;
