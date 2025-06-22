@@ -20,4 +20,18 @@ module.exports = [
       "html-tailwind/no-contradicting-classnames": "warn",
     },
   },
+  {
+    files: ["**/*.js", "**/*.mjs"],
+    languageOptions: {
+      ecmaVersion: "latest",
+      sourceType: "module",
+      globals: {
+        ...require("globals").browser,
+      },
+    },
+    rules: {
+      "no-undef": "error",
+      "no-unused-vars": "warn",
+    },
+  },
 ];
