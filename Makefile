@@ -2,7 +2,7 @@
 templ:
 	templ generate --watch --proxy="http://localhost:8090" --open-browser=false
 
-docs:
+server:
 	air \
 	--build.cmd "go build -o tmp/bin/main ./cmd/docs" \
 	--build.bin "tmp/bin/main" \
@@ -23,7 +23,7 @@ tailwind-watch:
 
 dev:
 	make tailwind-clean
-	make -j6 tailwind-watch templ docs shiki-highlighter minify-js-dev minify-js-components
+	make -j6 tailwind-watch templ server shiki-highlighter minify-js-dev minify-js-components
 
 debug:
 	make -j3 templ tailwind-app tailwind
