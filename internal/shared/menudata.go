@@ -179,6 +179,10 @@ var Sections = []Section{
 				Href: "/docs/components/tabs",
 			},
 			{
+				Text: "TagsInput",
+				Href: "/docs/components/tagsinput",
+			},
+			{
 				Text: "Textarea",
 				Href: "/docs/components/textarea",
 			},

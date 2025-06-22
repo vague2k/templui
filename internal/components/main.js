@@ -16,5 +16,6 @@ import "./rating/rating.js";
 import "./selectbox/selectbox.js";
 import "./slider/slider.js";
 import "./tabs/tabs.js";
+import "./tagsinput/tagsinput.js";
 import "./textarea/textarea.js";
 import "./toast/toast.js";

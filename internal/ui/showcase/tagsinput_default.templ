@@ -1,0 +1,13 @@
+package showcase
+
+import "github.com/axzilla/templui/internal/components/tagsinput"
+
+templ TagsInputDefault() {
+	<div class="w-full max-w-sm">
+		@tagsinput.TagsInput(tagsinput.Props{
+			Placeholder: "Enter a network",
+			Value: []string{"127.0.0.1/32"},
+		},
+		)
+	</div>
+}
