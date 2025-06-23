@@ -13,10 +13,10 @@ templUI is an enterprise-ready library of UI components designed specifically fo
 
 - **Enterprise Ready**: Built for production use with security and scalability in mind
 - **CSP Compliant**: Secure by design with Content Security Policy support
-- **HTMX Optimized**: Seamless integration with HTMX for dynamic interactions
+- **Framework Agnostic**: Works seamlessly with HTMX, Datastar, or any JavaScript framework
 - **Component Driven**: Flexible, composable components for rapid development
 - **Fully Customizable**: Adapt components to match your brand and requirements
-- **Lightweight Vanilla JS**: Uses pure JavaScript for interactivity, ensuring minimal overhead and maximum performance.
+- **Lightweight Vanilla JS**: Uses pure JavaScript for interactivity, ensuring minimal overhead and maximum performance
 - **Type-Safe**: Leveraging Go's type system for robust development
 - **Server-Side Focused**: Excellent performance and SEO benefits
 - **Modern Stack**: Go, Templ, Vanilla JavaScript, and Tailwind CSS working in harmony
