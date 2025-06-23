@@ -1,5 +1,4 @@
 (function () {
-  // IIFE
   let isSelecting = false;
 
   function initSelect(wrapper) {
@@ -440,25 +439,13 @@
     containers.forEach(initSelect);
   }
 
-  const handleHtmxSwap = (event) => {
-    let target;
-    if (event.type === "htmx:afterSwap") {
-      target = event.detail.elt;
-    }
-    if (event.type === "htmx:oobAfterSwap") {
-      target = event.detail.target;
-    }
-    if (target instanceof Element) {
-      // Re-initialize all selectboxes in the swapped element
-      requestAnimationFrame(() => initAllComponents(target));
-    }
+  if (!window.templUI) {
+    window.templUI = {};
+  }
+
+  window.templUI.selectbox = {
+    initAllComponents: initAllComponents,
   };
 
-  document.body.addEventListener("htmx:afterSwap", (event) => {
-    handleHtmxSwap(event);
-  });
-
-  // Initial initialization
-  initAllComponents();
   document.addEventListener("DOMContentLoaded", () => initAllComponents());
-})(); // End of IIFE
+})();

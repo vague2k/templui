@@ -1,5 +1,4 @@
 (function () {
-  // IIFE
   function initDrawer(drawer) {
     // Get the drawer elements
     const triggers = drawer.querySelectorAll("[data-drawer-trigger]");
@@ -172,20 +171,13 @@
     }
   }
 
-  const handleHtmxSwap = (event) => {
-    let target;
-    if (event.type === "htmx:afterSwap") {
-      target = event.detail.elt;
-    }
-    if (event.type === "htmx:oobAfterSwap") {
-      target = event.detail.target;
-    }
-    if (target instanceof Element) {
-      requestAnimationFrame(() => initAllComponents(target));
-    }
+  if (!window.templUI) {
+    window.templUI = {};
+  }
+
+  window.templUI.drawer = {
+    initAllComponents: initAllComponents,
   };
 
   document.addEventListener("DOMContentLoaded", () => initAllComponents());
-  document.body.addEventListener("htmx:afterSwap", handleHtmxSwap);
-  document.body.addEventListener("htmx:oobAfterSwap", handleHtmxSwap);
-})(); //
+})();

@@ -3,7 +3,6 @@ if (typeof window.ratingState === "undefined") {
 }
 
 (function () {
-  // IIFE
   function initRating(ratingElement) {
     if (!ratingElement) return;
 
@@ -219,46 +218,13 @@ if (typeof window.ratingState === "undefined") {
     }
   }
 
-  const handleHtmxSwap = (event) => {
-    let target;
-    if (event.type === "htmx:afterSwap") {
-      target = event.detail.elt;
-    }
-    if (event.type === "htmx:oobAfterSwap") {
-      target = event.detail.target;
-    }
-    if (target instanceof Element) {
-      requestAnimationFrame(() => initAllComponents(target));
-    }
+  if (!window.templUI) {
+    window.templUI = {};
+  }
+
+  window.templUI.rating = {
+    initAllComponents: initAllComponents,
   };
 
   document.addEventListener("DOMContentLoaded", () => initAllComponents());
-
-  document.body.addEventListener("htmx:beforeCleanup", (event) => {
-    const containerToRemove = event.detail.elt; // Use elt for beforeCleanup
-    if (containerToRemove instanceof Element) {
-      // Cleanup target itself
-      if (
-        containerToRemove.matches &&
-        containerToRemove.matches(
-          "[data-rating-component][data-rating-initialized]"
-        )
-      ) {
-        const state = window.ratingState.get(containerToRemove);
-        if (state) cleanupRating(containerToRemove, state);
-      }
-      // Cleanup descendants
-      if (containerToRemove.querySelectorAll) {
-        for (const ratingEl of containerToRemove.querySelectorAll(
-          "[data-rating-component][data-rating-initialized]"
-        )) {
-          const state = window.ratingState.get(ratingEl);
-          if (state) cleanupRating(ratingEl, state);
-        }
-      }
-    }
-  });
-
-  document.body.addEventListener("htmx:afterSwap", handleHtmxSwap);
-  document.body.addEventListener("htmx:oobAfterSwap", handleHtmxSwap);
-})(); // End of IIFE
+})();

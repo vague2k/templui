@@ -1,8 +1,8 @@
 package pages
 
 import (
-	"github.com/axzilla/templui/internal/components/badge"
 	"github.com/axzilla/templui/internal/components/button"
+	"github.com/axzilla/templui/internal/components/card"
 	"github.com/axzilla/templui/internal/components/icon"
 	wrappedicon "github.com/axzilla/templui/internal/ui/icons"
 	"github.com/axzilla/templui/internal/ui/layouts"
@@ -20,55 +20,15 @@ templ Landing() {
 		</div>
 		<header class="flex flex-col items-center justify-center w-full calc(100vh - 65px) h-full">
 			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
-				<div class="flex flex-col items-center gap-4 mb-8">
-					<div class="flex flex-wrap justify-center gap-x-4 gap-y-2 text-sm text-muted-foreground">
-						<span class="flex items-center gap-1">
-							@badge.Badge(badge.Props{
-								Variant: badge.VariantSecondary,
-							}) {
-								@wrappedicon.Tailwind(16)
-								TailwindCSS
-							}
-						</span>
-						<span class="flex items-center gap-1">
-							@badge.Badge(badge.Props{
-								Variant: badge.VariantSecondary,
-							}) {
-								@wrappedicon.JS(16)
-								Vanilla JS
-							}
-						</span>
-						<span class="flex items-center gap-1">
-							@badge.Badge(badge.Props{
-								Variant: badge.VariantSecondary,
-							}) {
-								@icon.Replace(icon.Props{
-									Size: 16,
-								})
-								HTMX Support
-							}
-						</span>
-						<span class="flex items-center gap-1">
-							@badge.Badge(badge.Props{
-								Variant: badge.VariantSecondary,
-							}) {
-								@icon.ShieldCheck(icon.Props{
-									Size: 16,
-								})
-								CSP compliant
-							}
-						</span>
-						<span class="flex items-center gap-1">
-							@badge.Badge(badge.Props{
-								Variant: badge.VariantSecondary,
-							}) {
-								@icon.Blocks(icon.Props{
-									Size: 16,
-								})
-								Built for Enterprise
-							}
-						</span>
-					</div>
+				<div class="flex flex-col items-center mb-3">
+					<!-- Gopher Hero Image -->
+					// <div class="relative">
+					<img
+						src="/assets/img/gopher_landing.png"
+						alt="templUI Gopher mascot building UI components"
+						class="w-32 h-32 md:w-40 md:h-40 object-contain drop-shadow-lg"
+					/>
+					// </div>
 				</div>
 				<p class="tracking-tight text-4xl md:text-5xl font-extrabold mb-4 sm:mb-8">
 					The UI Kit for templ
@@ -95,5 +55,120 @@ templ Landing() {
 				</div>
 			</div>
 		</header>
+		<!-- Features Section -->
+		<section class="py-20 bg-muted/30">
+			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+				<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+					<!-- Vanilla JavaScript -->
+					@card.Card(card.Props{
+						// Class: "h-full",
+					}) {
+						@card.Header(card.HeaderProps{}) {
+							<div class="flex items-center gap-3 mb-4">
+								@wrappedicon.JS(16)
+								@card.Title(card.TitleProps{}) {
+									Vanilla JavaScript
+								}
+							</div>
+							@card.Description(card.DescriptionProps{
+								Class: "mb-4",
+							}) {
+								Zero framework dependencies. Pure JavaScript for maximum performance and minimal bundle size. No React, Vue, or Angular overhead.
+							}
+						}
+					}
+					<!-- Framework Agnostic -->
+					@card.Card(card.Props{
+						// Class: "h-full",
+					}) {
+						@card.Header(card.HeaderProps{}) {
+							<div class="flex items-center gap-3 mb-4">
+								@icon.Replace(icon.Props{Size: 16})
+								@card.Title(card.TitleProps{}) {
+									Framework Agnostic
+								}
+							</div>
+							@card.Description(card.DescriptionProps{
+								Class: "mb-4",
+							}) {
+								Works seamlessly with HTMX, Datastar, or any hypermedia framework. Clean API that adapts to your preferred stack.
+							}
+						}
+					}
+					<!-- Enterprise Ready -->
+					@card.Card(card.Props{
+						// Class: "h-full",
+					}) {
+						@card.Header(card.HeaderProps{}) {
+							<div class="flex items-center gap-3 mb-4">
+								@icon.Blocks(icon.Props{Size: 16})
+								@card.Title(card.TitleProps{}) {
+									Enterprise Ready
+								}
+							</div>
+							@card.Description(card.DescriptionProps{
+								Class: "mb-4",
+							}) {
+								Built for production use with security-first design, scalable architecture, and enterprise-grade performance standards.
+							}
+						}
+					}
+					<!-- CSP Compliant -->
+					@card.Card(card.Props{
+						// Class: "h-full",
+					}) {
+						@card.Header(card.HeaderProps{}) {
+							<div class="flex items-center gap-3 mb-4">
+								@icon.ShieldCheck(icon.Props{Size: 16})
+								@card.Title(card.TitleProps{}) {
+									CSP Compliant
+								}
+							</div>
+							@card.Description(card.DescriptionProps{
+								Class: "mb-4",
+							}) {
+								Secure by design with Content Security Policy support. No inline scripts or unsafe evaluations for maximum security.
+							}
+						}
+					}
+					<!-- Type-Safe -->
+					@card.Card(card.Props{
+						// Class: "h-full",
+					}) {
+						@card.Header(card.HeaderProps{}) {
+							<div class="flex items-center gap-3 mb-4">
+								@icon.Check(icon.Props{Size: 16})
+								@card.Title(card.TitleProps{}) {
+									Type-Safe
+								}
+							</div>
+							@card.Description(card.DescriptionProps{
+								Class: "mb-4",
+							}) {
+								Leverages Gos type system for robust development. Catch errors at compile time, not runtime.
+							}
+						}
+					}
+					<!-- Customizable -->
+					@card.Card(card.Props{
+						// Class: "h-full",
+					}) {
+						@card.Header(card.HeaderProps{}) {
+							<div class="flex items-center gap-3 mb-4">
+								@wrappedicon.Tailwind(16)
+								@card.Title(card.TitleProps{}) {
+									Fully Customizable
+								}
+							</div>
+							@card.Description(card.DescriptionProps{
+								Class: "mb-4",
+							}) {
+								Built with Tailwind CSS for endless customization. Adapt components to match your brand and design requirements.
+							}
+						}
+					}
+				</div>
+			</div>
+		</section>
 	}
 }
