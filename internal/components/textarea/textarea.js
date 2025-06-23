@@ -1,5 +1,4 @@
 (function () {
-  // IIFE
   function initTextarea(textarea) {
     if (textarea.hasAttribute("data-initialized")) return;
 
@@ -31,14 +30,5 @@
     }
   }
 
-  const handleHtmxSwap = (event) => {
-    const target = event.detail.target || event.detail.elt;
-    if (target instanceof Element) {
-      requestAnimationFrame(() => initAllComponents(target));
-    }
-  };
-
   document.addEventListener("DOMContentLoaded", () => initAllComponents());
-  document.body.addEventListener("htmx:afterSwap", handleHtmxSwap);
-  document.body.addEventListener("htmx:oobAfterSwap", handleHtmxSwap);
-})(); // End of IIFE
+})();

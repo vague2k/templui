@@ -200,9 +200,11 @@ var exampleHTMXPolling = `@components.Progress(components.ProgressProps{
 	Value: initialValue,
 	Label: "Processing...",
 	ShowValue: true,
-	HxGet: "/api/job/123/progress",
-	HxTrigger: "every 2s",
-	HxTarget: "#progress-container",
+	Attributes: templ.Attributes{
+		"hx-get":     "/api/job/123/progress",
+		"hx-trigger": "every 2s",
+		"hx-target":  "#progress-container",
+	},
 })`
 
 var exampleSSEHandler = `// Server-side Go code

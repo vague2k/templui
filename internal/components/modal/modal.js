@@ -5,7 +5,6 @@ if (typeof window.modalState === "undefined") {
 }
 
 (function () {
-  // IIFE
   function closeModal(modal, immediate = false) {
     if (!modal || modal.style.display === "none") return;
 
@@ -159,13 +158,27 @@ if (typeof window.modalState === "undefined") {
     for (const closeBtn of root.querySelectorAll("[data-modal-close]")) {
       initCloseButton(closeBtn);
     }
+
+    // Check for modals that should be initially open
+    if (
+      root instanceof Element &&
+      root.matches("[data-modal][data-initial-open='true']")
+    ) {
+      openModal(root);
+    }
+    for (const modal of root.querySelectorAll(
+      "[data-modal][data-initial-open='true']"
+    )) {
+      openModal(modal);
+    }
   }
 
-  const handleHtmxSwap = (event) => {
-    const target = event.detail.target || event.detail.elt;
-    if (target instanceof Element) {
-      requestAnimationFrame(() => initAllComponents(target));
-    }
+  if (!window.templUI) {
+    window.templUI = {};
+  }
+
+  window.templUI.modal = {
+    initAllComponents: initAllComponents,
   };
 
   if (typeof window.modalEventsInitialized === "undefined") {
@@ -175,6 +188,4 @@ if (typeof window.modalState === "undefined") {
   }
 
   document.addEventListener("DOMContentLoaded", () => initAllComponents());
-  document.body.addEventListener("htmx:afterSwap", handleHtmxSwap);
-  document.body.addEventListener("htmx:oobAfterSwap", handleHtmxSwap);
-})(); // End of IIFE
+})();

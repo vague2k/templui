@@ -240,14 +240,13 @@
     }
   }
 
-  const handleHtmxSwap = (event) => {
-    const target = event.detail.target || event.detail.elt;
-    if (target instanceof Element) {
-      requestAnimationFrame(() => initAllComponents(target));
-    }
+  if (!window.templUI) {
+    window.templUI = {};
+  }
+
+  window.templUI.calendar = {
+    initAllComponents: initAllComponents,
   };
 
   document.addEventListener("DOMContentLoaded", () => initAllComponents());
-  document.body.addEventListener("htmx:afterSwap", handleHtmxSwap);
-  document.body.addEventListener("htmx:oobAfterSwap", handleHtmxSwap);
 })();

@@ -1,7 +1,12 @@
 (function () {
-  // IIFE
   function handleDropdownItemClick(event) {
     const item = event.currentTarget;
+
+    // Check if this item should prevent dropdown from closing
+    if (item.dataset.preventClose === "true") {
+      return; // Don't close the dropdown
+    }
+
     const popoverContent = item.closest("[data-popover-id]");
     if (popoverContent) {
       const popoverId = popoverContent.dataset.popoverId;
@@ -25,14 +30,13 @@
     });
   }
 
-  const handleHtmxSwap = (event) => {
-    const target = event.detail.target || event.detail.elt;
-    if (target instanceof Element) {
-      requestAnimationFrame(() => initAllComponents(target));
-    }
+  if (!window.templUI) {
+    window.templUI = {};
+  }
+
+  window.templUI.dropdown = {
+    initAllComponents: initAllComponents,
   };
 
   document.addEventListener("DOMContentLoaded", () => initAllComponents());
-  document.body.addEventListener("htmx:afterSwap", handleHtmxSwap);
-  document.body.addEventListener("htmx:oobAfterSwap", handleHtmxSwap);
-})(); // End of IIFE
+})();

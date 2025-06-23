@@ -1,5 +1,4 @@
 (function () {
-  // IIFE
   function initAvatar(avatar) {
     const image = avatar.querySelector("[data-avatar-image]");
     const fallback = avatar.querySelector("[data-avatar-fallback]");
@@ -46,20 +45,18 @@
     if (root instanceof Element && root.matches("[data-avatar]")) {
       initAvatar(root);
     }
-
     for (const avatar of root.querySelectorAll("[data-avatar]")) {
       initAvatar(avatar);
     }
   }
 
-  const handleHtmxSwap = (event) => {
-    const target = event.detail.target || event.detail.elt;
-    if (target instanceof Element) {
-      requestAnimationFrame(() => initAllComponents(target));
-    }
+  if (!window.templUI) {
+    window.templUI = {};
+  }
+
+  window.templUI.avatar = {
+    initAllComponents: initAllComponents,
   };
 
   document.addEventListener("DOMContentLoaded", () => initAllComponents());
-  document.body.addEventListener("htmx:afterSwap", handleHtmxSwap);
-  document.body.addEventListener("htmx:oobAfterSwap", handleHtmxSwap);
-})(); // End of IIFE
+})();
