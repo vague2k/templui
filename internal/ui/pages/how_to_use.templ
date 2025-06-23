@@ -489,7 +489,7 @@ templ HowToUse() {
   document.body.addEventListener("htmx:afterSwap", (e) => {
     if (window.templUI) {
       Object.values(window.templUI).forEach(comp => {
-        comp.initAllComponents?.(e.detail.target);
+        comp.initAllComponents?.(e.detail.elt);
       });
     }
   });
