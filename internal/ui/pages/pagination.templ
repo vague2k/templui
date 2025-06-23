@@ -9,7 +9,7 @@ import (
 templ Pagination() {
 	@layouts.DocsLayout(
 		"Pagination",
-		"Navigation controls for moving between pages of content. HTMX ready.",
+		"Navigation controls for moving between pages of content.",
 		[]modules.TableOfContentsItem{
 			{
 				ID:   "installation",
@@ -29,7 +29,7 @@ templ Pagination() {
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Pagination",
-			Description: templ.Raw("Navigation controls for moving between pages of content. HTMX ready."),
+			Description: templ.Raw("Navigation controls for moving between pages of content."),
 			Tailwind:    true,
 			Breadcrumbs: modules.Breadcrumbs{
 				Items: []modules.BreadcrumbItem{
