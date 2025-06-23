@@ -196,45 +196,13 @@
       });
   }
 
-  const handleHtmxSwap = (event) => {
-    let target;
-    if (event.type === "htmx:afterSwap") {
-      target = event.detail.elt;
-    }
-    if (event.type === "htmx:oobAfterSwap") {
-      target = event.detail.target;
-    }
-    if (target instanceof Element) {
-      requestAnimationFrame(() => initAllComponents(target));
-    }
+  if (!window.templUI) {
+    window.templUI = {};
+  }
+
+  window.templUI.datePicker = {
+    initAllComponents: initAllComponents,
   };
 
   document.addEventListener("DOMContentLoaded", () => initAllComponents());
-
-  document.body.addEventListener("htmx:beforeSwap", (event) => {
-    const target = event.detail.target || event.detail.elt;
-    if (target instanceof Element) {
-      const cleanup = (button) => {
-        if (button.matches && button.matches('[data-datepicker="true"]')) {
-          if (button._datePickerCleanup) {
-            button._datePickerCleanup();
-            delete button._datePickerCleanup;
-            delete button._datePickerInitialized;
-          }
-        }
-      };
-
-      // Cleanup the target itself if it's a trigger button
-      if (target.matches && target.matches('[data-datepicker="true"]')) {
-        cleanup(target);
-      }
-      // Cleanup trigger buttons within the target
-      if (target.querySelectorAll) {
-        target.querySelectorAll('[data-datepicker="true"]').forEach(cleanup);
-      }
-    }
-  });
-
-  document.body.addEventListener("htmx:afterSwap", handleHtmxSwap);
-  document.body.addEventListener("htmx:oobAfterSwap", handleHtmxSwap);
-})(); // End of IIFE
+})();
