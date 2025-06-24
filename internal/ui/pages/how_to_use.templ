@@ -528,25 +528,7 @@ templ HowToUse() {
 							@modules.Code(modules.CodeProps{
 								Language:       "html",
 								ShowCopyButton: true,
-								CodeContent: `<script>
-  // Re-initialize templUI components after Datastar fragment merges
-  document.addEventListener("datastar-merge-fragments", (e) => {
-    if (window.templUI) {
-      Object.values(window.templUI).forEach(comp => {
-        comp.initAllComponents?.(document);
-      });
-    }
-  });
-
-  // Cleanup components when fragments are removed
-  document.addEventListener("datastar-remove-fragments", (e) => {
-    if (window.templUI) {
-      Object.values(window.templUI).forEach(comp => {
-        comp.cleanup?.(document);
-      });
-    }
-  });
-</script>`,
+								CodeContent:    `Coming soon!`,
 							})
 							<div class="border border-orange-200 dark:border-orange-800 bg-orange-50 dark:bg-orange-950/30 p-4 rounded-lg mt-4">
 								<h4 class="font-semibold mb-2 text-orange-800 dark:text-orange-200">⚠️ Performance Note</h4>
