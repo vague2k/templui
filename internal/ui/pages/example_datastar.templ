@@ -1,0 +1,48 @@
+package pages
+
+import (
+	"github.com/axzilla/templui/internal/components/button"
+	"github.com/axzilla/templui/internal/ui/layouts"
+)
+
+templ ExampleDatastar() {
+	@layouts.BaseLayout("", "") {
+		@button.Button(button.Props{
+			Attributes: templ.Attributes{
+				"data-on-click": "@get('/api/load-datepicker')",
+			},
+		}) {
+			Load Date Picker
+		}
+		<div
+			data-on-datastar-sse="initAllComponents(evt)"
+			id="dynamic-content"
+			class="p-4 border-2 border-dashed border-gray-300 rounded-lg min-h-[100px] flex items-center justify-center text-gray-500"
+		>
+			Click button to load content...
+		</div>
+		<script nonce={ templ.GetNonce(ctx) }>
+			window.initAllComponents = function(evt) {
+				if (evt.detail?.type === 'started') {
+					requestAnimationFrame(() => {
+						if (window.templUI) {
+							Object.values(window.templUI).forEach(comp => {
+								comp.cleanup?.(document);
+							});
+						}
+					});
+				}
+				if (evt.detail?.type === 'finished') {
+					requestAnimationFrame(() => {
+						if (window.templUI) {
+							Object.values(window.templUI).forEach(comp => {
+								comp.initAllComponents?.();
+							});
+						}
+					});
+				}
+			}
+		</script>
+		<script nonce={ templ.GetNonce(ctx) } type="module" src="https://cdn.jsdelivr.net/gh/starfederation/datastar@v1.0.0-beta.11/bundles/datastar.js"></script>
+	}
+}
