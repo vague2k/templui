@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"log"
 	"net/http"
 	"strconv"
@@ -14,6 +15,8 @@ import (
 	"github.com/axzilla/templui/internal/ui/pages"
 	"github.com/axzilla/templui/internal/ui/showcase"
 	"github.com/axzilla/templui/static"
+
+	datastar "github.com/starfederation/datastar/sdk/go"
 )
 
 func toastDemoHandler(w http.ResponseWriter, r *http.Request) {
@@ -39,6 +42,29 @@ func toastDemoHandler(w http.ResponseWriter, r *http.Request) {
 func buttonHtmxLoadingHandler(w http.ResponseWriter, r *http.Request) {
 	time.Sleep(5 * time.Second)
 	w.WriteHeader(http.StatusNoContent)
+}
+
+func handleLoadDatastarExample(w http.ResponseWriter, r *http.Request) {
+	sse := datastar.NewSSE(w, r)
+
+	var htmlBuffer bytes.Buffer
+	err := showcase.DatePickerDefault().Render(r.Context(), &htmlBuffer)
+	if err != nil {
+		http.Error(w, "Error rendering component: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+	htmlContent := htmlBuffer.String()
+
+	sse.MergeFragments(htmlContent, datastar.WithSelector("#dynamic-content"), datastar.WithMergeMode("inner"))
+
+	// script := `
+	//     if (window.templUI) {
+	//         Object.values(window.templUI).forEach(comp => {
+	//             comp.initAllComponents?.(document.getElementById('dynamic-content'));
+	//         });
+	//     }
+	// `
+	// sse.ExecuteScript(script)
 }
 
 func main() {
@@ -128,6 +154,10 @@ func main() {
 	// Showcase API
 	mux.Handle("POST /docs/toast/demo", http.HandlerFunc(toastDemoHandler))
 	mux.Handle("POST /docs/button/htmx-loading", http.HandlerFunc(buttonHtmxLoadingHandler))
+
+	// Datastar Example
+	mux.Handle("GET /docs/datastar-example", templ.Handler(pages.ExampleDatastar()))
+	mux.Handle("GET /api/load-datepicker", http.HandlerFunc(handleLoadDatastarExample))
 
 	log.Println("Server is running on http://localhost:8090")
 	http.ListenAndServe(":8090", wrappedMux)
