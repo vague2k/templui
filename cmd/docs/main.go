@@ -46,13 +46,6 @@ func main() {
 	config.LoadConfig()
 	SetupAssetsRoutes(mux)
 
-	// cspConfig := mw.CSPConfig{
-	// 	ScriptSrc: []string{
-	// 		"cdn.jsdelivr.net",     // HTMX
-	// 		"cdnjs.cloudflare.com", // highlight.js
-	// 	},
-	// }
-
 	wrappedMux := middleware.WithURLPathValue(
 		middleware.CacheControlMiddleware(
 			middleware.LatestVersion(
