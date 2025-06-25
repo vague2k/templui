@@ -12,7 +12,7 @@ import (
 	"github.com/axzilla/templui/internal/config"
 	"github.com/axzilla/templui/internal/middleware"
 	"github.com/axzilla/templui/internal/ui/pages"
-	mw "github.com/axzilla/templui/middleware"
+	"github.com/axzilla/templui/internal/ui/showcase"
 	"github.com/axzilla/templui/static"
 )
 
@@ -49,7 +49,7 @@ func main() {
 	wrappedMux := middleware.WithURLPathValue(
 		middleware.CacheControlMiddleware(
 			middleware.LatestVersion(
-				middleware.LoggingMiddleware(mux),
+				mux,
 			),
 		),
 	)
