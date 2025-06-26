@@ -164,7 +164,7 @@ var htmxIntegration = `<script>
     }
   });
 
-  Cleanup before swap (for components with event listeners)
+  // Cleanup before swap (for components with event listeners)
   document.body.addEventListener("htmx:beforeSwap", (e) => {
     if (window.templUI) {
       Object.values(window.templUI).forEach(comp => {
