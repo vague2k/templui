@@ -1,5 +1,4 @@
 (function () {
-  // IIFE
   if (typeof window.toastHandler === "undefined") {
     window.toastHandler = true;
     window.toasts = new Map();
@@ -105,21 +104,14 @@
       toastsToInit.forEach(initToast);
     }
 
-    const handleHtmxSwap = (event) => {
-      let target;
-      if (event.type === "htmx:afterSwap") {
-        target = event.detail.elt;
-      }
-      if (event.type === "htmx:oobAfterSwap") {
-        target = event.detail.target;
-      }
-      if (target instanceof Element) {
-        requestAnimationFrame(() => initAllComponents(target));
-      }
+    if (!window.templUI) {
+      window.templUI = {};
+    }
+
+    window.templUI.toast = {
+      initAllComponents: initAllComponents,
     };
 
     document.addEventListener("DOMContentLoaded", () => initAllComponents());
-    document.body.addEventListener("htmx:afterSwap", handleHtmxSwap);
-    document.body.addEventListener("htmx:oobAfterSwap", handleHtmxSwap);
   }
-})(); // End of IIFE
+})();

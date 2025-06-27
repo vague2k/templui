@@ -145,6 +145,127 @@ var installAir = `go install github.com/air-verse/air@latest`
 
 var devCommand = `make dev`
 
+var htmxIntegration = `<script>
+  // Re-initialize templUI components after HTMX swaps
+  document.body.addEventListener("htmx:afterSwap", (e) => {
+    if (window.templUI) {
+      Object.values(window.templUI).forEach(comp => {
+        comp.initAllComponents?.(e.detail.elt);
+      });
+    }
+  });
+
+  // Re-initialize components after out-of-band swaps
+  document.body.addEventListener("htmx:oobAfterSwap", (e) => {
+    if (window.templUI) {
+      Object.values(window.templUI).forEach(comp => {
+        comp.initAllComponents?.(e.detail.target);
+      });
+    }
+  });
+
+  // Cleanup before swap (for components with event listeners)
+  document.body.addEventListener("htmx:beforeSwap", (e) => {
+    if (window.templUI) {
+      Object.values(window.templUI).forEach(comp => {
+        comp.cleanup?.(e.detail.target);
+      });
+    }
+  });
+</script>`
+
+var datastarIntegration = `<!-- Event-based approach -->
+<body data-on-datastar-sse="initModals(evt)">
+  <!-- ... -->
+</body>
+
+<script nonce={ templ.GetNonce(ctx) }>
+  window.initModals = function(evt) {
+	// Re-initialize components after finished event
+    if (evt.detail?.type === 'finished') {
+      requestAnimationFrame(() => {
+        if (window.templUI) {
+          Object.values(window.templUI).forEach(comp => {
+            comp.initAllComponents?.();
+          });
+        }
+      });
+    }
+
+	// Cleanup before new content is loaded
+	if (evt.detail?.type === 'started') {
+		requestAnimationFrame(() => {
+			if (window.templUI) {
+				Object.values(window.templUI).forEach(comp => {
+					comp.cleanup?.(document);
+				});
+			}
+		});
+	}
+  }
+</script>`
+
+var manualIntegration = `// Initialize all components in a specific container
+const container = document.getElementById('dynamic-content');
+if (window.templUI) {
+  Object.values(window.templUI).forEach(comp => {
+    comp.initAllComponents?.(container);
+  });
+}
+
+// Initialize a specific component type
+if (window.templUI?.modal) {
+  window.templUI.modal.initAllComponents(container);
+}
+
+// Simple universal approach for any dynamic content
+function initTemplUIComponents(element = document) {
+  if (window.templUI) {
+    Object.values(window.templUI).forEach(comp => {
+      comp.initAllComponents?.(element);
+    });
+  }
+}
+
+// Call after adding dynamic content
+setTimeout(() => initTemplUIComponents(), 100);`
+
+var configurationFile = `{
+  "componentsDir": "components",
+  "utilsDir": "utils", 
+  "moduleName": "your-app/module",
+  "jsDir": "assets/js",
+  "jsPublicPath": "/assets/js"
+}`
+
+var standardSetup = `// Go server setup
+mux.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("./assets"))))
+
+// .templui.json
+{
+  "jsDir": "assets/js",
+  "jsPublicPath": "/assets/js"  // or omit for automatic fallback
+}`
+
+var urlPrefixSetup = `// Go server setup  
+appGroup := mux.PathPrefix("/app").Subrouter()
+appGroup.Handle("/static/", http.StripPrefix("/app/static/", http.FileServer(http.Dir("./assets"))))
+
+// .templui.json
+{
+  "jsDir": "assets/js",
+  "jsPublicPath": "/app/static/js"
+}`
+
+var customAssetSetup = `// Go server setup
+mux.Handle("/public/", http.StripPrefix("/public/", http.FileServer(http.Dir("./build"))))
+
+// .templui.json  
+{
+  "jsDir": "build/js",
+  "jsPublicPath": "/public/js"
+}`
+
 templ HowToUse() {
 	@layouts.DocsLayout(
 		"How To Use",
@@ -152,9 +273,45 @@ templ HowToUse() {
 		[]modules.TableOfContentsItem{
 			{ID: "requirements", Text: "Requirements"},
 			{ID: "base-configuration", Text: "Base Configuration"},
-			{ID: "development-tools", Text: "Development Tools"},
-			{ID: "installation", Text: "Installation (CLI)"},
-			{ID: "advanced-configuration", Text: "Advanced Configuration"},
+			{
+				ID:   "development-tools",
+				Text: "Development Tools",
+				Children: []modules.TableOfContentsItem{
+					{ID: "air-live-reload", Text: "Air (Live Reload)"},
+					{ID: "development-makefile", Text: "Development Makefile"},
+					{ID: "start-dev-server", Text: "Start Development Server"},
+				},
+			},
+			{
+				ID:   "installation",
+				Text: "Installation (CLI)",
+				Children: []modules.TableOfContentsItem{
+					{ID: "install-cli", Text: "Install CLI"},
+					{ID: "initialize-project", Text: "Initialize Project"},
+					{ID: "add-components", Text: "Add Components"},
+					{ID: "list-components", Text: "List Components"},
+					{ID: "copy-paste", Text: "Copy & Paste"},
+					{ID: "quickstart-template", Text: "Quickstart Template"},
+				},
+			},
+			{
+				ID:   "framework-integration",
+				Text: "Framework Integration",
+				Children: []modules.TableOfContentsItem{
+					{ID: "htmx-integration", Text: "HTMX Integration"},
+					{ID: "datastar-integration", Text: "Datastar Integration"},
+					{ID: "manual-initialization", Text: "Manual Initialization"},
+				},
+			},
+			{
+				ID:   "advanced-configuration",
+				Text: "Advanced Configuration",
+				Children: []modules.TableOfContentsItem{
+					{ID: "configuration-file", Text: "Configuration File"},
+					{ID: "js-asset-routing", Text: "JavaScript Asset Routing"},
+					{ID: "external-docs", Text: "External Documentation"},
+				},
+			},
 		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
@@ -279,7 +436,7 @@ templ HowToUse() {
 						</p>
 					</div>
 					<div class="space-y-6">
-						<div>
+						<div id="air-live-reload">
 							<h3 class="text-xl font-semibold mb-2">1. Air (Live Reload for Go)</h3>
 							<p class="mb-2 text-muted-foreground">Install Air for automatic Go server rebuilds:</p>
 							@modules.Code(modules.CodeProps{
@@ -288,7 +445,7 @@ templ HowToUse() {
 								CodeContent:    installAir,
 							})
 						</div>
-						<div>
+						<div id="development-makefile">
 							<h3 class="text-xl font-semibold mb-2">2. Development Makefile</h3>
 							<p class="mb-2 text-muted-foreground">Create a Makefile in your project root:</p>
 							@modules.Code(modules.CodeProps{
@@ -305,7 +462,7 @@ templ HowToUse() {
 								</ul>
 							</div>
 						</div>
-						<div>
+						<div id="start-dev-server">
 							<h3 class="text-xl font-semibold mb-2">3. Start Development Server</h3>
 							<p class="mb-2 text-muted-foreground">Start all development tools with a single command:</p>
 							@modules.Code(modules.CodeProps{
@@ -336,7 +493,7 @@ templ HowToUse() {
 				<section class="mb-12">
 					<p class="mb-4 text-muted-foreground">The recommended way to use templUI components is via the official CLI tool.</p>
 					<div class="space-y-8">
-						<div>
+						<div id="install-cli">
 							<h3 class="text-xl font-semibold mb-2">1. Install the templUI CLI</h3>
 							<p class="mb-2 text-muted-foreground">Install the latest version using `go install`:</p>
 							@modules.Code(modules.CodeProps{
@@ -352,7 +509,7 @@ templ HowToUse() {
 								CodeContent:    "templui -v",
 							})
 						</div>
-						<div>
+						<div id="initialize-project">
 							<h3 class="text-xl font-semibold mb-2">2. Initialize templUI in Your Project</h3>
 							<p class="mb-2 text-muted-foreground">Navigate to your projects root directory and run:</p>
 							@modules.Code(modules.CodeProps{
@@ -368,7 +525,7 @@ templ HowToUse() {
 								CodeContent:    "templui init@v0.1.0 # Example: Initialize using version v0.1.0",
 							})
 						</div>
-						<div>
+						<div id="add-components">
 							<h3 class="text-xl font-semibold mb-2">3. Add Components</h3>
 							<p class="mb-2 text-muted-foreground">Use the `add` command to install specific components and their dependencies into your configured directories.</p>
 							@modules.Code(modules.CodeProps{
@@ -395,7 +552,7 @@ templ HowToUse() {
 								<h4 class="font-semibold mb-2">📝 JavaScript Components</h4>
 								<p class="text-muted-foreground mb-2">For components that require JavaScript (like modals, dropdowns, etc.), the CLI automatically:</p>
 								<ul class="list-disc pl-6 space-y-1 text-muted-foreground mb-2">
-									<li>Downloads the component's JavaScript file</li>
+									<li>Downloads the components JavaScript file</li>
 									<li>Adds a <code class="bg-background px-1 rounded">Script()</code> template to the component</li>
 								</ul>
 								<p class="text-muted-foreground mb-2">You must include the Script() template in your layout:</p>
@@ -407,7 +564,7 @@ templ HowToUse() {
 								<p class="text-sm mt-2 text-muted-foreground">Each component manages its own JavaScript - no global bundle needed!</p>
 							</div>
 						</div>
-						<div>
+						<div id="list-components">
 							<h3 class="text-xl font-semibold mb-2">4. List Available Components</h3>
 							<p class="mb-2 text-muted-foreground">To see a list of all components and utils available in the manifest (for the default or a specific version):</p>
 							@modules.Code(modules.CodeProps{
@@ -416,17 +573,62 @@ templ HowToUse() {
 								CodeContent:    "templui list\ntemplui list@v0.1.0", // Keep newline for display
 							})
 						</div>
-						<div>
+						<div id="copy-paste">
 							<h3 class="text-xl font-semibold mb-2">Copy & Paste</h3>
 							<p class="mb-4 text-muted-foreground">
 								Alternatively, instead of using our CLI, you can copy any component directly from the docs or the GitHub repository and paste it into your project. Just make sure to manually include any required dependencies and adjust import paths accordingly.
 							</p>
 						</div>
-						<div>
+						<div id="quickstart-template">
 							<h3 class="text-xl font-semibold mb-2">Quickstart Template</h3>
 							<p class="mb-4 text-muted-foreground">
 								For a completely new project with everything pre-configured, use our <a href="https://github.com/axzilla/templui-quickstart" class="text-primary underline" target="_blank">templUI Quickstart</a> template.
 							</p>
+						</div>
+					</div>
+				</section>
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Framework Integration",
+				ID:    "framework-integration",
+			}) {
+				<section class="mb-12">
+					<p class="mb-6 text-muted-foreground">
+						templUI is framework-agnostic and works with any JavaScript framework or library. Components need to be re-initialized after dynamic content changes.
+					</p>
+					<div class="space-y-8">
+						<div id="htmx-integration">
+							<h3 class="text-xl font-semibold mb-2">HTMX Integration</h3>
+							<p class="mb-4 text-muted-foreground">
+								For HTMX-powered applications, add this script to initialize components after content swaps:
+							</p>
+							@modules.Code(modules.CodeProps{
+								Language:       "html",
+								ShowCopyButton: true,
+								CodeContent:    htmxIntegration,
+							})
+						</div>
+						<div id="datastar-integration">
+							<h3 class="text-xl font-semibold mb-2">Datastar Integration</h3>
+							<p class="mb-4 text-muted-foreground">
+								For Datastar applications, use SSE events to re-initialize components:
+							</p>
+							@modules.Code(modules.CodeProps{
+								Language:       "html",
+								ShowCopyButton: true,
+								CodeContent:    datastarIntegration,
+							})
+						</div>
+						<div id="manual-initialization">
+							<h3 class="text-xl font-semibold mb-2">Manual Initialization</h3>
+							<p class="mb-4 text-muted-foreground">
+								You can also manually initialize components for specific elements or use a simple approach for any dynamic content:
+							</p>
+							@modules.Code(modules.CodeProps{
+								Language:       "javascript",
+								ShowCopyButton: true,
+								CodeContent:    manualIntegration,
+							})
 						</div>
 					</div>
 				</section>
@@ -437,21 +639,15 @@ templ HowToUse() {
 			}) {
 				<section class="mb-12">
 					<div class="space-y-8">
-						<div>
+						<div id="configuration-file">
 							<h3 class="text-xl font-semibold mb-2">Configuration File (.templui.json)</h3>
 							<p class="mb-4 text-muted-foreground">
-								After running <code class="bg-muted px-1 rounded">templui init</code>, a configuration file is created in your project root. Here's what each field does:
+								After running <code class="bg-muted px-1 rounded">templui init</code>, a configuration file is created in your project root. Here is what each field does:
 							</p>
 							@modules.Code(modules.CodeProps{
 								Language:       "json",
 								ShowCopyButton: true,
-								CodeContent: `{
-  "componentsDir": "components",
-  "utilsDir": "utils", 
-  "moduleName": "your-app/module",
-  "jsDir": "assets/js",
-  "jsPublicPath": "/assets/js"
-}`,
+								CodeContent:    configurationFile,
 							})
 							<div class="mt-4 space-y-3">
 								<div class="border border-border rounded-lg p-4">
@@ -485,10 +681,10 @@ templ HowToUse() {
 								</div>
 							</div>
 						</div>
-						<div>
+						<div id="js-asset-routing">
 							<h3 class="text-xl font-semibold mb-2">JavaScript Asset Routing Examples</h3>
 							<p class="mb-4 text-muted-foreground">
-								The <code class="bg-muted px-1 rounded">jsPublicPath</code> setting is useful when your web server configuration doesn't directly map filesystem paths to URL paths.
+								The <code class="bg-muted px-1 rounded">jsPublicPath</code> setting is useful when your web server configuration does not directly map filesystem paths to URL paths.
 							</p>
 							<div class="space-y-6">
 								<div>
@@ -497,14 +693,7 @@ templ HowToUse() {
 									@modules.Code(modules.CodeProps{
 										Language:       "go",
 										ShowCopyButton: true,
-										CodeContent: `// Go server setup
-mux.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("./assets"))))
-
-// .templui.json
-{
-  "jsDir": "assets/js",
-  "jsPublicPath": "/assets/js"  // or omit for automatic fallback
-}`,
+										CodeContent:    standardSetup,
 									})
 								</div>
 								<div>
@@ -513,15 +702,7 @@ mux.Handle("/assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("./
 									@modules.Code(modules.CodeProps{
 										Language:       "go",
 										ShowCopyButton: true,
-										CodeContent: `// Go server setup  
-appGroup := mux.PathPrefix("/app").Subrouter()
-appGroup.Handle("/static/", http.StripPrefix("/app/static/", http.FileServer(http.Dir("./assets"))))
-
-// .templui.json
-{
-  "jsDir": "assets/js",
-  "jsPublicPath": "/app/static/js"
-}`,
+										CodeContent:    urlPrefixSetup,
 									})
 								</div>
 								<div>
@@ -530,19 +711,12 @@ appGroup.Handle("/static/", http.StripPrefix("/app/static/", http.FileServer(htt
 									@modules.Code(modules.CodeProps{
 										Language:       "go",
 										ShowCopyButton: true,
-										CodeContent: `// Go server setup
-mux.Handle("/public/", http.StripPrefix("/public/", http.FileServer(http.Dir("./build"))))
-
-// .templui.json  
-{
-  "jsDir": "build/js",
-  "jsPublicPath": "/public/js"
-}`,
+										CodeContent:    customAssetSetup,
 									})
 								</div>
 							</div>
 						</div>
-						<div>
+						<div id="external-docs">
 							<h3 class="text-xl font-semibold mb-2">External Documentation</h3>
 							<p class="mb-4 text-muted-foreground">
 								For advanced configuration and best practices, refer to the official documentation:

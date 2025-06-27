@@ -1,19 +1,6 @@
 import "./highlight.js";
 
 (function () {
-  function whenHljsReady(callback, attempt = 1) {
-    if (window.hljs) {
-      callback();
-    } else if (attempt < 20) {
-      // Retry for a few seconds
-      setTimeout(() => whenHljsReady(callback, attempt + 1), 100);
-    } else {
-      console.error(
-        "highlight.js (hljs) failed to load after several attempts."
-      );
-    }
-  }
-
   function fallbackCopyText(text, iconCheck, iconClipboard) {
     const textArea = document.createElement("textarea");
     textArea.value = text;
@@ -103,22 +90,13 @@ import "./highlight.js";
     }
   }
 
-  const handleHtmxSwap = (event) => {
-    let target;
-    if (event.type === "htmx:afterSwap") {
-      target = event.detail.elt;
-    }
-    if (event.type === "htmx:oobAfterSwap") {
-      target = event.detail.target;
-    }
-    if (target instanceof Element) {
-      whenHljsReady(() => initAllComponents(target));
-    }
+  if (!window.templUI) {
+    window.templUI = {};
+  }
+
+  window.templUI.code = {
+    initAllComponents: initAllComponents,
   };
 
-  document.addEventListener("DOMContentLoaded", () => {
-    whenHljsReady(() => initAllComponents());
-  });
-  document.body.addEventListener("htmx:afterSwap", handleHtmxSwap);
-  document.body.addEventListener("htmx:oobAfterSwap", handleHtmxSwap);
+  document.addEventListener("DOMContentLoaded", () => initAllComponents());
 })();

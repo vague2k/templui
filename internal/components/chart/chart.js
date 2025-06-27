@@ -3,7 +3,6 @@ import "./chartjs.js";
 window.chartInstances = window.chartInstances || {};
 
 (function () {
-  // IIFE
   if (!window.chartScriptInitialized) {
     function getThemeColors() {
       const style = getComputedStyle(document.documentElement);
@@ -32,7 +31,9 @@ window.chartInstances = window.chartInstances || {};
         const chartConfig = JSON.parse(dataElement.textContent);
         const colors = getThemeColors();
 
+        // eslint-disable-next-line no-undef
         Chart.defaults.elements.point.radius = 0;
+        // eslint-disable-next-line no-undef
         Chart.defaults.elements.point.hoverRadius = 5;
 
         const isComplexChart = ["pie", "doughnut", "bar", "radar"].includes(
@@ -143,8 +144,9 @@ window.chartInstances = window.chartInstances || {};
           },
         };
 
+        // eslint-disable-next-line no-undef
         window.chartInstances[canvas.id] = new Chart(canvas, finalChartConfig);
-      } catch (e) {}
+      } catch {}
     }
 
     function cleanupChart(canvas) {
@@ -172,33 +174,16 @@ window.chartInstances = window.chartInstances || {};
       }
     }
 
+    if (!window.templUI) {
+      window.templUI = {};
+    }
+
+    window.templUI.chart = {
+      initAllComponents: initAllComponents,
+      cleanup: cleanupChart,
+    };
+
     document.addEventListener("DOMContentLoaded", waitForChartAndInit);
-
-    document.body.addEventListener("htmx:beforeSwap", (event) => {
-      const target = event.detail.target || event.detail.elt;
-      if (target instanceof Element) {
-        for (const canvas of target.querySelectorAll("canvas[data-chart-id]")) {
-          cleanupChart(canvas);
-        }
-        if (target.matches("canvas[data-chart-id]")) {
-          cleanupChart(target);
-        }
-      }
-    });
-
-    document.body.addEventListener("htmx:afterSwap", (event) => {
-      const target = event.detail.target || event.detail.elt;
-      if (target instanceof Element) {
-        function tryInit(attempt = 1) {
-          if (typeof Chart !== "undefined") {
-            initAllComponents(target);
-          } else if (attempt < 10) {
-            setTimeout(() => tryInit(attempt + 1), 100);
-          }
-        }
-        tryInit();
-      }
-    });
 
     const observer = new MutationObserver(() => {
       let timeout;
@@ -222,4 +207,4 @@ window.chartInstances = window.chartInstances || {};
 
     window.chartScriptInitialized = true;
   }
-})(); // End of IIFE
+})();

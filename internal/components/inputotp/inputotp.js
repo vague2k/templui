@@ -221,39 +221,16 @@ if (typeof window.inputOTPState === "undefined") {
     containers.forEach(initInputOTP);
   }
 
-  const handleHtmxSwap = (event) => {
-    let target;
-    if (event.type === "htmx:afterSwap") {
-      target = event.detail.elt;
-    }
-    if (event.type === "htmx:oobAfterSwap") {
-      target = event.detail.target;
-    }
-    if (target instanceof Element) {
-      requestAnimationFrame(() => initAllComponents(target));
-    }
+  if (!window.templUI) {
+    window.templUI = {};
+  }
+
+  window.templUI.inputOTP = {
+    initAllComponents: initAllComponents,
+    cleanup: cleanupInputOTP,
   };
 
   document.addEventListener("DOMContentLoaded", () => initAllComponents());
 
-  document.body.addEventListener("htmx:beforeSwap", (event) => {
-    const target = event.detail.target || event.detail.elt;
-    if (target instanceof Element) {
-      // Cleanup target itself if it's an OTP container
-      if (target.matches && target.matches("[data-input-otp]")) {
-        cleanupInputOTP(target);
-      }
-      // Cleanup descendants
-      if (target.querySelectorAll) {
-        for (const container of target.querySelectorAll("[data-input-otp]")) {
-          cleanupInputOTP(container);
-        }
-      }
-    }
-  });
-
-  document.body.addEventListener("htmx:afterSwap", handleHtmxSwap);
-  document.body.addEventListener("htmx:oobAfterSwap", handleHtmxSwap);
-
   window.inputOTPSystemInitialized = true;
-})(); // End of IIFE
+})();

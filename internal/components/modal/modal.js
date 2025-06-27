@@ -5,7 +5,6 @@ if (typeof window.modalState === "undefined") {
 }
 
 (function () {
-  // IIFE
   function closeModal(modal, immediate = false) {
     if (!modal || modal.style.display === "none") return;
 
@@ -174,17 +173,12 @@ if (typeof window.modalState === "undefined") {
     }
   }
 
-  const handleHtmxSwap = (event) => {
-    let target;
-    if (event.type === "htmx:afterSwap") {
-      target = event.detail.elt;
-    }
-    if (event.type === "htmx:oobAfterSwap") {
-      target = event.detail.target;
-    }
-    if (target instanceof Element) {
-      requestAnimationFrame(() => initAllComponents(target));
-    }
+  if (!window.templUI) {
+    window.templUI = {};
+  }
+
+  window.templUI.modal = {
+    initAllComponents: initAllComponents,
   };
 
   if (typeof window.modalEventsInitialized === "undefined") {
@@ -194,6 +188,4 @@ if (typeof window.modalState === "undefined") {
   }
 
   document.addEventListener("DOMContentLoaded", () => initAllComponents());
-  document.body.addEventListener("htmx:afterSwap", handleHtmxSwap);
-  document.body.addEventListener("htmx:oobAfterSwap", handleHtmxSwap);
-})(); // End of IIFE
+})();
