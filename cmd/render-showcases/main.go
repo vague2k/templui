@@ -228,6 +228,12 @@ func main() {
 		// Tabs
 		"out/showcase/tabs_default.html": showcase.TabsDefault(),
 
+		// Tags Input
+		"out/showcase/tags_input_default.html":    showcase.TagsInputDefault(),
+		"out/showcase/tags_input_disabled.html":   showcase.TagsInputDisabled(),
+		"out/showcase/tags_input_form.html":       showcase.TagsInputForm(),
+		"out/showcase/tags_input_with_label.html": showcase.TagsInputWithLabel(),
+
 		// Textarea
 		"out/showcase/textarea_auto_resize.html": showcase.TextareaAutoResize(),
 		"out/showcase/textarea_custom_rows.html": showcase.TextareaCustomRows(),

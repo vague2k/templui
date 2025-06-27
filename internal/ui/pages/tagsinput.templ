@@ -8,7 +8,7 @@ import (
 
 templ TagsInput() {
 	@layouts.DocsLayout(
-		"TagsInput",
+		"Tags Input",
 		"Tags input field that allows users to enter and edit tags.",
 		[]modules.TableOfContentsItem{
 			{
@@ -36,7 +36,7 @@ templ TagsInput() {
 		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
-			Name:        "TagsInput",
+			Name:        "Tags Input",
 			Description: templ.Raw("Tags input field that allows users to enter and edit tags."),
 			Tailwind:    true,
 			VanillaJS:   true,
@@ -47,7 +47,7 @@ templ TagsInput() {
 						Path: "/docs",
 					},
 					{
-						Text: "TagsInput",
+						Text: "Tags Input",
 					},
 				},
 			},
