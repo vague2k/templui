@@ -1,0 +1,21 @@
+package showcase
+
+import (
+	"github.com/axzilla/templui/internal/components/tagsinput"
+	"github.com/axzilla/templui/internal/components/label"
+)
+
+templ TagsInputWithLabel() {
+	<div class="w-full max-w-sm grid gap-2">
+		@label.Label(label.Props{
+			For: "nets",
+		}) {
+			Nets
+		}
+		@tagsinput.TagsInput(tagsinput.Props{
+			ID:          "nets",
+			Placeholder: "Enter a network",
+			Value: []string{"127.0.0.1/32"},
+		})
+	</div>
+}
