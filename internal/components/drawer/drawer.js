@@ -1,183 +1,172 @@
 (function () {
-  function initDrawer(drawer) {
-    // Get the drawer elements
-    const triggers = drawer.querySelectorAll("[data-drawer-trigger]");
-    const content = drawer.querySelector("[data-drawer-content]");
-    const backdrop = drawer.querySelector("[data-drawer-backdrop]");
-    const closeButtons = drawer.querySelectorAll("[data-drawer-close]");
+  const drawers = new Map();
+
+  // Update trigger states
+  function updateTriggers(drawerId, isOpen) {
+    document
+      .querySelectorAll(`[data-drawer-trigger="${drawerId}"]`)
+      .forEach((trigger) => {
+        trigger.setAttribute("data-open", isOpen);
+      });
+  }
+
+  // Get transform value based on position
+  function getTransform(position, isOpen) {
+    if (isOpen) return "translate(0)";
+
+    switch (position) {
+      case "left":
+        return "translateX(-100%)";
+      case "right":
+        return "translateX(100%)";
+      case "top":
+        return "translateY(-100%)";
+      case "bottom":
+        return "translateY(100%)";
+      default:
+        return "translateX(100%)";
+    }
+  }
+
+  // Create drawer instance
+  function createDrawer(backdrop) {
+    const drawerId = backdrop.id;
+    const content = document.getElementById(drawerId + "-content");
     const position = content?.getAttribute("data-drawer-position") || "right";
-    const initialOpen = drawer.hasAttribute("data-drawer-initial-open");
+    const isInitiallyOpen = backdrop.hasAttribute("data-initial-open");
 
-    if (!content || !backdrop) return;
+    if (!content || !drawerId) return null;
 
-    // Check if drawer is already initialized
-    if (drawer.dataset.drawerInitialized) {
-      return;
-    }
-    drawer.dataset.drawerInitialized = "true";
+    let isOpen = isInitiallyOpen;
 
-    // Initial styles - modified to handle initial open state
-    if (initialOpen) {
-      // Start open
-      content.style.transform = "translate(0)";
-      content.style.opacity = "1";
-      backdrop.style.opacity = "1";
-      content.style.display = "block";
-      backdrop.style.display = "block";
-      document.body.style.overflow = "hidden";
+    // Set initial state
+    function setState(open) {
+      isOpen = open;
+      const display = open ? "block" : "none";
+      const opacity = open ? "1" : "0";
 
-      // Add event listeners immediately for open drawer
-      backdrop.addEventListener("click", closeDrawer);
-      document.addEventListener("keydown", handleEscKey);
-      document.addEventListener("click", handleClickAway);
-    } else {
-      // Start closed (existing behavior)
-      content.style.transform =
-        position === "left"
-          ? "translateX(-100%)"
-          : position === "right"
-          ? "translateX(100%)"
-          : position === "top"
-          ? "translateY(-100%)"
-          : "translateY(100%)";
-      content.style.opacity = "0";
-      backdrop.style.opacity = "0";
-      content.style.display = "none"; // Ensure it starts hidden
-      backdrop.style.display = "none"; // Ensure it starts hidden
+      backdrop.style.display = display;
+      content.style.display = display;
+      backdrop.style.opacity = opacity;
+      content.style.opacity = opacity;
+      content.style.transform = getTransform(position, open);
+
+      backdrop.setAttribute("data-open", open);
+      updateTriggers(drawerId, open);
+
+      document.body.style.overflow = open ? "hidden" : "";
     }
 
-    // Function to open the drawer
-    function openDrawer() {
-      // Display elements
+    // Open drawer
+    function open() {
       backdrop.style.display = "block";
       content.style.display = "block";
 
-      // Trigger reflow
-      void content.offsetWidth;
+      // Force reflow
+      content.offsetHeight;
 
-      // Apply transitions
-      backdrop.style.transition = "opacity 300ms ease-out";
-      content.style.transition =
-        "opacity 300ms ease-out, transform 300ms ease-out";
+      // Add transitions
+      backdrop.style.transition = "opacity 300ms ease";
+      content.style.transition = "opacity 300ms ease, transform 300ms ease";
 
-      // Animate in
-      backdrop.style.opacity = "1";
-      content.style.opacity = "1";
-      content.style.transform = "translate(0)";
+      setState(true);
 
-      // Lock body scroll
-      document.body.style.overflow = "hidden";
-
-      // Add event listeners for close actions
-      backdrop.addEventListener("click", closeDrawer);
-      document.addEventListener("keydown", handleEscKey);
+      // Add event listeners
+      backdrop.addEventListener("click", close);
+      document.addEventListener("keydown", handleEsc);
       document.addEventListener("click", handleClickAway);
     }
 
-    // Function to close the drawer
-    function closeDrawer() {
-      // Remove event listeners before animation starts
-      backdrop.removeEventListener("click", closeDrawer);
-      document.removeEventListener("keydown", handleEscKey);
+    // Close drawer
+    function close() {
+      setState(false);
+
+      // Remove event listeners
+      backdrop.removeEventListener("click", close);
+      document.removeEventListener("keydown", handleEsc);
       document.removeEventListener("click", handleClickAway);
 
-      // Apply transitions
-      backdrop.style.transition = "opacity 300ms ease-in";
-      content.style.transition =
-        "opacity 300ms ease-in, transform 300ms ease-in";
-
-      // Animate out
-      backdrop.style.opacity = "0";
-
-      if (position === "left") {
-        content.style.transform = "translateX(-100%)";
-      } else if (position === "right") {
-        content.style.transform = "translateX(100%)";
-      } else if (position === "top") {
-        content.style.transform = "translateY(-100%)";
-      } else if (position === "bottom") {
-        content.style.transform = "translateY(100%)";
-      }
-
-      content.style.opacity = "0";
-
-      // Hide elements after animation
+      // Hide after animation
       setTimeout(() => {
-        if (content.style.opacity === "0") {
-          // Check if it wasn't reopened during the timeout
+        if (!isOpen) {
           backdrop.style.display = "none";
           content.style.display = "none";
-        }
-        // Unlock body scroll only if no other drawers are open
-        const anyDrawerOpen = document.querySelector(
-          '[data-component="drawer"] [data-drawer-backdrop][style*="display: block"]'
-        );
-        if (!anyDrawerOpen) {
-          document.body.style.overflow = "";
         }
       }, 300);
     }
 
-    // Click away handler
+    // Toggle drawer
+    function toggle() {
+      isOpen ? close() : open();
+    }
+
+    // Handle escape key
+    function handleEsc(e) {
+      if (e.key === "Escape" && isOpen) close();
+    }
+
+    // Handle click away
     function handleClickAway(e) {
-      // Check if the click is outside the content AND not on any trigger associated with THIS drawer
-      if (
-        content.style.display === "block" &&
-        !content.contains(e.target) &&
-        !Array.from(triggers).some((trigger) => trigger.contains(e.target))
-      ) {
-        closeDrawer();
+      if (!content.contains(e.target) && !isTriggerClick(e.target)) {
+        close();
       }
     }
 
-    // ESC key handler
-    function handleEscKey(e) {
-      if (e.key === "Escape" && content.style.display === "block") {
-        closeDrawer();
+    // Check if click is on a trigger
+    function isTriggerClick(target) {
+      const triggers = document.querySelectorAll(
+        `[data-drawer-trigger="${drawerId}"]`
+      );
+      return Array.from(triggers).some((trigger) => trigger.contains(target));
+    }
+
+    // Setup close buttons
+    content.querySelectorAll("[data-drawer-close]").forEach((btn) => {
+      btn.addEventListener("click", close);
+    });
+
+    // Prevent backdrop clicks on content
+    content
+      .querySelector("[data-drawer-inner]")
+      ?.addEventListener("click", (e) => {
+        e.stopPropagation();
+      });
+
+    // Set initial state
+    setState(isInitiallyOpen);
+
+    return { open, close, toggle };
+  }
+
+  // Initialize all drawers and triggers
+  function init(root = document) {
+    // Find and initialize drawers
+    root.querySelectorAll('[data-component="drawer"]').forEach((backdrop) => {
+      if (backdrop.dataset.initialized) return;
+      backdrop.dataset.initialized = "true";
+
+      const drawer = createDrawer(backdrop);
+      if (drawer && backdrop.id) {
+        drawers.set(backdrop.id, drawer);
       }
-    }
-
-    // Set up trigger click listeners
-    triggers.forEach((trigger) => {
-      trigger.removeEventListener("click", openDrawer); // Remove potential duplicates
-      trigger.addEventListener("click", openDrawer);
     });
 
-    // Set up close button listeners
-    closeButtons.forEach((button) => {
-      button.removeEventListener("click", closeDrawer); // Remove potential duplicates
-      button.addEventListener("click", closeDrawer);
+    // Setup trigger clicks
+    root.querySelectorAll("[data-drawer-trigger]").forEach((trigger) => {
+      if (trigger.dataset.initialized) return;
+      trigger.dataset.initialized = "true";
+
+      const drawerId = trigger.getAttribute("data-drawer-trigger");
+      trigger.addEventListener("click", () => {
+        drawers.get(drawerId)?.toggle();
+      });
     });
-
-    // Stop propagation on the inner content click to prevent backdrop click handler
-    const inner = content.querySelector("[data-drawer-inner]");
-    if (inner) {
-      inner.removeEventListener("click", stopPropagationHandler); // Remove potential duplicates
-      inner.addEventListener("click", stopPropagationHandler);
-    }
   }
 
-  function stopPropagationHandler(e) {
-    e.stopPropagation();
-  }
+  // Export
+  window.templUI = window.templUI || {};
+  window.templUI.drawer = { initAllComponents: init };
 
-  function initAllComponents(root = document) {
-    if (root instanceof Element && root.matches('[data-component="drawer"]')) {
-      initDrawer(root);
-    }
-    if (root && typeof root.querySelectorAll === "function") {
-      const drawers = root.querySelectorAll('[data-component="drawer"]');
-      drawers.forEach(initDrawer);
-    }
-  }
-
-  if (!window.templUI) {
-    window.templUI = {};
-  }
-
-  window.templUI.drawer = {
-    initAllComponents: initAllComponents,
-  };
-
-  document.addEventListener("DOMContentLoaded", () => initAllComponents());
+  // Auto-initialize
+  document.addEventListener("DOMContentLoaded", () => init());
 })();

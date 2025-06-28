@@ -7,91 +7,103 @@ import (
 
 templ DrawerPositions() {
 	<div class="flex flex-wrap gap-2">
-		@drawer.Drawer() {
-			@drawer.Trigger() {
-				@button.Button() {
-					Top
+		@drawer.Trigger(drawer.TriggerProps{
+			For: "top-drawer",
+		}) {
+			@button.Button() {
+				Top
+			}
+		}
+		@drawer.Content(drawer.ContentProps{
+			Position: drawer.PositionTop,
+			ID:       "top-drawer",
+		}) {
+			@drawer.Header() {
+				@drawer.Title() {
+					Top Drawer
 				}
 			}
-			@drawer.Content(drawer.ContentProps{
-				Position: drawer.PositionTop,
-			}) {
-				@drawer.Header() {
-					@drawer.Title() {
-						Top Drawer
-					}
-				}
-				<p>This drawer slides in from the top of the screen.</p>
-				@drawer.Footer() {
-					@drawer.Close() {
-						Close
-					}
+			<p>This drawer slides in from the top of the screen.</p>
+			@drawer.Footer() {
+				@drawer.Close(drawer.CloseProps{
+					For: "top-drawer",
+				}) {
+					Close
 				}
 			}
 		}
-		@drawer.Drawer() {
-			@drawer.Trigger() {
-				@button.Button() {
-					Right
+		@drawer.Trigger(drawer.TriggerProps{
+			For: "right-drawer",
+		}) {
+			@button.Button() {
+				Right
+			}
+		}
+		@drawer.Content(drawer.ContentProps{
+			Position: drawer.PositionRight,
+			ID:       "right-drawer",
+		}) {
+			@drawer.Header() {
+				@drawer.Title() {
+					Right Drawer
 				}
 			}
-			@drawer.Content(drawer.ContentProps{
-				Position: drawer.PositionRight,
-			}) {
-				@drawer.Header() {
-					@drawer.Title() {
-						Right Drawer
-					}
-				}
-				<p>This drawer slides in from the right side of the screen.</p>
-				@drawer.Footer() {
-					@drawer.Close() {
-						Close
-					}
+			<p>This drawer slides in from the right side of the screen.</p>
+			@drawer.Footer() {
+				@drawer.Close(drawer.CloseProps{
+					For: "right-drawer",
+				}) {
+					Close
 				}
 			}
 		}
-		@drawer.Drawer() {
-			@drawer.Trigger() {
-				@button.Button() {
-					Bottom
+		@drawer.Trigger(drawer.TriggerProps{
+			For: "bottom-drawer",
+		}) {
+			@button.Button() {
+				Bottom
+			}
+		}
+		@drawer.Content(drawer.ContentProps{
+			Position: drawer.PositionBottom,
+			ID:       "bottom-drawer",
+		}) {
+			@drawer.Header() {
+				@drawer.Title() {
+					Bottom Drawer
 				}
 			}
-			@drawer.Content(drawer.ContentProps{
-				Position: drawer.PositionBottom,
-			}) {
-				@drawer.Header() {
-					@drawer.Title() {
-						Bottom Drawer
-					}
-				}
-				<p>This drawer slides in from the bottom of the screen.</p>
-				@drawer.Footer() {
-					@drawer.Close() {
-						Close
-					}
+			<p>This drawer slides in from the bottom of the screen.</p>
+			@drawer.Footer() {
+				@drawer.Close(drawer.CloseProps{
+					For: "bottom-drawer",
+				}) {
+					Close
 				}
 			}
 		}
-		@drawer.Drawer() {
-			@drawer.Trigger() {
-				@button.Button() {
-					Left
+		@drawer.Trigger(drawer.TriggerProps{
+			For: "left-drawer",
+		}) {
+			@button.Button() {
+				Left
+			}
+		}
+		@drawer.Content(drawer.ContentProps{
+			Position: drawer.PositionLeft,
+			ID:       "left-drawer",
+		}) {
+			@drawer.Header() {
+				@drawer.Title() {
+					Left Drawer
 				}
 			}
-			@drawer.Content(drawer.ContentProps{
-				Position: drawer.PositionLeft,
-			}) {
-				@drawer.Header() {
-					@drawer.Title() {
-						Left Drawer
-					}
-				}
-				<p>This drawer slides in from the left side of the screen.</p>
-				@drawer.Footer() {
-					@drawer.Close() {
-						Close
-					}
+			<p>This drawer slides in from the left side of the screen.</p>
+			@drawer.Footer() {
+				@drawer.Close(drawer.CloseProps{
+					For: "left-drawer",
+				}) {
+					Close
 				}
 			}
 		}

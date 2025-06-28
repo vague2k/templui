@@ -11,25 +11,19 @@ const (
 	PositionLeft   Position = "left"
 )
 
-type Props struct {
-	ID          string
-	Class       string
-	Attributes  templ.Attributes
-	Side        Position
-	InitialOpen bool
-}
-
 type TriggerProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
+	For        string // ID of the drawer to trigger
 }
 
 type ContentProps struct {
-	ID         string
-	Class      string
-	Attributes templ.Attributes
-	Position   Position
+	ID          string
+	Class       string
+	Attributes  templ.Attributes
+	Position    Position
+	InitialOpen bool
 }
 
 type HeaderProps struct {
@@ -60,28 +54,7 @@ type CloseProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
-}
-
-templ Drawer(props ...Props) {
-	{{ var p Props }}
-	if len(props) > 0 {
-		{{ p = props[0] }}
-	}
-	if p.ID == "" {
-		{{ p.ID = utils.RandomID() }}
-	}
-	<div
-		id={ p.ID }
-		class={ utils.TwMerge("relative", p.Class) }
-		data-component="drawer"
-		data-drawer-id={ p.ID }
-		if p.InitialOpen {
-			data-drawer-initial-open="true"
-		}
-		{ p.Attributes... }
-	>
-		{ children... }
-	</div>
+	For        string // ID of the drawer to close (optional, defaults to closest drawer)
 }
 
 templ Trigger(props ...TriggerProps) {
@@ -93,8 +66,11 @@ templ Trigger(props ...TriggerProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		class={ utils.TwMerge("cursor-pointer", p.Class) }
-		data-drawer-trigger
+		class={ utils.TwMerge("group cursor-pointer", p.Class) }
+		if p.For != "" {
+			data-drawer-trigger={ p.For }
+		}
+		data-open="false"
 		{ p.Attributes... }
 	>
 		{ children... }
@@ -115,6 +91,11 @@ templ Content(props ...ContentProps) {
 		}
 		class="fixed inset-0 z-50 bg-background/80 backdrop-blur-xs templui-drawer-backdrop hidden"
 		data-drawer-backdrop
+		data-component="drawer"
+		data-open="false"
+		if p.InitialOpen {
+			data-initial-open="true"
+		}
 	></div>
 	<div
 		id={ p.ID + "-content" }
@@ -231,7 +212,11 @@ templ Close(props ...CloseProps) {
 				p.Class,
 			),
 		}
-		data-drawer-close
+		if p.For != "" {
+			data-drawer-close={ p.For }
+		} else {
+			data-drawer-close
+		}
 		{ p.Attributes... }
 	>
 		{ children... }

@@ -16,14 +16,14 @@ type TriggerProps struct {
 	Class      string
 	Attributes templ.Attributes
 	Disabled   bool
-	ModalID    string // ID of the modal to trigger
+	For        string // ID of the modal to trigger
 }
 
 type CloseProps struct {
 	ID         string
 	Class      string
 	Attributes templ.Attributes
-	ModalID    string // ID of the modal to close (optional, defaults to closest modal)
+	For        string // ID of the modal to close (optional, defaults to closest modal)
 }
 
 type HeaderProps struct {
@@ -55,6 +55,7 @@ templ Modal(props ...Props) {
 	<div
 		id={ p.ID }
 		data-modal
+		data-open="false"
 		class="modal-container fixed inset-0 z-50 items-center justify-center overflow-y-auto opacity-0 transition-opacity duration-300 ease-out hidden"
 		aria-labelledby={ p.ID + "-title" }
 		role="dialog"
@@ -96,12 +97,13 @@ templ Trigger(props ...TriggerProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		data-modal-trigger
-		if p.ModalID != "" {
-			data-modal-target-id={ p.ModalID }
+		if p.For != "" {
+			data-modal-trigger={ p.For }
 		}
+		data-open="false"
 		class={
 			utils.TwMerge(
+				"group",
 				utils.IfElse(p.Disabled, "cursor-not-allowed opacity-50", "cursor-pointer"),
 				p.Class,
 			),
@@ -121,9 +123,10 @@ templ Close(props ...CloseProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		data-modal-close
-		if p.ModalID != "" {
-			data-modal-target-id={ p.ModalID }
+		if p.For != "" {
+			data-modal-close={ p.For }
+		} else {
+			data-modal-close
 		}
 		class={ utils.TwMerge("cursor-pointer", p.Class) }
 		{ p.Attributes... }

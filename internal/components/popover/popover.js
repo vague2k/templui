@@ -108,6 +108,16 @@ if (typeof window.popoverState === "undefined") {
   }
 
   // --- Core Popover Logic ---
+
+  // Update trigger states
+  function updateTriggers(popoverId, isOpen) {
+    document
+      .querySelectorAll(`[data-popover-trigger="${popoverId}"]`)
+      .forEach((trigger) => {
+        trigger.setAttribute("data-open", isOpen);
+      });
+  }
+
   function updatePosition(state) {
     if (!FloatingUIDOM || !state || !state.trigger || !state.content) return;
     const { computePosition, offset, flip, shift, arrow } = FloatingUIDOM;
@@ -214,6 +224,10 @@ if (typeof window.popoverState === "undefined") {
     content.classList.remove("popover-animate-out");
     content.classList.add("popover-animate-in");
 
+    // Update data-open attributes
+    content.setAttribute("data-open", "true");
+    updateTriggers(popoverId, "true");
+
     // Initial position update before autoUpdate starts
     updatePosition(state);
 
@@ -240,6 +254,11 @@ if (typeof window.popoverState === "undefined") {
     removeGlobalListeners(state);
 
     const content = state.content;
+
+    // Update data-open attributes
+    content.setAttribute("data-open", "false");
+    updateTriggers(popoverId, "false");
+
     function hideContent() {
       content.style.display = "none";
       content.classList.remove("popover-animate-in", "popover-animate-out");
@@ -322,7 +341,7 @@ if (typeof window.popoverState === "undefined") {
   }
 
   function initTrigger(trigger) {
-    const popoverId = trigger.dataset.popoverFor;
+    const popoverId = trigger.getAttribute("data-popover-trigger");
     const content = document.getElementById(popoverId);
     if (!popoverId || !content) return;
 
@@ -389,7 +408,7 @@ if (typeof window.popoverState === "undefined") {
 
   function cleanupPopovers(element) {
     const cleanupTrigger = (trigger) => {
-      const popoverId = trigger.dataset.popoverFor;
+      const popoverId = trigger.getAttribute("data-popover-trigger");
       if (popoverId) {
         closePopover(popoverId, true); // Close popover, remove global listeners, stop Floating UI
       }

@@ -29,12 +29,10 @@ const (
 	TriggerTypeClick TriggerType = "click"
 )
 
-type Props struct {
-	Class string
-}
-
 type TriggerProps struct {
 	ID          string
+	Class       string
+	Attributes  templ.Attributes
 	For         string
 	TriggerType TriggerType
 }
@@ -53,16 +51,6 @@ type ContentProps struct {
 	MatchWidth       bool
 }
 
-templ Popover(props ...Props) {
-	{{ var p Props }}
-	if len(props) > 0 {
-		{{ p = props[0] }}
-	}
-	<div class={ p.Class }>
-		{ children... }
-	</div>
-}
-
 templ Trigger(props ...TriggerProps) {
 	{{ var p TriggerProps }}
 	if len(props) > 0 {
@@ -75,9 +63,13 @@ templ Trigger(props ...TriggerProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		data-popover-trigger
-		data-popover-for={ p.For }
+		class={ utils.TwMerge("group cursor-pointer", p.Class) }
+		if p.For != "" {
+			data-popover-trigger={ p.For }
+		}
+		data-open="false"
 		data-popover-type={ string(p.TriggerType) }
+		{ p.Attributes... }
 	>
 		{ children... }
 	</span>
@@ -101,6 +93,7 @@ templ Content(props ...ContentProps) {
 	<div
 		id={ p.ID }
 		data-popover-id={ p.ID }
+		data-open="false"
 		data-popover-placement={ string(p.Placement) }
 		data-popover-offset={ strconv.Itoa(p.Offset) }
 		data-popover-disable-clickaway={ strconv.FormatBool(p.DisableClickAway) }

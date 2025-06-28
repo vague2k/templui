@@ -268,7 +268,7 @@ templ ThemeCustomizer(props ThemeCustomizerProps) {
 			@ModeSelector()
 		</div>
 		@modal.Trigger(modal.TriggerProps{
-			ModalID: "css-modal",
+			For: "css-modal",
 		}) {
 			@button.Button(button.Props{
 				FullWidth: true,
@@ -297,7 +297,7 @@ templ ThemeCustomizer(props ThemeCustomizerProps) {
 						Copy to Clipboard
 					}
 					@modal.Close(modal.CloseProps{
-						ModalID: "css-modal",
+						For: "css-modal",
 					}) {
 						@button.Button(button.Props{
 							Variant: button.VariantSecondary,

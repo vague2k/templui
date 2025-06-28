@@ -106,11 +106,7 @@ templ Dropdown(props ...Props) {
 		}
 		ctx = context.WithValue(ctx, contentIDKey, contentID)
 	}}
-	@popover.Popover(popover.Props{
-		Class: p.Class,
-	}) {
-		{ children... }
-	}
+	{ children... }
 }
 
 templ Trigger(props ...TriggerProps) {
