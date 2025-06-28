@@ -13,6 +13,9 @@
 
   // Create modal instance
   function createModal(modal) {
+    if (!modal || modal.hasAttribute("data-initialized")) return null;
+    modal.setAttribute("data-initialized", "true");
+    
     const modalId = modal.id;
     const content = modal.querySelector("[data-modal-content]");
     const isInitiallyOpen = modal.hasAttribute("data-initial-open");
@@ -136,10 +139,7 @@
   // Initialize all modals and triggers
   function init(root = document) {
     // Find and initialize modals
-    root.querySelectorAll("[data-modal]").forEach((modal) => {
-      if (modal.dataset.initialized) return;
-      modal.dataset.initialized = "true";
-
+    root.querySelectorAll("[data-modal]:not([data-initialized])").forEach((modal) => {
       const modalInstance = createModal(modal);
       if (modalInstance && modal.id) {
         modals.set(modal.id, modalInstance);

@@ -4,6 +4,9 @@
     window.toasts = new Map();
 
     function initToast(toast) {
+      if (!toast || toast.hasAttribute("data-initialized")) return;
+      toast.setAttribute("data-initialized", "true");
+      
       if (window.toasts.has(toast)) return;
 
       const duration = parseInt(toast.dataset.duration || "0");
@@ -90,15 +93,13 @@
     function init(root = document) {
       const toastsToInit = [];
       if (root instanceof Element && root.matches("[data-toast]")) {
-        if (!window.toasts.has(root)) {
+        if (!root.hasAttribute("data-initialized")) {
           toastsToInit.push(root);
         }
       }
       if (root && typeof root.querySelectorAll === "function") {
-        root.querySelectorAll("[data-toast]").forEach((toast) => {
-          if (!window.toasts.has(toast)) {
-            toastsToInit.push(toast);
-          }
+        root.querySelectorAll("[data-toast]:not([data-initialized])").forEach((toast) => {
+          toastsToInit.push(toast);
         });
       }
       toastsToInit.forEach(initToast);

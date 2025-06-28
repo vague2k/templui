@@ -1,5 +1,8 @@
 (function () {
   function initializeTagsInput(container) {
+    if (!container || container.hasAttribute("data-initialized")) return;
+    container.setAttribute("data-initialized", "true");
+    
     // Use data attributes instead of CSS classes for JavaScript functionality
     const textInput = container.querySelector("[data-text-input]");
     const hiddenInputsContainer = container.querySelector(
@@ -128,7 +131,7 @@
   }
 
   function init(root = document) {
-    const allTagsInputs = root.querySelectorAll("[data-tags-input]");
+    const allTagsInputs = root.querySelectorAll("[data-tags-input]:not([data-initialized])");
     allTagsInputs.forEach(initializeTagsInput);
   }
 

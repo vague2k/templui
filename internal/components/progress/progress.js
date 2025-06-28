@@ -1,6 +1,7 @@
 (function () {
   function updateProgressWidth(progressBar) {
-    if (!progressBar) return;
+    if (!progressBar || progressBar.hasAttribute("data-initialized")) return;
+    progressBar.setAttribute("data-initialized", "true");
 
     const indicator = progressBar.querySelector("[data-progress-indicator]");
     if (!indicator) return;
@@ -22,7 +23,7 @@
       updateProgressWidth(root);
     }
     if (root && typeof root.querySelectorAll === "function") {
-      for (const progressBar of root.querySelectorAll('[role="progressbar"]')) {
+      for (const progressBar of root.querySelectorAll('[role="progressbar"]:not([data-initialized])')) {
         updateProgressWidth(progressBar);
       }
     }

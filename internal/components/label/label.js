@@ -1,5 +1,8 @@
 (function () {
   function initLabel(label) {
+    if (!label || label.hasAttribute("data-initialized")) return;
+    label.setAttribute("data-initialized", "true");
+
     if (
       !label.hasAttribute("for") ||
       !label.hasAttribute("data-disabled-style")
@@ -54,7 +57,7 @@
       initLabel(root);
     }
     for (const label of root.querySelectorAll(
-      "label[for][data-disabled-style]"
+      "label[for][data-disabled-style]:not([data-initialized])"
     )) {
       initLabel(label);
     }

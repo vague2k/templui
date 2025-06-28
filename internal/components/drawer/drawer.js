@@ -30,6 +30,9 @@
 
   // Create drawer instance
   function createDrawer(backdrop) {
+    if (!backdrop || backdrop.hasAttribute("data-initialized")) return null;
+    backdrop.setAttribute("data-initialized", "true");
+    
     const drawerId = backdrop.id;
     const content = document.getElementById(drawerId + "-content");
     const position = content?.getAttribute("data-drawer-position") || "right";
@@ -141,10 +144,7 @@
   // Initialize all drawers and triggers
   function init(root = document) {
     // Find and initialize drawers
-    root.querySelectorAll('[data-component="drawer"]').forEach((backdrop) => {
-      if (backdrop.dataset.initialized) return;
-      backdrop.dataset.initialized = "true";
-
+    root.querySelectorAll('[data-component="drawer"]:not([data-initialized])').forEach((backdrop) => {
       const drawer = createDrawer(backdrop);
       if (drawer && backdrop.id) {
         drawers.set(backdrop.id, drawer);

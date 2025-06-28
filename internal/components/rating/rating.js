@@ -4,7 +4,8 @@ if (typeof window.ratingState === "undefined") {
 
 (function () {
   function initRating(ratingElement) {
-    if (!ratingElement) return;
+    if (!ratingElement || ratingElement.hasAttribute("data-initialized")) return;
+    ratingElement.setAttribute("data-initialized", "true");
 
     const existingState = window.ratingState.get(ratingElement);
     if (existingState) {
@@ -214,7 +215,7 @@ if (typeof window.ratingState === "undefined") {
       initRating(root); // initRating handles already initialized check internally
     }
     if (root && typeof root.querySelectorAll === "function") {
-      root.querySelectorAll("[data-rating-component]").forEach(initRating);
+      root.querySelectorAll("[data-rating-component]:not([data-initialized])").forEach(initRating);
     }
   }
 
