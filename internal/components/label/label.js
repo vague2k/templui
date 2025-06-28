@@ -46,7 +46,7 @@
     updateStyle();
   }
 
-  function initAllComponents(root = document) {
+  function init(root = document) {
     if (
       root instanceof Element &&
       root.matches("label[for][data-disabled-style]")
@@ -60,5 +60,5 @@
     }
   }
 
-  document.addEventListener("DOMContentLoaded", () => initAllComponents());
+  document.addEventListener("DOMContentLoaded", () => init());
 })();

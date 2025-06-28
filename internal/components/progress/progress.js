@@ -17,7 +17,7 @@
     indicator.style.width = percentage + "%";
   }
 
-  function initAllComponents(root = document) {
+  function init(root = document) {
     if (root instanceof Element && root.matches('[role="progressbar"]')) {
       updateProgressWidth(root);
     }
@@ -28,13 +28,8 @@
     }
   }
 
-  if (!window.templUI) {
-    window.templUI = {};
-  }
+  window.templUI = window.templUI || {};
+  window.templUI.progress = { init: init };
 
-  window.templUI.progress = {
-    initAllComponents: initAllComponents,
-  };
-
-  document.addEventListener("DOMContentLoaded", () => initAllComponents());
+  document.addEventListener("DOMContentLoaded", () => init());
 })();

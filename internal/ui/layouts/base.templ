@@ -91,7 +91,7 @@ templ BaseLayout(title, description string) {
 			document.body.addEventListener("htmx:afterSwap", (e) => {
 				if (window.templUI) {
 					Object.values(window.templUI).forEach(comp => {
-						comp.initAllComponents?.(e.detail.elt);
+						comp.init?.(e.detail.elt);
 					});
 				}
 			});
@@ -100,7 +100,7 @@ templ BaseLayout(title, description string) {
 			document.body.addEventListener("htmx:oobAfterSwap", (e) => {
 				if (window.templUI) {
 					Object.values(window.templUI).forEach(comp => {
-						comp.initAllComponents?.(e.detail.target);
+						comp.init?.(e.detail.target);
 					});
 				}
 			});

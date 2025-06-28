@@ -61,7 +61,7 @@ func handleLoadDatastarExample(w http.ResponseWriter, r *http.Request) {
 	// script := `
 	//     if (window.templUI) {
 	//         Object.values(window.templUI).forEach(comp => {
-	//             comp.initAllComponents?.(document.getElementById('dynamic-content'));
+	//             comp.init?.(document.getElementById('dynamic-content'));
 	//         });
 	//     }
 	// `

@@ -213,7 +213,7 @@ if (typeof window.inputOTPState === "undefined") {
     window.inputOTPState.delete(container);
   }
 
-  function initAllComponents(root = document) {
+  function init(root = document) {
     if (root instanceof Element && root.matches("[data-input-otp]")) {
       initInputOTP(root);
     }
@@ -221,16 +221,10 @@ if (typeof window.inputOTPState === "undefined") {
     containers.forEach(initInputOTP);
   }
 
-  if (!window.templUI) {
-    window.templUI = {};
-  }
+  window.templUI = window.templUI || {};
+  window.templUI.inputOTP = { init: init, cleanup: cleanupInputOTP };
 
-  window.templUI.inputOTP = {
-    initAllComponents: initAllComponents,
-    cleanup: cleanupInputOTP,
-  };
-
-  document.addEventListener("DOMContentLoaded", () => initAllComponents());
+  document.addEventListener("DOMContentLoaded", () => init());
 
   window.inputOTPSystemInitialized = true;
 })();

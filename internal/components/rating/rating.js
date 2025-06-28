@@ -209,7 +209,7 @@ if (typeof window.ratingState === "undefined") {
     ratingElement.removeAttribute("data-rating-initialized");
   }
 
-  function initAllComponents(root = document) {
+  function init(root = document) {
     if (root instanceof Element && root.matches("[data-rating-component]")) {
       initRating(root); // initRating handles already initialized check internally
     }
@@ -218,13 +218,8 @@ if (typeof window.ratingState === "undefined") {
     }
   }
 
-  if (!window.templUI) {
-    window.templUI = {};
-  }
+  window.templUI = window.templUI || {};
+  window.templUI.rating = { init: init };
 
-  window.templUI.rating = {
-    initAllComponents: initAllComponents,
-  };
-
-  document.addEventListener("DOMContentLoaded", () => initAllComponents());
+  document.addEventListener("DOMContentLoaded", () => init());
 })();

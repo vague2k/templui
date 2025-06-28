@@ -165,7 +165,7 @@
 
   // Export
   window.templUI = window.templUI || {};
-  window.templUI.modal = { initAllComponents: init };
+  window.templUI.modal = { init: init };
 
   // Auto-initialize
   document.addEventListener("DOMContentLoaded", () => init());

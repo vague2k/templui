@@ -81,7 +81,7 @@ import "./highlight.js";
     component._codeInitialized = true; // Mark as initialized
   }
 
-  function initAllComponents(root = document) {
+  function init(root = document) {
     if (root instanceof Element && root.matches("[data-code-component]")) {
       initCode(root);
     }
@@ -90,13 +90,8 @@ import "./highlight.js";
     }
   }
 
-  if (!window.templUI) {
-    window.templUI = {};
-  }
+  window.templUI = window.templUI || {};
+  window.templUI.code = { init: init };
 
-  window.templUI.code = {
-    initAllComponents: initAllComponents,
-  };
-
-  document.addEventListener("DOMContentLoaded", () => initAllComponents());
+  document.addEventListener("DOMContentLoaded", () => init());
 })();
