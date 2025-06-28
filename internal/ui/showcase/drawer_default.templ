@@ -8,48 +8,49 @@ import (
 )
 
 templ DrawerDefault() {
-	@drawer.Drawer() {
-		@drawer.Trigger(drawer.TriggerProps{Class: "mb-4"}) {
-			@button.Button() {
-				Open
+	@drawer.Trigger(drawer.TriggerProps{
+		For: "default-drawer",
+	}) {
+		@button.Button() {
+			Open
+		}
+	}
+	@drawer.Content(drawer.ContentProps{
+		Position: drawer.PositionRight,
+		ID:       "default-drawer",
+	}) {
+		@drawer.Header() {
+			@drawer.Title() {
+				Account
+			}
+			@drawer.Description() {
+				Make changes to your account here. Click save when you are done.
 			}
 		}
-		@drawer.Content(drawer.ContentProps{
-			Position: drawer.PositionRight,
-		}) {
-			@drawer.Header() {
-				@drawer.Title() {
-					Account
-				}
-				@drawer.Description() {
-					Make changes to your account here. Click save when you are done.
-				}
+		@card.Card() {
+			@card.Content() {
+				<div class="flex flex-col gap-4">
+					@input.Input(input.Props{
+						Type:        input.TypeText,
+						Placeholder: "Name",
+						ID:          "name",
+						Value:       "John Doe",
+					})
+					@input.Input(input.Props{
+						Type:        input.TypeText,
+						Placeholder: "Username",
+						ID:          "username",
+						Value:       "@johndoe",
+					})
+				</div>
 			}
-			@card.Card() {
-				@card.Content() {
-					<div class="flex flex-col gap-4">
-						@input.Input(input.Props{
-							Type:        input.TypeText,
-							Placeholder: "Name",
-							ID:          "name",
-							Value:       "John Doe",
-						})
-						@input.Input(input.Props{
-							Type:        input.TypeText,
-							Placeholder: "Username",
-							ID:          "username",
-							Value:       "@johndoe",
-						})
-					</div>
-				}
+		}
+		@drawer.Footer() {
+			@drawer.Close() {
+				Cancel
 			}
-			@drawer.Footer() {
-				@drawer.Close() {
-					Cancel
-				}
-				@button.Button() {
-					Save
-				}
+			@button.Button() {
+				Save
 			}
 		}
 	}
