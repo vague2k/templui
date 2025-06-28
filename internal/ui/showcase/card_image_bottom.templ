@@ -18,21 +18,27 @@ templ CardImageBottom() {
 				}
 			}
 			@card.Content() {
-				<p>This card shows bottom image usage.</p>
+				<p>This card shows bottom image usage with lazy loading for better performance.</p>
 			}
 			@card.Footer() {
 				@button.Button() {
 					Learn more
 				}
 			}
-			@card.Media(card.MediaProps{
-				ID:          "bottom-media",
-				Alt:         "Card image",
-				Position:    card.MediaPositionBottom,
-				AspectRatio: aspectratio.RatioVideo,
-				Src:         "/assets/img/card_placeholder.jpeg",
-			},
-			)
+			<div class="overflow-hidden w-full rounded-b-lg">
+				@aspectratio.AspectRatio(aspectratio.Props{
+					ID:    "bottom-media-aspect",
+					Ratio: aspectratio.RatioVideo,
+					Class: "h-full w-full",
+				}) {
+					<img
+						src="/assets/img/card_placeholder.jpeg"
+						alt="Card image"
+						loading="lazy"
+						class="h-full w-full object-cover"
+					/>
+				}
+			</div>
 		}
 	</div>
 }
