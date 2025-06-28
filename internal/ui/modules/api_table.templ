@@ -1,0 +1,104 @@
+package modules
+
+import (
+	"github.com/axzilla/templui/internal/components/icon"
+	"github.com/axzilla/templui/internal/components/popover"
+	"github.com/axzilla/templui/internal/components/table"
+)
+
+type APITableProps struct {
+	Title       string
+	Description string
+	Items       []APITableItem
+}
+
+type APITableItem struct {
+	Name        string
+	Type        string
+	Default     string
+	Description string
+	Required    bool
+}
+
+templ APITable(p APITableProps) {
+	<div class="w-full">
+		if p.Title != "" {
+			<h3 class="text-lg font-semibold mb-2">{ p.Title }</h3>
+		}
+		if p.Description != "" {
+			<p class="text-muted-foreground mb-4">{ p.Description }</p>
+		}
+		@table.Table() {
+			@table.Header() {
+				@table.Row() {
+					@table.Head() {
+						Name
+					}
+					@table.Head() {
+						Type
+					}
+					@table.Head() {
+						Default
+					}
+				}
+			}
+			@table.Body() {
+				for _, item := range p.Items {
+					@table.Row() {
+						@table.Cell(table.CellProps{
+							Class: "font-medium",
+						}) {
+							<div class="flex items-center gap-2">
+								<pre>
+									<code>
+										{ item.Name }
+									</code>
+								</pre>
+								if item.Required {
+									<div class="w-1.5 h-1.5 bg-red-500 rounded-full"></div>
+								}
+								if item.Description != "" {
+									@popover.Trigger(popover.TriggerProps{
+										For:         "desc-" + item.Name,
+										TriggerType: popover.TriggerTypeHover,
+									}) {
+										@icon.Icon("info")(icon.Props{
+											Size:  14,
+											Class: "text-muted-foreground hover:text-foreground cursor-help",
+										})
+									}
+									@popover.Content(popover.ContentProps{
+										ID:        "desc-" + item.Name,
+										Placement: popover.PlacementTop,
+										ShowArrow: true,
+										Class:     "max-w-xs p-2",
+									}) {
+										<p class="text-sm">{ item.Description }</p>
+									}
+								}
+							</div>
+						}
+						@table.Cell() {
+							<pre class="text-sm">
+								<code class="text-muted-foreground">
+									{ item.Type }
+								</code>
+							</pre>
+						}
+						@table.Cell() {
+							if item.Default != "" {
+								<pre class="text-sm">
+									<code class="text-muted-foreground">
+										{ item.Default }
+									</code>
+								</pre>
+							} else {
+								<span class="text-muted-foreground">-</span>
+							}
+						}
+					}
+				}
+			}
+		}
+	</div>
+}

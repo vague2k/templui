@@ -16,6 +16,28 @@ templ Accordion() {
 				ID:   "installation",
 				Text: "Installation",
 			},
+			{
+				ID:   "api",
+				Text: "API Reference",
+				Children: []modules.TableOfContentsItem{
+					{
+						ID:   "accordion",
+						Text: "Accordion",
+					},
+					{
+						ID:   "item",
+						Text: "Item",
+					},
+					{
+						ID:   "trigger",
+						Text: "Trigger",
+					},
+					{
+						ID:   "content",
+						Text: "Content",
+					},
+				},
+			},
 		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
@@ -45,6 +67,128 @@ templ Accordion() {
 				@modules.ComponentUsage(modules.ComponentUsageProps{
 					ComponentName: "accordion",
 				})
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "API Reference",
+				ID:    "api",
+			}) {
+				@modules.APILegend()
+				<div id="accordion" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Accordion",
+						Description: "The main accordion container component.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the accordion element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the accordion.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the accordion element.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="item" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Item",
+						Description: "Individual accordion item container.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the item element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the item.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the item element.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="trigger" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Trigger",
+						Description: "Clickable trigger element that toggles the accordion item.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the trigger element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the trigger.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the trigger element.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="content">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Content",
+						Description: "Collapsible content area of the accordion item.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the content element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the content.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the content element.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
 			}
 		}
 	}
