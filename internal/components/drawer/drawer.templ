@@ -66,7 +66,7 @@ templ Trigger(props ...TriggerProps) {
 		if p.ID != "" {
 			id={ p.ID }
 		}
-		class={ utils.TwMerge("cursor-pointer", p.Class) }
+		class={ utils.TwMerge("group cursor-pointer", p.Class) }
 		if p.For != "" {
 			data-drawer-trigger={ p.For }
 		}
