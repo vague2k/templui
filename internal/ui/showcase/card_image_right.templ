@@ -19,18 +19,23 @@ templ CardImageRight() {
 						}
 					}
 					@card.Content() {
-						<p>This card demonstrates the right image layout.</p>
+						<p>This card demonstrates the right image layout with lazy loading.</p>
 					}
 				</div>
-				@card.Media(card.MediaProps{
-					ID:          "right-media",
-					Alt:         "Right side image",
-					Position:    card.MediaPositionRight,
-					Width:       card.MediaWidthThird,
-					AspectRatio: aspectratio.RatioAuto,
-					Src:         "/assets/img/card_placeholder.jpeg",
-				},
-				)
+				<div class="overflow-hidden shrink-0 rounded-r-lg w-1/3">
+					@aspectratio.AspectRatio(aspectratio.Props{
+						ID:    "right-media-aspect",
+						Ratio: aspectratio.RatioAuto,
+						Class: "h-full w-full",
+					}) {
+						<img
+							src="/assets/img/card_placeholder.jpeg"
+							alt="Right side image"
+							loading="lazy"
+							class="h-full w-full object-cover"
+						/>
+					}
+				</div>
 			}
 		}
 	</div>

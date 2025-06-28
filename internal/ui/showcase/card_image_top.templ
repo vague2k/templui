@@ -9,14 +9,20 @@ import (
 templ CardImageTop() {
 	<div class="w-full max-w-sm">
 		@card.Card() {
-			@card.Media(card.MediaProps{
-				ID:          "top-media",
-				Alt:         "Card image",
-				Position:    card.MediaPositionTop,
-				AspectRatio: aspectratio.RatioVideo,
-				Src:         "/assets/img/card_placeholder.jpeg",
-			},
-			)
+			<div class="overflow-hidden w-full rounded-t-lg">
+				@aspectratio.AspectRatio(aspectratio.Props{
+					ID:    "top-media-aspect",
+					Ratio: aspectratio.RatioVideo,
+					Class: "h-full w-full",
+				}) {
+					<img
+						src="/assets/img/card_placeholder.jpeg"
+						alt="Card image"
+						loading="lazy"
+						class="h-full w-full object-cover"
+					/>
+				}
+			</div>
 			@card.Header() {
 				@card.Title() {
 					Featured Card
@@ -26,7 +32,7 @@ templ CardImageTop() {
 				}
 			}
 			@card.Content() {
-				<p>This card shows top image usage.</p>
+				<p>This card shows top image usage with lazy loading for better performance.</p>
 			}
 			@card.Footer() {
 				@button.Button() {
