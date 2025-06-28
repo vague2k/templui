@@ -22,9 +22,10 @@
   function init(root = document) {
     // Select items with 'data-dropdown-item' but not 'data-dropdown-submenu-trigger'
     const items = root.querySelectorAll(
-      "[data-dropdown-item]:not([data-dropdown-submenu-trigger])"
+      "[data-dropdown-item]:not([data-dropdown-submenu-trigger]):not([data-initialized])"
     );
     items.forEach((item) => {
+      item.setAttribute("data-initialized", "true");
       item.removeEventListener("click", handleDropdownItemClick);
       item.addEventListener("click", handleDropdownItemClick);
     });

@@ -1,6 +1,7 @@
 (function () {
   function initCalendar(container) {
-    if (!container || container._calendarInitialized) return;
+    if (!container || container.hasAttribute("data-initialized")) return;
+    container.setAttribute("data-initialized", "true");
 
     const monthDisplay = container.querySelector(
       "[data-calendar-month-display]"
@@ -235,7 +236,7 @@
       initCalendar(root);
     }
 
-    for (const calendar of root.querySelectorAll("[data-calendar-container]")) {
+    for (const calendar of root.querySelectorAll("[data-calendar-container]:not([data-initialized])")) {
       initCalendar(calendar);
     }
   }

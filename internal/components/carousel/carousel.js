@@ -1,5 +1,8 @@
 (function () {
   function initCarousel(carousel) {
+    if (!carousel || carousel.hasAttribute("data-initialized")) return;
+    carousel.setAttribute("data-initialized", "true");
+    
     const track = carousel.querySelector(".carousel-track");
     const items = Array.from(track?.querySelectorAll(".carousel-item") || []);
     if (items.length === 0) return;
@@ -178,7 +181,7 @@
     if (root instanceof Element && root.matches(".carousel-component")) {
       initCarousel(root);
     }
-    for (const carousel of root.querySelectorAll(".carousel-component")) {
+    for (const carousel of root.querySelectorAll(".carousel-component:not([data-initialized])")) {
       initCarousel(carousel);
     }
   }

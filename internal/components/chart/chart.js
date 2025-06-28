@@ -18,6 +18,9 @@ window.chartInstances = window.chartInstances || {};
     function initChart(canvas) {
       if (!canvas || !canvas.id || !canvas.hasAttribute("data-chart-id"))
         return;
+      
+      if (canvas.hasAttribute("data-initialized")) return;
+      canvas.setAttribute("data-initialized", "true");
 
       if (window.chartInstances[canvas.id]) {
         cleanupChart(canvas);
@@ -161,7 +164,7 @@ window.chartInstances = window.chartInstances || {};
     function init(root = document) {
       if (typeof Chart === "undefined") return;
 
-      for (const canvas of root.querySelectorAll("canvas[data-chart-id]")) {
+      for (const canvas of root.querySelectorAll("canvas[data-chart-id]:not([data-initialized])")) {
         initChart(canvas);
       }
     }

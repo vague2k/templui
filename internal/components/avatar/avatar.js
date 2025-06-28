@@ -1,5 +1,8 @@
 (function () {
   function initAvatar(avatar) {
+    if (!avatar || avatar.hasAttribute("data-initialized")) return;
+    avatar.setAttribute("data-initialized", "true");
+    
     const image = avatar.querySelector("[data-avatar-image]");
     const fallback = avatar.querySelector("[data-avatar-fallback]");
 
@@ -45,7 +48,7 @@
     if (root instanceof Element && root.matches("[data-avatar]")) {
       initAvatar(root);
     }
-    for (const avatar of root.querySelectorAll("[data-avatar]")) {
+    for (const avatar of root.querySelectorAll("[data-avatar]:not([data-initialized])")) {
       initAvatar(avatar);
     }
   }

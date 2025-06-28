@@ -28,7 +28,8 @@ import "./highlight.js";
   }
 
   function initCode(component) {
-    if (!component || component._codeInitialized) return; // Basic initialized check
+    if (!component || component.hasAttribute("data-initialized")) return;
+    component.setAttribute("data-initialized", "true");
 
     const codeBlock = component.querySelector("[data-code-block]");
     const copyButton = component.querySelector("[data-copy-button]");
@@ -85,7 +86,7 @@ import "./highlight.js";
     if (root instanceof Element && root.matches("[data-code-component]")) {
       initCode(root);
     }
-    for (const component of root.querySelectorAll("[data-code-component]")) {
+    for (const component of root.querySelectorAll("[data-code-component]:not([data-initialized])")) {
       initCode(component);
     }
   }

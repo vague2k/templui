@@ -66,7 +66,8 @@
   }
 
   function initDatePicker(triggerButton) {
-    if (!triggerButton || triggerButton._datePickerInitialized) return;
+    if (!triggerButton || triggerButton.hasAttribute("data-initialized")) return;
+    triggerButton.setAttribute("data-initialized", "true");
 
     const datePickerID = triggerButton.id;
     const displaySpan = triggerButton.querySelector(
@@ -190,7 +191,7 @@
       initDatePicker(root);
     }
     root
-      .querySelectorAll('[data-datepicker="true"]')
+      .querySelectorAll('[data-datepicker="true"]:not([data-initialized])')
       .forEach((triggerButton) => {
         initDatePicker(triggerButton);
       });
