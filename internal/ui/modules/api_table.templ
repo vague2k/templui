@@ -1,6 +1,7 @@
 package modules
 
 import (
+	"github.com/axzilla/templui/internal/components/card"
 	"github.com/axzilla/templui/internal/components/icon"
 	"github.com/axzilla/templui/internal/components/popover"
 	"github.com/axzilla/templui/internal/components/table"
@@ -28,72 +29,78 @@ templ APITable(p APITableProps) {
 		if p.Description != "" {
 			<p class="text-muted-foreground mb-4">{ p.Description }</p>
 		}
-		@table.Table() {
-			@table.Header() {
-				@table.Row() {
-					@table.Head() {
-						Name
-					}
-					@table.Head() {
-						Type
-					}
-					@table.Head() {
-						Default
-					}
-				}
-			}
-			@table.Body() {
-				for _, item := range p.Items {
-					@table.Row() {
-						@table.Cell(table.CellProps{
-							Class: "font-medium",
-						}) {
-							<div class="flex items-center gap-2">
-								<pre>
-									<code>
-										{ item.Name }
-									</code>
-								</pre>
-								if item.Required {
-									<div class="w-1.5 h-1.5 bg-red-500 rounded-full"></div>
-								}
-								if item.Description != "" {
-									@popover.Trigger(popover.TriggerProps{
-										For:         "desc-" + item.Name,
-										TriggerType: popover.TriggerTypeHover,
-									}) {
-										@icon.Icon("info")(icon.Props{
-											Size:  14,
-											Class: "text-muted-foreground hover:text-foreground cursor-help",
-										})
-									}
-									@popover.Content(popover.ContentProps{
-										ID:        "desc-" + item.Name,
-										Placement: popover.PlacementTop,
-										ShowArrow: true,
-										Class:     "max-w-xs p-2",
-									}) {
-										<p class="text-sm">{ item.Description }</p>
-									}
-								}
-							</div>
+		@card.Card() {
+			@card.Content(card.ContentProps{
+				Class: "p-0",
+			}) {
+				@table.Table() {
+					@table.Header() {
+						@table.Row() {
+							@table.Head() {
+								Name
+							}
+							@table.Head() {
+								Type
+							}
+							@table.Head() {
+								Default
+							}
 						}
-						@table.Cell() {
-							<pre class="text-sm">
-								<code class="text-muted-foreground">
-									{ item.Type }
-								</code>
-							</pre>
-						}
-						@table.Cell() {
-							if item.Default != "" {
-								<pre class="text-sm">
-									<code class="text-muted-foreground">
-										{ item.Default }
-									</code>
-								</pre>
-							} else {
-								<span class="text-muted-foreground">-</span>
+					}
+					@table.Body() {
+						for _, item := range p.Items {
+							@table.Row() {
+								@table.Cell(table.CellProps{
+									Class: "font-medium",
+								}) {
+									<div class="flex items-center gap-2">
+										<pre>
+											<code>
+												{ item.Name }
+											</code>
+										</pre>
+										if item.Required {
+											<div class="w-1.5 h-1.5 bg-red-500 rounded-full"></div>
+										}
+										if item.Description != "" {
+											@popover.Trigger(popover.TriggerProps{
+												For:         "desc-" + item.Name,
+												TriggerType: popover.TriggerTypeHover,
+											}) {
+												@icon.Icon("info")(icon.Props{
+													Size:  14,
+													Class: "text-muted-foreground hover:text-foreground cursor-help",
+												})
+											}
+											@popover.Content(popover.ContentProps{
+												ID:        "desc-" + item.Name,
+												Placement: popover.PlacementTop,
+												ShowArrow: true,
+												Class:     "max-w-xs p-2",
+											}) {
+												<p class="text-sm">{ item.Description }</p>
+											}
+										}
+									</div>
+								}
+								@table.Cell() {
+									<pre class="text-sm">
+										<code class="text-muted-foreground">
+											{ item.Type }
+										</code>
+									</pre>
+								}
+								@table.Cell() {
+									if item.Default != "" {
+										<pre class="text-sm">
+											<code class="text-muted-foreground">
+												{ item.Default }
+											</code>
+										</pre>
+									} else {
+										<span class="text-muted-foreground">-</span>
+									}
+								}
 							}
 						}
 					}
