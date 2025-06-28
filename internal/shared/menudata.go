@@ -180,7 +180,7 @@ var Sections = []Section{
 			},
 			{
 				Text: "Tags Input",
-				Href: "/docs/components/tagsinput",
+				Href: "/docs/components/tags-input",
 			},
 			{
 				Text: "Textarea",

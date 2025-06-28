@@ -9,21 +9,19 @@ import (
 )
 
 templ PopoverDefault() {
-	@popover.Popover() {
-		@popover.Trigger(popover.TriggerProps{
-			For: "default-popover",
+	@popover.Trigger(popover.TriggerProps{
+		For: "default-popover",
+	}) {
+		@button.Button(button.Props{
+			Variant: button.VariantOutline,
 		}) {
-			@button.Button(button.Props{
-				Variant: button.VariantOutline,
-			}) {
-				Open Popover
-			}
+			Open Popover
 		}
-		@popover.Content(popover.ContentProps{
-			ID: "default-popover",
-		}) {
-			@PopoverContent()
-		}
+	}
+	@popover.Content(popover.ContentProps{
+		ID: "default-popover",
+	}) {
+		@PopoverContent()
 	}
 }
 

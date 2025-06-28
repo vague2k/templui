@@ -73,45 +73,43 @@ templ DatePicker(props ...Props) {
 			valuePtr = &p.Value
 		}
 	}}
-	@popover.Popover() {
-		@popover.Trigger(popover.TriggerProps{For: contentID}) {
-			@button.Button(button.Props{
-				ID:      p.ID,
-				Variant: button.VariantOutline,
-				Class: utils.TwMerge(
-					"w-full select-trigger flex items-center justify-between",
-					utils.If(p.HasError, "border-destructive ring-destructive"),
-					p.Class,
-				),
-				Disabled: p.Disabled,
-				Attributes: utils.MergeAttributes(p.Attributes, templ.Attributes{
-					"data-datepicker":     "true",
-					"data-display-format": string(p.Format),
-					"data-locale-tag":     string(p.LocaleTag),
-					"data-placeholder":    p.Placeholder,
-				}),
-			}) {
-				if p.Placeholder != "" {
-					<span data-datepicker-display class={ "text-left grow text-muted-foreground" }>
-						{ p.Placeholder }
-					</span>
-				}
-				<span class="text-muted-foreground flex items-center ml-2">
-					@icon.Calendar(icon.Props{Size: 16})
+	@popover.Trigger(popover.TriggerProps{For: contentID}) {
+		@button.Button(button.Props{
+			ID:      p.ID,
+			Variant: button.VariantOutline,
+			Class: utils.TwMerge(
+				"w-full select-trigger flex items-center justify-between",
+				utils.If(p.HasError, "border-destructive ring-destructive"),
+				p.Class,
+			),
+			Disabled: p.Disabled,
+			Attributes: utils.MergeAttributes(p.Attributes, templ.Attributes{
+				"data-datepicker":     "true",
+				"data-display-format": string(p.Format),
+				"data-locale-tag":     string(p.LocaleTag),
+				"data-placeholder":    p.Placeholder,
+			}),
+		}) {
+			if p.Placeholder != "" {
+				<span data-datepicker-display class={ "text-left grow text-muted-foreground" }>
+					{ p.Placeholder }
 				</span>
 			}
+			<span class="text-muted-foreground flex items-center ml-2">
+				@icon.Calendar(icon.Props{Size: 16})
+			</span>
 		}
-		@popover.Content(popover.ContentProps{
-			ID:        contentID,
-			Placement: popover.PlacementBottomStart,
-			Class:     "p-3",
-		}) {
-			@calendar.Calendar(calendar.Props{
-				ID:        p.ID + "-calendar-instance",     // Pass ID for calendar instance
-				Name:      p.Name,                          // Pass Name for hidden input
-				LocaleTag: calendar.LocaleTag(p.LocaleTag), // Pass locale tag to calendar
-				Value:     valuePtr,                        // Pass pointer to value
-			})
-		}
+	}
+	@popover.Content(popover.ContentProps{
+		ID:        contentID,
+		Placement: popover.PlacementBottomStart,
+		Class:     "p-3",
+	}) {
+		@calendar.Calendar(calendar.Props{
+			ID:        p.ID + "-calendar-instance",     // Pass ID for calendar instance
+			Name:      p.Name,                          // Pass Name for hidden input
+			LocaleTag: calendar.LocaleTag(p.LocaleTag), // Pass locale tag to calendar
+			Value:     valuePtr,                        // Pass pointer to value
+		})
 	}
 }

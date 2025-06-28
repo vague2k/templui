@@ -89,9 +89,7 @@ templ SelectBox(props ...Props) {
 		class={ utils.TwMerge("select-container w-full relative", p.Class) }
 		{ p.Attributes... }
 	>
-		@popover.Popover() {
-			{ children... }
-		}
+		{ children... }
 	</div>
 }
 
