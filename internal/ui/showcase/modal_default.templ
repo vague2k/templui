@@ -7,7 +7,7 @@ import (
 
 templ ModalDefault() {
 	@modal.Trigger(modal.TriggerProps{
-		ModalID: "default-modal",
+		For: "default-modal",
 	}) {
 		@button.Button() {
 			Open Modal
@@ -26,14 +26,14 @@ templ ModalDefault() {
 		@modal.Footer() {
 			<div class="flex gap-2">
 				@modal.Close(modal.CloseProps{
-					ModalID: "default-modal",
+					For: "default-modal",
 				}) {
 					@button.Button() {
 						Cancel
 					}
 				}
 				@modal.Close(modal.CloseProps{
-					ModalID: "default-modal",
+					For: "default-modal",
 				}) {
 					@button.Button(button.Props{
 						Variant: button.VariantSecondary,
