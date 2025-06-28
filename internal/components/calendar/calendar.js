@@ -230,7 +230,7 @@
     container._calendarInitialized = true;
   }
 
-  function initAllComponents(root = document) {
+  function init(root = document) {
     if (root instanceof Element && root.matches("[data-calendar-container]")) {
       initCalendar(root);
     }
@@ -240,13 +240,8 @@
     }
   }
 
-  if (!window.templUI) {
-    window.templUI = {};
-  }
+  window.templUI = window.templUI || {};
+  window.templUI.calendar = { init: init };
 
-  window.templUI.calendar = {
-    initAllComponents: initAllComponents,
-  };
-
-  document.addEventListener("DOMContentLoaded", () => initAllComponents());
+  document.addEventListener("DOMContentLoaded", () => init());
 })();

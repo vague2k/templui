@@ -158,7 +158,7 @@ window.chartInstances = window.chartInstances || {};
       }
     }
 
-    function initAllComponents(root = document) {
+    function init(root = document) {
       if (typeof Chart === "undefined") return;
 
       for (const canvas of root.querySelectorAll("canvas[data-chart-id]")) {
@@ -168,20 +168,14 @@ window.chartInstances = window.chartInstances || {};
 
     function waitForChartAndInit() {
       if (typeof Chart !== "undefined") {
-        initAllComponents();
+        init();
       } else {
         setTimeout(waitForChartAndInit, 100);
       }
     }
 
-    if (!window.templUI) {
-      window.templUI = {};
-    }
-
-    window.templUI.chart = {
-      initAllComponents: initAllComponents,
-      cleanup: cleanupChart,
-    };
+    window.templUI = window.templUI || {};
+    window.templUI.chart = { init: init, cleanup: cleanupChart };
 
     document.addEventListener("DOMContentLoaded", waitForChartAndInit);
 

@@ -462,7 +462,7 @@ if (typeof window.popoverState === "undefined") {
     }
   }
 
-  function initAllComponents(root = document) {
+  function init(root = document) {
     if (!FloatingUIDOM) return; // Don't init if library isn't ready
     if (root instanceof Element && root.matches("[data-popover-trigger]")) {
       initTrigger(root);
@@ -474,19 +474,13 @@ if (typeof window.popoverState === "undefined") {
     }
   }
 
-  if (!window.templUI) {
-    window.templUI = {};
-  }
-
-  window.templUI.popover = {
-    initAllComponents: initAllComponents,
-    cleanup: cleanupPopovers,
-  };
+  window.templUI = window.templUI || {};
+  window.templUI.popover = { init: init, cleanup: cleanupPopovers };
 
   document.addEventListener("DOMContentLoaded", () => {
     whenFloatingUiReady(() => {
       addAnimationStyles();
-      initAllComponents();
+      init();
     });
   });
 

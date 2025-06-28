@@ -174,7 +174,7 @@
     if (state.autoplay) startAutoplay();
   }
 
-  function initAllComponents(root = document) {
+  function init(root = document) {
     if (root instanceof Element && root.matches(".carousel-component")) {
       initCarousel(root);
     }
@@ -183,14 +183,8 @@
     }
   }
 
-  if (!window.templUI) {
-    window.templUI = {};
-  }
+  window.templUI = window.templUI || {};
+  window.templUI.carousel = { init: init };
 
-  window.templUI.carousel = {
-    init: initCarousel,
-    initAllComponents: initAllComponents,
-  };
-
-  document.addEventListener("DOMContentLoaded", () => initAllComponents());
+  document.addEventListener("DOMContentLoaded", () => init());
 })();

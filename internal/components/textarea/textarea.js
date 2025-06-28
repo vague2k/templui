@@ -19,7 +19,7 @@
     textarea.addEventListener("input", resize);
   }
 
-  function initAllComponents(root = document) {
+  function init(root = document) {
     if (root instanceof Element && root.matches("textarea[data-textarea]")) {
       initTextarea(root);
     }
@@ -30,5 +30,5 @@
     }
   }
 
-  document.addEventListener("DOMContentLoaded", () => initAllComponents());
+  document.addEventListener("DOMContentLoaded", () => init());
 })();

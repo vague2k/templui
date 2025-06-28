@@ -127,18 +127,13 @@
     container.addEventListener("click", handleClick);
   }
 
-  function initAllComponents(root = document) {
+  function init(root = document) {
     const allTagsInputs = root.querySelectorAll("[data-tags-input]");
     allTagsInputs.forEach(initializeTagsInput);
   }
 
-  if (!window.templUI) {
-    window.templUI = {};
-  }
+  window.templUI = window.templUI || {};
+  window.templUI.tagsInput = { init: init };
 
-  window.templUI.tagsInput = {
-    initAllComponents: initAllComponents,
-  };
-
-  document.addEventListener("DOMContentLoaded", () => initAllComponents());
+  document.addEventListener("DOMContentLoaded", () => init());
 })();

@@ -6,7 +6,7 @@
 
     button.setAttribute("data-password-initialized", "true");
 
-    button.addEventListener("click", function (event) {
+    button.addEventListener("click", function () {
       const inputId = button.getAttribute("data-toggle-password");
       const input = document.getElementById(inputId);
       if (input) {
@@ -26,7 +26,7 @@
     });
   }
 
-  function initAllComponents(root = document) {
+  function init(root = document) {
     const buttons = root.querySelectorAll(
       "[data-toggle-password]:not([data-password-initialized])"
     );
@@ -35,13 +35,8 @@
     });
   }
 
-  if (!window.templUI) {
-    window.templUI = {};
-  }
+  window.templUI = window.templUI || {};
+  window.templUI.input = { init: init };
 
-  window.templUI.input = {
-    initAllComponents: initAllComponents,
-  };
-
-  document.addEventListener("DOMContentLoaded", () => initAllComponents());
+  document.addEventListener("DOMContentLoaded", () => init());
 })();

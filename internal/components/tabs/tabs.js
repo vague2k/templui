@@ -64,7 +64,7 @@
     }
   }
 
-  function initAllComponents(root = document) {
+  function init(root = document) {
     if (root instanceof Element && root.matches("[data-tabs]")) {
       initTabs(root);
     }
@@ -75,13 +75,8 @@
     }
   }
 
-  if (!window.templUI) {
-    window.templUI = {};
-  }
+  window.templUI = window.templUI || {};
+  window.templUI.tabs = { init: init };
 
-  window.templUI.tabs = {
-    initAllComponents: initAllComponents,
-  };
-
-  document.addEventListener("DOMContentLoaded", () => initAllComponents());
+  document.addEventListener("DOMContentLoaded", () => init());
 })();

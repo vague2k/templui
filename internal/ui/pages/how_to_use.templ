@@ -150,7 +150,7 @@ var htmxIntegration = `<script>
   document.body.addEventListener("htmx:afterSwap", (e) => {
     if (window.templUI) {
       Object.values(window.templUI).forEach(comp => {
-        comp.initAllComponents?.(e.detail.elt);
+        comp.init?.(e.detail.elt);
       });
     }
   });
@@ -159,7 +159,7 @@ var htmxIntegration = `<script>
   document.body.addEventListener("htmx:oobAfterSwap", (e) => {
     if (window.templUI) {
       Object.values(window.templUI).forEach(comp => {
-        comp.initAllComponents?.(e.detail.target);
+        comp.init?.(e.detail.target);
       });
     }
   });
@@ -186,7 +186,7 @@ var datastarIntegration = `<!-- Event-based approach -->
       requestAnimationFrame(() => {
         if (window.templUI) {
           Object.values(window.templUI).forEach(comp => {
-            comp.initAllComponents?.();
+            comp.init?.();
           });
         }
       });
@@ -209,20 +209,20 @@ var manualIntegration = `// Initialize all components in a specific container
 const container = document.getElementById('dynamic-content');
 if (window.templUI) {
   Object.values(window.templUI).forEach(comp => {
-    comp.initAllComponents?.(container);
+    comp.init?.(container);
   });
 }
 
 // Initialize a specific component type
 if (window.templUI?.modal) {
-  window.templUI.modal.initAllComponents(container);
+  window.templUI.modal.init(container);
 }
 
 // Simple universal approach for any dynamic content
 function initTemplUIComponents(element = document) {
   if (window.templUI) {
     Object.values(window.templUI).forEach(comp => {
-      comp.initAllComponents?.(element);
+      comp.init?.(element);
     });
   }
 }

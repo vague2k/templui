@@ -87,7 +87,7 @@
       }, 50);
     }
 
-    function initAllComponents(root = document) {
+    function init(root = document) {
       const toastsToInit = [];
       if (root instanceof Element && root.matches("[data-toast]")) {
         if (!window.toasts.has(root)) {
@@ -104,14 +104,9 @@
       toastsToInit.forEach(initToast);
     }
 
-    if (!window.templUI) {
-      window.templUI = {};
-    }
+    window.templUI = window.templUI || {};
+    window.templUI.toast = { init: init };
 
-    window.templUI.toast = {
-      initAllComponents: initAllComponents,
-    };
-
-    document.addEventListener("DOMContentLoaded", () => initAllComponents());
+    document.addEventListener("DOMContentLoaded", () => init());
   }
 })();

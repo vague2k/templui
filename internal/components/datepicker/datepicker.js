@@ -185,7 +185,7 @@
     };
   }
 
-  function initAllComponents(root = document) {
+  function init(root = document) {
     if (root instanceof Element && root.matches('[data-datepicker="true"]')) {
       initDatePicker(root);
     }
@@ -196,13 +196,8 @@
       });
   }
 
-  if (!window.templUI) {
-    window.templUI = {};
-  }
+  window.templUI = window.templUI || {};
+  window.templUI.datePicker = { init: init };
 
-  window.templUI.datePicker = {
-    initAllComponents: initAllComponents,
-  };
-
-  document.addEventListener("DOMContentLoaded", () => initAllComponents());
+  document.addEventListener("DOMContentLoaded", () => init());
 })();

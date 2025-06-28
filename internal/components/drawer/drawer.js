@@ -165,7 +165,7 @@
 
   // Export
   window.templUI = window.templUI || {};
-  window.templUI.drawer = { initAllComponents: init };
+  window.templUI.drawer = { init: init };
 
   // Auto-initialize
   document.addEventListener("DOMContentLoaded", () => init());

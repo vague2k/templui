@@ -21,7 +21,7 @@
     sliderInput.addEventListener("input", updateValues);
   }
 
-  function initAllComponents(root = document) {
+  function init(root = document) {
     if (
       root instanceof Element &&
       root.matches('input[type="range"][data-slider-input]')
@@ -35,13 +35,8 @@
     }
   }
 
-  if (!window.templUI) {
-    window.templUI = {};
-  }
+  window.templUI = window.templUI || {};
+  window.templUI.slider = { init: init };
 
-  window.templUI.slider = {
-    initAllComponents: initAllComponents,
-  };
-
-  document.addEventListener("DOMContentLoaded", () => initAllComponents());
+  document.addEventListener("DOMContentLoaded", () => init());
 })();

@@ -15,14 +15,14 @@ templ ExampleDatastar() {
 			Load Date Picker
 		}
 		<div
-			data-on-datastar-sse="initAllComponents(evt)"
+			data-on-datastar-sse="init(evt)"
 			id="dynamic-content"
 			class="p-4 border-2 border-dashed border-gray-300 rounded-lg min-h-[100px] flex items-center justify-center text-gray-500"
 		>
 			Click button to load content...
 		</div>
 		<script nonce={ templ.GetNonce(ctx) }>
-			window.initAllComponents = function(evt) {
+			window.init = function(evt) {
 				if (evt.detail?.type === 'started') {
 					requestAnimationFrame(() => {
 						if (window.templUI) {
@@ -36,7 +36,7 @@ templ ExampleDatastar() {
 					requestAnimationFrame(() => {
 						if (window.templUI) {
 							Object.values(window.templUI).forEach(comp => {
-								comp.initAllComponents?.();
+								comp.init?.();
 							});
 						}
 					});

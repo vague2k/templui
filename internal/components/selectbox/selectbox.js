@@ -434,18 +434,13 @@
     newContent.addEventListener("mouseleave", resetItemStyles);
   }
 
-  function initAllComponents(root = document) {
+  function init(root = document) {
     const containers = root.querySelectorAll(".select-container");
     containers.forEach(initSelect);
   }
 
-  if (!window.templUI) {
-    window.templUI = {};
-  }
+  window.templUI = window.templUI || {};
+  window.templUI.selectbox = { init: init };
 
-  window.templUI.selectbox = {
-    initAllComponents: initAllComponents,
-  };
-
-  document.addEventListener("DOMContentLoaded", () => initAllComponents());
+  document.addEventListener("DOMContentLoaded", () => init());
 })();

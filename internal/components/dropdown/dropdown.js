@@ -19,7 +19,7 @@
     }
   }
 
-  function initAllComponents(root = document) {
+  function init(root = document) {
     // Select items with 'data-dropdown-item' but not 'data-dropdown-submenu-trigger'
     const items = root.querySelectorAll(
       "[data-dropdown-item]:not([data-dropdown-submenu-trigger])"
@@ -30,13 +30,8 @@
     });
   }
 
-  if (!window.templUI) {
-    window.templUI = {};
-  }
+  window.templUI = window.templUI || {};
+  window.templUI.dropdown = { init: init };
 
-  window.templUI.dropdown = {
-    initAllComponents: initAllComponents,
-  };
-
-  document.addEventListener("DOMContentLoaded", () => initAllComponents());
+  document.addEventListener("DOMContentLoaded", () => init());
 })();
