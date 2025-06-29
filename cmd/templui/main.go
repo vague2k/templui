@@ -23,7 +23,7 @@ const (
 )
 
 // version of the tool (can be set during build with ldflags).
-var version = "v0.80.2"
+var version = "v0.81.0"
 
 // getDefaultRef returns the current stable version
 // Uses the same version as the CLI tool itself for consistency
