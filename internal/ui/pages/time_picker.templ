@@ -10,7 +10,26 @@ templ TimePicker() {
 	@layouts.DocsLayout(
 		"Time Picker",
 		"A native time selector with support for 12/24 hour formats.",
-		[]modules.TableOfContentsItem{},
+		[]modules.TableOfContentsItem{
+			{
+				ID:   "installation",
+				Text: "Installation",
+			},
+			{
+				ID:   "examples",
+				Text: "Examples",
+			},
+			{
+				ID:   "api",
+				Text: "API Reference",
+				Children: []modules.TableOfContentsItem{
+					{
+						ID:   "timepicker",
+						Text: "TimePicker",
+					},
+				},
+			},
+		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Time Picker",
@@ -33,7 +52,18 @@ templ TimePicker() {
 				ShowcaseFile:    showcase.TimePickerDefault(),
 				PreviewCodeFile: "time_picker_default.templ",
 			})
-			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Installation",
+				ID:    "installation",
+			}) {
+				@modules.ComponentUsage(modules.ComponentUsageProps{
+					ComponentName: "timepicker",
+				})
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Examples",
+				ID:    "examples",
+			}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "12h Format",
 					ShowcaseFile:    showcase.TimePicker12Hour(),
@@ -61,6 +91,104 @@ templ TimePicker() {
 					PreviewCodeFile: "time_picker_form.templ",
 					ID:              "form",
 				})
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "API Reference",
+				ID:    "api",
+			}) {
+				@modules.APILegend()
+				<div id="timepicker">
+					@modules.APITable(modules.APITableProps{
+						Title:       "TimePicker",
+						Description: "Time picker component for selecting time values with 12/24 hour format support.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the time picker element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the time picker.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the time picker element.",
+								Required:    false,
+							},
+							{
+								Name:        "Name",
+								Type:        "string",
+								Default:     "",
+								Description: "Name attribute for the hidden input field.",
+								Required:    false,
+							},
+							{
+								Name:        "Value",
+								Type:        "time.Time",
+								Default:     "",
+								Description: "Selected time value.",
+								Required:    false,
+							},
+							{
+								Name:        "Use12Hours",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether to use 12-hour format (AM/PM) or 24-hour format.",
+								Required:    false,
+							},
+							{
+								Name:        "AMLabel",
+								Type:        "string",
+								Default:     "AM",
+								Description: "Label for AM period in 12-hour format.",
+								Required:    false,
+							},
+							{
+								Name:        "PMLabel",
+								Type:        "string",
+								Default:     "PM",
+								Description: "Label for PM period in 12-hour format.",
+								Required:    false,
+							},
+							{
+								Name:        "Placeholder",
+								Type:        "string",
+								Default:     "Select time",
+								Description: "Placeholder text when no time is selected.",
+								Required:    false,
+							},
+							{
+								Name:        "Required",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether the time picker is required for form submission.",
+								Required:    false,
+							},
+							{
+								Name:        "Disabled",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether the time picker is disabled and non-interactive.",
+								Required:    false,
+							},
+							{
+								Name:        "HasError",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether the time picker has an error state (applies error styling).",
+								Required:    false,
+							},
+						},
+					})
+				</div>
 			}
 		}
 	}

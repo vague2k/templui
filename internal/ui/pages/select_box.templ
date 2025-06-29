@@ -45,6 +45,40 @@ templ SelectBox() {
 					},
 				},
 			},
+			{
+				ID:   "api",
+				Text: "API Reference",
+				Children: []modules.TableOfContentsItem{
+					{
+						ID:   "selectbox",
+						Text: "SelectBox",
+					},
+					{
+						ID:   "trigger",
+						Text: "Trigger",
+					},
+					{
+						ID:   "value",
+						Text: "Value",
+					},
+					{
+						ID:   "content",
+						Text: "Content",
+					},
+					{
+						ID:   "group",
+						Text: "Group",
+					},
+					{
+						ID:   "label",
+						Text: "Label",
+					},
+					{
+						ID:   "item",
+						Text: "Item",
+					},
+				},
+			},
 		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
@@ -117,6 +151,320 @@ templ SelectBox() {
 					PreviewCodeFile: "select_box_form.templ",
 					ID:              "form",
 				})
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "API Reference",
+				ID:    "api",
+			}) {
+				@modules.APILegend()
+				<div id="selectbox" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "SelectBox",
+						Description: "Root container for the select box component.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the select container. Auto-generated if not provided.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the select container.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the select container.",
+								Required:    false,
+							},
+							{
+								Name:        "Multiple",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether multiple options can be selected.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="trigger" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Trigger",
+						Description: "Button that opens the select dropdown when clicked.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the trigger element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the trigger.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the trigger element.",
+								Required:    false,
+							},
+							{
+								Name:        "Name",
+								Type:        "string",
+								Default:     "",
+								Description: "Name attribute for the hidden input field used in forms.",
+								Required:    false,
+							},
+							{
+								Name:        "Required",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether the select field is required for form validation.",
+								Required:    false,
+							},
+							{
+								Name:        "Disabled",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether the select is disabled and non-interactive.",
+								Required:    false,
+							},
+							{
+								Name:        "HasError",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether to display error styling on the select trigger.",
+								Required:    false,
+							},
+							{
+								Name:        "Multiple",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether multiple selections are allowed.",
+								Required:    false,
+							},
+							{
+								Name:        "ShowPills",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether to show selected items as pills (automatically enables Multiple).",
+								Required:    false,
+							},
+							{
+								Name:        "SelectedCountText",
+								Type:        "string",
+								Default:     "",
+								Description: "Text template for showing selected count in multiple mode.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="value" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Value",
+						Description: "Display area for the selected value(s) or placeholder text.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the value element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the value display.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the value element.",
+								Required:    false,
+							},
+							{
+								Name:        "Placeholder",
+								Type:        "string",
+								Default:     "",
+								Description: "Placeholder text shown when no option is selected.",
+								Required:    false,
+							},
+							{
+								Name:        "Multiple",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether this value display supports multiple selections.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="content" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Content",
+						Description: "Dropdown container that holds the selectable options.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the content element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the dropdown content.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the content element.",
+								Required:    false,
+							},
+							{
+								Name:        "NoSearch",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether to hide the search input in the dropdown.",
+								Required:    false,
+							},
+							{
+								Name:        "SearchPlaceholder",
+								Type:        "string",
+								Default:     "",
+								Description: "Placeholder text for the search input field.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="group" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Group",
+						Description: "Container for grouping related select options together.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the group element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the group.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the group element.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="label" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Label",
+						Description: "Label text for a group of select options.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the label element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the label.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the label element.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="item" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Item",
+						Description: "Individual selectable option within the dropdown.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the item element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the item.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the item element.",
+								Required:    false,
+							},
+							{
+								Name:        "Value",
+								Type:        "string",
+								Default:     "",
+								Description: "The value of this option that will be submitted with forms.",
+								Required:    false,
+							},
+							{
+								Name:        "Selected",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether this option is currently selected.",
+								Required:    false,
+							},
+							{
+								Name:        "Disabled",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether this option is disabled and cannot be selected.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
 			}
 		}
 	}

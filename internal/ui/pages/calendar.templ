@@ -15,6 +15,16 @@ templ Calendar() {
 				ID:   "installation",
 				Text: "Installation",
 			},
+			{
+				ID:   "api",
+				Text: "API Reference",
+				Children: []modules.TableOfContentsItem{
+					{
+						ID:   "calendar",
+						Text: "Calendar",
+					},
+				},
+			},
 		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
@@ -46,6 +56,69 @@ templ Calendar() {
 					ComponentName: "calendar",
 					JSFiles:       []string{"calendar"},
 				})
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "API Reference",
+				ID:    "api",
+			}) {
+				@modules.APILegend()
+				<div id="calendar">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Calendar",
+						Description: "Calendar component for date selection with internationalization support.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the calendar element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the calendar.",
+								Required:    false,
+							},
+							{
+								Name:        "LocaleTag",
+								Type:        "LocaleTag",
+								Default:     "en-US",
+								Description: "Locale tag for internationalization. Options: 'en-US', 'zh-CN', 'fr-FR', 'de-DE', 'it-IT', 'ja-JP', 'pt-PT', 'es-ES'.",
+								Required:    false,
+							},
+							{
+								Name:        "Value",
+								Type:        "*time.Time",
+								Default:     "nil",
+								Description: "Selected date value. Pointer to time.Time for optional selection.",
+								Required:    false,
+							},
+							{
+								Name:        "Name",
+								Type:        "string",
+								Default:     "",
+								Description: "Name attribute for the hidden input field.",
+								Required:    false,
+							},
+							{
+								Name:        "InitialMonth",
+								Type:        "int",
+								Default:     "",
+								Description: "Initial month to display (0-11). Defaults to current month or Value's month.",
+								Required:    false,
+							},
+							{
+								Name:        "InitialYear",
+								Type:        "int",
+								Default:     "",
+								Description: "Initial year to display. Defaults to current year or Value's year.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
 			}
 		}
 	}

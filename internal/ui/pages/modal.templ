@@ -15,6 +15,36 @@ templ Modal() {
 				ID:   "installation",
 				Text: "Installation",
 			},
+			{
+				ID:   "api-reference",
+				Text: "API Reference",
+				Children: []modules.TableOfContentsItem{
+					{
+						ID:   "modal",
+						Text: "Modal",
+					},
+					{
+						ID:   "trigger",
+						Text: "Trigger",
+					},
+					{
+						ID:   "close",
+						Text: "Close",
+					},
+					{
+						ID:   "header",
+						Text: "Header",
+					},
+					{
+						ID:   "body",
+						Text: "Body",
+					},
+					{
+						ID:   "footer",
+						Text: "Footer",
+					},
+				},
+			},
 		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
@@ -46,6 +76,204 @@ templ Modal() {
 					ComponentName: "modal",
 					JSFiles:       []string{"modal"},
 				})
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "API Reference",
+				ID:    "api-reference",
+			}) {
+				@modules.APILegend()
+				<div id="modal" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Modal",
+						Description: "Main modal container component.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "modal-{randomID}",
+								Description: "Unique identifier for the modal",
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Additional CSS classes to apply to the modal content",
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "nil",
+								Description: "Additional HTML attributes to apply to the modal container",
+							},
+							{
+								Name:        "DisableClickAway",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether to disable closing the modal by clicking outside",
+							},
+							{
+								Name:        "DisableESC",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether to disable closing the modal with the ESC key",
+							},
+							{
+								Name:        "InitialOpen",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether the modal should be open initially",
+							},
+						},
+					})
+				</div>
+				<div id="trigger" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Trigger",
+						Description: "Element that triggers the modal to open.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Unique identifier for the trigger element",
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Additional CSS classes to apply to the trigger",
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "nil",
+								Description: "Additional HTML attributes to apply to the trigger",
+							},
+							{
+								Name:        "Disabled",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether the trigger is disabled",
+							},
+							{
+								Name:        "For",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "ID of the modal to trigger when clicked",
+							},
+						},
+					})
+				</div>
+				<div id="close" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Close",
+						Description: "Element that closes the modal.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Unique identifier for the close element",
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Additional CSS classes to apply to the close element",
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "nil",
+								Description: "Additional HTML attributes to apply to the close element",
+							},
+							{
+								Name:        "For",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "ID of the modal to close (defaults to closest modal if empty)",
+							},
+						},
+					})
+				</div>
+				<div id="header" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Header",
+						Description: "Header section of the modal.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Unique identifier for the header element",
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Additional CSS classes to apply to the header",
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "nil",
+								Description: "Additional HTML attributes to apply to the header",
+							},
+						},
+					})
+				</div>
+				<div id="body" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Body",
+						Description: "Body/content section of the modal.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Unique identifier for the body element",
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Additional CSS classes to apply to the body",
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "nil",
+								Description: "Additional HTML attributes to apply to the body",
+							},
+						},
+					})
+				</div>
+				<div id="footer">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Footer",
+						Description: "Footer section of the modal.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Unique identifier for the footer element",
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Additional CSS classes to apply to the footer",
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "nil",
+								Description: "Additional HTML attributes to apply to the footer",
+							},
+						},
+					})
+				</div>
 			}
 		}
 	}

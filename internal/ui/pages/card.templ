@@ -37,6 +37,36 @@ templ Card() {
 					},
 				},
 			},
+			{
+				ID:   "api",
+				Text: "API Reference",
+				Children: []modules.TableOfContentsItem{
+					{
+						ID:   "card",
+						Text: "Card",
+					},
+					{
+						ID:   "header",
+						Text: "Header",
+					},
+					{
+						ID:   "title",
+						Text: "Title",
+					},
+					{
+						ID:   "description",
+						Text: "Description",
+					},
+					{
+						ID:   "content",
+						Text: "Content",
+					},
+					{
+						ID:   "footer",
+						Text: "Footer",
+					},
+				},
+			},
 		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
@@ -67,7 +97,10 @@ templ Card() {
 					ComponentName: "card",
 				})
 			}
-			@modules.ContainerWrapper(modules.ContainerWrapperProps{Title: "Examples"}) {
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "Examples",
+				ID:    "examples",
+			}) {
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Image Left",
 					ShowcaseFile:    showcase.CardImageLeft(),
@@ -92,6 +125,186 @@ templ Card() {
 					PreviewCodeFile: "card_image_bottom.templ",
 					ID:              "image_bottom",
 				})
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "API Reference",
+				ID:    "api",
+			}) {
+				@modules.APILegend()
+				<div id="card" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Card",
+						Description: "Main card container component for organizing related content.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the card element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the card.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the card element.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="header" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Header",
+						Description: "Card header section for titles and metadata.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the header element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the header.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the header element.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="title" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Title",
+						Description: "Card title component for the main heading.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the title element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the title.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the title element.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="description" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Description",
+						Description: "Card description component for additional context.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the description element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the description.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the description element.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="content" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Content",
+						Description: "Card content area for the main body.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the content element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the content.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the content element.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="footer">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Footer",
+						Description: "Card footer section for actions and additional information.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the footer element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the footer.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the footer element.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
 			}
 		}
 	}

@@ -15,6 +15,44 @@ templ Table() {
 				ID:   "installation",
 				Text: "Installation",
 			},
+			{
+				ID:   "api",
+				Text: "API Reference",
+				Children: []modules.TableOfContentsItem{
+					{
+						ID:   "table",
+						Text: "Table",
+					},
+					{
+						ID:   "header",
+						Text: "Header",
+					},
+					{
+						ID:   "body",
+						Text: "Body",
+					},
+					{
+						ID:   "footer",
+						Text: "Footer",
+					},
+					{
+						ID:   "row",
+						Text: "Row",
+					},
+					{
+						ID:   "head",
+						Text: "Head",
+					},
+					{
+						ID:   "cell",
+						Text: "Cell",
+					},
+					{
+						ID:   "caption",
+						Text: "Caption",
+					},
+				},
+			},
 		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
@@ -44,6 +82,251 @@ templ Table() {
 				@modules.ComponentUsage(modules.ComponentUsageProps{
 					ComponentName: "table",
 				})
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "API Reference",
+				ID:    "api",
+			}) {
+				@modules.APILegend()
+				<div id="table" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Table",
+						Description: "Main table container component for displaying tabular data.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the table element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the table.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the table element.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="header" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Header",
+						Description: "Table header container for column headers.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the header element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the header.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the header element.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="body" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Body",
+						Description: "Table body container for table rows and data.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the body element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the body.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the body element.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="footer" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Footer",
+						Description: "Table footer container for summary or additional information.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the footer element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the footer.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the footer element.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="row" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Row",
+						Description: "Table row component for containing table cells.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the row element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the row.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the row element.",
+								Required:    false,
+							},
+							{
+								Name:        "Selected",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether the row is selected (adds selected styling).",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="head" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Head",
+						Description: "Table header cell component for column headers.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the header cell element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the header cell.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the header cell element.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="cell" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Cell",
+						Description: "Table data cell component for displaying content.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the cell element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the cell.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the cell element.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="caption">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Caption",
+						Description: "Table caption component for describing the table content.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the caption element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the caption.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the caption element.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
 			}
 		}
 	}

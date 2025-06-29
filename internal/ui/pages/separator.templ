@@ -33,6 +33,16 @@ templ Separator() {
 					},
 				},
 			},
+			{
+				ID:   "api",
+				Text: "API Reference",
+				Children: []modules.TableOfContentsItem{
+					{
+						ID:   "separator",
+						Text: "Separator",
+					},
+				},
+			},
 		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
@@ -85,6 +95,55 @@ templ Separator() {
 					PreviewCodeFile: "separator_decorated.templ",
 					ID:              "decorated",
 				})
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "API Reference",
+				ID:    "api",
+			}) {
+				@modules.APILegend()
+				<div id="separator" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Separator",
+						Description: "Visual divider component for separating content sections with optional labeling.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the separator element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the separator.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the separator element.",
+								Required:    false,
+							},
+							{
+								Name:        "Orientation",
+								Type:        "Orientation",
+								Default:     "horizontal",
+								Description: "Orientation of the separator. Options: 'horizontal', 'vertical'.",
+								Required:    false,
+							},
+							{
+								Name:        "Decoration",
+								Type:        "Decoration",
+								Default:     "none",
+								Description: "Decoration style for the separator. Options: 'none', 'dashed', 'dotted'.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
 			}
 		}
 	}

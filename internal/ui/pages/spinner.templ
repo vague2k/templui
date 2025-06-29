@@ -33,6 +33,16 @@ templ Spinner() {
 					},
 				},
 			},
+			{
+				ID:   "api",
+				Text: "API Reference",
+				Children: []modules.TableOfContentsItem{
+					{
+						ID:   "spinner",
+						Text: "Spinner",
+					},
+				},
+			},
 		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
@@ -85,6 +95,55 @@ templ Spinner() {
 					PreviewCodeFile: "spinner_in_button.templ",
 					ID:              "in-button",
 				})
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "API Reference",
+				ID:    "api",
+			}) {
+				@modules.APILegend()
+				<div id="spinner" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Spinner",
+						Description: "Animated loading indicator component for showing progress or loading states.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the spinner element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the spinner.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the spinner element.",
+								Required:    false,
+							},
+							{
+								Name:        "Size",
+								Type:        "Size",
+								Default:     "medium",
+								Description: "Size of the spinner. Options: 'small', 'medium', 'large'.",
+								Required:    false,
+							},
+							{
+								Name:        "Color",
+								Type:        "string",
+								Default:     "primary",
+								Description: "Color of the spinner. Uses Tailwind CSS color classes.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
 			}
 		}
 	}

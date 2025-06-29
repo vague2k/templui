@@ -33,6 +33,32 @@ templ Breadcrumb() {
 					},
 				},
 			},
+			{
+				ID:   "api",
+				Text: "API Reference",
+				Children: []modules.TableOfContentsItem{
+					{
+						ID:   "breadcrumb",
+						Text: "Breadcrumb",
+					},
+					{
+						ID:   "list",
+						Text: "List",
+					},
+					{
+						ID:   "item",
+						Text: "Item",
+					},
+					{
+						ID:   "link",
+						Text: "Link",
+					},
+					{
+						ID:   "separator",
+						Text: "Separator",
+					},
+				},
+			},
 		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
@@ -85,6 +111,178 @@ templ Breadcrumb() {
 					PreviewCodeFile: "breadcrumb_responsive.templ",
 					ID:              "responsive",
 				})
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "API Reference",
+				ID:    "api",
+			}) {
+				@modules.APILegend()
+				<div id="breadcrumb" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Breadcrumb",
+						Description: "Main breadcrumb navigation container component.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the breadcrumb element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the breadcrumb.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the breadcrumb element.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="list" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "List",
+						Description: "Breadcrumb list container for organizing breadcrumb items.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the list element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the list.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the list element.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="item" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Item",
+						Description: "Individual breadcrumb item component.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the item element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the item.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the item element.",
+								Required:    false,
+							},
+							{
+								Name:        "Current",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether this item represents the current page.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="link" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Link",
+						Description: "Clickable breadcrumb link component.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the link element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the link.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the link element.",
+								Required:    false,
+							},
+							{
+								Name:        "Href",
+								Type:        "string",
+								Default:     "",
+								Description: "URL destination for the breadcrumb link.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="separator">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Separator",
+						Description: "Visual separator between breadcrumb items.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the separator element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the separator.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the separator element.",
+								Required:    false,
+							},
+							{
+								Name:        "UseCustom",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether to use custom separator content instead of default.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
 			}
 		}
 	}

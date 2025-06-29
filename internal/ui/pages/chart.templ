@@ -103,6 +103,16 @@ templ Chart() {
 					},
 				},
 			},
+			{
+				ID:   "api-reference",
+				Text: "API Reference",
+				Children: []modules.TableOfContentsItem{
+					{
+						ID:   "chart",
+						Text: "Chart",
+					},
+				},
+			},
 		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
@@ -265,6 +275,110 @@ templ Chart() {
 					PreviewCodeFile: "chart_radar_stacked.templ",
 					ID:              "radar-stacked",
 				})
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "API Reference",
+				ID:    "api-reference",
+			}) {
+				@modules.APILegend()
+				<div id="chart">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Chart",
+						Description: "Main chart component that renders various chart types.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "chart-{randomID}",
+								Description: "Unique identifier for the chart element",
+							},
+							{
+								Name:        "Variant",
+								Type:        "Variant",
+								Default:     "-",
+								Description: "Type of chart to render",
+							},
+							{
+								Name:        "Data",
+								Type:        "Data",
+								Default:     "-",
+								Description: "Chart data configuration including labels and datasets",
+							},
+							{
+								Name:        "Options",
+								Type:        "Options",
+								Default:     "{}",
+								Description: "Chart configuration options",
+							},
+							{
+								Name:        "ShowLegend",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether to display the chart legend",
+							},
+							{
+								Name:        "ShowXAxis",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether to display the X-axis",
+							},
+							{
+								Name:        "ShowYAxis",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether to display the Y-axis",
+							},
+							{
+								Name:        "ShowXLabels",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether to display X-axis labels",
+							},
+							{
+								Name:        "ShowYLabels",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether to display Y-axis labels",
+							},
+							{
+								Name:        "ShowXGrid",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether to display X-axis grid lines",
+							},
+							{
+								Name:        "ShowYGrid",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether to display Y-axis grid lines",
+							},
+							{
+								Name:        "Horizontal",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether to render the chart horizontally",
+							},
+							{
+								Name:        "Stacked",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether to stack chart elements",
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Additional CSS classes to apply to the chart container",
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "nil",
+								Description: "Additional HTML attributes to apply to the chart container",
+							},
+						},
+					})
+				</div>
 			}
 		}
 	}

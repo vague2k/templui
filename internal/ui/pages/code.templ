@@ -29,6 +29,16 @@ templ Code() {
 					},
 				},
 			},
+			{
+				ID:   "api-reference",
+				Text: "API Reference",
+				Children: []modules.TableOfContentsItem{
+					{
+						Text: "Code",
+						ID:   "code",
+					},
+				},
+			},
 		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
@@ -77,6 +87,62 @@ templ Code() {
 					PreviewCodeFile: "code_custom_size.templ",
 					ID:              "custom-size",
 				})
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "API Reference",
+				ID:    "api-reference",
+			}) {
+				@modules.APILegend()
+				<div id="code">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Code",
+						Description: "API reference for the Code component.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "code-{randomID}",
+								Description: "Unique identifier for the code component",
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Additional CSS classes to apply to the code container",
+							},
+							{
+								Name:        "Attrs",
+								Type:        "templ.Attributes",
+								Default:     "nil",
+								Description: "Additional HTML attributes to apply to the code container",
+							},
+							{
+								Name:        "Language",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Programming language for syntax highlighting",
+							},
+							{
+								Name:        "ShowCopyButton",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether to show a copy button for the code",
+							},
+							{
+								Name:        "Size",
+								Type:        "Size",
+								Default:     "\"\"",
+								Description: "Size variant for the code block height",
+							},
+							{
+								Name:        "CodeClass",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Additional CSS classes to apply to the code element",
+							},
+						},
+					})
+				</div>
 			}
 		}
 	}

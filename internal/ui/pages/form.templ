@@ -16,6 +16,32 @@ templ Form() {
 				ID:   "installation",
 				Text: "Installation",
 			},
+			{
+				ID:   "api",
+				Text: "API Reference",
+				Children: []modules.TableOfContentsItem{
+					{
+						ID:   "item",
+						Text: "Item",
+					},
+					{
+						ID:   "itemflex",
+						Text: "ItemFlex",
+					},
+					{
+						ID:   "label",
+						Text: "Label",
+					},
+					{
+						ID:   "description",
+						Text: "Description",
+					},
+					{
+						ID:   "message",
+						Text: "Message",
+					},
+				},
+			},
 		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
@@ -96,6 +122,178 @@ templ Form() {
 					}
 				}
 			</div>
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "API Reference",
+				ID:    "api",
+			}) {
+				@modules.APILegend()
+				<div id="item" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Item",
+						Description: "Container for form fields with vertical spacing layout.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the form item container.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the form item.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the form item element.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="itemflex" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "ItemFlex",
+						Description: "Container for form fields with horizontal flex layout (for inline forms).",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the flex form item container.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the flex form item.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the flex form item element.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="label" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Label",
+						Description: "Label element for form controls with proper accessibility association.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the label element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the label.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the label element.",
+								Required:    false,
+							},
+							{
+								Name:        "For",
+								Type:        "string",
+								Default:     "",
+								Description: "ID of the form control this label is associated with.",
+								Required:    false,
+							},
+							{
+								Name:        "DisabledClass",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply when the associated control is disabled.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="description" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Description",
+						Description: "Descriptive text to provide additional context for form fields.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the description element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the description text.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the description element.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="message" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Message",
+						Description: "Message text for displaying validation errors or informational messages.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the message element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the message text.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the message element.",
+								Required:    false,
+							},
+							{
+								Name:        "Variant",
+								Type:        "MessageVariant",
+								Default:     "",
+								Description: "Message type that determines styling. Options: 'error', 'info'.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+			}
 		}
 	}
 }

@@ -37,6 +37,16 @@ templ Checkbox() {
 					},
 				},
 			},
+			{
+				ID:   "api",
+				Text: "API Reference",
+				Children: []modules.TableOfContentsItem{
+					{
+						ID:   "checkbox",
+						Text: "Checkbox",
+					},
+				},
+			},
 		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
@@ -101,6 +111,83 @@ templ Checkbox() {
 					PreviewCodeFile: "checkbox_form.templ",
 					ID:              "form",
 				})
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "API Reference",
+				ID:    "api",
+			}) {
+				@modules.APILegend()
+				<div id="checkbox">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Checkbox",
+						Description: "Control that allows selecting multiple options from a list.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the checkbox element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the checkbox.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the checkbox element.",
+								Required:    false,
+							},
+							{
+								Name:        "Name",
+								Type:        "string",
+								Default:     "",
+								Description: "Name attribute for the form input.",
+								Required:    false,
+							},
+							{
+								Name:        "Value",
+								Type:        "string",
+								Default:     "",
+								Description: "Value attribute for the checkbox input.",
+								Required:    false,
+							},
+							{
+								Name:        "Disabled",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether the checkbox is disabled and non-interactive.",
+								Required:    false,
+							},
+							{
+								Name:        "Required",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether the checkbox is required for form submission.",
+								Required:    false,
+							},
+							{
+								Name:        "Checked",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether the checkbox is initially checked.",
+								Required:    false,
+							},
+							{
+								Name:        "Icon",
+								Type:        "templ.Component",
+								Default:     "",
+								Description: "Custom icon component to use instead of the default checkmark.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
 			}
 		}
 	}

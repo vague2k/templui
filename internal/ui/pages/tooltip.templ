@@ -25,6 +25,24 @@ templ Tooltip() {
 					},
 				},
 			},
+			{
+				ID:   "api",
+				Text: "API Reference",
+				Children: []modules.TableOfContentsItem{
+					{
+						ID:   "tooltip",
+						Text: "Tooltip",
+					},
+					{
+						ID:   "trigger",
+						Text: "Trigger",
+					},
+					{
+						ID:   "content",
+						Text: "Content",
+					},
+				},
+			},
 		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
@@ -67,6 +85,134 @@ templ Tooltip() {
 					ShowcaseFile:    showcase.TooltipPositions(),
 					ID:              "positions",
 				})
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "API Reference",
+				ID:    "api",
+			}) {
+				@modules.APILegend()
+				<div id="tooltip" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Tooltip",
+						Description: "Root wrapper component for tooltip functionality.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the tooltip wrapper.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the tooltip wrapper.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the tooltip wrapper.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="trigger" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Trigger",
+						Description: "Element that triggers the tooltip on hover.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the trigger element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the trigger.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the trigger element.",
+								Required:    false,
+							},
+							{
+								Name:        "For",
+								Type:        "string",
+								Default:     "",
+								Description: "ID of the tooltip content this trigger controls.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="content" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Content",
+						Description: "Container for the tooltip content with positioning options.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the content element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the content. Default styling includes dark background.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the content element.",
+								Required:    false,
+							},
+							{
+								Name:        "ShowArrow",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether to show an arrow pointing to the trigger element.",
+								Required:    false,
+							},
+							{
+								Name:        "Position",
+								Type:        "Position",
+								Default:     "top",
+								Description: "Position of the tooltip relative to trigger. Options: 'top', 'right', 'bottom', 'left'.",
+								Required:    false,
+							},
+							{
+								Name:        "HoverDelay",
+								Type:        "int",
+								Default:     "0",
+								Description: "Delay in milliseconds before showing the tooltip on hover.",
+								Required:    false,
+							},
+							{
+								Name:        "HoverOutDelay",
+								Type:        "int",
+								Default:     "0",
+								Description: "Delay in milliseconds before hiding the tooltip on hover out.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
 			}
 		}
 	}

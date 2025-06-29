@@ -26,6 +26,40 @@ templ Drawer() {
 					},
 				},
 			},
+			{
+				ID:   "api-reference",
+				Text: "API Reference",
+				Children: []modules.TableOfContentsItem{
+					{
+						ID:   "trigger",
+						Text: "Trigger",
+					},
+					{
+						ID:   "content",
+						Text: "Content",
+					},
+					{
+						ID:   "header",
+						Text: "Header",
+					},
+					{
+						ID:   "title",
+						Text: "Title",
+					},
+					{
+						ID:   "description",
+						Text: "Description",
+					},
+					{
+						ID:   "footer",
+						Text: "Footer",
+					},
+					{
+						ID:   "close",
+						Text: "Close",
+					},
+				},
+			},
 		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
@@ -68,6 +102,211 @@ templ Drawer() {
 					PreviewCodeFile: "drawer_positions.templ",
 					ID:              "positions",
 				})
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "API Reference",
+				ID:    "api-reference",
+			}) {
+				@modules.APILegend()
+				<div id="trigger" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title: "Trigger",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Unique identifier for the trigger element",
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Additional CSS classes to apply to the trigger",
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "nil",
+								Description: "Additional HTML attributes to apply to the trigger",
+							},
+							{
+								Name:        "For",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "ID of the drawer to trigger when clicked",
+							},
+						},
+					})
+				</div>
+				<div id="content" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title: "Content",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "randomID",
+								Description: "Unique identifier for the drawer content",
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Additional CSS classes to apply to the content container",
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "nil",
+								Description: "Additional HTML attributes to apply to the content container",
+							},
+							{
+								Name:        "Position",
+								Type:        "Position",
+								Default:     "\"\"",
+								Description: "Position from which the drawer slides in",
+							},
+							{
+								Name:        "InitialOpen",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether the drawer should be open initially",
+							},
+						},
+					})
+				</div>
+				<div id="header" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title: "Header",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Unique identifier for the header element",
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Additional CSS classes to apply to the header",
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "nil",
+								Description: "Additional HTML attributes to apply to the header",
+							},
+						},
+					})
+				</div>
+				<div id="title" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title: "Title",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Unique identifier for the title element",
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Additional CSS classes to apply to the title",
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "nil",
+								Description: "Additional HTML attributes to apply to the title",
+							},
+						},
+					})
+				</div>
+				<div id="description" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title: "Description",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Unique identifier for the description element",
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Additional CSS classes to apply to the description",
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "nil",
+								Description: "Additional HTML attributes to apply to the description",
+							},
+						},
+					})
+				</div>
+				<div id="footer" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title: "Footer",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Unique identifier for the footer element",
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Additional CSS classes to apply to the footer",
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "nil",
+								Description: "Additional HTML attributes to apply to the footer",
+							},
+						},
+					})
+				</div>
+				<div id="close">
+					@modules.APITable(modules.APITableProps{
+						Title: "Close",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Unique identifier for the close button",
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Additional CSS classes to apply to the close button",
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "nil",
+								Description: "Additional HTML attributes to apply to the close button",
+							},
+							{
+								Name:        "For",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "ID of the drawer to close (defaults to closest drawer if empty)",
+							},
+						},
+					})
+				</div>
 			}
 		}
 	}

@@ -45,6 +45,16 @@ templ DatePicker() {
 					},
 				},
 			},
+			{
+				ID:   "api-reference",
+				Text: "API Reference",
+				Children: []modules.TableOfContentsItem{
+					{
+						Text: "DatePicker",
+						ID:   "date-picker",
+					},
+				},
+			},
 		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
@@ -117,6 +127,86 @@ templ DatePicker() {
 					PreviewCodeFile: "date_picker_form.templ",
 					ID:              "form",
 				})
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "API Reference",
+				ID:    "api-reference",
+			}) {
+				@modules.APILegend()
+				<div id="date-picker">
+					@modules.APITable(modules.APITableProps{
+						Title:       "DatePicker",
+						Description: "Main date picker component that triggers the popover calendar.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "randomID",
+								Description: "Unique identifier for the date picker component",
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Additional CSS classes to apply to the trigger button",
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "nil",
+								Description: "Additional HTML attributes to apply to the trigger button",
+							},
+							{
+								Name:        "Value",
+								Type:        "time.Time",
+								Default:     "time.Time{}",
+								Description: "Current selected date value",
+							},
+							{
+								Name:        "Format",
+								Type:        "Format",
+								Default:     "locale-medium",
+								Description: "Display format for the selected date",
+							},
+							{
+								Name:        "LocaleTag",
+								Type:        "LocaleTag",
+								Default:     "en-US",
+								Description: "BCP 47 Locale Tag for language and regional format",
+							},
+							{
+								Name:        "Placeholder",
+								Type:        "string",
+								Default:     "Select a date",
+								Description: "Placeholder text when no date is selected",
+							},
+							{
+								Name:        "Disabled",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether the date picker is disabled",
+							},
+							{
+								Name:        "Required",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether the date picker is required for form validation",
+							},
+							{
+								Name:        "HasError",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether the date picker should display error styling",
+							},
+							{
+								Name:        "Name",
+								Type:        "string",
+								Default:     "ID value",
+								Description: "Name attribute for the hidden input field",
+							},
+						},
+					})
+				</div>
 			}
 		}
 	}

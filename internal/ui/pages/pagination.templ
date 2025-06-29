@@ -25,6 +25,36 @@ templ Pagination() {
 					},
 				},
 			},
+			{
+				ID:   "api",
+				Text: "API Reference",
+				Children: []modules.TableOfContentsItem{
+					{
+						ID:   "pagination",
+						Text: "Pagination",
+					},
+					{
+						ID:   "content",
+						Text: "Content",
+					},
+					{
+						ID:   "item",
+						Text: "Item",
+					},
+					{
+						ID:   "link",
+						Text: "Link",
+					},
+					{
+						ID:   "previous",
+						Text: "Previous",
+					},
+					{
+						ID:   "next",
+						Text: "Next",
+					},
+				},
+			},
 		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
@@ -65,6 +95,249 @@ templ Pagination() {
 					PreviewCodeFile: "pagination_with_helper.templ",
 					ID:              "with-helper",
 				})
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "API Reference",
+				ID:    "api",
+			}) {
+				@modules.APILegend()
+				<div id="pagination" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Pagination",
+						Description: "Root navigation container for pagination controls.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the pagination nav element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the pagination container.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the pagination element.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="content" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Content",
+						Description: "List container that holds pagination items.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the content list element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the content list.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the content element.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="item" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Item",
+						Description: "Individual list item that wraps pagination links or buttons.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the item element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the item.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the item element.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="link" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Link",
+						Description: "Clickable link or button for page navigation.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the link element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the link.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the link element.",
+								Required:    false,
+							},
+							{
+								Name:        "Href",
+								Type:        "string",
+								Default:     "",
+								Description: "URL for the page link. Required for functional links.",
+								Required:    false,
+							},
+							{
+								Name:        "IsActive",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether this page link represents the current page.",
+								Required:    false,
+							},
+							{
+								Name:        "Disabled",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether the link is disabled and non-clickable.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="previous" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Previous",
+						Description: "Navigation button for going to the previous page.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the previous button.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the button.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the button element.",
+								Required:    false,
+							},
+							{
+								Name:        "Href",
+								Type:        "string",
+								Default:     "",
+								Description: "URL for the previous page.",
+								Required:    false,
+							},
+							{
+								Name:        "Disabled",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether the previous button is disabled (e.g., on first page).",
+								Required:    false,
+							},
+							{
+								Name:        "Label",
+								Type:        "string",
+								Default:     "",
+								Description: "Text label to display alongside the chevron icon.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="next" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Next",
+						Description: "Navigation button for going to the next page.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the next button.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the button.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the button element.",
+								Required:    false,
+							},
+							{
+								Name:        "Href",
+								Type:        "string",
+								Default:     "",
+								Description: "URL for the next page.",
+								Required:    false,
+							},
+							{
+								Name:        "Disabled",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether the next button is disabled (e.g., on last page).",
+								Required:    false,
+							},
+							{
+								Name:        "Label",
+								Type:        "string",
+								Default:     "",
+								Description: "Text label to display alongside the chevron icon.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
 			}
 		}
 	}

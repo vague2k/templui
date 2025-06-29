@@ -41,6 +41,16 @@ templ Badge() {
 					},
 				},
 			},
+			{
+				ID:   "api",
+				Text: "API Reference",
+				Children: []modules.TableOfContentsItem{
+					{
+						ID:   "badge",
+						Text: "Badge",
+					},
+				},
+			},
 		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
@@ -105,6 +115,48 @@ templ Badge() {
 					PreviewCodeFile: "badge_with_icon.templ",
 					ID:              "with_icon",
 				})
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "API Reference",
+				ID:    "api",
+			}) {
+				@modules.APILegend()
+				<div id="badge">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Badge",
+						Description: "Badge component for displaying small pieces of information.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the badge element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the badge.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the badge element.",
+								Required:    false,
+							},
+							{
+								Name:        "Variant",
+								Type:        "Variant",
+								Default:     "default",
+								Description: "Visual style variant. Options: 'default', 'secondary', 'destructive', 'outline'.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
 			}
 		}
 	}
