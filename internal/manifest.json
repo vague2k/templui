@@ -1,5 +1,5 @@
 {
-  "version": "v0.81.0",
+  "version": "v0.81.1",
   "components": [
     {
       "name": "accordion",
@@ -237,6 +237,13 @@
       "description": "Tabbed content navigation",
       "files": ["internal/components/tabs/tabs.templ"],
       "dependencies": [],
+      "hasJS": true
+    },
+    {
+      "name": "tagsinput",
+      "description": "Input for multiple tags or labels",
+      "files": ["internal/components/tagsinput/tagsinput.templ"],
+      "dependencies": ["badge", "input"],
       "hasJS": true
     },
     {
