@@ -1,0 +1,30 @@
+package modules
+
+import (
+	"github.com/axzilla/templui/internal/components/card"
+	"github.com/axzilla/templui/internal/components/icon"
+)
+
+templ APILegend() {
+	@card.Card(card.Props{
+		Class: "mb-6",
+	}) {
+		@card.Content(card.ContentProps{
+			Class: "p-4",
+		}) {
+			<div class="flex items-center gap-4 text-sm text-muted-foreground">
+				<div class="flex items-center gap-2">
+					<div class="w-1.5 h-1.5 bg-red-500 rounded-full"></div>
+					<span>Required parameter</span>
+				</div>
+				<div class="flex items-center gap-2">
+					@icon.Icon("info")(icon.Props{
+						Size:  14,
+						Class: "text-muted-foreground",
+					})
+					<span>Hover for description</span>
+				</div>
+			</div>
+		}
+	}
+}

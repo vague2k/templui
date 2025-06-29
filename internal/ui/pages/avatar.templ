@@ -37,6 +37,28 @@ templ Avatar() {
 					},
 				},
 			},
+			{
+				ID:   "api",
+				Text: "API Reference",
+				Children: []modules.TableOfContentsItem{
+					{
+						ID:   "avatar",
+						Text: "Avatar",
+					},
+					{
+						ID:   "image",
+						Text: "Image",
+					},
+					{
+						ID:   "fallback",
+						Text: "Fallback",
+					},
+					{
+						ID:   "group",
+						Text: "Group",
+					},
+				},
+			},
 		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
@@ -97,6 +119,163 @@ templ Avatar() {
 					PreviewCodeFile: "avatar_group.templ",
 					ID:              "group",
 				})
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "API Reference",
+				ID:    "api",
+			}) {
+				@modules.APILegend()
+				<div id="avatar" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Avatar",
+						Description: "Root container for avatar component that manages fallback behavior and styling.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the avatar element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the avatar.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the avatar element.",
+								Required:    false,
+							},
+							{
+								Name:        "Size",
+								Type:        "Size",
+								Default:     "medium",
+								Description: "Size of the avatar. Options: 'small', 'medium', 'large'.",
+								Required:    false,
+							},
+							{
+								Name:        "InGroup",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Indicates if the avatar is part of a group layout.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="image" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Image",
+						Description: "Image element within the avatar that displays the user's photo.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the image element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the image.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the image element.",
+								Required:    false,
+							},
+							{
+								Name:        "Src",
+								Type:        "string",
+								Default:     "",
+								Description: "Image source URL.",
+								Required:    true,
+							},
+							{
+								Name:        "Alt",
+								Type:        "string",
+								Default:     "",
+								Description: "Alternative text for the image.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="fallback" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Fallback",
+						Description: "Fallback element displayed when the image fails to load, typically showing initials or an icon.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the fallback element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the fallback.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the fallback element.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="group">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Group",
+						Description: "Container for displaying multiple avatars in a group layout.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the group element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the group.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the group element.",
+								Required:    false,
+							},
+							{
+								Name:        "Spacing",
+								Type:        "Spacing",
+								Default:     "SpacingMd",
+								Description: "Spacing between avatars in the group.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
 			}
 		}
 	}

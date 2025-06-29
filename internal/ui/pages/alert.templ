@@ -25,6 +25,24 @@ templ Alert() {
 					},
 				},
 			},
+			{
+				ID:   "api",
+				Text: "API Reference",
+				Children: []modules.TableOfContentsItem{
+					{
+						ID:   "alert",
+						Text: "Alert",
+					},
+					{
+						ID:   "title",
+						Text: "Title",
+					},
+					{
+						ID:   "description",
+						Text: "Description",
+					},
+				},
+			},
 		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
@@ -65,6 +83,106 @@ templ Alert() {
 					PreviewCodeFile: "alert_destructive.templ",
 					ID:              "destructive",
 				})
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "API Reference",
+				ID:    "api",
+			}) {
+				@modules.APILegend()
+				<div id="alert" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Alert",
+						Description: "Main alert container component for displaying status messages.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the alert element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the alert.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the alert element.",
+								Required:    false,
+							},
+							{
+								Name:        "Variant",
+								Type:        "Variant",
+								Default:     "default",
+								Description: "Visual style variant. Options: 'default', 'destructive'.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="title" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Title",
+						Description: "Alert title component for the main heading.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the title element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the title.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the title element.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="description">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Description",
+						Description: "Alert description component for detailed content.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the description element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the description.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the description element.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
 			}
 		}
 	}

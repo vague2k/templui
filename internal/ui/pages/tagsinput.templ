@@ -33,6 +33,16 @@ templ TagsInput() {
 					},
 				},
 			},
+			{
+				ID:   "api",
+				Text: "API Reference",
+				Children: []modules.TableOfContentsItem{
+					{
+						ID:   "tagsinput",
+						Text: "TagsInput",
+					},
+				},
+			},
 		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
@@ -87,6 +97,83 @@ templ TagsInput() {
 					PreviewCodeFile: "tagsinput_form.templ",
 					ID:              "form",
 				})
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "API Reference",
+				ID:    "api",
+			}) {
+				@modules.APILegend()
+				<div id="tagsinput" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "TagsInput",
+						Description: "Interactive input component for managing a collection of tags.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the tags input container.",
+								Required:    false,
+							},
+							{
+								Name:        "Name",
+								Type:        "string",
+								Default:     "",
+								Description: "Name attribute for the hidden input fields used in form submission.",
+								Required:    false,
+							},
+							{
+								Name:        "Value",
+								Type:        "[]string",
+								Default:     "[]",
+								Description: "Array of current tag values.",
+								Required:    false,
+							},
+							{
+								Name:        "Placeholder",
+								Type:        "string",
+								Default:     "",
+								Description: "Placeholder text for the input field.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the tags input container.",
+								Required:    false,
+							},
+							{
+								Name:        "HasError",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether to display error styling on the input.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the container element.",
+								Required:    false,
+							},
+							{
+								Name:        "Disabled",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether the input is disabled and non-interactive.",
+								Required:    false,
+							},
+							{
+								Name:        "Readonly",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether the input is read-only (tags can be removed but not added).",
+								Required:    false,
+							},
+						},
+					})
+				</div>
 			}
 		}
 	}

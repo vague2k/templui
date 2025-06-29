@@ -16,6 +16,16 @@ templ Label() {
 				ID:   "installation",
 				Text: "Installation",
 			},
+			{
+				ID:   "api",
+				Text: "API Reference",
+				Children: []modules.TableOfContentsItem{
+					{
+						ID:   "label",
+						Text: "Label",
+					},
+				},
+			},
 		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
@@ -100,6 +110,55 @@ templ Label() {
 					}
 				}
 			</div>
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "API Reference",
+				ID:    "api",
+			}) {
+				@modules.APILegend()
+				<div id="label" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Label",
+						Description: "Accessible label component for associating text with form controls.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the label element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the label.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the label element.",
+								Required:    false,
+							},
+							{
+								Name:        "For",
+								Type:        "string",
+								Default:     "",
+								Description: "ID of the form control this label is associated with (for attribute).",
+								Required:    false,
+							},
+							{
+								Name:        "Error",
+								Type:        "string",
+								Default:     "",
+								Description: "Error message that changes the label styling to indicate validation errors.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+			}
 		}
 	}
 }

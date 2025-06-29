@@ -15,6 +15,56 @@ templ Dropdown() {
 				ID:   "installation",
 				Text: "Installation",
 			},
+			{
+				ID:   "api-reference",
+				Text: "API Reference",
+				Children: []modules.TableOfContentsItem{
+					{
+						ID:   "dropdown",
+						Text: "Dropdown",
+					},
+					{
+						ID:   "trigger",
+						Text: "Trigger",
+					},
+					{
+						ID:   "content",
+						Text: "Content",
+					},
+					{
+						ID:   "group",
+						Text: "Group",
+					},
+					{
+						ID:   "label",
+						Text: "Label",
+					},
+					{
+						ID:   "item",
+						Text: "Item",
+					},
+					{
+						ID:   "separator",
+						Text: "Separator",
+					},
+					{
+						ID:   "shortcut",
+						Text: "Shortcut",
+					},
+					{
+						ID:   "sub",
+						Text: "Sub",
+					},
+					{
+						ID:   "subtrigger",
+						Text: "SubTrigger",
+					},
+					{
+						ID:   "subcontent",
+						Text: "SubContent",
+					},
+				},
+			},
 		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
@@ -46,6 +96,335 @@ templ Dropdown() {
 					ComponentName: "dropdown",
 					JSFiles:       []string{"dropdown", "popover"},
 				})
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "API Reference",
+				ID:    "api-reference",
+			}) {
+				@modules.APILegend()
+				<div id="dropdown" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title: "Dropdown",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "randomID",
+								Description: "Unique identifier for the dropdown container",
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Additional CSS classes to apply to the dropdown container",
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "nil",
+								Description: "Additional HTML attributes to apply to the dropdown container",
+							},
+						},
+					})
+				</div>
+				<div id="trigger" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title: "Trigger",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Unique identifier for the trigger element",
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Additional CSS classes to apply to the trigger",
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "nil",
+								Description: "Additional HTML attributes to apply to the trigger",
+							},
+						},
+					})
+				</div>
+				<div id="content" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title: "Content",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Unique identifier for the content element",
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Additional CSS classes to apply to the content",
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "nil",
+								Description: "Additional HTML attributes to apply to the content",
+							},
+							{
+								Name:        "Width",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Custom width for the dropdown content",
+							},
+							{
+								Name:        "MaxHeight",
+								Type:        "string",
+								Default:     "300px",
+								Description: "Maximum height for the dropdown content",
+							},
+							{
+								Name:        "Align",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Alignment of the dropdown relative to trigger",
+							},
+							{
+								Name:        "Side",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Side placement of the dropdown",
+							},
+						},
+					})
+				</div>
+				<div id="group" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title: "Group",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Unique identifier for the group element",
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Additional CSS classes to apply to the group",
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "nil",
+								Description: "Additional HTML attributes to apply to the group",
+							},
+						},
+					})
+				</div>
+				<div id="label" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title: "Label",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Unique identifier for the label element",
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Additional CSS classes to apply to the label",
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "nil",
+								Description: "Additional HTML attributes to apply to the label",
+							},
+						},
+					})
+				</div>
+				<div id="item" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title: "Item",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "randomID",
+								Description: "Unique identifier for the item element",
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Additional CSS classes to apply to the item",
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "nil",
+								Description: "Additional HTML attributes to apply to the item",
+							},
+							{
+								Name:        "Disabled",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether the item is disabled",
+							},
+							{
+								Name:        "Href",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "URL to navigate to when item is clicked (renders as anchor)",
+							},
+							{
+								Name:        "Target",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Target attribute for anchor items",
+							},
+							{
+								Name:        "PreventClose",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether to prevent dropdown from closing when item is clicked",
+							},
+						},
+					})
+				</div>
+				<div id="separator" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title: "Separator",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Unique identifier for the separator element",
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Additional CSS classes to apply to the separator",
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "nil",
+								Description: "Additional HTML attributes to apply to the separator",
+							},
+						},
+					})
+				</div>
+				<div id="shortcut" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title: "Shortcut",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Unique identifier for the shortcut element",
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Additional CSS classes to apply to the shortcut",
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "nil",
+								Description: "Additional HTML attributes to apply to the shortcut",
+							},
+						},
+					})
+				</div>
+				<div id="sub" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title: "Sub",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "randomID",
+								Description: "Unique identifier for the submenu container",
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Additional CSS classes to apply to the submenu container",
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "nil",
+								Description: "Additional HTML attributes to apply to the submenu container",
+							},
+						},
+					})
+				</div>
+				<div id="subtrigger" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title: "SubTrigger",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Unique identifier for the submenu trigger",
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Additional CSS classes to apply to the submenu trigger",
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "nil",
+								Description: "Additional HTML attributes to apply to the submenu trigger",
+							},
+						},
+					})
+				</div>
+				<div id="subcontent">
+					@modules.APITable(modules.APITableProps{
+						Title: "SubContent",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Unique identifier for the submenu content",
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Additional CSS classes to apply to the submenu content",
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "nil",
+								Description: "Additional HTML attributes to apply to the submenu content",
+							},
+						},
+					})
+				</div>
 			}
 		}
 	}

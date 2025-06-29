@@ -14,6 +14,16 @@ templ AspectRatio() {
 				ID:   "installation",
 				Text: "Installation",
 			},
+			{
+				ID:   "api",
+				Text: "API Reference",
+				Children: []modules.TableOfContentsItem{
+					{
+						ID:   "aspectratio",
+						Text: "AspectRatio",
+					},
+				},
+			},
 		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
@@ -43,6 +53,48 @@ templ AspectRatio() {
 				@modules.ComponentUsage(modules.ComponentUsageProps{
 					ComponentName: "aspectratio",
 				})
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "API Reference",
+				ID:    "api",
+			}) {
+				@modules.APILegend()
+				<div id="aspectratio">
+					@modules.APITable(modules.APITableProps{
+						Title:       "AspectRatio",
+						Description: "Component for maintaining consistent width-to-height ratios across different screen sizes.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the aspect ratio element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the aspect ratio container.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the aspect ratio element.",
+								Required:    false,
+							},
+							{
+								Name:        "Ratio",
+								Type:        "Ratio",
+								Default:     "auto",
+								Description: "Aspect ratio preset. Options: 'auto', 'square', 'video', 'portrait', 'wide'.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
 			}
 		}
 	}

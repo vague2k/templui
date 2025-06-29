@@ -41,6 +41,16 @@ templ Textarea() {
 					},
 				},
 			},
+			{
+				ID:   "api",
+				Text: "API Reference",
+				Children: []modules.TableOfContentsItem{
+					{
+						ID:   "textarea",
+						Text: "Textarea",
+					},
+				},
+			},
 		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
@@ -107,6 +117,97 @@ templ Textarea() {
 					PreviewCodeFile: "textarea_form.templ",
 					ID:              "form",
 				})
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "API Reference",
+				ID:    "api",
+			}) {
+				@modules.APILegend()
+				<div id="textarea" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Textarea",
+						Description: "Multi-line text field component for longer form content with auto-resize capability.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the textarea element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the textarea.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the textarea element.",
+								Required:    false,
+							},
+							{
+								Name:        "Name",
+								Type:        "string",
+								Default:     "",
+								Description: "Name attribute for form submission.",
+								Required:    false,
+							},
+							{
+								Name:        "Placeholder",
+								Type:        "string",
+								Default:     "",
+								Description: "Placeholder text displayed when textarea is empty.",
+								Required:    false,
+							},
+							{
+								Name:        "Value",
+								Type:        "string",
+								Default:     "",
+								Description: "Initial value of the textarea.",
+								Required:    false,
+							},
+							{
+								Name:        "Rows",
+								Type:        "int",
+								Default:     "3",
+								Description: "Number of visible text lines in the textarea.",
+								Required:    false,
+							},
+							{
+								Name:        "Disabled",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether the textarea is disabled and non-interactive.",
+								Required:    false,
+							},
+							{
+								Name:        "AutoResize",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether the textarea should automatically resize based on content.",
+								Required:    false,
+							},
+							{
+								Name:        "Required",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether the textarea is required for form submission.",
+								Required:    false,
+							},
+							{
+								Name:        "ReadOnly",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether the textarea is read-only.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
 			}
 		}
 	}

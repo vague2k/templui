@@ -171,7 +171,7 @@ func main() {
 		"out/showcase/popover_triggers.html":  showcase.PopoverTriggers(),
 
 		// Progress
-		"out/showcase/progress_colors.html":  showcase.ProgressColors(),
+		"out/showcase/progress_colors.html":  showcase.ProgressVariants(),
 		"out/showcase/progress_default.html": showcase.ProgressDefault(),
 		"out/showcase/progress_sizes.html":   showcase.ProgressSizes(),
 

@@ -33,6 +33,16 @@ templ Skeleton() {
 					},
 				},
 			},
+			{
+				ID:   "api",
+				Text: "API Reference",
+				Children: []modules.TableOfContentsItem{
+					{
+						ID:   "skeleton",
+						Text: "Skeleton",
+					},
+				},
+			},
 		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
@@ -85,6 +95,41 @@ templ Skeleton() {
 					PreviewCodeFile: "skeleton_dashboard.templ",
 					ID:              "dashboard",
 				})
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "API Reference",
+				ID:    "api",
+			}) {
+				@modules.APILegend()
+				<div id="skeleton" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Skeleton",
+						Description: "Loading placeholder component that can be composed into complex loading UI patterns.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the skeleton element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the skeleton.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the skeleton element.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
 			}
 		}
 	}

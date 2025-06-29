@@ -24,8 +24,8 @@ templ Progress() {
 						ID:   "sizes",
 					},
 					{
-						Text: "Colors",
-						ID:   "colors",
+						Text: "Variants",
+						ID:   "variants",
 					},
 				},
 			},
@@ -44,6 +44,16 @@ templ Progress() {
 					{
 						Text: "Background Processes",
 						ID:   "background-processes",
+					},
+				},
+			},
+			{
+				ID:   "api",
+				Text: "API Reference",
+				Children: []modules.TableOfContentsItem{
+					{
+						ID:   "progress",
+						Text: "Progress",
 					},
 				},
 			},
@@ -90,10 +100,10 @@ templ Progress() {
 					ID:              "sizes",
 				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:     "Colors",
-					ShowcaseFile:    showcase.ProgressColors(),
-					PreviewCodeFile: "progress_colors.templ",
-					ID:              "colors",
+					SectionName:     "Variants",
+					ShowcaseFile:    showcase.ProgressVariants(),
+					PreviewCodeFile: "progress_variants.templ",
+					ID:              "variants",
 				})
 			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
@@ -148,6 +158,90 @@ templ Progress() {
 							})
 						</li>
 					</ul>
+				</div>
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "API Reference",
+				ID:    "api",
+			}) {
+				@modules.APILegend()
+				<div id="progress" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Progress",
+						Description: "Visual progress indicator component for showing completion status of tasks or processes.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the progress element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the progress.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the progress element.",
+								Required:    false,
+							},
+							{
+								Name:        "Value",
+								Type:        "int",
+								Default:     "0",
+								Description: "Current progress value (0-100).",
+								Required:    false,
+							},
+							{
+								Name:        "Max",
+								Type:        "int",
+								Default:     "0",
+								Description: "Maximum value for the progress (defaults to 100 if 0 or negative).",
+								Required:    false,
+							},
+							{
+								Name:        "Size",
+								Type:        "Size",
+								Default:     "",
+								Description: "Size of the progress bar. Options: 'sm', 'lg', or default (empty).",
+								Required:    false,
+							},
+							{
+								Name:        "Variant",
+								Type:        "Variant",
+								Default:     "",
+								Description: "Color variant of the progress bar. Options: 'default', 'success', 'danger', 'warning' (defaults to 'default' if empty).",
+								Required:    false,
+							},
+							{
+								Name:        "BarClass",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the progress bar itself.",
+								Required:    false,
+							},
+							{
+								Name:        "Label",
+								Type:        "string",
+								Default:     "",
+								Description: "Optional label text to display above the progress bar.",
+								Required:    false,
+							},
+							{
+								Name:        "ShowValue",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether to display the progress value as text.",
+								Required:    false,
+							},
+						},
+					})
 				</div>
 			}
 		}

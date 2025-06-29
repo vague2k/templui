@@ -41,6 +41,16 @@ templ Input() {
 					},
 				},
 			},
+			{
+				ID:   "api",
+				Text: "API Reference",
+				Children: []modules.TableOfContentsItem{
+					{
+						ID:   "input",
+						Text: "Input",
+					},
+				},
+			},
 		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
@@ -107,6 +117,111 @@ templ Input() {
 					PreviewCodeFile: "input_form.templ",
 					ID:              "form",
 				})
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "API Reference",
+				ID:    "api",
+			}) {
+				@modules.APILegend()
+				<div id="input">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Input",
+						Description: "Text field that allows users to enter and edit values.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the input element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the input.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the input element.",
+								Required:    false,
+							},
+							{
+								Name:        "Name",
+								Type:        "string",
+								Default:     "",
+								Description: "Name attribute for the form input.",
+								Required:    false,
+							},
+							{
+								Name:        "Type",
+								Type:        "Type",
+								Default:     "text",
+								Description: "Input type. Options: 'text', 'password', 'email', 'number', 'tel', 'url', 'search', 'date', 'time', 'file'.",
+								Required:    false,
+							},
+							{
+								Name:        "Placeholder",
+								Type:        "string",
+								Default:     "",
+								Description: "Placeholder text to display when input is empty.",
+								Required:    false,
+							},
+							{
+								Name:        "Value",
+								Type:        "string",
+								Default:     "",
+								Description: "Current value of the input field.",
+								Required:    false,
+							},
+							{
+								Name:        "Disabled",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether the input is disabled and non-interactive.",
+								Required:    false,
+							},
+							{
+								Name:        "Readonly",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether the input is read-only.",
+								Required:    false,
+							},
+							{
+								Name:        "Required",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether the input is required for form submission.",
+								Required:    false,
+							},
+							{
+								Name:        "FileAccept",
+								Type:        "string",
+								Default:     "",
+								Description: "Accepted file types for file inputs (e.g., '.jpg,.png').",
+								Required:    false,
+							},
+							{
+								Name:        "HasError",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether the input has a validation error.",
+								Required:    false,
+							},
+							{
+								Name:        "NoTogglePassword",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Disable password visibility toggle for password inputs.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
 			}
 		}
 	}

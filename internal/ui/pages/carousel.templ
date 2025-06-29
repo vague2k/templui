@@ -33,6 +33,36 @@ templ Carousel() {
 					},
 				},
 			},
+			{
+				ID:   "api",
+				Text: "API Reference",
+				Children: []modules.TableOfContentsItem{
+					{
+						ID:   "carousel",
+						Text: "Carousel",
+					},
+					{
+						ID:   "content",
+						Text: "Content",
+					},
+					{
+						ID:   "item",
+						Text: "Item",
+					},
+					{
+						ID:   "previous",
+						Text: "Previous",
+					},
+					{
+						ID:   "next",
+						Text: "Next",
+					},
+					{
+						ID:   "indicators",
+						Text: "Indicators",
+					},
+				},
+			},
 		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
@@ -87,6 +117,214 @@ templ Carousel() {
 					PreviewCodeFile: "carousel_with_images.templ",
 					ID:              "with-images",
 				})
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "API Reference",
+				ID:    "api",
+			}) {
+				@modules.APILegend()
+				<div id="carousel" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Carousel",
+						Description: "Main carousel container component for interactive slideshows.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the carousel element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the carousel.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the carousel element.",
+								Required:    false,
+							},
+							{
+								Name:        "Autoplay",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether the carousel should automatically advance slides.",
+								Required:    false,
+							},
+							{
+								Name:        "Interval",
+								Type:        "int",
+								Default:     "5000",
+								Description: "Time in milliseconds between automatic slide transitions.",
+								Required:    false,
+							},
+							{
+								Name:        "Loop",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether the carousel should loop back to the first slide after the last.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="content" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Content",
+						Description: "Container for carousel slides with smooth transitions.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the content element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the content.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the content element.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="item" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Item",
+						Description: "Individual carousel slide container.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the item element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the item.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the item element.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="previous" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Previous",
+						Description: "Navigation button to go to the previous slide.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the previous button element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the previous button.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the previous button element.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="next" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Next",
+						Description: "Navigation button to go to the next slide.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the next button element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the next button.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the next button element.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
+				<div id="indicators">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Indicators",
+						Description: "Dot indicators showing current slide position and allowing direct navigation.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the indicators element.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the indicators.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the indicators element.",
+								Required:    false,
+							},
+							{
+								Name:        "Count",
+								Type:        "int",
+								Default:     "",
+								Description: "Number of indicator dots to display (should match number of slides).",
+								Required:    true,
+							},
+						},
+					})
+				</div>
 			}
 		}
 	}

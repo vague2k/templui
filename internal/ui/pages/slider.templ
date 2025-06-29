@@ -37,6 +37,24 @@ templ Slider() {
 					},
 				},
 			},
+			{
+				ID:   "api-reference",
+				Text: "API Reference",
+				Children: []modules.TableOfContentsItem{
+					{
+						ID:   "slider",
+						Text: "Slider",
+					},
+					{
+						ID:   "input",
+						Text: "Input",
+					},
+					{
+						ID:   "value",
+						Text: "Value",
+					},
+				},
+			},
 		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
@@ -97,6 +115,132 @@ templ Slider() {
 					PreviewCodeFile: "slider_external_value.templ",
 					ID:              "external-value",
 				})
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "API Reference",
+				ID:    "api-reference",
+			}) {
+				@modules.APILegend()
+				<div id="slider" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Slider",
+						Description: "Main slider container component.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Unique identifier for the slider component",
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Additional CSS classes to apply to the slider container",
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "nil",
+								Description: "Additional HTML attributes to apply to the slider container",
+							},
+						},
+					})
+				</div>
+				<div id="input" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Input",
+						Description: "The actual range input element.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "randomID",
+								Description: "Unique identifier for the input element",
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Additional CSS classes to apply to the input",
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "nil",
+								Description: "Additional HTML attributes to apply to the input",
+							},
+							{
+								Name:        "Name",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Name attribute for the input field",
+							},
+							{
+								Name:        "Min",
+								Type:        "int",
+								Default:     "0",
+								Description: "Minimum value for the slider",
+							},
+							{
+								Name:        "Max",
+								Type:        "int",
+								Default:     "0",
+								Description: "Maximum value for the slider",
+							},
+							{
+								Name:        "Step",
+								Type:        "int",
+								Default:     "0",
+								Description: "Step increment for slider values",
+							},
+							{
+								Name:        "Value",
+								Type:        "int",
+								Default:     "0",
+								Description: "Current value of the slider",
+							},
+							{
+								Name:        "Disabled",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether the slider is disabled",
+							},
+						},
+					})
+				</div>
+				<div id="value">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Value",
+						Description: "Display element for the current slider value.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Unique identifier for the value display element",
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Additional CSS classes to apply to the value display",
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "nil",
+								Description: "Additional HTML attributes to apply to the value display",
+							},
+							{
+								Name:        "For",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "ID of the slider input this value display is connected to",
+							},
+						},
+					})
+				</div>
 			}
 		}
 	}

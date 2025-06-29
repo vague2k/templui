@@ -31,6 +31,16 @@ templ Toast() {
 					},
 				},
 			},
+			{
+				ID:   "api",
+				Text: "API Reference",
+				Children: []modules.TableOfContentsItem{
+					{
+						ID:   "toast",
+						Text: "Toast",
+					},
+				},
+			},
 		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
@@ -74,6 +84,97 @@ templ Toast() {
 					PreviewCodeFile: "toast_playground.templ",
 					ID:              "playground",
 				})
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "API Reference",
+				ID:    "api",
+			}) {
+				@modules.APILegend()
+				<div id="toast" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Toast",
+						Description: "Notification component that appears temporarily to provide feedback.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "",
+								Description: "Unique identifier for the toast element. Auto-generated if not provided.",
+								Required:    false,
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "",
+								Description: "Additional CSS classes to apply to the toast.",
+								Required:    false,
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "",
+								Description: "Additional HTML attributes to apply to the toast element.",
+								Required:    false,
+							},
+							{
+								Name:        "Title",
+								Type:        "string",
+								Default:     "",
+								Description: "Title text displayed in the toast header.",
+								Required:    false,
+							},
+							{
+								Name:        "Description",
+								Type:        "string",
+								Default:     "",
+								Description: "Description text displayed below the title.",
+								Required:    false,
+							},
+							{
+								Name:        "Variant",
+								Type:        "Variant",
+								Default:     "default",
+								Description: "Visual style variant. Options: 'default', 'success', 'error', 'warning', 'info'.",
+								Required:    false,
+							},
+							{
+								Name:        "Position",
+								Type:        "Position",
+								Default:     "bottom-right",
+								Description: "Screen position for the toast. Options: 'top-right', 'top-left', 'top-center', 'bottom-right', 'bottom-left', 'bottom-center'.",
+								Required:    false,
+							},
+							{
+								Name:        "Duration",
+								Type:        "int",
+								Default:     "3000",
+								Description: "Duration in milliseconds before auto-dismissing the toast.",
+								Required:    false,
+							},
+							{
+								Name:        "Dismissible",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether to show a close button for manual dismissal.",
+								Required:    false,
+							},
+							{
+								Name:        "ShowIndicator",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether to show a progress indicator bar at the top.",
+								Required:    false,
+							},
+							{
+								Name:        "Icon",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether to show an icon based on the variant type.",
+								Required:    false,
+							},
+						},
+					})
+				</div>
 			}
 		}
 	}

@@ -45,6 +45,28 @@ templ InputOtp() {
 					},
 				},
 			},
+			{
+				ID:   "api-reference",
+				Text: "API Reference",
+				Children: []modules.TableOfContentsItem{
+					{
+						ID:   "inputotp",
+						Text: "InputOTP",
+					},
+					{
+						ID:   "group",
+						Text: "Group",
+					},
+					{
+						ID:   "slot",
+						Text: "Slot",
+					},
+					{
+						ID:   "separator",
+						Text: "Separator",
+					},
+				},
+			},
 		},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
@@ -117,6 +139,164 @@ templ InputOtp() {
 					PreviewCodeFile: "input_otp_form.templ",
 					ID:              "form",
 				})
+			}
+			@modules.ContainerWrapper(modules.ContainerWrapperProps{
+				Title: "API Reference",
+				ID:    "api-reference",
+			}) {
+				@modules.APILegend()
+				<div id="inputotp" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "InputOTP",
+						Description: "Main container for the OTP input component.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Unique identifier for the OTP input component",
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Additional CSS classes to apply to the container",
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "nil",
+								Description: "Additional HTML attributes to apply to the container",
+							},
+							{
+								Name:        "Value",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Current value of the OTP input",
+							},
+							{
+								Name:        "Required",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether the OTP input is required for form validation",
+							},
+							{
+								Name:        "Name",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Name attribute for the hidden input field",
+							},
+							{
+								Name:        "HasError",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether the OTP input should display error styling",
+							},
+						},
+					})
+				</div>
+				<div id="group" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Group",
+						Description: "Container for grouping OTP slots together.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Unique identifier for the group element",
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Additional CSS classes to apply to the group",
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "nil",
+								Description: "Additional HTML attributes to apply to the group",
+							},
+						},
+					})
+				</div>
+				<div id="slot" class="mb-8">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Slot",
+						Description: "Individual input slot for a single character.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Unique identifier for the slot element",
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Additional CSS classes to apply to the slot",
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "nil",
+								Description: "Additional HTML attributes to apply to the slot",
+							},
+							{
+								Name:        "Index",
+								Type:        "int",
+								Default:     "0",
+								Description: "Index position of this slot in the OTP sequence",
+							},
+							{
+								Name:        "Type",
+								Type:        "string",
+								Default:     "text",
+								Description: "Input type for the slot (text or password)",
+							},
+							{
+								Name:        "Placeholder",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Placeholder text for the slot",
+							},
+							{
+								Name:        "Disabled",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Whether the slot is disabled",
+							},
+						},
+					})
+				</div>
+				<div id="separator">
+					@modules.APITable(modules.APITableProps{
+						Title:       "Separator",
+						Description: "Visual separator between groups of slots.",
+						Items: []modules.APITableItem{
+							{
+								Name:        "ID",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Unique identifier for the separator element",
+							},
+							{
+								Name:        "Class",
+								Type:        "string",
+								Default:     "\"\"",
+								Description: "Additional CSS classes to apply to the separator",
+							},
+							{
+								Name:        "Attributes",
+								Type:        "templ.Attributes",
+								Default:     "nil",
+								Description: "Additional HTML attributes to apply to the separator",
+							},
+						},
+					})
+				</div>
 			}
 		}
 	}

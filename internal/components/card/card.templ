@@ -38,12 +38,6 @@ type FooterProps struct {
 	Attributes templ.Attributes
 }
 
-type HorizontalProps struct {
-	ID         string
-	Class      string
-	Attributes templ.Attributes
-}
-
 templ Card(props ...Props) {
 	{{ var p Props }}
 	if len(props) > 0 {
@@ -161,27 +155,6 @@ templ Footer(props ...FooterProps) {
 		class={
 			utils.TwMerge(
 				"flex items-center p-6 pt-0",
-				p.Class,
-			),
-		}
-		{ p.Attributes... }
-	>
-		{ children... }
-	</div>
-}
-
-templ Horizontal(props ...HorizontalProps) {
-	{{ var p HorizontalProps }}
-	if len(props) > 0 {
-		{{ p = props[0] }}
-	}
-	<div
-		if p.ID != "" {
-			id={ p.ID }
-		}
-		class={
-			utils.TwMerge(
-				"flex overflow-hidden",
 				p.Class,
 			),
 		}
