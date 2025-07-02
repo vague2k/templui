@@ -2,17 +2,15 @@ package modules
 
 import (
 	"fmt"
-	"github.com/axzilla/templui/internal/components/icon"
 	"time"
 )
 
 templ Footer() {
 	<footer class="py-4 text-center text-sm text-muted-foreground">
 		<div class="container flex flex-col items-center">
-			<p class="flex items-center gap-2 mb-4 font-semibold">
-				{ fmt.Sprintf("© %d templUI", time.Now().Year()) } - Made with  
-				@icon.Heart(icon.Props{Size: 14, Fill: "grey", Stroke: "grey"})
-				by <a href="https://twitter.com/axadrn" target="_blank" class="text-primary hover:text-primary/80 transition-colors duration-300">Axel Adrian</a>
+			<p class="mb-4">
+				{ fmt.Sprintf("© %d templUI", time.Now().Year()) } •  			
+				Made with ♥ by <a href="https://axeladrian.com" target="_blank" class="hover:text-foreground transition-colors">{ " " }Axel Adrian</a>
 			</p>
 			// <iframe src="https://github.com/sponsors/axzilla/button" title="Sponsor axzilla" height="32" width="114" style="border: 0; border-radius: 6px;"></iframe>
 		</div>
