@@ -16,8 +16,9 @@ templ Navbar() {
 		<div class="container mx-auto px-4 flex justify-between items-center relative">
 			<div class="flex items-center">
 				@NavbarMobileMenu()
-				<a href="/">
-					@wrappedicon.TemplUI("w-auto h-8")
+				<a href="/" class="flex items-center gap-1.5">
+					@icon.ToggleLeft(icon.Props{Class: "w-6 h-6"})
+					<span class="text-xl">templ/<span class="font-bold">ui</span></span>
 				</a>
 			</div>
 			<div class="hidden md:flex gap-4 items-center absolute left-1/2 transform -translate-x-1/2">
