@@ -54,7 +54,7 @@ func handleLoadDatastarExample(w http.ResponseWriter, r *http.Request) {
 }
 
 func handleLoadModalHtmx(w http.ResponseWriter, r *http.Request) {
-	showcase.ModalDatastarNoWrapper().Render(r.Context(), w)
+	showcase.ModalDefault().Render(r.Context(), w)
 }
 
 func main() {
