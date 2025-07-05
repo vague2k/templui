@@ -179,7 +179,7 @@ var datastarIntegration = `<!-- Event-based approach -->
   <!-- ... -->
 </body>
 
-<script nonce={ templ.GetNonce(ctx) }>
+<script>
   window.initComponents = function(evt) {
     // Cleanup before new content is loaded
     if (evt.detail?.type === 'started') {
