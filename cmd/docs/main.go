@@ -1,7 +1,6 @@
 package main
 
 import (
-	"bytes"
 	"log"
 	"net/http"
 	"strconv"
@@ -48,24 +47,14 @@ func buttonHtmxLoadingHandler(w http.ResponseWriter, r *http.Request) {
 func handleLoadDatastarExample(w http.ResponseWriter, r *http.Request) {
 	sse := datastar.NewSSE(w, r)
 
-	var htmlBuffer bytes.Buffer
-	err := showcase.DatePickerDefault().Render(r.Context(), &htmlBuffer)
-	if err != nil {
-		http.Error(w, "Error rendering component: "+err.Error(), http.StatusInternalServerError)
-		return
-	}
-	htmlContent := htmlBuffer.String()
+	sse.MergeFragmentTempl(
+		showcase.ModalDefault(),
+		datastar.WithUseViewTransitions(true),
+	)
+}
 
-	sse.MergeFragments(htmlContent, datastar.WithSelector("#dynamic-content"), datastar.WithMergeMode("inner"))
-
-	// script := `
-	//     if (window.templUI) {
-	//         Object.values(window.templUI).forEach(comp => {
-	//             comp.init?.(document.getElementById('dynamic-content'));
-	//         });
-	//     }
-	// `
-	// sse.ExecuteScript(script)
+func handleLoadModalHtmx(w http.ResponseWriter, r *http.Request) {
+	showcase.ModalDatastarNoWrapper().Render(r.Context(), w)
 }
 
 func main() {
@@ -160,6 +149,10 @@ func main() {
 	// Datastar Example
 	mux.Handle("GET /docs/datastar-example", templ.Handler(pages.ExampleDatastar()))
 	mux.Handle("GET /api/load-datepicker", http.HandlerFunc(handleLoadDatastarExample))
+
+	// HTMX Example
+	mux.Handle("GET /docs/htmx-example", templ.Handler(pages.ExampleHtmx()))
+	mux.Handle("GET /api/load-modal-htmx", http.HandlerFunc(handleLoadModalHtmx))
 
 	log.Println("Server is running on http://localhost:8090")
 	http.ListenAndServe(":8090", wrappedMux)

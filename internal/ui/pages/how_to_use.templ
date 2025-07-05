@@ -175,33 +175,33 @@ var htmxIntegration = `<script>
 </script>`
 
 var datastarIntegration = `<!-- Event-based approach -->
-<body data-on-datastar-sse="initModals(evt)">
+<body data-on-datastar-sse="initComponents(evt)">
   <!-- ... -->
 </body>
 
 <script nonce={ templ.GetNonce(ctx) }>
-  window.initModals = function(evt) {
-	// Re-initialize components after finished event
+  window.initComponents = function(evt) {
+    // Cleanup before new content is loaded
+    if (evt.detail?.type === 'started') {
+        if (window.templUI) {
+          Object.values(window.templUI).forEach(comp => {
+            comp.cleanup?.(document);
+          });
+        }
+    }
+
+    // Re-initialize components after finished event
     if (evt.detail?.type === 'finished') {
-      requestAnimationFrame(() => {
+      // setTimeout is required because Datastar's 'finished' event 
+      // fires before DOM updates are complete
+      setTimeout(() => {
         if (window.templUI) {
           Object.values(window.templUI).forEach(comp => {
             comp.init?.();
           });
         }
-      });
+      }, 100);
     }
-
-	// Cleanup before new content is loaded
-	if (evt.detail?.type === 'started') {
-		requestAnimationFrame(() => {
-			if (window.templUI) {
-				Object.values(window.templUI).forEach(comp => {
-					comp.cleanup?.(document);
-				});
-			}
-		});
-	}
   }
 </script>`
 
