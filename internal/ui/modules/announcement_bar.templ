@@ -1,24 +1,17 @@
 package modules 
 
 templ AnnouncementBar() {
-	<div class="relative z-50 flex items-center justify-center bg-muted/40 border-b px-4 py-2 sm:py-2.5 text-center">
-		<div class="flex flex-col sm:flex-row items-center gap-1.5 sm:gap-3 text-sm">
-			<span class="text-muted-foreground text-xs sm:text-sm">
-				<span class="sm:hidden">templUI Pro – Advanced components</span>
-				<span class="hidden sm:inline">Introducing templUI Pro – Advanced components for production apps</span>
-			</span>
-			<a 
-				href="https://pro.templui.io" 
-				target="_blank" 
-				class="inline-flex items-center gap-1.5 text-foreground font-medium hover:underline underline-offset-2 transition-all text-xs sm:text-sm"
-			>
-				<span class="bg-foreground text-background px-1.5 sm:px-2 py-0.5 rounded text-xs font-semibold">50% OFF</span>
-				<span>Join waitlist</span>
-				<svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 sm:h-3.5 sm:w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-					<path d="M5 12h14"></path>
-					<path d="m12 5 7 7-7 7"></path>
-				</svg>
-			</a>
-		</div>
+	<div class="relative z-50 flex items-center justify-center bg-muted/40 border-b px-4 py-1.5 text-center">
+		<a 
+			href="https://pro.templui.io" 
+			target="_blank" 
+			class="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground transition-colors"
+		>
+			<span>templUI Pro is coming soon</span>
+			<svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+				<path d="M5 12h14"></path>
+				<path d="m12 5 7 7-7 7"></path>
+			</svg>
+		</a>
 	</div>
 }

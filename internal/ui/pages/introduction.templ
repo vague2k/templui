@@ -8,7 +8,7 @@ import (
 templ Introduction() {
 	@layouts.DocsLayout(
 		"Introduction",
-		"Welcome to templUI, the UI Kit for templ.",
+		"Welcome to templUI - Beautiful UI components for Go developers.",
 		[]modules.TableOfContentsItem{
 			{ID: "introduction", Text: "Introduction"},
 			{ID: "why-templui", Text: "Why templUI"},
@@ -18,7 +18,7 @@ templ Introduction() {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Introduction",
 			HideSource:  true,
-			Description: templ.Raw("The UI Kit for templ."),
+			Description: templ.Raw("Beautiful UI components for Go developers."),
 			Breadcrumbs: modules.Breadcrumbs{
 				Items: []modules.BreadcrumbItem{
 					{
@@ -38,10 +38,12 @@ templ Introduction() {
 			}) {
 				<div class="text-muted-foreground">
 					<p class="mb-4">
-						templUI brings modern, production-ready UI components to the Go ecosystem. Built with Templ and Tailwind CSS, it delivers beautiful interfaces with type-safe templates and zero JavaScript dependencies.
+						templUI is a growing collection of beautifully designed components built with templ and Tailwind CSS. 
+						Install components via CLI or copy the source directly. Everything is customizable, type-safe, and yours to own.
 					</p>
 					<p class="mb-4">
-						Copy the code. Customize the styles. Ship faster. Follow our 
+						<span class="font-medium">CLI-first workflow.</span> Install with one command. Full control over your code. 
+						Follow our 
 						<a
 							href="https://github.com/axzilla/templui/releases"
 							class="text-primary/90 underline underline-offset-4 hover:text-primary/80"
@@ -63,7 +65,7 @@ templ Introduction() {
 							Heavily inspired by 
 							<a href="https://ui.shadcn.com/" target="_blank" rel="noopener noreferrer" class="text-primary/90 underline underline-offset-4 hover:text-primary/80">
 								shadcn/ui
-							</a>, templUI reimagines the copy-paste component model for Go developers. We believe in owning your code, not inheriting dependencies.
+							</a>, templUI brings the same philosophy to Go developers. Install via CLI, customize everything, own your code – no hidden dependencies.
 						</p>
 						<p class="mb-4">
 							Every component is designed to be beautiful by default, fully accessible, and CSP compliant. No magic, no hidden complexity – just clean, customizable code that works.

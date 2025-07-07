@@ -2,173 +2,147 @@ package pages
 
 import (
 	"github.com/axzilla/templui/internal/components/button"
-	"github.com/axzilla/templui/internal/components/card"
 	"github.com/axzilla/templui/internal/components/icon"
-	wrappedicon "github.com/axzilla/templui/internal/ui/icons"
 	"github.com/axzilla/templui/internal/ui/layouts"
 	"github.com/axzilla/templui/internal/ui/modules"
+	"github.com/axzilla/templui/internal/components/card"
 )
 
 templ Landing() {
 	@layouts.BaseLayout(
-		"The UI Kit for templ",
-		"Top-tier UI components for sleek templ apps.",
+		"templUI - Beautiful UI components for Go templ",
+		"Beautifully designed components that you can copy and paste into your apps. Built with templ, Tailwind CSS, and Vanilla JS.",
 	) {
 		<div class="shrink-0">
 			@modules.AnnouncementBar()
 			@modules.Navbar()
 		</div>
-		<header class="flex flex-col items-center justify-center w-full calc(100vh - 65px) h-full">
-			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
-				<div class="flex flex-col items-center mb-3">
-					<!-- Gopher Hero Image -->
-					// <div class="relative">
-					<img
-						src="/assets/img/gopher_landing.png"
-						alt="templUI Gopher mascot building UI components"
-						class="w-32 h-32 md:w-40 md:h-40 object-contain drop-shadow-lg"
-					/>
-					// </div>
-				</div>
-				<p class="tracking-tight text-4xl md:text-5xl font-extrabold mb-4 sm:mb-8">
-					The UI Kit for templ
-				</p>
-				<p class="max-w-xl mx-auto text-base sm:text-lg mb-6 text-muted-foreground">
-					Top-tier UI components for sleek templ apps.
-					<br/>
-					Clean, typesafe, and endlessly adaptable.
-				</p>
-				<div class="flex gap-2 justify-center flex-wrap">
-					@button.Button(button.Props{
-						Href:  "/docs/how-to-use",
-						Class: "flex gap-2 w-full md:w-auto",
-					}) {
-						Get Started
-					}
-					@button.Button(button.Props{
-						Href:    "/docs/components",
-						Variant: button.VariantSecondary,
-						Class:   "flex gap-2 w-full md:w-auto",
-					}) {
-						Browse Components
-					}
+		<header class="relative">
+			<div class="container mx-auto px-4 sm:px-6 lg:px-8">
+				<div class="flex flex-col items-center justify-center min-h-[50vh] py-6 md:py-8">
+					<div class="text-center space-y-4 max-w-3xl mx-auto">
+						<!-- Main Heading -->
+						<h1 class="text-4xl xl:text-5xl font-semibold tracking-tight">
+							Build modern Go applications
+						</h1>
+						<!-- Subheading -->
+						<p class="text-lg text-foreground/80 max-w-[700px] mx-auto">
+							A growing collection of beautifully designed components built with templ and Tailwind CSS. 
+							Install via CLI. Customize everything. Own your code.
+						</p>
+						<!-- CTA Buttons -->
+						<div class="flex flex-col sm:flex-row gap-2 justify-center pt-2">
+							@button.Button(button.Props{
+								Href: "/docs/how-to-use",
+							}) {
+								Get Started
+							}
+							@button.Button(button.Props{
+								Href:    "/docs/components",
+								Variant: button.VariantGhost,
+								Class:   "gap-2",
+							}) {
+								Browse Components
+							}
+						</div>
+					</div>
 				</div>
 			</div>
+			<!-- <div class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80" aria-hidden="true"> -->
+			<!-- 	<div class="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-primary to-secondary opacity-20 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"></div> -->
+			<!-- </div> -->
 		</header>
 		<!-- Features Section -->
-		<section class="py-20 bg-muted/30">
-			<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-				<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-					<!-- Vanilla JavaScript -->
-					@card.Card(card.Props{
-						// Class: "h-full",
-					}) {
-						@card.Header(card.HeaderProps{}) {
-							<div class="flex items-center gap-3 mb-4">
-								@wrappedicon.JS(16)
-								@card.Title(card.TitleProps{}) {
-									Vanilla JavaScript
+		<section class="py-6 px-4 md:px-6 lg:px-8">
+			<div class="mx-auto max-w-5xl">
+				<div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+					<!-- Type-Safe -->
+					@card.Card(card.Props{Class: "h-full"}) {
+						@card.Header(card.HeaderProps{Class: "pb-3"}) {
+							<div class="flex items-center gap-2">
+								@icon.FileCode(icon.Props{Size: 16, Class: "text-muted-foreground"})
+								@card.Title(card.TitleProps{Class: "text-base"}) {
+									Type-safe
 								}
 							</div>
-							@card.Description(card.DescriptionProps{
-								Class: "mb-4",
-							}) {
-								Zero framework dependencies. Pure JavaScript for maximum performance and minimal bundle size. No React, Vue, or Angular overhead.
+							@card.Description(card.DescriptionProps{}) {
+								Go's compiler has your back.
 							}
 						}
 					}
-					<!-- Framework Agnostic -->
-					@card.Card(card.Props{
-						// Class: "h-full",
-					}) {
-						@card.Header(card.HeaderProps{}) {
-							<div class="flex items-center gap-3 mb-4">
-								@icon.Replace(icon.Props{Size: 16})
-								@card.Title(card.TitleProps{}) {
-									Framework Agnostic
+					<!-- CLI-first -->
+					@card.Card(card.Props{Class: "h-full"}) {
+						@card.Header(card.HeaderProps{Class: "pb-3"}) {
+							<div class="flex items-center gap-2">
+								@icon.Terminal(icon.Props{Size: 16, Class: "text-muted-foreground"})
+								@card.Title(card.TitleProps{Class: "text-base"}) {
+									CLI-first
 								}
 							</div>
-							@card.Description(card.DescriptionProps{
-								Class: "mb-4",
-							}) {
-								Works seamlessly with HTMX, Datastar, or any hypermedia framework. Clean API that adapts to your preferred stack.
+							@card.Description(card.DescriptionProps{}) {
+								Install with one command. Own your code.
+							}
+						}
+					}
+					<!-- No JS Framework -->
+					@card.Card(card.Props{Class: "h-full"}) {
+						@card.Header(card.HeaderProps{Class: "pb-3"}) {
+							<div class="flex items-center gap-2">
+								@icon.Zap(icon.Props{Size: 16, Class: "text-muted-foreground"})
+								@card.Title(card.TitleProps{Class: "text-base"}) {
+									Zero JS frameworks
+								}
+							</div>
+							@card.Description(card.DescriptionProps{}) {
+								Just vanilla. Just fast.
 							}
 						}
 					}
 					<!-- Enterprise Ready -->
-					@card.Card(card.Props{
-						// Class: "h-full",
-					}) {
-						@card.Header(card.HeaderProps{}) {
-							<div class="flex items-center gap-3 mb-4">
-								@icon.Blocks(icon.Props{Size: 16})
-								@card.Title(card.TitleProps{}) {
-									Enterprise Ready
+					@card.Card(card.Props{Class: "h-full"}) {
+						@card.Header(card.HeaderProps{Class: "pb-3"}) {
+							<div class="flex items-center gap-2">
+								@icon.Building(icon.Props{Size: 16, Class: "text-muted-foreground"})
+								@card.Title(card.TitleProps{Class: "text-base"}) {
+									Enterprise ready
 								}
 							</div>
-							@card.Description(card.DescriptionProps{
-								Class: "mb-4",
-							}) {
-								Built for production use with security-first design, scalable architecture, and enterprise-grade performance standards.
+							@card.Description(card.DescriptionProps{}) {
+								Production-grade. Battle-tested.
 							}
 						}
 					}
 					<!-- CSP Compliant -->
-					@card.Card(card.Props{
-						// Class: "h-full",
-					}) {
-						@card.Header(card.HeaderProps{}) {
-							<div class="flex items-center gap-3 mb-4">
-								@icon.ShieldCheck(icon.Props{Size: 16})
-								@card.Title(card.TitleProps{}) {
-									CSP Compliant
+					@card.Card(card.Props{Class: "h-full"}) {
+						@card.Header(card.HeaderProps{Class: "pb-3"}) {
+							<div class="flex items-center gap-2">
+								@icon.ShieldCheck(icon.Props{Size: 16, Class: "text-muted-foreground"})
+								@card.Title(card.TitleProps{Class: "text-base"}) {
+									CSP compliant
 								}
 							</div>
-							@card.Description(card.DescriptionProps{
-								Class: "mb-4",
-							}) {
-								Secure by design with Content Security Policy support. No inline scripts or unsafe evaluations for maximum security.
+							@card.Description(card.DescriptionProps{}) {
+								No inline scripts. Secure by default.
 							}
 						}
 					}
-					<!-- Type-Safe -->
-					@card.Card(card.Props{
-						// Class: "h-full",
-					}) {
-						@card.Header(card.HeaderProps{}) {
-							<div class="flex items-center gap-3 mb-4">
-								@icon.Check(icon.Props{Size: 16})
-								@card.Title(card.TitleProps{}) {
-									Type-Safe
+					<!-- Dark Mode -->
+					@card.Card(card.Props{Class: "h-full"}) {
+						@card.Header(card.HeaderProps{Class: "pb-3"}) {
+							<div class="flex items-center gap-2">
+								@icon.Moon(icon.Props{Size: 16, Class: "text-muted-foreground"})
+								@card.Title(card.TitleProps{Class: "text-base"}) {
+									Dark mode
 								}
 							</div>
-							@card.Description(card.DescriptionProps{
-								Class: "mb-4",
-							}) {
-								Leverages Gos type system for robust development. Catch errors at compile time, not runtime.
-							}
-						}
-					}
-					<!-- Customizable -->
-					@card.Card(card.Props{
-						// Class: "h-full",
-					}) {
-						@card.Header(card.HeaderProps{}) {
-							<div class="flex items-center gap-3 mb-4">
-								@wrappedicon.Tailwind(16)
-								@card.Title(card.TitleProps{}) {
-									Fully Customizable
-								}
-							</div>
-							@card.Description(card.DescriptionProps{
-								Class: "mb-4",
-							}) {
-								Built with Tailwind CSS for endless customization. Adapt components to match your brand and design requirements.
+							@card.Description(card.DescriptionProps{}) {
+								Looks great, always.
 							}
 						}
 					}
 				</div>
 			</div>
 		</section>
+		@modules.Footer()
 	}
 }

@@ -5,8 +5,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
-	"os"
-	"os/exec"
 	"sync"
 	"time"
 
@@ -35,22 +33,6 @@ func WithURLPathValue(next http.Handler) http.Handler {
 	})
 }
 
-func LatestVersion(next http.Handler) http.Handler {
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		data, err := os.ReadFile("version.txt")
-		if err != nil {
-			// If version.txt doesn't exist, fall back to git commit hash
-			commit, err := exec.Command("git", "rev-parse", "--short", "HEAD").Output()
-			if err != nil {
-				http.Error(w, "Unable to determine version", http.StatusInternalServerError)
-				return
-			}
-			data = commit
-		}
-		ctx := context.WithValue(r.Context(), ctxkeys.Version, string(data))
-		next.ServeHTTP(w, r.WithContext(ctx))
-	})
-}
 
 // GitHub stars cache
 var (

@@ -6,11 +6,11 @@ import (
 )
 
 templ Footer() {
-	<footer class="py-4 text-center text-sm text-muted-foreground">
-		<div class="container flex flex-col items-center">
-			<p class="mb-4">
+	<footer class="pt-24 pb-6 text-center text-sm text-muted-foreground">
+		<div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+			<p>
 				{ fmt.Sprintf("© %d templUI", time.Now().Year()) } •  			
-				Made with ♥ by <a href="https://axeladrian.com" target="_blank" class="hover:text-foreground transition-colors">{ " " }Axel Adrian</a>
+				Made with ♥ by <a href="https://axeladrian.com" target="_blank" class="text-muted-foreground underline underline-offset-4">{ " " }Axel Adrian</a>
 			</p>
 			// <iframe src="https://github.com/sponsors/axzilla/button" title="Sponsor axzilla" height="32" width="114" style="border: 0; border-radius: 6px;"></iframe>
 		</div>

@@ -2,13 +2,13 @@ package modules
 
 import (
 	"fmt"
-	"github.com/axzilla/templui/internal/components/badge"
 	"github.com/axzilla/templui/internal/components/button"
 	"github.com/axzilla/templui/internal/components/drawer"
 	"github.com/axzilla/templui/internal/components/icon"
 	"github.com/axzilla/templui/internal/ctxkeys"
 	"github.com/axzilla/templui/internal/shared"
 	wrappedicon "github.com/axzilla/templui/internal/ui/icons"
+	"github.com/axzilla/templui/internal/components/separator"
 )
 
 func formatStars(count int) string {
@@ -20,7 +20,6 @@ func formatStars(count int) string {
 
 templ Navbar() {
 	<nav class="py-1">
-		{{ version := ctx.Value(ctxkeys.Version).(string) }}
 		{{ stars := 0 }}
 		{{if starsVal := ctx.Value(ctxkeys.GitHubStars); starsVal != nil {
 	stars = starsVal.(int)
@@ -39,7 +38,6 @@ templ Navbar() {
 				<a href="/docs/components" class="text-sm hover:underline">Components</a>
 			</div>
 			<div class="flex gap-1 items-center justify-center">
-				@ThemeSwitcher()
 				@button.Button(button.Props{
 					Variant: button.VariantGhost,
 					Href:    "https://github.com/axzilla/templui",
@@ -51,15 +49,10 @@ templ Navbar() {
 						<span class="text-muted-foreground text-xs tabular-nums">{ formatStars(stars) }</span>
 					}
 				}
-				<a
-					href="https://github.com/axzilla/templui/releases"
-					target="_blank"
-					class="flex"
-				>
-					@badge.Badge() {
-						{ version }
-					}
-				</a>
+				@separator.Separator(separator.Props{
+					Orientation: separator.OrientationVertical,
+				})
+				@ThemeSwitcher()
 			</div>
 		</div>
 	</nav>
