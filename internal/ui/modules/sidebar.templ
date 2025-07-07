@@ -5,30 +5,38 @@ import "github.com/axzilla/templui/internal/ctxkeys"
 
 templ Sidebar() {
 	<aside class="h-full">
-		<div class="h-full overflow-y-auto">
-			<nav class="">
-				<ul class="space-y-2">
-					for _, section := range shared.Sections {
-						<li class="pb-4">
-							<h3 class="text-sm font-bold">{ section.Title }</h3>
-							<ul class="mt-2 space-y-0.5">
+		<div class="flex h-full flex-col gap-2 overflow-auto px-2 pb-12">
+			<nav>
+				for _, section := range shared.Sections {
+					<div class="relative flex w-full flex-col">
+						<div class="flex h-8 shrink-0 items-center rounded-md px-2 text-xs font-medium text-muted-foreground">
+							{ section.Title }
+						</div>
+						<div class="w-full text-sm">
+							<ul class="flex w-full flex-col gap-0.5">
 								for _, link := range section.Links {
-									<li>
+									<li class="relative">
 										if link.Href == ctx.Value(ctxkeys.URLPathValue) {
-											<a href={ templ.SafeURL(link.Href) } class="text-accent-foreground text-sm inline-flex items-center px-2 py-2 rounded-md bg-accent">
-												<span>{ link.Text }</span>
+											<a
+												href={ templ.SafeURL(link.Href) }
+												class="inline-flex items-center gap-2 rounded-md p-2 text-[0.8rem] bg-accent hover:bg-accent"
+											>
+												{ link.Text }
 											</a>
 										} else {
-											<a href={ templ.SafeURL(link.Href) } class="text-accent-foreground text-sm inline-flex items-center px-2 py-2 rounded-md hover:bg-accent">
-												<span>{ link.Text }</span>
+											<a
+												href={ templ.SafeURL(link.Href) }
+												class="inline-flex items-center gap-2 rounded-md p-2 text-[0.8rem] hover:bg-accent hover:text-accent-foreground"
+											>
+												{ link.Text }
 											</a>
 										}
 									</li>
 								}
 							</ul>
-						</li>
-					}
-				</ul>
+						</div>
+					</div>
+				}
 			</nav>
 		</div>
 	</aside>

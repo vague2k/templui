@@ -19,7 +19,7 @@ func formatStars(count int) string {
 }
 
 templ Navbar() {
-	<nav class="border-b py-1">
+	<nav class="py-1">
 		{{ version := ctx.Value(ctxkeys.Version).(string) }}
 		{{ stars := 0 }}
 		{{if starsVal := ctx.Value(ctxkeys.GitHubStars); starsVal != nil {

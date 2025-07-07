@@ -1,7 +1,5 @@
 package modules
 
-import "github.com/axzilla/templui/internal/components/icon"
-
 type TableOfContentsItem struct {
 	ID       string
 	Text     string
@@ -18,20 +16,20 @@ templ TableOfContents(props TableOfContentsProps) {
 		data-toc="container"
 	>
 		if len(props.Items) > 0 {
-			<h4 class="mb-4 text-sm font-medium">On this page</h4>
-			<nav class="mb-4">
-				@renderTOCItems(props.Items, 0)
-			</nav>
+			<div class="flex flex-col gap-2 p-4 pt-0">
+				<p class="text-xs text-muted-foreground sticky top-0 bg-background py-2">On This Page</p>
+				<nav class="flex flex-col gap-0.5">
+					@renderTOCItems(props.Items, 0)
+				</nav>
+			</div>
 		}
-		// Add your logo here
-		<div class="mb-4 border border-border rounded-lg p-4 bg-muted/50 hover:bg-muted transition-colors duration-300">
-			<h4 class="text-sm font-medium text-foreground mb-2">Your Logo Here</h4>
-			<p class="text-xs text-muted-foreground mb-3">
-				Join our showcase and connect with fellow developers.
+		<div class="mt-8 mx-4 rounded-lg border bg-muted/30 p-4">
+			<h4 class="text-xs font-medium mb-1">Your Logo Here</h4>
+			<p class="text-xs text-muted-foreground mb-2">
+				Join our showcase.
 			</p>
-			<a href="https://twitter.com/axzilla_" target="_blank" class="inline-flex items-center text-xs font-medium text-primary hover:text-primary/80 transition-colors duration-300">
-				Add Your Logo
-				@icon.ChevronRight(icon.Props{Size: 16})
+			<a href="https://twitter.com/axzilla_" target="_blank" class="text-xs text-primary hover:underline">
+				Add Your Logo →
 			</a>
 		</div>
 	</aside>
@@ -39,19 +37,22 @@ templ TableOfContents(props TableOfContentsProps) {
 
 templ renderTOCItems(items []TableOfContentsItem, level int) {
 	for _, item := range items {
-		<div class={ templ.KV("ml-4", level > 0) }>
-			<a
-				href={ templ.SafeURL("#" + item.ID) }
-				class="mb-2 block text-muted-foreground hover:text-foreground focus:text-foreground transition-colors"
-				data-toc-link="true"
-				data-section-id={ item.ID }
-			>
-				{ item.Text }
-			</a>
-			if len(item.Children) > 0 {
-				@renderTOCItems(item.Children, level+1)
-			}
-		</div>
+		<a
+			href={ templ.SafeURL("#" + item.ID) }
+			class={ templ.Classes(
+				"block py-1 text-[0.8rem] text-muted-foreground hover:text-foreground",
+				"no-underline transition-colors",
+				templ.KV("pl-4", level == 1),
+				templ.KV("pl-6", level >= 2),
+			) }
+			data-toc-link="true"
+			data-section-id={ item.ID }
+		>
+			{ item.Text }
+		</a>
+		if len(item.Children) > 0 {
+			@renderTOCItems(item.Children, level+1)
+		}
 	}
 }
 
