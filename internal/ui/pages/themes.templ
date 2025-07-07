@@ -18,13 +18,13 @@ import (
 templ Themes() {
 	@layouts.DocsLayout(
 		"Themes",
-		"Customize the theme of the UI components.",
+		"Pick a Color. Make it yours.",
 		[]modules.TableOfContentsItem{},
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Themes",
 			HideSource:  true,
-			Description: templ.Raw("Customize the theme of the UI components."),
+			Description: templ.Raw("Pick a Color. Make it yours. Try our hand-picked themes. Copy and paste them into your project."),
 			Breadcrumbs: modules.Breadcrumbs{
 				Items: []modules.BreadcrumbItem{
 					{
@@ -40,271 +40,263 @@ templ Themes() {
 		}) {
 			<div
 				x-data="themeCustomizer"
+				class="space-y-12"
 			>
-				<div class="flex flex-col md:flex-row gap-8">
-					<div class="w-full md:w-1/2">
-						<div class="flex items-start justify-between mb-4">
-							<div>
-								<div class="font-semibold">Customize</div>
-								<div class="text-xs text-muted-foreground">Pick a style and color for your components.</div>
-							</div>
+				<!-- Theme Selector Section -->
+				<div class="flex flex-col items-center space-y-6">
+					@ThemeSelector()
+					<div class="flex items-center gap-4">
+						@button.Button(button.Props{
+							Variant: button.VariantOutline,
+							Attributes: templ.Attributes{
+								"@click": "resetTheme",
+							},
+						}) {
+							@icon.RotateCcw(icon.Props{Size: 14})
+							<span class="ml-2">Reset to Default</span>
+						}
+						@modal.Trigger(modal.TriggerProps{
+							For: "css-modal",
+						}) {
 							@button.Button(button.Props{
-								Size:    button.SizeIcon,
-								Variant: button.VariantOutline,
 								Attributes: templ.Attributes{
-									"@click": "resetTheme",
+									"@click": "getGeneratedCSS",
 								},
 							}) {
-								@icon.RotateCcw(icon.Props{Size: 14})
+								Copy Theme CSS
 							}
-						</div>
-						@ThemeCustomizer(ThemeCustomizerProps{
-							CurrentTheme:  "orange",
-							CurrentRadius: "0.5",
-						})
-					</div>
-					<div class="w-full md:w-1/2">
-						<div class="mb-4">
-							<div class="font-semibold">Preview</div>
-							<div class="text-xs text-muted-foreground">This is how your theme will look like.</div>
-						</div>
-						@ThemePreview()
+						}
 					</div>
 				</div>
+				<!-- Component Examples Grid -->
+				<div class="w-full">
+					@ThemeShowcase()
+				</div>
+				@modal.Modal(modal.Props{
+					ID:    "css-modal",
+					Class: "max-w-xl",
+				}) {
+					@modal.Header() {
+						<div class="flex items-center gap-2">
+							<span>Generated CSS Code</span>
+							<span class="text-muted-foreground">•</span>
+							<div class="flex items-center gap-1.5">
+								<div
+									class="h-4 w-4 rounded-full"
+									x-bind:style="getThemeColorStyle()"
+								></div>
+								<span class="text-sm capitalize" x-text="theme === 'default' ? 'Default' : theme"></span>
+							</div>
+						</div>
+					}
+					@modal.Body() {
+						<pre x-text="generatedCSS" class="text-primary p-4 rounded overflow-x-auto max-h-96"></pre>
+					}
+					@modal.Footer() {
+						<div class="flex gap-2">
+							@button.Button(button.Props{
+								Attributes: templ.Attributes{"@click": "copyToClipboard"},
+							}) {
+								Copy to Clipboard
+							}
+							@modal.Close(modal.CloseProps{
+								For: "css-modal",
+							}) {
+								@button.Button(button.Props{
+									Variant: button.VariantSecondary,
+								}) {
+									Close
+								}
+							}
+						</div>
+					}
+				}
 			</div>
 			@ThemesHandle()
 		}
 	}
 }
 
-templ ThemePreview() {
-	<div id="theme-preview" class="theme-preview p-6 border rounded-lg">
-		@card.Card() {
-			@card.Header() {
-				@card.Title() {
-					User Registration 
-				}
-				@card.Description() {
-					Please fill out the form below to create your account. 
+templ ThemeShowcase() {
+	<div
+		id="theme-preview"
+		x-bind:class="theme === 'default' ? '' : `theme-${theme}`"
+		class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+	>
+		<!-- Button Variants -->
+		@card.Card(card.Props{Class: "p-6"}) {
+			@card.Header(card.HeaderProps{Class: "pb-4"}) {
+				@card.Title(card.TitleProps{Class: "text-lg"}) {
+					Buttons
 				}
 			}
 			@card.Content() {
-				<form class="space-y-4">
-					@form.Item() {
-						@form.Label(form.LabelProps{
-							For: "username",
-						}) {
-							Username
-						}
-						@input.Input(input.Props{
-							ID:          "username",
-							Type:        input.TypeText,
-							Placeholder: "Enter your username",
-						})
+				<div class="flex flex-wrap gap-3">
+					@button.Button() {
+						Primary
 					}
-					@form.Item() {
-						@form.Label(form.LabelProps{
-							For: "email",
-						}) {
-							Email
-						}
-						@input.Input(input.Props{
-							ID:          "email",
-							Type:        input.TypeEmail,
-							Placeholder: "Enter your email",
-						})
-					}
-					@form.Item() {
-						@form.Label(form.LabelProps{
-							For: "password",
-						}) {
-							Password
-						}
-						@input.Input(input.Props{
-							ID:          "password",
-							Type:        input.TypePassword,
-							Placeholder: "Enter your password",
-						})
-					}
-					@form.Item() {
-						@form.Label(form.LabelProps{
-							For: "birthdate",
-						}) {
-							Birth Date
-						}
-						@datepicker.DatePicker(datepicker.Props{
-							ID:          "birthdate",
-							Placeholder: "Select your birth date",
-						})
-					}
-					@form.Item() {
-						<p class="text-sm text-muted-foreground">Contact Method</p>
-						@form.ItemFlex() {
-							@radio.Radio(radio.Props{
-								ID:   "contact-email",
-								Name: "contact-method",
-							})
-							@form.Label(form.LabelProps{
-								For: "contact-email",
-							}) {
-								Email
-							}
-						}
-						@form.ItemFlex() {
-							@radio.Radio(radio.Props{
-								ID:   "contact-phone",
-								Name: "contact-method",
-							})
-							@form.Label(form.LabelProps{
-								For: "contact-phone",
-							}) {
-								Phone
-							}
-						}
-						@form.ItemFlex() {
-							@radio.Radio(radio.Props{
-								ID:       "contact-mail",
-								Name:     "contact-method",
-								Disabled: true,
-							})
-							@form.Label(form.LabelProps{
-								For: "contact-mail",
-							}) {
-								Physical Mail
-							}
-						}
-					}
-					@form.Item() {
-						<p class="text-sm text-muted-foreground">Preferences</p>
-						@form.ItemFlex() {
-							@toggle.Toggle(toggle.Props{
-								ID:   "marketing",
-								Name: "marketing",
-							})
-							@form.Label(form.LabelProps{
-								For: "marketing",
-							}) {
-								Receive marketing emails
-							}
-						}
-						@form.ItemFlex() {
-							@toggle.Toggle(toggle.Props{
-								ID:         "notifications",
-								Name:       "notifications",
-								Attributes: templ.Attributes{"checked": "true"},
-							})
-							@form.Label(form.LabelProps{
-								For: "notifications",
-							}) {
-								Enable notifications
-							}
-						}
-						@form.ItemFlex() {
-							@toggle.Toggle(toggle.Props{
-								ID:         "beta",
-								Name:       "beta",
-								Attributes: templ.Attributes{"disabled": "true"},
-							})
-							@form.Label(form.LabelProps{
-								For: "beta",
-							}) {
-								Join beta program
-							}
-						}
-					}
-					@form.Item() {
-						<p class="text-sm text-muted-foreground">Terms and Conditions</p>
-						@form.ItemFlex() {
-							@checkbox.Checkbox(checkbox.Props{
-								ID: "terms",
-							})
-							@form.Label(form.LabelProps{
-								For: "terms",
-							}) {
-								I accept the terms and conditions
-							}
-						}
-						@form.ItemFlex() {
-							@checkbox.Checkbox(checkbox.Props{
-								ID: "newsletter",
-							})
-							@form.Label(form.LabelProps{
-								For: "newsletter",
-							}) {
-								Subscribe to newsletter
-							}
-						}
-					}
-				</form>
-			}
-			@card.Footer() {
-				<div class="flex justify-between w-full">
 					@button.Button(button.Props{
 						Variant: button.VariantSecondary,
 					}) {
-						Cancel
+						Secondary
 					}
-					@button.Button() {
-						Register
+					@button.Button(button.Props{
+						Variant: button.VariantDestructive,
+					}) {
+						Destructive
+					}
+					@button.Button(button.Props{
+						Variant: button.VariantOutline,
+					}) {
+						Outline
+					}
+					@button.Button(button.Props{
+						Variant: button.VariantGhost,
+					}) {
+						Ghost
 					}
 				</div>
 			}
 		}
-	</div>
-}
-
-type ThemeCustomizerProps struct {
-	CurrentTheme  string
-	CurrentRadius string
-}
-
-templ ThemeCustomizer(props ThemeCustomizerProps) {
-	<div
-		class="theme-customizer w-full flex flex-col gap-2"
-	>
-		<div class="flex flex-1 flex-col space-y-4 md:space-y-6">
-			@ThemeSelector()
-			@RadiusSelector()
-			@ModeSelector()
-		</div>
-		@modal.Trigger(modal.TriggerProps{
-			For: "css-modal",
-		}) {
-			@button.Button(button.Props{
-				FullWidth: true,
-				Attributes: templ.Attributes{
-					"@click": "getGeneratedCSS",
-				},
-			}) {
-				Generate and Copy CSS
+		<!-- Form Elements -->
+		@card.Card(card.Props{Class: "p-6"}) {
+			@card.Header(card.HeaderProps{Class: "pb-4"}) {
+				@card.Title(card.TitleProps{Class: "text-lg"}) {
+					Form Elements
+				}
+			}
+			@card.Content() {
+				<div class="space-y-4">
+					@input.Input(input.Props{
+						Placeholder: "Email address",
+						Type:        input.TypeEmail,
+					})
+					<div class="flex items-center space-x-2">
+						@checkbox.Checkbox(checkbox.Props{ID: "theme-checkbox"})
+						@form.Label(form.LabelProps{For: "theme-checkbox"}) {
+							Accept terms
+						}
+					</div>
+					<div class="flex items-center space-x-2">
+						@toggle.Toggle(toggle.Props{ID: "theme-toggle"})
+						@form.Label(form.LabelProps{For: "theme-toggle"}) {
+							Enable notifications
+						}
+					</div>
+				</div>
 			}
 		}
-		@modal.Modal(modal.Props{
-			ID:    "css-modal",
-			Class: "max-w-xl",
-		}) {
-			@modal.Header() {
-				Generated CSS Code
+		<!-- Cards & Badges -->
+		@card.Card(card.Props{Class: "p-6"}) {
+			@card.Header(card.HeaderProps{Class: "pb-4"}) {
+				@card.Title(card.TitleProps{Class: "text-lg"}) {
+					Cards & Badges
+				}
 			}
-			@modal.Body() {
-				<pre x-text="generatedCSS" class="text-primary p-4 rounded overflow-x-auto max-h-96"></pre>
+			@card.Content() {
+				<div class="space-y-4">
+					<div class="p-4 bg-muted rounded-lg">
+						<p class="text-sm text-muted-foreground">Muted background card</p>
+					</div>
+					<div class="flex gap-2">
+						<span class="inline-flex items-center rounded-md bg-primary px-2.5 py-0.5 text-xs font-semibold text-primary-foreground">
+							Primary
+						</span>
+						<span class="inline-flex items-center rounded-md bg-secondary px-2.5 py-0.5 text-xs font-semibold text-secondary-foreground">
+							Secondary
+						</span>
+						<span class="inline-flex items-center rounded-md bg-destructive px-2.5 py-0.5 text-xs font-semibold text-destructive-foreground">
+							Destructive
+						</span>
+					</div>
+				</div>
 			}
-			@modal.Footer() {
-				<div class="flex gap-2">
-					@button.Button(button.Props{
-						Attributes: templ.Attributes{"@click": "copyToClipboard"},
-					}) {
-						Copy to Clipboard
-					}
-					@modal.Close(modal.CloseProps{
-						For: "css-modal",
-					}) {
-						@button.Button(button.Props{
-							Variant: button.VariantSecondary,
-						}) {
-							Close
+		}
+		<!-- Colors -->
+		@card.Card(card.Props{Class: "p-6"}) {
+			@card.Header(card.HeaderProps{Class: "pb-4"}) {
+				@card.Title(card.TitleProps{Class: "text-lg"}) {
+					Color Palette
+				}
+			}
+			@card.Content() {
+				<div class="grid grid-cols-2 gap-3">
+					<div class="space-y-1.5">
+						<div class="h-10 w-full rounded border bg-background"></div>
+						<p class="text-xs text-muted-foreground">Background</p>
+					</div>
+					<div class="space-y-1.5">
+						<div class="h-10 w-full rounded border bg-foreground"></div>
+						<p class="text-xs text-muted-foreground">Foreground</p>
+					</div>
+					<div class="space-y-1.5">
+						<div class="h-10 w-full rounded bg-primary"></div>
+						<p class="text-xs text-muted-foreground">Primary</p>
+					</div>
+					<div class="space-y-1.5">
+						<div class="h-10 w-full rounded bg-secondary"></div>
+						<p class="text-xs text-muted-foreground">Secondary</p>
+					</div>
+					<div class="space-y-1.5">
+						<div class="h-10 w-full rounded bg-accent"></div>
+						<p class="text-xs text-muted-foreground">Accent</p>
+					</div>
+					<div class="space-y-1.5">
+						<div class="h-10 w-full rounded bg-muted"></div>
+						<p class="text-xs text-muted-foreground">Muted</p>
+					</div>
+				</div>
+			}
+		}
+		<!-- Text Styles -->
+		@card.Card(card.Props{Class: "p-6"}) {
+			@card.Header(card.HeaderProps{Class: "pb-4"}) {
+				@card.Title(card.TitleProps{Class: "text-lg"}) {
+					Typography
+				}
+			}
+			@card.Content() {
+				<div class="space-y-3">
+					<h3 class="text-2xl font-bold">Heading Text</h3>
+					<p class="text-base">Regular paragraph text with standard foreground color.</p>
+					<p class="text-sm text-muted-foreground">Muted text for secondary information.</p>
+					<p class="text-sm text-primary">Primary colored text for emphasis.</p>
+					<p class="text-sm text-destructive">Destructive text for warnings.</p>
+				</div>
+			}
+		}
+		<!-- Interactive Elements -->
+		@card.Card(card.Props{Class: "p-6"}) {
+			@card.Header(card.HeaderProps{Class: "pb-4"}) {
+				@card.Title(card.TitleProps{Class: "text-lg"}) {
+					Interactive
+				}
+			}
+			@card.Content() {
+				<div class="space-y-4">
+					<div class="flex items-center space-x-2">
+						@radio.Radio(radio.Props{
+							ID:         "r1",
+							Name:       "theme-radio",
+							Attributes: templ.Attributes{"checked": "true"},
+						})
+						@form.Label(form.LabelProps{For: "r1"}) {
+							Option A
 						}
-					}
+					</div>
+					<div class="flex items-center space-x-2">
+						@radio.Radio(radio.Props{
+							ID:   "r2",
+							Name: "theme-radio",
+						})
+						@form.Label(form.LabelProps{For: "r2"}) {
+							Option B
+						}
+					</div>
+					<div class="w-full h-px bg-border my-4"></div>
+					@datepicker.DatePicker(datepicker.Props{
+						Placeholder: "Select date",
+					})
 				</div>
 			}
 		}
@@ -312,269 +304,71 @@ templ ThemeCustomizer(props ThemeCustomizerProps) {
 }
 
 templ ThemeSelector() {
-	<div class="space-y-1.5">
-		<label class="text-xs font-medium">Theme</label>
-		<div class="grid grid-cols-3 gap-2">
-			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
-				style="--theme-primary: hsl(240 5.9% 10%);"
-				data-theme="zinc"
-				x-bind:class="setBorderOnThemeButton"
-				@click="setTheme"
-			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
-					<span
-						data-theme="zinc"
-						x-show="isTheme"
-					>
-						@icon.Check(icon.Props{Size: 12, Color: "white"})
-					</span>
-				</span>
-				Zinc
-			</button>
-			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
-				style="--theme-primary: hsl(215.4 16.3% 46.9%);"
-				data-theme="slate"
-				x-bind:class="setBorderOnThemeButton"
-				@click="setTheme"
-			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
-					<span
-						data-theme="slate"
-						x-show="isTheme"
-					>
-						@icon.Check(icon.Props{Size: 12, Color: "white"})
-					</span>
-				</span>
-				Slate
-			</button>
-			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
-				style="--theme-primary: hsl(25 5.3% 44.7%);"
-				data-theme="stone"
-				x-bind:class="setBorderOnThemeButton"
-				@click="setTheme"
-			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
-					<span
-						data-theme="stone"
-						x-show="isTheme"
-					>
-						@icon.Check(icon.Props{Size: 12, Color: "white"})
-					</span>
-				</span>
-				Stone
-			</button>
-			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
-				style="--theme-primary: hsl(220 8.9% 46.1%);"
-				data-theme="gray"
-				x-bind:class="setBorderOnThemeButton"
-				@click="setTheme"
-			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
-					<span
-						data-theme="gray"
-						x-show="isTheme"
-					>
-						@icon.Check(icon.Props{Size: 12, Color: "white"})
-					</span>
-				</span>
-				Gray
-			</button>
-			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
-				style="--theme-primary: hsl(0 0% 45.1%);"
-				data-theme="neutral"
-				x-bind:class="setBorderOnThemeButton"
-				@click="setTheme"
-			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
-					<span
-						data-theme="neutral"
-						x-show="isTheme"
-					>
-						@icon.Check(icon.Props{Size: 12, Color: "white"})
-					</span>
-				</span>
-				Neutral
-			</button>
-			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
-				style="--theme-primary: hsl(0 72.2% 50.6%);"
-				data-theme="red"
-				x-bind:class="setBorderOnThemeButton"
-				@click="setTheme"
-			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
-					<span
-						data-theme="red"
-						x-show="isTheme"
-					>
-						@icon.Check(icon.Props{Size: 12, Color: "white"})
-					</span>
-				</span>
-				Red
-			</button>
-			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
-				style="--theme-primary: hsl(346.8 77.2% 49.8%);"
-				data-theme="rose"
-				x-bind:class="setBorderOnThemeButton"
-				@click="setTheme"
-			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
-					<span
-						data-theme="rose"
-						x-show="isTheme"
-					>
-						@icon.Check(icon.Props{Size: 12, Color: "white"})
-					</span>
-				</span>
-				Rose
-			</button>
-			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
-				style="--theme-primary: hsl(24.6 95% 53.1%);"
-				data-theme="orange"
-				x-bind:class="setBorderOnThemeButton"
-				@click="setTheme"
-			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
-					<span
-						data-theme="orange"
-						x-show="isTheme"
-					>
-						@icon.Check(icon.Props{Size: 12, Color: "white"})
-					</span>
-				</span>
-				Orange
-			</button>
-			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
-				style="--theme-primary: hsl(142.1 76.2% 36.3%);"
-				data-theme="green"
-				x-bind:class="setBorderOnThemeButton"
-				@click="setTheme"
-			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
-					<span
-						data-theme="green"
-						x-show="isTheme"
-					>
-						@icon.Check(icon.Props{Size: 12, Color: "white"})
-					</span>
-				</span>
-				Green
-			</button>
-			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
-				style="--theme-primary: hsl(221.2 83.2% 53.3%);"
-				data-theme="blue"
-				x-bind:class="setBorderOnThemeButton"
-				@click="setTheme"
-			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
-					<span
-						data-theme="blue"
-						x-show="isTheme"
-					>
-						@icon.Check(icon.Props{Size: 12, Color: "white"})
-					</span>
-				</span>
-				Blue
-			</button>
-			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
-				style="--theme-primary: hsl(47.9 95.8% 53.1%);"
-				data-theme="yellow"
-				x-bind:class="setBorderOnThemeButton"
-				@click="setTheme"
-			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
-					<span
-						data-theme="yellow"
-						x-show="isTheme"
-					>
-						@icon.Check(icon.Props{Size: 12, Color: "white"})
-					</span>
-				</span>
-				Yellow
-			</button>
-			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
-				style="--theme-primary: hsl(262.1 83.3% 57.8%);"
-				data-theme="violet"
-				x-bind:class="setBorderOnThemeButton"
-				@click="setTheme"
-			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
-					<span
-						data-theme="violet"
-						x-show="isTheme"
-					>
-						@icon.Check(icon.Props{Size: 12, Color: "white"})
-					</span>
-				</span>
-				Violet
-			</button>
-		</div>
-	</div>
-}
-
-templ RadiusSelector() {
-	<div class="space-y-1.5">
-		<label class="text-xs font-medium">Radius</label>
-		<div class="grid grid-cols-5 gap-2">
-			<button
-				class="px-3 py-1 rounded border"
-				data-radius="0"
-				x-bind:class="setBorderOnRadiusButton"
-				@click="setRadius"
-			>
-				0
-			</button>
-			<button
-				class="px-3 py-1 rounded border"
-				data-radius="0.3"
-				x-bind:class="setBorderOnRadiusButton"
-				@click="setRadius"
-			>
-				0.3
-			</button>
-			<button
-				class="px-3 py-1 rounded border"
-				data-radius="0.5"
-				x-bind:class="setBorderOnRadiusButton"
-				@click="setRadius"
-			>
-				0.5
-			</button>
-			<button
-				class="px-3 py-1 rounded border"
-				data-radius="0.75"
-				x-bind:class="setBorderOnRadiusButton"
-				@click="setRadius"
-			>
-				0.75
-			</button>
-			<button
-				class="px-3 py-1 rounded border"
-				data-radius="1.0"
-				x-bind:class="setBorderOnRadiusButton"
-				@click="setRadius"
-			>
-				1.0
-			</button>
-		</div>
-	</div>
-}
-
-templ ModeSelector() {
-	<div class="space-y-1.5">
-		<label class="text-xs font-medium">Mode</label>
-		@modules.ThemeSwitcher(modules.ThemeSwitcherProps{Class: "w-full border"})
+	<div class="flex gap-2 justify-center">
+		<button
+			class="h-8 w-8 rounded-full border-2 transition-all hover:scale-110"
+			style="background-color: oklch(0.205 0 0);"
+			data-theme="default"
+			x-bind:class="theme === 'default' ? 'border-primary ring-2 ring-primary ring-offset-2' : 'border-transparent'"
+			@click="setTheme"
+			title="Default"
+		></button>
+		<button
+			class="h-8 w-8 rounded-full border-2 transition-all hover:scale-110"
+			style="background-color: oklch(0.6 0.24 27);"
+			data-theme="red"
+			x-bind:class="theme === 'red' ? 'border-primary ring-2 ring-primary ring-offset-2' : 'border-transparent'"
+			@click="setTheme"
+			title="Red"
+		></button>
+		<button
+			class="h-8 w-8 rounded-full border-2 transition-all hover:scale-110"
+			style="background-color: oklch(0.614 0.215 10.227);"
+			data-theme="rose"
+			x-bind:class="theme === 'rose' ? 'border-primary ring-2 ring-primary ring-offset-2' : 'border-transparent'"
+			@click="setTheme"
+			title="Rose"
+		></button>
+		<button
+			class="h-8 w-8 rounded-full border-2 transition-all hover:scale-110"
+			style="background-color: oklch(0.681 0.224 52.718);"
+			data-theme="orange"
+			x-bind:class="theme === 'orange' ? 'border-primary ring-2 ring-primary ring-offset-2' : 'border-transparent'"
+			@click="setTheme"
+			title="Orange"
+		></button>
+		<button
+			class="h-8 w-8 rounded-full border-2 transition-all hover:scale-110"
+			style="background-color: oklch(0.523 0.179 156.329);"
+			data-theme="green"
+			x-bind:class="theme === 'green' ? 'border-primary ring-2 ring-primary ring-offset-2' : 'border-transparent'"
+			@click="setTheme"
+			title="Green"
+		></button>
+		<button
+			class="h-8 w-8 rounded-full border-2 transition-all hover:scale-110"
+			style="background-color: oklch(0.511 0.27 264.052);"
+			data-theme="blue"
+			x-bind:class="theme === 'blue' ? 'border-primary ring-2 ring-primary ring-offset-2' : 'border-transparent'"
+			@click="setTheme"
+			title="Blue"
+		></button>
+		<button
+			class="h-8 w-8 rounded-full border-2 transition-all hover:scale-110"
+			style="background-color: oklch(0.762 0.185 85.342);"
+			data-theme="yellow"
+			x-bind:class="theme === 'yellow' ? 'border-primary ring-2 ring-primary ring-offset-2' : 'border-transparent'"
+			@click="setTheme"
+			title="Yellow"
+		></button>
+		<button
+			class="h-8 w-8 rounded-full border-2 transition-all hover:scale-110"
+			style="background-color: oklch(0.614 0.253 293.639);"
+			data-theme="violet"
+			x-bind:class="theme === 'violet' ? 'border-primary ring-2 ring-primary ring-offset-2' : 'border-transparent'"
+			@click="setTheme"
+			title="Violet"
+		></button>
 	</div>
 }
 
@@ -585,48 +379,48 @@ templ ThemesHandle() {
             document.addEventListener('alpine:init', () => {
                 Alpine.data('themeCustomizer', () => ({
                     themeColors: {
-                        zinc: {
+                        default: {
                         light: {
-                            background: "hsl(0 0% 100%)",
-                            foreground: "hsl(240 10% 3.9%)",
-                            muted: "hsl(240 4.8% 95.9%)",
-                            "muted-foreground": "hsl(240 3.8% 46.1%)",
-                            popover: "hsl(0 0% 100%)",
-                            "popover-foreground": "hsl(240 10% 3.9%)",
-                            card: "hsl(0 0% 100%)",
-                            "card-foreground": "hsl(240 10% 3.9%)",
-                            border: "hsl(240 5.9% 90%)",
-                            input: "hsl(240 5.9% 90%)",
-                            primary: "hsl(240 5.9% 10%)",
-                            "primary-foreground": "hsl(0 0% 98%)",
-                            secondary: "hsl(240 4.8% 95.9%)",
-                            "secondary-foreground": "hsl(240 5.9% 10%)",
-                            accent: "hsl(240 4.8% 95.9%)",
-                            "accent-foreground": "hsl(240 5.9% 10%)",
-                            destructive: "hsl(0 84.2% 60.2%)",
-                            "destructive-foreground": "hsl(0 0% 98%)",
-                            ring: "hsl(240 5.9% 10%)",
+                            background: "oklch(1 0 0)",
+                            foreground: "oklch(0.145 0 0)",
+                            muted: "oklch(0.975 0 0)",
+                            "muted-foreground": "oklch(0.556 0 0)",
+                            popover: "oklch(1 0 0)",
+                            "popover-foreground": "oklch(0.145 0 0)",
+                            card: "oklch(1 0 0)",
+                            "card-foreground": "oklch(0.145 0 0)",
+                            border: "oklch(0.922 0 0)",
+                            input: "oklch(0.922 0 0)",
+                            primary: "oklch(0.205 0 0)",
+                            "primary-foreground": "oklch(0.985 0 0)",
+                            secondary: "oklch(0.975 0 0)",
+                            "secondary-foreground": "oklch(0.205 0 0)",
+                            accent: "oklch(0.975 0 0)",
+                            "accent-foreground": "oklch(0.205 0 0)",
+                            destructive: "oklch(0.577 0.237 27.325)",
+                            "destructive-foreground": "oklch(0.985 0 0)",
+                            ring: "oklch(0.708 0 0)",
                         },
                         dark: {
-                            background: "hsl(240 10% 3.9%)",
-                            foreground: "hsl(0 0% 98%)",
-                            muted: "hsl(240 3.7% 15.9%)",
-                            "muted-foreground": "hsl(240 5% 64.9%)",
-                            popover: "hsl(240 10% 3.9%)",
-                            "popover-foreground": "hsl(0 0% 98%)",
-                            card: "hsl(240 10% 3.9%)",
-                            "card-foreground": "hsl(0 0% 98%)",
-                            border: "hsl(240 3.7% 15.9%)",
-                            input: "hsl(240 3.7% 15.9%)",
-                            primary: "hsl(0 0% 98%)",
-                            "primary-foreground": "hsl(240 5.9% 10%)",
-                            secondary: "hsl(240 3.7% 15.9%)",
-                            "secondary-foreground": "hsl(0 0% 98%)",
-                            accent: "hsl(240 3.7% 15.9%)",
-                            "accent-foreground": "hsl(0 0% 98%)",
-                            destructive: "hsl(0 62.8% 30.6%)",
-                            "destructive-foreground": "hsl(0 0% 98%)",
-                            ring: "hsl(240 4.9% 83.9%)",
+                            background: "oklch(0.145 0 0)",
+                            foreground: "oklch(0.985 0 0)",
+                            muted: "oklch(0.231 0 0)",
+                            "muted-foreground": "oklch(0.687 0 0)",
+                            popover: "oklch(0.145 0 0)",
+                            "popover-foreground": "oklch(0.985 0 0)",
+                            card: "oklch(0.145 0 0)",
+                            "card-foreground": "oklch(0.985 0 0)",
+                            border: "oklch(0.231 0 0)",
+                            input: "oklch(0.231 0 0)",
+                            primary: "oklch(0.985 0 0)",
+                            "primary-foreground": "oklch(0.205 0 0)",
+                            secondary: "oklch(0.231 0 0)",
+                            "secondary-foreground": "oklch(0.985 0 0)",
+                            accent: "oklch(0.231 0 0)",
+                            "accent-foreground": "oklch(0.985 0 0)",
+                            destructive: "oklch(0.433 0.182 27.325)",
+                            "destructive-foreground": "oklch(0.985 0 0)",
+                            ring: "oklch(0.708 0 0)",
                         },
                         },
                         slate: {
@@ -1114,8 +908,7 @@ templ ThemesHandle() {
                         },
                         },
                     },
-                    theme: "zinc",
-                    radius: "0.5",
+                    theme: "default",
                     generatedCSS: "",
 
                     init() {
@@ -1131,14 +924,9 @@ templ ThemesHandle() {
                         }
                     },
 
-                    setRadius() {
-                        this.radius = this.$el.dataset.radius;
-                        this.applyTheme();
-                    },
 
                     resetTheme() {
-                        this.theme = "zinc";
-                        this.radius = "0.5";
+                        this.theme = "default";
                         this.applyTheme();
                     },
 
@@ -1146,13 +934,9 @@ templ ThemesHandle() {
                         const preview = document.getElementById("theme-preview");
                         if (!preview) return;
 
-                        preview.className = `theme-${this.theme} w-full`;
-                        preview.style.setProperty("--radius", `${this.radius}rem`);
+                        preview.className = this.theme === 'default' ? 'w-full' : `theme-${this.theme} w-full`;
                     },
 
-                    isTheme() {
-                        return this.theme === this.$el.dataset.theme;
-                    },
 
                     getGeneratedCSS() {
                         this.generatedCSS = this.generateCSS();
@@ -1173,24 +957,28 @@ templ ThemesHandle() {
                         // INFO: Don't change the indentation here
                         return `:root {
     ${cssVars}
-    --radius: ${this.radius}rem;
+    --radius: 0.5rem;
 }
 .dark {
     ${darkCssVars}
-    --radius: ${this.radius}rem;
+    --radius: 0.5rem;
 }`;
                     },
 
-                    setBorderOnThemeButton() {
-                        if (this.theme === this.$el.dataset.theme) {
-                            return "border-primary";
-                        }
-                    },
 
-                    setBorderOnRadiusButton() {
-                        if (this.radius === this.$el.dataset.radius) {
-                            return "border-2 border-primary";
-                        }
+
+                    getThemeColorStyle() {
+                        const themeColors = {
+                            default: 'oklch(0.205 0 0)',
+                            red: 'oklch(0.6 0.24 27)',
+                            rose: 'oklch(0.614 0.215 10.227)',
+                            orange: 'oklch(0.681 0.224 52.718)',
+                            green: 'oklch(0.523 0.179 156.329)',
+                            blue: 'oklch(0.511 0.27 264.052)',
+                            yellow: 'oklch(0.762 0.185 85.342)',
+                            violet: 'oklch(0.614 0.253 293.639)'
+                        };
+                        return `background-color: ${themeColors[this.theme] || themeColors.default}`;
                     },
 
                     copyToClipboard() {
@@ -1202,7 +990,7 @@ templ ThemesHandle() {
                             .catch((err) => {
                             console.error("Failed to copy: ", err);
                             });
-                        },
+                    }
                 }))
             })
         </script>
