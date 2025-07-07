@@ -440,7 +440,7 @@
         preview.className = preview.className.replace(/\btheme-\S+/g, '');
         
         // Add base classes
-        preview.className = 'grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8';
+        preview.className = 'grid gap-4 md:grid-cols-2 lg:grid-cols-10 xl:grid-cols-11';
         
         // Add theme class if not default
         if (currentTheme !== 'default') {

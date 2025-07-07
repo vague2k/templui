@@ -25,13 +25,16 @@ templ Themes() {
 	@layouts.BaseLayout("Themes - templUI", "Pick a Color. Make it yours. Try our hand-picked themes for your next project.") {
 		@modules.AnnouncementBar()
 		@modules.Navbar()
-		<div class="container mx-auto px-4 py-16 max-w-7xl">
+		<main class="flex-1 overflow-visible">
+		<div class="container mx-auto px-4 sm:px-6 lg:px-8">
 			<!-- Hero Section -->
-			<div class="text-center mb-16">
-				<h1 class="text-4xl md:text-5xl font-bold mb-4">Pick a Color. Make it yours.</h1>
-				<p class="text-xl text-muted-foreground mb-2">Try our hand-picked themes. Copy and paste them into your project.</p>
+			<div class="flex flex-col items-center justify-center py-16 md:py-20">
+				<div class="text-center space-y-4 max-w-3xl mx-auto">
+					<h1 class="text-4xl md:text-5xl font-semibold tracking-tight">Pick a Color. Make it yours.</h1>
+					<p class="text-lg text-muted-foreground max-w-[700px] mx-auto">Try our hand-picked themes. Copy and paste them into your project.</p>
+				</div>
 			</div>
-			<div class="space-y-12">
+			<div class="space-y-8">
 				<!-- Theme Selector Section -->
 				<div class="flex flex-col items-center space-y-6">
 					@ThemeSelector()
@@ -104,6 +107,7 @@ templ Themes() {
 			</div>
 			@ThemesHandle()
 		</div>
+		</main>
 		@modules.Footer()
 	}
 }
@@ -111,264 +115,272 @@ templ Themes() {
 templ ThemeShowcase() {
 	<div
 		id="theme-preview"
-		class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 auto-rows-auto"
+		class="grid gap-4 md:grid-cols-2 lg:grid-cols-10 xl:grid-cols-11"
 	>
-		<!-- Input Fields -->
-		@card.Card(card.Props{Class: "lg:row-span-2"}) {
-			@card.Content(card.ContentProps{Class: "p-8 space-y-4"}) {
-				<div>
-					@form.Label(form.LabelProps{For: "email"}) {
-						Email
-					}
-					@input.Input(input.Props{
-						ID:          "email",
-						Placeholder: "Enter your email",
-						Type:        input.TypeEmail,
-					})
-				</div>
-				<div>
-					@form.Label(form.LabelProps{For: "message"}) {
-						Message
-					}
-					@textarea.Textarea(textarea.Props{
-						ID:          "message",
-						Placeholder: "Type your message here.",
-						Rows:        3,
-					})
-				</div>
-			}
-		}
-		<!-- Select & Date -->
-		@card.Card(card.Props{}) {
-			@card.Content(card.ContentProps{Class: "p-8 space-y-4"}) {
-				<div>
-					@form.Label(form.LabelProps{For: "framework"}) {
-						Framework
-					}
-					@selectbox.SelectBox(selectbox.Props{
-						ID: "framework",
-					}) {
-						@selectbox.Trigger() {
-							@selectbox.Value(selectbox.ValueProps{
-								Placeholder: "Select a framework",
-							})
+		<!-- Left Column - spans more on larger screens -->
+		<div class="grid gap-4 auto-rows-min md:col-span-1 lg:col-span-4 xl:col-span-5">
+			<!-- Input Fields -->
+			@card.Card(card.Props{}) {
+				@card.Content(card.ContentProps{Class: "p-6 space-y-4"}) {
+					<div>
+						@form.Label(form.LabelProps{For: "email"}) {
+							Email
 						}
-						@selectbox.Content() {
-							@selectbox.Item(selectbox.ItemProps{Value: "next"}) {
-								Next.js
-							}
-							@selectbox.Item(selectbox.ItemProps{Value: "sveltekit"}) {
-								SvelteKit
-							}
-							@selectbox.Item(selectbox.ItemProps{Value: "astro"}) {
-								Astro
-							}
-							@selectbox.Item(selectbox.ItemProps{Value: "nuxt"}) {
-								Nuxt.js
-							}
-						}
-					}
-				</div>
-				<div>
-					@form.Label(form.LabelProps{For: "date"}) {
-						Pick a date
-					}
-					@datepicker.DatePicker(datepicker.Props{
-						ID:          "date",
-						Placeholder: "Select date",
-					})
-				</div>
-			}
-		}
-		<!-- Buttons -->
-		@card.Card(card.Props{Class: "md:col-span-2"}) {
-			@card.Content(card.ContentProps{Class: "p-8"}) {
-				<h3 class="text-sm font-medium mb-4">Buttons</h3>
-				<div class="flex flex-wrap gap-3">
-					@button.Button() {
-						Primary
-					}
-					@button.Button(button.Props{
-						Variant: button.VariantSecondary,
-					}) {
-						Secondary
-					}
-					@button.Button(button.Props{
-						Variant: button.VariantOutline,
-					}) {
-						Outline
-					}
-					@button.Button(button.Props{
-						Variant: button.VariantGhost,
-					}) {
-						Ghost
-					}
-					@button.Button(button.Props{
-						Variant: button.VariantDestructive,
-					}) {
-						Destructive
-					}
-				</div>
-			}
-		}
-		<!-- Badges -->
-		@card.Card(card.Props{}) {
-			@card.Content(card.ContentProps{Class: "p-8"}) {
-				<h3 class="text-sm font-medium mb-4">Badges</h3>
-				<div class="flex flex-wrap gap-2">
-					@badge.Badge() {
-						Default
-					}
-					@badge.Badge(badge.Props{Variant: badge.VariantSecondary}) {
-						Secondary
-					}
-					@badge.Badge(badge.Props{Variant: badge.VariantDestructive}) {
-						Destructive
-					}
-					@badge.Badge(badge.Props{Variant: badge.VariantOutline}) {
-						Outline
-					}
-				</div>
-			}
-		}
-		<!-- Calendar -->
-		@card.Card(card.Props{Class: "md:col-span-2 lg:col-span-1"}) {
-			@card.Content(card.ContentProps{Class: "p-8"}) {
-				<h3 class="text-sm font-medium mb-4">Calendar</h3>
-				@calendar.Calendar(calendar.Props{})
-			}
-		}
-		<!-- Colors -->
-		@card.Card(card.Props{Class: "lg:col-span-2"}) {
-			@card.Content(card.ContentProps{Class: "p-8"}) {
-				<h3 class="text-sm font-medium mb-4">Color Palette</h3>
-				<div class="grid grid-cols-2 gap-3">
-					<div class="space-y-1.5">
-						<div class="h-10 w-full rounded border bg-background"></div>
-						<p class="text-xs text-muted-foreground">Background</p>
-					</div>
-					<div class="space-y-1.5">
-						<div class="h-10 w-full rounded border bg-foreground"></div>
-						<p class="text-xs text-muted-foreground">Foreground</p>
-					</div>
-					<div class="space-y-1.5">
-						<div class="h-10 w-full rounded bg-primary"></div>
-						<p class="text-xs text-muted-foreground">Primary</p>
-					</div>
-					<div class="space-y-1.5">
-						<div class="h-10 w-full rounded bg-secondary"></div>
-						<p class="text-xs text-muted-foreground">Secondary</p>
-					</div>
-					<div class="space-y-1.5">
-						<div class="h-10 w-full rounded bg-accent"></div>
-						<p class="text-xs text-muted-foreground">Accent</p>
-					</div>
-					<div class="space-y-1.5">
-						<div class="h-10 w-full rounded bg-muted"></div>
-						<p class="text-xs text-muted-foreground">Muted</p>
-					</div>
-				</div>
-			}
-		}
-		<!-- Toggles & Checkboxes -->
-		@card.Card(card.Props{}) {
-			@card.Content(card.ContentProps{Class: "p-8 space-y-4"}) {
-				<h3 class="text-sm font-medium mb-4">Settings</h3>
-				<div class="flex items-center justify-between">
-					@form.Label(form.LabelProps{For: "notifications"}) {
-						Notifications
-					}
-					@toggle.Toggle(toggle.Props{ID: "notifications"})
-				</div>
-				<div class="flex items-center justify-between">
-					@form.Label(form.LabelProps{For: "marketing"}) {
-						Marketing emails
-					}
-					@toggle.Toggle(toggle.Props{ID: "marketing"})
-				</div>
-				<div class="border-t pt-4">
-					<div class="space-y-2">
-						<div class="flex items-center space-x-2">
-							@checkbox.Checkbox(checkbox.Props{ID: "terms"})
-							@form.Label(form.LabelProps{For: "terms"}) {
-								Accept terms
-							}
-						</div>
-						<div class="flex items-center space-x-2">
-							@checkbox.Checkbox(checkbox.Props{ID: "privacy"})
-							@form.Label(form.LabelProps{For: "privacy"}) {
-								Privacy policy
-							}
-						</div>
-					</div>
-				</div>
-			}
-		}
-		<!-- Radio Groups -->
-		@card.Card(card.Props{}) {
-			@card.Content(card.ContentProps{Class: "p-8"}) {
-				<div class="space-y-4">
-					<h3 class="text-sm font-medium">Select plan</h3>
-					<div class="space-y-2">
-						<div class="flex items-center space-x-2">
-							@radio.Radio(radio.Props{
-								ID:         "free",
-								Name:       "plan",
-								Attributes: templ.Attributes{"checked": "true"},
-							})
-							@form.Label(form.LabelProps{For: "free"}) {
-								Free
-							}
-						</div>
-						<div class="flex items-center space-x-2">
-							@radio.Radio(radio.Props{
-								ID:   "pro",
-								Name: "plan",
-							})
-							@form.Label(form.LabelProps{For: "pro"}) {
-								Pro
-							}
-						</div>
-						<div class="flex items-center space-x-2">
-							@radio.Radio(radio.Props{
-								ID:   "enterprise",
-								Name: "plan",
-							})
-							@form.Label(form.LabelProps{For: "enterprise"}) {
-								Enterprise
-							}
-						</div>
-					</div>
-				</div>
-			}
-		}
-		<!-- Sliders & Progress -->
-		@card.Card(card.Props{Class: "md:col-span-2 xl:col-span-1"}) {
-			@card.Content(card.ContentProps{Class: "p-8 space-y-6"}) {
-				<div>
-					@form.Label(form.LabelProps{For: "volume"}) {
-						Volume
-					}
-					@slider.Slider(slider.Props{ID: "volume"}) {
-						@slider.Input(slider.InputProps{
-							Min:   0,
-							Max:   100,
-							Step:  1,
-							Value: 50,
+						@input.Input(input.Props{
+							ID:          "email",
+							Placeholder: "Enter your email",
+							Type:        input.TypeEmail,
 						})
-					}
-				</div>
-				<div>
-					@form.Label() {
-						Upload progress
-					}
-					@progress.Progress(progress.Props{
-						Value: 66,
-						Class: "h-2",
-					})
-				</div>
+					</div>
+					<div>
+						@form.Label(form.LabelProps{For: "message"}) {
+							Message
+						}
+						@textarea.Textarea(textarea.Props{
+							ID:          "message",
+							Placeholder: "Type your message here.",
+							Rows:        3,
+						})
+					</div>
+				}
 			}
-		}
+			<!-- Buttons -->
+			@card.Card(card.Props{}) {
+				@card.Content(card.ContentProps{Class: "p-6"}) {
+					<div class="flex flex-wrap gap-3 justify-center">
+						@button.Button() {
+							Primary
+						}
+						@button.Button(button.Props{
+							Variant: button.VariantSecondary,
+						}) {
+							Secondary
+						}
+						@button.Button(button.Props{
+							Variant: button.VariantOutline,
+						}) {
+							Outline
+						}
+						@button.Button(button.Props{
+							Variant: button.VariantGhost,
+						}) {
+							Ghost
+						}
+						@button.Button(button.Props{
+							Variant: button.VariantDestructive,
+						}) {
+							Destructive
+						}
+					</div>
+				}
+			}
+			<!-- Color Palette -->
+			@card.Card(card.Props{}) {
+				@card.Content(card.ContentProps{Class: "p-6"}) {
+					<h3 class="text-sm font-medium mb-4">Color Palette</h3>
+					<div class="grid grid-cols-2 gap-3">
+						<div class="space-y-1.5">
+							<div class="h-10 w-full rounded border bg-background"></div>
+							<p class="text-xs text-muted-foreground">Background</p>
+						</div>
+						<div class="space-y-1.5">
+							<div class="h-10 w-full rounded border bg-foreground"></div>
+							<p class="text-xs text-muted-foreground">Foreground</p>
+						</div>
+						<div class="space-y-1.5">
+							<div class="h-10 w-full rounded bg-primary"></div>
+							<p class="text-xs text-muted-foreground">Primary</p>
+						</div>
+						<div class="space-y-1.5">
+							<div class="h-10 w-full rounded bg-secondary"></div>
+							<p class="text-xs text-muted-foreground">Secondary</p>
+						</div>
+						<div class="space-y-1.5">
+							<div class="h-10 w-full rounded bg-accent"></div>
+							<p class="text-xs text-muted-foreground">Accent</p>
+						</div>
+						<div class="space-y-1.5">
+							<div class="h-10 w-full rounded bg-muted"></div>
+							<p class="text-xs text-muted-foreground">Muted</p>
+						</div>
+					</div>
+				}
+			}
+		</div>
+		
+		<!-- Middle Column -->
+		<div class="grid gap-4 auto-rows-min md:col-span-1 lg:col-span-3">
+			<!-- Calendar -->
+			@card.Card(card.Props{}) {
+				@card.Content(card.ContentProps{Class: "p-2 flex items-center justify-center"}) {
+					@calendar.Calendar(calendar.Props{})
+				}
+			}
+			<!-- Select & Date -->
+			@card.Card(card.Props{}) {
+				@card.Content(card.ContentProps{Class: "p-6 space-y-4"}) {
+					<div>
+						@form.Label(form.LabelProps{For: "framework"}) {
+							Framework
+						}
+						@selectbox.SelectBox(selectbox.Props{
+							ID: "framework",
+						}) {
+							@selectbox.Trigger() {
+								@selectbox.Value(selectbox.ValueProps{
+									Placeholder: "Select a framework",
+								})
+							}
+							@selectbox.Content() {
+								@selectbox.Item(selectbox.ItemProps{Value: "next"}) {
+									Next.js
+								}
+								@selectbox.Item(selectbox.ItemProps{Value: "sveltekit"}) {
+									SvelteKit
+								}
+								@selectbox.Item(selectbox.ItemProps{Value: "astro"}) {
+									Astro
+								}
+								@selectbox.Item(selectbox.ItemProps{Value: "nuxt"}) {
+									Nuxt.js
+								}
+							}
+						}
+					</div>
+					<div>
+						@form.Label(form.LabelProps{For: "date"}) {
+							Pick a date
+						}
+						@datepicker.DatePicker(datepicker.Props{
+							ID:          "date",
+							Placeholder: "Select date",
+						})
+					</div>
+				}
+			}
+			<!-- Badges -->
+			@card.Card(card.Props{}) {
+				@card.Content(card.ContentProps{Class: "p-6"}) {
+					<div class="flex flex-wrap gap-2 justify-center">
+						@badge.Badge() {
+							Default
+						}
+						@badge.Badge(badge.Props{Variant: badge.VariantSecondary}) {
+							Secondary
+						}
+						@badge.Badge(badge.Props{Variant: badge.VariantDestructive}) {
+							Destructive
+						}
+						@badge.Badge(badge.Props{Variant: badge.VariantOutline}) {
+							Outline
+						}
+					</div>
+				}
+			}
+		</div>
+		
+		<!-- Right Column -->
+		<div class="grid gap-4 auto-rows-min md:col-span-2 lg:col-span-3">
+			<!-- Sliders & Progress -->
+			@card.Card(card.Props{}) {
+				@card.Content(card.ContentProps{Class: "p-6 space-y-6"}) {
+					<div>
+						@form.Label(form.LabelProps{For: "volume"}) {
+							Volume
+						}
+						@slider.Slider(slider.Props{ID: "volume"}) {
+							@slider.Input(slider.InputProps{
+								Min:   0,
+								Max:   100,
+								Step:  1,
+								Value: 50,
+							})
+						}
+					</div>
+					<div>
+						@form.Label() {
+							Upload progress
+						}
+						@progress.Progress(progress.Props{
+							Value: 66,
+							Class: "h-2",
+						})
+					</div>
+				}
+			}
+			<!-- Radio Groups -->
+			@card.Card(card.Props{}) {
+				@card.Content(card.ContentProps{Class: "p-6"}) {
+					<div class="space-y-4">
+						<h3 class="text-sm font-medium">Select plan</h3>
+						<div class="space-y-2">
+							<div class="flex items-center space-x-2">
+								@radio.Radio(radio.Props{
+									ID:         "free",
+									Name:       "plan",
+									Attributes: templ.Attributes{"checked": "true"},
+								})
+								@form.Label(form.LabelProps{For: "free"}) {
+									Free
+								}
+							</div>
+							<div class="flex items-center space-x-2">
+								@radio.Radio(radio.Props{
+									ID:   "pro",
+									Name: "plan",
+								})
+								@form.Label(form.LabelProps{For: "pro"}) {
+									Pro
+								}
+							</div>
+							<div class="flex items-center space-x-2">
+								@radio.Radio(radio.Props{
+									ID:   "enterprise",
+									Name: "plan",
+								})
+								@form.Label(form.LabelProps{For: "enterprise"}) {
+									Enterprise
+								}
+							</div>
+						</div>
+					</div>
+				}
+			}
+			<!-- Toggles & Checkboxes -->
+			@card.Card(card.Props{}) {
+				@card.Content(card.ContentProps{Class: "p-6 space-y-4"}) {
+					<h3 class="text-sm font-medium mb-4">Settings</h3>
+					<div class="flex items-center justify-between">
+						@form.Label(form.LabelProps{For: "notifications"}) {
+							Notifications
+						}
+						@toggle.Toggle(toggle.Props{ID: "notifications"})
+					</div>
+					<div class="flex items-center justify-between">
+						@form.Label(form.LabelProps{For: "marketing"}) {
+							Marketing emails
+						}
+						@toggle.Toggle(toggle.Props{ID: "marketing"})
+					</div>
+					<div class="border-t pt-4">
+						<div class="space-y-2">
+							<div class="flex items-center space-x-2">
+								@checkbox.Checkbox(checkbox.Props{ID: "terms"})
+								@form.Label(form.LabelProps{For: "terms"}) {
+									Accept terms
+								}
+							</div>
+							<div class="flex items-center space-x-2">
+								@checkbox.Checkbox(checkbox.Props{ID: "privacy"})
+								@form.Label(form.LabelProps{For: "privacy"}) {
+									Privacy policy
+								}
+							</div>
+						</div>
+					</div>
+				}
+			}
+		</div>
 	</div>
 }
 
