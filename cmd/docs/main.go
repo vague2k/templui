@@ -96,6 +96,7 @@ func main() {
 	mux.Handle("GET /docs", http.RedirectHandler("/docs/introduction", http.StatusSeeOther))
 	mux.Handle("GET /docs/getting-started", http.RedirectHandler("/docs/introduction", http.StatusSeeOther))
 	mux.Handle("GET /docs/components", http.RedirectHandler("/docs/components/accordion", http.StatusSeeOther))
+	mux.Handle("GET /components", templ.Handler(pages.ComponentsOverview()))
 	mux.Handle("GET /docs/introduction", templ.Handler(pages.Introduction()))
 	mux.Handle("GET /docs/how-to-use", templ.Handler(pages.HowToUse()))
 	mux.Handle("GET /docs/themes", templ.Handler(pages.Themes()))

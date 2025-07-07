@@ -32,10 +32,32 @@ templ Navbar() {
 					@icon.ToggleLeft(icon.Props{Class: "w-6 h-6"})
 					<span class="text-xl">templ<span class="font-bold">UI</span></span>
 				</a>
-			</div>
-			<div class="hidden md:flex gap-4 items-center absolute left-1/2 transform -translate-x-1/2">
-				<a href="/docs/getting-started" class="text-sm hover:underline">Docs</a>
-				<a href="/docs/components" class="text-sm hover:underline">Components</a>
+				<div class="hidden md:flex gap-1 items-center ml-6">
+					@button.Button(button.Props{
+						Variant: button.VariantGhost,
+						Href:    "/docs/getting-started",
+					}) {
+						Introduction
+					}
+					@button.Button(button.Props{
+						Variant: button.VariantGhost,
+						Href:    "/docs/how-to-use",
+					}) {
+						How to use
+					}
+					@button.Button(button.Props{
+						Variant: button.VariantGhost,
+						Href:    "/docs/themes",
+					}) {
+						Themes
+					}
+					@button.Button(button.Props{
+						Variant: button.VariantGhost,
+						Href:    "/components",
+					}) {
+						Components
+					}
+				</div>
 			</div>
 			<div class="flex gap-1 items-center justify-center">
 				@button.Button(button.Props{

@@ -14,16 +14,6 @@ templ ThemeSwitcher(props ...ThemeSwitcherProps) {
 	if len(props) > 0 {
 		{{ p = props[0] }}
 	}
-	@button.Button(button.Props{
-		Size:    button.SizeIcon,
-		Variant: button.VariantGhost,
-		Class:   p.Class,
-		Attributes: templ.Attributes{
-			"data-theme-switcher": "true",
-		},
-	}) {
-		@icon.Eclipse(icon.Props{Size: 20})
-	}
 	<script nonce={ templ.GetNonce(ctx) }>
 		(function() {
 			// Get current theme preference (system, light, or dark)
@@ -78,23 +68,25 @@ templ ThemeSwitcher(props ...ThemeSwitcherProps) {
 				}
 			});
 
-			// Add click handler to theme switcher button
-			document.addEventListener('DOMContentLoaded', () => {
-				const themeSwitcher = document.querySelector('[data-theme-switcher]');
+			// Use event delegation for click handling
+			document.addEventListener('click', (e) => {
+				const themeSwitcher = e.target.closest('[data-theme-switcher]');
 				if (themeSwitcher) {
-					themeSwitcher.addEventListener('click', cycleTheme);
-				}
-			});
-
-			// Handle dynamic content (HTMX, etc)
-			document.addEventListener('htmx:afterSettle', () => {
-				const themeSwitcher = document.querySelector('[data-theme-switcher]');
-				if (themeSwitcher && !themeSwitcher.hasAttribute('data-theme-initialized')) {
-					themeSwitcher.addEventListener('click', cycleTheme);
-					themeSwitcher.setAttribute('data-theme-initialized', 'true');
+					e.preventDefault();
+					cycleTheme();
 				}
 			});
 		})();
 	</script>
+	@button.Button(button.Props{
+		Size:    button.SizeIcon,
+		Variant: button.VariantGhost,
+		Class:   p.Class,
+		Attributes: templ.Attributes{
+			"data-theme-switcher": "true",
+		},
+	}) {
+		@icon.Eclipse(icon.Props{Size: 20})
+	}
 }
 
