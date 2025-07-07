@@ -7,33 +7,6 @@ import (
 	"github.com/axzilla/templui/internal/ui/modules"
 )
 
-templ ThemeScript() {
-	{{ handle := templ.NewOnceHandle() }}
-	@handle.Once() {
-		<script nonce={ templ.GetNonce(ctx) }>
-			// Initial theme setup
-			document.documentElement.classList.toggle('dark', localStorage.getItem('appTheme') === 'dark');
-
-			document.addEventListener('alpine:init', () => {
-				Alpine.data('themeHandler', () => ({
-					isDark: localStorage.getItem('appTheme') === 'dark',
-					themeClasses() {
-						return this.isDark ? 'text-white' : 'bg-white text-black'
-					},
-					toggleTheme() {
-						
-						this.isDark = !this.isDark;
-						localStorage.setItem('appTheme', this.isDark ? 'dark' : 'light');
-						document.documentElement.classList.toggle('dark', this.isDark);
-						
-						// Event auslösen, dass das Theme geändert wurde
-						document.dispatchEvent(new CustomEvent('theme-changed'));
-					}
-				}))
-			})
-		</script>
-	}
-}
 
 templ BaseLayout(title, description string) {
 	<!DOCTYPE html>
@@ -53,8 +26,6 @@ templ BaseLayout(title, description string) {
 			if config.AppConfig.GoEnv == "production" {
 				<script defer data-domain="templui.io" src="https://plausible.axeladrian.com/js/script.js" nonce={ templ.GetNonce(ctx) }></script>
 			}
-			// Theme Script
-			@ThemeScript()
 			// Shiki Highlighter Script
 			@modules.CodeHighlightingScript()
 			// Favicon
@@ -76,10 +47,7 @@ templ BaseLayout(title, description string) {
 			/>
 		</head>
 		<body
-			x-data="themeHandler"
-			x-cloak
 			class="h-full flex flex-col transition-colors duration-200"
-			x-bind:class="themeClasses"
 		>
 			<div class="flex flex-col min-h-screen">
 				{ children... }
