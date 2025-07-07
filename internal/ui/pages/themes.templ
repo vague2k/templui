@@ -7,7 +7,6 @@ import (
 	"github.com/axzilla/templui/internal/components/calendar"
 	"github.com/axzilla/templui/internal/components/card"
 	"github.com/axzilla/templui/internal/components/checkbox"
-	"github.com/axzilla/templui/internal/components/datepicker"
 	"github.com/axzilla/templui/internal/components/form"
 	"github.com/axzilla/templui/internal/components/icon"
 	"github.com/axzilla/templui/internal/components/input"
@@ -127,7 +126,7 @@ templ ThemeShowcase() {
 			<!-- Input Fields -->
 			@card.Card(card.Props{}) {
 				@card.Content(card.ContentProps{Class: "p-6 space-y-4"}) {
-					<div>
+					<div class="flex flex-col gap-3">
 						@form.Label(form.LabelProps{For: "email"}) {
 							Email
 						}
@@ -137,7 +136,7 @@ templ ThemeShowcase() {
 							Type:        input.TypeEmail,
 						})
 					</div>
-					<div>
+					<div class="flex flex-col gap-3">
 						@form.Label(form.LabelProps{For: "message"}) {
 							Message
 						}
@@ -185,11 +184,60 @@ templ ThemeShowcase() {
 				@card.Content(card.ContentProps{Class: "p-6"}) {
 					@button.Button(button.Props{
 						Variant: button.VariantDestructive,
-						Class: "w-full",
+						Class:   "w-full",
 					}) {
-						@icon.Trash(icon.Props{Size: 16}) 
-						Delete Account
+						@icon.Trash(icon.Props{Size: 16})
+						<span class="ml-2">Delete Account</span>
 					}
+				}
+			}
+			<!-- Social Media Actions Card -->
+			@card.Card(card.Props{}) {
+				@card.Header() {
+					@card.Title() {
+						Share Article
+					}
+				}
+				@card.Content(card.ContentProps{Class: "p-6"}) {
+					<div class="grid grid-cols-2 gap-2">
+						@button.Button(button.Props{
+							Variant: button.VariantSecondary,
+							Class:   "w-full",
+						}) {
+							@icon.Icon("twitter")(icon.Props{Size: 16})
+							<span class="ml-2">Twitter</span>
+						}
+						@button.Button(button.Props{
+							Variant: button.VariantSecondary,
+							Class:   "w-full",
+						}) {
+							@icon.Icon("github")(icon.Props{Size: 16})
+							<span class="ml-2">GitHub</span>
+						}
+						@button.Button(button.Props{
+							Variant: button.VariantGhost,
+							Class:   "w-full col-span-2",
+						}) {
+							@icon.Icon("link")(icon.Props{Size: 16})
+							<span class="ml-2">Copy Link</span>
+						}
+					</div>
+				}
+			}
+			<!-- Loading States Card -->
+			@card.Card(card.Props{}) {
+				@card.Header() {
+					@card.Title() {
+						Processing
+					}
+				}
+				@card.Content(card.ContentProps{Class: "p-6"}) {
+					<div class="flex flex-col items-center space-y-4">
+						@spinner.Spinner(spinner.Props{
+							Size: spinner.SizeLg,
+						})
+						<p class="text-sm text-muted-foreground">Uploading files...</p>
+					</div>
 				}
 			}
 		</div>
@@ -197,52 +245,46 @@ templ ThemeShowcase() {
 		<div class="grid gap-4 auto-rows-min md:col-span-1 lg:col-span-3">
 			<!-- Calendar -->
 			@card.Card(card.Props{}) {
+				{{ threeDaysFromNow := time.Now().AddDate(0, 0, 3) }}
 				@card.Content() {
-					{{ threeDaysFromNow := time.Now().AddDate(0, 0, 3) }}
 					@calendar.Calendar(calendar.Props{
 						Value: &threeDaysFromNow,
 					})
 				}
 			}
-			<!-- Select & Date -->
+			<!-- Go Framework Select -->
 			@card.Card(card.Props{}) {
-				@card.Content(card.ContentProps{Class: "p-6 space-y-4"}) {
-					<div>
-						@form.Label(form.LabelProps{For: "framework"}) {
-							Framework
+				@card.Content(card.ContentProps{Class: "p-6"}) {
+					<div class="flex flex-col gap-3">
+						@form.Label(form.LabelProps{For: "go-framework"}) {
+							Go Framework
 						}
-						@selectbox.SelectBox(selectbox.Props{
-							ID: "framework",
-						}) {
-							@selectbox.Trigger() {
+						@selectbox.SelectBox(selectbox.Props{}) {
+							@selectbox.Trigger(selectbox.TriggerProps{
+								ID: "go-framework",
+							}) {
 								@selectbox.Value(selectbox.ValueProps{
-									Placeholder: "Select a framework",
+									Placeholder: "Select a Go framework",
 								})
 							}
 							@selectbox.Content() {
-								@selectbox.Item(selectbox.ItemProps{Value: "next"}) {
-									Next.js
+								@selectbox.Item(selectbox.ItemProps{Value: "echo"}) {
+									Echo
 								}
-								@selectbox.Item(selectbox.ItemProps{Value: "sveltekit"}) {
-									SvelteKit
+								@selectbox.Item(selectbox.ItemProps{Value: "gin"}) {
+									Gin
 								}
-								@selectbox.Item(selectbox.ItemProps{Value: "astro"}) {
-									Astro
+								@selectbox.Item(selectbox.ItemProps{Value: "fiber"}) {
+									Fiber
 								}
-								@selectbox.Item(selectbox.ItemProps{Value: "nuxt"}) {
-									Nuxt.js
+								@selectbox.Item(selectbox.ItemProps{Value: "chi"}) {
+									Chi
+								}
+								@selectbox.Item(selectbox.ItemProps{Value: "gorilla"}) {
+									Gorilla Mux
 								}
 							}
 						}
-					</div>
-					<div>
-						@form.Label(form.LabelProps{For: "date"}) {
-							Pick a date
-						}
-						@datepicker.DatePicker(datepicker.Props{
-							ID:          "date",
-							Placeholder: "Select date",
-						})
 					</div>
 				}
 			}
@@ -259,7 +301,7 @@ templ ThemeShowcase() {
 							<span class="text-sm">Build Status</span>
 							@badge.Badge(badge.Props{Variant: badge.VariantDefault}) {
 								@icon.Icon("circle-check")(icon.Props{Size: 12})
-								Passing
+								<span class="ml-1">Passing</span>
 							}
 						</div>
 						<div class="flex items-center justify-between">
@@ -289,9 +331,12 @@ templ ThemeShowcase() {
 				}
 				@card.Content(card.ContentProps{Class: "p-6"}) {
 					<div class="space-y-4">
+						@form.Label(form.LabelProps{For: "otp-verification", Class: "sr-only"}) {
+							Verification Code
+						}
 						@inputotp.InputOTP(inputotp.Props{
-							ID: "otp-verification",
-							Name: "verification-code",
+							ID:    "otp-verification",
+							Name:  "verification-code",
 							Value: "",
 						})
 						@button.Button(button.Props{
@@ -302,46 +347,13 @@ templ ThemeShowcase() {
 					</div>
 				}
 			}
-			<!-- Social Media Actions Card -->
-			@card.Card(card.Props{}) {
-				@card.Header() {
-					@card.Title() {
-						Share Article
-					}
-				}
-				@card.Content(card.ContentProps{Class: "p-6"}) {
-					<div class="grid grid-cols-2 gap-2">
-						@button.Button(button.Props{
-							Variant: button.VariantSecondary,
-							Class: "w-full",
-						}) {
-							@icon.Icon("twitter")(icon.Props{Size: 16})
-							Twitter
-						}
-						@button.Button(button.Props{
-							Variant: button.VariantSecondary,
-							Class: "w-full",
-						}) {
-							@icon.Icon("github")(icon.Props{Size: 16})
-							GitHub
-						}
-						@button.Button(button.Props{
-							Variant: button.VariantGhost,
-							Class: "w-full col-span-2",
-						}) {
-							@icon.Icon("link")(icon.Props{Size: 16})
-							Copy Link
-						}
-					</div>
-				}
-			}
 		</div>
 		<!-- Right Column -->
 		<div class="grid gap-4 auto-rows-min md:col-span-2 lg:col-span-3">
 			<!-- Sliders & Progress -->
 			@card.Card(card.Props{}) {
 				@card.Content(card.ContentProps{Class: "p-6 space-y-6"}) {
-					<div>
+					<div class="flex flex-col gap-3">
 						@form.Label(form.LabelProps{For: "volume"}) {
 							Volume
 						}
@@ -354,7 +366,7 @@ templ ThemeShowcase() {
 							})
 						}
 					</div>
-					<div>
+					<div class="flex flex-col gap-3">
 						@form.Label() {
 							Upload progress
 						}
@@ -453,28 +465,15 @@ templ ThemeShowcase() {
 					}
 				}
 				@card.Content(card.ContentProps{Class: "p-6"}) {
-					@tagsinput.TagsInput(tagsinput.Props{
-						ID: "project-tags",
-						Name: "tags",
-						Placeholder: "Add a tag...",
-						Value: []string{"frontend", "react", "typescript"},
-					})
-				}
-			}
-			<!-- Loading States Card -->
-			@card.Card(card.Props{}) {
-				@card.Header() {
-					@card.Title() {
-						Processing
+					@form.Label(form.LabelProps{For: "project-tags", Class: "sr-only"}) {
+						Project Tags
 					}
-				}
-				@card.Content(card.ContentProps{Class: "p-6"}) {
-					<div class="flex flex-col items-center space-y-4">
-						@spinner.Spinner(spinner.Props{
-							Size: spinner.SizeLg,
-						})
-						<p class="text-sm text-muted-foreground">Uploading files...</p>
-					</div>
+					@tagsinput.TagsInput(tagsinput.Props{
+						ID:          "project-tags",
+						Name:        "tags",
+						Placeholder: "Add a tag",
+						Value:       []string{"frontend", "react", "typescript"},
+					})
 				}
 			}
 			<!-- Tabs Navigation Card -->
