@@ -17,7 +17,7 @@ type Props struct {
 	Disabled    bool
 	Required    bool
 	Readonly    bool
-
+	HasError    bool
 }
 
 templ Textarea(props ...Props) {
@@ -43,18 +43,30 @@ templ Textarea(props ...Props) {
 		disabled?={ p.Disabled }
 		required?={ p.Required }
 		readonly?={ p.Readonly }
+		if p.HasError {
+			aria-invalid="true"
+		}
 		if p.AutoResize {
 			data-auto-resize="true"
 		}
 		class={
 			utils.TwMerge(
-				"flex w-full px-3 py-2",
-				"min-h-[80px]", // Default min-height (adjust if needed)
-				"rounded-md border border-input bg-background text-sm",
-				"ring-offset-background",
+				// Base styles
+				"flex w-full min-w-0 rounded-md border border-input bg-transparent px-3 py-1 text-base shadow-xs transition-[color,box-shadow] outline-none md:text-sm",
+				"min-h-[80px]", // Default min-height
+				// Dark mode background
+				"dark:bg-input/30",
+				// Selection styles
+				"selection:bg-primary selection:text-primary-foreground",
+				// Placeholder
 				"placeholder:text-muted-foreground",
-				"focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2",
-				"disabled:cursor-not-allowed disabled:opacity-50",
+				// Focus styles
+				"focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
+				// Disabled styles
+				"disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50",
+				// Error/Invalid styles
+				"aria-invalid:ring-destructive/20 aria-invalid:border-destructive dark:aria-invalid:ring-destructive/40",
+				utils.If(p.HasError, "border-destructive ring-destructive/20 dark:ring-destructive/40"),
 				// Add overflow-hidden only if auto-resizing to prevent scrollbar flicker
 				utils.If(p.AutoResize, "overflow-hidden resize-none"),
 				p.Class,
