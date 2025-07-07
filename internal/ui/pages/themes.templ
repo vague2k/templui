@@ -3,6 +3,7 @@ package pages
 import (
 	"github.com/axzilla/templui/internal/components/badge"
 	"github.com/axzilla/templui/internal/components/button"
+	"github.com/axzilla/templui/internal/components/calendar"
 	"github.com/axzilla/templui/internal/components/card"
 	"github.com/axzilla/templui/internal/components/checkbox"
 	"github.com/axzilla/templui/internal/components/datepicker"
@@ -17,16 +18,18 @@ import (
 	"github.com/axzilla/templui/internal/components/textarea"
 	"github.com/axzilla/templui/internal/components/toggle"
 	"github.com/axzilla/templui/internal/ui/layouts"
+	"github.com/axzilla/templui/internal/ui/modules"
 )
 
 templ Themes() {
 	@layouts.BaseLayout("Themes - templUI", "Pick a Color. Make it yours. Try our hand-picked themes for your next project.") {
+		@modules.AnnouncementBar()
+		@modules.Navbar()
 		<div class="container mx-auto px-4 py-16 max-w-7xl">
 			<!-- Hero Section -->
 			<div class="text-center mb-16">
 				<h1 class="text-4xl md:text-5xl font-bold mb-4">Pick a Color. Make it yours.</h1>
 				<p class="text-xl text-muted-foreground mb-2">Try our hand-picked themes. Copy and paste them into your project.</p>
-				<p class="text-sm text-muted-foreground">New theme editor coming soon.</p>
 			</div>
 			<div class="space-y-12">
 				<!-- Theme Selector Section -->
@@ -101,17 +104,18 @@ templ Themes() {
 			</div>
 			@ThemesHandle()
 		</div>
+		@modules.Footer()
 	}
 }
 
 templ ThemeShowcase() {
 	<div
 		id="theme-preview"
-		class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+		class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 auto-rows-auto"
 	>
 		<!-- Input Fields -->
-		@card.Card(card.Props{}) {
-			@card.Content(card.ContentProps{Class: "p-6 space-y-4"}) {
+		@card.Card(card.Props{Class: "lg:row-span-2"}) {
+			@card.Content(card.ContentProps{Class: "p-8 space-y-4"}) {
 				<div>
 					@form.Label(form.LabelProps{For: "email"}) {
 						Email
@@ -136,7 +140,7 @@ templ ThemeShowcase() {
 		}
 		<!-- Select & Date -->
 		@card.Card(card.Props{}) {
-			@card.Content(card.ContentProps{Class: "p-6 space-y-4"}) {
+			@card.Content(card.ContentProps{Class: "p-8 space-y-4"}) {
 				<div>
 					@form.Label(form.LabelProps{For: "framework"}) {
 						Framework
@@ -177,49 +181,67 @@ templ ThemeShowcase() {
 			}
 		}
 		<!-- Buttons -->
-		@card.Card(card.Props{}) {
-			@card.Content(card.ContentProps{Class: "p-6"}) {
-				<div class="space-y-4">
-					<div class="flex flex-wrap gap-2">
-						@button.Button() {
-							Primary
-						}
-						@button.Button(button.Props{
-							Variant: button.VariantSecondary,
-						}) {
-							Secondary
-						}
-						@button.Button(button.Props{
-							Variant: button.VariantOutline,
-						}) {
-							Outline
-						}
-					</div>
-					<div class="flex flex-wrap gap-2">
-						@badge.Badge() {
-							Default
-						}
-						@badge.Badge(badge.Props{Variant: badge.VariantSecondary}) {
-							Secondary
-						}
-						@badge.Badge(badge.Props{Variant: badge.VariantDestructive}) {
-							Destructive
-						}
-						@badge.Badge(badge.Props{Variant: badge.VariantOutline}) {
-							Outline
-						}
-					</div>
+		@card.Card(card.Props{Class: "md:col-span-2"}) {
+			@card.Content(card.ContentProps{Class: "p-8"}) {
+				<h3 class="text-sm font-medium mb-4">Buttons</h3>
+				<div class="flex flex-wrap gap-3">
+					@button.Button() {
+						Primary
+					}
+					@button.Button(button.Props{
+						Variant: button.VariantSecondary,
+					}) {
+						Secondary
+					}
+					@button.Button(button.Props{
+						Variant: button.VariantOutline,
+					}) {
+						Outline
+					}
+					@button.Button(button.Props{
+						Variant: button.VariantGhost,
+					}) {
+						Ghost
+					}
+					@button.Button(button.Props{
+						Variant: button.VariantDestructive,
+					}) {
+						Destructive
+					}
 				</div>
 			}
 		}
-		<!-- Colors -->
-		@card.Card(card.Props{Class: "p-6"}) {
-			@card.Header(card.HeaderProps{Class: "pb-4"}) {
-				@card.Title(card.TitleProps{Class: "text-lg"}) {
-					Color Palette
-				}
+		<!-- Badges -->
+		@card.Card(card.Props{}) {
+			@card.Content(card.ContentProps{Class: "p-8"}) {
+				<h3 class="text-sm font-medium mb-4">Badges</h3>
+				<div class="flex flex-wrap gap-2">
+					@badge.Badge() {
+						Default
+					}
+					@badge.Badge(badge.Props{Variant: badge.VariantSecondary}) {
+						Secondary
+					}
+					@badge.Badge(badge.Props{Variant: badge.VariantDestructive}) {
+						Destructive
+					}
+					@badge.Badge(badge.Props{Variant: badge.VariantOutline}) {
+						Outline
+					}
+				</div>
 			}
-			@card.Content() {
+		}
+		<!-- Calendar -->
+		@card.Card(card.Props{Class: "md:col-span-2 lg:col-span-1"}) {
+			@card.Content(card.ContentProps{Class: "p-8"}) {
+				<h3 class="text-sm font-medium mb-4">Calendar</h3>
+				@calendar.Calendar(calendar.Props{})
+			}
+		}
+		<!-- Colors -->
+		@card.Card(card.Props{Class: "lg:col-span-2"}) {
+			@card.Content(card.ContentProps{Class: "p-8"}) {
+				<h3 class="text-sm font-medium mb-4">Color Palette</h3>
 				<div class="grid grid-cols-2 gap-3">
 					<div class="space-y-1.5">
 						<div class="h-10 w-full rounded border bg-background"></div>
@@ -248,61 +270,10 @@ templ ThemeShowcase() {
 				</div>
 			}
 		}
-		<!-- Text Styles -->
-		@card.Card(card.Props{Class: "p-6"}) {
-			@card.Header(card.HeaderProps{Class: "pb-4"}) {
-				@card.Title(card.TitleProps{Class: "text-lg"}) {
-					Typography
-				}
-			}
-			@card.Content() {
-				<div class="space-y-3">
-					<h3 class="text-2xl font-bold">Heading Text</h3>
-					<p class="text-base">Regular paragraph text with standard foreground color.</p>
-					<p class="text-sm text-muted-foreground">Muted text for secondary information.</p>
-					<p class="text-sm text-primary">Primary colored text for emphasis.</p>
-					<p class="text-sm text-destructive">Destructive text for warnings.</p>
-				</div>
-			}
-		}
-		<!-- Interactive Elements -->
-		@card.Card(card.Props{Class: "p-6"}) {
-			@card.Header(card.HeaderProps{Class: "pb-4"}) {
-				@card.Title(card.TitleProps{Class: "text-lg"}) {
-					Interactive
-				}
-			}
-			@card.Content() {
-				<div class="space-y-4">
-					<div class="flex items-center space-x-2">
-						@radio.Radio(radio.Props{
-							ID:         "r1",
-							Name:       "theme-radio",
-							Attributes: templ.Attributes{"checked": "true"},
-						})
-						@form.Label(form.LabelProps{For: "r1"}) {
-							Option A
-						}
-					</div>
-					<div class="flex items-center space-x-2">
-						@radio.Radio(radio.Props{
-							ID:   "r2",
-							Name: "theme-radio",
-						})
-						@form.Label(form.LabelProps{For: "r2"}) {
-							Option B
-						}
-					</div>
-					<div class="w-full h-px bg-border my-4"></div>
-					@datepicker.DatePicker(datepicker.Props{
-						Placeholder: "Select date",
-					})
-				</div>
-			}
-		}
 		<!-- Toggles & Checkboxes -->
 		@card.Card(card.Props{}) {
-			@card.Content(card.ContentProps{Class: "p-6 space-y-4"}) {
+			@card.Content(card.ContentProps{Class: "p-8 space-y-4"}) {
+				<h3 class="text-sm font-medium mb-4">Settings</h3>
 				<div class="flex items-center justify-between">
 					@form.Label(form.LabelProps{For: "notifications"}) {
 						Notifications
@@ -335,13 +306,9 @@ templ ThemeShowcase() {
 		}
 		<!-- Radio Groups -->
 		@card.Card(card.Props{}) {
-			@card.Content(card.ContentProps{Class: "p-6"}) {
+			@card.Content(card.ContentProps{Class: "p-8"}) {
 				<div class="space-y-4">
-					<div>
-						@form.Label() {
-							Select plan
-						}
-					</div>
+					<h3 class="text-sm font-medium">Select plan</h3>
 					<div class="space-y-2">
 						<div class="flex items-center space-x-2">
 							@radio.Radio(radio.Props{
@@ -376,8 +343,8 @@ templ ThemeShowcase() {
 			}
 		}
 		<!-- Sliders & Progress -->
-		@card.Card(card.Props{}) {
-			@card.Content(card.ContentProps{Class: "p-6 space-y-6"}) {
+		@card.Card(card.Props{Class: "md:col-span-2 xl:col-span-1"}) {
+			@card.Content(card.ContentProps{Class: "p-8 space-y-6"}) {
 				<div>
 					@form.Label(form.LabelProps{For: "volume"}) {
 						Volume
@@ -408,49 +375,49 @@ templ ThemeShowcase() {
 templ ThemeSelector() {
 	<div class="flex gap-2 justify-center">
 		<button
-			class="h-8 w-8 rounded-full border-2 transition-all hover:scale-110 border-transparent"
+				class="h-8 w-8 rounded-full border transition-all hover:scale-105 border-transparent"
 			style="background-color: oklch(0.205 0 0);"
 			data-theme="default"
 			title="Default"
 		></button>
 		<button
-			class="h-8 w-8 rounded-full border-2 transition-all hover:scale-110 border-transparent"
+				class="h-8 w-8 rounded-full border transition-all hover:scale-105 border-transparent"
 			style="background-color: oklch(0.6 0.24 27);"
 			data-theme="red"
 			title="Red"
 		></button>
 		<button
-			class="h-8 w-8 rounded-full border-2 transition-all hover:scale-110 border-transparent"
+				class="h-8 w-8 rounded-full border transition-all hover:scale-105 border-transparent"
 			style="background-color: oklch(0.614 0.215 10.227);"
 			data-theme="rose"
 			title="Rose"
 		></button>
 		<button
-			class="h-8 w-8 rounded-full border-2 transition-all hover:scale-110 border-transparent"
+				class="h-8 w-8 rounded-full border transition-all hover:scale-105 border-transparent"
 			style="background-color: oklch(0.681 0.224 52.718);"
 			data-theme="orange"
 			title="Orange"
 		></button>
 		<button
-			class="h-8 w-8 rounded-full border-2 transition-all hover:scale-110 border-transparent"
+				class="h-8 w-8 rounded-full border transition-all hover:scale-105 border-transparent"
 			style="background-color: oklch(0.523 0.179 156.329);"
 			data-theme="green"
 			title="Green"
 		></button>
 		<button
-			class="h-8 w-8 rounded-full border-2 transition-all hover:scale-110 border-transparent"
+				class="h-8 w-8 rounded-full border transition-all hover:scale-105 border-transparent"
 			style="background-color: oklch(0.511 0.27 264.052);"
 			data-theme="blue"
 			title="Blue"
 		></button>
 		<button
-			class="h-8 w-8 rounded-full border-2 transition-all hover:scale-110 border-transparent"
+				class="h-8 w-8 rounded-full border transition-all hover:scale-105 border-transparent"
 			style="background-color: oklch(0.762 0.185 85.342);"
 			data-theme="yellow"
 			title="Yellow"
 		></button>
 		<button
-			class="h-8 w-8 rounded-full border-2 transition-all hover:scale-110 border-transparent"
+				class="h-8 w-8 rounded-full border transition-all hover:scale-105 border-transparent"
 			style="background-color: oklch(0.614 0.253 293.639);"
 			data-theme="violet"
 			title="Violet"
