@@ -456,11 +456,11 @@
             const isActive = button.getAttribute('data-theme') === currentTheme;
             
             // Remove existing classes
-            button.classList.remove('border-primary', 'ring-1', 'ring-primary', 'ring-offset-1', 'border-transparent');
+            button.classList.remove('border-foreground/50', 'border-transparent');
             
             // Add appropriate classes
             if (isActive) {
-                button.classList.add('border-primary', 'ring-1', 'ring-primary', 'ring-offset-1');
+                button.classList.add('border-foreground/50');
             } else {
                 button.classList.add('border-transparent');
             }
