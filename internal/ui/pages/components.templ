@@ -7,40 +7,41 @@ import (
 )
 
 templ ComponentsOverview() {
-	@layouts.BaseLayout(
-		"Components - templUI",
+	@layouts.DocsLayout(
+		"Components",
 		"Browse all available UI components in the templUI library. Beautiful, accessible components for Go templ.",
+		[]modules.TableOfContentsItem{},
 	) {
-		<div class="flex flex-col h-screen">
-			@modules.AnnouncementBar()
-			@modules.Navbar()
-			<div class="flex-1 overflow-y-auto">
-				<div class="mx-auto max-w-2xl px-6 py-8">
-					<div class="flex flex-col gap-8">
-						<div class="flex flex-col gap-2">
-							<h1 class="text-4xl font-semibold tracking-tight">Components</h1>
-							<p class="text-lg text-muted-foreground">
-								Here you can find all the components available in the library. We are working on adding more components.
-							</p>
-						</div>
-						<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 md:gap-x-8 lg:gap-x-16 lg:gap-y-6 xl:gap-x-20">
-							for _, section := range shared.Sections {
-								if section.Title == "Components" {
-									for _, link := range section.Links {
-										<a
-											href={ templ.SafeURL(link.Href) }
-											class="text-lg font-medium underline-offset-4 hover:underline md:text-base"
-										>
-											{ link.Text }
-										</a>
-									}
-								}
-							}
-						</div>
-					</div>
-				</div>
-				@modules.Footer()
+		@modules.PageWrapper(modules.PageWrapperProps{
+			Name:        "Components",
+			Description: templ.Raw("Browse all available UI components in the templUI library. Beautiful, accessible components for Go templ."),
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Components",
+					},
+				},
+			},
+			HideSource: true,
+		}) {
+			<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 md:gap-x-8 lg:gap-x-16 lg:gap-y-6 xl:gap-x-20">
+				for _, section := range shared.Sections {
+					if section.Title == "Components" {
+						for _, link := range section.Links {
+							<a
+								href={ templ.SafeURL(link.Href) }
+								class="text-lg font-medium underline-offset-4 hover:underline md:text-base"
+							>
+								{ link.Text }
+							</a>
+						}
+					}
+				}
 			</div>
-		</div>
+		}
 	}
 }
