@@ -1,6 +1,7 @@
 package showcase
 
 import "github.com/axzilla/templui/internal/components/carousel"
+import "github.com/axzilla/templui/internal/components/card"
 
 templ CarouselDefault() {
 	@carousel.Carousel(carousel.Props{
@@ -8,13 +9,13 @@ templ CarouselDefault() {
 	}) {
 		@carousel.Content() {
 			@carousel.Item() {
-				@CarouselSlide("Slide 1", "This is the first slide", "bg-blue-500")
+				@CarouselSlide("Slide 1", "This is the first slide")
 			}
 			@carousel.Item() {
-				@CarouselSlide("Slide 2", "This is the second slide", "bg-green-500")
+				@CarouselSlide("Slide 2", "This is the second slide")
 			}
 			@carousel.Item() {
-				@CarouselSlide("Slide 3", "This is the third slide", "bg-purple-500")
+				@CarouselSlide("Slide 3", "This is the third slide")
 			}
 		}
 		@carousel.Previous()
@@ -25,11 +26,15 @@ templ CarouselDefault() {
 	}
 }
 
-templ CarouselSlide(title, description, bg string) {
-	<div class={ bg,"w-full h-96 flex items-center justify-center text-white" }>
-		<div class="text-center">
-			<h2 class="text-3xl font-bold mb-2">{ title }</h2>
-			<p class="text-xl">{ description }</p>
-		</div>
-	</div>
+templ CarouselSlide(title, description string) {
+	@card.Card() {
+		@card.Content() {
+			<div class={ "w-full h-96 flex items-center justify-center" }>
+				<div class="text-center">
+					<h2 class="text-3xl font-bold mb-2">{ title }</h2>
+					<p class="text-xl">{ description }</p>
+				</div>
+			</div>
+		}
+	}
 }

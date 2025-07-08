@@ -16,24 +16,6 @@ templ Carousel() {
 				Text: "Installation",
 			},
 			{
-				ID:   "examples",
-				Text: "Examples",
-				Children: []modules.TableOfContentsItem{
-					{
-						ID:   "autoplay",
-						Text: "Autoplay",
-					},
-					{
-						ID:   "minimal",
-						Text: "Minimal",
-					},
-					{
-						ID:   "with-images",
-						Text: "With Images",
-					},
-				},
-			},
-			{
 				ID:   "api",
 				Text: "API Reference",
 				Children: []modules.TableOfContentsItem{
@@ -97,29 +79,6 @@ templ Carousel() {
 				@modules.ComponentUsage(modules.ComponentUsageProps{
 					ComponentName: "carousel",
 					JSFiles:       []string{"carousel"},
-				})
-			}
-			@modules.ContainerWrapper(modules.ContainerWrapperProps{
-				Title: "Examples",
-				ID:    "examples",
-			}) {
-				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:     "Autoplay",
-					ShowcaseFile:    showcase.CarouselAutoplay(),
-					PreviewCodeFile: "carousel_autoplay.templ",
-					ID:              "autoplay",
-				})
-				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:     "Minimal",
-					ShowcaseFile:    showcase.CarouselMinimal(),
-					PreviewCodeFile: "carousel_minimal.templ",
-					ID:              "minimal",
-				})
-				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:     "With Images",
-					ShowcaseFile:    showcase.CarouselWithImages(),
-					PreviewCodeFile: "carousel_with_images.templ",
-					ID:              "with-images",
 				})
 			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
