@@ -48,8 +48,18 @@
       const display = open ? "block" : "none";
       const opacity = open ? "1" : "0";
 
-      backdrop.style.display = display;
-      content.style.display = display;
+      if (open) {
+        backdrop.style.display = display;
+        content.style.display = display;
+
+        // Force reflow
+        content.offsetHeight;
+
+        // Add transitions
+        backdrop.style.transition = "opacity 300ms ease";
+        content.style.transition = "opacity 300ms ease, transform 300ms ease";
+      }
+
       backdrop.style.opacity = opacity;
       content.style.opacity = opacity;
       content.style.transform = getTransform(position, open);
@@ -62,16 +72,6 @@
 
     // Open drawer
     function open() {
-      backdrop.style.display = "block";
-      content.style.display = "block";
-
-      // Force reflow
-      content.offsetHeight;
-
-      // Add transitions
-      backdrop.style.transition = "opacity 300ms ease";
-      content.style.transition = "opacity 300ms ease, transform 300ms ease";
-
       setState(true);
 
       // Add event listeners
