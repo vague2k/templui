@@ -1,1210 +1,609 @@
 package pages
 
 import (
+	"time"
+	"github.com/axzilla/templui/internal/components/badge"
 	"github.com/axzilla/templui/internal/components/button"
+	"github.com/axzilla/templui/internal/components/calendar"
 	"github.com/axzilla/templui/internal/components/card"
 	"github.com/axzilla/templui/internal/components/checkbox"
-	"github.com/axzilla/templui/internal/components/datepicker"
 	"github.com/axzilla/templui/internal/components/form"
 	"github.com/axzilla/templui/internal/components/icon"
 	"github.com/axzilla/templui/internal/components/input"
+	"github.com/axzilla/templui/internal/components/inputotp"
 	"github.com/axzilla/templui/internal/components/modal"
+	"github.com/axzilla/templui/internal/components/progress"
 	"github.com/axzilla/templui/internal/components/radio"
+	"github.com/axzilla/templui/internal/components/selectbox"
+	"github.com/axzilla/templui/internal/components/slider"
+	"github.com/axzilla/templui/internal/components/spinner"
+	"github.com/axzilla/templui/internal/components/tabs"
+	"github.com/axzilla/templui/internal/components/tagsinput"
+	"github.com/axzilla/templui/internal/components/textarea"
 	"github.com/axzilla/templui/internal/components/toggle"
 	"github.com/axzilla/templui/internal/ui/layouts"
 	"github.com/axzilla/templui/internal/ui/modules"
 )
 
 templ Themes() {
-	@layouts.DocsLayout(
-		"Themes",
-		"Customize the theme of the UI components.",
-		[]modules.TableOfContentsItem{},
-	) {
-		@modules.PageWrapper(modules.PageWrapperProps{
-			Name:        "Themes",
-			HideSource:  true,
-			Description: templ.Raw("Customize the theme of the UI components."),
-			Breadcrumbs: modules.Breadcrumbs{
-				Items: []modules.BreadcrumbItem{
-					{
-						Text: "Docs",
-						Path: "/docs",
-					},
-					{
-						Text: "Themes",
-						Path: "/docs/themes",
-					},
-				},
-			},
-		}) {
-			<div
-				x-data="themeCustomizer"
-			>
-				<div class="flex flex-col md:flex-row gap-8">
-					<div class="w-full md:w-1/2">
-						<div class="flex items-start justify-between mb-4">
-							<div>
-								<div class="font-semibold">Customize</div>
-								<div class="text-xs text-muted-foreground">Pick a style and color for your components.</div>
-							</div>
+	@layouts.BaseLayout("Themes - templUI", "Pick a Color. Make it yours. Try our hand-picked themes for your next project.") {
+		@modules.AnnouncementBar()
+		@modules.Navbar()
+		<main class="flex-1 overflow-visible">
+			<div class="container mx-auto px-4 sm:px-6 lg:px-8">
+				<!-- Hero Section -->
+				<div class="flex flex-col items-center justify-center py-16 md:py-20">
+					<div class="text-center space-y-4 max-w-3xl mx-auto">
+						<h1 class="text-4xl md:text-5xl font-semibold tracking-tight">Pick a Color. Make it yours.</h1>
+						<p class="text-lg text-muted-foreground max-w-[700px] mx-auto">Try our hand-picked themes. Copy and paste them into your project.</p>
+					</div>
+				</div>
+				<div class="space-y-8">
+					<!-- Theme Selector Section -->
+					<div class="flex flex-col items-center space-y-6">
+						@ThemeSelector()
+						<div class="flex items-center gap-4">
 							@button.Button(button.Props{
-								Size:    button.SizeIcon,
 								Variant: button.VariantOutline,
 								Attributes: templ.Attributes{
-									"@click": "resetTheme",
+									"data-action": "reset-theme",
 								},
 							}) {
 								@icon.RotateCcw(icon.Props{Size: 14})
+								<span class="ml-2">Reset to Default</span>
+							}
+							@modal.Trigger(modal.TriggerProps{
+								For: "css-modal",
+							}) {
+								@button.Button(button.Props{
+									Attributes: templ.Attributes{
+										"data-action": "generate-css",
+									},
+								}) {
+									Copy Theme CSS
+								}
 							}
 						</div>
-						@ThemeCustomizer(ThemeCustomizerProps{
-							CurrentTheme:  "orange",
-							CurrentRadius: "0.5",
-						})
 					</div>
-					<div class="w-full md:w-1/2">
-						<div class="mb-4">
-							<div class="font-semibold">Preview</div>
-							<div class="text-xs text-muted-foreground">This is how your theme will look like.</div>
-						</div>
-						@ThemePreview()
+					<!-- Component Examples Grid -->
+					<div class="w-full">
+						@ThemeShowcase()
 					</div>
+					@modal.Modal(modal.Props{
+						ID:    "css-modal",
+						Class: "max-w-xl",
+					}) {
+						@modal.Header() {
+							<div class="flex items-center gap-2">
+								<span>Generated CSS Code</span>
+								<span class="text-muted-foreground">•</span>
+								<div class="flex items-center gap-1.5">
+									<div
+										class="h-4 w-4 rounded-full"
+										data-theme-indicator
+									></div>
+									<span class="text-sm capitalize" data-theme-text></span>
+								</div>
+							</div>
+						}
+						@modal.Body() {
+							<pre data-css-display class="p-4 rounded overflow-x-auto max-h-96"></pre>
+						}
+						@modal.Footer() {
+							<div class="flex gap-2">
+								@button.Button(button.Props{
+									Attributes: templ.Attributes{"data-action": "copy-css"},
+								}) {
+									Copy to Clipboard
+								}
+								@modal.Close(modal.CloseProps{
+									For: "css-modal",
+								}) {
+									@button.Button(button.Props{
+										Variant: button.VariantSecondary,
+									}) {
+										Close
+									}
+								}
+							</div>
+						}
+					}
 				</div>
+				@ThemesHandle()
 			</div>
-			@ThemesHandle()
-		}
+		</main>
+		@modules.Footer()
 	}
 }
 
-templ ThemePreview() {
-	<div id="theme-preview" class="theme-preview p-6 border rounded-lg">
-		@card.Card() {
-			@card.Header() {
-				@card.Title() {
-					User Registration 
-				}
-				@card.Description() {
-					Please fill out the form below to create your account. 
-				}
-			}
-			@card.Content() {
-				<form class="space-y-4">
-					@form.Item() {
-						@form.Label(form.LabelProps{
-							For: "username",
-						}) {
-							Username
-						}
-						@input.Input(input.Props{
-							ID:          "username",
-							Type:        input.TypeText,
-							Placeholder: "Enter your username",
-						})
-					}
-					@form.Item() {
-						@form.Label(form.LabelProps{
-							For: "email",
-						}) {
+templ ThemeShowcase() {
+	<div
+		id="theme-preview"
+		class="grid gap-4 md:grid-cols-2 lg:grid-cols-10 xl:grid-cols-11"
+	>
+		<!-- Left Column - spans more on larger screens -->
+		<div class="grid gap-4 auto-rows-min md:col-span-1 lg:col-span-4 xl:col-span-5">
+			<!-- Input Fields -->
+			@card.Card(card.Props{}) {
+				@card.Content(card.ContentProps{Class: "p-6 space-y-4"}) {
+					<div class="flex flex-col gap-3">
+						@form.Label(form.LabelProps{For: "email"}) {
 							Email
 						}
 						@input.Input(input.Props{
 							ID:          "email",
-							Type:        input.TypeEmail,
 							Placeholder: "Enter your email",
+							Type:        input.TypeEmail,
 						})
+					</div>
+					<div class="flex flex-col gap-3">
+						@form.Label(form.LabelProps{For: "message"}) {
+							Message
+						}
+						@textarea.Textarea(textarea.Props{
+							ID:          "message",
+							Placeholder: "Type your message here.",
+							Rows:        3,
+						})
+					</div>
+				}
+			}
+			<!-- Action Buttons Card -->
+			@card.Card(card.Props{}) {
+				@card.Header() {
+					@card.Title() {
+						Save Changes
 					}
-					@form.Item() {
-						@form.Label(form.LabelProps{
-							For: "password",
+					@card.Description() {
+						Review and save your profile changes
+					}
+				}
+				@card.Content(card.ContentProps{Class: "p-6"}) {
+					<div class="flex gap-3 justify-end">
+						@button.Button(button.Props{
+							Variant: button.VariantOutline,
 						}) {
-							Password
+							Cancel
 						}
-						@input.Input(input.Props{
-							ID:          "password",
-							Type:        input.TypePassword,
-							Placeholder: "Enter your password",
-						})
-					}
-					@form.Item() {
-						@form.Label(form.LabelProps{
-							For: "birthdate",
-						}) {
-							Birth Date
+						@button.Button() {
+							Save Changes
 						}
-						@datepicker.DatePicker(datepicker.Props{
-							ID:          "birthdate",
-							Placeholder: "Select your birth date",
-						})
-					}
-					@form.Item() {
-						<p class="text-sm text-muted-foreground">Contact Method</p>
-						@form.ItemFlex() {
-							@radio.Radio(radio.Props{
-								ID:   "contact-email",
-								Name: "contact-method",
-							})
-							@form.Label(form.LabelProps{
-								For: "contact-email",
-							}) {
-								Email
-							}
-						}
-						@form.ItemFlex() {
-							@radio.Radio(radio.Props{
-								ID:   "contact-phone",
-								Name: "contact-method",
-							})
-							@form.Label(form.LabelProps{
-								For: "contact-phone",
-							}) {
-								Phone
-							}
-						}
-						@form.ItemFlex() {
-							@radio.Radio(radio.Props{
-								ID:       "contact-mail",
-								Name:     "contact-method",
-								Disabled: true,
-							})
-							@form.Label(form.LabelProps{
-								For: "contact-mail",
-							}) {
-								Physical Mail
-							}
-						}
-					}
-					@form.Item() {
-						<p class="text-sm text-muted-foreground">Preferences</p>
-						@form.ItemFlex() {
-							@toggle.Toggle(toggle.Props{
-								ID:   "marketing",
-								Name: "marketing",
-							})
-							@form.Label(form.LabelProps{
-								For: "marketing",
-							}) {
-								Receive marketing emails
-							}
-						}
-						@form.ItemFlex() {
-							@toggle.Toggle(toggle.Props{
-								ID:         "notifications",
-								Name:       "notifications",
-								Attributes: templ.Attributes{"checked": "true"},
-							})
-							@form.Label(form.LabelProps{
-								For: "notifications",
-							}) {
-								Enable notifications
-							}
-						}
-						@form.ItemFlex() {
-							@toggle.Toggle(toggle.Props{
-								ID:         "beta",
-								Name:       "beta",
-								Attributes: templ.Attributes{"disabled": "true"},
-							})
-							@form.Label(form.LabelProps{
-								For: "beta",
-							}) {
-								Join beta program
-							}
-						}
-					}
-					@form.Item() {
-						<p class="text-sm text-muted-foreground">Terms and Conditions</p>
-						@form.ItemFlex() {
-							@checkbox.Checkbox(checkbox.Props{
-								ID: "terms",
-							})
-							@form.Label(form.LabelProps{
-								For: "terms",
-							}) {
-								I accept the terms and conditions
-							}
-						}
-						@form.ItemFlex() {
-							@checkbox.Checkbox(checkbox.Props{
-								ID: "newsletter",
-							})
-							@form.Label(form.LabelProps{
-								For: "newsletter",
-							}) {
-								Subscribe to newsletter
-							}
-						}
-					}
-				</form>
+					</div>
+				}
 			}
-			@card.Footer() {
-				<div class="flex justify-between w-full">
+			<!-- Delete Account Card -->
+			@card.Card(card.Props{}) {
+				@card.Header() {
+					@card.Title() {
+						Danger Zone
+					}
+					@card.Description() {
+						Permanently delete your account and all data
+					}
+				}
+				@card.Content(card.ContentProps{Class: "p-6"}) {
 					@button.Button(button.Props{
-						Variant: button.VariantSecondary,
+						Variant: button.VariantDestructive,
+						Class:   "w-full",
 					}) {
-						Cancel
+						@icon.Trash(icon.Props{Size: 16})
+						<span class="ml-2">Delete Account</span>
 					}
-					@button.Button() {
-						Register
+				}
+			}
+			<!-- Social Media Actions Card -->
+			@card.Card(card.Props{}) {
+				@card.Header() {
+					@card.Title() {
+						Share Article
 					}
-				</div>
-			}
-		}
-	</div>
-}
-
-type ThemeCustomizerProps struct {
-	CurrentTheme  string
-	CurrentRadius string
-}
-
-templ ThemeCustomizer(props ThemeCustomizerProps) {
-	<div
-		class="theme-customizer w-full flex flex-col gap-2"
-	>
-		<div class="flex flex-1 flex-col space-y-4 md:space-y-6">
-			@ThemeSelector()
-			@RadiusSelector()
-			@ModeSelector()
-		</div>
-		@modal.Trigger(modal.TriggerProps{
-			For: "css-modal",
-		}) {
-			@button.Button(button.Props{
-				FullWidth: true,
-				Attributes: templ.Attributes{
-					"@click": "getGeneratedCSS",
-				},
-			}) {
-				Generate and Copy CSS
-			}
-		}
-		@modal.Modal(modal.Props{
-			ID:    "css-modal",
-			Class: "max-w-xl",
-		}) {
-			@modal.Header() {
-				Generated CSS Code
-			}
-			@modal.Body() {
-				<pre x-text="generatedCSS" class="text-primary p-4 rounded overflow-x-auto max-h-96"></pre>
-			}
-			@modal.Footer() {
-				<div class="flex gap-2">
-					@button.Button(button.Props{
-						Attributes: templ.Attributes{"@click": "copyToClipboard"},
-					}) {
-						Copy to Clipboard
-					}
-					@modal.Close(modal.CloseProps{
-						For: "css-modal",
-					}) {
+				}
+				@card.Content(card.ContentProps{Class: "p-6"}) {
+					<div class="grid grid-cols-2 gap-2">
 						@button.Button(button.Props{
 							Variant: button.VariantSecondary,
+							Class:   "w-full",
 						}) {
-							Close
+							@icon.Icon("twitter")(icon.Props{Size: 16})
+							<span class="ml-2">Twitter</span>
+						}
+						@button.Button(button.Props{
+							Variant: button.VariantSecondary,
+							Class:   "w-full",
+						}) {
+							@icon.Icon("github")(icon.Props{Size: 16})
+							<span class="ml-2">GitHub</span>
+						}
+						@button.Button(button.Props{
+							Variant: button.VariantGhost,
+							Class:   "w-full col-span-2",
+						}) {
+							@icon.Icon("link")(icon.Props{Size: 16})
+							<span class="ml-2">Copy Link</span>
+						}
+					</div>
+				}
+			}
+			<!-- Loading States Card -->
+			@card.Card(card.Props{}) {
+				@card.Header() {
+					@card.Title() {
+						Processing
+					}
+				}
+				@card.Content(card.ContentProps{Class: "p-6"}) {
+					<div class="flex flex-col items-center space-y-4">
+						@spinner.Spinner(spinner.Props{
+							Size: spinner.SizeLg,
+						})
+						<p class="text-sm text-muted-foreground">Uploading files...</p>
+					</div>
+				}
+			}
+		</div>
+		<!-- Middle Column -->
+		<div class="grid gap-4 auto-rows-min md:col-span-1 lg:col-span-3">
+			<!-- Calendar -->
+			@card.Card(card.Props{}) {
+				{{ threeDaysFromNow := time.Now().AddDate(0, 0, 3) }}
+				@card.Content() {
+					@calendar.Calendar(calendar.Props{
+						Value: &threeDaysFromNow,
+					})
+				}
+			}
+			<!-- Go Framework Select -->
+			@card.Card(card.Props{}) {
+				@card.Content(card.ContentProps{Class: "p-6"}) {
+					<div class="flex flex-col gap-3">
+						@form.Label(form.LabelProps{For: "go-framework"}) {
+							Go Framework
+						}
+						@selectbox.SelectBox(selectbox.Props{}) {
+							@selectbox.Trigger(selectbox.TriggerProps{
+								ID: "go-framework",
+							}) {
+								@selectbox.Value(selectbox.ValueProps{
+									Placeholder: "Select a Go framework",
+								})
+							}
+							@selectbox.Content() {
+								@selectbox.Item(selectbox.ItemProps{Value: "echo"}) {
+									Echo
+								}
+								@selectbox.Item(selectbox.ItemProps{Value: "gin"}) {
+									Gin
+								}
+								@selectbox.Item(selectbox.ItemProps{Value: "fiber"}) {
+									Fiber
+								}
+								@selectbox.Item(selectbox.ItemProps{Value: "chi"}) {
+									Chi
+								}
+								@selectbox.Item(selectbox.ItemProps{Value: "gorilla"}) {
+									Gorilla Mux
+								}
+							}
+						}
+					</div>
+				}
+			}
+			<!-- Status Card with Badges -->
+			@card.Card(card.Props{}) {
+				@card.Header() {
+					@card.Title() {
+						Project Status
+					}
+				}
+				@card.Content(card.ContentProps{Class: "p-6"}) {
+					<div class="space-y-3">
+						<div class="flex items-center justify-between">
+							<span class="text-sm">Build Status</span>
+							@badge.Badge(badge.Props{Variant: badge.VariantDefault}) {
+								@icon.Icon("circle-check")(icon.Props{Size: 12})
+								<span class="ml-1">Passing</span>
+							}
+						</div>
+						<div class="flex items-center justify-between">
+							<span class="text-sm">Environment</span>
+							@badge.Badge(badge.Props{Variant: badge.VariantSecondary}) {
+								Production
+							}
+						</div>
+						<div class="flex items-center justify-between">
+							<span class="text-sm">Version</span>
+							@badge.Badge(badge.Props{Variant: badge.VariantOutline}) {
+								v2.0.3
+							}
+						</div>
+					</div>
+				}
+			}
+			<!-- OTP Verification Card -->
+			@card.Card(card.Props{}) {
+				@card.Header() {
+					@card.Title() {
+						Verification Code
+					}
+					@card.Description() {
+						Enter the 6-digit code sent to your email
+					}
+				}
+				@card.Content(card.ContentProps{Class: "p-6"}) {
+					<div class="space-y-4">
+						@form.Label(form.LabelProps{For: "otp-verification", Class: "sr-only"}) {
+							Verification Code
+						}
+						@inputotp.InputOTP(inputotp.Props{
+							ID:    "otp-verification",
+							Name:  "verification-code",
+							Value: "",
+						})
+						@button.Button(button.Props{
+							Class: "w-full",
+						}) {
+							Verify
+						}
+					</div>
+				}
+			}
+		</div>
+		<!-- Right Column -->
+		<div class="grid gap-4 auto-rows-min md:col-span-2 lg:col-span-3">
+			<!-- Sliders & Progress -->
+			@card.Card(card.Props{}) {
+				@card.Content(card.ContentProps{Class: "p-6 space-y-6"}) {
+					<div class="flex flex-col gap-3">
+						@form.Label(form.LabelProps{For: "volume"}) {
+							Volume
+						}
+						@slider.Slider(slider.Props{ID: "volume"}) {
+							@slider.Input(slider.InputProps{
+								Min:   0,
+								Max:   100,
+								Step:  1,
+								Value: 50,
+							})
+						}
+					</div>
+					<div class="flex flex-col gap-3">
+						@form.Label() {
+							Upload progress
+						}
+						@progress.Progress(progress.Props{
+							Value: 66,
+							Class: "h-2",
+						})
+					</div>
+				}
+			}
+			<!-- Radio Groups -->
+			@card.Card(card.Props{}) {
+				@card.Content(card.ContentProps{Class: "p-6"}) {
+					<div class="space-y-4">
+						<h3 class="text-sm font-medium">Select plan</h3>
+						<div class="space-y-2">
+							<div class="flex items-center space-x-2">
+								@radio.Radio(radio.Props{
+									ID:         "free",
+									Name:       "plan",
+									Attributes: templ.Attributes{"checked": "true"},
+								})
+								@form.Label(form.LabelProps{For: "free"}) {
+									Free
+								}
+							</div>
+							<div class="flex items-center space-x-2">
+								@radio.Radio(radio.Props{
+									ID:   "pro",
+									Name: "plan",
+								})
+								@form.Label(form.LabelProps{For: "pro"}) {
+									Pro
+								}
+							</div>
+							<div class="flex items-center space-x-2">
+								@radio.Radio(radio.Props{
+									ID:   "enterprise",
+									Name: "plan",
+								})
+								@form.Label(form.LabelProps{For: "enterprise"}) {
+									Enterprise
+								}
+							</div>
+						</div>
+					</div>
+				}
+			}
+			<!-- Toggles & Checkboxes -->
+			@card.Card(card.Props{}) {
+				@card.Content(card.ContentProps{Class: "p-6 space-y-4"}) {
+					<div class="flex items-center justify-between">
+						@form.Label(form.LabelProps{For: "notifications"}) {
+							Notifications
+						}
+						@toggle.Toggle(toggle.Props{
+							ID:      "notifications",
+							Checked: true,
+						})
+					</div>
+					<div class="flex items-center justify-between">
+						@form.Label(form.LabelProps{For: "marketing"}) {
+							Marketing emails
+						}
+						@toggle.Toggle(toggle.Props{ID: "marketing"})
+					</div>
+					<div class="border-t pt-4">
+						<div class="space-y-2">
+							<div class="flex items-center space-x-2">
+								@checkbox.Checkbox(checkbox.Props{
+									ID:      "terms",
+									Checked: true,
+								})
+								@form.Label(form.LabelProps{For: "terms"}) {
+									Accept terms
+								}
+							</div>
+							<div class="flex items-center space-x-2">
+								@checkbox.Checkbox(checkbox.Props{ID: "privacy"})
+								@form.Label(form.LabelProps{For: "privacy"}) {
+									Privacy policy
+								}
+							</div>
+						</div>
+					</div>
+				}
+			}
+			<!-- Tags Input Card -->
+			@card.Card(card.Props{}) {
+				@card.Header() {
+					@card.Title() {
+						Project Tags
+					}
+					@card.Description() {
+						Add tags to categorize your project
+					}
+				}
+				@card.Content(card.ContentProps{Class: "p-6"}) {
+					@form.Label(form.LabelProps{For: "project-tags", Class: "sr-only"}) {
+						Project Tags
+					}
+					@tagsinput.TagsInput(tagsinput.Props{
+						ID:          "project-tags",
+						Name:        "tags",
+						Placeholder: "Add a tag",
+						Value:       []string{"frontend", "react", "typescript"},
+					})
+				}
+			}
+			<!-- Tabs Navigation Card -->
+			@card.Card(card.Props{}) {
+				@card.Content(card.ContentProps{Class: "p-6"}) {
+					@tabs.Tabs() {
+						@tabs.List() {
+							@tabs.Trigger(tabs.TriggerProps{Value: "account", IsActive: true}) {
+								Account
+							}
+							@tabs.Trigger(tabs.TriggerProps{Value: "security"}) {
+								Security
+							}
+							@tabs.Trigger(tabs.TriggerProps{Value: "billing"}) {
+								Billing
+							}
+						}
+						@tabs.Content(tabs.ContentProps{Value: "account", IsActive: true}) {
+							<div class="space-y-2 mt-4">
+								<h4 class="text-sm font-medium">Account Settings</h4>
+								<p class="text-sm text-muted-foreground">Manage your account preferences and profile information.</p>
+							</div>
+						}
+						@tabs.Content(tabs.ContentProps{Value: "security"}) {
+							<div class="space-y-2 mt-4">
+								<h4 class="text-sm font-medium">Security Settings</h4>
+								<p class="text-sm text-muted-foreground">Configure two-factor authentication and manage sessions.</p>
+							</div>
+						}
+						@tabs.Content(tabs.ContentProps{Value: "billing"}) {
+							<div class="space-y-2 mt-4">
+								<h4 class="text-sm font-medium">Billing Information</h4>
+								<p class="text-sm text-muted-foreground">View and manage your subscription and payment methods.</p>
+							</div>
 						}
 					}
-				</div>
+				}
 			}
-		}
+		</div>
 	</div>
 }
 
 templ ThemeSelector() {
-	<div class="space-y-1.5">
-		<label class="text-xs font-medium">Theme</label>
-		<div class="grid grid-cols-3 gap-2">
-			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
-				style="--theme-primary: hsl(240 5.9% 10%);"
-				data-theme="zinc"
-				x-bind:class="setBorderOnThemeButton"
-				@click="setTheme"
-			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
-					<span
-						data-theme="zinc"
-						x-show="isTheme"
-					>
-						@icon.Check(icon.Props{Size: 12, Color: "white"})
-					</span>
-				</span>
-				Zinc
-			</button>
-			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
-				style="--theme-primary: hsl(215.4 16.3% 46.9%);"
-				data-theme="slate"
-				x-bind:class="setBorderOnThemeButton"
-				@click="setTheme"
-			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
-					<span
-						data-theme="slate"
-						x-show="isTheme"
-					>
-						@icon.Check(icon.Props{Size: 12, Color: "white"})
-					</span>
-				</span>
-				Slate
-			</button>
-			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
-				style="--theme-primary: hsl(25 5.3% 44.7%);"
-				data-theme="stone"
-				x-bind:class="setBorderOnThemeButton"
-				@click="setTheme"
-			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
-					<span
-						data-theme="stone"
-						x-show="isTheme"
-					>
-						@icon.Check(icon.Props{Size: 12, Color: "white"})
-					</span>
-				</span>
-				Stone
-			</button>
-			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
-				style="--theme-primary: hsl(220 8.9% 46.1%);"
-				data-theme="gray"
-				x-bind:class="setBorderOnThemeButton"
-				@click="setTheme"
-			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
-					<span
-						data-theme="gray"
-						x-show="isTheme"
-					>
-						@icon.Check(icon.Props{Size: 12, Color: "white"})
-					</span>
-				</span>
-				Gray
-			</button>
-			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
-				style="--theme-primary: hsl(0 0% 45.1%);"
-				data-theme="neutral"
-				x-bind:class="setBorderOnThemeButton"
-				@click="setTheme"
-			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
-					<span
-						data-theme="neutral"
-						x-show="isTheme"
-					>
-						@icon.Check(icon.Props{Size: 12, Color: "white"})
-					</span>
-				</span>
-				Neutral
-			</button>
-			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
-				style="--theme-primary: hsl(0 72.2% 50.6%);"
-				data-theme="red"
-				x-bind:class="setBorderOnThemeButton"
-				@click="setTheme"
-			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
-					<span
-						data-theme="red"
-						x-show="isTheme"
-					>
-						@icon.Check(icon.Props{Size: 12, Color: "white"})
-					</span>
-				</span>
-				Red
-			</button>
-			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
-				style="--theme-primary: hsl(346.8 77.2% 49.8%);"
-				data-theme="rose"
-				x-bind:class="setBorderOnThemeButton"
-				@click="setTheme"
-			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
-					<span
-						data-theme="rose"
-						x-show="isTheme"
-					>
-						@icon.Check(icon.Props{Size: 12, Color: "white"})
-					</span>
-				</span>
-				Rose
-			</button>
-			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
-				style="--theme-primary: hsl(24.6 95% 53.1%);"
-				data-theme="orange"
-				x-bind:class="setBorderOnThemeButton"
-				@click="setTheme"
-			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
-					<span
-						data-theme="orange"
-						x-show="isTheme"
-					>
-						@icon.Check(icon.Props{Size: 12, Color: "white"})
-					</span>
-				</span>
-				Orange
-			</button>
-			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
-				style="--theme-primary: hsl(142.1 76.2% 36.3%);"
-				data-theme="green"
-				x-bind:class="setBorderOnThemeButton"
-				@click="setTheme"
-			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
-					<span
-						data-theme="green"
-						x-show="isTheme"
-					>
-						@icon.Check(icon.Props{Size: 12, Color: "white"})
-					</span>
-				</span>
-				Green
-			</button>
-			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
-				style="--theme-primary: hsl(221.2 83.2% 53.3%);"
-				data-theme="blue"
-				x-bind:class="setBorderOnThemeButton"
-				@click="setTheme"
-			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
-					<span
-						data-theme="blue"
-						x-show="isTheme"
-					>
-						@icon.Check(icon.Props{Size: 12, Color: "white"})
-					</span>
-				</span>
-				Blue
-			</button>
-			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
-				style="--theme-primary: hsl(47.9 95.8% 53.1%);"
-				data-theme="yellow"
-				x-bind:class="setBorderOnThemeButton"
-				@click="setTheme"
-			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
-					<span
-						data-theme="yellow"
-						x-show="isTheme"
-					>
-						@icon.Check(icon.Props{Size: 12, Color: "white"})
-					</span>
-				</span>
-				Yellow
-			</button>
-			<button
-				class="inline-flex items-center whitespace-nowrap font-medium transition-colors focus-visible:outline-hidden focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-background shadow-xs hover:bg-accent hover:text-accent-foreground h-8 rounded-md px-3 text-xs justify-start border-2"
-				style="--theme-primary: hsl(262.1 83.3% 57.8%);"
-				data-theme="violet"
-				x-bind:class="setBorderOnThemeButton"
-				@click="setTheme"
-			>
-				<span class="mr-1 flex h-5 w-5 shrink-0 -translate-x-1 items-center justify-center rounded-full bg-(--theme-primary)">
-					<span
-						data-theme="violet"
-						x-show="isTheme"
-					>
-						@icon.Check(icon.Props{Size: 12, Color: "white"})
-					</span>
-				</span>
-				Violet
-			</button>
-		</div>
-	</div>
-}
-
-templ RadiusSelector() {
-	<div class="space-y-1.5">
-		<label class="text-xs font-medium">Radius</label>
-		<div class="grid grid-cols-5 gap-2">
-			<button
-				class="px-3 py-1 rounded border"
-				data-radius="0"
-				x-bind:class="setBorderOnRadiusButton"
-				@click="setRadius"
-			>
-				0
-			</button>
-			<button
-				class="px-3 py-1 rounded border"
-				data-radius="0.3"
-				x-bind:class="setBorderOnRadiusButton"
-				@click="setRadius"
-			>
-				0.3
-			</button>
-			<button
-				class="px-3 py-1 rounded border"
-				data-radius="0.5"
-				x-bind:class="setBorderOnRadiusButton"
-				@click="setRadius"
-			>
-				0.5
-			</button>
-			<button
-				class="px-3 py-1 rounded border"
-				data-radius="0.75"
-				x-bind:class="setBorderOnRadiusButton"
-				@click="setRadius"
-			>
-				0.75
-			</button>
-			<button
-				class="px-3 py-1 rounded border"
-				data-radius="1.0"
-				x-bind:class="setBorderOnRadiusButton"
-				@click="setRadius"
-			>
-				1.0
-			</button>
-		</div>
-	</div>
-}
-
-templ ModeSelector() {
-	<div class="space-y-1.5">
-		<label class="text-xs font-medium">Mode</label>
-		@modules.ThemeSwitcher(modules.ThemeSwitcherProps{Class: "w-full border"})
+	<div class="flex gap-2 justify-center">
+		<button
+			class="h-6 w-6 rounded-full transition-all hover:scale-110 relative flex items-center justify-center"
+			style="background-color: oklch(0.205 0 0);"
+			data-theme="default"
+			title="Default"
+		>
+			<span class="absolute inset-0 flex items-center justify-center">
+				<span class="h-2 w-2 rounded-full bg-white opacity-0 transition-opacity data-[selected]:opacity-100"></span>
+			</span>
+		</button>
+		<button
+			class="h-6 w-6 rounded-full transition-all hover:scale-110 relative flex items-center justify-center"
+			style="background-color: oklch(0.637 0.237 25.331);"
+			data-theme="red"
+			title="Red"
+		>
+			<span class="absolute inset-0 flex items-center justify-center">
+				<span class="h-2 w-2 rounded-full bg-white opacity-0 transition-opacity data-[selected]:opacity-100"></span>
+			</span>
+		</button>
+		<button
+			class="h-6 w-6 rounded-full transition-all hover:scale-110 relative flex items-center justify-center"
+			style="background-color: oklch(0.645 0.246 16.439);"
+			data-theme="rose"
+			title="Rose"
+		>
+			<span class="absolute inset-0 flex items-center justify-center">
+				<span class="h-2 w-2 rounded-full bg-white opacity-0 transition-opacity data-[selected]:opacity-100"></span>
+			</span>
+		</button>
+		<button
+			class="h-6 w-6 rounded-full transition-all hover:scale-110 relative flex items-center justify-center"
+			style="background-color: oklch(0.705 0.213 47.604);"
+			data-theme="orange"
+			title="Orange"
+		>
+			<span class="absolute inset-0 flex items-center justify-center">
+				<span class="h-2 w-2 rounded-full bg-white opacity-0 transition-opacity data-[selected]:opacity-100"></span>
+			</span>
+		</button>
+		<button
+			class="h-6 w-6 rounded-full transition-all hover:scale-110 relative flex items-center justify-center"
+			style="background-color: oklch(0.723 0.219 149.579);"
+			data-theme="green"
+			title="Green"
+		>
+			<span class="absolute inset-0 flex items-center justify-center">
+				<span class="h-2 w-2 rounded-full bg-white opacity-0 transition-opacity data-[selected]:opacity-100"></span>
+			</span>
+		</button>
+		<button
+			class="h-6 w-6 rounded-full transition-all hover:scale-110 relative flex items-center justify-center"
+			style="background-color: oklch(0.623 0.214 259.815);"
+			data-theme="blue"
+			title="Blue"
+		>
+			<span class="absolute inset-0 flex items-center justify-center">
+				<span class="h-2 w-2 rounded-full bg-white opacity-0 transition-opacity data-[selected]:opacity-100"></span>
+			</span>
+		</button>
+		<button
+			class="h-6 w-6 rounded-full transition-all hover:scale-110 relative flex items-center justify-center"
+			style="background-color: oklch(0.795 0.184 86.047);"
+			data-theme="yellow"
+			title="Yellow"
+		>
+			<span class="absolute inset-0 flex items-center justify-center">
+				<span class="h-2 w-2 rounded-full bg-white opacity-0 transition-opacity data-[selected]:opacity-100"></span>
+			</span>
+		</button>
+		<button
+			class="h-6 w-6 rounded-full transition-all hover:scale-110 relative flex items-center justify-center"
+			style="background-color: oklch(0.606 0.25 292.717);"
+			data-theme="violet"
+			title="Violet"
+		>
+			<span class="absolute inset-0 flex items-center justify-center">
+				<span class="h-2 w-2 rounded-full bg-white opacity-0 transition-opacity data-[selected]:opacity-100"></span>
+			</span>
+		</button>
 	</div>
 }
 
 templ ThemesHandle() {
 	{{ handle := templ.NewOnceHandle() }}
 	@handle.Once() {
-		<script defer nonce={ templ.GetNonce(ctx) }>
-            document.addEventListener('alpine:init', () => {
-                Alpine.data('themeCustomizer', () => ({
-                    themeColors: {
-                        zinc: {
-                        light: {
-                            background: "hsl(0 0% 100%)",
-                            foreground: "hsl(240 10% 3.9%)",
-                            muted: "hsl(240 4.8% 95.9%)",
-                            "muted-foreground": "hsl(240 3.8% 46.1%)",
-                            popover: "hsl(0 0% 100%)",
-                            "popover-foreground": "hsl(240 10% 3.9%)",
-                            card: "hsl(0 0% 100%)",
-                            "card-foreground": "hsl(240 10% 3.9%)",
-                            border: "hsl(240 5.9% 90%)",
-                            input: "hsl(240 5.9% 90%)",
-                            primary: "hsl(240 5.9% 10%)",
-                            "primary-foreground": "hsl(0 0% 98%)",
-                            secondary: "hsl(240 4.8% 95.9%)",
-                            "secondary-foreground": "hsl(240 5.9% 10%)",
-                            accent: "hsl(240 4.8% 95.9%)",
-                            "accent-foreground": "hsl(240 5.9% 10%)",
-                            destructive: "hsl(0 84.2% 60.2%)",
-                            "destructive-foreground": "hsl(0 0% 98%)",
-                            ring: "hsl(240 5.9% 10%)",
-                        },
-                        dark: {
-                            background: "hsl(240 10% 3.9%)",
-                            foreground: "hsl(0 0% 98%)",
-                            muted: "hsl(240 3.7% 15.9%)",
-                            "muted-foreground": "hsl(240 5% 64.9%)",
-                            popover: "hsl(240 10% 3.9%)",
-                            "popover-foreground": "hsl(0 0% 98%)",
-                            card: "hsl(240 10% 3.9%)",
-                            "card-foreground": "hsl(0 0% 98%)",
-                            border: "hsl(240 3.7% 15.9%)",
-                            input: "hsl(240 3.7% 15.9%)",
-                            primary: "hsl(0 0% 98%)",
-                            "primary-foreground": "hsl(240 5.9% 10%)",
-                            secondary: "hsl(240 3.7% 15.9%)",
-                            "secondary-foreground": "hsl(0 0% 98%)",
-                            accent: "hsl(240 3.7% 15.9%)",
-                            "accent-foreground": "hsl(0 0% 98%)",
-                            destructive: "hsl(0 62.8% 30.6%)",
-                            "destructive-foreground": "hsl(0 0% 98%)",
-                            ring: "hsl(240 4.9% 83.9%)",
-                        },
-                        },
-                        slate: {
-                        light: {
-                            background: "hsl(0 0% 100%)",
-                            foreground: "hsl(222.2 84% 4.9%)",
-                            muted: "hsl(210 40% 96.1%)",
-                            "muted-foreground": "hsl(215.4 16.3% 46.9%)",
-                            popover: "hsl(0 0% 100%)",
-                            "popover-foreground": "hsl(222.2 84% 4.9%)",
-                            card: "hsl(0 0% 100%)",
-                            "card-foreground": "hsl(222.2 84% 4.9%)",
-                            border: "hsl(214.3 31.8% 91.4%)",
-                            input: "hsl(214.3 31.8% 91.4%)",
-                            primary: "hsl(222.2 47.4% 11.2%)",
-                            "primary-foreground": "hsl(210 40% 98%)",
-                            secondary: "hsl(210 40% 96.1%)",
-                            "secondary-foreground": "hsl(222.2 47.4% 11.2%)",
-                            accent: "hsl(210 40% 96.1%)",
-                            "accent-foreground": "hsl(222.2 47.4% 11.2%)",
-                            destructive: "hsl(0 84.2% 60.2%)",
-                            "destructive-foreground": "hsl(210 40% 98%)",
-                            ring: "hsl(222.2 84% 4.9%)",
-                        },
-                        dark: {
-                            background: "hsl(222.2 84% 4.9%)",
-                            foreground: "hsl(210 40% 98%)",
-                            muted: "hsl(217.2 32.6% 17.5%)",
-                            "muted-foreground": "hsl(215 20.2% 65.1%)",
-                            popover: "hsl(222.2 84% 4.9%)",
-                            "popover-foreground": "hsl(210 40% 98%)",
-                            card: "hsl(222.2 84% 4.9%)",
-                            "card-foreground": "hsl(210 40% 98%)",
-                            border: "hsl(217.2 32.6% 17.5%)",
-                            input: "hsl(217.2 32.6% 17.5%)",
-                            primary: "hsl(210 40% 98%)",
-                            "primary-foreground": "hsl(222.2 47.4% 11.2%)",
-                            secondary: "hsl(217.2 32.6% 17.5%)",
-                            "secondary-foreground": "hsl(210 40% 98%)",
-                            accent: "hsl(217.2 32.6% 17.5%)",
-                            "accent-foreground": "hsl(210 40% 98%)",
-                            destructive: "hsl(0 62.8% 30.6%)",
-                            "destructive-foreground": "hsl(210 40% 98%)",
-                            ring: "hsl(212.7 26.8% 83.9%)",
-                        },
-                        },
-                        stone: {
-                        light: {
-                            background: "hsl(0 0% 100%)",
-                            foreground: "hsl(20 14.3% 4.1%)",
-                            muted: "hsl(60 4.8% 95.9%)",
-                            "muted-foreground": "hsl(25 5.3% 44.7%)",
-                            popover: "hsl(0 0% 100%)",
-                            "popover-foreground": "hsl(20 14.3% 4.1%)",
-                            card: "hsl(0 0% 100%)",
-                            "card-foreground": "hsl(20 14.3% 4.1%)",
-                            border: "hsl(20 5.9% 90%)",
-                            input: "hsl(20 5.9% 90%)",
-                            primary: "hsl(24 9.8% 10%)",
-                            "primary-foreground": "hsl(60 9.1% 97.8%)",
-                            secondary: "hsl(60 4.8% 95.9%)",
-                            "secondary-foreground": "hsl(24 9.8% 10%)",
-                            accent: "hsl(60 4.8% 95.9%)",
-                            "accent-foreground": "hsl(24 9.8% 10%)",
-                            destructive: "hsl(0 84.2% 60.2%)",
-                            "destructive-foreground": "hsl(60 9.1% 97.8%)",
-                            ring: "hsl(20 14.3% 4.1%)",
-                        },
-                        dark: {
-                            background: "hsl(20 14.3% 4.1%)",
-                            foreground: "hsl(60 9.1% 97.8%)",
-                            muted: "hsl(12 6.5% 15.1%)",
-                            "muted-foreground": "hsl(24 5.4% 63.9%)",
-                            popover: "hsl(20 14.3% 4.1%)",
-                            "popover-foreground": "hsl(60 9.1% 97.8%)",
-                            card: "hsl(20 14.3% 4.1%)",
-                            "card-foreground": "hsl(60 9.1% 97.8%)",
-                            border: "hsl(12 6.5% 15.1%)",
-                            input: "hsl(12 6.5% 15.1%)",
-                            primary: "hsl(60 9.1% 97.8%)",
-                            "primary-foreground": "hsl(24 9.8% 10%)",
-                            secondary: "hsl(12 6.5% 15.1%)",
-                            "secondary-foreground": "hsl(60 9.1% 97.8%)",
-                            accent: "hsl(12 6.5% 15.1%)",
-                            "accent-foreground": "hsl(60 9.1% 97.8%)",
-                            destructive: "hsl(0 62.8% 30.6%)",
-                            "destructive-foreground": "hsl(60 9.1% 97.8%)",
-                            ring: "hsl(24 5.7% 82.9%)",
-                        },
-                        },
-                        gray: {
-                        light: {
-                            background: "hsl(0 0% 100%)",
-                            foreground: "hsl(224 71.4% 4.1%)",
-                            muted: "hsl(220 14.3% 95.9%)",
-                            "muted-foreground": "hsl(220 8.9% 46.1%)",
-                            popover: "hsl(0 0% 100%)",
-                            "popover-foreground": "hsl(224 71.4% 4.1%)",
-                            card: "hsl(0 0% 100%)",
-                            "card-foreground": "hsl(224 71.4% 4.1%)",
-                            border: "hsl(220 13% 91%)",
-                            input: "hsl(220 13% 91%)",
-                            primary: "hsl(220.9 39.3% 11%)",
-                            "primary-foreground": "hsl(210 20% 98%)",
-                            secondary: "hsl(220 14.3% 95.9%)",
-                            "secondary-foreground": "hsl(220.9 39.3% 11%)",
-                            accent: "hsl(220 14.3% 95.9%)",
-                            "accent-foreground": "hsl(220.9 39.3% 11%)",
-                            destructive: "hsl(0 84.2% 60.2%)",
-                            "destructive-foreground": "hsl(210 20% 98%)",
-                            ring: "hsl(224 71.4% 4.1%)",
-                        },
-                        dark: {
-                            background: "hsl(224 71.4% 4.1%)",
-                            foreground: "hsl(210 20% 98%)",
-                            muted: "hsl(215 27.9% 16.9%)",
-                            "muted-foreground": "hsl(217.9 10.6% 64.9%)",
-                            popover: "hsl(224 71.4% 4.1%)",
-                            "popover-foreground": "hsl(210 20% 98%)",
-                            card: "hsl(224 71.4% 4.1%)",
-                            "card-foreground": "hsl(210 20% 98%)",
-                            border: "hsl(215 27.9% 16.9%)",
-                            input: "hsl(215 27.9% 16.9%)",
-                            primary: "hsl(210 20% 98%)",
-                            "primary-foreground": "hsl(220.9 39.3% 11%)",
-                            secondary: "hsl(215 27.9% 16.9%)",
-                            "secondary-foreground": "hsl(210 20% 98%)",
-                            accent: "hsl(215 27.9% 16.9%)",
-                            "accent-foreground": "hsl(210 20% 98%)",
-                            destructive: "hsl(0 62.8% 30.6%)",
-                            "destructive-foreground": "hsl(210 20% 98%)",
-                            ring: "hsl(216 12.2% 83.9%)",
-                        },
-                        },
-                        neutral: {
-                        light: {
-                            background: "hsl(0 0% 100%)",
-                            foreground: "hsl(0 0% 3.9%)",
-                            muted: "hsl(0 0% 96.1%)",
-                            "muted-foreground": "hsl(0 0% 45.1%)",
-                            popover: "hsl(0 0% 100%)",
-                            "popover-foreground": "hsl(0 0% 3.9%)",
-                            card: "hsl(0 0% 100%)",
-                            "card-foreground": "hsl(0 0% 3.9%)",
-                            border: "hsl(0 0% 89.8%)",
-                            input: "hsl(0 0% 89.8%)",
-                            primary: "hsl(0 0% 9%)",
-                            "primary-foreground": "hsl(0 0% 98%)",
-                            secondary: "hsl(0 0% 96.1%)",
-                            "secondary-foreground": "hsl(0 0% 9%)",
-                            accent: "hsl(0 0% 96.1%)",
-                            "accent-foreground": "hsl(0 0% 9%)",
-                            destructive: "hsl(0 84.2% 60.2%)",
-                            "destructive-foreground": "hsl(0 0% 98%)",
-                            ring: "hsl(0 0% 3.9%)",
-                        },
-                        dark: {
-                            background: "hsl(0 0% 3.9%)",
-                            foreground: "hsl(0 0% 98%)",
-                            muted: "hsl(0 0% 14.9%)",
-                            "muted-foreground": "hsl(0 0% 63.9%)",
-                            popover: "hsl(0 0% 3.9%)",
-                            "popover-foreground": "hsl(0 0% 98%)",
-                            card: "hsl(0 0% 3.9%)",
-                            "card-foreground": "hsl(0 0% 98%)",
-                            border: "hsl(0 0% 14.9%)",
-                            input: "hsl(0 0% 14.9%)",
-                            primary: "hsl(0 0% 98%)",
-                            "primary-foreground": "hsl(0 0% 9%)",
-                            secondary: "hsl(0 0% 14.9%)",
-                            "secondary-foreground": "hsl(0 0% 98%)",
-                            accent: "hsl(0 0% 14.9%)",
-                            "accent-foreground": "hsl(0 0% 98%)",
-                            destructive: "hsl(0 62.8% 30.6%)",
-                            "destructive-foreground": "hsl(0 0% 98%)",
-                            ring: "hsl(0 0% 83.1%)",
-                        },
-                        },
-                        yellow: {
-                        light: {
-                            background: "hsl(0 0% 100%)",
-                            foreground: "hsl(20 14.3% 4.1%)",
-                            card: "hsl(0 0% 100%)",
-                            "card-foreground": "hsl(20 14.3% 4.1%)",
-                            popover: "hsl(0 0% 100%)",
-                            "popover-foreground": "hsl(20 14.3% 4.1%)",
-                            primary: "hsl(47.9 95.8% 53.1%)",
-                            "primary-foreground": "hsl(26 83.3% 14.1%)",
-                            secondary: "hsl(60 4.8% 95.9%)",
-                            "secondary-foreground": "hsl(24 9.8% 10%)",
-                            muted: "hsl(60 4.8% 95.9%)",
-                            "muted-foreground": "hsl(25 5.3% 44.7%)",
-                            accent: "hsl(60 4.8% 95.9%)",
-                            "accent-foreground": "hsl(24 9.8% 10%)",
-                            destructive: "hsl(0 84.2% 60.2%)",
-                            "destructive-foreground": "hsl(60 9.1% 97.8%)",
-                            border: "hsl(20 5.9% 90%)",
-                            input: "hsl(20 5.9% 90%)",
-                            ring: "hsl(20 14.3% 4.1%)",
-                        },
-                        dark: {
-                            background: "hsl(20 14.3% 4.1%)",
-                            foreground: "hsl(60 9.1% 97.8%)",
-                            card: "hsl(20 14.3% 4.1%)",
-                            "card-foreground": "hsl(60 9.1% 97.8%)",
-                            popover: "hsl(20 14.3% 4.1%)",
-                            "popover-foreground": "hsl(60 9.1% 97.8%)",
-                            primary: "hsl(47.9 95.8% 53.1%)",
-                            "primary-foreground": "hsl(26 83.3% 14.1%)",
-                            secondary: "hsl(12 6.5% 15.1%)",
-                            "secondary-foreground": "hsl(60 9.1% 97.8%)",
-                            muted: "hsl(12 6.5% 15.1%)",
-                            "muted-foreground": "hsl(24 5.4% 63.9%)",
-                            accent: "hsl(12 6.5% 15.1%)",
-                            "accent-foreground": "hsl(60 9.1% 97.8%)",
-                            destructive: "hsl(0 62.8% 30.6%)",
-                            "destructive-foreground": "hsl(60 9.1% 97.8%)",
-                            border: "hsl(12 6.5% 15.1%)",
-                            input: "hsl(12 6.5% 15.1%)",
-                            ring: "hsl(35.5 91.7% 32.9%)",
-                        },
-                        },
-                        red: {
-                        light: {
-                            background: "hsl(0 0% 100%)",
-                            foreground: "hsl(0 0% 3.9%)",
-                            muted: "hsl(0 0% 96.1%)",
-                            "muted-foreground": "hsl(0 0% 45.1%)",
-                            popover: "hsl(0 0% 100%)",
-                            "popover-foreground": "hsl(0 0% 3.9%)",
-                            card: "hsl(0 0% 100%)",
-                            "card-foreground": "hsl(0 0% 3.9%)",
-                            border: "hsl(0 0% 89.8%)",
-                            input: "hsl(0 0% 89.8%)",
-                            primary: "hsl(0 72.2% 50.6%)",
-                            "primary-foreground": "hsl(0 85.7% 97.3%)",
-                            secondary: "hsl(0 0% 96.1%)",
-                            "secondary-foreground": "hsl(0 0% 9%)",
-                            accent: "hsl(0 0% 96.1%)",
-                            "accent-foreground": "hsl(0 0% 9%)",
-                            destructive: "hsl(0 84.2% 60.2%)",
-                            "destructive-foreground": "hsl(0 0% 98%)",
-                            ring: "hsl(0 72.2% 50.6%)",
-                        },
-                        dark: {
-                            background: "hsl(0 0% 3.9%)",
-                            foreground: "hsl(0 0% 98%)",
-                            muted: "hsl(0 0% 14.9%)",
-                            "muted-foreground": "hsl(0 0% 63.9%)",
-                            popover: "hsl(0 0% 3.9%)",
-                            "popover-foreground": "hsl(0 0% 98%)",
-                            card: "hsl(0 0% 3.9%)",
-                            "card-foreground": "hsl(0 0% 98%)",
-                            border: "hsl(0 0% 14.9%)",
-                            input: "hsl(0 0% 14.9%)",
-                            primary: "hsl(0 72.2% 50.6%)",
-                            "primary-foreground": "hsl(0 85.7% 97.3%)",
-                            secondary: "hsl(0 0% 14.9%)",
-                            "secondary-foreground": "hsl(0 0% 98%)",
-                            accent: "hsl(0 0% 14.9%)",
-                            "accent-foreground": "hsl(0 0% 98%)",
-                            destructive: "hsl(0 62.8% 30.6%)",
-                            "destructive-foreground": "hsl(0 0% 98%)",
-                            ring: "hsl(0 72.2% 50.6%)",
-                        },
-                        },
-                        rose: {
-                        light: {
-                            background: "hsl(0 0% 100%)",
-                            foreground: "hsl(240 10% 3.9%)",
-                            muted: "hsl(240 4.8% 95.9%)",
-                            "muted-foreground": "hsl(240 3.8% 46.1%)",
-                            popover: "hsl(0 0% 100%)",
-                            "popover-foreground": "hsl(240 10% 3.9%)",
-                            card: "hsl(0 0% 100%)",
-                            "card-foreground": "hsl(240 10% 3.9%)",
-                            border: "hsl(240 5.9% 90%)",
-                            input: "hsl(240 5.9% 90%)",
-                            primary: "hsl(346.8 77.2% 49.8%)",
-                            "primary-foreground": "hsl(355.7 100% 97.3%)",
-                            secondary: "hsl(240 4.8% 95.9%)",
-                            "secondary-foreground": "hsl(240 5.9% 10%)",
-                            accent: "hsl(240 4.8% 95.9%)",
-                            "accent-foreground": "hsl(240 5.9% 10%)",
-                            destructive: "hsl(0 84.2% 60.2%)",
-                            "destructive-foreground": "hsl(0 0% 98%)",
-                            ring: "hsl(346.8 77.2% 49.8%)",
-                        },
-                        dark: {
-                            background: "hsl(20 14.3% 4.1%)",
-                            foreground: "hsl(0 0% 95%)",
-                            muted: "hsl(0 0% 15%)",
-                            "muted-foreground": "hsl(240 5% 64.9%)",
-                            popover: "hsl(0 0% 9%)",
-                            "popover-foreground": "hsl(0 0% 95%)",
-                            card: "hsl(24 9.8% 10%)",
-                            "card-foreground": "hsl(0 0% 95%)",
-                            border: "hsl(240 3.7% 15.9%)",
-                            input: "hsl(240 3.7% 15.9%)",
-                            primary: "hsl(346.8 77.2% 49.8%)",
-                            "primary-foreground": "hsl(355.7 100% 97.3%)",
-                            secondary: "hsl(240 3.7% 15.9%)",
-                            "secondary-foreground": "hsl(0 0% 98%)",
-                            accent: "hsl(12 6.5% 15.1%)",
-                            "accent-foreground": "hsl(0 0% 98%)",
-                            destructive: "hsl(0 62.8% 30.6%)",
-                            "destructive-foreground": "hsl(0 85.7% 97.3%)",
-                            ring: "hsl(346.8 77.2% 49.8%)",
-                        },
-                        },
-                        orange: {
-                        light: {
-                            background: "hsl(0 0% 100%)",
-                            foreground: "hsl(20 14.3% 4.1%)",
-                            muted: "hsl(60 4.8% 95.9%)",
-                            "muted-foreground": "hsl(25 5.3% 44.7%)",
-                            popover: "hsl(0 0% 100%)",
-                            "popover-foreground": "hsl(20 14.3% 4.1%)",
-                            card: "hsl(0 0% 100%)",
-                            "card-foreground": "hsl(20 14.3% 4.1%)",
-                            border: "hsl(20 5.9% 90%)",
-                            input: "hsl(20 5.9% 90%)",
-                            primary: "hsl(24.6 95% 53.1%)",
-                            "primary-foreground": "hsl(60 9.1% 97.8%)",
-                            secondary: "hsl(60 4.8% 95.9%)",
-                            "secondary-foreground": "hsl(24 9.8% 10%)",
-                            accent: "hsl(60 4.8% 95.9%)",
-                            "accent-foreground": "hsl(24 9.8% 10%)",
-                            destructive: "hsl(0 84.2% 60.2%)",
-                            "destructive-foreground": "hsl(60 9.1% 97.8%)",
-                            ring: "hsl(24.6 95% 53.1%)",
-                        },
-                        dark: {
-                            background: "hsl(20 14.3% 4.1%)",
-                            foreground: "hsl(60 9.1% 97.8%)",
-                            muted: "hsl(12 6.5% 15.1%)",
-                            "muted-foreground": "hsl(24 5.4% 63.9%)",
-                            popover: "hsl(20 14.3% 4.1%)",
-                            "popover-foreground": "hsl(60 9.1% 97.8%)",
-                            card: "hsl(20 14.3% 4.1%)",
-                            "card-foreground": "hsl(60 9.1% 97.8%)",
-                            border: "hsl(12 6.5% 15.1%)",
-                            input: "hsl(12 6.5% 15.1%)",
-                            primary: "hsl(20.5 90.2% 48.2%)",
-                            "primary-foreground": "hsl(60 9.1% 97.8%)",
-                            secondary: "hsl(12 6.5% 15.1%)",
-                            "secondary-foreground": "hsl(60 9.1% 97.8%)",
-                            accent: "hsl(12 6.5% 15.1%)",
-                            "accent-foreground": "hsl(60 9.1% 97.8%)",
-                            destructive: "hsl(0 72.2% 50.6%)",
-                            "destructive-foreground": "hsl(60 9.1% 97.8%)",
-                            ring: "hsl(20.5 90.2% 48.2%)",
-                        },
-                        },
-                        green: {
-                        light: {
-                            background: "hsl(0 0% 100%)",
-                            foreground: "hsl(240 10% 3.9%)",
-                            muted: "hsl(240 4.8% 95.9%)",
-                            "muted-foreground": "hsl(240 3.8% 46.1%)",
-                            popover: "hsl(0 0% 100%)",
-                            "popover-foreground": "hsl(240 10% 3.9%)",
-                            card: "hsl(0 0% 100%)",
-                            "card-foreground": "hsl(240 10% 3.9%)",
-                            border: "hsl(240 5.9% 90%)",
-                            input: "hsl(240 5.9% 90%)",
-                            primary: "hsl(142.1 76.2% 36.3%)",
-                            "primary-foreground": "hsl(355.7 100% 97.3%)",
-                            secondary: "hsl(240 4.8% 95.9%)",
-                            "secondary-foreground": "hsl(240 5.9% 10%)",
-                            accent: "hsl(240 4.8% 95.9%)",
-                            "accent-foreground": "hsl(240 5.9% 10%)",
-                            destructive: "hsl(0 84.2% 60.2%)",
-                            "destructive-foreground": "hsl(0 0% 98%)",
-                            ring: "hsl(142.1 76.2% 36.3%)",
-                        },
-                        dark: {
-                            background: "hsl(20 14.3% 4.1%)",
-                            foreground: "hsl(0 0% 95%)",
-                            muted: "hsl(0 0% 15%)",
-                            "muted-foreground": "hsl(240 5% 64.9%)",
-                            popover: "hsl(0 0% 9%)",
-                            "popover-foreground": "hsl(0 0% 95%)",
-                            card: "hsl(24 9.8% 10%)",
-                            "card-foreground": "hsl(0 0% 95%)",
-                            border: "hsl(240 3.7% 15.9%)",
-                            input: "hsl(240 3.7% 15.9%)",
-                            primary: "hsl(142.1 70.6% 45.3%)",
-                            "primary-foreground": "hsl(144.9 80.4% 10%)",
-                            secondary: "hsl(240 3.7% 15.9%)",
-                            "secondary-foreground": "hsl(0 0% 98%)",
-                            accent: "hsl(12 6.5% 15.1%)",
-                            "accent-foreground": "hsl(0 0% 98%)",
-                            destructive: "hsl(0 62.8% 30.6%)",
-                            "destructive-foreground": "hsl(0 85.7% 97.3%)",
-                            ring: "hsl(142.4 71.8% 29.2%)",
-                        },
-                        },
-                        blue: {
-                        light: {
-                            background: "hsl(0 0% 100%)",
-                            foreground: "hsl(222.2 84% 4.9%)",
-                            muted: "hsl(210 40% 96.1%)",
-                            "muted-foreground": "hsl(215.4 16.3% 46.9%)",
-                            popover: "hsl(0 0% 100%)",
-                            "popover-foreground": "hsl(222.2 84% 4.9%)",
-                            card: "hsl(0 0% 100%)",
-                            "card-foreground": "hsl(222.2 84% 4.9%)",
-                            border: "hsl(214.3 31.8% 91.4%)",
-                            input: "hsl(214.3 31.8% 91.4%)",
-                            primary: "hsl(221.2 83.2% 53.3%)",
-                            "primary-foreground": "hsl(210 40% 98%)",
-                            secondary: "hsl(210 40% 96.1%)",
-                            "secondary-foreground": "hsl(222.2 47.4% 11.2%)",
-                            accent: "hsl(210 40% 96.1%)",
-                            "accent-foreground": "hsl(222.2 47.4% 11.2%)",
-                            destructive: "hsl(0 84.2% 60.2%)",
-                            "destructive-foreground": "hsl(210 40% 98%)",
-                            ring: "hsl(221.2 83.2% 53.3%)",
-                        },
-                        dark: {
-                            background: "hsl(222.2 84% 4.9%)",
-                            foreground: "hsl(210 40% 98%)",
-                            muted: "hsl(217.2 32.6% 17.5%)",
-                            "muted-foreground": "hsl(215 20.2% 65.1%)",
-                            popover: "hsl(222.2 84% 4.9%)",
-                            "popover-foreground": "hsl(210 40% 98%)",
-                            card: "hsl(222.2 84% 4.9%)",
-                            "card-foreground": "hsl(210 40% 98%)",
-                            border: "hsl(217.2 32.6% 17.5%)",
-                            input: "hsl(217.2 32.6% 17.5%)",
-                            primary: "hsl(217.2 91.2% 59.8%)",
-                            "primary-foreground": "hsl(222.2 47.4% 11.2%)",
-                            secondary: "hsl(217.2 32.6% 17.5%)",
-                            "secondary-foreground": "hsl(210 40% 98%)",
-                            accent: "hsl(217.2 32.6% 17.5%)",
-                            "accent-foreground": "hsl(210 40% 98%)",
-                            destructive: "hsl(0 62.8% 30.6%)",
-                            "destructive-foreground": "hsl(210 40% 98%)",
-                            ring: "hsl(224.3 76.3% 48%)",
-                        },
-                        },
-                        violet: {
-                        light: {
-                            background: "hsl(0 0% 100%)",
-                            foreground: "hsl(224 71.4% 4.1%)",
-                            muted: "hsl(220 14.3% 95.9%)",
-                            "muted-foreground": "hsl(220 8.9% 46.1%)",
-                            popover: "hsl(0 0% 100%)",
-                            "popover-foreground": "hsl(224 71.4% 4.1%)",
-                            card: "hsl(0 0% 100%)",
-                            "card-foreground": "hsl(224 71.4% 4.1%)",
-                            border: "hsl(220 13% 91%)",
-                            input: "hsl(220 13% 91%)",
-                            primary: "hsl(262.1 83.3% 57.8%)",
-                            "primary-foreground": "hsl(210 20% 98%)",
-                            secondary: "hsl(220 14.3% 95.9%)",
-                            "secondary-foreground": "hsl(220.9 39.3% 11%)",
-                            accent: "hsl(220 14.3% 95.9%)",
-                            "accent-foreground": "hsl(220.9 39.3% 11%)",
-                            destructive: "hsl(0 84.2% 60.2%)",
-                            "destructive-foreground": "hsl(210 20% 98%)",
-                            ring: "hsl(262.1 83.3% 57.8%)",
-                        },
-                        dark: {
-                            background: "hsl(224 71.4% 4.1%)",
-                            foreground: "hsl(210 20% 98%)",
-                            muted: "hsl(215 27.9% 16.9%)",
-                            "muted-foreground": "hsl(217.9 10.6% 64.9%)",
-                            popover: "hsl(224 71.4% 4.1%)",
-                            "popover-foreground": "hsl(210 20% 98%)",
-                            card: "hsl(224 71.4% 4.1%)",
-                            "card-foreground": "hsl(210 20% 98%)",
-                            border: "hsl(215 27.9% 16.9%)",
-                            input: "hsl(215 27.9% 16.9%)",
-                            primary: "hsl(263.4 70% 50.4%)",
-                            "primary-foreground": "hsl(210 20% 98%)",
-                            secondary: "hsl(215 27.9% 16.9%)",
-                            "secondary-foreground": "hsl(210 20% 98%)",
-                            accent: "hsl(215 27.9% 16.9%)",
-                            "accent-foreground": "hsl(210 20% 98%)",
-                            destructive: "hsl(0 62.8% 30.6%)",
-                            "destructive-foreground": "hsl(210 20% 98%)",
-                            ring: "hsl(263.4 70% 50.4%)",
-                        },
-                        },
-                    },
-                    theme: "zinc",
-                    radius: "0.5",
-                    generatedCSS: "",
-
-                    init() {
-                        this.applyTheme();
-                    },
-
-                    setTheme(event) {
-                        // Look for data-theme on target or its ancestors
-                        const themeElement = event.target.closest('[data-theme]');
-                        if (themeElement) {
-                            this.theme = themeElement.dataset.theme;
-                            this.applyTheme();
-                        }
-                    },
-
-                    setRadius() {
-                        this.radius = this.$el.dataset.radius;
-                        this.applyTheme();
-                    },
-
-                    resetTheme() {
-                        this.theme = "zinc";
-                        this.radius = "0.5";
-                        this.applyTheme();
-                    },
-
-                    applyTheme() {
-                        const preview = document.getElementById("theme-preview");
-                        if (!preview) return;
-
-                        preview.className = `theme-${this.theme} w-full`;
-                        preview.style.setProperty("--radius", `${this.radius}rem`);
-                    },
-
-                    isTheme() {
-                        return this.theme === this.$el.dataset.theme;
-                    },
-
-                    getGeneratedCSS() {
-                        this.generatedCSS = this.generateCSS();
-                    },
-
-                    generateCSS() {
-                        const colors = this.themeColors[this.theme];
-                        if (!colors) return "";
-
-                        const cssVars = Object.entries(colors.light)
-                            .map(([key, value]) => `--${key}: ${value};`)
-                            // Here we define how each new line should be indented
-                            .join("\n\t");
-
-                        const darkCssVars = Object.entries(colors.dark)
-                            .map(([key, value]) => `--${key}: ${value};`)
-                            .join("\n\t");
-                        // INFO: Don't change the indentation here
-                        return `:root {
-    ${cssVars}
-    --radius: ${this.radius}rem;
-}
-.dark {
-    ${darkCssVars}
-    --radius: ${this.radius}rem;
-}`;
-                    },
-
-                    setBorderOnThemeButton() {
-                        if (this.theme === this.$el.dataset.theme) {
-                            return "border-primary";
-                        }
-                    },
-
-                    setBorderOnRadiusButton() {
-                        if (this.radius === this.$el.dataset.radius) {
-                            return "border-2 border-primary";
-                        }
-                    },
-
-                    copyToClipboard() {
-                        navigator.clipboard
-                            .writeText(this.generatedCSS)
-                            .then(() => {
-                            alert("Copied to clipboard!");
-                            })
-                            .catch((err) => {
-                            console.error("Failed to copy: ", err);
-                            });
-                        },
-                }))
-            })
-        </script>
+		<script src="/assets/js/themes.js" defer nonce={ templ.GetNonce(ctx) }></script>
 	}
 }

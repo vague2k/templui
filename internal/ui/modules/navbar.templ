@@ -1,49 +1,81 @@
 package modules
 
 import (
-	"github.com/axzilla/templui/internal/components/badge"
+	"fmt"
 	"github.com/axzilla/templui/internal/components/button"
 	"github.com/axzilla/templui/internal/components/drawer"
 	"github.com/axzilla/templui/internal/components/icon"
 	"github.com/axzilla/templui/internal/ctxkeys"
 	"github.com/axzilla/templui/internal/shared"
 	wrappedicon "github.com/axzilla/templui/internal/ui/icons"
+	"github.com/axzilla/templui/internal/components/separator"
 )
 
+func formatStars(count int) string {
+	if count >= 1000 {
+		return fmt.Sprintf("%.1fk", float64(count)/1000)
+	}
+	return fmt.Sprintf("%d", count)
+}
+
 templ Navbar() {
-	<nav class="border-b py-1">
-		{{ version := ctx.Value(ctxkeys.Version).(string) }}
-		<div class="container mx-auto px-4 flex justify-between items-center relative">
+	<nav class="py-1">
+		{{ stars := 0 }}
+		{{if starsVal := ctx.Value(ctxkeys.GitHubStars); starsVal != nil {
+	stars = starsVal.(int)
+}
+		}}
+		<div class="px-6 flex justify-between items-center relative">
 			<div class="flex items-center">
 				@NavbarMobileMenu()
 				<a href="/" class="flex items-center gap-1.5">
 					@icon.ToggleLeft(icon.Props{Class: "w-6 h-6"})
-					<span class="text-xl">templ/<span class="font-bold">ui</span></span>
+					<span class="text-xl">templ<span class="font-bold">UI</span></span>
 				</a>
-			</div>
-			<div class="hidden md:flex gap-4 items-center absolute left-1/2 transform -translate-x-1/2">
-				<a href="/docs/getting-started" class="text-sm hover:underline">Docs</a>
-				<a href="/docs/components" class="text-sm hover:underline">Components</a>
+				<div class="hidden md:flex gap-1 items-center ml-6">
+					@button.Button(button.Props{
+						Variant: button.VariantGhost,
+						Href:    "/docs/how-to-use",
+					}) {
+						Docs
+					}
+					@button.Button(button.Props{
+						Variant: button.VariantGhost,
+						Href:    "/docs/components",
+					}) {
+						Components
+					}
+					@button.Button(button.Props{
+						Variant: button.VariantGhost,
+						Href:    "/docs/themes",
+					}) {
+						Themes
+					}
+					@button.Button(button.Props{
+						Variant: button.VariantGhost,
+						Target:  "_blank",
+						Href:    "https://pro.templui.io",
+					}) {
+						Blocks
+					}
+				</div>
 			</div>
 			<div class="flex gap-1 items-center justify-center">
-				@ThemeSwitcher()
 				@button.Button(button.Props{
-					Size:    button.SizeIcon,
 					Variant: button.VariantGhost,
 					Href:    "https://github.com/axzilla/templui",
 					Target:  "_blank",
+					Class:   "gap-1",
 				}) {
-					@wrappedicon.GitHub(24)
-				}
-				<a
-					href="https://github.com/axzilla/templui/releases"
-					target="_blank"
-					class="flex"
-				>
-					@badge.Badge() {
-						{ version }
+					@wrappedicon.GitHub(20)
+					if stars > 0 {
+						<span class="text-muted-foreground text-xs tabular-nums">{ formatStars(stars) }</span>
 					}
-				</a>
+				}
+				@separator.Separator(separator.Props{
+					Orientation: separator.OrientationVertical,
+				})
+				@ThemeSwitcher()
 			</div>
 		</div>
 	</nav>
@@ -64,6 +96,52 @@ templ NavbarMobileMenu() {
 		ID:       "mobile-menu",
 	}) {
 		<div class="space-y-4">
+			<div class="pb-4">
+				<h3 class="px-4 text-sm font-bold text-gray-600 dark:text-gray-400">Menu</h3>
+				<ul class="mt-2 space-y-1">
+					<li>
+						<a
+							href="/"
+							class="text-sm inline-flex items-center px-4 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+						>
+							<span>Home</span>
+						</a>
+					</li>
+					<li>
+						<a
+							href="/docs/how-to-use"
+							class="text-sm inline-flex items-center px-4 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+						>
+							<span>Docs</span>
+						</a>
+					</li>
+					<li>
+						<a
+							href="/docs/components"
+							class="text-sm inline-flex items-center px-4 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+						>
+							<span>Components</span>
+						</a>
+					</li>
+					<li>
+						<a
+							href="/docs/themes"
+							class="text-sm inline-flex items-center px-4 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+						>
+							<span>Themes</span>
+						</a>
+					</li>
+					<li>
+						<a
+							href="https://pro.templui.io"
+							target="_blank"
+							class="text-sm inline-flex items-center px-4 py-2 rounded-md text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700"
+						>
+							<span>Blocks</span>
+						</a>
+					</li>
+				</ul>
+			</div>
 			for _, section := range shared.Sections {
 				<div class="pb-4">
 					<h3 class="px-4 text-sm font-bold text-gray-600 dark:text-gray-400">{ section.Title }</h3>

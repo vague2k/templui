@@ -11,7 +11,9 @@ templ DrawerDefault() {
 	@drawer.Trigger(drawer.TriggerProps{
 		For: "default-drawer",
 	}) {
-		@button.Button() {
+		@button.Button(button.Props{
+			Variant: button.VariantOutline,
+		}) {
 			Open
 		}
 	}

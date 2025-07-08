@@ -8,9 +8,9 @@ templ DocsLayout(title, description string, tocItems []modules.TableOfContentsIt
 		<div class="flex flex-col h-screen">
 			@modules.AnnouncementBar()
 			@modules.Navbar()
-			<div class="container mx-auto px-4 flex flex-1 overflow-hidden">
+			<div class="flex flex-1 overflow-hidden">
 				<div class="hidden lg:block w-64 overflow-y-auto">
-					<div class="pt-8 pb-8 pr-4">
+					<div class="pt-8 pb-8 pl-6 pr-4">
 						@modules.Sidebar()
 					</div>
 				</div>
@@ -23,7 +23,7 @@ templ DocsLayout(title, description string, tocItems []modules.TableOfContentsIt
 					@modules.Footer()
 				</main>
 				<div class="hidden lg:block w-64 overflow-y-auto">
-					<div class="pt-8 pb-8 pl-4">
+					<div class="pt-8 pb-8 pr-6 pl-4">
 						@modules.TableOfContents(modules.TableOfContentsProps{
 							Items: tocItems,
 						})
