@@ -148,6 +148,9 @@
   ::selection {
     @apply bg-selection text-selection-foreground;
   }
+  html {
+    @apply scroll-smooth;
+  }
 
   body {
     @apply bg-background text-foreground;
