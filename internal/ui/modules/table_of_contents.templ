@@ -15,6 +15,14 @@ templ TableOfContents(props TableOfContentsProps) {
 		class="text-sm"
 		data-toc="container"
 	>
+		<div class="px-4 mb-6">
+			<a href="mailto:hello@axeladrian.com?subject=templUI%20Sponsorship" class="block border rounded-md p-3 hover:border-muted-foreground/50 transition-colors group">
+				<p class="text-[0.65rem] font-medium uppercase tracking-wider text-muted-foreground mb-2">Sponsored</p>
+				<div class="flex items-center justify-center h-8 opacity-60 group-hover:opacity-80 transition-opacity">
+					<span class="text-[0.7rem] text-muted-foreground">Your Brand Here</span>
+				</div>
+			</a>
+		</div>
 		if len(props.Items) > 0 {
 			<div class="flex flex-col gap-2 p-4 pt-0">
 				<p class="text-xs text-muted-foreground sticky top-0 bg-background py-2">On This Page</p>
@@ -23,15 +31,6 @@ templ TableOfContents(props TableOfContentsProps) {
 				</nav>
 			</div>
 		}
-		<div class="mt-8 mx-4 rounded-lg border bg-muted/30 p-4">
-			<h4 class="text-xs font-medium mb-1">Your Logo Here</h4>
-			<p class="text-xs text-muted-foreground mb-2">
-				Join our showcase.
-			</p>
-			<a href="https://twitter.com/axzilla_" target="_blank" class="text-xs text-primary hover:underline">
-				Add Your Logo →
-			</a>
-		</div>
 	</aside>
 }
 
