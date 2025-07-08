@@ -86,15 +86,14 @@
         
         buttons.forEach(button => {
             const isActive = button.getAttribute('data-theme') === currentTheme;
+            const dot = button.querySelector('span > span');
             
-            // Remove existing classes
-            button.classList.remove('border-foreground/50', 'border-transparent');
-            
-            // Add appropriate classes
-            if (isActive) {
-                button.classList.add('border-foreground/50');
-            } else {
-                button.classList.add('border-transparent');
+            if (dot) {
+                if (isActive) {
+                    dot.setAttribute('data-selected', '');
+                } else {
+                    dot.removeAttribute('data-selected');
+                }
             }
         });
     }
@@ -104,25 +103,39 @@
         const preview = document.getElementById('theme-preview');
         if (!preview) return;
         
-        // Create temporary elements to extract styles from both light and dark modes
-        const tempContainer = document.createElement('div');
-        tempContainer.style.display = 'none';
-        document.body.appendChild(tempContainer);
+        // Store current dark mode state
+        const isDarkMode = document.documentElement.classList.contains('dark');
         
-        // Apply theme class
-        tempContainer.className = currentTheme !== 'default' ? `theme-${currentTheme}` : '';
+        // Create a proper container that inherits from documentElement
+        const tempWrapper = document.createElement('div');
+        tempWrapper.style.display = 'none';
+        
+        // Create inner container for theme
+        const tempContainer = document.createElement('div');
+        if (currentTheme !== 'default') {
+            tempContainer.className = `theme-${currentTheme}`;
+        }
+        
+        tempWrapper.appendChild(tempContainer);
+        document.body.appendChild(tempWrapper);
         
         // Extract light mode styles
+        document.documentElement.classList.remove('dark');
         const lightStyles = getComputedStyle(tempContainer);
         const lightVars = extractCSSVariables(lightStyles);
         
         // Extract dark mode styles
-        tempContainer.classList.add('dark');
+        document.documentElement.classList.add('dark');
         const darkStyles = getComputedStyle(tempContainer);
         const darkVars = extractCSSVariables(darkStyles);
         
+        // Restore original dark mode state
+        if (!isDarkMode) {
+            document.documentElement.classList.remove('dark');
+        }
+        
         // Clean up
-        document.body.removeChild(tempContainer);
+        document.body.removeChild(tempWrapper);
         
         // Generate CSS string
         const lightCSS = Object.entries(lightVars)

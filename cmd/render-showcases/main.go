@@ -69,6 +69,7 @@ func main() {
 		"out/showcase/button_outline.html":      showcase.ButtonOutline(),
 		"out/showcase/button_primary.html":      showcase.ButtonPrimary(),
 		"out/showcase/button_secondary.html":    showcase.ButtonSecondary(),
+		"out/showcase/button_sizes.html":        showcase.ButtonSizes(),
 		"out/showcase/button_with_icon.html":    showcase.ButtonWithIcon(),
 
 		// Card

@@ -19,7 +19,10 @@ templ Button() {
 				ID:   "examples",
 				Text: "Examples",
 				Children: []modules.TableOfContentsItem{
-	
+					{
+						ID:   "sizes",
+						Text: "Sizes",
+					},
 					{
 						ID:   "primary",
 						Text: "Primary",
@@ -110,6 +113,12 @@ templ Button() {
 				Title: "Examples",
 				ID:    "examples",
 			}) {
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:     "Sizes",
+					ShowcaseFile:    showcase.ButtonSizes(),
+					PreviewCodeFile: "button_sizes.templ",
+					ID:              "sizes",
+				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Primary",
 					ShowcaseFile:    showcase.ButtonPrimary(),
@@ -212,8 +221,8 @@ templ Button() {
 							{
 								Name:        "Size",
 								Type:        "Size",
-								Default:     "",
-								Description: "Button size. Options: 'icon' for icon-only buttons.",
+								Default:     "default",
+								Description: "Button size. Options: 'default', 'sm', 'lg', 'icon'.",
 								Required:    false,
 							},
 							{
