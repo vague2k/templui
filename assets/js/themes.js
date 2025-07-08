@@ -133,19 +133,11 @@
             .map(([key, value]) => `    ${key}: ${value};`)
             .join('\n');
         
-        generatedCSS = currentTheme === 'default' 
-            ? `:root {
+        generatedCSS = `:root {
 ${lightCSS}
 }
 
 .dark {
-${darkCSS}
-}`
-            : `.theme-${currentTheme} {
-${lightCSS}
-}
-
-.dark .theme-${currentTheme} {
 ${darkCSS}
 }`;
         
