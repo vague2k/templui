@@ -6,12 +6,10 @@ import (
 )
 
 templ AvatarWithIcon() {
-	@avatar.Avatar(avatar.Props{
-		Class: "bg-purple-300",
-	}) {
+	@avatar.Avatar() {
 		@icon.Camera(icon.Props{
 			Size:  22,
-			Color: "white",
+			Class: "text-muted-foreground",
 		})
 	}
 }
