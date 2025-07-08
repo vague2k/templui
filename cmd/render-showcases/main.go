@@ -73,17 +73,11 @@ func main() {
 		"out/showcase/button_with_icon.html":    showcase.ButtonWithIcon(),
 
 		// Card
-		"out/showcase/card_default.html":      showcase.CardDefault(),
-		"out/showcase/card_image_bottom.html": showcase.CardImageBottom(),
-		"out/showcase/card_image_left.html":   showcase.CardImageLeft(),
-		"out/showcase/card_image_right.html":  showcase.CardImageRight(),
-		"out/showcase/card_image_top.html":    showcase.CardImageTop(),
+		"out/showcase/card_default.html":    showcase.CardDefault(),
+		"out/showcase/card_with_image.html": showcase.CardWithImage(),
 
 		// Carousel
-		"out/showcase/carousel_autoplay.html":    showcase.CarouselAutoplay(),
-		"out/showcase/carousel_default.html":     showcase.CarouselDefault(),
-		"out/showcase/carousel_minimal.html":     showcase.CarouselMinimal(),
-		"out/showcase/carousel_with_images.html": showcase.CarouselWithImages(),
+		"out/showcase/carousel_default.html": showcase.CarouselDefault(),
 
 		// Chart
 		"out/showcase/chart_area.html":             showcase.ChartArea(),
