@@ -9,7 +9,9 @@ templ ModalDefault() {
 	@modal.Trigger(modal.TriggerProps{
 		For: "default-modal",
 	}) {
-		@button.Button() {
+		@button.Button(button.Props{
+			Variant: button.VariantOutline,
+		}) {
 			Open Modal
 		}
 	}

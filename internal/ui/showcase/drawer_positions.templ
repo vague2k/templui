@@ -10,7 +10,9 @@ templ DrawerPositions() {
 		@drawer.Trigger(drawer.TriggerProps{
 			For: "top-drawer",
 		}) {
-			@button.Button() {
+			@button.Button(button.Props{
+				Variant: button.VariantOutline,
+			}) {
 				Top
 			}
 		}
@@ -35,7 +37,9 @@ templ DrawerPositions() {
 		@drawer.Trigger(drawer.TriggerProps{
 			For: "right-drawer",
 		}) {
-			@button.Button() {
+			@button.Button(button.Props{
+				Variant: button.VariantOutline,
+			}) {
 				Right
 			}
 		}
@@ -60,7 +64,9 @@ templ DrawerPositions() {
 		@drawer.Trigger(drawer.TriggerProps{
 			For: "bottom-drawer",
 		}) {
-			@button.Button() {
+			@button.Button(button.Props{
+				Variant: button.VariantOutline,
+			}) {
 				Bottom
 			}
 		}
@@ -85,7 +91,9 @@ templ DrawerPositions() {
 		@drawer.Trigger(drawer.TriggerProps{
 			For: "left-drawer",
 		}) {
-			@button.Button() {
+			@button.Button(button.Props{
+				Variant: button.VariantOutline,
+			}) {
 				Left
 			}
 		}

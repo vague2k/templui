@@ -1,12 +1,12 @@
 # Build-Stage
-FROM golang:1.24 AS build
+FROM golang:1.24.4 AS build
 WORKDIR /app
 
 # Copy the source code
 COPY . .
 
 # Install templ
-RUN go install github.com/a-h/templ/cmd/templ@latest
+RUN go install github.com/a-h/templ/cmd/templ@v0.3.906
 
 # Generate templ files
 RUN templ generate

@@ -1,0 +1,47 @@
+package pages
+
+import (
+	"github.com/axzilla/templui/internal/ui/layouts"
+	"github.com/axzilla/templui/internal/ui/modules"
+	"github.com/axzilla/templui/internal/shared"
+)
+
+templ ComponentsOverview() {
+	@layouts.DocsLayout(
+		"Components",
+		"Browse all available UI components in the templUI library. Beautiful, accessible components for Go templ.",
+		[]modules.TableOfContentsItem{},
+	) {
+		@modules.PageWrapper(modules.PageWrapperProps{
+			Name:        "Components",
+			Description: templ.Raw("Browse all available UI components in the templUI library. Beautiful, accessible components for Go templ."),
+			Breadcrumbs: modules.Breadcrumbs{
+				Items: []modules.BreadcrumbItem{
+					{
+						Text: "Docs",
+						Path: "/docs",
+					},
+					{
+						Text: "Components",
+					},
+				},
+			},
+			HideSource: true,
+		}) {
+			<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 md:gap-x-8 lg:gap-x-16 lg:gap-y-6 xl:gap-x-20">
+				for _, section := range shared.Sections {
+					if section.Title == "Components" {
+						for _, link := range section.Links {
+							<a
+								href={ templ.SafeURL(link.Href) }
+								class="text-lg font-medium underline-offset-4 hover:underline md:text-base"
+							>
+								{ link.Text }
+							</a>
+						}
+					}
+				}
+			</div>
+		}
+	}
+}

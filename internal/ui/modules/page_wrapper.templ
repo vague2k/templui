@@ -62,7 +62,9 @@ templ PageWrapper(p PageWrapperProps) {
 			}}
 			if !p.HideSource {
 				<a href={ templ.SafeURL(srcURL) } target="_blank" class="flex">
-					@badge.Badge(badge.Props{}) {
+					@badge.Badge(badge.Props{
+						Class: "flex gap-2",
+					}) {
 						@wrappedicon.GitHub(16)
 						Source
 					}
@@ -71,17 +73,19 @@ templ PageWrapper(p PageWrapperProps) {
 			if p.Tailwind {
 				@badge.Badge(badge.Props{
 					Variant: badge.VariantSecondary,
+					Class:   "flex gap-2",
 				}) {
 					@wrappedicon.Tailwind(16)
-					TailwindCSS
+					Tailwind
 				}
 			}
 			if p.VanillaJS {
 				@badge.Badge(badge.Props{
 					Variant: badge.VariantSecondary,
+					Class:   "flex gap-2",
 				}) {
 					@wrappedicon.JS(16)
-					Vanilla JS
+					Javascript
 				}
 			}
 		</div>

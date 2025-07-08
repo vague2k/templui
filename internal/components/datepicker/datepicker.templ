@@ -3,6 +3,7 @@ package datepicker
 import (
 	"github.com/axzilla/templui/internal/components/button"
 	"github.com/axzilla/templui/internal/components/calendar"
+	"github.com/axzilla/templui/internal/components/card"
 	"github.com/axzilla/templui/internal/components/icon"
 	"github.com/axzilla/templui/internal/components/popover"
 	"github.com/axzilla/templui/internal/utils"
@@ -78,8 +79,19 @@ templ DatePicker(props ...Props) {
 			ID:      p.ID,
 			Variant: button.VariantOutline,
 			Class: utils.TwMerge(
-				"w-full select-trigger flex items-center justify-between",
-				utils.If(p.HasError, "border-destructive ring-destructive"),
+				// Base styles matching input
+				"w-full h-9 px-3 py-1 text-base md:text-sm",
+				"flex items-center justify-between",
+				"rounded-md border border-input bg-transparent shadow-xs transition-[color,box-shadow] outline-none",
+				// Dark mode background
+				"dark:bg-input/30",
+				// Selection styles
+				"selection:bg-primary selection:text-primary-foreground",
+				// Focus styles
+				"focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px]",
+				// Error/Invalid styles
+				"aria-invalid:ring-destructive/20 aria-invalid:border-destructive dark:aria-invalid:ring-destructive/40",
+				utils.If(p.HasError, "border-destructive ring-destructive/20 dark:ring-destructive/40"),
 				p.Class,
 			),
 			Disabled: p.Disabled,
@@ -88,6 +100,7 @@ templ DatePicker(props ...Props) {
 				"data-display-format": string(p.Format),
 				"data-locale-tag":     string(p.LocaleTag),
 				"data-placeholder":    p.Placeholder,
+				"aria-invalid":        utils.If(p.HasError, "true"),
 			}),
 		}) {
 			if p.Placeholder != "" {
@@ -103,13 +116,21 @@ templ DatePicker(props ...Props) {
 	@popover.Content(popover.ContentProps{
 		ID:        contentID,
 		Placement: popover.PlacementBottomStart,
-		Class:     "p-3",
+		Class:     "p-0",
 	}) {
-		@calendar.Calendar(calendar.Props{
-			ID:        p.ID + "-calendar-instance",     // Pass ID for calendar instance
-			Name:      p.Name,                          // Pass Name for hidden input
-			LocaleTag: calendar.LocaleTag(p.LocaleTag), // Pass locale tag to calendar
-			Value:     valuePtr,                        // Pass pointer to value
-		})
+		@card.Card(card.Props{
+			Class: "border-0 shadow-none",
+		}) {
+			@card.Content(card.ContentProps{
+				Class: "p-3",
+			}) {
+				@calendar.Calendar(calendar.Props{
+					ID:        p.ID + "-calendar-instance",     // Pass ID for calendar instance
+					Name:      p.Name,                          // Pass Name for hidden input
+					LocaleTag: calendar.LocaleTag(p.LocaleTag), // Pass locale tag to calendar
+					Value:     valuePtr,                        // Pass pointer to value
+				})
+			}
+		}
 	}
 }

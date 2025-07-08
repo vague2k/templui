@@ -1,0 +1,28 @@
+package showcase
+
+import "github.com/axzilla/templui/internal/components/button"
+import "github.com/axzilla/templui/internal/components/icon"
+
+templ ButtonSizes() {
+	<div class="flex flex-wrap items-center gap-4">
+		@button.Button(button.Props{
+			Size: button.SizeSm,
+		}) {
+			Small
+		}
+		@button.Button() {
+			Default
+		}
+		@button.Button(button.Props{
+			Size: button.SizeLg,
+		}) {
+			Large
+		}
+		@button.Button(button.Props{
+			Size: button.SizeIcon,
+		}) {
+			@icon.ChevronRight(icon.Props{Size: 16})
+		}
+	</div>
+}
+
