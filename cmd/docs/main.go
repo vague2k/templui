@@ -4,7 +4,6 @@ import (
 	"log"
 	"net/http"
 	"strconv"
-	"time"
 
 	"github.com/a-h/templ"
 
@@ -37,11 +36,6 @@ func toastDemoHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	toast.Toast(toastProps).Render(r.Context(), w)
-}
-
-func buttonHtmxLoadingHandler(w http.ResponseWriter, r *http.Request) {
-	time.Sleep(5 * time.Second)
-	w.WriteHeader(http.StatusNoContent)
 }
 
 func handleLoadDatastarExample(w http.ResponseWriter, r *http.Request) {
@@ -144,7 +138,6 @@ func main() {
 	mux.Handle("GET /docs/components/popover", templ.Handler(pages.Popover()))
 	// Showcase API
 	mux.Handle("POST /docs/toast/demo", http.HandlerFunc(toastDemoHandler))
-	mux.Handle("POST /docs/button/htmx-loading", http.HandlerFunc(buttonHtmxLoadingHandler))
 
 	// Datastar Example
 	mux.Handle("GET /docs/datastar-example", templ.Handler(pages.ExampleDatastar()))
