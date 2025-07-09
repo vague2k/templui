@@ -16,7 +16,6 @@ import (
 	"github.com/axzilla/templui/internal/components/radio"
 	"github.com/axzilla/templui/internal/components/selectbox"
 	"github.com/axzilla/templui/internal/components/slider"
-	"github.com/axzilla/templui/internal/components/spinner"
 	"github.com/axzilla/templui/internal/components/tabs"
 	"github.com/axzilla/templui/internal/components/tagsinput"
 	"github.com/axzilla/templui/internal/components/textarea"
@@ -233,8 +232,8 @@ templ ThemeShowcase() {
 				}
 				@card.Content(card.ContentProps{Class: "p-6"}) {
 					<div class="flex flex-col items-center space-y-4">
-						@spinner.Spinner(spinner.Props{
-							Size: spinner.SizeLg,
+						@icon.LoaderCircle(icon.Props{
+							Class: "animate-spin size-8 text-primary",
 						})
 						<p class="text-sm text-muted-foreground">Uploading files...</p>
 					</div>

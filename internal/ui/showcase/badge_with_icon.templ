@@ -7,9 +7,11 @@ import (
 
 templ BadgeWithIcon() {
 	@badge.Badge(badge.Props{
-		Class: "flex gap-1 items-center",
+		Class: "flex gap-2 items-center",
 	}) {
-		@icon.Rocket(icon.Props{Size: 14})
+		// Default icon size in @badge is 16x16
+		// Use Class: "size-6" for larger icons
+		@icon.Rocket()
 		With Icon
 	}
 }
