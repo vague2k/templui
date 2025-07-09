@@ -221,12 +221,6 @@
       "hasJS": true
     },
     {
-      "name": "spinner",
-      "description": "Loading indicator animation",
-      "files": ["internal/components/spinner/spinner.templ"],
-      "dependencies": []
-    },
-    {
       "name": "table",
       "description": "Data table display",
       "files": ["internal/components/table/table.templ"],

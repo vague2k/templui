@@ -163,10 +163,6 @@ var Sections = []Section{
 				Href: "/docs/components/slider",
 			},
 			{
-				Text: "Spinner",
-				Href: "/docs/components/spinner",
-			},
-			{
 				Text: "Table",
 				Href: "/docs/components/table",
 			},

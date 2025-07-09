@@ -210,12 +210,6 @@ func main() {
 		"out/showcase/slider_steps.html":          showcase.SliderSteps(),
 		"out/showcase/slider_value.html":          showcase.SliderValue(),
 
-		// Spinner
-		"out/showcase/spinner_colors.html":    showcase.SpinnerColors(),
-		"out/showcase/spinner_default.html":   showcase.SpinnerDefault(),
-		"out/showcase/spinner_in_button.html": showcase.SpinnerInButton(),
-		"out/showcase/spinner_sizes.html":     showcase.SpinnerSizes(),
-
 		// Table
 		"out/showcase/table.html": showcase.Table(),
 
