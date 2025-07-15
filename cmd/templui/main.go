@@ -347,7 +347,7 @@ func showHelp(manifest *Manifest, refUsedForHelp string) {
 	fmt.Println("  templui init[@<ref>]                - Initialize config and install utils from <ref>")
 	fmt.Println("  templui -f init[@<ref>]             - Force reinitialize and repair incomplete config")
 	fmt.Println("  templui add[@<ref>] <comp>...       - Add component(s) from specified <ref>")
-	fmt.Println("  templui add[@<ref>] *               - Add all components from specified <ref>")
+	fmt.Println("  templui add[@<ref>] \"*\"             - Add all components from specified <ref>")
 	fmt.Println("  templui list[@<ref>]               - List available components and utils from <ref>")
 	fmt.Println("  templui -v, --version               - Show installer version")
 	fmt.Println("  templui -h, --help                  - Show this help message")
