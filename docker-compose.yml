@@ -1,5 +1,4 @@
 version: "3.8"
-
 services:
   go-app:
     build:
@@ -19,12 +18,48 @@ services:
     restart: unless-stopped
     networks:
       - templui-net
+      - dokploy-network # ← Required: Dokploy's network for Traefik to reach your app
     # Resource limits
     deploy:
       resources:
         limits:
           cpus: "1.0" # Limit Go app to 1 CPU core
           memory: 512M # Limit Go app to 512 MB RAM
+    labels:
+      # === BASIC SETUP (Required for your app to be accessible) ===
+
+      # Tells Traefik to handle this container
+      - traefik.enable=true
+
+      # Accept traffic from both templui.io AND www.templui.io
+      # This router handles the main domain (templui.io)
+      - traefik.http.routers.templui.rule=Host(`templui.io`, `www.templui.io`)
+
+      # Use HTTPS (port 443) for incoming traffic
+      - traefik.http.routers.templui.entrypoints=websecure
+
+      # Tell Traefik which port your Go app is listening on inside the container
+      - traefik.http.services.templui.loadbalancer.server.port=8090
+
+      # === WWW REDIRECT SETUP (Redirects www.templui.io → templui.io) ===
+
+      # Create a separate router specifically for www.templui.io
+      - traefik.http.routers.templui-www.rule=Host(`www.templui.io`)
+      - traefik.http.routers.templui-www.entrypoints=websecure
+
+      # This router uses our redirect middleware (defined below)
+      - traefik.http.routers.templui-www.middlewares=redirect-www
+
+      # Define the redirect middleware that does the actual redirecting
+      # permanent=true means HTTP 301 (permanent redirect, good for SEO)
+      - traefik.http.middlewares.redirect-www.redirectscheme.permanent=true
+
+      # Regex pattern: Match everything after www.templui.io
+      - traefik.http.middlewares.redirect-www.redirectregex.regex=^https://www\.templui\.io/(.*)
+
+      # Replacement: Redirect to templui.io keeping the path
+      # Note: $${1} with double $$ because docker-compose uses $ for variables
+      - traefik.http.middlewares.redirect-www.redirectregex.replacement=https://templui.io/$${1}
     # volumes:
     # Optional: Local directory for persistent data if needed
     # - ./data:/app/data
@@ -50,3 +85,5 @@ services:
 networks:
   templui-net:
     driver: bridge
+  dokploy-network:
+    external: true # ← This tells Docker to use Dokploy's existing network, don't create a new one
