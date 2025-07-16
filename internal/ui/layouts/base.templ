@@ -7,11 +7,12 @@ import (
 	"github.com/axzilla/templui/internal/ui/modules"
 )
 
-
 templ BaseLayout(title, description string) {
 	<!DOCTYPE html>
 	<html lang="en">
 		<head>
+			// Google
+			<meta name="google-site-verification" content="lcKF60IRUofKfZpOIYKOD7xyvrL220KpjmGjJcflde4"/>
 			// SEO
 			@modules.SEO(title, description, ctx.Value(ctxkeys.URLPathValue).(string))
 			// Charset & Viewport
