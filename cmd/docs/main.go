@@ -4,6 +4,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"strings"
 
 	"github.com/a-h/templ"
 
@@ -56,10 +57,27 @@ func main() {
 	config.LoadConfig()
 	SetupAssetsRoutes(mux)
 
-	wrappedMux := middleware.WithURLPathValue(
-		middleware.CacheControlMiddleware(
-			middleware.GitHubStarsMiddleware(
-				mux,
+	// Simple www to non-www redirect
+	redirectWWW := func(next http.Handler) http.Handler {
+		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			if after, ok := strings.CutPrefix(r.Host, "www."); ok {
+				target := "https://" + after + r.URL.Path
+				if r.URL.RawQuery != "" {
+					target += "?" + r.URL.RawQuery
+				}
+				http.Redirect(w, r, target, http.StatusMovedPermanently)
+				return
+			}
+			next.ServeHTTP(w, r)
+		})
+	}
+
+	wrappedMux := redirectWWW(
+		middleware.WithURLPathValue(
+			middleware.CacheControlMiddleware(
+				middleware.GitHubStarsMiddleware(
+					mux,
+				),
 			),
 		),
 	)
