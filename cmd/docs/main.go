@@ -104,6 +104,7 @@ func main() {
 		w.Write(content)
 	})
 
+
 	mux.Handle("GET /", templ.Handler(pages.Landing()))
 	mux.Handle("GET /docs", http.RedirectHandler("/docs/introduction", http.StatusSeeOther))
 	mux.Handle("GET /docs/getting-started", http.RedirectHandler("/docs/introduction", http.StatusSeeOther))
@@ -187,4 +188,41 @@ func SetupAssetsRoutes(mux *http.ServeMux) {
 	})
 
 	mux.Handle("GET /assets/", http.StripPrefix("/assets/", assetHandler))
+
+	// Safari Favicon Compatibility
+	// Safari often ignores HTML favicon tags and looks for files in the root directory.
+	// We serve specific favicon files from /assets/img/favicon/ at root URLs for better Safari compatibility.
+	faviconRoutes := map[string]string{
+		"/favicon.ico":          "img/favicon/favicon.ico",
+		"/apple-touch-icon.png": "img/favicon/apple-touch-icon.png",
+		"/favicon-32x32.png":    "img/favicon/favicon-32x32.png",
+		"/favicon-16x16.png":    "img/favicon/favicon-16x16.png",
+	}
+
+	for route, assetPath := range faviconRoutes {
+		// Capture variables for closure
+		r := route
+		path := assetPath
+		
+		mux.HandleFunc("GET "+r, func(w http.ResponseWriter, r *http.Request) {
+			// Set content type based on file extension
+			if strings.HasSuffix(path, ".ico") {
+				w.Header().Set("Content-Type", "image/x-icon")
+			} else if strings.HasSuffix(path, ".png") {
+				w.Header().Set("Content-Type", "image/png")
+			}
+			
+			if isDevelopment {
+				w.Header().Set("Cache-Control", "no-store")
+				http.ServeFile(w, r, "./assets/"+path)
+			} else {
+				content, err := assets.Assets.ReadFile(path)
+				if err != nil {
+					http.Error(w, "Favicon not found", http.StatusNotFound)
+					return
+				}
+				w.Write(content)
+			}
+		})
+	}
 }

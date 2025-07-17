@@ -31,11 +31,14 @@ templ SEO(title, description, path string) {
 	<meta name="twitter:image" content="https://templui.io/assets/img/social-preview.png"/>
 	<meta name="twitter:image:alt" content="templUI - Modern UI components for Go"/>
 	// Favicon - Minimal but comprehensive support
+	// Note: Some files are served from root URLs (e.g., /favicon.ico) for Safari compatibility.
+	// Safari often ignores HTML favicon tags and looks directly in the root directory.
+	// The SVG favicon remains in the assets folder as it's not commonly requested by Safari.
 	<link rel="icon" type="image/svg+xml" href="/assets/img/favicon/favicon.svg"/>
-	<link rel="icon" type="image/x-icon" href="/assets/img/favicon/favicon.ico"/>
-	<link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicon/apple-touch-icon.png"/>
-	<link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicon/favicon-32x32.png"/>
-	<link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicon/favicon-16x16.png"/>
+	<link rel="icon" type="image/x-icon" href="/favicon.ico"/>
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/>
 	// Theme Color
 	<meta name="theme-color" content="#000000"/>
 	// Additional iOS/Safari support
