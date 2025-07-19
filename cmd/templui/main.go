@@ -24,7 +24,7 @@ const (
 )
 
 // version of the tool (can be set during build with ldflags).
-var version = "v0.82.0"
+var version = "v0.83.1"
 
 // getDefaultRef returns the current stable version
 // Uses the same version as the CLI tool itself for consistency
@@ -369,9 +369,9 @@ func showHelp(manifest *Manifest, refUsedForHelp string) {
 	fmt.Println("  templui init[@<ref>]                - Initialize config and install utils from <ref>")
 	fmt.Println("  templui -f init[@<ref>]             - Force reinitialize and repair incomplete config")
 	fmt.Println("  templui add[@<ref>] <comp>...       - Add component(s) from specified <ref>")
-	fmt.Println("  templui add[@<ref>] *               - Add all components from specified <ref>")
+	fmt.Println("  templui add[@<ref>] \"*\"           - Add all components from specified <ref>")
 	fmt.Println("  templui list[@<ref>]                - List available components and utils from <ref>")
-	fmt.Println("  templui upgrade[@<ref>]             - Upgrades the cli to <ref> or latest if no <ref> was given")
+  fmt.Println("  templui upgrade[@<ref>]             - Upgrades the cli to <ref> or latest if no <ref> was given")
 	fmt.Println("  templui -v, --version               - Show installer version")
 	fmt.Println("  templui -h, --help                  - Show this help message")
 	fmt.Println("\n<ref> can be a branch name, tag name, or commit hash.")

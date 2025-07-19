@@ -59,10 +59,6 @@ templ Button() {
 						ID:   "loading",
 						Text: "Loading",
 					},
-					{
-						ID:   "htmx_loading",
-						Text: "HTMX Loading (5s)",
-					},
 				},
 			},
 			{
@@ -172,12 +168,6 @@ templ Button() {
 					ShowcaseFile:    showcase.ButtonLoading(),
 					PreviewCodeFile: "button_loading.templ",
 					ID:              "loading",
-				})
-				@modules.ExampleWrapper(modules.ExampleWrapperProps{
-					SectionName:     "HTMX Loading (5s)",
-					ShowcaseFile:    showcase.ButtonHtmxLoading(),
-					PreviewCodeFile: "button_htmx_loading.templ",
-					ID:              "htmx_loading",
 				})
 			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{

@@ -6,23 +6,29 @@ import "github.com/axzilla/templui/internal/components/icon"
 templ ButtonSizes() {
 	<div class="flex flex-wrap items-center gap-4">
 		@button.Button(button.Props{
-			Size: button.SizeSm,
+			Size:    button.SizeSm,
+			Variant: button.VariantSecondary,
 		}) {
 			Small
 		}
-		@button.Button() {
+		@button.Button(button.Props{
+			Variant: button.VariantSecondary,
+		}) {
 			Default
 		}
 		@button.Button(button.Props{
-			Size: button.SizeLg,
+			Size:    button.SizeLg,
+			Variant: button.VariantSecondary,
 		}) {
 			Large
 		}
 		@button.Button(button.Props{
-			Size: button.SizeIcon,
+			Size:    button.SizeIcon,
+			Variant: button.VariantSecondary,
 		}) {
-			@icon.ChevronRight(icon.Props{Size: 16})
+			// Default icon size in @button is 16x16
+			// Use Class: "size-6" for larger icons
+			@icon.ChevronRight()
 		}
 	</div>
 }
-

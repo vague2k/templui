@@ -59,18 +59,17 @@ func main() {
 		"out/showcase/breadcrumb_with_icons.html":       showcase.BreadcrumbWithIcons(),
 
 		// Button
-		"out/showcase/button_default.html":      showcase.ButtonDefault(),
-		"out/showcase/button_destructive.html":  showcase.ButtonDestructive(),
-		"out/showcase/button_ghost.html":        showcase.ButtonGhost(),
-		"out/showcase/button_htmx_loading.html": showcase.ButtonHtmxLoading(),
-		"out/showcase/button_icon.html":         showcase.ButtonIcon(),
-		"out/showcase/button_link.html":         showcase.ButtonLink(),
-		"out/showcase/button_loading.html":      showcase.ButtonLoading(),
-		"out/showcase/button_outline.html":      showcase.ButtonOutline(),
-		"out/showcase/button_primary.html":      showcase.ButtonPrimary(),
-		"out/showcase/button_secondary.html":    showcase.ButtonSecondary(),
-		"out/showcase/button_sizes.html":        showcase.ButtonSizes(),
-		"out/showcase/button_with_icon.html":    showcase.ButtonWithIcon(),
+		"out/showcase/button_default.html":     showcase.ButtonDefault(),
+		"out/showcase/button_destructive.html": showcase.ButtonDestructive(),
+		"out/showcase/button_ghost.html":       showcase.ButtonGhost(),
+		"out/showcase/button_icon.html":        showcase.ButtonIcon(),
+		"out/showcase/button_link.html":        showcase.ButtonLink(),
+		"out/showcase/button_loading.html":     showcase.ButtonLoading(),
+		"out/showcase/button_outline.html":     showcase.ButtonOutline(),
+		"out/showcase/button_primary.html":     showcase.ButtonPrimary(),
+		"out/showcase/button_secondary.html":   showcase.ButtonSecondary(),
+		"out/showcase/button_sizes.html":       showcase.ButtonSizes(),
+		"out/showcase/button_with_icon.html":   showcase.ButtonWithIcon(),
 
 		// Card
 		"out/showcase/card_default.html":    showcase.CardDefault(),
@@ -210,12 +209,6 @@ func main() {
 		"out/showcase/slider_external_value.html": showcase.SliderExternalValue(),
 		"out/showcase/slider_steps.html":          showcase.SliderSteps(),
 		"out/showcase/slider_value.html":          showcase.SliderValue(),
-
-		// Spinner
-		"out/showcase/spinner_colors.html":    showcase.SpinnerColors(),
-		"out/showcase/spinner_default.html":   showcase.SpinnerDefault(),
-		"out/showcase/spinner_in_button.html": showcase.SpinnerInButton(),
-		"out/showcase/spinner_sizes.html":     showcase.SpinnerSizes(),
 
 		// Table
 		"out/showcase/table.html": showcase.Table(),
