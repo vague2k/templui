@@ -1,6 +1,35 @@
 (function () {
   'use strict';
-  
+
+  /**
+   * Reactive Binding for hidden inputs
+   *
+   * Problem: Setting input.value programmatically (e.g., via Datastar/Alpine)
+   * does NOT fire 'input' events - this is standard browser behavior since the 90s.
+   *
+   * Solution: Override the value setter to dispatch 'input' events on change.
+   * This is the same pattern used by Vue.js, MobX, and other reactive frameworks.
+   */
+  function enableReactiveBinding(input) {
+    if (input._tui) return;
+    input._tui = true;
+
+    const desc = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
+    if (!desc?.set) return;
+
+    Object.defineProperty(input, 'value', {
+      get: desc.get,
+      set(v) {
+        const old = this.value;
+        desc.set.call(this, v);
+        if (old !== v) {
+          this.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+      },
+      configurable: true
+    });
+  }
+
   // Utility functions
   function getConfig(ratingElement) {
     return {
@@ -19,7 +48,7 @@
   
   function setCurrentValue(ratingElement, value) {
     ratingElement.setAttribute('data-tui-rating-current', value);
-    const hiddenInput = ratingElement.querySelector('[data-tui-rating-input]');
+    const hiddenInput = ratingElement.querySelector('[data-tui-rating-hidden-input]');
     if (hiddenInput) {
       hiddenInput.value = value.toFixed(2);
       hiddenInput.dispatchEvent(new Event('input', { bubbles: true }));
@@ -118,20 +147,41 @@
     }
   });
   
+  // Handle hidden input value changes (for reactive frameworks)
+  document.addEventListener('input', (e) => {
+    if (!e.target.matches('[data-tui-rating-hidden-input]')) return;
+
+    const ratingElement = e.target.closest('[data-tui-rating-component]');
+    if (ratingElement) {
+      const value = parseFloat(e.target.value) || 0;
+      const config = getConfig(ratingElement);
+      const maxValue = getMaxValue(ratingElement);
+      const clampedValue = Math.max(0, Math.min(maxValue, value));
+      ratingElement.setAttribute('data-tui-rating-current', clampedValue);
+      updateItemStyles(ratingElement, 0);
+    }
+  });
+
   // Form reset
   document.addEventListener('reset', (e) => {
     if (!e.target.matches('form')) return;
-    
+
     e.target.querySelectorAll('[data-tui-rating-component]').forEach(ratingElement => {
       const config = getConfig(ratingElement);
       setCurrentValue(ratingElement, config.value);
       updateItemStyles(ratingElement, 0);
     });
   });
-  
-  // MutationObserver for initial setup and dynamic changes
-  new MutationObserver(() => {
+
+  // Initialize ratings
+  function initializeRatings() {
     document.querySelectorAll('[data-tui-rating-component]').forEach(ratingElement => {
+      // Enable reactive binding for hidden input
+      const hiddenInput = ratingElement.querySelector('[data-tui-rating-hidden-input]');
+      if (hiddenInput && !hiddenInput._tui) {
+        enableReactiveBinding(hiddenInput);
+      }
+
       // Initialize current value if not set
       if (!ratingElement.hasAttribute('data-tui-rating-current')) {
         const config = getConfig(ratingElement);
@@ -139,10 +189,10 @@
         const value = Math.max(0, Math.min(maxValue, config.value));
         setCurrentValue(ratingElement, Math.round(value / config.precision) * config.precision);
       }
-      
+
       // Update styles
       updateItemStyles(ratingElement, 0);
-      
+
       // Set cursor styles
       const config = getConfig(ratingElement);
       if (config.readonly) {
@@ -152,5 +202,15 @@
         });
       }
     });
-  }).observe(document.body, { childList: true, subtree: true });
+  }
+
+  // Initialize on DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeRatings);
+  } else {
+    initializeRatings();
+  }
+
+  // MutationObserver for dynamically added elements
+  new MutationObserver(initializeRatings).observe(document.body, { childList: true, subtree: true });
 })();

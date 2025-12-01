@@ -1,6 +1,35 @@
 (function () {
   'use strict';
-  
+
+  /**
+   * Reactive Binding for hidden inputs
+   *
+   * Problem: Setting input.value programmatically (e.g., via Datastar/Alpine)
+   * does NOT fire 'input' events - this is standard browser behavior since the 90s.
+   *
+   * Solution: Override the value setter to dispatch 'input' events on change.
+   * This is the same pattern used by Vue.js, MobX, and other reactive frameworks.
+   */
+  function enableReactiveBinding(input) {
+    if (input._tui) return;
+    input._tui = true;
+
+    const desc = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
+    if (!desc?.set) return;
+
+    Object.defineProperty(input, 'value', {
+      get: desc.get,
+      set(v) {
+        const old = this.value;
+        desc.set.call(this, v);
+        if (old !== v) {
+          this.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+      },
+      configurable: true
+    });
+  }
+
   // Utility functions
   function parseTime(str) {
     const match = str?.match(/^(\d{1,2}):(\d{2})$/);
@@ -259,10 +288,25 @@
     }
   });
   
+  // Handle hidden input value changes (for reactive frameworks)
+  document.addEventListener('input', (e) => {
+    if (!e.target.matches('[data-tui-timepicker-hidden-input]')) return;
+
+    const trigger = document.getElementById(e.target.id.replace('-hidden', ''));
+    if (trigger) {
+      const parsed = parseTime(e.target.value);
+      if (parsed) {
+        setState(trigger, parsed.hour, parsed.minute);
+      } else {
+        setState(trigger, null, null);
+      }
+    }
+  });
+
   // Form reset
   document.addEventListener('reset', (e) => {
     if (!e.target.matches('form')) return;
-    
+
     e.target.querySelectorAll('[data-tui-timepicker="true"]').forEach(trigger => {
       setState(trigger, null, null);
       const elements = getElements(trigger);
@@ -271,25 +315,36 @@
       }
     });
   });
-  
-  // MutationObserver for initial rendering
-  new MutationObserver(() => {
-    document.querySelectorAll('[data-tui-timepicker="true"]:not([data-rendered])').forEach(trigger => {
-      trigger.setAttribute('data-rendered', 'true');
-      
+
+  // Initialize timepickers
+  function initializeTimePickers() {
+    document.querySelectorAll('[data-tui-timepicker="true"]').forEach(trigger => {
+      // Find hidden input directly via ID
+      const hiddenInput = document.getElementById(trigger.id + '-hidden');
+      if (!hiddenInput || hiddenInput._tui) return;
+
       // Read initial value from hidden input
-      const elements = getElements(trigger);
-      const initialValue = elements?.hiddenInput?.value || 
-                          elements?.popup?.getAttribute('data-tui-timepicker-value');
-      
+      const initialValue = hiddenInput.value;
       if (initialValue) {
         const parsed = parseTime(initialValue);
         if (parsed) {
           setState(trigger, parsed.hour, parsed.minute);
         }
       }
-      
+
+      // Enable reactive binding for hidden input
+      enableReactiveBinding(hiddenInput);
       updateDisplay(trigger);
     });
-  }).observe(document.body, { childList: true, subtree: true });
+  }
+
+  // Initialize on DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeTimePickers);
+  } else {
+    initializeTimePickers();
+  }
+
+  // MutationObserver for dynamically added elements
+  new MutationObserver(initializeTimePickers).observe(document.body, { childList: true, subtree: true });
 })();
