@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -380,6 +381,9 @@ func installUtils(config Config, utilPaths []string, ref string, force bool) err
 			modifiedData := append([]byte(versionComment), data...)
 			if strings.HasSuffix(repoUtilPath, ".go") {
 				modifiedData = replaceImports(modifiedData, config, "")
+				// Replace package name to match the destination directory name
+				targetPkgName := filepath.Base(utilsBaseDestDir)
+				modifiedData = bytes.Replace(modifiedData, []byte("package utils"), []byte("package "+targetPkgName), 1)
 			}
 
 			// Write the file.
