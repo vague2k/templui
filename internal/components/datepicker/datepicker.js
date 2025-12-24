@@ -1,6 +1,35 @@
 (function () {
   'use strict';
-  
+
+  /**
+   * Reactive Binding for hidden inputs
+   *
+   * Problem: Setting input.value programmatically (e.g., via Datastar/Alpine)
+   * does NOT fire 'input' events - this is standard browser behavior since the 90s.
+   *
+   * Solution: Override the value setter to dispatch 'input' events on change.
+   * This is the same pattern used by Vue.js, MobX, and other reactive frameworks.
+   */
+  function enableReactiveBinding(input) {
+    if (input._tui) return;
+    input._tui = true;
+
+    const desc = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
+    if (!desc?.set) return;
+
+    Object.defineProperty(input, 'value', {
+      get: desc.get,
+      set(v) {
+        const old = this.value;
+        desc.set.call(this, v);
+        if (old !== v) {
+          this.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+      },
+      configurable: true
+    });
+  }
+
   // Utility functions
   function parseISODate(isoString) {
     if (!isoString) return null;
@@ -103,10 +132,20 @@
     }
   });
   
+  // Handle hidden input value changes (for reactive frameworks)
+  document.addEventListener('input', (e) => {
+    if (!e.target.matches('[data-tui-datepicker-hidden-input]')) return;
+
+    const trigger = document.getElementById(e.target.id.replace('-hidden', ''));
+    if (trigger) {
+      updateDisplay(trigger);
+    }
+  });
+
   // Form reset handling
   document.addEventListener("reset", (e) => {
     if (!e.target.matches("form")) return;
-    
+
     e.target.querySelectorAll('[data-tui-datepicker="true"]').forEach(trigger => {
       const elements = findElements(trigger);
       if (elements.hiddenInput) {
@@ -115,12 +154,26 @@
       updateDisplay(trigger);
     });
   });
-  
-  // MutationObserver for initial display update
-  new MutationObserver(() => {
-    document.querySelectorAll('[data-tui-datepicker="true"]:not([data-rendered])').forEach(trigger => {
-      trigger.setAttribute('data-rendered', 'true');
+
+  // Initialize datepickers
+  function initializeDatePickers() {
+    document.querySelectorAll('[data-tui-datepicker="true"]').forEach(trigger => {
+      const elements = findElements(trigger);
+      if (!elements.hiddenInput || elements.hiddenInput._tui) return;
+
+      // Enable reactive binding for hidden input
+      enableReactiveBinding(elements.hiddenInput);
       updateDisplay(trigger);
     });
-  }).observe(document.body, { childList: true, subtree: true });
+  }
+
+  // Initialize on DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initializeDatePickers);
+  } else {
+    initializeDatePickers();
+  }
+
+  // MutationObserver for dynamically added elements
+  new MutationObserver(initializeDatePickers).observe(document.body, { childList: true, subtree: true });
 })();

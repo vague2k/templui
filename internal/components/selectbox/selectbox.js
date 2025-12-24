@@ -1,6 +1,35 @@
 (function () {
   'use strict';
-  
+
+  /**
+   * Reactive Binding for hidden inputs
+   *
+   * Problem: Setting input.value programmatically (e.g., via Datastar/Alpine)
+   * does NOT fire 'input' events - this is standard browser behavior since the 90s.
+   *
+   * Solution: Override the value setter to dispatch 'input' events on change.
+   * This is the same pattern used by Vue.js, MobX, and other reactive frameworks.
+   */
+  function enableReactiveBinding(input) {
+    if (input._tui) return;
+    input._tui = true;
+
+    const desc = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
+    if (!desc?.set) return;
+
+    Object.defineProperty(input, 'value', {
+      get: desc.get,
+      set(v) {
+        const old = this.value;
+        desc.set.call(this, v);
+        if (old !== v) {
+          this.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+      },
+      configurable: true
+    });
+  }
+
   // Helper to sync selections from hidden input value
   function syncSelectionsFromValue(trigger) {
     const hiddenInput = trigger.querySelector('input[type="hidden"]');
@@ -249,7 +278,7 @@
     }
     
     // Handle hidden input value changes (for reactive frameworks)
-    if (e.target.matches('.select-trigger input[type="hidden"]')) {
+    if (e.target.matches('[data-tui-selectbox-hidden-input]')) {
       const trigger = e.target.closest('.select-trigger');
       if (trigger) {
         syncSelectionsFromValue(trigger);
@@ -367,36 +396,6 @@
       if (trigger) updateDisplayValue(trigger);
     });
   });
-  
-  // Enable reactive binding for hidden inputs (for Datastar, Alpine.js, etc.)
-  function enableReactiveBinding(hiddenInput) {
-    // Prevent double initialization
-    if (hiddenInput.hasAttribute('data-tui-reactive-bound')) return;
-    hiddenInput.setAttribute('data-tui-reactive-bound', 'true');
-    
-    const descriptor = Object.getOwnPropertyDescriptor(HTMLInputElement.prototype, 'value');
-    if (!descriptor || !descriptor.set) return;
-    
-    const originalSet = descriptor.set;
-    
-    Object.defineProperty(hiddenInput, 'value', {
-      get: descriptor.get,
-      set: function(newValue) {
-        const oldValue = this.value;
-        originalSet.call(this, newValue);
-        
-        // Only update UI if value actually changed (prevents infinite loop)
-        if (oldValue !== newValue) {
-          const trigger = this.closest('.select-trigger');
-          if (trigger) {
-            syncSelectionsFromValue(trigger);
-            updateDisplayValue(trigger);
-          }
-        }
-      },
-      configurable: true
-    });
-  }
   
   // Initialize selectboxes on DOM ready and handle dynamic content
   function initializeSelectBoxes() {
