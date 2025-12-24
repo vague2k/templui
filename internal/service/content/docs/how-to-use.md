@@ -293,9 +293,29 @@ Copy components directly from docs or GitHub.
 - Update import paths
 - Include required JavaScript files
 
-### Quickstart
+### Create New Project
 
-Use the [templUI Quickstart](https://github.com/templui/templui-quickstart) template for new projects.
+Create a new project with everything pre-configured:
+
+```shell
+templui new my-app
+cd my-app
+go mod tidy
+task dev
+```
+
+**Options:**
+
+```shell
+templui new my-app --module github.com/foo/bar  # Custom module name
+templui new@v0.100.0 my-app                     # Specific version
+```
+
+This creates a ready-to-run project with:
+- Base layout with dark mode support
+- Example landing page
+- Pre-configured Taskfile for development
+- Required components auto-installed
 
 ## Advanced
 
