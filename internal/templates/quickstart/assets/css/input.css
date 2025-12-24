@@ -27,8 +27,6 @@
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);
-  --color-selection: var(--selection);
-  --color-selection-foreground: var(--selection-foreground);
 }
 
 :root {
@@ -51,8 +49,6 @@
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
   --ring: oklch(0.708 0 0);
-  --selection: oklch(0.145 0 0);
-  --selection-foreground: oklch(1 0 0);
 }
 
 .dark {
@@ -74,16 +70,11 @@
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
   --ring: oklch(0.556 0 0);
-  --selection: oklch(0.922 0 0);
-  --selection-foreground: oklch(0.205 0 0);
 }
 
 @layer base {
   * {
     @apply border-border;
-  }
-  ::selection {
-    @apply bg-selection text-selection-foreground;
   }
   body {
     @apply bg-background text-foreground;

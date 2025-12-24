@@ -123,9 +123,6 @@ Create `assets/css/input.css` with templUI's base styles:
   * {
     @apply border-border;
   }
-  ::selection {
-    @apply bg-selection text-selection-foreground;
-  }
   body {
     @apply bg-background text-foreground;
   }
