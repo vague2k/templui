@@ -8,8 +8,6 @@ order: 2
 
 ### Go
 
-**Minimum version:** 1.25 or later
-
 ```shell
 go version  # Check if installed
 ```
@@ -18,17 +16,13 @@ go version  # Check if installed
 
 ### templ
 
-**Minimum version:** v0.3.960 or later
-
 ```shell
 go install github.com/a-h/templ/cmd/templ@latest
 ```
 
 > **📝 Note:** Learn more at [templ.guide](https://templ.guide)
 
-### Tailwind CSS
-
-**Minimum version:** v4.1 or later
+### Tailwind CSS v4.1+
 
 **Standalone CLI (Recommended)** - Best performance, no Node.js required:
 - Download from [GitHub Releases](https://github.com/tailwindlabs/tailwindcss/releases/latest)
