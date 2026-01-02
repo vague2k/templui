@@ -6,7 +6,7 @@ First off, thank you for considering contributing to templUI! We're excited to h
 
 ### Prerequisites
 
-- Go 1.25 or higher
+- Go 1.24 or higher
 - Node.js (for Tailwind CSS and esbuild)
 - [Task](https://taskfile.dev) - Cross-platform task runner
 
