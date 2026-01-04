@@ -158,6 +158,7 @@ func main() {
 	mux.Handle("GET /docs/components/separator", htmxHandler(pages.Separator()))
 	mux.Handle("GET /docs/components/sidebar", htmxHandler(pages.Sidebar()))
 	mux.Handle("GET /docs/components/sidebar-fullscreen", htmxHandler(pages.SidebarFullscreen()))
+	mux.Handle("GET /docs/components/sidebar-preview", htmxHandler(pages.SidebarPreview()))
 	mux.Handle("GET /docs/components/skeleton", htmxHandler(pages.Skeleton()))
 	mux.Handle("GET /docs/components/slider", htmxHandler(pages.Slider()))
 	mux.Handle("GET /docs/components/table", htmxHandler(pages.Table()))

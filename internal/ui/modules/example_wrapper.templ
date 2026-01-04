@@ -1,13 +1,10 @@
 package modules
 
 import (
-	"bytes"
-	"context"
 	"github.com/templui/templui/internal/components/icon"
 	"github.com/templui/templui/internal/components/tabs"
 	"github.com/templui/templui/internal/ui/showcase"
 	"github.com/templui/templui/internal/utils"
-	"io"
 )
 
 type showcaseWrapperProps struct {
@@ -26,6 +23,7 @@ type ExampleWrapperProps struct {
 	PreviewCodeFile string
 	ID              string // For #id in URL Link
 	UseIframe       bool   // Whether to render preview in iframe
+	PreviewURL      string // URL for iframe preview (used when UseIframe is true)
 	FullscreenURL   string // Optional URL for fullscreen view
 }
 
@@ -72,12 +70,12 @@ templ ExampleWrapper(p ExampleWrapperProps) {
 					Value:    "preview",
 					IsActive: true,
 				}) {
-					if p.UseIframe {
+					if p.UseIframe && p.PreviewURL != "" {
 						<div class="border rounded-md overflow-hidden">
 							<div class="w-[1600px]">
 								<iframe
 									class="w-full h-[600px] border-0"
-									srcDoc={ renderToHTML(p.ShowcaseFile, ctx) }
+									src={ p.PreviewURL }
 									title="Component Preview"
 									loading="lazy"
 									scrolling="no"
@@ -98,23 +96,6 @@ templ ExampleWrapper(p ExampleWrapperProps) {
 			</div>
 		}
 	</div>
-}
-
-// renderToHTML renders a component to an HTML string for iframe srcDoc
-func renderToHTML(component templ.Component, parentCtx context.Context) (string, error) {
-	var buf bytes.Buffer
-
-	// Create wrapper component with layout
-	tempComponent := templ.ComponentFunc(func(ctx context.Context, w io.Writer) error {
-		return SimplePreviewLayout(component).Render(ctx, w)
-	})
-
-	err := tempComponent.Render(parentCtx, &buf)
-	if err != nil {
-		return "", err
-	}
-
-	return buf.String(), nil
 }
 
 // SimplePreviewLayout provides minimal HTML wrapper for iframe content
