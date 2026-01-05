@@ -105,8 +105,9 @@ func main() {
 		"out/showcase/chart_radar_stacked.html":    showcase.CharRadarStacked(),
 
 		// Checkbox
-		"out/showcase/checkbox_default.html": showcase.CheckboxDefault(),
-		"out/showcase/checkbox_form.html":    showcase.CheckboxForm(),
+		"out/showcase/checkbox_default.html":       showcase.CheckboxDefault(),
+		"out/showcase/checkbox_form.html":          showcase.CheckboxForm(),
+		"out/showcase/checkbox_indeterminate.html": showcase.CheckboxIndeterminate(),
 
 		// Collapsible
 		"out/showcase/collapsible_default.html": showcase.CollapsibleDefault(),

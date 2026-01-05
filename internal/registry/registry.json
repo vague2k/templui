@@ -121,6 +121,7 @@
       "description": "Checkbox input component.",
       "files": ["internal/components/checkbox/checkbox.templ"],
       "dependencies": ["icon"],
+      "hasJS": true,
       "categories": ["form-input"],
       "tags": ["checkbox", "input", "form", "selection"]
     },
