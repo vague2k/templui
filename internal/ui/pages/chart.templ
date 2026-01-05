@@ -369,6 +369,24 @@ templ Chart() {
 								Description: "Whether to stack chart elements",
 							},
 							{
+								Name:        "YMin",
+								Type:        "*float64",
+								Default:     "nil",
+								Description: "Minimum value for the Y-axis scale",
+							},
+							{
+								Name:        "YMax",
+								Type:        "*float64",
+								Default:     "nil",
+								Description: "Maximum value for the Y-axis scale",
+							},
+							{
+								Name:        "BeginAtZero",
+								Type:        "*bool",
+								Default:     "nil (true)",
+								Description: "Whether the Y-axis should start at zero. Defaults to true if not specified",
+							},
+							{
 								Name:        "Class",
 								Type:        "string",
 								Default:     "\"\"",
