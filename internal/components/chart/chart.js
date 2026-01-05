@@ -104,7 +104,9 @@ import "./chartjs.js";
                 },
                 y: {
                   offset: true,
-                  beginAtZero: true,
+                  beginAtZero: chartConfig.beginAtZero !== false,
+                  min: chartConfig.yMin,
+                  max: chartConfig.yMax,
                   display:
                     chartConfig.showYLabels !== false ||
                     chartConfig.showYGrid !== false ||
