@@ -20,6 +20,10 @@ templ Checkbox() {
 				ID:   "examples",
 				Children: []modules.TableOfContentsItem{
 					{
+						Text: "Indeterminate",
+						ID:   "indeterminate",
+					},
+					{
 						Text: "Form",
 						ID:   "form",
 					},
@@ -41,6 +45,7 @@ templ Checkbox() {
 			Name:        "Checkbox",
 			Description: templ.Raw("Control that allows selecting multiple options from a list."),
 			Tailwind:    true,
+			VanillaJS:   true,
 			Breadcrumbs: modules.Breadcrumbs{
 				Items: []modules.BreadcrumbItem{
 					{
@@ -78,6 +83,12 @@ templ Checkbox() {
 					ShowcaseFile:    showcase.CheckboxForm(),
 					PreviewCodeFile: "checkbox_form.templ",
 					ID:              "form",
+				})
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:     "Indeterminate",
+					ShowcaseFile:    showcase.CheckboxIndeterminate(),
+					PreviewCodeFile: "checkbox_indeterminate.templ",
+					ID:              "indeterminate",
 				})
 			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
@@ -137,6 +148,20 @@ templ Checkbox() {
 								Type:        "bool",
 								Default:     "false",
 								Description: "Whether the checkbox is initially checked.",
+								Required:    false,
+							},
+							{
+								Name:        "Group",
+								Type:        "string",
+								Default:     "",
+								Description: "Group name to link checkboxes together. When set, checkboxes with the same group name will be connected for parent-child behavior.",
+								Required:    false,
+							},
+							{
+								Name:        "GroupParent",
+								Type:        "bool",
+								Default:     "false",
+								Description: "Marks this checkbox as the parent of its group. The parent checkbox automatically toggles all children and shows an indeterminate state when some children are checked.",
 								Required:    false,
 							},
 							{
