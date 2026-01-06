@@ -39,7 +39,7 @@ templ Switch() {
 	) {
 		@modules.PageWrapper(modules.PageWrapperProps{
 			Name:        "Switch",
-			Description: templ.Raw("Two-state button that can be switched on or off."),
+			Description: templ.Raw("Two-state button that can be switched on or off. Requires an <a href='#installation' class='underline'>alias import</a>."),
 			Tailwind:    true,
 			Breadcrumbs: modules.Breadcrumbs{
 				Items: []modules.BreadcrumbItem{
@@ -67,6 +67,13 @@ templ Switch() {
 			}) {
 				@modules.ComponentUsage(modules.ComponentUsageProps{
 					ComponentName: "switch",
+				})
+				<p class="text-sm text-muted-foreground mt-4">
+					Since <code class="text-foreground">switch</code> is a reserved Go keyword, use an alias import:
+				</p>
+				@modules.Code(modules.CodeProps{
+					CodeContent:    "import switchcomp \"your-project/components/switch\"",
+					ShowCopyButton: true,
 				})
 			}
 			@modules.ContainerWrapper(modules.ContainerWrapperProps{
