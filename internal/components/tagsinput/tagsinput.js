@@ -1,129 +1,192 @@
 (function () {
   'use strict';
 
-  // Create tag chip element
-  function createTagChip(tagValue, isDisabled) {
-    const tagChip = document.createElement('div');
-    tagChip.setAttribute('data-tui-tagsinput-chip', '');
-    tagChip.className = 'inline-flex items-center gap-2 rounded-md border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-hidden focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-primary text-primary-foreground';
-
-    tagChip.innerHTML = `
-      <span>${tagValue}</span>
-      <button type="button"
-              class="ml-1 text-current hover:text-destructive disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
-              data-tui-tagsinput-remove=""
-              ${isDisabled ? 'disabled' : ''}>
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button>
-    `;
-
-    return tagChip;
+  function getSelectedTags(container) {
+    return Array.from(container.querySelectorAll('[data-tui-tagsinput-hidden-inputs] input'))
+      .map(i => i.value.toLowerCase());
   }
 
-  // Add tag
+  function showSuggestions(container, query) {
+    const id = container.getAttribute('data-tui-tagsinput-suggestions-id');
+    if (!id) return;
+    const popup = document.getElementById(id);
+    if (!popup) return;
+
+    const selected = getSelectedTags(container);
+    const q = query.toLowerCase().trim();
+    let first = null;
+
+    popup.querySelectorAll('[data-tui-tagsinput-suggestion]').forEach(el => {
+      const val = el.getAttribute('data-tui-tagsinput-suggestion-value').toLowerCase();
+      const show = !selected.includes(val) && val.includes(q);
+      el.style.display = show ? '' : 'none';
+      el.classList.remove('bg-accent');
+      if (show && !first) {
+        first = el;
+      }
+    });
+
+    if (first) {
+      first.classList.add('bg-accent');
+      window.tui?.popover?.open(id);
+    } else {
+      window.tui?.popover?.close(id);
+    }
+  }
+
+  function getVisibleSuggestions(container) {
+    const id = container.getAttribute('data-tui-tagsinput-suggestions-id');
+    if (!id) return [];
+    const popup = document.getElementById(id);
+    if (!popup) return [];
+    return Array.from(popup.querySelectorAll('[data-tui-tagsinput-suggestion]'))
+      .filter(el => el.style.display !== 'none');
+  }
+
+  function moveSelection(container, dir) {
+    const items = getVisibleSuggestions(container);
+    if (!items.length) return;
+
+    const current = items.findIndex(el => el.classList.contains('bg-accent'));
+    items.forEach(el => el.classList.remove('bg-accent'));
+
+    let next = dir === 'down' ? current + 1 : current - 1;
+    if (next >= items.length) next = 0;
+    if (next < 0) next = items.length - 1;
+
+    items[next].classList.add('bg-accent');
+    items[next].scrollIntoView({ block: 'nearest' });
+  }
+
   function addTag(container, value) {
-    const textInput = container.querySelector('[data-tui-tagsinput-text-input]');
-    if (textInput?.hasAttribute('disabled')) return;
+    const input = container.querySelector('[data-tui-tagsinput-text-input]');
+    const val = value.trim();
+    if (!val || input?.disabled) return;
 
-    const tagValue = value.trim();
-    if (!tagValue) return;
-
-    const hiddenInputsContainer = container.querySelector('[data-tui-tagsinput-hidden-inputs]');
-    const tagsContainer = container.querySelector('[data-tui-tagsinput-container]');
-    const name = container.getAttribute('data-tui-tagsinput-name');
-    const form = container.getAttribute('data-tui-tagsinput-form');
-
-    // Check for duplicates
-    const existingTags = hiddenInputsContainer.querySelectorAll('input[type="hidden"]');
-    for (const t of existingTags) {
-      if (t.value.toLowerCase() === tagValue.toLowerCase()) {
-        textInput.value = '';
-        return;
-      }
-    }
-
-    // Add tag chip and hidden input
-    const tagChip = createTagChip(tagValue, textInput?.hasAttribute('disabled'));
-    tagsContainer.appendChild(tagChip);
-
-    const hiddenInput = document.createElement('input');
-    hiddenInput.type = 'hidden';
-    hiddenInput.name = name;
-    hiddenInput.value = tagValue;
-    if (form !== null && form !== "") {
-      hiddenInput.setAttribute("form", form)
-    }
-
-    hiddenInputsContainer.appendChild(hiddenInput);
-
-    textInput.value = '';
-  }
-
-  // Remove tag
-  function removeTag(button) {
-    const tagChip = button.closest('[data-tui-tagsinput-chip]');
-    if (!tagChip) return;
-
-    const container = tagChip.closest('[data-tui-tagsinput]');
-    const tagValue = tagChip.querySelector('span').textContent.trim();
-    const hiddenInputsContainer = container.querySelector('[data-tui-tagsinput-hidden-inputs]');
-
-    const hiddenInput = hiddenInputsContainer.querySelector(`input[type="hidden"][value="${tagValue}"]`);
-    if (hiddenInput) hiddenInput.remove();
-
-    tagChip.remove();
-  }
-
-  // Event delegation
-  document.addEventListener('keydown', (e) => {
-    const textInput = e.target.closest('[data-tui-tagsinput-text-input]');
-    if (!textInput) return;
-
-    const container = textInput.closest('[data-tui-tagsinput]');
-    if (!container) return;
-
-    if (e.key === 'Enter' || e.key === ',') {
-      e.preventDefault();
-      addTag(container, textInput.value);
-    } else if (e.key === 'Backspace' && textInput.value === '') {
-      e.preventDefault();
-      const lastChip = container.querySelector('[data-tui-tagsinput-chip]:last-child');
-      const removeButton = lastChip?.querySelector('[data-tui-tagsinput-remove]');
-      if (removeButton && !removeButton.disabled) {
-        removeTag(removeButton);
-      }
-    }
-  });
-
-  document.addEventListener('click', (e) => {
-    // Handle remove button clicks
-    const removeButton = e.target.closest('[data-tui-tagsinput-remove]');
-    if (removeButton && !removeButton.disabled) {
-      e.preventDefault();
-      e.stopPropagation();
-      removeTag(removeButton);
+    if (getSelectedTags(container).includes(val.toLowerCase())) {
+      input.value = '';
       return;
     }
 
-    // Focus input when clicking container
+    // Create chip
+    const chip = document.createElement('div');
+    chip.className = 'inline-flex items-center gap-2 rounded-md border px-2.5 py-0.5 text-xs font-semibold border-transparent bg-primary text-primary-foreground';
+    chip.setAttribute('data-tui-tagsinput-chip', '');
+    chip.innerHTML = `<span>${val}</span><button type="button" class="ml-1 hover:text-destructive cursor-pointer" data-tui-tagsinput-remove><svg class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg></button>`;
+
+    // Add chip to chips container
+    container.querySelector('[data-tui-tagsinput-chips]').appendChild(chip);
+
+    // Add hidden input
+    const hidden = document.createElement('input');
+    hidden.type = 'hidden';
+    hidden.name = container.getAttribute('data-tui-tagsinput-name') || '';
+    hidden.value = val;
+    container.querySelector('[data-tui-tagsinput-hidden-inputs]').appendChild(hidden);
+
+    input.value = '';
+  }
+
+  // Focus → show suggestions
+  document.addEventListener('focusin', e => {
+    const input = e.target.closest('[data-tui-tagsinput-text-input]');
+    if (!input) return;
+    const container = input.closest('[data-tui-tagsinput]');
+    if (container) showSuggestions(container, input.value);
+  });
+
+  // Input → filter suggestions
+  document.addEventListener('input', e => {
+    const input = e.target.closest('[data-tui-tagsinput-text-input]');
+    if (!input) return;
+    const container = input.closest('[data-tui-tagsinput]');
+    if (container) showSuggestions(container, input.value);
+  });
+
+  // Click
+  document.addEventListener('click', e => {
+    // Close popover if clicked outside
+    document.querySelectorAll('[data-tui-tagsinput-suggestions-id]').forEach(container => {
+      const id = container.getAttribute('data-tui-tagsinput-suggestions-id');
+      const popup = document.getElementById(id);
+      if (!container.contains(e.target) && !popup?.contains(e.target)) {
+        window.tui?.popover?.close(id);
+      }
+    });
+
+    // Suggestion click
+    const suggestion = e.target.closest('[data-tui-tagsinput-suggestion]');
+    if (suggestion) {
+      const popup = suggestion.closest('[data-tui-popover-id]');
+      const container = document.querySelector(`[data-tui-tagsinput-suggestions-id="${popup?.id}"]`);
+      if (container) {
+        addTag(container, suggestion.getAttribute('data-tui-tagsinput-suggestion-value'));
+        container.querySelector('[data-tui-tagsinput-text-input]')?.focus();
+        showSuggestions(container, '');
+      }
+      return;
+    }
+
+    // Remove click
+    const remove = e.target.closest('[data-tui-tagsinput-remove]');
+    if (remove) {
+      const chip = remove.closest('[data-tui-tagsinput-chip]');
+      const container = chip?.closest('[data-tui-tagsinput]');
+      const val = chip?.querySelector('span')?.textContent;
+      chip?.remove();
+      container?.querySelector(`[data-tui-tagsinput-hidden-inputs] input[value="${val}"]`)?.remove();
+      return;
+    }
+
+    // Click on container → focus input
     const container = e.target.closest('[data-tui-tagsinput]');
     if (container && !e.target.closest('input')) {
-      const textInput = container.querySelector('[data-tui-tagsinput-text-input]');
-      if (textInput) textInput.focus();
+      container.querySelector('[data-tui-tagsinput-text-input]')?.focus();
     }
   });
 
-  // Form reset
-  document.addEventListener('reset', (e) => {
-    if (!e.target.matches('form')) return;
+  // Keyboard
+  document.addEventListener('keydown', e => {
+    const input = e.target.closest('[data-tui-tagsinput-text-input]');
+    if (!input) return;
+    const container = input.closest('[data-tui-tagsinput]');
+    if (!container) return;
 
-    e.target.querySelectorAll('[data-tui-tagsinput]').forEach(container => {
-      container.querySelectorAll('[data-tui-tagsinput-chip]').forEach(chip => chip.remove());
-      container.querySelectorAll('[data-tui-tagsinput-hidden-inputs] input[type="hidden"]').forEach(input => input.remove());
-      const textInput = container.querySelector('[data-tui-tagsinput-text-input]');
-      if (textInput) textInput.value = '';
-    });
+    const id = container.getAttribute('data-tui-tagsinput-suggestions-id');
+    const isOpen = id && window.tui?.popover?.isOpen(id);
+
+    if (e.key === 'ArrowDown' && isOpen) {
+      e.preventDefault();
+      moveSelection(container, 'down');
+    } else if (e.key === 'ArrowUp' && isOpen) {
+      e.preventDefault();
+      moveSelection(container, 'up');
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      const items = getVisibleSuggestions(container);
+      const selected = items.find(el => el.classList.contains('bg-accent'));
+      if (selected) {
+        addTag(container, selected.getAttribute('data-tui-tagsinput-suggestion-value'));
+        showSuggestions(container, '');
+      } else {
+        addTag(container, input.value);
+        if (id) window.tui?.popover?.close(id);
+      }
+    } else if (e.key === ',') {
+      e.preventDefault();
+      addTag(container, input.value);
+      if (id) window.tui?.popover?.close(id);
+    } else if (e.key === 'Escape' && isOpen) {
+      e.preventDefault();
+      window.tui?.popover?.close(id);
+    } else if (e.key === 'Backspace' && input.value === '') {
+      const chipsContainer = container.querySelector('[data-tui-tagsinput-chips]');
+      const lastChip = chipsContainer?.lastElementChild;
+      if (lastChip) {
+        const val = lastChip.querySelector('span')?.textContent;
+        lastChip.remove();
+        container.querySelector(`[data-tui-tagsinput-hidden-inputs] input[value="${val}"]`)?.remove();
+      }
+    }
   });
 })();

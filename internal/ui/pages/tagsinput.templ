@@ -20,6 +20,10 @@ templ TagsInput() {
 				ID:   "examples",
 				Children: []modules.TableOfContentsItem{
 					{
+						Text: "Suggestions",
+						ID:   "suggestions",
+					},
+					{
 						Text: "Disabled",
 						ID:   "disabled",
 					},
@@ -83,6 +87,12 @@ templ TagsInput() {
 				Title: "Examples",
 				ID:    "examples",
 			}) {
+				@modules.ExampleWrapper(modules.ExampleWrapperProps{
+					SectionName:     "Suggestions",
+					ShowcaseFile:    showcase.TagsInputSuggestions(),
+					PreviewCodeFile: "tagsinput_suggestions.templ",
+					ID:              "suggestions",
+				})
 				@modules.ExampleWrapper(modules.ExampleWrapperProps{
 					SectionName:     "Disabled",
 					ShowcaseFile:    showcase.TagsInputDisabled(),
@@ -173,6 +183,13 @@ templ TagsInput() {
 								Type:        "bool",
 								Default:     "false",
 								Description: "Whether the input is read-only (tags can be removed but not added).",
+								Required:    false,
+							},
+							{
+								Name:        "Suggestions",
+								Type:        "[]string",
+								Default:     "[]",
+								Description: "List of suggestions shown as autocomplete options while typing.",
 								Required:    false,
 							},
 						},

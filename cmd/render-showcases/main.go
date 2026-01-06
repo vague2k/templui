@@ -234,10 +234,11 @@ func main() {
 		"out/showcase/tabs_default.html": showcase.TabsDefault(),
 
 		// Tags Input
-		"out/showcase/tagsinput_default.html":    showcase.TagsInputDefault(),
-		"out/showcase/tagsinput_disabled.html":   showcase.TagsInputDisabled(),
-		"out/showcase/tagsinput_form.html":       showcase.TagsInputForm(),
-		"out/showcase/tagsinput_with_label.html": showcase.TagsInputWithLabel(),
+		"out/showcase/tagsinput_default.html":     showcase.TagsInputDefault(),
+		"out/showcase/tagsinput_suggestions.html": showcase.TagsInputSuggestions(),
+		"out/showcase/tagsinput_disabled.html":    showcase.TagsInputDisabled(),
+		"out/showcase/tagsinput_form.html":        showcase.TagsInputForm(),
+		"out/showcase/tagsinput_with_label.html":  showcase.TagsInputWithLabel(),
 
 		// Textarea
 		"out/showcase/textarea_auto_resize.html": showcase.TextareaAutoResize(),
