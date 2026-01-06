@@ -64,7 +64,7 @@ templ Checkbox(props ...Props) {
 			{ p.Attributes... }
 		/>
 		<div
-			class="absolute left-0 top-0 h-4 w-4 pointer-events-none flex items-center justify-center text-primary-foreground opacity-0 peer-checked:opacity-100"
+			class="absolute inset-0 pointer-events-none flex items-center justify-center text-primary-foreground opacity-0 peer-checked:opacity-100"
 		>
 			if p.Icon != nil {
 				@p.Icon
@@ -73,7 +73,7 @@ templ Checkbox(props ...Props) {
 			}
 		</div>
 		<div
-			class="absolute left-0 top-0 h-4 w-4 pointer-events-none flex items-center justify-center text-primary-foreground opacity-0 peer-indeterminate:opacity-100"
+			class="absolute inset-0 pointer-events-none flex items-center justify-center text-primary-foreground opacity-0 peer-indeterminate:opacity-100"
 		>
 			@icon.Minus(icon.Props{Size: 14})
 		</div>
