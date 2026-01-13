@@ -1,11 +1,11 @@
 package main
 
 import (
-	"bufio"
 	"encoding/json"
 	"fmt"
 	"io/fs"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strings"
 	"text/template"
@@ -57,40 +57,36 @@ func runNew(args []string, commandArg string, force bool, moduleFlag string) {
 	// Ensure project name is provided
 	if len(args) < 2 {
 		fmt.Println("Error: No project name specified.")
-		fmt.Println("Usage: templui new <project-name> [--module <module-name>]")
+		fmt.Println("Usage: templui new <name>")
+		fmt.Println("       templui new myapp")
+		fmt.Println("       templui new github.com/user/myapp")
 		return
 	}
 
-	projectName := args[1]
-
-	// Check if project directory already exists
-	if _, err := os.Stat(projectName); err == nil {
-		if !force {
-			fmt.Printf("Error: Directory '%s' already exists. Use -f to overwrite.\n", projectName)
-			return
-		}
-		fmt.Printf("Warning: Directory '%s' exists. Overwriting...\n", projectName)
-	}
-
-	// Determine module name
+	// Module name is exactly what user provided (like go mod init)
 	moduleName := moduleFlag
 	if moduleName == "" {
-		// Prompt for module name
-		reader := bufio.NewReader(os.Stdin)
-		defaultModule := "github.com/username/" + projectName
-		fmt.Printf("? Go module name [%s]: ", defaultModule)
-		input, _ := reader.ReadString('\n')
-		input = strings.TrimSpace(input)
-		if input == "" {
-			moduleName = defaultModule
-		} else {
-			moduleName = input
+		moduleName = args[1]
+	}
+
+	// Directory name is the last part after slash
+	dirName := moduleName
+	if idx := strings.LastIndex(moduleName, "/"); idx != -1 {
+		dirName = moduleName[idx+1:]
+	}
+
+	// Check if project directory already exists
+	if _, err := os.Stat(dirName); err == nil {
+		if !force {
+			fmt.Printf("Error: Directory '%s' already exists. Use -f to overwrite.\n", dirName)
+			return
 		}
+		fmt.Printf("Warning: Directory '%s' exists. Overwriting...\n", dirName)
 	}
 
 	fmt.Println()
 	fmt.Println("🚀 Creating new templUI project...")
-	fmt.Printf("   Project: %s\n", projectName)
+	fmt.Printf("   Project: %s\n", dirName)
 	fmt.Printf("   Module: %s\n", moduleName)
 	fmt.Printf("   Version: %s\n", targetRef)
 	fmt.Println()
@@ -103,7 +99,7 @@ func runNew(args []string, commandArg string, force bool, moduleFlag string) {
 	}
 
 	// Create project directory
-	err = os.MkdirAll(projectName, 0755)
+	err = os.MkdirAll(dirName, 0755)
 	if err != nil {
 		fmt.Printf("Error creating project directory: %v\n", err)
 		return
@@ -114,7 +110,7 @@ func runNew(args []string, commandArg string, force bool, moduleFlag string) {
 		ModuleName: moduleName,
 	}
 
-	err = copyTemplateFiles(projectName, templateData)
+	err = copyTemplateFiles(dirName, templateData)
 	if err != nil {
 		fmt.Printf("Error copying template files: %v\n", err)
 		return
@@ -130,7 +126,7 @@ func runNew(args []string, commandArg string, force bool, moduleFlag string) {
 		JSPublicPath:  templateConfig.DefaultConfig.JSPublicPath,
 	}
 
-	configPath := filepath.Join(projectName, configFileName)
+	configPath := filepath.Join(dirName, configFileName)
 	configData, err := json.MarshalIndent(config, "", "  ")
 	if err != nil {
 		fmt.Printf("Error creating config: %v\n", err)
@@ -145,7 +141,7 @@ func runNew(args []string, commandArg string, force bool, moduleFlag string) {
 
 	// Change to project directory and install components
 	originalDir, _ := os.Getwd()
-	err = os.Chdir(projectName)
+	err = os.Chdir(dirName)
 	if err != nil {
 		fmt.Printf("Error changing to project directory: %v\n", err)
 		return
@@ -208,8 +204,19 @@ func runNew(args []string, commandArg string, force bool, moduleFlag string) {
 		}
 	}
 
-	// Initialize go.mod
-	fmt.Println("\n📦 Initializing Go modules...")
+	// Generate templ files (using global templ binary to avoid go.sum chicken-egg problem)
+	fmt.Println("\n📦 Generating templ files...")
+	err = exec.Command("templ", "generate").Run()
+	if err != nil {
+		fmt.Printf("Warning: Could not generate templ files: %v\n", err)
+	}
+
+	// Tidy dependencies (now that .go files exist from templ generate)
+	fmt.Println("📦 Tidying dependencies...")
+	err = exec.Command("go", "mod", "tidy").Run()
+	if err != nil {
+		fmt.Printf("Warning: Could not tidy dependencies: %v\n", err)
+	}
 
 	// Print success message
 	fmt.Println()
@@ -218,8 +225,7 @@ func runNew(args []string, commandArg string, force bool, moduleFlag string) {
 	fmt.Println(strings.Repeat("─", 50))
 	fmt.Println()
 	fmt.Println("Next steps:")
-	fmt.Printf("  cd %s\n", projectName)
-	fmt.Println("  go mod tidy")
+	fmt.Printf("  cd %s\n", dirName)
 	fmt.Println("  task dev")
 	fmt.Println()
 	fmt.Println("Happy coding! 🚀")
