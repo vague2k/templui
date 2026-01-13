@@ -302,17 +302,23 @@ Copy components directly from docs or GitHub.
 Create a new project with everything pre-configured:
 
 ```shell
-templui new my-app
-cd my-app
-go mod tidy
+templui new myapp
+cd myapp
+task dev
+```
+
+**With full module path (like go mod init):**
+
+```shell
+templui new github.com/user/myapp
+cd myapp
 task dev
 ```
 
 **Options:**
 
 ```shell
-templui new my-app --module github.com/foo/bar  # Custom module name
-templui new@v0.100.0 my-app                     # Specific version
+templui new@v1.0.0 myapp  # Specific version
 ```
 
 This creates a ready-to-run project with:
