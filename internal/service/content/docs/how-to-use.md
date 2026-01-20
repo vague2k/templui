@@ -279,14 +279,16 @@ templui list              # Latest version
 templui list@v0.1.0       # Specific version
 ```
 
-### Upgrade CLI
+### Upgrade
 
-Update the CLI:
+Update the CLI and utils:
 
 ```shell
 templui upgrade              # Latest version
 templui upgrade@v0.84.0      # Specific version
 ```
+
+This updates both the CLI tool and the utils package (`utils/templui.go`) to ensure you have the latest helper functions.
 
 ### Copy & Paste
 
