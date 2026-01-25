@@ -114,6 +114,13 @@
       }
     });
 
+    // Click on input → show suggestions (handles re-click on already focused input)
+    const inputClick = e.target.closest('[data-tui-tagsinput-text-input]');
+    if (inputClick) {
+      const container = inputClick.closest('[data-tui-tagsinput]');
+      if (container) showSuggestions(container, inputClick.value);
+    }
+
     // Suggestion click
     const suggestion = e.target.closest('[data-tui-tagsinput-suggestion]');
     if (suggestion) {
@@ -170,12 +177,12 @@
         showSuggestions(container, '');
       } else {
         addTag(container, input.value);
-        if (id) window.tui?.popover?.close(id);
+        showSuggestions(container, '');
       }
     } else if (e.key === ',') {
       e.preventDefault();
       addTag(container, input.value);
-      if (id) window.tui?.popover?.close(id);
+      showSuggestions(container, '');
     } else if (e.key === 'Escape' && isOpen) {
       e.preventDefault();
       window.tui?.popover?.close(id);
