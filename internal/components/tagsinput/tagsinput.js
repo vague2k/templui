@@ -95,6 +95,15 @@
     if (container) showSuggestions(container, input.value);
   });
 
+  // Focusout → close suggestions
+  document.addEventListener('focusout', e => {
+    const input = e.target.closest('[data-tui-tagsinput-text-input]');
+    if (!input) return;
+    const container = input.closest('[data-tui-tagsinput]');
+    const id = container?.getAttribute('data-tui-tagsinput-suggestions-id');
+    if (id) window.tui?.popover?.close(id);
+  });
+
   // Input → filter suggestions
   document.addEventListener('input', e => {
     const input = e.target.closest('[data-tui-tagsinput-text-input]');
@@ -103,34 +112,26 @@
     if (container) showSuggestions(container, input.value);
   });
 
+  // Suggestion selection (mousedown to fire before focusout)
+  document.addEventListener('mousedown', e => {
+    const suggestion = e.target.closest('[data-tui-tagsinput-suggestion]');
+    if (!suggestion) return;
+    e.preventDefault(); // Prevent focus change
+    const popup = suggestion.closest('[data-tui-popover-id]');
+    const container = document.querySelector(`[data-tui-tagsinput-suggestions-id="${popup?.id}"]`);
+    if (container) {
+      addTag(container, suggestion.getAttribute('data-tui-tagsinput-suggestion-value'));
+      showSuggestions(container, '');
+    }
+  });
+
   // Click
   document.addEventListener('click', e => {
-    // Close popover if clicked outside
-    document.querySelectorAll('[data-tui-tagsinput-suggestions-id]').forEach(container => {
-      const id = container.getAttribute('data-tui-tagsinput-suggestions-id');
-      const popup = document.getElementById(id);
-      if (!container.contains(e.target) && !popup?.contains(e.target)) {
-        window.tui?.popover?.close(id);
-      }
-    });
-
     // Click on input → show suggestions (handles re-click on already focused input)
     const inputClick = e.target.closest('[data-tui-tagsinput-text-input]');
     if (inputClick) {
       const container = inputClick.closest('[data-tui-tagsinput]');
       if (container) showSuggestions(container, inputClick.value);
-    }
-
-    // Suggestion click
-    const suggestion = e.target.closest('[data-tui-tagsinput-suggestion]');
-    if (suggestion) {
-      const popup = suggestion.closest('[data-tui-popover-id]');
-      const container = document.querySelector(`[data-tui-tagsinput-suggestions-id="${popup?.id}"]`);
-      if (container) {
-        addTag(container, suggestion.getAttribute('data-tui-tagsinput-suggestion-value'));
-        container.querySelector('[data-tui-tagsinput-text-input]')?.focus();
-        showSuggestions(container, '');
-      }
       return;
     }
 
