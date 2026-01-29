@@ -222,7 +222,8 @@ import "./floating_ui_core.js";
   document.addEventListener("click", (e) => {
     // Handle trigger clicks
     const trigger = e.target.closest("[data-tui-popover-trigger]");
-    if (trigger && trigger.getAttribute("data-tui-popover-type") !== "hover") {
+    const triggerType = trigger?.getAttribute("data-tui-popover-type");
+    if (trigger && triggerType !== "hover" && triggerType !== "manual") {
       // Check for disabled elements
       const disabledChild = trigger.querySelector(
         ':disabled, [disabled], [aria-disabled="true"]',
