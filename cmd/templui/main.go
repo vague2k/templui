@@ -62,15 +62,10 @@ var (
 	versionFlag    = flag.Bool("version", false, "Show installer version")
 	helpFlag       = flag.Bool("help", false, "Show this help message")
 	moduleFlag     = flag.String("module", "", "Go module name (for 'new' command)")
+	installedFlag  = flag.Bool("installed", false, "Update all currently installed components")
 )
 
 func main() {
-	// Define shorthands
-	flag.BoolVar(forceOverwrite, "f", false, "Force overwrite existing files without asking (shorthand)")
-	flag.BoolVar(versionFlag, "v", false, "Show installer version")
-	flag.BoolVar(helpFlag, "h", false, "Show this help message")
-	flag.StringVar(moduleFlag, "m", "", "Go module name (for 'new' command, shorthand)")
-
 	flag.Usage = func() {
 		showHelp(nil, getDefaultRef())
 	}
@@ -112,7 +107,7 @@ func main() {
 	case strings.HasPrefix(commandArg, "init"):
 		runInit(args, commandArg, *forceOverwrite)
 	case strings.HasPrefix(commandArg, "add"):
-		runAdd(args, commandArg, *forceOverwrite)
+		runAdd(args, commandArg, *forceOverwrite, *installedFlag)
 	case strings.HasPrefix(commandArg, "list"):
 		runList(args, commandArg)
 	case strings.HasPrefix(commandArg, "upgrade"):
@@ -127,22 +122,23 @@ func main() {
 func showHelp(registry *Registry, refUsedForHelp string) {
 	fmt.Println("templUI " + version + " - The UI Kit for templ" + "\n")
 	fmt.Println("Usage:")
-	fmt.Println("  templui new <project-name>          - Create a new templUI project")
-	fmt.Println("  templui new <name> --module <mod>   - Create project with custom module name")
-	fmt.Println("  templui init[@<ref>]                - Initialize config and install utils from <ref>")
-	fmt.Println("  templui -f init[@<ref>]             - Force reinitialize and repair incomplete config")
-	fmt.Println("  templui add[@<ref>] <comp>...       - Add or update component(s) from specified <ref>")
-	fmt.Println("  templui add[@<ref>] \"*\"           - Add all components from specified <ref>")
-	fmt.Println("  templui list[@<ref>]                - List available components and utils from <ref>")
-	fmt.Println("  templui upgrade[@<ref>]             - Upgrades the cli to <ref> or latest if no <ref> was given")
-	fmt.Println("  templui -v, --version               - Show installer version")
-	fmt.Println("  templui -h, --help                  - Show this help message")
+	fmt.Println("  templui new <project-name>              - Create a new templUI project")
+	fmt.Println("  templui --module <mod> new <name>       - Create project with custom module name")
+	fmt.Println("  templui init[@<ref>]                    - Initialize config and install utils from <ref>")
+	fmt.Println("  templui --force init[@<ref>]            - Force reinitialize and repair incomplete config")
+	fmt.Println("  templui add[@<ref>] <comp>...           - Add or update component(s) from specified <ref>")
+	fmt.Println("  templui add[@<ref>] \"*\"               - Add all components from specified <ref>")
+	fmt.Println("  templui --installed add[@<ref>]         - Update all currently installed components")
+	fmt.Println("  templui list[@<ref>]                    - List available components and utils from <ref>")
+	fmt.Println("  templui upgrade[@<ref>]                 - Upgrades the cli to <ref> or latest if no <ref> was given")
+	fmt.Println("  templui --version                       - Show installer version")
+	fmt.Println("  templui --help                          - Show this help message")
 	fmt.Println("\n<ref> can be a branch name, tag name, or commit hash.")
 	fmt.Printf("If no <ref> is specified, components are fetched from the default ref (currently '%s').\n", refUsedForHelp)
 	fmt.Println("\nFlags:")
 	flag.PrintDefaults()
 
-	// Show component/util list only if -h was used and registry was fetched.
+	// Show component/util list only if --help was used and registry was fetched.
 	if registry != nil {
 		if len(registry.Components) > 0 {
 			fmt.Printf("\nAvailable components in registry (fetched from ref '%s'):\n", refUsedForHelp)

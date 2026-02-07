@@ -9,7 +9,7 @@ import (
 )
 
 // runAdd handles the 'add' command logic.
-func runAdd(args []string, commandArg string, force bool) {
+func runAdd(args []string, commandArg string, force bool, installed bool) {
 	targetRef := getDefaultRef()
 	commandRefProvided := false
 
@@ -30,10 +30,19 @@ func runAdd(args []string, commandArg string, force bool) {
 		return
 	}
 
+	remainingArgs := args[1:]
+
 	// Ensure component arguments are provided after the command.
-	if len(args) < 2 {
+	if len(remainingArgs) == 0 && !installed {
 		fmt.Println("Error: No component(s) specified after 'add'.")
-		fmt.Println("Usage: templui add[@<ref>] <component>... | *")
+		fmt.Println("Usage: templui add[@<ref>] <component>... | * | templui --installed add[@<ref>]")
+		return
+	}
+
+	// Disallow combining --installed with explicit component names.
+	if installed && len(remainingArgs) > 0 {
+		fmt.Println("Error: Cannot combine --installed with explicit component names.")
+		fmt.Println("Usage: templui --installed add[@<ref>]")
 		return
 	}
 
@@ -48,30 +57,43 @@ func runAdd(args []string, commandArg string, force bool) {
 	componentsToInstallNames := []string{}
 	isInstallAll := false
 
-	firstCompArg := args[1]
-	if firstCompArg == "*" {
-		if len(args) > 2 { // Only '*' allowed after 'add[*]' command.
-			fmt.Println("Error: '*' must be the only component argument after 'add'.")
-			fmt.Println("Usage: templui add[@<ref>] *")
+	if installed {
+		names, err := getInstalledComponentNames(config.ComponentsDir)
+		if err != nil {
+			fmt.Printf("Error detecting installed components: %v\n", err)
 			return
 		}
-		isInstallAll = true
+		if len(names) == 0 {
+			fmt.Println("No installed components found in", config.ComponentsDir)
+			return
+		}
+		componentsToInstallNames = names
 	} else {
-		// Parse individual component names.
-		for _, arg := range args[1:] {
-			// Disallow @ref on individual components if ref was given with the command.
-			if strings.Contains(arg, "@") {
-				compName := strings.SplitN(arg, "@", 2)[0]
-				if commandRefProvided {
-					fmt.Printf("Warning: Ignoring '@...' for component '%s' because ref '%s' was specified with the 'add' command.\n", compName, targetRef)
-					componentsToInstallNames = append(componentsToInstallNames, compName)
+		firstCompArg := remainingArgs[0]
+		if firstCompArg == "*" {
+			if len(remainingArgs) > 1 { // Only '*' allowed after 'add[*]' command.
+				fmt.Println("Error: '*' must be the only component argument after 'add'.")
+				fmt.Println("Usage: templui add[@<ref>] *")
+				return
+			}
+			isInstallAll = true
+		} else {
+			// Parse individual component names.
+			for _, arg := range remainingArgs {
+				// Disallow @ref on individual components if ref was given with the command.
+				if strings.Contains(arg, "@") {
+					compName := strings.SplitN(arg, "@", 2)[0]
+					if commandRefProvided {
+						fmt.Printf("Warning: Ignoring '@...' for component '%s' because ref '%s' was specified with the 'add' command.\n", compName, targetRef)
+						componentsToInstallNames = append(componentsToInstallNames, compName)
+					} else {
+						// Enforce specifying the ref only with the 'add' command itself.
+						fmt.Printf("Error: Specify the ref with the 'add' command (e.g., 'add@%s %s'), not on individual components like '%s'.\n", targetRef, compName, arg)
+						return
+					}
 				} else {
-					// Enforce specifying the ref only with the 'add' command itself.
-					fmt.Printf("Error: Specify the ref with the 'add' command (e.g., 'add@%s %s'), not on individual components like '%s'.\n", targetRef, compName, arg)
-					return
+					componentsToInstallNames = append(componentsToInstallNames, arg)
 				}
-			} else {
-				componentsToInstallNames = append(componentsToInstallNames, arg)
 			}
 		}
 	}
@@ -525,4 +547,20 @@ func addScriptTemplateToFiles(config Config, comp ComponentDef, jsFileName strin
 	}
 
 	return nil
+}
+
+// getInstalledComponentNames returns the names of all installed components
+// by listing subdirectories in the components directory.
+func getInstalledComponentNames(componentsDir string) ([]string, error) {
+	entries, err := os.ReadDir(componentsDir)
+	if err != nil {
+		return nil, fmt.Errorf("failed to read components directory '%s': %w", componentsDir, err)
+	}
+	var names []string
+	for _, entry := range entries {
+		if entry.IsDir() {
+			names = append(names, entry.Name())
+		}
+	}
+	return names, nil
 }
