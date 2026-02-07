@@ -215,7 +215,7 @@ go install github.com/templui/templui/cmd/templui@latest
 Verify installation:
 
 ```shell
-templui -v
+templui --version
 ```
 
 ### Initialize Project
@@ -261,11 +261,19 @@ templui add@v0.84.0 dialog
 
 ### Update Components
 
-Re-run `add` to update components:
+Update all installed components at once:
+
+```shell
+templui --installed add              # Update all installed components
+templui --installed add@v1.0.0      # Update to specific version
+templui --force --installed add       # Force without prompts
+```
+
+Or update specific components:
 
 ```shell
 templui add carousel       # Prompts for confirmation
-templui -f add carousel    # Force without prompts
+templui --force add carousel    # Force without prompts
 ```
 
 > **⚠️ Warning:** Updates overwrite custom modifications. Always backup your changes first.
