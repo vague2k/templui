@@ -97,6 +97,15 @@
     }
   });
 
+  // Initialize pre-rendered toasts
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => {
+      document.querySelectorAll("[data-tui-toast]").forEach(setupToast);
+    });
+  } else {
+    document.querySelectorAll("[data-tui-toast]").forEach(setupToast);
+  }
+
   // Watch for new toasts
   new MutationObserver((mutations) => {
     mutations.forEach((m) => {

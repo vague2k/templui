@@ -229,9 +229,9 @@ var withHtmxCode = fmt.Sprintf(`// Template
 // Handler
 func Save(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
-		components.Toast(components.ToastProps{
-			Text: err.Error(),
-			Variant: components.ToastVariantError,
+		toast.Toast(toast.Props{
+			Description: err.Error(),
+			Variant:     toast.VariantError,
 		}).Render(r.Context(), w)
 	}
 }`, "templ")
@@ -247,9 +247,9 @@ templ withHtmx() {
 var fullPageFormCode = fmt.Sprintf(`// Template
 %s UserForm(error string) {
     if error != "" {
-        @components.Toast(components.ToastProps{
-            Text: error,
-            Variant:    components.ToastVariantError,
+        @toast.Toast(toast.Props{
+            Description: error,
+            Variant:     toast.VariantError,
         })
     }
     <form method="POST">
