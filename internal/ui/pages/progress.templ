@@ -276,7 +276,7 @@ form.addEventListener("submit", (e) => {
 
 var exampleMultiStepForms = `// Client-side approach
 <div data-current-step="1" data-total-steps="4">
-    @components.Progress(components.ProgressProps{
+    @progress.Progress(progress.Props{
         Value: 25, // 1 of 4 steps = 25%
         Label: "Step 1 of 4",
         ShowValue: true,
@@ -294,7 +294,7 @@ var exampleMultiStepForms = `// Client-side approach
     Next
 </button>`
 
-var exampleHTMXPolling = `@components.Progress(components.ProgressProps{
+var exampleHTMXPolling = `@progress.Progress(progress.Props{
 	Value: initialValue,
 	Label: "Processing...",
 	ShowValue: true,
