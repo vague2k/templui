@@ -347,4 +347,18 @@
 
   // MutationObserver for dynamically added elements
   new MutationObserver(initializeTimePickers).observe(document.body, { childList: true, subtree: true });
+
+  // Scroll to selected values when timepicker popover opens
+  new MutationObserver((mutations) => {
+    for (const m of mutations) {
+      if (m.target.getAttribute('data-tui-popover-open') !== 'true') continue;
+      const popup = m.target.querySelector('[data-tui-timepicker-popup]');
+      if (!popup) continue;
+
+      requestAnimationFrame(() => {
+        popup.querySelector('[data-tui-timepicker-hour-list] [data-tui-timepicker-selected="true"]')?.scrollIntoView({ block: 'center' });
+        popup.querySelector('[data-tui-timepicker-minute-list] [data-tui-timepicker-selected="true"]')?.scrollIntoView({ block: 'center' });
+      });
+    }
+  }).observe(document.body, { attributes: true, attributeFilter: ['data-tui-popover-open'], subtree: true });
 })();
