@@ -262,9 +262,14 @@
       const content = document.getElementById(contentId);
       const searchInput = content?.querySelector('[data-tui-selectbox-search]');
       if (searchInput) {
-        setTimeout(() => {
+        requestAnimationFrame(() => {
           if (content.style.display !== 'none') searchInput.focus();
-        }, 50);
+        });
+      } else {
+        requestAnimationFrame(() => {
+          const firstItem = content.querySelector('.select-item');
+          if (firstItem) firstItem.focus();
+        });
       }
     }
   });
