@@ -158,7 +158,7 @@ templ Sidebar() {
     cookie, _ := r.Cookie("sidebar_state")
     // "false" means collapsed, "true" or no cookie means expanded
     collapsed := cookie != nil && cookie.Value == "false"
-    
+
     // Pass to template
     component := MyPage(collapsed)
     component.Render(context.Background(), w)

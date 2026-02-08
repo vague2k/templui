@@ -30,6 +30,27 @@
     });
   }
 
+  function updateTriggerClearState(trigger) {
+    const clearTrigger = trigger.querySelector('[data-tui-selectbox-clear-trigger]');
+    if (!clearTrigger) return;
+
+    const chevron = trigger.querySelector('[data-tui-selectbox-chevron]');
+    const hiddenInput = trigger.querySelector('input[type="hidden"]');
+    const hasSelection = !!hiddenInput?.value && !trigger.disabled;
+
+    clearTrigger.classList.toggle('hidden', !hasSelection);
+    if (chevron) chevron.classList.toggle('hidden', hasSelection);
+  }
+
+  function clearFromTrigger(trigger) {
+    const hiddenInput = trigger.querySelector('input[type="hidden"]');
+    if (!hiddenInput || !hiddenInput.value) return;
+
+    hiddenInput.value = '';
+    hiddenInput.dispatchEvent(new Event('input', { bubbles: true }));
+    hiddenInput.dispatchEvent(new Event('change', { bubbles: true }));
+  }
+
   // Helper to sync selections from hidden input value
   function syncSelectionsFromValue(trigger) {
     const hiddenInput = trigger.querySelector('input[type="hidden"]');
@@ -67,15 +88,24 @@
     const hiddenInput = trigger.querySelector('input[type="hidden"]');
     const contentId = trigger.getAttribute('data-tui-selectbox-content-id');
     const content = document.getElementById(contentId);
+
+    if (!valueEl) {
+      updateTriggerClearState(trigger);
+      return;
+    }
     
     // If no content yet (not opened), try to init from hidden input value
     if (!content && hiddenInput && hiddenInput.value) {
       valueEl.textContent = hiddenInput.value; // Simple fallback
       valueEl.classList.remove('text-muted-foreground');
+      updateTriggerClearState(trigger);
       return;
     }
     
-    if (!valueEl || !content) return;
+    if (!content) {
+      updateTriggerClearState(trigger);
+      return;
+    }
     
     const isMultiple = trigger.getAttribute('data-tui-selectbox-multiple') === 'true';
     const showPills = trigger.getAttribute('data-tui-selectbox-show-pills') === 'true';
@@ -87,6 +117,7 @@
       valueEl.textContent = placeholder;
       valueEl.classList.add('text-muted-foreground');
       if (hiddenInput) hiddenInput.value = '';
+      updateTriggerClearState(trigger);
       return;
     }
     
@@ -156,6 +187,8 @@
         hiddenInput.value = selectedItem.getAttribute('data-tui-selectbox-value') || '';
       }
     }
+
+    updateTriggerClearState(trigger);
   }
   
   // Helper to filter items based on search
@@ -233,6 +266,38 @@
     });
   }
   
+  // Handle clear in capture phase so trigger popover doesn't open.
+  document.addEventListener('pointerdown', (e) => {
+    const clearTrigger = e.target.closest('[data-tui-selectbox-clear-trigger]');
+    if (!clearTrigger) return;
+    e.preventDefault();
+    e.stopPropagation();
+    const trigger = clearTrigger.closest('button.select-trigger');
+    if (trigger) {
+      // The clear icon may disappear before click fires; suppress that next click.
+      trigger.setAttribute('data-tui-selectbox-suppress-click', 'true');
+      clearFromTrigger(trigger);
+    }
+  }, true);
+
+  // Block follow-up click event after clear so trigger/popover handlers don't run.
+  document.addEventListener('click', (e) => {
+    const clearTrigger = e.target.closest('[data-tui-selectbox-clear-trigger]');
+    const trigger = e.target.closest('button.select-trigger');
+
+    if (clearTrigger) {
+      e.preventDefault();
+      e.stopPropagation();
+      return;
+    }
+
+    if (trigger?.getAttribute('data-tui-selectbox-suppress-click') === 'true') {
+      trigger.removeAttribute('data-tui-selectbox-suppress-click');
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  }, true);
+
   // Global click handler using Event Delegation
   document.addEventListener('click', (e) => {
     // Handle pill remove clicks
