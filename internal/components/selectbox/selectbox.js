@@ -69,15 +69,6 @@
       
       if (shouldBeSelected !== isSelected) {
         item.setAttribute('data-tui-selectbox-selected', shouldBeSelected.toString());
-        if (shouldBeSelected) {
-          item.classList.add('bg-accent', 'text-accent-foreground');
-          const check = item.querySelector('.select-check');
-          if (check) check.classList.replace('opacity-0', 'opacity-100');
-        } else {
-          item.classList.remove('bg-accent', 'text-accent-foreground');
-          const check = item.querySelector('.select-check');
-          if (check) check.classList.replace('opacity-100', 'opacity-0');
-        }
       }
     });
   }
@@ -221,24 +212,11 @@
       // Single selection - deselect all others
       content.querySelectorAll('.select-item').forEach(el => {
         el.setAttribute('data-tui-selectbox-selected', 'false');
-        el.classList.remove('bg-accent', 'text-accent-foreground');
-        const check = el.querySelector('.select-check');
-        if (check) check.classList.replace('opacity-100', 'opacity-0');
       });
     }
     
     // Toggle this item
     item.setAttribute('data-tui-selectbox-selected', (!isSelected).toString());
-    
-    if (!isSelected) {
-      item.classList.add('bg-accent', 'text-accent-foreground');
-      const check = item.querySelector('.select-check');
-      if (check) check.classList.replace('opacity-0', 'opacity-100');
-    } else {
-      item.classList.remove('bg-accent', 'text-accent-foreground');
-      const check = item.querySelector('.select-check');
-      if (check) check.classList.replace('opacity-100', 'opacity-0');
-    }
     
     // Update display
     updateDisplayValue(trigger);
@@ -416,27 +394,6 @@
     }
   });
   
-  // Global mouseover handler for hover effects
-  document.addEventListener('mouseover', (e) => {
-    const item = e.target.closest('.select-item');
-    if (!item || item.getAttribute('data-tui-selectbox-disabled') === 'true') return;
-    
-    const content = item.closest('[data-tui-popover-id]');
-    if (!content) return;
-    
-    // Reset all items
-    content.querySelectorAll('.select-item').forEach(el => {
-      if (el.getAttribute('data-tui-selectbox-selected') !== 'true') {
-        el.classList.remove('bg-accent', 'text-accent-foreground');
-      }
-    });
-    
-    // Highlight hovered item if not selected
-    if (item.getAttribute('data-tui-selectbox-selected') !== 'true') {
-      item.classList.add('bg-accent', 'text-accent-foreground');
-    }
-  });
-  
   // Global form reset handler
   document.addEventListener('reset', (e) => {
     if (!e.target.matches('form')) return;
@@ -450,9 +407,6 @@
         // Clear selections
         content.querySelectorAll('.select-item').forEach(item => {
           item.setAttribute('data-tui-selectbox-selected', 'false');
-          item.classList.remove('bg-accent', 'text-accent-foreground');
-          const check = item.querySelector('.select-check');
-          if (check) check.classList.replace('opacity-100', 'opacity-0');
         });
         
         // Clear search

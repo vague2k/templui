@@ -296,10 +296,10 @@ templ Item(props ...ItemProps) {
 		}
 		class={
 			utils.TwMerge(
-				"select-item relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 px-2 text-sm font-light outline-none",
+				"select-item group relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 px-2 text-sm font-light outline-none",
 				"hover:bg-accent hover:text-accent-foreground",
-				"focus:bg-accent focus:text-accent-foreground",
-				utils.If(p.Selected, "bg-accent text-accent-foreground"),
+				"focus-visible:bg-accent focus-visible:text-accent-foreground",
+				"data-[tui-selectbox-selected=true]:bg-accent data-[tui-selectbox-selected=true]:text-accent-foreground",
 				utils.If(p.Disabled, "pointer-events-none opacity-50"),
 				p.Class,
 			),
@@ -317,8 +317,8 @@ templ Item(props ...ItemProps) {
 		<span
 			class={
 				utils.TwMerge(
-					"select-check absolute right-2 flex h-3.5 w-3.5 items-center justify-center",
-					utils.IfElse(p.Selected, "opacity-100", "opacity-0"),
+					"select-check absolute right-2 flex h-3.5 w-3.5 items-center justify-center opacity-0",
+					"group-data-[tui-selectbox-selected=true]:opacity-100",
 				),
 			}
 		>
