@@ -1,0 +1,2884 @@
+# Changelog
+
+Dieses Changelog spiegelt die GitHub Release Notes 1:1 (Markdown) aus `templui/templui`.
+Last synced: 2026-02-16
+
+## v1.5.0 (2026-02-08)
+
+Source: https://github.com/templui/templui/releases/tag/v1.5.0
+
+## What's Changed
+
+- CLI: Added `--installed` for bulk component updates via `templui --installed add[@<ref>]` (#494)
+- CLI: Removed short-form aliases (`-f`, `-v`, `-h`, `-m`) in favor of explicit long flags (#494)
+- selectbox: Added a clear button in the trigger for faster value reset (#496)
+- selectbox: Improved keyboard/focus behavior when `nosearch` is enabled (#492)
+- selectbox: Simplified selected-state handling using Tailwind/data-attribute conditionals instead of JS toggling (#498)
+- timepicker: Preselected hour/minute values are now auto-scrolled into view when opening (#491)
+- toast: Fixed initialization for toasts on full page loads (#493)
+- docs: Updated progress examples to match the current API
+
+**Full Changelog**: https://github.com/templui/templui/compare/v1.4.0...v1.5.0
+
+## v1.4.0 (2026-01-29)
+
+Source: https://github.com/templui/templui/releases/tag/v1.4.0
+
+## What's Changed
+
+- feat(Tags Input): Add autocomplete suggestions (#428)
+- docs: Add popover script requirement for Tags Input
+- docs: Add autocomplete showcase for Tags Input
+
+**Full Changelog**: https://github.com/templui/templui/compare/v1.3.0...v1.4.0
+
+## v1.3.0 (2026-01-20)
+
+Source: https://github.com/templui/templui/releases/tag/v1.3.0
+
+## What's Changed
+
+- `templui upgrade` now updates both CLI and utils (#489)
+
+**Full Changelog**: https://github.com/templui/templui/compare/v1.2.0...v1.3.0
+
+## v1.2.0 (2026-01-14)
+
+Source: https://github.com/templui/templui/releases/tag/v1.2.0
+
+## What's Changed
+
+- **feat(utils)**: add overridable ScriptURL function for custom cache busting (08e8f8e4)
+
+## v1.1.1 (2026-01-13)
+
+Source: https://github.com/templui/templui/releases/tag/v1.1.1
+
+## CLI Improvements
+
+- **Streamlined `new` command**: Project setup is now fully automatic
+  - `templ generate` and `go mod tidy` run automatically
+  - No more interactive prompts - just `templui new myapp`
+  - Use module path directly: `templui new github.com/user/myapp` creates `myapp/` folder
+
+## Bug Fixes
+
+- **checkbox**: Fixed icon centering on custom sized classes using `inset-0`
+
+## Documentation
+
+- **switch**: Added documentation explaining `switchcomp` alias
+
+## v1.1.0 (2026-01-05)
+
+Source: https://github.com/templui/templui/releases/tag/v1.1.0
+
+### Changes
+- feat(table): Remove overflow container (breaking) (#459)
+- feat(checkbox): Add group support with indeterminate state (#440)
+- feat(chart): Expose ymin, ymax and beginatzero (#478)
+- fix: Scrollbars styling (#477) @RimJur
+
+## v1.0.1 (2026-01-04)
+
+Source: https://github.com/templui/templui/releases/tag/v1.0.1
+
+### Changes
+- fix: Replace iframe preview docScr with src + separate route to avoid double char escaping
+- chore: Bump to templ v0.3.977
+- fix: Update calendar.templ (#475)
+- fix(collapsible): Support nested collapsibles (#473)
+- chore: Lower Go version to 1.24 for distro package compatibility
+- fix(button): Replace text-destructive-foreground with text-white
+- docs: Remove Go and templ version requirements
+
+### Thanks!
+@RimJur (#475)
+
+## v1.0.0 (2025-12-24)
+
+Source: https://github.com/templui/templui/releases/tag/v1.0.0
+
+We made it.
+
+**1,564** commits. **231** merged PRs. **146** closed issues. **29** contributors. **101** releases. **41** components.
+
+One major version.
+
+### Since v0.101.0
+- Two-way binding for Datepicker, Timepicker & Rating
+- Improved quickstart template
+- Package name fix for custom directories
+
+### Thank You
+To everyone who opened an issue, submitted a PR, or shipped something with templUI - this release is for you.
+
+Happy holidays.
+
+## v0.101.0 (2025-11-17)
+
+Source: https://github.com/templui/templui/releases/tag/v0.101.0
+
+### New
+- Add AI-ready registry system  
+- Add `/llms.txt` endpoint  
+- Add component metadata (categories, tags, dependencies)
+
+### Improved
+- Refactor sidebar to use registry  
+- Automate component metadata generation
+
+## v0.100.0 (2025-11-16)
+
+Source: https://github.com/templui/templui/releases/tag/v0.100.0
+
+✨ Features
+
+- Markdown documentation system for general documentation pages
+- Documentation links added to installed components
+- Migration to Go 1.24 tool directive for dev tools
+- Automatic version detection via build info - no more manual version updates needed
+
+🐛 Fixes
+
+- Dialog: Add DisableAutoFocus prop to control auto-focus behavior
+- Tooltip: Pass Class and Attributes to popover trigger
+- Docs: Smooth scroll position now shared between markdown and component docs on TOC link clicks
+- Dev Server: Replace Air with templ-managed server for instant hot reload
+- Docs: Remove duplicate code in input.css example
+
+📚 Documentation
+
+- Simplify how-to-use guide and add Tailwind auto-fallback
+
+🔧 Maintenance
+
+- Reformatted codebase
+- Disabled style attribute linter
+- Docs footer now dragged to bottom
+- Beautified announcement and navbar
+- Removed redundant version field from manifest.json
+
+## v0.99.0 (2025-11-02)
+
+Source: https://github.com/templui/templui/releases/tag/v0.99.0
+
+⚠️ Breaking Changes
+
+* Form Components: Removed Required prop from all form components (input, checkbox, radio, textarea, selectbox, inputotp, timepicker, datepicker). Server-side validation is now the only validation approach, as browser validation doesn't work with hidden inputs and creates confusion about validation responsibility. (#446)
+
+✨ Features
+
+* Calendar: Data attributes added for flexible styling with Class prop (#443)
+* Alert: Design aligned with shadcn/ui
+
+🐛 Fixes
+
+* Dialog:
+  * Prioritize explicit For prop over context in Trigger
+  * Automatic cleanup for DOM removal (#441) - fixes body.overflow stuck when dialogs removed via HTMX/innerHTML
+* Dropdown/Popover: Close non-exclusive only if it's a parent/trigger (#442)
+* Dropdown: Removed unused Class and Attributes from Props
+
+🔧 Maintenance
+
+* Reformatted codebase
+* Dialog: Removed unnecessary disabled state
+* Cache busting + JS files to copy button
+* Docs: Added goilerplate links to navbar/menu and announcement bar
+
+## v0.98.0 (2025-10-02)
+
+Source: https://github.com/templui/templui/releases/tag/v0.98.0
+
+### ✨ Features
+
+* Copy Button:
+  * New standalone component
+  * Code component simplified (no longer includes copy button)
+* Date Picker:
+  * Month and year selection dropdowns
+  * New time input showcase examples
+* Input:
+  * Time input showcase examples (default + styled)
+* Popover:
+  * `Exclusive` prop – auto-closes other popovers when opening
+* Cache Busting:
+  * Automatic script versioning on app restart
+* Icons:
+  * Updated Lucide icons to v0.544.0
+
+### 🐛 Fixes
+
+* Select Box: two-way binding with reactive frameworks
+* Sidebar:
+  * Custom width support via CSS variables
+  * Transform-based offcanvas animation
+* Dropdown: removed dynamic class generation
+* Toast: stable progress indicator rendering
+* Dialog: close button now type="button" to prevent form submit
+* Code: respects DOM swaps
+
+### ⚠️ Breaking
+
+* Copy Button: The `Code` component no longer includes a copy button. Use the new standalone `Copy Button` component instead.
+* Avatar: API simplified to match shadcn/ui pattern
+
+### 🙏 Thanks
+
+Special thanks to @jaredweinfurtner, @shtayeb, @nenad, and @ananyatimalsina for their contributions!
+
+## v0.97.0 (2025-09-15)
+
+Source: https://github.com/templui/templui/releases/tag/v0.97.0
+
+### ✨ Features
+
+* Global JS API
+
+  * Exposed programmatic API for `Dialog`, `Popover` and `Tabs`
+    → allows triggering components from external events (e.g. Mapbox markers) via
+    `window.tui.<component>.<function>()`
+* Sidebar
+  * Removed ESC key close handler
+  * New configurable `shortcut` option for toggling
+* Sheet
+  * Width can now be overridden via props
+
+### 🐛 Fixes
+
+* Sidebar Docs – fixed incorrect script path shown in examples
+* Popover – exposed missing `closeAllPopovers()` in `window.tui.popover` API
+
+## v0.96.0 (2025-09-03)
+
+Source: https://github.com/templui/templui/releases/tag/v0.96.0
+
+### ✨ Features
+
+* **Sidebar**:
+
+  * inset styling restored.
+  * new `Trigger` prop → supports multiple sidebars at once (e.g. left + right).
+* **Sheet**:
+
+  * can now be used without a wrapper – trigger + content work standalone.
+  * internally powered by the new `Dialog` component (formerly `Modal`).
+
+### 🐛 Fixes
+
+* **Sidebar**:
+
+  * fixed peer selectors for inset variant.
+  * removed outer div so layout renders correctly.
+* **Avatar**: fallback text now shows correctly if the image fails.
+* **Docs**:
+
+  * fixed theme copy dialog.
+  * fixed sheet demos (padding & scrolling).
+
+### 🧹 Chores
+
+* updated sitemap.
+* minor cleanups + consistency fixes.
+
+### ⚠️ Breaking
+
+* **Modal → Dialog**: The old `Modal` component has been removed. Please use `Dialog` instead.
+
+## v0.95.0 (2025-09-01)
+
+Source: https://github.com/templui/templui/releases/tag/v0.95.0
+
+### ✨ Features
+
+* **Sheet**: custom widths are respected again.
+* **Docs & CLI**: now show how to update components.
+* **Sidebar**: new portal pattern for state + rendering (fixes duplicate content/IDs, smoother performance).
+
+### 🐛 Fixes
+
+* **API Docs**: corrected `collapsible` attribute. (thanks @shtayeb)
+* **Sidebar**:
+
+  * fixed cookie pollution with proper global state persistence (`sidebar_state`).
+  * `Collapsed` prop now works for SSR.
+  * removed automatic cookie restore to prevent flicker.
+* **Calendar**: fixed year navigation bug when jumping from December → January or backwards.
+* **Modal**: only closes on backdrop clicks (not child elements).
+* **Docs**: fixed tooltip hover conflicts caused by duplicate IDs.
+
+### 🧹 Chores
+
+* Cleaned up unused sidebar code + properties.
+* Added documentation for persisted sidebar state.
+* Typo + minor consistency fixes.
+
+## v0.94.0 (2025-08-28)
+
+Source: https://github.com/templui/templui/releases/tag/v0.94.0
+
+## templUI v0.94.0
+
+### ✨ Features
+
+* **Sheet**: new wrapper (auto IDs, no manual wiring), `Position` → `Side`.
+* **Sidebar**: root-level, new layouts (default/inset/floating), fullscreen demo, icons-only + tooltips, smoother collapse.
+* **Inputs**: more input types. (thanks @RimJur) 
+* **Select Box**: placeholder fixed. (thanks @CarraraVitor)
+* **Popover**: arrow + positioning fixed.
+* **Checkbox**: restyled (sharper).
+* **Avatar**: simplified API + styling.
+* **Toast**: playground fixed, init simplified.
+
+### 🐛 Fixes
+
+* Sidebar: avatar on collapsed icons-only, linter/ID issues.
+* Sheet + Toast: init logic removed/simplified.
+
+### 🧹 Chores
+
+* Removed Alpine.js, empty props, and `templui.min.js` (use per-component scripts).
+* Decoupled theme init, typo fixes.
+
+### ⚠️ Breaking
+
+* **Sheet**: `Position` → `Side`, new wrapper required.
+
+## v0.93.0 (2025-08-23)
+
+Source: https://github.com/templui/templui/releases/tag/v0.93.0
+
+## templUI v0.93.0
+
+### ✨ Features
+
+* Dropdown now has **placements**.
+* **BREAKING:** Drawer renamed to **Sheet**.
+
+### 🐛 Fixes
+
+* Calendar init fixed with observer.
+* Sidebar chevron rotation corrected.
+
+### 🧹 Chores
+
+* Removed old examples, cleanup, deployment tweaks.
+
+## v0.92.0 (2025-08-21)
+
+Source: https://github.com/templui/templui/releases/tag/v0.92.0
+
+## templUI v0.92.0
+
+### ✨ Features
+
+* **Sidebar:** Brand-new flagship component → supports submenus, badges, keyboard controls, and auto-reinit on DOM changes.
+* **Collapsible:** Added new component for simple expandable/collapsible sections.
+
+### 🐛 Fixes
+
+* **Calendar:** Fixed navigation buttons (next/prev month now respond correctly).
+* **Date Picker Docs:** Added missing `calendar.js` in installation instructions.
+
+## v0.91.0 (2025-08-20)
+
+Source: https://github.com/templui/templui/releases/tag/v0.91.0
+
+## templUI v0.91.0
+
+### ✨ Features
+
+* **Form attribute support:** Added `form` attribute to all form-enabled components (Button, Checkbox, Input, InputOTP, Radio, Textarea, TagsInput, Rating, DatePicker, TimePicker, SelectBox, Switch) — thanks @glsubri 🎉
+* **Switch (formerly Toggle):** Renamed `Toggle` → `Switch` for semantic clarity and closer alignment with shadcn/ui. Restyled smaller & cleaner.
+
+### 🐛 Fixes
+
+* **Tags Input:** Props are now optional (consistent with other form components).
+* **Switch/Checkbox submission:** Fixed behavior for form submission values.
+
+### 🔥 Removed
+
+* **Checkbox Card & Radio Card:** Removed redundant components → use Checkbox/Radio directly. Showcases simplified and made more readable.
+
+### 🛠 Internal
+
+* General cleanup & simplifications across form showcases.
+* Multiple `go fmt` formatting passes on form components.
+
+## v0.90.0 (2025-08-19)
+
+Source: https://github.com/templui/templui/releases/tag/v0.90.0
+
+## templUI v0.90.0
+
+### ✨ Features
+
+* **Event Delegation Migration:**
+  Removed almost all direct event listeners → switched to a full event-delegation pattern.
+  This makes components more robust with DOM swaps (htmx, datastar, alpine.js, …) since no re-initialization or afterswap listeners are needed anymore — everything works out of the box.
+  *⚠️ Note: Large JS refactor → possible regressions. Please report any issues!*
+* **Tabs:** Restyled closer to shadcn/ui
+* **Accordion:** New component, aligned with shadcn/ui
+* **Script Tags:** Added support for `nonce` attributes on generated component scripts
+
+### 🐛 Fixes
+
+* **Disabled States:** Restored correct behavior for disabled popover triggers (affects Popover, DatePicker, TimePicker, …)
+* **Navigation/SEO:** Page title now updates correctly when clicking menu links (thanks to fragment support in newer templ versions — @a-h)
+
+### 🛠 Internal
+
+* Removed framework integration section from docs (no longer necessary thanks to event delegation)
+* Major cleanup and JS simplifications across Carousel, Avatar, TimePicker, SelectBox, Drawer, Modal, Tabs, Toast, and more
+* LOC changes: **+2,596 / −3,559**
+
+## v0.87.1 (2025-08-17)
+
+Source: https://github.com/templui/templui/releases/tag/v0.87.1
+
+## templUI v0.87.1
+
+### 🛠 Patch Changes
+- Version bump in code (missed in v0.87.0)  
+
+### ✨ Features
+- **Calendar/Date Picker:** Added `startOfWeek` option (Sunday or Monday) — thanks @glsubri  
+- **Carousel:** Added swipe gesture support → fully mobile-friendly  
+- **Time Picker:** Added `step`, `min`, and `max` constraints for better control  
+
+### 🐛 Fixes
+- **Charts:** Fixed disappearing on light/dark theme switch  
+- **Date/Time Picker:** Hidden inputs now inside forms → form submission works correctly — thanks @glsubri
+- **Carousel:** Fixed invisible indicators in light mode  
+- **Navigation:** Corrected TOC and page order
+
+## v0.87.0 (2025-08-17)
+
+Source: https://github.com/templui/templui/releases/tag/v0.87.0
+
+### ✨ Features
+- **Calendar/Date Picker:** Added `startOfWeek` option (Sunday or Monday) — thanks @glsubri  
+- **Carousel:** Added swipe gesture support → fully mobile-friendly  
+- **Time Picker:** Added `step`, `min`, and `max` constraints for better control  
+
+### 🐛 Fixes
+- **Charts:** Fixed disappearing on light/dark theme switch  
+- **Date/Time Picker:** Hidden inputs now inside forms → form submission works correctly — thanks @glsubri
+- **Carousel:** Fixed invisible indicators in light mode  
+- **Navigation:** Corrected TOC and page order
+
+## v0.86.0 (2025-08-07)
+
+Source: https://github.com/templui/templui/releases/tag/v0.86.0
+
+### ✨ Minor Changes
+
+* **feat(timepicker):** reintroduced and restyled `Time Picker` component (thanks @derkan for the nudge)
+* **feat(tabs):** made `Tabs` component scrollable on mobile (thanks @RimJur)
+* **chore(sitemap):** updated sitemap for SEO
+
+### 🛠 Patch Changes
+
+* **fix(data attributes):** completed migration to `data-tui-*` naming across all components for consistency and conflict-free usage
+* **fix(drawer):** drawer no longer closes when clicking inside portal elements like popovers – now only closes via close trigger or backdrop
+* **fix(selectbox):** cleaned up leftover event listeners properly on HTMX swaps (thanks @CarraraVitor)
+* **fix(selectbox):** added missing `input` dependency for proper rendering (thanks @eryk-vieira)
+* **fix(selectbox):** corrected internal `data-*` attribute name to ensure input values are set (thanks @glsubri)
+
+## v0.85.0 (2025-07-27)
+
+Source: https://github.com/templui/templui/releases/tag/v0.85.0
+
+### ✨ Minor Changes
+
+* **feat(core):** introduced `data-tui-*` prefix convention across all components to avoid attribute conflicts (selectbox, drawer, calendar, etc.) – now future-proof & compatible with frameworks like HTMX & DataStar (#320, thanks @axadrn)
+* **feat(drawer):** removed unnecessary `stopPropagation` logic to improve compatibility with nested components
+* **feat(sidebar menu):** sidebar menu now stays open between page transitions via HTMX (no full reload required)
+* **chore(routing):** implemented proper `404` routing for improved UX & SEO
+* **chore(repo):** rebranded from `axzilla/templui` to `templui/templui` 🎉
+* **style(dropdown):** fix alignment for `a` tag inside dropdown items (`justify-between`, thanks @glsubri)
+
+### 🛠 Patch Changes
+
+* **fix(button):** corrected text color for `destructive` variant
+* **fix(htmx/docs):** removed unnecessary cleanup examples from `Popover`, `Drawer`, etc.
+* **fix(selectbox):** renamed internal `data-*` attributes to avoid conflicts (e.g., `data-show`, `data-selected`, etc.)
+* **chore(ui):** improved Pro upgrade bar visuals
+* **chore(seo):** regenerated sitemap
+
+## v0.84.0 (2025-07-19)
+
+Source: https://github.com/templui/templui/releases/tag/v0.84.0
+
+### Minor Changes
+
+* **feat(cli):** new `templui upgrade` command – upgrade to latest or specific version without `go install` (thanks @vague2k)
+* **feat(form reset):** native `type="reset"` now also resets templUI form components: `selectbox`, `tagsinput`, `datepicker`, `calendar`, `rating`
+* **feat(selectbox):** moved attributes from trigger button to hidden input to support `name`, `id`, etc. (thanks @scottmckendry)
+* **feat(selectbox):** introduced new `data-tui-*` attribute naming to avoid conflicts with frameworks like HTMX or DataStar (prototype implementation, more components will follow) (thanks @scottmckendry)
+
+### Patch Changes
+
+* **fix(docs):** clarified required `for` and `contentId` for `@tooltip` (thanks @jaingounchained)
+* **fix(cli/docs):** corrected wildcard usage to `"*"` for installing all components
+* **fix(cli):** corrected `--force` usage example in CLI help
+* **docs:** updated DataStar usage examples (thanks @scottmckendry)
+* **chore(theme):** improved theme editor colors and light/dark mode handling
+* **chore(seo):** updated favicons (incl. Safari), meta tags, and social previews
+* **chore(server):** added non-www redirect
+
+## v0.83.1 (2025-07-09)
+
+Source: https://github.com/templui/templui/releases/tag/v0.83.1
+
+_Re-published due to an outdated Go proxy cache of v0.83.0. No additional changes._
+
+### Major Changes
+- feat(spinner): removed component (BREAKING)
+
+### Minor Changes
+- feat(drawer): add close transition (@scottmckendry)
+
+### Patch Changes
+- fix(docs): prevent font flicker during load
+- chore(docs): add icon size usage hints for `@button` and `@badge`
+- chore(docs): remove outdated htmx example from `@button` showcase
+
+## v0.83.0 (2025-07-09)
+
+Source: https://github.com/templui/templui/releases/tag/v0.83.0
+
+### Major Changes
+- feat(spinner): removed component (BREAKING)
+
+### Minor Changes
+- feat(drawer): add close transition (@scottmckendry)
+
+### Patch Changes
+- fix(docs): prevent font flicker during load
+- chore(docs): add icon size usage hints for `@button` and `@badge`
+- chore(docs): remove outdated htmx example from `@button` showcase
+
+## v0.82.0 (2025-07-08)
+
+Source: https://github.com/templui/templui/releases/tag/v0.82.0
+
+# v0.82.0 – Design System Alignment
+
+## Major Design Overhaul – Part 1
+
+Why reinvent the wheel when shadcn/ui already nailed it?
+
+This release brings templUI’s design system closer to battle-tested patterns that just work – while still keeping it very Go, very templ, and very lightweight.
+
+It’s not a copy-paste job. It’s about learning from the best and making it ours.
+
+
+## What’s Changed
+
+**Design, cleaned up. Hard.**
+
+* Shifted to a cleaner, more structured look
+* Inspired by shadcn/ui – but tailored for Go devs
+* Font upgraded to *Geist* – easier on the eyes
+* Theme editor reworked – actually usable now
+* Theme switching in vanilla JS – no bloat
+* Buttons: now in sm, md, lg (finally)
+* Components follow one consistent language
+
+## Under the Hood
+
+* Deleted hundreds of lines of CSS no one asked for
+* Refactored a bunch of messy internals
+* Better mobile experience
+* Dark mode? Now actually good
+
+## Why This Matters
+
+Good UI shouldn't fight you. This release lays the foundation for a smoother, faster, more maintainable component system – one that feels familiar if you’ve touched shadcn, but made for Go devs like us.
+
+## Coming Soon
+
+* Part 2: new components with the new design system
+* More variants, better docs, tighter code
+* Feedback loop is open – tell me what sucks
+
+## v0.81.1 (2025-06-29)
+
+Source: https://github.com/templui/templui/releases/tag/v0.81.1
+
+# templUI v0.81.1 – Tags Input Fix 🛠️
+
+## 🐞 Bugfixes
+
+* **Manifest Fix:** `tagsinput` was missing from the CLI component manifest – now added properly
+  → You can now install it via CLI without issues:
+
+  ```bash
+  templui add tagsinput
+  ```
+
+---
+
+## 📦 Upgrade
+
+```bash
+go install github.com/axzilla/templui/cmd/templui@v0.81.1
+```
+
+---
+
+A small fix – but now `tagsinput` works as expected via CLI. Thanks for your patience. 🙏
+
+## v0.81.0 (2025-06-29)
+
+Source: https://github.com/templui/templui/releases/tag/v0.81.0
+
+# templUI v0.81.0 – Triggers. Tags. Turbo. ⚡
+
+## 🚀 What's New
+
+* **🆕 TagsInput** (thx @derkan): Add/remove tags with `[]string` binding, `readonly`, `disabled`, and duplicate prevention
+* **🔗 Decoupled Triggers:** Modal, Drawer, Popover now support `data-*-trigger` from *any* element
+  → Use buttons, links, dropdown items, or multiple triggers per target – no more nesting needed
+  → Better JS integration & Tailwind-friendly styling via `data-open`
+* **📘 API Docs:** All components now have full API reference in the docs
+* **💥 Breaking:** JS `initAllComponents` → now just `init()`
+* **⚡ Smarter Swaps:** Components mark themselves with `initialized=true` → only new elements are re-inited after HTMX/Datastar swaps
+* **🧹 Docs Cleanup:**
+
+  * Better HTMX/Datastar usage
+  * Removed CSP-related code
+  * `card.Media` removed, examples use `aspect-ratio`
+  * Typo fix (thx @brtholomy)
+
+---
+
+## 📦 Upgrade
+
+```bash
+go install github.com/axzilla/templui/cmd/templui@v0.81.0
+```
+
+👉 [Integration Guide](https://templui.io/docs/how-to-use#framework-integration)
+
+---
+
+templUI keeps getting leaner, faster, and more flexible. No lock-ins. No fluff. Just clean UI.
+
+## v0.80.2 (2025-06-23)
+
+Source: https://github.com/templui/templui/releases/tag/v0.80.2
+
+# templUI v0.80.2 - Framework Agnostic Revolution 🚀
+
+🛠️ Patch Note
+
+This is a version bump release to sync the internal version with the actual tag.
+No changes to the codebase – just fixing version mismatch from v0.80.0/v0.80.1.
+If you're using go install, make sure to use v0.80.2.
+
+> 🔥 **BREAKING CHANGES**: templUI is now completely framework-agnostic! Works seamlessly with HTMX, Datastar, or any hypermedia framework.
+
+---
+
+## 🎯 **Major Architectural Changes**
+
+- **feat!:** Complete framework decoupling - templUI components now expose clean `window.templUI.*` APIs instead of hardcoded HTMX event listeners
+- **feat!:** Remove HTMX-specific props from components (HxGet, HxPost, etc.) - use `templ.Attributes` instead for maximum flexibility
+- **feat:** Add comprehensive framework integration documentation with examples for HTMX, Datastar, and manual initialization
+- **feat(landing):** Add Gopher mascot image and enhance features section with detailed framework-agnostic benefits
+
+---
+
+## 📚 **Documentation Overhaul**
+
+- **feat:** Enhance 'How To Use' documentation with structured sections and detailed integration guides
+- **feat:** Add performance notes explaining HTMX vs Datastar trade-offs (targeted vs global re-initialization)
+- **feat:** Add submenus to documentation navigation for better discoverability
+- **fix:** Fix form component docs: Fixed select box href typo _(thanks @jaingounchained)_
+
+---
+
+## 🛠️ **Development Improvements**
+
+- **chore:** Improve ESLint configuration for JavaScript files for better development experience
+- **refactor:** Clean component APIs - all components now follow consistent `initAllComponents(root)` pattern
+
+---
+
+## ⚠️ **Breaking Changes & Migration**
+
+### Before (v0.75.x):
+
+```templ
+@button.Button(button.Props{
+    HxGet: "/api/endpoint",
+    HxTrigger: "click",
+}) { Click me }
+```
+
+### After (v0.76.0):
+
+```templ
+@button.Button(button.Props{
+    Attributes: templ.Attributes{
+        "hx-get": "/api/endpoint",
+        "hx-trigger": "click",
+    },
+}) { Click me }
+```
+
+### Framework Integration Required:
+
+#### HTMX Users:
+
+```html
+<script>
+  // Re-initialize templUI components after HTMX swaps
+  document.body.addEventListener("htmx:afterSwap", (e) => {
+    if (window.templUI) {
+      Object.values(window.templUI).forEach((comp) => {
+        comp.initAllComponents?.(e.detail.elt);
+      });
+    }
+  });
+
+  // Re-initialize components after out-of-band swaps
+  document.body.addEventListener("htmx:oobAfterSwap", (e) => {
+    if (window.templUI) {
+      Object.values(window.templUI).forEach((comp) => {
+        comp.initAllComponents?.(e.detail.target);
+      });
+    }
+  });
+
+  // Optional: Cleanup before swap (for components with event listeners)
+  document.body.addEventListener("htmx:beforeSwap", (e) => {
+    if (window.templUI) {
+      Object.values(window.templUI).forEach((comp) => {
+        comp.cleanup?.(e.detail.target);
+      });
+    }
+  });
+</script>
+```
+
+#### Datastar Users:
+
+```html
+<script>
+  // Re-initialize templUI components after Datastar fragment merges
+  document.addEventListener("datastar-merge-fragments", (e) => {
+    if (window.templUI) {
+      Object.values(window.templUI).forEach((comp) => {
+        comp.initAllComponents?.(document);
+      });
+    }
+  });
+
+  // Cleanup components when fragments are removed
+  document.addEventListener("datastar-remove-fragments", (e) => {
+    if (window.templUI) {
+      Object.values(window.templUI).forEach((comp) => {
+        comp.cleanup?.(document);
+      });
+    }
+  });
+</script>
+```
+
+---
+
+## ✨ **Benefits of This Change**
+
+- 🎯 **Framework Agnostic**: Works with HTMX, Datastar, Alpine.js, or any framework
+- 🔮 **Future Proof**: Ready for whatever hypermedia framework comes next
+- 🧹 **Cleaner APIs**: Consistent component interfaces across the board
+- 📈 **Better Performance**: Targeted re-initialization where supported (HTMX)
+- 🧪 **Easier Testing**: No framework dependencies in component code
+- 🚀 **Broader Adoption**: Not tied to specific ecosystems
+
+---
+
+## 🙏 **Community Feedback**
+
+Huge thanks to everyone who provided feedback on [RFC #251](https://github.com/axzilla/templui/discussions/251):
+
+- @vague2k for honest developer experience perspective
+- @delaneyj (Datastar author) for collaboration insights
+- @chris-perardi for startup use case validation
+- @glsubri for thoughtful component API feedback
+- @jaingounchained for documentation fixes
+
+This change represents templUI's evolution from an HTMX-focused library to a truly universal Go/templ component system! 🎉
+
+---
+
+## 🛠️ **Upgrade**
+
+```bash
+go install github.com/axzilla/templui/cmd/templui@v0.80.2
+```
+
+**📖 Migration Guide:** [Framework Integration Docs](https://templui.io/docs/how-to-use#framework-integration)
+
+---
+
+_Note: Since templUI is pre-v1.0, I'm intentionally moving fast and breaking things to get the architecture right. That means: yes, there might be bugs – and they’ll get fixed fast. If anything broke for you because of this change: sorry! Let me know and I’ll patch it ASAP.
+This release is a bit radical – but it lays the foundation for a cleaner, framework-agnostic future._
+
+## v0.80.1 (2025-06-23)
+
+Source: https://github.com/templui/templui/releases/tag/v0.80.1
+
+# templUI v0.80.1 - Framework Agnostic Revolution 🚀
+
+🛠️ Patch Note
+This is a version bump release to sync the internal version with the actual tag.
+No changes to the codebase – just fixing version mismatch from v0.80.0.
+If you're using go install, make sure to use v0.80.1.
+
+> 🔥 **BREAKING CHANGES**: templUI is now completely framework-agnostic! Works seamlessly with HTMX, Datastar, or any hypermedia framework.
+
+---
+
+## 🎯 **Major Architectural Changes**
+
+- **feat!:** Complete framework decoupling - templUI components now expose clean `window.templUI.*` APIs instead of hardcoded HTMX event listeners
+- **feat!:** Remove HTMX-specific props from components (HxGet, HxPost, etc.) - use `templ.Attributes` instead for maximum flexibility
+- **feat:** Add comprehensive framework integration documentation with examples for HTMX, Datastar, and manual initialization
+- **feat(landing):** Add Gopher mascot image and enhance features section with detailed framework-agnostic benefits
+
+---
+
+## 📚 **Documentation Overhaul**
+
+- **feat:** Enhance 'How To Use' documentation with structured sections and detailed integration guides
+- **feat:** Add performance notes explaining HTMX vs Datastar trade-offs (targeted vs global re-initialization)
+- **feat:** Add submenus to documentation navigation for better discoverability
+- **fix:** Fix form component docs: Fixed select box href typo _(thanks @jaingounchained)_
+
+---
+
+## 🛠️ **Development Improvements**
+
+- **chore:** Improve ESLint configuration for JavaScript files for better development experience
+- **refactor:** Clean component APIs - all components now follow consistent `initAllComponents(root)` pattern
+
+---
+
+## ⚠️ **Breaking Changes & Migration**
+
+### Before (v0.75.x):
+
+```templ
+@button.Button(button.Props{
+    HxGet: "/api/endpoint",
+    HxTrigger: "click",
+}) { Click me }
+```
+
+### After (v0.76.0):
+
+```templ
+@button.Button(button.Props{
+    Attributes: templ.Attributes{
+        "hx-get": "/api/endpoint",
+        "hx-trigger": "click",
+    },
+}) { Click me }
+```
+
+### Framework Integration Required:
+
+#### HTMX Users:
+
+```html
+<script>
+  // Re-initialize templUI components after HTMX swaps
+  document.body.addEventListener("htmx:afterSwap", (e) => {
+    if (window.templUI) {
+      Object.values(window.templUI).forEach((comp) => {
+        comp.initAllComponents?.(e.detail.elt);
+      });
+    }
+  });
+
+  // Re-initialize components after out-of-band swaps
+  document.body.addEventListener("htmx:oobAfterSwap", (e) => {
+    if (window.templUI) {
+      Object.values(window.templUI).forEach((comp) => {
+        comp.initAllComponents?.(e.detail.target);
+      });
+    }
+  });
+
+  // Optional: Cleanup before swap (for components with event listeners)
+  document.body.addEventListener("htmx:beforeSwap", (e) => {
+    if (window.templUI) {
+      Object.values(window.templUI).forEach((comp) => {
+        comp.cleanup?.(e.detail.target);
+      });
+    }
+  });
+</script>
+```
+
+#### Datastar Users:
+
+```html
+<script>
+  // Re-initialize templUI components after Datastar fragment merges
+  document.addEventListener("datastar-merge-fragments", (e) => {
+    if (window.templUI) {
+      Object.values(window.templUI).forEach((comp) => {
+        comp.initAllComponents?.(document);
+      });
+    }
+  });
+
+  // Cleanup components when fragments are removed
+  document.addEventListener("datastar-remove-fragments", (e) => {
+    if (window.templUI) {
+      Object.values(window.templUI).forEach((comp) => {
+        comp.cleanup?.(document);
+      });
+    }
+  });
+</script>
+```
+
+---
+
+## ✨ **Benefits of This Change**
+
+- 🎯 **Framework Agnostic**: Works with HTMX, Datastar, Alpine.js, or any framework
+- 🔮 **Future Proof**: Ready for whatever hypermedia framework comes next
+- 🧹 **Cleaner APIs**: Consistent component interfaces across the board
+- 📈 **Better Performance**: Targeted re-initialization where supported (HTMX)
+- 🧪 **Easier Testing**: No framework dependencies in component code
+- 🚀 **Broader Adoption**: Not tied to specific ecosystems
+
+---
+
+## 🙏 **Community Feedback**
+
+Huge thanks to everyone who provided feedback on [RFC #251](https://github.com/axzilla/templui/discussions/251):
+
+- @vague2k for honest developer experience perspective
+- @delaneyj (Datastar author) for collaboration insights
+- @chris-perardi for startup use case validation
+- @glsubri for thoughtful component API feedback
+- @jaingounchained for documentation fixes
+
+This change represents templUI's evolution from an HTMX-focused library to a truly universal Go/templ component system! 🎉
+
+---
+
+## 🛠️ **Upgrade**
+
+```bash
+go install github.com/axzilla/templui/cmd/templui@v0.80.1
+```
+
+**📖 Migration Guide:** [Framework Integration Docs](https://templui.io/docs/how-to-use#framework-integration)
+
+---
+
+_Note: Since templUI is pre-v1.0, I'm intentionally moving fast and breaking things to get the architecture right. That means: yes, there might be bugs – and they’ll get fixed fast. If anything broke for you because of this change: sorry! Let me know and I’ll patch it ASAP.
+This release is a bit radical – but it lays the foundation for a cleaner, framework-agnostic future._
+
+## v0.80.0 (2025-06-23)
+
+Source: https://github.com/templui/templui/releases/tag/v0.80.0
+
+# templUI v0.80.0 - Framework Agnostic Revolution 🚀
+
+> 🔥 **BREAKING CHANGES**: templUI is now completely framework-agnostic! Works seamlessly with HTMX, Datastar, or any hypermedia framework.
+
+---
+
+## 🎯 **Major Architectural Changes**
+
+- **feat!:** Complete framework decoupling - templUI components now expose clean `window.templUI.*` APIs instead of hardcoded HTMX event listeners
+- **feat!:** Remove HTMX-specific props from components (HxGet, HxPost, etc.) - use `templ.Attributes` instead for maximum flexibility
+- **feat:** Add comprehensive framework integration documentation with examples for HTMX, Datastar, and manual initialization
+- **feat(landing):** Add Gopher mascot image and enhance features section with detailed framework-agnostic benefits
+
+---
+
+## 📚 **Documentation Overhaul**
+
+- **feat:** Enhance 'How To Use' documentation with structured sections and detailed integration guides
+- **feat:** Add performance notes explaining HTMX vs Datastar trade-offs (targeted vs global re-initialization)
+- **feat:** Add submenus to documentation navigation for better discoverability
+- **fix:** Fix form component docs: Fixed select box href typo _(thanks @jaingounchained)_
+
+---
+
+## 🛠️ **Development Improvements**
+
+- **chore:** Improve ESLint configuration for JavaScript files for better development experience
+- **refactor:** Clean component APIs - all components now follow consistent `initAllComponents(root)` pattern
+
+---
+
+## ⚠️ **Breaking Changes & Migration**
+
+### Before (v0.75.x):
+
+```templ
+@button.Button(button.Props{
+    HxGet: "/api/endpoint",
+    HxTrigger: "click",
+}) { Click me }
+```
+
+### After (v0.76.0):
+
+```templ
+@button.Button(button.Props{
+    Attributes: templ.Attributes{
+        "hx-get": "/api/endpoint",
+        "hx-trigger": "click",
+    },
+}) { Click me }
+```
+
+### Framework Integration Required:
+
+#### HTMX Users:
+
+```html
+<script>
+  // Re-initialize templUI components after HTMX swaps
+  document.body.addEventListener("htmx:afterSwap", (e) => {
+    if (window.templUI) {
+      Object.values(window.templUI).forEach((comp) => {
+        comp.initAllComponents?.(e.detail.elt);
+      });
+    }
+  });
+
+  // Re-initialize components after out-of-band swaps
+  document.body.addEventListener("htmx:oobAfterSwap", (e) => {
+    if (window.templUI) {
+      Object.values(window.templUI).forEach((comp) => {
+        comp.initAllComponents?.(e.detail.target);
+      });
+    }
+  });
+
+  // Optional: Cleanup before swap (for components with event listeners)
+  document.body.addEventListener("htmx:beforeSwap", (e) => {
+    if (window.templUI) {
+      Object.values(window.templUI).forEach((comp) => {
+        comp.cleanup?.(e.detail.target);
+      });
+    }
+  });
+</script>
+```
+
+#### Datastar Users:
+
+```html
+<script>
+  // Re-initialize templUI components after Datastar fragment merges
+  document.addEventListener("datastar-merge-fragments", (e) => {
+    if (window.templUI) {
+      Object.values(window.templUI).forEach((comp) => {
+        comp.initAllComponents?.(document);
+      });
+    }
+  });
+
+  // Cleanup components when fragments are removed
+  document.addEventListener("datastar-remove-fragments", (e) => {
+    if (window.templUI) {
+      Object.values(window.templUI).forEach((comp) => {
+        comp.cleanup?.(document);
+      });
+    }
+  });
+</script>
+```
+
+---
+
+## ✨ **Benefits of This Change**
+
+- 🎯 **Framework Agnostic**: Works with HTMX, Datastar, Alpine.js, or any framework
+- 🔮 **Future Proof**: Ready for whatever hypermedia framework comes next
+- 🧹 **Cleaner APIs**: Consistent component interfaces across the board
+- 📈 **Better Performance**: Targeted re-initialization where supported (HTMX)
+- 🧪 **Easier Testing**: No framework dependencies in component code
+- 🚀 **Broader Adoption**: Not tied to specific ecosystems
+
+---
+
+## 🙏 **Community Feedback**
+
+Huge thanks to everyone who provided feedback on [RFC #251](https://github.com/axzilla/templui/discussions/251):
+
+- @vague2k for honest developer experience perspective
+- @delaneyj (Datastar author) for collaboration insights
+- @chris-perardi for startup use case validation
+- @glsubri for thoughtful component API feedback
+- @jaingounchained for documentation fixes
+
+This change represents templUI's evolution from an HTMX-focused library to a truly universal Go/templ component system! 🎉
+
+---
+
+## 🛠️ **Upgrade**
+
+```bash
+go install github.com/axzilla/templui/cmd/templui@v0.80.0
+```
+
+**📖 Migration Guide:** [Framework Integration Docs](https://templui.io/docs/how-to-use#framework-integration)
+
+---
+
+_Note: Since templUI is pre-v1.0, I'm intentionally moving fast and breaking things to get the architecture right. That means: yes, there might be bugs – and they’ll get fixed fast. If anything broke for you because of this change: sorry! Let me know and I’ll patch it ASAP.
+This release is a bit radical – but it lays the foundation for a cleaner, framework-agnostic future._
+
+## v0.75.7 (2025-06-21)
+
+Source: https://github.com/templui/templui/releases/tag/v0.75.7
+
+## templUI v0.75.7
+
+> 🧩 Meta fix for tag consistency
+
+---
+
+### 🛠️ Maintenance
+
+* **chore:** Patch release to ensure latest commit is correctly tagged with `v0.75.7`
+  *(No code changes – just syncing up the tag with the actual state of `main`)*
+
+---
+
+### 🔄 Upgrade
+
+```bash
+go install github.com/axzilla/templui/cmd/templui@v0.75.7
+```
+
+## v0.75.6 (2025-06-21)
+
+Source: https://github.com/templui/templui/releases/tag/v0.75.6
+
+## templUI v0.75.6
+
+> 🛠️ Small fixes for popover logic and modal rendering
+
+---
+
+### 🐛 Fixes
+
+* **fix:** Prevent multiple `popover` components from staying open at the same time
+* **fix(modal):** Correct `class` attribute for modal container to avoid unexpected styling issues
+
+---
+
+### 🔄 Upgrade
+
+```bash
+go install github.com/axzilla/templui/cmd/templui@v0.75.6
+```
+
+## v0.75.5 (2025-06-21)
+
+Source: https://github.com/templui/templui/releases/tag/v0.75.5
+
+## templUI v0.75.5
+
+> ✨ Quality-of-life improvements for Modal, Drawer, Dropdown and Textarea components
+
+---
+
+### ✨ New Features
+
+* **feat:** Add `readonly` attribute to the `textarea` component *(thanks @ArturC03)*
+* **feat(drawer):** Add `Initial` open state for `Drawer` component – useful for SSR and conditional rendering
+* **feat(modal):** Add `Initial` open state for `Modal` component to allow default-open behavior without JS triggers
+* **feat(dropdown):** Add `PreventClose` prop to `dropdown.Item()` – allows triggering nested components like `Drawer` without closing the dropdown
+
+---
+
+### 🧹 Maintenance
+
+* **chore:** Remove unused `meta.json` file (minor internal cleanup)
+
+---
+
+### 🛠️ Upgrade
+
+```bash
+go install github.com/axzilla/templui/cmd/templui@v0.75.5
+```
+
+## v0.75.4 (2025-06-15)
+
+Source: https://github.com/templui/templui/releases/tag/v0.75.4
+
+## templUI v0.75.4
+
+> 🐛 Critical fix for JSPublicPath configuration and CLI compatibility
+
+## 🐛 Critical Fix
+
+* **fix(cli):** Resolved JSPublicPath configuration issues causing component Script() failures *(thanks @vague2k)*:
+  * Fixed automatic fallback for missing `jsPublicPath` in existing configurations
+  * Prevents 404 errors and MIME type issues when loading component JavaScript files
+  * Ensures backward compatibility with v0.74.x configurations
+  * Affects all JS-enabled components: rating, modal, selectbox, dropdown, carousel, etc.
+  * Resolves "text/plain" MIME type errors in browser console
+
+## 🔧 Requirements Update
+
+* **chore:** Updated minimum Templ version requirement to `v0.3.898`
+  * Ensures compatibility with latest Templ features and fixes
+  * Recommended to update: `go install github.com/a-h/templ/cmd/templ@latest`
+
+---
+
+*This patch ensures seamless upgrades from v0.74.x without breaking existing configurations.*
+
+## 🔄 Upgrade
+
+```bash
+go install github.com/axzilla/templui/cmd/templui@v0.75.4
+
+## v0.75.3 (2025-06-14)
+
+Source: https://github.com/templui/templui/releases/tag/v0.75.3
+
+## templUI v0.75.3
+
+> 🐛 Critical HTMX swap fix for component reinitialization across all swap scenarios
+
+## 🐛 Critical Fix
+
+* **fix(htmx):** Resolved component reinitialization issues after HTMX swaps *(thanks @CarraraVitor)*:
+  * Fixed event target selection for normal vs OOB swaps
+  * **Normal swaps** now correctly use `event.detail.elt` (newly inserted element)
+  * **OOB swaps** now correctly use `event.detail.target` (target element)
+  * Affects all JS-enabled components: rating, modal, selectbox, dropdown, etc.
+  * Resolves conflicts from previous fixes in #151, #181, #183
+
+---
+
+*This patch ensures components work correctly after all HTMX swap operations.*
+
+## 🔄 Upgrade
+
+```bash
+go install github.com/axzilla/templui/cmd/templui@v0.75.3
+
+## v0.75.2 (2025-06-13)
+
+Source: https://github.com/templui/templui/releases/tag/v0.75.2
+
+## templUI v0.75.2
+
+> 🔁 Patch release to bump CLI version correctly (was missing in v0.75.0/v0.75.1)
+> No code changes – same as `v0.75.0/v0.75.1`, just fixing version sync.
+
+## 🐛 Fixes & Improvements
+
+* **fix(docs):** Removed typo in radio card drawer menu URL – resolved malformed `nospace` anchor reference.
+* **fix(docs):** Added source code links in documentation – enables quick access to GitHub source for easier copy-paste and deeper exploration.
+* **fix(toggle):** Changed form submission behavior from `""/on` to `false/true` for checkbox and toggle components – enables consistent boolean handling in Go forms. *(thanks @manicar2093)*
+
+## 🧰 Enhancements
+
+* **feat(selectbox):** Massive upgrade to `SelectBox` component with advanced interaction support *(thanks @derkan)*:
+
+  * 🔍 Client-side **search** by default (disable with `ContentProps.NoSearch = true`)
+  * ✅ **Multiple selection** support (`TriggerProps.Multiple = true`)
+  * 💊 **Pill-style display** for selected items (`TriggerProps.ShowPills = true`)
+  * 🔄 **HTMX support** for dynamic/cascading selects via:
+
+    * `HxGet`, `HxPost`, `HxPut`, `HxDelete`
+    * `HxTrigger`, `HxTarget`, `HxSwap`, `HxReplaceUrl`
+  * 🧠 Custom `SelectedCountText` and `SearchPlaceholder` support
+
+* **feat(button):** Added support for `hx-indicator` prop – allows built-in loading indicators for HTMX interactions. *(thanks @glsubri)*
+
+* **feat(config):** Added `jsPublicPath` support to `.templui.json` – allows separation between on-disk JS location (`jsDir`) and browser-facing path (`jsPublicPath`) for flexible server setups and sub-path deployments. *(thanks @manicar2093)*
+
+* **chore:** Updated to latest Templ version `v0.3.898`
+
+---
+
+*This release focuses on power-user features: smarter SelectBoxes, better form behavior, and flexible JS delivery for complex setups.*
+
+## 🔄 Upgrade
+
+```bash
+go install github.com/axzilla/templui/cmd/templui@v0.75.2
+```
+
+## v0.75.1 (2025-06-13)
+
+Source: https://github.com/templui/templui/releases/tag/v0.75.1
+
+## templUI v0.75.1
+
+> 🔁 Patch release to bump CLI version correctly (was missing in v0.75.0)
+> No code changes – same as `v0.75.0`, just fixing version sync.
+
+## 🐛 Fixes & Improvements
+
+* **fix(docs):** Removed typo in radio card drawer menu URL – resolved malformed `nospace` anchor reference.
+* **fix(docs):** Added source code links in documentation – enables quick access to GitHub source for easier copy-paste and deeper exploration.
+* **fix(toggle):** Changed form submission behavior from `""/on` to `false/true` for checkbox and toggle components – enables consistent boolean handling in Go forms. *(thanks @manicar2093)*
+
+## 🧰 Enhancements
+
+* **feat(selectbox):** Massive upgrade to `SelectBox` component with advanced interaction support *(thanks @derkan)*:
+
+  * 🔍 Client-side **search** by default (disable with `ContentProps.NoSearch = true`)
+  * ✅ **Multiple selection** support (`TriggerProps.Multiple = true`)
+  * 💊 **Pill-style display** for selected items (`TriggerProps.ShowPills = true`)
+  * 🔄 **HTMX support** for dynamic/cascading selects via:
+
+    * `HxGet`, `HxPost`, `HxPut`, `HxDelete`
+    * `HxTrigger`, `HxTarget`, `HxSwap`, `HxReplaceUrl`
+  * 🧠 Custom `SelectedCountText` and `SearchPlaceholder` support
+
+* **feat(button):** Added support for `hx-indicator` prop – allows built-in loading indicators for HTMX interactions. *(thanks @glsubri)*
+
+* **feat(config):** Added `jsPublicPath` support to `.templui.json` – allows separation between on-disk JS location (`jsDir`) and browser-facing path (`jsPublicPath`) for flexible server setups and sub-path deployments. *(thanks @manicar2093)*
+
+* **chore:** Updated to latest Templ version `v0.3.898`
+
+---
+
+*This release focuses on power-user features: smarter SelectBoxes, better form behavior, and flexible JS delivery for complex setups.*
+
+## 🔄 Upgrade
+
+```bash
+go install github.com/axzilla/templui/cmd/templui@v0.75.1
+```
+
+## v0.75.0 (2025-06-13)
+
+Source: https://github.com/templui/templui/releases/tag/v0.75.0
+
+# templUI v0.75.0
+
+## 🐛 Fixes & Improvements
+
+* **fix(docs):** Removed typo in radio card drawer menu URL – resolved malformed `nospace` anchor reference.
+* **fix(docs):** Added source code links in documentation – enables quick access to GitHub source for easier copy-paste and deeper exploration.
+* **fix(toggle):** Changed form submission behavior from `""/on` to `false/true` for checkbox and toggle components – enables consistent boolean handling in Go forms. *(thanks @manicar2093)*
+
+## 🧰 Enhancements
+
+* **feat(selectbox):** Massive upgrade to `SelectBox` component with advanced interaction support *(thanks @derkan)*:
+
+  * 🔍 Client-side **search** by default (disable with `ContentProps.NoSearch = true`)
+  * ✅ **Multiple selection** support (`TriggerProps.Multiple = true`)
+  * 💊 **Pill-style display** for selected items (`TriggerProps.ShowPills = true`)
+  * 🔄 **HTMX support** for dynamic/cascading selects via:
+
+    * `HxGet`, `HxPost`, `HxPut`, `HxDelete`
+    * `HxTrigger`, `HxTarget`, `HxSwap`, `HxReplaceUrl`
+  * 🧠 Custom `SelectedCountText` and `SearchPlaceholder` support
+
+* **feat(button):** Added support for `hx-indicator` prop – allows built-in loading indicators for HTMX interactions. *(thanks @glsubri)*
+
+* **feat(config):** Added `jsPublicPath` support to `.templui.json` – allows separation between on-disk JS location (`jsDir`) and browser-facing path (`jsPublicPath`) for flexible server setups and sub-path deployments. *(thanks @manicar2093)*
+
+* **chore:** Updated to latest Templ version `v0.3.898`
+
+---
+
+*This release focuses on power-user features: smarter SelectBoxes, better form behavior, and flexible JS delivery for complex setups.*
+
+## 🔄 Upgrade
+
+```bash
+go install github.com/axzilla/templui/cmd/templui@v0.75.0
+```
+
+## v0.74.2 (2025-06-03)
+
+Source: https://github.com/templui/templui/releases/tag/v0.74.2
+
+# templUI v0.74.2
+
+## 🐛 Fixes & Improvements
+
+* **fix(cli):** Enhanced error message formatting with icons and multi-line display – improved user experience when config files are missing or incomplete.
+* **fix(cli):** Added validation for `jsDir` field in config validation – ensures complete configuration setup for JavaScript components.
+* **fix(cli):** Corrected flag syntax documentation – help now correctly shows `templui -f init` instead of `templui init -f`.
+* **fix(cli):** Improved config repair functionality with better error messaging – users get clear, actionable guidance when configuration is incomplete.
+
+## 🧰 Enhancements
+
+* **feat(cli):** Enhanced `loadConfig()` function with comprehensive validation – clean separation of concerns between loading and creating configs.
+* **feat(cli):** Added config repair functionality to `init --force` command – automatically detects and prompts for missing configuration fields.
+* **feat(cli):** Improved user experience with structured error messages using icons (🚫, ❌, 📋, 🔧, 🚀) – makes CLI output more readable and user-friendly.
+* **feat(cli):** Enhanced help documentation with clear flag syntax examples – better guidance for users on correct command usage.
+
+*All about better CLI experience, clearer error messages, and smoother configuration management.*
+
+## 🔄 Upgrade
+
+```bash
+go install github.com/axzilla/templui/cmd/templui@v0.74.2
+```
+
+## v0.74.1 (2025-06-02)
+
+Source: https://github.com/templui/templui/releases/tag/v0.74.1
+
+# templUI v0.74.1
+
+## 🐛 Fix
+
+* **fix(version):** Forgot to bump the version number in the source code for v0.74.0 – now correctly set to `v0.74.1`.
+
+*No other changes – just version hygiene.*
+
+## 🔄 Upgrade
+
+```bash
+go install github.com/axzilla/templui/cmd/templui@v0.74.1
+```
+
+## v0.74.0 (2025-06-02)
+
+Source: https://github.com/templui/templui/releases/tag/v0.74.0
+
+# templUI v0.74.0
+
+## 🐛 Fixes & Improvements
+
+* **fix(docs):** Updated usage instructions for JavaScript components in the `how_to_use` template – corrected outdated or misleading guidance.
+* **fix(select):** Added support for the `name` attribute in the `SelectBox` component – now consistent with other form elements and supports manual setting.
+* **fix(datepicker):** Removed unnecessary Tailwind `ring` from the `IconButton` – it was clipping and visually redundant.
+* **fix/docs:** Display required JS script dependencies next to each component in the docs – helpful for components like `DatePicker`, `Dropdown`, etc., which rely on `@popover.Script()` as well.
+
+## 🧰 Enhancements
+
+* **docs:** Install requirements now include direct clickable links to all needed tools and dependencies – no more hunting around.
+* **chore(issues):** Introduced issue templates – users are now guided to provide more useful context, making it easier to debug and improve things.
+
+*All about consistency, clarity and smoother DX.*
+
+## 🔄 Upgrade
+
+```bash
+go install github.com/axzilla/templui/cmd/templui@v0.74.0
+```
+
+## v0.73.2 (2025-05-29)
+
+Source: https://github.com/templui/templui/releases/tag/v0.73.2
+
+# templUI v0.73.2
+
+## 🐛 Fixes
+
+* **fix(embed):** Newly added JS files were missing from the Go binary – fixed by properly embedding them via `go:embed`.
+* **fix(js):** Recompiled all component JS files via esbuild – now correctly reflects latest HTMX `swap-target` adjustments present in the source code.
+
+*No new features. Just clean and working as it should.*
+
+## 🔄 Upgrade
+
+```bash
+go install github.com/axzilla/templui/cmd/templui@v0.73.2
+```
+
+## v0.73.1 (2025-05-29)
+
+Source: https://github.com/templui/templui/releases/tag/v0.73.1
+
+# templUI v0.73.1
+
+## 🚀 Improvements
+
+* **refactor(js):** JavaScript logic is now decoupled from `.templ` files and moved into standalone minified JS files – better DX with proper syntax highlighting, LSP support, and editor IntelliSense.
+  → Component JS is now globally injected via layout – improves HTMX support and overall performance.
+
+* **chore(cli):** CLI output is now 🌈 cleaner and more readable – includes emojis, better component listing with short descriptions and JS requirements.
+
+* **docs:** Improved documentation for component setup and installation – clearer, leaner, and more actionable.
+
+* **chore:** Removed some unused, uncommented code 🧹.
+
+## 🐛 Fixes
+
+* **fix(cli):** CLI now correctly displays the version number (previously a duplicate `vv...` typo).
+
+## 🔄 Install / Upgrade
+
+```bash
+go install github.com/axzilla/templui/cmd/templui@v0.73.1
+```
+
+## v0.73.0 (2025-05-29)
+
+Source: https://github.com/templui/templui/releases/tag/v0.73.0
+
+# templUI v0.73.0
+
+## 🚀 Improvements
+
+* **refactor(js):** JavaScript logic is now decoupled from `.templ` files and moved into standalone minified JS files – better DX with proper syntax highlighting, LSP support, and editor IntelliSense.
+  → Component JS is now globally injected via layout – improves HTMX support and overall performance.
+
+* **chore(cli):** CLI output is now 🌈 cleaner and more readable – includes emojis, better component listing with short descriptions and JS requirements.
+
+* **docs:** Improved documentation for component setup and installation – clearer, leaner, and more actionable.
+
+* **chore:** Removed some unused, uncommented code 🧹.
+
+## 🐛 Fixes
+
+* **fix(cli):** CLI now correctly displays the version number (previously a duplicate `vv...` typo).
+
+## 🔄 Upgrade
+
+```bash
+go install github.com/axzilla/templui/cmd/templui@v0.73.0
+```
+
+## v0.72.1 (2025-05-27)
+
+Source: https://github.com/templui/templui/releases/tag/v0.72.1
+
+# templUI v0.72.1
+
+## 🛠 Fixes
+
+* **fix(cli):** Updated internal CLI version string to correctly reflect `v0.72.1`.
+* **fix(avatar):** Initials generator now supports non-ASCII characters (e.g. emojis, umlauts, etc.).
+  *Thanks to @gektus*
+
+*No other functional changes.*
+
+## 🔄 Upgrade
+
+```bash
+go get github.com/axzilla/templui@v0.72.1
+go mod tidy
+```
+
+## v0.72.0 (2025-05-27)
+
+Source: https://github.com/templui/templui/releases/tag/v0.72.0
+
+# templUI v0.72.0
+
+## 🚀 Improvements
+
+* **refactor(utils):** Replaced `math/rand` with `crypto/rand` in `RandomID()` – more secure and future-proof.
+  *Thanks to @JamesSlocumIH*
+
+## 🐛 Fixes
+
+* **fix(cli):** `-h` and `-v` flags now work as expected and correctly display help and version info.
+  *Thanks to @Gad*
+
+* **fix(toast):** Toasts now use the correct background and text colors regardless of the current theme.
+
+* **fix(htmx):** HTMX swaps now use `target` instead of `elt` – ensuring proper behavior for OOB swaps.
+  *Thanks to @gektus*
+
+## 🔄 Upgrade
+
+```bash
+go get github.com/axzilla/templui@v0.72.0
+go mod tidy
+```
+
+## v0.71.0 (2025-05-16)
+
+Source: https://github.com/templui/templui/releases/tag/v0.71.0
+
+# templUI v0.71.0
+
+## 🚀 Improvements
+
+* **feat(popover):** Replaced external CDN with a locally bundled version of FloatingUI for better reliability and offline support.
+
+## 🐛 Fixes
+
+* **fix(popover):** Popovers now use a shared global portal instead of each having its own. This resolves conflicts when multiple popovers or components using popovers were interfering with each other.
+
+## 🔄 Upgrade
+
+```bash
+go get github.com/axzilla/templui@v0.71.0
+go mod tidy
+```
+
+## v0.70.0 (2025-05-14)
+
+Source: https://github.com/templui/templui/releases/tag/v0.70.0
+
+This is a **major release** introducing a fundamental shift: templUI is now **CLI-first**!
+
+## 🎉 Big News: The `templui` CLI is Here!
+
+We're thrilled to launch the new `templui` command-line interface! This tool is now the **official way** to manage templUI components, simplifying installation, versioning, and updates.
+
+**Key Benefits:**
+
+*   **Simplified Management**: Add components directly from your terminal.
+*   **Clear Versioning**: Fetch components using specific Git refs (tags, branches, commits).
+*   **Direct Integration**: Components are installed into your project, giving you full ownership.
+*   **Automatic Path Handling**: The CLI adjusts import paths to fit your project structure (defined in `.templui.json`).
+
+**Quick Start:**
+
+1.  **Install CLI**:
+    ```bash
+    go install github.com/axzilla/templui/cmd/templui@v0.70.0
+    ```
+    *(Ensure Go `bin` is in your PATH)*
+2.  **Initialize Project**:
+    ```bash
+    templui init
+    ```
+    (Creates `.templui.json` and installs utils)
+3.  **Add Components**:
+    ```bash
+    templui add button card accordion // or templui add '*' for all
+    ```
+    (Specify versions with `add@<ref> <component>`)
+4.  **List Components**:
+    ```bash
+    templui list // or templui list@<ref>
+    ```
+
+**How Updates Work:**
+
+*   Re-run `templui add <component-name>[@<ref>]` to update.
+*   The CLI checks your local file's version. If an update is available, it will prompt to overwrite (unless `--force` is used).
+*   **Important**: Manual changes to component files will be lost if overwritten by an update. This is by design, similar to `shadcn/ui`.
+
+## 🚀 Features & Enhancements
+
+*   **CLI**:
+    *   **Corrected Import Path Logic**: The CLI now reliably uses `componentsDir` and `utilsDir` from `.templui.json` for all path rewriting.
+*   **Input OTP**: Added `Autofocus` attribute. (Thanks @derkan!)
+*   **Pagination**: Customizable "Previous" / "Next" labels. (Thanks @derkan!)
+*   **Popover Showcase**: Improved example layouts.
+
+## 🐛 Fixes
+
+*   **Typos**: Various typographical errors corrected. (Thanks @eryk-vieira!)
+
+## Upgrade to v0.70.0
+
+1.  **Install or Update the CLI**:
+    ```bash
+    go install github.com/axzilla/templui/cmd/templui@v0.70.0
+    ```
+2.  **Initialize (or re-initialize) in your project**:
+    If you're new to templUI or were using a pre-release CLI version, run:
+    ```bash
+    templui init
+    ```
+    This ensures your project is set up with the latest configuration logic.
+3.  **Add components** as needed using the CLI.
+
+---
+
+The `templui` Go module is no longer the primary way to consume components; all component management is now handled through the CLI. We're excited for you to use the new CLI and look forward to your feedback!
+
+## v0.64.0 (2025-05-08)
+
+Source: https://github.com/templui/templui/releases/tag/v0.64.0
+
+# templUI v0.64.0
+
+## 🐛 Fixes
+*   **HTMX Swap Initialization**: Resolved an issue where JavaScript for components (like SelectBox, Popover, etc.) was not reliably re-initialized after certain HTMX swap operations (e.g., `outerHTML`, `beforebegin`). This ensures components are fully interactive after dynamic content updates. Big thanks to @derkan for the extensive debugging and collaboration on this!
+*   **Calendar Localization**: The Calendar component now correctly displays localized month names according to the provided `localeTag`, using `Intl.DateTimeFormat`. This fixes an issue where only English month names were previously shown.
+
+## Upgrade
+```bash
+go get github.com/axzilla/templui@v0.64.0
+go mod tidy
+```
+
+## v0.63.0 (2025-05-07)
+
+Source: https://github.com/templui/templui/releases/tag/v0.63.0
+
+## What's Changed
+* refactor: replace setTimeout with requestAnimationFrame in component … by @axzilla in https://github.com/axzilla/templui/pull/149
+
+
+**Full Changelog**: https://github.com/axzilla/templui/compare/v0.62.0...v0.63.0
+
+
+## Upgrade
+```bash
+go get github.com/axzilla/templui@v0.63.0
+go mod tidy
+```
+
+## v0.62.0 (2025-05-06)
+
+Source: https://github.com/templui/templui/releases/tag/v0.62.0
+
+# templUI v0.62.0
+
+## 🚀 Improvements
+*   **TailwindCSS Integration**:
+    *   Added TailwindCSS linter to enforce consistent styling practices across the codebase, including the `no-style-attribute` rule.
+    *   Improved HTML quality and standardized styling approaches to ensure native Tailwind usage throughout the codebase.
+*   **Chart Component Enhancement**:
+    *   Added support for color arrays in charts, allowing customized coloring for individual data values.
+*   **Password Input Enhancement**:
+    *   Implemented visibility toggle functionality for password inputs, improving user experience.
+*   **Component Consistency**:
+    *   Refactored Dropdown and SelectBox components to use the Popover system for better positioning consistency.
+    *   Popover component now handles all positioning logic to prevent clipping issues across various contexts.
+
+## 🐛 Fixes
+*   **Calendar/DatePicker**: Fixed a critical timezone issue that was causing a 30-day offset in certain timezone configurations.
+*   **Development Workflow**: Resolved an issue with the order of `make dev` commands that prevented TailwindCSS from generating CSS files on-the-fly on certain operating systems.
+*   **Chart Tooltips**: Fixed inconsistencies where chart tooltips occasionally displayed incorrect labels.
+*   **Toast Positioning**: Removed double offset calculation that was causing toast notifications to appear in incorrect positions.
+
+## 🧹 Maintenance
+*   **Dependencies**: Upgraded to templ v0.3.856.
+*   **Code Cleanup**: Standardized component styling by removing inline style attributes in favor of Tailwind utility classes.
+
+## Upgrade
+```bash
+go get github.com/axzilla/templui@v0.62.0
+go mod tidy
+```
+
+## v0.61.0 (2025-04-30)
+
+Source: https://github.com/templui/templui/releases/tag/v0.61.0
+
+# templUI v0.61.0
+
+## 🚀 Improvements
+
+*   **Enhanced HTMX Swap Compatibility**:
+    *   Implemented handling for `htmx:oobAfterSwap` events across all relevant components. This ensures components are correctly initialized even when added to the page via Out-of-Band swaps, further improving dynamic update reliability.
+    *   Standardized the JavaScript initialization pattern (`initAllComponents`, `handleHtmxSwap`) across all components for better consistency and maintainability.
+*   **Robust Initialization Logic**: Refined the component initialization process to better handle edge cases and dependencies (e.g., waiting for external libraries like Chart.js, highlight.js, Floating UI before initialization).
+
+## 🐛 Fixes
+
+*   **Popover**: Fixed an issue where popovers might not close correctly after multiple HTMX swaps due to inconsistent state management or listener handling during re-initialization.
+*   **Initialization Errors**: Addressed potential TypeErrors during initialization (e.g., in Calendar) caused by incorrect handling of the `DOMContentLoaded` event argument.
+*   **General Stability**: Improved the reliability of component initialization, especially in dynamic environments involving HTMX swaps.
+
+## 🧹 Maintenance
+
+*   **Code Consistency**: Applied the standardized initialization pattern throughout the component JavaScript code.
+*   **Code Cleanup**: Removed redundant checks (e.g., `readyState`) and improved code structure within component scripts.
+
+## ⚠️ Known Issues
+
+*   While compatibility with HTMX swaps (including OOB) has been significantly enhanced, complex dynamic updates might still reveal edge cases. Please report any unexpected behavior via GitHub issues.
+
+## Upgrade
+
+```bash
+go get github.com/axzilla/templui@v0.61.0
+go mod tidy
+```
+
+## v0.60.0 (2025-04-24)
+
+Source: https://github.com/templui/templui/releases/tag/v0.60.0
+
+# templUI v0.60.0
+
+## 🚀 New Features
+- **HTMX Swap Compatibility**: All components are now fully compatible with HTMX swaps, ensuring seamless dynamic updates.
+- **Vanilla JS Migration**: Completely removed Alpine.js from the core library and rewrote all components in vanilla JavaScript for better performance, simplicity, and maintainability.
+
+## 🔧 Improvements
+- **Datepicker Overhaul**:
+  - Separated the calendar into its own reusable component.
+  - Simplified and improved the API for both the datepicker and calendar.
+  - Leveraged native JavaScript Date and locale internals for better browser compatibility.
+- Reduced code complexity: Vanilla JS implementations resulted in fewer lines of code compared to Alpine.js.
+
+## 🐛 Fixes
+- Fixed various quirks and issues related to Alpine.js and HTMX swaps.
+- Improved component stability and browser compatibility.
+
+## 🧹 Maintenance
+- Removed all Alpine.js dependencies from the codebase.
+- Cleaned up and optimized JavaScript across all components.
+
+## ⚠️ Known Issues
+While all components are now HTMX swap compatible, there may still be edge cases where swaps don't behave as expected due to the complexity of dynamic updates. If you encounter any issues, please report them ASAP by opening an issue on GitHub. Your feedback is invaluable!
+
+## Upgrade
+```
+go get github.com/axzilla/templui@v0.60.0
+go mod tidy
+```
+
+## v0.53.1 (2025-04-19)
+
+Source: https://github.com/templui/templui/releases/tag/v0.53.1
+
+# templUI v0.53.1
+
+## 🐛 Fixes
+- Replaced static `Avatar` fallback with dynamic JS fallback logic: avatars now automatically show initials if the image fails to load
+- Improved reliability by checking `image.complete` and `naturalWidth` and reacting to load/error events
+
+## Upgrade
+```bash
+go get github.com/axzilla/templui@v0.53.1
+go mod tidy
+```
+
+## v0.53.0 (2025-04-16)
+
+Source: https://github.com/templui/templui/releases/tag/v0.53.0
+
+# templUI v0.53.0
+
+## 🚀 New Features
+- Added Shiki for code syntax highlighting (replacing highlight.js)
+- Added Docker support with Dockerfile and docker-compose.yml
+
+## 🔧 Improvements
+- Simplified Separator component by removing Label prop
+- Updated code snippets to use consistent modules.Code component
+- Better code highlighting with theme support
+
+## 🐛 Fixes
+- Fixed incorrect container style in input.css
+- Resolved HTML linting issues for improved accessibility (thanks @DianaSuvorova)
+
+## 🧹 Maintenance
+- Removed unused button props on landing page
+- Code cleanup throughout the codebase
+- Removed unnecessary separator component from DocsLayout
+
+## Upgrade
+```
+go get github.com/axzilla/templui@v0.53.0
+go mod tidy
+```
+
+## v0.52.0 (2025-04-13)
+
+Source: https://github.com/templui/templui/releases/tag/v0.52.0
+
+# Release v0.52.0
+
+This PR comes with several changes.
+
+* chore: introduce html eslint for more semantic html/seo on components and showcases (big thanks @DianaSuvorova )
+  * Improves accessibility and SEO
+  * Standardizes HTML structure
+  * Catches common semantic issues
+* docs: show version number in navbar
+* remove tailwind output css from repo and use it only in build to remove compatibility issues as an OSS project
+* Better styling and wording on landing page/navbar/footer
+
+## Upgrade
+```
+go get github.com/axzilla/templui@v0.52.0
+go mod tidy
+```
+
+## v0.51.0 (2025-04-12)
+
+Source: https://github.com/templui/templui/releases/tag/v0.51.0
+
+# Release v0.51.0
+
+This PR comes with several changes.
+
+* feat(button): add button types enum instead of strings for improved type safety
+* chore(deps): bump templ dependency to v0.3.857
+* docs(layout): improve documentation layout with cleaner design
+* docs(navigation): add table of contents in right sidebar
+* docs(navigation): add breadcrumbs for better document hierarchy
+
+## Upgrade
+```
+go get github.com/axzilla/templui@v0.51.0
+go mod tidy
+```
+
+## v0.50.0 (2025-04-09)
+
+Source: https://github.com/templui/templui/releases/tag/v0.50.0
+
+This release represents a significant milestone on our path to v1.0 with a complete restructuring of the component architecture.
+
+## Breaking Changes
+
+* **Complete package restructuring**: Components are now in their own packages
+  * Before: `import "github.com/axzilla/templui/components"`
+  * Now: `import "github.com/axzilla/templui/component/button"`
+* **Component function naming**: Changed for consistency and idiomaticity
+  * Before: `components.Button(components.ButtonProps{...})`
+  * Now: `button.Button(button.Props{...})`
+* **Package naming**: All packages renamed to singular form to match Go idioms
+
+## Improvements
+
+* Clearer component dependencies
+* Better compatibility with future CLI tooling
+* Improved structure for copy-paste component usage
+* More idiomatic Go package organization
+
+## Upgrade
+
+```
+go get github.com/axzilla/templui@v0.50.0
+go mod tidy
+```
+
+### Migration Guide
+
+Due to the extensive restructuring, imports need to be updated. Example:
+
+```go
+// Before
+import "github.com/axzilla/templui/components"
+components.Button(components.ButtonProps{...})
+
+// After
+import "github.com/axzilla/templui/component/button"
+button.Button(button.Props{...})
+```
+
+This significant version bump (0.44 → 0.50) reflects the magnitude of the changes and our progress toward a stable v1.0 release.
+
+## v0.44.0 (2025-04-08)
+
+Source: https://github.com/templui/templui/releases/tag/v0.44.0
+
+# Release v0.44.0
+
+This PR comes with several changes.
+
+* fix(label): check for native label to avoid console errors
+* docs(showcase): clean up some empty prop structs
+* feat(tooltip): use 'Popover' now under the hood to fix z-index and overflow issues
+* fix(chore): update launch.json to bring back debugger functionality
+
+## Upgrade
+```
+go get github.com/axzilla/templui@v0.44.0
+go mod tidy
+```
+
+## v0.43.0 (2025-03-29)
+
+Source: https://github.com/templui/templui/releases/tag/v0.43.0
+
+# Release v0.43.0
+
+This PR adds a new component.
+
+* feat: add 'Popover' component (shoutout to @derkan)
+
+## Upgrade
+```
+go get github.com/axzilla/templui@v0.43.0
+go mod tidy
+```
+
+## v0.42.0 (2025-03-27)
+
+Source: https://github.com/templui/templui/releases/tag/v0.42.0
+
+# Release v0.42.0
+
+This PR restores broken label connectivity for custom form components such as OTP, Date Picker, and Select.
+
+* feat(datepicker): change to button with hidden input approach
+* feat(label): remove unnecessary JS code
+* feat(otp): add click event listener for labels
+* fix: bring back focus on custom form elements
+
+## Upgrade
+```
+go get github.com/axzilla/templui@v0.42.0
+go mod tidy
+```
+
+## v0.41.0 (2025-03-24)
+
+Source: https://github.com/templui/templui/releases/tag/v0.41.0
+
+# Release v0.41.0
+
+Improved developer experience with a more intuitive component API and cleaner HTML output.
+
+* feat(core): Introduced variadic functions for components and icons with integer size parameters
+* fix(core): Optimized DOM by conditionally rendering attributes and preventing empty values
+* feat(ui): Enhanced developer ergonomics with reduced boilerplate and smarter defaults
+* chore(core): Improved code readability while maintaining full functionality
+
+## Upgrade
+```
+go get github.com/axzilla/templui@v0.41.0
+go mod tidy
+```
+
+## v0.40.0 (2025-03-21)
+
+Source: https://github.com/templui/templui/releases/tag/v0.40.0
+
+# Release v0.40.0: Component Composition & Better Semantics
+
+This is my biggest release so far with many changes! It's mainly about converting all components where possible and sensible to component composition for better customization, accessibility, and so on - you know what I mean! Also, this is another big step towards v1.0!
+
+## 🔄 Major Changes (101 commits, 291 files changed)
+
+* **rename Sheet component to Drawer** for more semantic naming
+* **remove all comments from component structure** to have cleaner and more readable code
+* **docs(button):** improve showcase for htmx loading button example with native tailwindcss instead of additional css script
+* **fix(charts):** use correct charts.js cdn to avoid browser console errors
+* **feat(form/toast):** use enums instead of raw strings for component configuration
+* **chore(components):** global renaming from Type to Variant for config props on all components to be more "semantic"
+* **docs:** better internal file structure and naming
+
+## 🏗️ Component Architecture Overhaul
+
+* **chore(components):** big update on almost all components (Attention many breaking changes!) and improve docs showcases:
+  * use component composition style instead of content passing via props on: Accordion, Avatar, Badge, Breadcrumb, Button (can now be disabled even with Href prop), Tooltip, dropdown menu (generally improved with scrolling), Pagination, Select, Label, Carousel, Form, Drawer, Input OTP, Radio Card, Checkbox Card, Rating, Slider (also use vanilla instead of Alpinejs), Tabs
+
+* **feat(timepicker):** remove it for now because of compatibility problems
+* **add new component: Table** (shoutout to @niclimcy)
+* **feat(modal):** Added Modal Closing Control Options:
+  * DisableClickAway: Prevents modal from closing when clicking outside
+  * DisableESC: Prevents modal from closing when pressing ESC key 
+  * (shoutout to @derkan)
+
+## 🧰 Improvements & Refinements
+
+* **docs:** change navbar and announcmentbar style
+* **feat(label):** replace Alpinejs with vanillajs
+* **chore(helpers):** sort alphabetically
+* **feat(button):** add tailwind ring when button is active
+* **feat(Toast):** better API and showcase
+* **chore(components):** add base props (id, class, attributes) to every component for better customization
+* **feat(spinner):** remove unnecessary Text prop
+* **chore(utils):** better utils comments
+* **feat(Tooltip):** rename prop TooltipSide to TooltipPosition
+* **chore(all components):** better sorting for consistency and readability: types, templ components, scripts, functions and methods
+* **chore:** remove postfix on some components, removed the word Root on base components
+* **feat(Rating):** has cursor pointer now
+* **chore(utils):** rename TwIf and TfIfElse to If and IfElse and make them more generic
+* **feat(Avatar):** add avatar group and improve showcase examples
+* **docs:** more semantic showcase example titles
+* **docs:** Form and Label showcase links are now complete and alphabetically sorted
+* **docs:** add examples for Form and Label on all form related components now
+* **feat(separator):** add labels and improve showcase examples
+* **chore:** use string enums instead of iota in all components now
+
+## Upgrade
+```
+go get github.com/axzilla/templui@v0.40.0
+go mod tidy
+```
+
+## v0.39.0 (2025-03-14)
+
+Source: https://github.com/templui/templui/releases/tag/v0.39.0
+
+## Changes in v0.39.0
+- feat(icon): bump to newest Lucide version
+- feat(icon): add stroke width props
+- feat(button): add  htmx-replace-url props
+- chore(icon): change origin file location from local to remote
+- fix(docs): use correct Air URL
+
+## Upgrade
+```
+go get github.com/axzilla/templui@v0.39.0
+go mod tidy
+```
+
+## v0.38.0 (2025-03-10)
+
+Source: https://github.com/templui/templui/releases/tag/v0.38.0
+
+## Changes in v0.38.0
+- feat: add 'Rating' component
+- feat: add 'Separator' component
+- feat: add 'Spinner' component
+- feat: add 'Skeleton' component
+- feat: add 'Progress' component
+- feat(button): use new spinner component on HTMX showcase example
+
+## Upgrade
+```
+go get github.com/axzilla/templui@v0.38.0
+go mod tidy
+```
+
+## v0.37.0 (2025-03-09)
+
+Source: https://github.com/templui/templui/releases/tag/v0.37.0
+
+## Changes in v0.37.0
+- feat: add 'Input OTP' component
+- feat(form): improve design of form components
+- chore: implement onsite SEO
+
+## Upgrade
+```
+go get github.com/axzilla/templui@v0.37.0
+go mod tidy
+```
+
+## v0.36.0 (2025-03-07)
+
+Source: https://github.com/templui/templui/releases/tag/v0.36.0
+
+## Changes in v0.36.0
+- feat: add 'Pagination' component
+- feat(button): add basic htmx attributes
+
+## Upgrade
+```
+go get github.com/axzilla/templui@v0.36.0
+go mod tidy
+```
+
+## v0.35.0 (2025-03-06)
+
+Source: https://github.com/templui/templui/releases/tag/v0.35.0
+
+## Changes in v0.35.0
+- feat: add 'Carousel' component
+- feat: add 'Chart' component
+
+## Upgrade
+```
+go get github.com/axzilla/templui@v0.35.0
+go mod tidy
+```
+
+## v0.34.0 (2025-03-02)
+
+Source: https://github.com/templui/templui/releases/tag/v0.34.0
+
+## Changes in v0.34.0
+- feat: add 'Breadcrumb' component
+- feat: add 'Checkbox Card' component
+- feat: add 'Radio Card' component
+
+## Upgrade
+```
+go get github.com/axzilla/templui@v0.34.0
+go mod tidy
+```
+
+## v0.33.0 (2025-03-01)
+
+Source: https://github.com/templui/templui/releases/tag/v0.33.0
+
+## Changes in v0.33.0
+- feat: add aspect ratio component
+- feat(announcement bar): make it mobile responsive
+
+## Upgrade
+```
+go get github.com/axzilla/templui@v0.33.0
+go mod tidy
+```
+
+## v0.32.0 (2025-02-28)
+
+Source: https://github.com/templui/templui/releases/tag/v0.32.0
+
+## Changes in v0.32.0
+- feat: add templUI Pro announcement
+- feat(button): add HTMX loading spinner showcase example
+- feat(modal): improved backdrop with smoother aesthetics
+- chore: simplified implementations by removing JS in favor of CSS-only solutions for tooltip and accordion components
+
+## Breaking Changes
+- chore: removed pkg folder from library root to adopt a more "Go-idiomatic" architecture
+  - All import paths have changed from `github.com/axzilla/templui/pkg/...` to `github.com/axzilla/templui/...`
+  - You'll need to update all your import statements to reflect this new structure
+
+## Upgrade Instructions
+```go
+// Update to the latest version
+go get github.com/axzilla/templui@v0.32.0
+go mod tidy
+
+// Update your imports from:
+import "github.com/axzilla/templui/pkg/..."
+// to:
+import "github.com/axzilla/templui/..."
+
+## v0.31.0 (2025-02-22)
+
+Source: https://github.com/templui/templui/releases/tag/v0.31.0
+
+## Changes in v0.31.0
+
+- chore: change brand identity, title and subtitle
+- chore: remove JS on accordion and tooltip component (part of a larger upcoming update)
+- docs: improve layout layout (more clean and readable)
+- fix(docs): bring back theme builder functionality
+- fix(docs): bring back missing values in tailwind base config
+
+## Upgrade
+```
+go get github.com/axzilla/templui@v0.31.0
+go mod tidy
+```
+
+## v0.30.0 (2025-02-13)
+
+Source: https://github.com/templui/templui/releases/tag/v0.30.0
+
+## Changes in v0.30.0
+
+### Features
+- feat: add required attribute support for form components (input, textarea, select, checkbox, radio)
+- feat: active state for sidebar navigation (highlights current page)
+- feat: new simplified documentation structure
+
+### Major Changes
+- upgrade: move to Tailwind CSS v4.x with CSS-only configuration
+- change: new TemplUI slogan and branding
+- change: switch from CSP-first to standard approach in documentation
+
+### Improvements
+- improve: all external assets now served locally (including logos)
+- improve: external links now open in new tab
+- improve: add missing component code tabs (form & label components)
+- improve: simplify "How to Use" documentation
+
+### Fixes
+- fix: repair broken Tailwind logo in docs sidebar
+- fix: various documentation typos
+- fix: remove unnecessary code
+- fix: update to latest templ version
+
+### Community
+- add: GitHub Sponsors support with badges
+- docs: improved documentation structure
+
+## Upgrade
+```
+go get github.com/axzilla/templui@v0.30.0
+go mod tidy
+```
+
+Special shoutout to @landrade and @zyriab - your contributions made this release possible! 🙌
+
+## v0.29.2 (2025-01-30)
+
+Source: https://github.com/templui/templui/releases/tag/v0.29.2
+
+## Changes
+
+- fix(datepicker): shift blankdays by 1 to show correct days (shoutout to @RImJur)
+
+## Upgrade
+
+```
+go get github.com/axzilla/templui@v0.29.2
+go mod tidy
+```
+
+## v0.29.1 (2025-01-20)
+
+Source: https://github.com/templui/templui/releases/tag/v0.29.1
+
+## Changes
+
+- fix: make clipboard copy function available in http environments besides https and localhost
+
+## Upgrade
+
+```
+go get github.com/axzilla/templui@v0.29.1
+go mod tidy
+```
+
+## v0.29.0 (2025-01-11)
+
+Source: https://github.com/templui/templui/releases/tag/v0.29.0
+
+## Changes
+
+- feat: add timepicker
+
+## Upgrade
+
+```
+go get github.com/axzilla/templui@v0.29.0
+go mod tidy
+```
+
+## v0.28.3 (2025-01-10)
+
+Source: https://github.com/templui/templui/releases/tag/v0.28.3
+
+## Changes
+
+- fix(datepicker): initialize custom language config now correctly
+- chore: upgrade templ and update docs for new Go > 1.23 requirements
+
+## Upgrade
+
+```
+go get github.com/axzilla/templui@v0.28.3
+go mod tidy
+```
+
+## v0.28.2 (2024-12-29)
+
+Source: https://github.com/templui/templui/releases/tag/v0.28.2
+
+## Changes
+
+- fix(docs): disable bfbrowser cache to avoid unnecessary js/html states
+- fix(code): make code component self contained with highlight.js stuff to avoid initial page flicker
+- fix(tabs): change first active tab behaviour to avoid initial page flicker
+
+## Upgrade
+
+```
+go get github.com/axzilla/templui@v0.28.2
+go mod tidy
+```
+
+## v0.28.1 (2024-12-28)
+
+Source: https://github.com/templui/templui/releases/tag/v0.28.1
+
+## Changes
+
+- fix(checkbox): provide value attribute only if its set
+
+## Upgrade
+
+```
+go get github.com/axzilla/templui@v0.28.1
+go mod tidy
+```
+
+## v0.28.0 (2024-12-23)
+
+Source: https://github.com/templui/templui/releases/tag/v0.28.0
+
+## Changes
+
+- feat: add Code component
+
+## Upgrade
+
+```
+go get github.com/axzilla/templui@v0.28.0
+go mod tidy
+```
+
+## v0.27.1 (2024-12-22)
+
+Source: https://github.com/templui/templui/releases/tag/v0.27.1
+
+## Changes
+
+- refactor: rename 'internals' to 'internal' across the codebase
+
+## Upgrade
+
+```
+go get github.com/axzilla/templui@v0.27.1
+go mod tidy
+```
+
+## v0.27.0 (2024-12-21)
+
+Source: https://github.com/templui/templui/releases/tag/v0.27.0
+
+## Changes
+
+- feat: add tooltip component 🚀
+
+## Upgrade
+
+```
+go get github.com/axzilla/templui@v0.27.0
+go mod tidy
+```
+
+## v0.26.1 (2024-12-19)
+
+Source: https://github.com/templui/templui/releases/tag/v0.26.1
+
+### Security Updates
+- ⚡️ Optimized CSP middleware to focus on script-src directives
+- 🔄 Removed unnecessary style-src configurations
+- 🛡️ Improved CSP documentation clarity
+
+### What's Changed
+- CSP middleware now focuses solely on script source security
+- Simplified configuration for better developer experience
+- Updated documentation with clearer CSP implementation guidelines
+
+### Upgrade
+```bash
+go get github.com/axzilla/templui@v0.26.1
+go mod tidy
+
+## v0.26.0 (2024-12-18)
+
+Source: https://github.com/templui/templui/releases/tag/v0.26.0
+
+### Major Changes
+- ⚡️ CSP-compliant architecture by default
+- 🛡️ New CSP middleware for advanced security needs
+- 🔄 Standardized Alpine.js integration
+- 📦 Improved component script management
+- 📚 Enhanced documentation
+
+### Component Updates
+- All interactive components now CSP-compliant
+- Standardized script handling across components
+- Improved error handling and feedback
+- Enhanced accessibility
+
+### Quickstart Repo Updates
+- New Dockerfile for easy deployment
+- Improved development setup
+- Comprehensive FAQ section
+- Ready-to-use project structure
+
+### Upgrade
+```bash
+go get github.com/axzilla/templui@v0.26.0
+go mod tidy
+
+## v0.25.0 (2024-12-12)
+
+Source: https://github.com/templui/templui/releases/tag/v0.25.0
+
+## Changes
+
+- feat: add toast 🍞 component 🚀
+
+For all other recent changes, see the commit history.
+
+## Upgrade
+
+```
+go get github.com/axzilla/templui@v0.25.0
+go mod tidy
+```
+
+## v0.24.0 (2024-12-11)
+
+Source: https://github.com/templui/templui/releases/tag/v0.24.0
+
+## Changes
+- 🎉 Rebranded from Goilerplate to templUI
+- 📦 New import path: github.com/axzilla/templui
+- 🏠 New website: templui.io
+
+For all other recent changes, see the commit history.
+
+## Upgrade
+```go
+go get github.com/axzilla/templui@v0.24.0
+go mod tidy
+```
+
+Note: This release includes the repository rename from goilerplate to templui. Please update your imports accordingly.
+
+## v0.23.0 (2024-12-09)
+
+Source: https://github.com/templui/templui/releases/tag/v0.23.0
+
+# Goilerplate v0.23.0
+
+## Changes
+
+- **Docs & Setup:**  
+  - Improved documentation and Quickstart guide with a new no-Node.js setup option.  
+  - Updated instructions for integrating Tailwind and Alpine.js directly via CDN for a cleaner, more native approach.  
+  - Enhanced theme configuration docs and improved clarity around component usage.
+
+- **Form Components & Accessibility:**  
+  - Major overhaul of form components (Checkbox, Datepicker, Input, Radio, Select, Textarea, Toggle) with improved state handling via attributes and Go props.  
+  - Introduced dedicated Label, Description, and Message components for clearer composition, better accessibility, and cleaner markup.  
+  - More comprehensive showcase examples with properly set IDs, names, values, and enhanced accessibility.
+
+- **Datepicker Enhancements:**  
+  - Support for custom placeholders, formatting options, and disabled states.  
+  - Updated showcase examples for easier understanding.
+
+- **UI & Icons:**  
+  - Modernized navbar icons for GitHub and X.com.
+
+- **Theme Preview & Compatibility:**  
+  - Restored and improved theme preview functionality aligned with the new component structure.
+  - Fixed compatibility issues with Go < 1.23.
+
+## Other Improvements
+
+- **Refactoring & Chores:**  
+  - Standardized comments, removed unused code, and modularized showcase code.  
+  - Updated templ-generated files to templ: version v0.2.793.
+
+For all other recent changes, see the commit history.
+
+## Upgrade
+
+```bash
+go get github.com/axzilla/goilerplate@v0.23.0
+go mod tidy
+```
+
+## v0.22.1 (2024-11-25)
+
+Source: https://github.com/templui/templui/releases/tag/v0.22.1
+
+# Goilerplate v0.22.1
+
+## Changes
+
+- hotfix: Make datepicker work again
+
+For all other recent changes, see the commit history.
+
+## Upgrade
+
+```
+go get github.com/axzilla/goilerplate@v0.22.1
+go mod tidy
+```
+
+## v0.22.0 (2024-11-22)
+
+Source: https://github.com/templui/templui/releases/tag/v0.22.0
+
+# Goilerplate v0.22.0
+
+## Changes
+
+- feat: Add new Textarea and Slider components
+- change: Simplify and improve base layout wrapper for better theme switching readability
+- change: Enhance form components (Toggle, Checkbox, RadioGroup, Input, Datepicker, Select) with:
+  - Better Alpine.js x-model attribute support
+  - More native HTML/Tailwind implementation
+  - Improved accessibility
+  - Simplified UI structure
+- change: Standardize component documentation style across library for better readability
+- change: Remove unnecessary Cheatsheet.md file
+- improve: Clean up codebase by removing unused code and redundant comments
+
+For all other recent changes, see the commit history.
+
+## Upgrade
+
+```
+go get github.com/axzilla/goilerplate@v0.22.0
+go mod tidy
+```
+
+Note: This release focuses on improving component consistency, accessibility and Alpine.js integration while simplifying the overall codebase structure. All form components now work seamlessly with Alpine.js x-model attribute for better state management.
+
+## v0.21.1 (2024-10-26)
+
+Source: https://github.com/templui/templui/releases/tag/v0.21.1
+
+# Goilerplate v0.21.1
+
+## Changes
+
+### Library:
+- Fix: Implement tailwind-merge-go to avoid class conflicts and allow overwrites
+
+For all other recent changes, see the commit history.
+
+## Upgrade
+
+```
+go get github.com/axzilla/goilerplate@v0.21.1
+go mod tidy
+```
+
+## v0.21.0 (2024-10-25)
+
+Source: https://github.com/templui/templui/releases/tag/v0.21.0
+
+# Goilerplate v0.21.0
+
+## Changes
+
+### Library:
+- Feature: Add toggle component
+- Fix: Make checkbox work again, use conditional JS/Alpine.js strings and remove Go bools on checked and disabled states
+
+### Docs:
+- Improve: Add radio buttons to theme preview
+- Improve: Add toggle to theme preview
+- Improve: Link input.css as reference
+- Fix: Correct the placement for the icon label showcase
+- Change: Remove all related Product Hunt badges across the project
+
+For all other recent changes, see the commit history.
+
+## Upgrade
+
+```
+go get github.com/axzilla/goilerplate@v0.21.0
+go mod tidy
+```
+
+## v0.20.8 (2024-10-18)
+
+Source: https://github.com/templui/templui/releases/tag/v0.20.8
+
+# Goilerplate v0.20.8
+
+## Changes
+
+### Library Updates:
+- Feature: Add radio group component
+- Fix: Checked/disabled checkboxes are now shown correctly
+
+### Documentation Updates:
+- Fix: Remove unnecessary checkbox showcase example
+- Fix: Include js/* into Assets embed to use use it for the theme docs
+
+For all other recent changes, see the commit history.
+
+## Upgrade
+
+```
+go get github.com/axzilla/goilerplate@v0.20.8
+go mod tidy
+```
+
+## v0.20.7 (2024-10-13)
+
+Source: https://github.com/templui/templui/releases/tag/v0.20.7
+
+# Goilerplate v0.20.7
+
+## Changes
+
+### Library Updates:
+- Fix: Improve Datepicker smooth positioning
+- Fix: Resolve Checkbox check icon always visible issue
+
+### Documentation Updates:
+- Feature: Add themes section to docs
+- Change: Create a great theme preview
+- Fix: Correct typos and URL name issues
+- Improvement: Cleaner UI on getting started sections
+
+For all other recent changes, see the commit history.
+
+## Upgrade
+
+```
+go get github.com/axzilla/goilerplate@v0.20.7
+go mod tidy
+```
+
+## v0.20.6 (2024-10-12)
+
+Source: https://github.com/templui/templui/releases/tag/v0.20.6
+
+Goilerplate v0.20.6
+
+## Changes
+
+Library Updates:
+- Hotfix: fix colors on checkbox component
+
+For all other recent changes, see the commit history.
+
+## Upgrade
+
+```
+go get github.com/axzilla/goilerplate@v0.20.6
+go mod tidy
+```
+
+## v0.20.5 (2024-10-12)
+
+Source: https://github.com/templui/templui/releases/tag/v0.20.5
+
+Goilerplate v0.20.5
+
+## Changes
+
+Library Updates:
+- Library css makefile hotfix
+
+For all other recent changes, see the commit history.
+
+## Upgrade
+
+```
+go get github.com/axzilla/goilerplate@v0.20.5
+go mod tidy
+```
+
+## v0.20.4 (2024-10-12)
+
+Source: https://github.com/templui/templui/releases/tag/v0.20.4
+
+Goilerplate v0.20.4
+
+## Changes
+
+Library Updates:
+- Added checkbox component
+
+For all other recent changes, see the commit history.
+
+## Upgrade
+
+```
+go get github.com/axzilla/goilerplate@v0.20.4
+go mod tidy
+```
+
+## v0.20.3 (2024-10-11)
+
+Source: https://github.com/templui/templui/releases/tag/v0.20.3
+
+Goilerplate v0.20.3
+
+## Changes
+Patch release to fix package content discrepancy.
+
+- Corrected package content to match the latest changes
+
+Library Updates:
+- Added dropdown menu component
+- Improved icon implementation and documentation
+  - Added link to Lucide in documentation
+  - Implemented icon names as constants for autocomplete
+  - Optimized icon storage for more efficient resource usage
+
+For all other recent changes, see the commit history.
+
+## Upgrade
+
+```
+go get github.com/axzilla/goilerplate@v0.20.3
+go mod tidy
+```
+
+## v0.20.2 (2024-10-11)
+
+Source: https://github.com/templui/templui/releases/tag/v0.20.2
+
+# Goilerplate v0.20.2
+
+## Changes
+
+Library Updates:
+- Added dropdown menu component
+- Improved icon implementation and documentation
+  - Added link to Lucide in documentation
+  - Implemented icon names as constants for autocomplete
+  - Optimized icon storage for more efficient resource usage
+
+For all other recent changes, see the commit history.
+
+## Upgrade
+
+```
+go get github.com/axzilla/goilerplate@v0.20.2
+go mod tidy
+```
+
+## v0.20.1 (2024-10-10)
+
+Source: https://github.com/templui/templui/releases/tag/v0.20.1
+
+# Goilerplate v0.20.1
+
+## Changes
+
+Library Updates:
+- Separate CSS for library components
+- Refactored icon component to use custom implementation
+- Fixed dark mode issues in Datepicker
+- Corrected URL typo
+
+For all other recent changes, see the commit history.
+
+## Upgrade
+
+```
+go get github.com/axzilla/goilerplate@v0.20.1
+go mod tidy
+```
+
+## v0.20.0 (2024-10-09)
+
+Source: https://github.com/templui/templui/releases/tag/v0.20.0
+
+# Goilerplate v0.20.0 - First Official Release
+
+This is the first official GitHub release of Goilerplate. Previous versions (0.1.0 and 0.1.1) were internal development versions. This release marks a significant milestone in the project's development, introducing several new components and improvements.
+
+## New Components
+- Avatar component
+- Lucide icon wrapper component
+- Input component
+- Modal component
+- Alert component
+- Accordion component
+- Datepicker component
+- Card component
+- Button component
+- Sheet component
+- Tabs component
+
+## Improvements
+- Enhanced documentation and introduction page
+- Improved docs layout and UI
+- Added button type prop
+- Updated all current components with library comments
+- Improved landing page UI
+- Added theme switcher on landing page
+- Implemented Product Hunt badge on landing page and footer
+
+## Bug Fixes
+- Resolved width issue on tabs component
+- Fixed dark mode switch issue
+- Removed/commented HTMX due to browser console issue/bug
+
+## Other Changes
+- Now using our own input component in tabs example
+- Optimized Plausible analytics to run only in production
+
+We're excited to share this release and look forward to your feedback. Please note that as we're still in the early stages of development (pre-1.0), there might be frequent updates and potential breaking changes.
+
+Thank you for your interest in Goilerplate!
