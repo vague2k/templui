@@ -45,6 +45,7 @@ templ BaseLayout(title, description string) {
 			<script defer nonce={ templ.GetNonce(ctx) } src={ "/components/js/textarea/textarea.min.js?v=" + utils.ScriptVersion }></script>
 			<script defer nonce={ templ.GetNonce(ctx) } src={ "/components/js/timepicker/timepicker.min.js?v=" + utils.ScriptVersion }></script>
 			<script defer nonce={ templ.GetNonce(ctx) } src={ "/components/js/toast/toast.min.js?v=" + utils.ScriptVersion }></script>
+			<script defer nonce={ templ.GetNonce(ctx) } src={ "/components/js/table/table.min.js?v=" + utils.ScriptVersion }></script>
 			// Plausible Analytics
 			if config.AppConfig.GoEnv == "production" {
 				<script defer data-domain="templui.io" src="https://plausible.axeladrian.com/js/script.js" nonce={ templ.GetNonce(ctx) }></script>

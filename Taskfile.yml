@@ -57,6 +57,7 @@ tasks:
         internal/components/textarea/textarea.js \
         internal/components/timepicker/timepicker.js \
         internal/components/toast/toast.js \
+        internal/components/table/table.js \
         --minify \
         --watch \
         --bundle \
